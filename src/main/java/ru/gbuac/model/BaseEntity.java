@@ -1,6 +1,6 @@
 package ru.gbuac.model;
 
-import ru.dgi.HasId;
+import ru.gbuac.HasId;
 
 import javax.persistence.*;
 
