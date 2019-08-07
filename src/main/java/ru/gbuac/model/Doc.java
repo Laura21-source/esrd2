@@ -13,9 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
-@Getter
-@Setter
-public class Doc extends BaseEntity {
+public class Doc extends NamedEntity {
     @NotNull
     @Column(name = "reg_num")
     String regNum;
