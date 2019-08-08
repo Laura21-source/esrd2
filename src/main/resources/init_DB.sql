@@ -37,20 +37,21 @@ CREATE TABLE doc
     insert_date      TIMESTAMP DEFAULT now() NOT NULL,
     FOREIGN KEY (id_doctype) REFERENCES doctype (id) ON DELETE CASCADE
 );
-
+/*
 CREATE TABLE fieldtype
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     name             INTEGER                 NOT NULL
 );
-
+*/
 CREATE TABLE field
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     name             VARCHAR                 NOT NULL,
     id_fieldtype     INTEGER                 NOT NULL,
-    length           INTEGER                 NOT NULL,
-    FOREIGN KEY (id_fieldtype) REFERENCES fieldtype (id) ON DELETE CASCADE
+    id_var           INTEGER                         ,
+    length           INTEGER                 NOT NULL
+    --FOREIGN KEY (id_fieldtype) REFERENCES fieldtype (id) ON DELETE CASCADE
 );
 
 CREATE TABLE groupedfield
