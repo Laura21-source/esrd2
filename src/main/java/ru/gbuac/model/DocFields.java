@@ -13,12 +13,12 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DocTypeFields extends BaseEntity {
+public class DocFields extends BaseEntity{
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_doctype", nullable = false)
+    @JoinColumn(name = "id_doc", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    DocType docType;
+    Doc doc;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,17 +27,31 @@ public class DocTypeFields extends BaseEntity {
     Field field;
 
     @NotNull
-    Integer position;
+    @Column(name = "position_fact")
+    Integer positionFact;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_groupedfield", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     GroupedField groupedField;
 
-    @Column(name = "position_in_group")
-    Integer positionInGroup;
+    @Column(name = "position_in_group_fact")
+    Integer positionInGroupFact;
 
-    @NotNull
-    @Column(name = "max_count")
-    Integer maxCount;
+    @Column(name = "value_int")
+    Integer valueInt;
+
+    @Column(name = "value_str")
+    String valueStr;
+
+    @Column(name = "value_date")
+    String valueDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_var", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    Var var;
+
+
 }
