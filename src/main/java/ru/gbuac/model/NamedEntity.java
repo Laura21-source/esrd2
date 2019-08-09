@@ -1,8 +1,6 @@
 package ru.gbuac.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.SafeHtml;
 
 import javax.persistence.Column;
@@ -11,6 +9,8 @@ import javax.validation.constraints.NotBlank;
 
 @MappedSuperclass
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class NamedEntity extends BaseEntity {
@@ -19,12 +19,4 @@ public class NamedEntity extends BaseEntity {
     @Column(name = "name", nullable = false)
     @SafeHtml
     protected String name;
-
-    public NamedEntity() {
-    }
-
-    protected NamedEntity(Integer id, String name) {
-        super(id);
-        this.name = name;
-    }
 }

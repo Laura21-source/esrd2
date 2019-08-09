@@ -14,8 +14,9 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class VarElem extends NamedEntity {
-    @Column(name = "id_parent_varelem")
-    Integer idParentVarElem;
+    @ManyToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name="id_parent_varelem")
+    VarElem idParentVarElem;
 
     @Column(name = "value_int")
     String valueInt;

@@ -1,8 +1,8 @@
 package ru.gbuac.util;
 
-import ru.dgi.HasId;
-import ru.dgi.util.exception.IllegalRequestDataException;
-import ru.dgi.util.exception.NotFoundException;
+import ru.gbuac.HasId;
+import ru.gbuac.util.exception.IllegalRequestDataException;
+import ru.gbuac.util.exception.NotFoundException;
 
 public class ValidationUtil {
 

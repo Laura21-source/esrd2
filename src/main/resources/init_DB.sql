@@ -1,20 +1,18 @@
-DROP TABLE IF EXISTS doctypefieldsusers;
-
 DROP TABLE IF EXISTS doctypefields;
 
-DROP TABLE IF EXISTS varelem;
-
 DROP TABLE IF EXISTS docfields;
-
-DROP TABLE IF EXISTS field;
-
-DROP TABLE IF EXISTS fieldtype;
-
-DROP TABLE IF EXISTS groupedfield;
 
 DROP TABLE IF EXISTS doc;
 
 DROP TABLE IF EXISTS doctype;
+
+DROP TABLE IF EXISTS field;
+
+DROP TABLE IF EXISTS groupedfield;
+
+DROP TABLE IF EXISTS varselectedvalue;
+
+DROP TABLE IF EXISTS varelem;
 
 DROP TABLE IF EXISTS var;
 
@@ -50,7 +48,7 @@ CREATE TABLE field
     name             VARCHAR                 NOT NULL,
     id_fieldtype     INTEGER                 NOT NULL,
     id_var           INTEGER                         ,
-    length           INTEGER                 NOT NULL
+    length           INTEGER
     --FOREIGN KEY (id_fieldtype) REFERENCES fieldtype (id) ON DELETE CASCADE
 );
 
@@ -62,25 +60,17 @@ CREATE TABLE groupedfield
 
 CREATE TABLE doctypefields
 (
-    id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     id_doctype          INTEGER                 NOT NULL,
     id_field            INTEGER                 NOT NULL,
     position            INTEGER                 NOT NULL,
     id_groupedfield     INTEGER                         ,
     position_in_group   INTEGER                         ,
     max_count           INTEGER                 NOT NULL,
+    role                VARCHAR                 NOT NULL,
     CONSTRAINT doctype_fields UNIQUE (id_doctype, id_field),
     FOREIGN KEY (id_doctype) REFERENCES doctype (id) ON DELETE CASCADE,
     FOREIGN KEY (id_field) REFERENCES field (id) ON DELETE CASCADE,
     FOREIGN KEY (id_groupedfield) REFERENCES groupedfield (id) ON DELETE CASCADE
-);
-
-CREATE TABLE doctypefieldsusers
-(
-    userldap         INTEGER                 NOT NULL,
-    id_doctypefields INTEGER                 NOT NULL,
-    CONSTRAINT doctypefields_users UNIQUE (userldap, id_doctypefields),
-    FOREIGN KEY (id_doctypefields) REFERENCES doctypefields (id) ON DELETE CASCADE
 );
 
 CREATE TABLE var
@@ -94,30 +84,38 @@ CREATE TABLE var
 CREATE TABLE varelem
 (
     id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    value_int             INTEGER                         ,
-    value_str             INTEGER                         ,
+    value_int           INTEGER                         ,
+    value_str           INTEGER                         ,
     id_var              INTEGER                 NOT NULL,
     id_parent_varelem   INTEGER                         ,
     FOREIGN KEY (id_var) REFERENCES var (id) ON DELETE CASCADE
 );
 
-CREATE TABLE docfields
+CREATE TABLE varselectedvalue
 (
     id                     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    id_varelem             INTEGER                 NOT NULL,
+    id_child_sel_value     INTEGER                 NOT NULL,
+    FOREIGN KEY (id_varelem) REFERENCES varelem (id) ON DELETE CASCADE
+);
+
+CREATE TABLE docfields
+(
     id_doc                 INTEGER                 NOT NULL,
     id_field               INTEGER                 NOT NULL,
     position_fact          INTEGER                 NOT NULL,
-    position_in_group_fact INTEGER                         ,
     id_groupedfield        INTEGER                         ,
+    position_in_group_fact INTEGER                         ,
+    id_varselectedvalues   INTEGER                         ,
     value_int              INTEGER                         ,
     value_str              VARCHAR                         ,
     value_date             TIMESTAMP                       ,
-    id_var                 INTEGER                         ,
     CONSTRAINT doc_fields UNIQUE (id_doc, id_field),
     FOREIGN KEY (id_doc) REFERENCES doc (id) ON DELETE CASCADE,
     FOREIGN KEY (id_field) REFERENCES field (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_var) REFERENCES var (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_groupedfield) REFERENCES groupedfield (id) ON DELETE CASCADE
+    FOREIGN KEY (id_groupedfield) REFERENCES groupedfield (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_varselectedvalues) REFERENCES varselectedvalue (id) ON DELETE CASCADE
+
 );
 
 

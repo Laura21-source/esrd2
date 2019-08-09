@@ -13,13 +13,15 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DocTypeFields extends BaseEntity {
+public class DocTypeFields {
+    @Id
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_doctype", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     DocType docType;
 
+    @Id
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_field", nullable = false)
