@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.gbuac</groupId>
-    <artifactId>esrd2</artifactId>
+    <artifactId>Esrd2</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
-    <name>ESRD</name>
+    <name>Esrd2</name>
     <description>
 
     </description>
@@ -26,7 +26,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <h2.version>1.4.187</h2.version>
-        <postgresql.version>9.4.1212</postgresql.version>
+        <postgresql.version>42.2.5</postgresql.version>
         <jsoup.version>1.10.1</jsoup.version>
         <jackson-json.version>2.9.5</jackson-json.version>
         <spring-ldap-core.version>2.3.2.RELEASE</spring-ldap-core.version>
@@ -106,11 +106,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!--JSON-->
@@ -241,7 +236,6 @@
             <artifactId>poi-ooxml</artifactId>
             <version>4.1.0</version>
         </dependency>
-
 
     </dependencies>
     <build>
