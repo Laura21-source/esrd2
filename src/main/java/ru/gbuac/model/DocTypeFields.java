@@ -1,19 +1,23 @@
 package ru.gbuac.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class DocTypeFields {
+@IdClass(DocTypeFields.class)
+@Table(name = "doctypefields")
+@EqualsAndHashCode
+@ToString
+public class DocTypeFields implements Serializable {
     @Id
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)

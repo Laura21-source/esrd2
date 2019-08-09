@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 @SpringBootApplication
-public class ESRD extends SpringBootServletInitializer {
+public class Esrd2 extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(ESRD.class);
+        return application.sources(Esrd2.class);
     }
     public static void main(String[] args) {
-        SpringApplication.run(ESRD.class, args);
+        SpringApplication.run(Esrd2.class, args);
     }
 
     @Bean

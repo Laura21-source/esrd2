@@ -1,7 +1,7 @@
 package ru.gbuac.service;
 
-import javassist.NotFoundException;
 import ru.gbuac.model.DocType;
+import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.List;
 
