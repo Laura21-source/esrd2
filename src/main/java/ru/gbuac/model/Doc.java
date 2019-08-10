@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "doc")
 public class Doc extends NamedEntity {
     @NotNull
     @Column(name = "reg_num")

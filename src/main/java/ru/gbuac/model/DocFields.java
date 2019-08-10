@@ -14,9 +14,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 @IdClass(DocFields.class)
-@Table(name = "docfields")
 @EqualsAndHashCode
 @ToString
+@Table(name = "doc_fields")
 public class DocFields implements Serializable {
     @Id
     @NotNull

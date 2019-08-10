@@ -7,7 +7,7 @@
     <groupId>ru.gbuac</groupId>
     <artifactId>Esrd2</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>Esrd2</name>
     <description>

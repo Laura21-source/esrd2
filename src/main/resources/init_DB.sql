@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS doctypefields;
+DROP TABLE IF EXISTS doctype_fields;
 
-DROP TABLE IF EXISTS docfields;
+DROP TABLE IF EXISTS doc_fields;
 
 DROP TABLE IF EXISTS doc;
 
@@ -91,13 +91,6 @@ CREATE TABLE varelem
     FOREIGN KEY (id_var) REFERENCES var (id) ON DELETE CASCADE
 );
 
-CREATE TABLE varselectedvalue
-(
-    id                     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    id_varelem             INTEGER                 NOT NULL,
-    id_child_sel_value     INTEGER                 NOT NULL,
-    FOREIGN KEY (id_varelem) REFERENCES varelem (id) ON DELETE CASCADE
-);
 
 CREATE TABLE docfields
 (
@@ -106,15 +99,14 @@ CREATE TABLE docfields
     position_fact          INTEGER                 NOT NULL,
     id_groupedfield        INTEGER                         ,
     position_in_group_fact INTEGER                         ,
-    id_varselectedvalues   INTEGER                         ,
+    id_varelem             INTEGER                         ,
     value_int              INTEGER                         ,
     value_str              VARCHAR                         ,
     value_date             TIMESTAMP                       ,
     CONSTRAINT doc_fields UNIQUE (id_doc, id_field),
     FOREIGN KEY (id_doc) REFERENCES doc (id) ON DELETE CASCADE,
     FOREIGN KEY (id_field) REFERENCES field (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_groupedfield) REFERENCES groupedfield (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_varselectedvalues) REFERENCES varselectedvalue (id) ON DELETE CASCADE
+    FOREIGN KEY (id_groupedfield) REFERENCES groupedfield (id) ON DELETE CASCADE
 
 );
 

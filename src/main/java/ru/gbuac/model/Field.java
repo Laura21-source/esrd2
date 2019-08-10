@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "field")
 public class Field extends NamedEntity {
 
     @Enumerated(EnumType.ORDINAL)

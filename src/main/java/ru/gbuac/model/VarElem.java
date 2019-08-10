@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "varelem")
 public class VarElem extends NamedEntity {
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="id_parent_varelem")

@@ -7,5 +7,6 @@ public enum FieldType {
     DATE,
     TIME,
     DATE_TIME,
-    VAR;
+    VAR,
+    GROUP_FIELDS
 }
