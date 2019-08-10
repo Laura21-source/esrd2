@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "docfields")
+@Table(name = "doc_fields")
 public class DocType extends NamedEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "docType")
     private List<Doc> docs;

@@ -46,9 +46,9 @@ public class DocFields implements Serializable {
     Integer positionInGroupFact;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_varselectedvalues", nullable = true)
+    @JoinColumn(name = "id_varelem", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    VarSelectedValue varSelectedValue;
+    VarElem varElem;
 
     @Column(name = "value_int")
     Integer valueInt;

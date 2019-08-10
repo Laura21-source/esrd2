@@ -18,4 +18,6 @@ import java.util.List;
 public class GroupedField extends NamedEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupedField")
     List<DocTypeFields> docTypeFields;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "groupedField")
+    List<DocFields> docFields;
 }

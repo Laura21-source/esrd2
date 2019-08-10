@@ -58,7 +58,7 @@ CREATE TABLE groupedfield
     name             VARCHAR
 );
 
-CREATE TABLE doctypefields
+CREATE TABLE doctype_fields
 (
     id_doctype          INTEGER                 NOT NULL,
     id_field            INTEGER                 NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE doctypefields
     position_in_group   INTEGER                         ,
     max_count           INTEGER                 NOT NULL,
     role                VARCHAR                 NOT NULL,
-    CONSTRAINT doctype_fields UNIQUE (id_doctype, id_field),
+    CONSTRAINT c_doctype_fields UNIQUE (id_doctype, id_field, position),
     FOREIGN KEY (id_doctype) REFERENCES doctype (id) ON DELETE CASCADE,
     FOREIGN KEY (id_field) REFERENCES field (id) ON DELETE CASCADE,
     FOREIGN KEY (id_groupedfield) REFERENCES groupedfield (id) ON DELETE CASCADE
@@ -92,7 +92,7 @@ CREATE TABLE varelem
 );
 
 
-CREATE TABLE docfields
+CREATE TABLE doc_fields
 (
     id_doc                 INTEGER                 NOT NULL,
     id_field               INTEGER                 NOT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE docfields
     value_int              INTEGER                         ,
     value_str              VARCHAR                         ,
     value_date             TIMESTAMP                       ,
-    CONSTRAINT doc_fields UNIQUE (id_doc, id_field),
+    CONSTRAINT c_doc_fields UNIQUE (id_doc, id_field, position_fact),
     FOREIGN KEY (id_doc) REFERENCES doc (id) ON DELETE CASCADE,
     FOREIGN KEY (id_field) REFERENCES field (id) ON DELETE CASCADE,
     FOREIGN KEY (id_groupedfield) REFERENCES groupedfield (id) ON DELETE CASCADE

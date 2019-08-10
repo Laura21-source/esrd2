@@ -46,4 +46,7 @@ public class DocTypeFields implements Serializable {
     @NotNull
     @Column(name = "max_count")
     Integer maxCount;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
