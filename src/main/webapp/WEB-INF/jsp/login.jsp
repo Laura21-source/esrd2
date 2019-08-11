@@ -15,9 +15,8 @@
 <div class="logo-container">
     <img class="logo" src="resources/images/logo.png" alt="">
     <ul class="dgi-name">
-        <li>ДЕПАРТАМЕНТ</li>
-        <li>ЭКОНОМИЧЕСКОЙ ПОЛИТИКИ И РАЗВИТИЯ</li>
-        <li>ГОРОДА МОСКВЫ</li>
+        <li>ЕДИНАЯ СИСТЕМА РЕГИСТРАЦИИ ДОКУМЕНТОВ</li>
+        <li>ПРАВИТЕЛЬСТВА МОСКВЫ</li>
     </ul>
 </div>
 <div class="body-container">
@@ -26,7 +25,7 @@
             <div class="col-md-6">
                 <div class="panel panel-default login">
                     <div class="text-center">
-                        <h2>ЕСРД</h2>
+                        <h2>Введите логин и пароль</h2>
                     </div>
                     <form:form class="form" action="login" method="post">
                         <div class="form-group">

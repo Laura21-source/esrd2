@@ -1,20 +1,24 @@
+DROP TABLE IF EXISTS valuedfield;
+
+DROP TABLE IF EXISTS field_child_field;
+
 DROP TABLE IF EXISTS doctype_fields;
 
-DROP TABLE IF EXISTS valuedfield;
+DROP TABLE IF EXISTS fieldvalues;
+
+DROP TABLE IF EXISTS value;
 
 DROP TABLE IF EXISTS catalogelem;
 
 DROP TABLE IF EXISTS doc_valuedfields;
 
-DROP TABLE IF EXISTS doc;
-
-DROP TABLE IF EXISTS doctype;
-
-DROP TABLE IF EXISTS field_child_field;
-
 DROP TABLE IF EXISTS field;
 
 DROP TABLE IF EXISTS catalog;
+
+DROP TABLE IF EXISTS doc;
+
+DROP TABLE IF EXISTS doctype;
 
 DROP SEQUENCE IF EXISTS global_seq;
 
@@ -86,28 +90,32 @@ CREATE TABLE doctype_fields
     FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE
 );
 
-CREATE TABLE valuedfield
+CREATE TABLE value
 (
     id                     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    field_id               INTEGER                      NOT NULL,
-    position_in_group_fact INTEGER                         ,
     catalogelem_id         INTEGER                         ,
     value_int              INTEGER                         ,
     value_str              VARCHAR                         ,
     value_date             TIMESTAMP                       ,
-    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE,
     FOREIGN KEY (catalogelem_id) REFERENCES catalogelem (id) ON DELETE CASCADE
+);
+
+CREATE TABLE fieldvalues
+(
+    field_id               INTEGER                         ,
+    value_id               INTEGER                         ,
+    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE,
+    FOREIGN KEY (value_id) REFERENCES value (id) ON DELETE CASCADE
 );
 
 CREATE TABLE doc_valuedfields
 (
     id                     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     doc_id                 INTEGER                 NOT NULL,
-    valued_field_id        INTEGER                 NOT NULL,
+    field_id               INTEGER                 NOT NULL,
     position_fact          INTEGER                 NOT NULL,
-    CONSTRAINT c_doc_fields UNIQUE (doc_id, valued_field_id, position_fact),
     FOREIGN KEY (doc_id) REFERENCES doc (id) ON DELETE CASCADE,
-    FOREIGN KEY (valued_field_id) REFERENCES field (id) ON DELETE CASCADE
+    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE
 );
 
 

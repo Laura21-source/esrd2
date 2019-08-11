@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 public class CatalogElem extends BaseEntity {
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="parent_catalogelem_id")
-    CatalogElem idParentVarElem;
+    CatalogElem idParentCatalogElem;
 
     @Column(name = "value_int")
     String valueInt;

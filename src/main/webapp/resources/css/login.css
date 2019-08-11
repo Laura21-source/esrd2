@@ -14,8 +14,7 @@
 }
 
 .logo {
-    width: 130px;
-    height: 168px;
+    width: 45%;
     margin: 10px 10px 10px 45px;
     display: inline-block;
 }
@@ -39,8 +38,9 @@ ul {
 
 ul li {
     font-family: "CaviarDreamsBold";
-    font-size: 20px;
+    font-size: 25px;
     margin: 10px;
+    letter-spacing: 0.1em;
     text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     color: rgba(255, 255, 255, 0.95);
 }

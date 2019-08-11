@@ -31,4 +31,7 @@ public class Field extends NamedEntity {
     Integer length;
 
     Integer catalog_id;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Value> values;
 }
