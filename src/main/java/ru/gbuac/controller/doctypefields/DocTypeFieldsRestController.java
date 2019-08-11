@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gbuac.model.DocTypeFields;
+import ru.gbuac.model.Field;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(value = DocTypeFieldsRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DocTypeFieldsRestController extends AbstractDocTypeFieldsRestController {
-    public static final String REST_URL = "/rest/profile/doctypes/{docTypeId}/docTypeFields";
+    public static final String REST_URL = "/rest/profile/doctypes/{docTypeId}/fields";
 
     @Override
     @GetMapping
@@ -20,8 +21,15 @@ public class DocTypeFieldsRestController extends AbstractDocTypeFieldsRestContro
         List<DocTypeFields> docTypeFields = super.getAll(docTypeId);
         for (DocTypeFields docTypeField : docTypeFields) {
             docTypeField.setId(null);
-            docTypeField.getField().setId(null);
+            clearFields(docTypeField.getField());
         }
         return docTypeFields;
+    }
+
+    private void clearFields (Field field) {
+        for (Field childField : field.getChildField()) {
+            clearFields(childField);
+        }
+        field.setId(null);
     }
 }

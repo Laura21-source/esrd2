@@ -16,7 +16,7 @@
     <img class="logo" src="resources/images/logo.png" alt="">
     <ul class="dgi-name">
         <li>ДЕПАРТАМЕНТ</li>
-        <li>ГОРОДСКОГО ИМУЩЕСТВА</li>
+        <li>ЭКОНОМИЧЕСКОЙ ПОЛИТИКИ И РАЗВИТИЯ</li>
         <li>ГОРОДА МОСКВЫ</li>
     </ul>
 </div>
@@ -26,7 +26,7 @@
             <div class="col-md-6">
                 <div class="panel panel-default login">
                     <div class="text-center">
-                        <h2>Активный сотрудник ДГИ</h2>
+                        <h2>ЕСРД</h2>
                     </div>
                     <form:form class="form" action="login" method="post">
                         <div class="form-group">

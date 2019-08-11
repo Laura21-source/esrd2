@@ -20,7 +20,7 @@ INSERT INTO public.catalogelem (id, value_int, value_str, catalog_id, parent_cat
 
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null);
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id) VALUES (5, 'Время заседания', 'TIME', null, null, null, null);
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id) VALUES (22, 'Вопросы повестки', 'GROUP_FIELDS', null, 0, null, null);
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id) VALUES (22, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null);
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id) VALUES (23, 'Предмет вопроса', 'CATALOG', null, null, null, 10);
 INSERT INTO public.field (id, name,  fieldtype, position_in_group, max_count, length, catalog_id) VALUES (24, 'Сфера деятельности', 'CATALOG', null, null, null, 7);
 

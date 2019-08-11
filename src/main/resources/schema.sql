@@ -91,7 +91,7 @@ CREATE TABLE valuedfield
     id                     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     field_id               INTEGER                      NOT NULL,
     position_in_group_fact INTEGER                         ,
-    catalogelem_id             INTEGER                         ,
+    catalogelem_id         INTEGER                         ,
     value_int              INTEGER                         ,
     value_str              VARCHAR                         ,
     value_date             TIMESTAMP                       ,
