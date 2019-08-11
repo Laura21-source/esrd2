@@ -18,6 +18,6 @@ import java.util.List;
 public class DocType extends NamedEntity {
     //@OneToMany(fetch = FetchType.LAZY, mappedBy = "docType")
     //private List<Doc> docs;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "docType")
-    private List<DocTypeFields> docTypeFields;
+    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "docType")
+    //private List<DocTypeFields> docTypeFields;
 }

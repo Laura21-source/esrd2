@@ -32,7 +32,7 @@ public class Doc extends NamedEntity {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_doctype", nullable = false)
+    @JoinColumn(name = "doctype_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     DocType docType;
 }

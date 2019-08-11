@@ -2,13 +2,12 @@ package ru.gbuac.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -16,15 +15,20 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Table(name = "field")
 public class Field extends NamedEntity {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    List<Field> childField;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "id_fieldtype")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "fieldtype")
     FieldType fieldType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_var", nullable = true)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    Var var;
+    @Column(name = "position_in_group")
+    Integer positionInGroup;
+
+    @Column(name = "max_count")
+    Integer maxCount;
 
     Integer length;
+
+    Integer catalog_id;
 }

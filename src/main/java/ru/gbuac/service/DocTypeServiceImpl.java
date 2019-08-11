@@ -12,7 +12,7 @@ import java.util.List;
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
-public class DocTypeServiceImpl implements DocTypeService{
+public class DocTypeServiceImpl implements DocTypeService {
 
     @Autowired
     private DocTypeRepository docTypeRepository;

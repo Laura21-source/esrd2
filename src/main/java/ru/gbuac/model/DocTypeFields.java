@@ -14,29 +14,18 @@ import javax.validation.constraints.NotNull;
 @Table(name = "doctype_fields")
 public class DocTypeFields extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_doctype", nullable = true)
+    @JoinColumn(name = "doctype_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     DocType docType;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_field", nullable = true)
+    @JoinColumn(name = "field_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     Field field;
 
     @NotNull
     Integer position;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_groupedfield", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    GroupedField groupedField;
-
-    @Column(name = "position_in_group")
-    Integer positionInGroup;
-
-    @Column(name = "max_count")
-    Integer maxCount;
 
     @Enumerated(EnumType.STRING)
     private Role role;

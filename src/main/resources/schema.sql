@@ -1,20 +1,20 @@
 DROP TABLE IF EXISTS doctype_fields;
 
-DROP TABLE IF EXISTS doc_fields;
+DROP TABLE IF EXISTS valuedfield;
+
+DROP TABLE IF EXISTS catalogelem;
+
+DROP TABLE IF EXISTS doc_valuedfields;
 
 DROP TABLE IF EXISTS doc;
 
 DROP TABLE IF EXISTS doctype;
 
+DROP TABLE IF EXISTS field_child_field;
+
 DROP TABLE IF EXISTS field;
 
-DROP TABLE IF EXISTS groupedfield;
-
-DROP TABLE IF EXISTS varselectedvalue;
-
-DROP TABLE IF EXISTS varelem;
-
-DROP TABLE IF EXISTS var;
+DROP TABLE IF EXISTS catalog;
 
 DROP SEQUENCE IF EXISTS global_seq;
 
@@ -29,86 +29,85 @@ CREATE TABLE doctype
 CREATE TABLE doc
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    id_doctype       INTEGER                 NOT NULL,
+    doctype_id       INTEGER                 NOT NULL,
     reg_num          VARCHAR                 NOT NULL,
     reg_date         TIMESTAMP               NOT NULL,
     insert_date      TIMESTAMP DEFAULT now() NOT NULL,
-    FOREIGN KEY (id_doctype) REFERENCES doctype (id) ON DELETE CASCADE
+    FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
 );
-/*
-CREATE TABLE fieldtype
+
+CREATE TABLE catalog
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name             INTEGER                 NOT NULL
-);
-*/
-CREATE TABLE field
-(
-    id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    parent_catalog_id    INTEGER                         ,
     name             VARCHAR                 NOT NULL,
-    id_fieldtype     INTEGER                 NOT NULL,
-    id_var           INTEGER                         ,
-    length           INTEGER
-    --FOREIGN KEY (id_fieldtype) REFERENCES fieldtype (id) ON DELETE CASCADE
+    catalogtype_id       INTEGER                 NOT NULL
 );
 
-CREATE TABLE groupedfield
-(
-    id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name             VARCHAR
-);
-
-CREATE TABLE doctype_fields
-(
-    id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    id_doctype          INTEGER                 NOT NULL,
-    id_field            INTEGER                 NOT NULL,
-    position            INTEGER                 NOT NULL,
-    id_groupedfield     INTEGER                         ,
-    position_in_group   INTEGER                         ,
-    max_count           INTEGER                            ,
-    role                VARCHAR                 NOT NULL,
-    CONSTRAINT c_doctype_fields UNIQUE (id_doctype, id_field, position),
-    FOREIGN KEY (id_doctype) REFERENCES doctype (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_field) REFERENCES field (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_groupedfield) REFERENCES groupedfield (id) ON DELETE CASCADE
-);
-
-CREATE TABLE var
-(
-    id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    id_parent_var    INTEGER                         ,
-    name             VARCHAR                 NOT NULL,
-    id_vartype       INTEGER                 NOT NULL
-);
-
-CREATE TABLE varelem
+CREATE TABLE catalogelem
 (
     id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     value_int           INTEGER                         ,
     value_str           VARCHAR                         ,
-    id_var              INTEGER                 NOT NULL,
-    id_parent_varelem   INTEGER                         ,
-    FOREIGN KEY (id_var) REFERENCES var (id) ON DELETE CASCADE
+    catalog_id              INTEGER                 NOT NULL,
+    parent_catalogelem_id   INTEGER                         ,
+    FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE
 );
 
-
-CREATE TABLE doc_fields
+CREATE TABLE field
 (
-    id_doc                 INTEGER                 NOT NULL,
-    id_field               INTEGER                 NOT NULL,
-    position_fact          INTEGER                 NOT NULL,
-    id_groupedfield        INTEGER                         ,
+    id                INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name              VARCHAR                 NOT NULL,
+    fieldtype         VARCHAR                 NOT NULL,
+    position_in_group INTEGER                         ,
+    max_count         INTEGER                         ,
+    length            INTEGER                         ,
+    catalog_id            INTEGER                         ,
+    FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE
+);
+
+CREATE TABLE field_child_field
+(
+    field_id          INTEGER                         ,
+    child_field_id    INTEGER                         ,
+    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE,
+    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE
+);
+
+CREATE TABLE doctype_fields
+(
+    id                INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    doctype_id          INTEGER                 NOT NULL,
+    field_id            INTEGER                 NOT NULL,
+    position            INTEGER                 NOT NULL,
+    role                VARCHAR                 NOT NULL,
+    CONSTRAINT c_doctype_fields UNIQUE (doctype_id, field_id, position, role),
+    FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE,
+    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE
+);
+
+CREATE TABLE valuedfield
+(
+    id                     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    field_id               INTEGER                      NOT NULL,
     position_in_group_fact INTEGER                         ,
-    id_varelem             INTEGER                         ,
+    catalogelem_id             INTEGER                         ,
     value_int              INTEGER                         ,
     value_str              VARCHAR                         ,
     value_date             TIMESTAMP                       ,
-    CONSTRAINT c_doc_fields UNIQUE (id_doc, id_field, position_fact),
-    FOREIGN KEY (id_doc) REFERENCES doc (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_field) REFERENCES field (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_groupedfield) REFERENCES groupedfield (id) ON DELETE CASCADE
+    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE,
+    FOREIGN KEY (catalogelem_id) REFERENCES catalogelem (id) ON DELETE CASCADE
+);
 
+CREATE TABLE doc_valuedfields
+(
+    id                     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    doc_id                 INTEGER                 NOT NULL,
+    valued_field_id        INTEGER                 NOT NULL,
+    position_fact          INTEGER                 NOT NULL,
+    CONSTRAINT c_doc_fields UNIQUE (doc_id, valued_field_id, position_fact),
+    FOREIGN KEY (doc_id) REFERENCES doc (id) ON DELETE CASCADE,
+    FOREIGN KEY (valued_field_id) REFERENCES field (id) ON DELETE CASCADE
 );
 
 
