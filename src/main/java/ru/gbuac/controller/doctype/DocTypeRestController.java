@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.DocType;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,8 +24,18 @@ public class DocTypeRestController extends AbstractDocTypeRestController {
         return super.getAll();
     }
 
-    @GetMapping("/hello")
-    public String sayHello() {
-        return "Hi First Spring boot application ";
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public DocType updateOrCreate(@Valid @RequestBody DocType docType) {
+        if (docType.isNew()) {
+            return super.create(docType);
+        } else {
+            return super.update(docType, docType.getId());
+        }
+    }
+
+    @Override
+    @DeleteMapping(value = "/{id}")
+    public void delete(@PathVariable("id") int id) {
+        super.delete(id);
     }
 }

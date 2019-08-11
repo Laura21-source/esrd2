@@ -1,34 +1,26 @@
 package ru.gbuac.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@IdClass(DocTypeFields.class)
-@EqualsAndHashCode
-@ToString
 @Table(name = "doctype_fields")
-public class DocTypeFields implements Serializable {
-    @Id
-    @NotNull
+public class DocTypeFields extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_doctype", nullable = false)
+    @JoinColumn(name = "id_doctype", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     DocType docType;
 
-    @Id
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_field", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_field", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     Field field;
 
@@ -43,7 +35,6 @@ public class DocTypeFields implements Serializable {
     @Column(name = "position_in_group")
     Integer positionInGroup;
 
-    @NotNull
     @Column(name = "max_count")
     Integer maxCount;
 

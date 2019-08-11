@@ -60,12 +60,13 @@ CREATE TABLE groupedfield
 
 CREATE TABLE doctype_fields
 (
+    id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     id_doctype          INTEGER                 NOT NULL,
     id_field            INTEGER                 NOT NULL,
     position            INTEGER                 NOT NULL,
     id_groupedfield     INTEGER                         ,
     position_in_group   INTEGER                         ,
-    max_count           INTEGER                 NOT NULL,
+    max_count           INTEGER                            ,
     role                VARCHAR                 NOT NULL,
     CONSTRAINT c_doctype_fields UNIQUE (id_doctype, id_field, position),
     FOREIGN KEY (id_doctype) REFERENCES doctype (id) ON DELETE CASCADE,
@@ -78,14 +79,14 @@ CREATE TABLE var
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     id_parent_var    INTEGER                         ,
     name             VARCHAR                 NOT NULL,
-    vartype          INTEGER                 NOT NULL
+    id_vartype       INTEGER                 NOT NULL
 );
 
 CREATE TABLE varelem
 (
     id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     value_int           INTEGER                         ,
-    value_str           INTEGER                         ,
+    value_str           VARCHAR                         ,
     id_var              INTEGER                 NOT NULL,
     id_parent_varelem   INTEGER                         ,
     FOREIGN KEY (id_var) REFERENCES var (id) ON DELETE CASCADE

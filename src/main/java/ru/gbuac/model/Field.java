@@ -26,6 +26,5 @@ public class Field extends NamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     Var var;
 
-    @NotNull
-    int length;
+    Integer length;
 }
