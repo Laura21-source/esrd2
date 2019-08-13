@@ -40,4 +40,12 @@ public class RootController {
     public String login() {
         return "login";
     }
+
+    @GetMapping(value = "/project")
+    public String project() {
+        return "project";
+    }
+
+    @GetMapping(value = "/agree")
+    public String agree() {return "agree";}
 }
