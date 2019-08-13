@@ -142,4 +142,5 @@
 
 <jsp:include page="fragments/footerNew.jsp"/>
 <jsp:include page="fragments/modals/agreeDocumentModal.jsp"/>
+<jsp:include page="fragments/footerScript.jsp"/>
 <jsp:include page="fragments/footerBasement.jsp"/>

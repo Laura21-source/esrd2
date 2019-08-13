@@ -23,7 +23,20 @@
                             <div class="col-md-10">
                                 <select class="browser-default custom-select" name="selectType" id="selectType">
                                     <option value="" class="alert-primary" selected>Выберите вид документа</option>
-                                    <option value="1">Повестка заседания Правления</option>
+                                    <script type="text/javascript">
+                                        /*$(function(){
+                                            $.getJSON('rest/profile/doctypes/', function(data) {
+                                                var items = [];
+                                                $.each( data, function( key, val ) {
+                                                    items.push("<option value='" + key + "'>" + val + "</option>");
+                                                });
+                                                $(, {
+                                                    html: items.join( "" )
+                                                }).appendTo( "#selectType" );
+                                            });
+                                        });*/
+                                    </script>
+                                    <!--<option value="1">Повестка заседания Правления</option>-->
                                 </select>
                             </div>
                         </div>
@@ -120,4 +133,16 @@
 
 <jsp:include page="fragments/footerNew.jsp"/>
 <jsp:include page="fragments/modals/newDocumentModal.jsp"/>
+<jsp:include page="fragments/footerScript.jsp"/>
+<script>
+    $(function() {
+        "use strict";
+
+        var string = $.getJSON( "rest/profile/doctypes/");
+        //var a = JSON.parse(string);
+        console.log(string);
+
+
+    });
+</script>
 <jsp:include page="fragments/footerBasement.jsp"/>

@@ -95,4 +95,5 @@
 </main>
 
 <jsp:include page="fragments/footerNew.jsp"/>
+<jsp:include page="fragments/footerScript.jsp"/>
 <jsp:include page="fragments/footerBasement.jsp"/>
