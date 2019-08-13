@@ -124,10 +124,10 @@
                                     <div class="sticky-content">
                                         <div class="alert alert-primary mx-auto text-uppercase">Готовый документ</div>
                                         <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3">
-                                            <iframe class="embed-responsive-item" src="img/pdf_12.pdf" height="500"></iframe>
+                                            <iframe class="embed-responsive-item" src="resources/img/pdf_12.pdf" height="500"></iframe>
                                         </div>
                                         <div class="btn btn-primary btn-md my-3 rounded">Переформировать</div>
-                                        <a class="btn btn-light btn-md my-3" href="img/pdf_12.pdf" target="_blank">Открыть в новом окне</a>
+                                        <a class="btn btn-light btn-md my-3" href="resources/img/pdf_12.pdf" target="_blank">Открыть в новом окне</a>
                                     </div>
                                 </div>
                             </div>
@@ -141,5 +141,5 @@
 </main>
 
 <jsp:include page="fragments/footerNew.jsp"/>
-</body>
-</html>
+<jsp:include page="fragments/modals/agreeDocumentModal.jsp"/>
+<jsp:include page="fragments/footerBasement.jsp"/>

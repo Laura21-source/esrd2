@@ -119,5 +119,5 @@
 </main>
 
 <jsp:include page="fragments/footerNew.jsp"/>
-</body>
-</html>
+<jsp:include page="fragments/modals/newDocumentModal.jsp"/>
+<jsp:include page="fragments/footerBasement.jsp"/>
