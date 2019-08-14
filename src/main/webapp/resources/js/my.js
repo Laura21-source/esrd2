@@ -21,9 +21,9 @@ $(function() {
     // Добавляем к id полей номер добавляемого вопроса
     $('#blockQuestion' + links + ' #nameQuestion').attr('id', 'nameQuestion' + links);
     $('#blockQuestion' + links + ' #delQuestion').attr('id', 'delQuestion' + links);
-    $('#blockQuestion' + links + ' #selectTheme').attr('id', 'selectTheme' + links);
-    $('#blockQuestion' + links + ' #selectOrganisation').attr('id', 'selectOrganisation' + links);
-    $('#blockQuestion' + links + ' #selectCrucial').attr('id', 'selectCrucial' + links);
+    //$('#blockQuestion' + links + ' #selectTheme').attr('id', 'selectTheme' + links);
+    //$('#blockQuestion' + links + ' #selectOrganisation').attr('id', 'selectOrganisation' + links);
+    //$('#blockQuestion' + links + ' #selectCrucial').attr('id', 'selectCrucial' + links);
     $('#blockQuestion' + links + ' select option').prop('selected', false);
     $('#nameQuestion' + links).html("Вопрос " + links1);
     $('#delQuestion' + links).removeClass('d-none');
@@ -51,16 +51,6 @@ $(function() {
     $('#blockRecipient' + id).remove();
   });
 
-  // Показываем или прячем поля
-  $("#selectType").change(function(){
-    var asd = $("#selectType").val();
-    if(asd == 0) {
-      $('#formField').css('display','none').fadeOut(1000);
-    } else {
-      $('#formField').css('display','block').fadeIn(1000);
-    }
-  });
-  
   // Отмена закрытия полей
   $("#editDocument").click(function(e){
     e.preventDefault();
