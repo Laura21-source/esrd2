@@ -20,11 +20,11 @@ public class DocValuedFields extends BaseEntity {
     Doc doc;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "valued_field_id", nullable = true)
+    @JoinColumn(name = "valuedfield_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     ValuedField valuedField;
 
     @NotNull
-    @Column(name = "position_fact")
-    Integer positionFact;
+    @Column(name = "position")
+    Integer position;
 }

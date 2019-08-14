@@ -3,7 +3,6 @@ package ru.gbuac.util;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
-
 import java.io.FileOutputStream;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -67,7 +66,7 @@ public class Templater {
                 // Если таблица имеет тэги для замены, то определяем, по структуре taggedTableList, где у нас хранятся
                 // для нее тэги. Запоминаем индекс таблицы в targetTaggedTableIndex
                 for (int j = 0; j < taggedTableList.size(); j++) {
-                    if (firstCellTag.contains("<"+taggedTableList.get(0).tableName)) {
+                    if (firstCellTag.contains("<"+taggedTableList.get(0).getTableName())) {
                         targetTaggedTableIndex = j;
                         break;
                     }
@@ -78,7 +77,7 @@ public class Templater {
 
                 // Перебираем строки в структуре и в зависимости от количества в ней строк, генерим строки в таблице
                 // в документе Word
-                for (int row = 0; row < taggedTable.rows.size(); row++) {
+                for (int row = 0; row < taggedTable.getRows().size(); row++) {
                     lastRow = table.getRows().get(table.getNumberOfRows() - 1);
                     CTRow ctrowTemplate = CTRow.Factory.parse(lastRow.getCtRow().newInputStream());
                     XWPFTableRow newRow = new XWPFTableRow(ctrowTemplate, table);
@@ -87,8 +86,8 @@ public class Templater {
                         XWPFTableCell cellObj = newRow.getTableCells().get(cell);
                         for (XWPFParagraph paragraph : cellObj.getParagraphs()) {
                             String text = paragraph.getText();
-                            for (Map.Entry<String,String> entry : taggedTable.rows.get(row).cellsTags.entrySet()) {
-                                text = text.replace("<" + taggedTable.tableName + "." + entry.getKey() + ">", entry.getValue());
+                            for (Map.Entry<String,String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
+                                text = text.replace("<" + taggedTable.getTableName() + "." + entry.getKey() + ">", entry.getValue());
                             }
                             changeText(paragraph, text);
                         }

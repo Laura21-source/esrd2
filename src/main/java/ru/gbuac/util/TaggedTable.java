@@ -1,14 +1,29 @@
 package ru.gbuac.util;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class TaggedTable {
-    String tableName;
-    List<TableRow> rows;
+    private String tableName;
+    private List<TableRow> rows;
 
     public TaggedTable(String tableName, List<TableRow> rows) {
         this.tableName = tableName;
+        this.rows = rows;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public List<TableRow> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<TableRow> rows) {
         this.rows = rows;
     }
 }
