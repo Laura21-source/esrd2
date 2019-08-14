@@ -112,7 +112,7 @@
                 var typeDocument = "rest/profile/doctypes/" + asd + "/fields";
                 $.getJSON(typeDocument, function(dataType) {
                     for(var i in dataType) {
-                        var rowType = dataType[i]
+                        var rowType = dataType[i];
                         if(rowType.field.fieldType === "TIME") {
                             $("#inputTimeBlock").removeClass("d-none");
                             $(".inputTimeName").html('<i class="fas fa-clock mr-2"></i>' + rowType.field.name);
@@ -123,17 +123,24 @@
                         }
                         if(rowType.field.fieldType === "GROUP_FIELDS") {
                             $(".templateQuestionName").html(rowType.field.name);
+                            // Количество селектов в базе
+                            var sumFieldsSelect = rowType.field.childField.length;
+                            // Количество селектов на странице
+                            var linksSelect = $("[seq='true']").length;
                             for(var k in rowType.field.childField) {
-                                var rowChildField = rowType.field.childField[k]
+                                var rowChildField = rowType.field.childField[k];
                                 var selectField = ".selectField" + rowChildField.catalog_id + "Id";
-                                $(".templateQuestionSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowChildField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select selectField' + rowChildField.catalog_id + 'Id"><option value="" class="alert-primary" selected>Выберите значение справочника</option>');
-                                var optionQuestion = "rest/profile/catalogs/" + rowChildField.catalog_id + "/elems";
-                                $.getJSON(optionQuestion, function(dataOption) {
-                                    for(var e in dataOption) {
-                                        var rowOption = dataOption[e]
-                                        $(selectField).append('<option value="' + rowOption.id + '">' + rowOption.valueStr + '</option>');
-                                    }
-                                });
+                                // Генерируемых селектов должно быть меньше чем в базе
+                                if(sumFieldsSelect > linksSelect) {
+                                    $(".templateQuestionSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowChildField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select selectField' + rowChildField.catalog_id + 'Id" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option>');
+                                    var optionQuestion = "rest/profile/catalogs/" + rowChildField.catalog_id + "/elems";
+                                    $.getJSON(optionQuestion, function(dataOption) {
+                                        for(var e in dataOption) {
+                                            var rowOption = dataOption[e];
+                                            $(selectField).append('<option value="' + rowOption.id + '">' + rowOption.valueStr + '</option>');
+                                        }
+                                    });
+                                }
                             }
                         }
                     }
