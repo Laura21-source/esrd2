@@ -33,7 +33,12 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     }
 
     @Override
-    public List<DocFieldsTo> getAll(int docId) {
+    public List<DocValuedFields> getAll(int docId) {
+        return docValuedFieldsRepository.getAll(docId);
+    }
+
+    @Override
+    public List<DocFieldsTo> getAllFull(int docId) {
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 
@@ -44,7 +49,6 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
 
             docFieldsTos.add(new DocFieldsTo(d.getId(), new FieldTo(d.getValuedField()),
                     d.getPosition(), role));
-
         }
         return docFieldsTos;
     }

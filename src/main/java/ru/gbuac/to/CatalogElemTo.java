@@ -1,19 +1,51 @@
 package ru.gbuac.to;
 
 public class CatalogElemTo extends BaseTo {
-    Integer idParentCatalogElem;
+    private Integer idParentCatalogElem;
 
-    String valueInt;
+    private String valueInt;
 
-    String valueStr;
+    private String valueStr;
 
-    Integer catalogId;
+    private Integer catalogId;
 
     public CatalogElemTo(Integer id, Integer idParentCatalogElem, String valueInt, String valueStr, Integer catalogId) {
         super(id);
         this.idParentCatalogElem = idParentCatalogElem;
         this.valueInt = valueInt;
         this.valueStr = valueStr;
+        this.catalogId = catalogId;
+    }
+
+    public Integer getIdParentCatalogElem() {
+        return idParentCatalogElem;
+    }
+
+    public void setIdParentCatalogElem(Integer idParentCatalogElem) {
+        this.idParentCatalogElem = idParentCatalogElem;
+    }
+
+    public String getValueInt() {
+        return valueInt;
+    }
+
+    public void setValueInt(String valueInt) {
+        this.valueInt = valueInt;
+    }
+
+    public String getValueStr() {
+        return valueStr;
+    }
+
+    public void setValueStr(String valueStr) {
+        this.valueStr = valueStr;
+    }
+
+    public Integer getCatalogId() {
+        return catalogId;
+    }
+
+    public void setCatalogId(Integer catalogId) {
         this.catalogId = catalogId;
     }
 

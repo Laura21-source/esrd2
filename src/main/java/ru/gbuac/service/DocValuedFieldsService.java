@@ -10,7 +10,9 @@ import java.util.List;
 public interface DocValuedFieldsService {
     DocValuedFields get(int id, int docId) throws NotFoundException;
 
-    List<DocFieldsTo> getAll(int docId);
+    List<DocValuedFields> getAll(int docId);
+
+    List<DocFieldsTo> getAllFull(int docId);
 
     DocValuedFields save(DocValuedFields docValuedFields);
 

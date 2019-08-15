@@ -6,11 +6,11 @@ import ru.gbuac.model.Role;
 
 public class DocFieldsTo {
     @JsonIgnore
-    protected Integer id;
+    private Integer id;
 
-    FieldTo field;
+    private FieldTo field;
 
-    Integer position;
+    private Integer position;
 
     private Role role;
 
@@ -25,16 +25,32 @@ public class DocFieldsTo {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public FieldTo getField() {
         return field;
+    }
+
+    public void setField(FieldTo field) {
+        this.field = field;
     }
 
     public Integer getPosition() {
         return position;
     }
 
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
     public Role getRole() {
         return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

@@ -11,30 +11,30 @@ import java.util.List;
 public class FieldTo extends BaseTo {
 
     @JsonInclude
-    String name;
+    private String name;
 
-    List<FieldTo> childFields;
-
-    @JsonInclude
-    Integer fieldId;
+    private List<FieldTo> childFields;
 
     @JsonInclude
-    FieldType fieldType;
+    private Integer fieldId;
 
     @JsonInclude
-    Integer positionInGroup;
+    private FieldType fieldType;
 
     @JsonInclude
-    Integer maxCount;
+    private Integer positionInGroup;
 
     @JsonInclude
-    Integer length;
+    private Integer maxCount;
 
     @JsonInclude
-    Integer catalogId;
+    private Integer length;
 
     @JsonInclude
-    String value;
+    private Integer catalogId;
+
+    @JsonInclude
+    private String value;
 
     public FieldTo(Field field) {
         this.name = field.getName();
@@ -50,21 +50,46 @@ public class FieldTo extends BaseTo {
         }
     }
 
-    public FieldTo(ValuedField field) {
-        this.name = field.getField().getName();
-        this.fieldId = field.getField().getId();
-        this.fieldType = field.getField().getFieldType();
-        this.positionInGroup = field.getField().getPositionInGroup();
-        this.maxCount = field.getField().getMaxCount();
-        this.length = field.getField().getLength();
-        this.catalogId = field.getField().getCatalog_id();
+    public FieldTo(ValuedField valuedField) {
+        this.id = valuedField.getId();
+        this.name = valuedField.getField().getName();
+        this.fieldId = valuedField.getField().getId();
+        this.fieldType = valuedField.getField().getFieldType();
+        this.positionInGroup = valuedField.getField().getPositionInGroup();
+        this.maxCount = valuedField.getField().getMaxCount();
+        this.length = valuedField.getField().getLength();
+        this.catalogId = valuedField.getField().getCatalog_id();
         this.childFields = new ArrayList<>();
-        for (ValuedField childField : field.getChildValuedField()) {
+        switch (this.fieldType) {
+            case TEXT:
+                this.value = valuedField.getValueStr();
+                break;
+            case TEXT_MULTI_LINE:
+                this.value = valuedField.getValueStr();
+                break;
+            case NUMBER:
+                this.value = valuedField.getValueInt().toString();
+                break;
+            case DATE:
+                this.value = valuedField.getValueDate().toString();
+                break;
+            case TIME:
+                this.value = valuedField.getValueTime().toString();
+                break;
+            case DATE_TIME:
+                this.value = valuedField.getValueDateTime().toString();
+                break;
+            case CATALOG:
+                this.value = valuedField.getCatalogElem().getId().toString();
+        }
+
+        for (ValuedField childField : valuedField.getChildValuedField()) {
             this.childFields.add(FieldTo(childField));
         }
     }
 
-    public FieldTo(String name, List<FieldTo> childFields, Integer fieldId, FieldType fieldType, Integer positionInGroup, Integer maxCount, Integer length, Integer catalogId) {
+    public FieldTo(Integer id, String name, List<FieldTo> childFields, Integer fieldId, FieldType fieldType, Integer positionInGroup, Integer maxCount, Integer length, Integer catalogId) {
+        super(id);
         this.name = name;
         this.childFields = childFields;
         this.fieldId = fieldId;
@@ -76,7 +101,7 @@ public class FieldTo extends BaseTo {
     }
 
     public FieldTo FieldTo(Field field) {
-        FieldTo fieldTo = new FieldTo(field.getName(), new ArrayList<>(), field.getId(), field.getFieldType(),
+        FieldTo fieldTo = new FieldTo(null, field.getName(), new ArrayList<>(), field.getId(), field.getFieldType(),
                 field.getPositionInGroup(), field.getMaxCount(), field.getLength(),
                 field.getCatalog_id());
 
@@ -86,12 +111,12 @@ public class FieldTo extends BaseTo {
         return fieldTo;
     }
 
-    public FieldTo FieldTo(ValuedField field) {
-        FieldTo fieldTo = new FieldTo(field.getField().getName(), new ArrayList<>(), field.getId(), field.getField().getFieldType(),
-                field.getField().getPositionInGroup(), field.getField().getMaxCount(), field.getField().getLength(),
-                field.getField().getCatalog_id());
+    public FieldTo FieldTo(ValuedField valuedField) {
+        FieldTo fieldTo = new FieldTo(valuedField.getId(), valuedField.getField().getName(), new ArrayList<>(), valuedField.getField().getId(), valuedField.getField().getFieldType(),
+                valuedField.getField().getPositionInGroup(), valuedField.getField().getMaxCount(), valuedField.getField().getLength(),
+                valuedField.getField().getCatalog_id());
 
-        for (ValuedField childField : field.getChildValuedField()) {
+        for (ValuedField childField : valuedField.getChildValuedField()) {
             fieldTo.childFields.add(FieldTo(childField));
         }
         return fieldTo;
@@ -177,8 +202,7 @@ public class FieldTo extends BaseTo {
         FieldTo fieldTo = (FieldTo) o;
 
         if (name != null ? !name.equals(fieldTo.name) : fieldTo.name != null) return false;
-        if (childFields != null ? !childFields.equals(fieldTo.childFields) : fieldTo.childFields != null)
-            return false;
+        if (childFields != null ? !childFields.equals(fieldTo.childFields) : fieldTo.childFields != null) return false;
         if (fieldId != null ? !fieldId.equals(fieldTo.fieldId) : fieldTo.fieldId != null) return false;
         if (fieldType != fieldTo.fieldType) return false;
         if (positionInGroup != null ? !positionInGroup.equals(fieldTo.positionInGroup) : fieldTo.positionInGroup != null)

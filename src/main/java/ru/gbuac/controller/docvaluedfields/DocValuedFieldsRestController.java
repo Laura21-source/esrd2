@@ -17,7 +17,7 @@ public class DocValuedFieldsRestController extends AbstractDocValuedFieldsRestCo
 
     @Override
     @GetMapping
-    public List<DocFieldsTo> getAll(@PathVariable("docId") int docId) {
-        return super.getAll(docId);
+    public List<DocFieldsTo> getAllFull(@PathVariable("docId") int docId) {
+        return super.getAllFull(docId);
     }
 }

@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,12 +25,12 @@ public class Doc extends BaseEntity {
 
     @NotNull
     @Column(name = "reg_date")
-    private LocalDateTime regDate;
+    private LocalDate regDate;
 
     @NotNull
-    @Column(name = "insert_date", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "insert_datetime", nullable = false, columnDefinition = "timestamp default now()")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime insertDate = LocalDateTime.now();
+    private LocalDateTime insertDateTime = LocalDateTime.now();
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
