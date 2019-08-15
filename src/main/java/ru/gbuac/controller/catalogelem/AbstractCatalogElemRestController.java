@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.gbuac.model.CatalogElem;
 import ru.gbuac.service.CatalogElemService;
+import ru.gbuac.to.CatalogElemTo;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public abstract class AbstractCatalogElemRestController {
         return catalogElemService.get(id, catalogId);
     }
 
-    public List<CatalogElem> getAll(int catalogId) {
+    public List<CatalogElemTo> getAll(int catalogId) {
         LOG.info("getAll");
         return catalogElemService.getAll(catalogId);
     }

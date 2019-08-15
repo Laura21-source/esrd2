@@ -1,7 +1,7 @@
 package ru.gbuac.service;
 
 import ru.gbuac.model.DocTypeFields;
-import ru.gbuac.to.DocTypeFieldsTo;
+import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public interface DocTypeFieldsService {
 
     List<DocTypeFields> getAll(int docTypeId);
 
-    List<DocTypeFieldsTo> getAllFull(int docTypeId);
+    List<DocFieldsTo> getAllFull(int docTypeId);
 
     DocTypeFields save(DocTypeFields docTypeFields);
 

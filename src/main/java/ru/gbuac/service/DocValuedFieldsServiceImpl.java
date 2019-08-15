@@ -7,7 +7,8 @@ import ru.gbuac.dao.DocTypeFieldsRepository;
 import ru.gbuac.dao.DocValuedFieldsRepository;
 import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.model.DocValuedFields;
-import ru.gbuac.to.DocTypeFieldsTo;
+import ru.gbuac.model.Role;
+import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.to.FieldTo;
 import ru.gbuac.util.exception.NotFoundException;
 
@@ -22,6 +23,9 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     @Autowired
     private DocValuedFieldsRepository docValuedFieldsRepository;
 
+    @Autowired
+    private DocTypeFieldsRepository docTypeFieldsRepository;
+
     @Override
     public DocValuedFields get(int id, int docId) throws NotFoundException {
         DocValuedFields docValuedFields = docValuedFieldsRepository.findById(id).orElse(null);
@@ -29,8 +33,20 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     }
 
     @Override
-    public List<DocValuedFields> getAll(int docId) {
-        return docValuedFieldsRepository.getAll(docId);
+    public List<DocFieldsTo> getAll(int docId) {
+        List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
+        List<DocFieldsTo> docFieldsTos = new ArrayList<>();
+
+        for (DocValuedFields d:docValuedFields) {
+            List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(d.getDoc().getDocType().getId());
+            Role role = docTypeFields.stream().filter(f -> f.getField().getId() == d.getValuedField().getField().getId())
+                    .findAny().get().getRole();
+
+            docFieldsTos.add(new DocFieldsTo(d.getId(), new FieldTo(d.getValuedField()),
+                    d.getPosition(), role));
+
+        }
+        return docFieldsTos;
     }
 
     @Override

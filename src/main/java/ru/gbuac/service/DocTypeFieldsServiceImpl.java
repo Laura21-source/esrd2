@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.DocTypeFieldsRepository;
 import ru.gbuac.model.DocTypeFields;
-import ru.gbuac.to.DocTypeFieldsTo;
+import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.to.FieldTo;
 import ru.gbuac.util.exception.NotFoundException;
 
@@ -32,16 +32,16 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
     }
 
     @Override
-    public List<DocTypeFieldsTo> getAllFull(int docTypeId) {
+    public List<DocFieldsTo> getAllFull(int docTypeId) {
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
-        List<DocTypeFieldsTo> docTypeFieldsTos = new ArrayList<>();
+        List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 
         for (DocTypeFields d:docTypeFields) {
-            docTypeFieldsTos.add(new DocTypeFieldsTo(d.getId(), d.getDocType(), new FieldTo(d.getField()),
+            docFieldsTos.add(new DocFieldsTo(d.getId(), new FieldTo(d.getField()),
                     d.getPosition(), d.getRole()));
 
         }
-        return docTypeFieldsTos;
+        return docFieldsTos;
     }
 
     @Override

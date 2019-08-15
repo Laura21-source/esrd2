@@ -3,7 +3,6 @@ package ru.gbuac.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 @Table(name = "valuedfield")
 public class ValuedField extends BaseEntity{
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<ValuedField> childValuedfield;
+    private List<ValuedField> childValuedField;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "field_id", nullable = false)

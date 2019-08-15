@@ -32,7 +32,7 @@ public class Doc extends BaseEntity {
     private LocalDateTime insertDate = LocalDateTime.now();
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctype_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private DocType docType;

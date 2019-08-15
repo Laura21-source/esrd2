@@ -3,6 +3,7 @@ package ru.gbuac.to;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ru.gbuac.model.Field;
 import ru.gbuac.model.FieldType;
+import ru.gbuac.model.ValuedField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,20 @@ public class FieldTo extends BaseTo {
         }
     }
 
+    public FieldTo(ValuedField field) {
+        this.name = field.getField().getName();
+        this.fieldId = field.getField().getId();
+        this.fieldType = field.getField().getFieldType();
+        this.positionInGroup = field.getField().getPositionInGroup();
+        this.maxCount = field.getField().getMaxCount();
+        this.length = field.getField().getLength();
+        this.catalogId = field.getField().getCatalog_id();
+        this.childFields = new ArrayList<>();
+        for (ValuedField childField : field.getChildValuedField()) {
+            this.childFields.add(FieldTo(childField));
+        }
+    }
+
     public FieldTo(String name, List<FieldTo> childFields, Integer fieldId, FieldType fieldType, Integer positionInGroup, Integer maxCount, Integer length, Integer catalogId) {
         this.name = name;
         this.childFields = childFields;
@@ -66,6 +81,17 @@ public class FieldTo extends BaseTo {
                 field.getCatalog_id());
 
         for (Field childField : field.getChildField()) {
+            fieldTo.childFields.add(FieldTo(childField));
+        }
+        return fieldTo;
+    }
+
+    public FieldTo FieldTo(ValuedField field) {
+        FieldTo fieldTo = new FieldTo(field.getField().getName(), new ArrayList<>(), field.getId(), field.getField().getFieldType(),
+                field.getField().getPositionInGroup(), field.getField().getMaxCount(), field.getField().getLength(),
+                field.getField().getCatalog_id());
+
+        for (ValuedField childField : field.getChildValuedField()) {
             fieldTo.childFields.add(FieldTo(childField));
         }
         return fieldTo;
