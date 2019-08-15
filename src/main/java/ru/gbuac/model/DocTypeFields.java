@@ -17,15 +17,15 @@ public class DocTypeFields extends BaseEntity {
     @JoinColumn(name = "doctype_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    DocType docType;
+    private DocType docType;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "field_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    Field field;
+    private Field field;
 
     @NotNull
-    Integer position;
+    private Integer position;
 
     @Enumerated(EnumType.STRING)
     private Role role;

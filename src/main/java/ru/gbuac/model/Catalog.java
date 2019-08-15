@@ -14,10 +14,10 @@ import javax.validation.constraints.NotNull;
 @Table(name = "catalog")
 public class Catalog extends NamedEntity {
     @Column(name = "parent_catalog_id")
-    Integer parentCatalog;
+    private Integer parentCatalog;
 
     @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "catalogtype_id")
-    CatalogType catalogType;
+    private CatalogType catalogType;
 }

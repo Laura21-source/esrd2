@@ -10,16 +10,17 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
 @Table(name = "doc")
-public class Doc extends NamedEntity {
+public class Doc extends BaseEntity {
     @NotNull
     @Column(name = "reg_num")
-    String regNum;
+    private String regNum;
 
     @NotNull
     @Column(name = "reg_date")
@@ -34,5 +35,8 @@ public class Doc extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctype_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    DocType docType;
+    private DocType docType;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doc")
+    private List<DocValuedFields> docValuedFields;
 }
