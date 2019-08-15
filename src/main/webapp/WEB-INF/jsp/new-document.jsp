@@ -54,8 +54,8 @@
                                 <div class="col-md-6">&nbsp;</div>
                             </div>
                         </div>
-                        <div id="templateQuestion" class="d-none card p-3">
-                            <h5 class="templateQuestionName"></h5>
+                        <div id="templateBlock" class="d-none card p-3">
+                            <h5 class="templateBlockName"></h5>
                             <div class="card-body">
                                 <div class="row card mb-3" id="blockQuestion" req="true">
                                     <div class="col-12">
@@ -69,7 +69,7 @@
                                                 </div>
                                             </div>
                                             <hr>
-                                            <div class="row templateQuestionSelect"></div>
+                                            <div class="row templateBlockSelect"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -105,9 +105,9 @@
         $("#selectType").change(function(){
             var asd = $("#selectType").val();
             if(asd == 0) {
-                $("#templateForm, #templateQuestion").addClass("d-none");
+                $("#templateForm, #templateBlock").addClass("d-none");
             } else {
-                $("#templateForm, #templateQuestion").removeClass("d-none");
+                $("#templateForm, #templateBlock").removeClass("d-none");
                 // Список полей по виду документа
                 var typeDocument = "rest/profile/doctypes/" + asd + "/fields";
                 $.getJSON(typeDocument, function(dataType) {
@@ -122,22 +122,22 @@
                             $(".inputDateName").html('<i class="fas fa-calendar-alt mr-2"></i>' + rowType.field.name);
                         }
                         if(rowType.field.fieldType === "GROUP_FIELDS") {
-                            $(".templateQuestionName").html(rowType.field.name);
+                            $(".templateBlockName").html(rowType.field.name);
                             // Количество селектов в базе
-                            var sumFieldsSelect = rowType.field.childField.length;
+                            var sumSelectBase = rowType.field.childField.length;
                             // Количество селектов на странице
-                            var linksSelect = $("[seq='true']").length;
+                            var sumSelectPage = $("[seq='true']").length;
                             for(var k in rowType.field.childField) {
-                                var rowChildField = rowType.field.childField[k];
-                                var selectField = ".selectField" + rowChildField.catalog_id + "Id";
-                                // Генерируемых селектов должно быть меньше чем в базе
-                                if(sumFieldsSelect > linksSelect) {
-                                    $(".templateQuestionSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowChildField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select selectField' + rowChildField.catalog_id + 'Id" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option>');
-                                    var optionQuestion = "rest/profile/catalogs/" + rowChildField.catalog_id + "/elems";
+                                var rowSelectField = rowType.field.childField[k];
+                                var selectFieldName = "selectField" + rowSelectField.catalog_id;
+                                // Количество селектов на странице должно быть меньше чем в базе
+                                if(sumSelectBase > sumSelectPage) {
+                                    var optionQuestion = "rest/profile/catalogs/" + rowSelectField.catalog_id + "/elems";
+                                    $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option>');
                                     $.getJSON(optionQuestion, function(dataOption) {
                                         for(var e in dataOption) {
                                             var rowOption = dataOption[e];
-                                            $(selectField).append('<option value="' + rowOption.id + '">' + rowOption.valueStr + '</option>');
+                                            $('#' + selectFieldName).append('<option value="' + rowOption.id + '">' + rowOption.valueStr + '</option>');
                                         }
                                     });
                                 }
@@ -147,7 +147,7 @@
                 })
                 .done(function(response){
                     if(response.length == 0){
-                        $("#templateForm, #templateQuestion").addClass("d-none");
+                        $("#templateForm, #templateBlock").addClass("d-none");
                     }
                 });
             }
@@ -155,9 +155,18 @@
         // Кнопка отправки
         $('.submitBtn').click(function(event){
             event.preventDefault();
-            var dataNewDocArray = {};
-            $("")
-            //$('#templateForm, #templateQuestion').addClass("d-none");
+            var serverStack = $(".registrationForm").serializeArray();
+            /*$(".registrationForm").find('input, textarea, select').each(function(){
+                var valueObj = {
+                    'name' : $(this).attr('id'),
+                    'value' : $(this).val()
+                }
+                // Преобразуем в JSON
+                var serverStack = JSON.stringify(valueObj);
+                console.log(serverStack);
+            });*/
+            console.log(serverStack);
+            //$('#templateForm, #templateBlock').addClass("d-none");
         });
     });
 </script>

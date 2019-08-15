@@ -8,7 +8,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <p class="heading lead">Документ успешно зарегистрирован!</p>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close reloadButton" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="white-text">&times;</span>
                 </button>
             </div>
