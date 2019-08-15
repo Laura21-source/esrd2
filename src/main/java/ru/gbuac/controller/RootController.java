@@ -41,11 +41,19 @@ public class RootController {
         return "login";
     }
 
-    @GetMapping(value = "/project")
-    public String project() {
-        return "project";
+    @GetMapping(value = "/new-document")
+    public String newDocument() {
+        return "new-document";
     }
 
-    @GetMapping(value = "/agree")
-    public String agree() {return "agree";}
+    @GetMapping(value = "/view-document")
+    public String viewDocument() {
+        return "view-document";
+    }
+
+    @GetMapping(value = "/agree-document")
+    public String agreeDocument() {return "agree-document";}
+
+    @GetMapping(value = "/mailing")
+    public String mailing() {return "mailing";}
 }

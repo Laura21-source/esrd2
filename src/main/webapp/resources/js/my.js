@@ -21,9 +21,11 @@ $(function() {
     // Добавляем к id полей номер добавляемого вопроса
     $('#blockQuestion' + links + ' #nameQuestion').attr('id', 'nameQuestion' + links);
     $('#blockQuestion' + links + ' #delQuestion').attr('id', 'delQuestion' + links);
-    $('#blockQuestion' + links + ' #selectTheme').attr('id', 'selectTheme' + links);
-    $('#blockQuestion' + links + ' #selectOrganisation').attr('id', 'selectOrganisation' + links);
-    $('#blockQuestion' + links + ' #selectCrucial').attr('id', 'selectCrucial' + links);
+    $('#blockQuestion' + links).find('select').each(function(){
+      var selectAttr = $(this).attr("name");
+      $('#blockQuestion' + links + selectAttr).attr('name', selectAttr + links);
+      //alert(selectAttr + links);
+    });
     $('#blockQuestion' + links + ' select option').prop('selected', false);
     $('#nameQuestion' + links).html("Вопрос " + links1);
     $('#delQuestion' + links).removeClass('d-none');
@@ -51,16 +53,6 @@ $(function() {
     $('#blockRecipient' + id).remove();
   });
 
-  // Показываем или прячем поля
-  $("#selectType").change(function(){
-    var asd = $("#selectType").val();
-    if(asd == 0) {
-      $('#formField').css('display','none').fadeOut(1000);
-    } else {
-      $('#formField').css('display','block').fadeIn(1000);
-    }
-  });
-  
   // Отмена закрытия полей
   $("#editDocument").click(function(e){
     e.preventDefault();
@@ -68,7 +60,6 @@ $(function() {
     $("#saveDocument").removeClass("d-none");
     $("#closeDocument").addClass("d-none");
     $("option, #inputDate, #inputTime, .addQuestion").attr("disabled",false);
-    //$(".mdb-select li").removeClass("disabled");
   });
 
   $("#saveDocument").click(function(e){
@@ -77,13 +68,10 @@ $(function() {
     $("#editDocument").removeClass("d-none");
     $("#closeDocument").removeClass("d-none");
     $("option, #inputDate, #inputTime, .addQuestion").attr("disabled",true);
-    //$(".mdb-select li").addClass("disabled");
   });
 
-  // Кнопка отправки
-  $('.submitBtn').click(function(event){
-    event.preventDefault();
-    $('#formField').css('display','none').fadeOut(1000);
+  $(".reloadButton").click(function(){
+    location.reload();
   });
-  
+
 });

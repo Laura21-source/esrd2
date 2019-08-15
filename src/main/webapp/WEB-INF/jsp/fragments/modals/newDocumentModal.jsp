@@ -8,7 +8,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <p class="heading lead">Документ успешно зарегистрирован!</p>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close reloadButton" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="white-text">&times;</span>
                 </button>
             </div>
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-center">
-                <a type="button" class="btn btn-success rounded" data-dismiss="modal">Продолжить работу</a>
+                <a type="button" class="btn btn-success rounded reloadButton" data-dismiss="modal">Продолжить работу</a>
             </div>
         </div>
     </div>
