@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.service.DocTypeFieldsService;
-import ru.gbuac.to.DocTypeFieldsTo;
+import ru.gbuac.to.DocFieldsTo;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public abstract class AbstractDocTypeFieldsRestController {
         return docTypeFieldsService.getAll(docTypeId);
     }
 
-    public List<DocTypeFieldsTo> getAllFull(int docTypeId) {
+    public List<DocFieldsTo> getAllFull(int docTypeId) {
         LOG.info("getAllFull");
         return docTypeFieldsService.getAllFull(docTypeId);
     }

@@ -1,16 +1,12 @@
 package ru.gbuac.to;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ru.gbuac.model.BaseEntity;
 import ru.gbuac.model.DocType;
 import ru.gbuac.model.Role;
 
-public class DocTypeFieldsTo {
+public class DocFieldsTo {
     @JsonIgnore
     protected Integer id;
-
-    @JsonIgnore
-    DocType docType;
 
     FieldTo field;
 
@@ -18,9 +14,8 @@ public class DocTypeFieldsTo {
 
     private Role role;
 
-    public DocTypeFieldsTo(Integer id, DocType docType, FieldTo field, Integer position, Role role) {
+    public DocFieldsTo(Integer id, FieldTo field, Integer position, Role role) {
         this.id = id;
-        this.docType = docType;
         this.field = field;
         this.position = position;
         this.role = role;
@@ -28,10 +23,6 @@ public class DocTypeFieldsTo {
 
     public Integer getId() {
         return id;
-    }
-
-    public DocType getDocType() {
-        return docType;
     }
 
     public FieldTo getField() {
@@ -51,10 +42,9 @@ public class DocTypeFieldsTo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DocTypeFieldsTo that = (DocTypeFieldsTo) o;
+        DocFieldsTo that = (DocFieldsTo) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (docType != null ? !docType.equals(that.docType) : that.docType != null) return false;
         if (field != null ? !field.equals(that.field) : that.field != null) return false;
         if (position != null ? !position.equals(that.position) : that.position != null) return false;
         return role == that.role;
@@ -63,7 +53,6 @@ public class DocTypeFieldsTo {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (docType != null ? docType.hashCode() : 0);
         result = 31 * result + (field != null ? field.hashCode() : 0);
         result = 31 * result + (position != null ? position.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
@@ -74,7 +63,6 @@ public class DocTypeFieldsTo {
     public String toString() {
         return "DocTypeFieldsTo{" +
                 " id=" + id +
-                ", docType=" + docType +
                 ", field=" + field +
                 ", position=" + position +
                 ", role=" + role +

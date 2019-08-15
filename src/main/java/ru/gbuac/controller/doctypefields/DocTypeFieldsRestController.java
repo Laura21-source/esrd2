@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.gbuac.model.DocTypeFields;
-import ru.gbuac.model.Field;
-import ru.gbuac.to.DocTypeFieldsTo;
+import ru.gbuac.to.DocFieldsTo;
 
 import java.util.List;
 
@@ -18,7 +16,7 @@ public class DocTypeFieldsRestController extends AbstractDocTypeFieldsRestContro
 
     @Override
     @GetMapping
-    public List<DocTypeFieldsTo> getAllFull(@PathVariable("docTypeId") int docTypeId) {
+    public List<DocFieldsTo> getAllFull(@PathVariable("docTypeId") int docTypeId) {
         return super.getAllFull(docTypeId);
     }
 }

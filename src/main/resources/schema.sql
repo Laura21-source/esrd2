@@ -103,9 +103,9 @@ CREATE TABLE valuedfield
 
 CREATE TABLE valuedfield_child_valuedfield
 (
-    valuedfield_id          INTEGER                         ,
+    valued_field_id          INTEGER                         ,
     child_valuedfield_id    INTEGER                         ,
-    FOREIGN KEY (valuedfield_id) REFERENCES valuedfield (id) ON DELETE CASCADE,
+    FOREIGN KEY (valued_field_id) REFERENCES valuedfield (id) ON DELETE CASCADE,
     FOREIGN KEY (child_valuedfield_id) REFERENCES valuedfield (id) ON DELETE CASCADE
 );
 

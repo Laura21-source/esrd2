@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.CatalogElemRepository;
 import ru.gbuac.model.CatalogElem;
+import ru.gbuac.to.CatalogElemTo;
 import ru.gbuac.util.exception.NotFoundException;
+
+import java.util.ArrayList;
 import java.util.List;
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
@@ -22,8 +25,15 @@ public class CatalogElemServiceImpl implements CatalogElemService{
     }
 
     @Override
-    public List<CatalogElem> getAll(int catalogId) {
-        return catalogElemRepository.getAll(catalogId);
+    public List<CatalogElemTo> getAll(int catalogId) {
+        List<CatalogElem> catalogElems = catalogElemRepository.getAll(catalogId);
+        List<CatalogElemTo> catalogElemTos = new ArrayList<>();
+        for (CatalogElem c : catalogElems) {
+            catalogElemTos.add(new CatalogElemTo(c.getId(), null, c.getValueInt(),
+                    c.getValueStr(), c.getCatalog().getId()));
+        }
+
+        return catalogElemTos;
     }
 
     @Override

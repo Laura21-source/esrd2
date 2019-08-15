@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.gbuac.model.CatalogElem;
+import ru.gbuac.to.CatalogElemTo;
+
 import java.util.List;
 
 @RestController
@@ -15,7 +16,7 @@ public class CatalogElemRestController extends AbstractCatalogElemRestController
 
     @Override
     @GetMapping
-    public List<CatalogElem> getAll(@PathVariable("catalogId") int catalogId) {
+    public List<CatalogElemTo> getAll(@PathVariable("catalogId") int catalogId) {
         return super.getAll(catalogId);
     }
 }
