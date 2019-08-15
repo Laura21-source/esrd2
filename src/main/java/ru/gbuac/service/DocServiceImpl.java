@@ -1,5 +1,6 @@
 package ru.gbuac.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.DocRepository;
@@ -11,6 +12,7 @@ import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 @Service
 public class DocServiceImpl implements DocService {
 
+    @Autowired
     private DocRepository docRepository;
 
     @Override

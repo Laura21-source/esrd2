@@ -95,7 +95,9 @@ CREATE TABLE valuedfield
     catalogelem_id    INTEGER                         ,
     value_int         INTEGER                         ,
     value_str         VARCHAR                         ,
-    value_date        TIMESTAMP                       ,
+    value_date        DATE                            ,
+    value_time        TIME                            ,
+    value_datetime    TIMESTAMP                       ,
     FOREIGN KEY (catalogelem_id) REFERENCES catalogelem (id) ON DELETE CASCADE
 );
 

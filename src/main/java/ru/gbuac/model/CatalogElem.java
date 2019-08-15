@@ -1,5 +1,6 @@
 package ru.gbuac.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,17 +18,18 @@ import javax.validation.constraints.NotNull;
 public class CatalogElem extends BaseEntity {
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="parent_catalogelem_id")
-    CatalogElem idParentCatalogElem;
+    private CatalogElem idParentCatalogElem;
 
     @Column(name = "value_int")
-    String valueInt;
+    private String valueInt;
 
     @Column(name = "value_str")
-    String valueStr;
+    private String valueStr;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "catalog_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    Catalog catalog;
+    @JsonIgnore
+    private Catalog catalog;
 }

@@ -15,22 +15,28 @@ import java.util.List;
 @Table(name = "valuedfield")
 public class ValuedField extends BaseEntity{
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    List<ValuedField> childValuedfield;
+    private List<ValuedField> childValuedfield;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "field_id", nullable = false)
-    Field field;
+    private Field field;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "catalogelem_id", nullable = true)
-    CatalogElem catalogElem;
+    private CatalogElem catalogElem;
 
     @Column(name = "value_int")
-    Integer valueInt;
+    private Integer valueInt;
 
     @Column(name = "value_str")
-    String valueStr;
+    private String valueStr;
 
     @Column(name = "value_date")
-    LocalDateTime valueDate;
+    private LocalDateTime valueDate;
+
+    @Column(name = "value_time")
+    private LocalDateTime valueTime;
+
+    @Column(name = "value_datetime")
+    private LocalDateTime valueDateTime;
 }
