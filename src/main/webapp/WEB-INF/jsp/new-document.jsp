@@ -135,8 +135,8 @@
                                     var optionQuestion = "rest/profile/catalogs/" + rowSelectField.catalog_id + "/elems";
                                     $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option>');
                                     $.getJSON(optionQuestion, function(dataOption) {
-                                        for(var e in dataOption) {
-                                            var rowOption = dataOption[e];
+                                        for(var y in dataOption) {
+                                            var rowOption = dataOption[y];
                                             $('#' + selectFieldName).append('<option value="' + rowOption.id + '">' + rowOption.valueStr + '</option>');
                                         }
                                     });
