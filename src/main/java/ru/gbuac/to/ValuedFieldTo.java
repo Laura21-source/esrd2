@@ -1,34 +1,30 @@
 package ru.gbuac.to;
 
-import ru.gbuac.model.CatalogElem;
-import ru.gbuac.model.Field;
-import ru.gbuac.model.FieldType;
 import ru.gbuac.model.ValuedField;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ValuedFieldTo extends BaseTo {
 
-    Integer field_id;
+    Integer fieldId;
 
     String value;
 
-    List<ValuedField> child_fields;
+    List<ValuedField> childFields;
 
-    public ValuedFieldTo(Integer id, Integer field_id, String value, List<ValuedField> child_fields) {
+    public ValuedFieldTo(Integer id, Integer fieldId, String value, List<ValuedField> childFields) {
         super(id);
-        this.field_id = field_id;
+        this.fieldId = fieldId;
         this.value = value;
-        this.child_fields = child_fields;
+        this.childFields = childFields;
     }
 
-    public Integer getField_id() {
-        return field_id;
+    public Integer getFieldId() {
+        return fieldId;
     }
 
-    public void setField_id(Integer field_id) {
-        this.field_id = field_id;
+    public void setFieldId(Integer fieldId) {
+        this.fieldId = fieldId;
     }
 
     public String getValue() {
@@ -39,12 +35,12 @@ public class ValuedFieldTo extends BaseTo {
         this.value = value;
     }
 
-    public List<ValuedField> getChild_fields() {
-        return child_fields;
+    public List<ValuedField> getChildFields() {
+        return childFields;
     }
 
-    public void setChild_fields(List<ValuedField> child_fields) {
-        this.child_fields = child_fields;
+    public void setChildFields(List<ValuedField> childFields) {
+        this.childFields = childFields;
     }
 
     @Override
@@ -54,16 +50,16 @@ public class ValuedFieldTo extends BaseTo {
 
         ValuedFieldTo that = (ValuedFieldTo) o;
 
-        if (field_id != null ? !field_id.equals(that.field_id) : that.field_id != null) return false;
+        if (fieldId != null ? !fieldId.equals(that.fieldId) : that.fieldId != null) return false;
         if (value != null ? !value.equals(that.value) : that.value != null) return false;
-        return child_fields != null ? child_fields.equals(that.child_fields) : that.child_fields == null;
+        return childFields != null ? childFields.equals(that.childFields) : that.childFields == null;
     }
 
     @Override
     public int hashCode() {
-        int result = field_id != null ? field_id.hashCode() : 0;
+        int result = fieldId != null ? fieldId.hashCode() : 0;
         result = 31 * result + (value != null ? value.hashCode() : 0);
-        result = 31 * result + (child_fields != null ? child_fields.hashCode() : 0);
+        result = 31 * result + (childFields != null ? childFields.hashCode() : 0);
         return result;
     }
 
@@ -71,9 +67,9 @@ public class ValuedFieldTo extends BaseTo {
     public String toString() {
         return "ValuedFieldTo{" +
                 "id=" + id +
-                ", field_id=" + field_id +
+                ", field_id=" + fieldId +
                 ", value='" + value + '\'' +
-                ", child_fields=" + child_fields +
+                ", child_fields=" + childFields +
                 '}';
     }
 }

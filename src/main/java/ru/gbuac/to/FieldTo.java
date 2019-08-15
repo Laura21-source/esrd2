@@ -3,7 +3,7 @@ package ru.gbuac.to;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ru.gbuac.model.Field;
 import ru.gbuac.model.FieldType;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,16 +12,16 @@ public class FieldTo extends BaseTo {
     @JsonInclude
     String name;
 
-    List<FieldTo> child_fields;
+    List<FieldTo> childFields;
 
     @JsonInclude
-    Integer field_id;
+    Integer fieldId;
 
     @JsonInclude
-    FieldType fieldtype;
+    FieldType fieldType;
 
     @JsonInclude
-    Integer position_in_group;
+    Integer positionInGroup;
 
     @JsonInclude
     Integer maxCount;
@@ -30,34 +30,34 @@ public class FieldTo extends BaseTo {
     Integer length;
 
     @JsonInclude
-    Integer catalog_id;
+    Integer catalogId;
 
     @JsonInclude
     String value;
 
     public FieldTo(Field field) {
         this.name = field.getName();
-        this.field_id = field.getId();
-        this.fieldtype = field.getFieldType();
-        this.position_in_group = field.getPositionInGroup();
+        this.fieldId = field.getId();
+        this.fieldType = field.getFieldType();
+        this.positionInGroup = field.getPositionInGroup();
         this.maxCount = field.getMaxCount();
         this.length = field.getLength();
-        this.catalog_id = field.getCatalog_id();
-        this.child_fields = new ArrayList<>();
+        this.catalogId = field.getCatalog_id();
+        this.childFields = new ArrayList<>();
         for (Field childField : field.getChildField()) {
-            this.child_fields.add(FieldTo(childField));
+            this.childFields.add(FieldTo(childField));
         }
     }
 
-    public FieldTo(String name, List<FieldTo> child_fields, Integer field_id, FieldType fieldtype, Integer position_in_group, Integer maxCount, Integer length, Integer catalog_id) {
+    public FieldTo(String name, List<FieldTo> childFields, Integer fieldId, FieldType fieldType, Integer positionInGroup, Integer maxCount, Integer length, Integer catalogId) {
         this.name = name;
-        this.child_fields = child_fields;
-        this.field_id = field_id;
-        this.fieldtype = fieldtype;
-        this.position_in_group = position_in_group;
+        this.childFields = childFields;
+        this.fieldId = fieldId;
+        this.fieldType = fieldType;
+        this.positionInGroup = positionInGroup;
         this.maxCount = maxCount;
         this.length = length;
-        this.catalog_id = catalog_id;
+        this.catalogId = catalogId;
     }
 
     public FieldTo FieldTo(Field field) {
@@ -66,7 +66,7 @@ public class FieldTo extends BaseTo {
                 field.getCatalog_id());
 
         for (Field childField : field.getChildField()) {
-            fieldTo.child_fields.add(FieldTo(childField));
+            fieldTo.childFields.add(FieldTo(childField));
         }
         return fieldTo;
     }
@@ -79,36 +79,36 @@ public class FieldTo extends BaseTo {
         this.name = name;
     }
 
-    public List<FieldTo> getChild_fields() {
-        return child_fields;
+    public List<FieldTo> getChildFields() {
+        return childFields;
     }
 
-    public void setChild_fields(List<FieldTo> child_fields) {
-        this.child_fields = child_fields;
+    public void setChildFields(List<FieldTo> childFields) {
+        this.childFields = childFields;
     }
 
-    public Integer getField_id() {
-        return field_id;
+    public Integer getFieldId() {
+        return fieldId;
     }
 
-    public void setField_id(Integer field_id) {
-        this.field_id = field_id;
+    public void setFieldId(Integer fieldId) {
+        this.fieldId = fieldId;
     }
 
-    public FieldType getFieldtype() {
-        return fieldtype;
+    public FieldType getFieldType() {
+        return fieldType;
     }
 
-    public void setFieldtype(FieldType fieldtype) {
-        this.fieldtype = fieldtype;
+    public void setFieldType(FieldType fieldType) {
+        this.fieldType = fieldType;
     }
 
-    public Integer getPosition_in_group() {
-        return position_in_group;
+    public Integer getPositionInGroup() {
+        return positionInGroup;
     }
 
-    public void setPosition_in_group(Integer position_in_group) {
-        this.position_in_group = position_in_group;
+    public void setPositionInGroup(Integer positionInGroup) {
+        this.positionInGroup = positionInGroup;
     }
 
     public Integer getMaxCount() {
@@ -127,12 +127,12 @@ public class FieldTo extends BaseTo {
         this.length = length;
     }
 
-    public Integer getCatalog_id() {
-        return catalog_id;
+    public Integer getCatalogId() {
+        return catalogId;
     }
 
-    public void setCatalog_id(Integer catalog_id) {
-        this.catalog_id = catalog_id;
+    public void setCatalogId(Integer catalogId) {
+        this.catalogId = catalogId;
     }
 
     public String getValue() {
@@ -151,28 +151,28 @@ public class FieldTo extends BaseTo {
         FieldTo fieldTo = (FieldTo) o;
 
         if (name != null ? !name.equals(fieldTo.name) : fieldTo.name != null) return false;
-        if (child_fields != null ? !child_fields.equals(fieldTo.child_fields) : fieldTo.child_fields != null)
+        if (childFields != null ? !childFields.equals(fieldTo.childFields) : fieldTo.childFields != null)
             return false;
-        if (field_id != null ? !field_id.equals(fieldTo.field_id) : fieldTo.field_id != null) return false;
-        if (fieldtype != fieldTo.fieldtype) return false;
-        if (position_in_group != null ? !position_in_group.equals(fieldTo.position_in_group) : fieldTo.position_in_group != null)
+        if (fieldId != null ? !fieldId.equals(fieldTo.fieldId) : fieldTo.fieldId != null) return false;
+        if (fieldType != fieldTo.fieldType) return false;
+        if (positionInGroup != null ? !positionInGroup.equals(fieldTo.positionInGroup) : fieldTo.positionInGroup != null)
             return false;
         if (maxCount != null ? !maxCount.equals(fieldTo.maxCount) : fieldTo.maxCount != null) return false;
         if (length != null ? !length.equals(fieldTo.length) : fieldTo.length != null) return false;
-        if (catalog_id != null ? !catalog_id.equals(fieldTo.catalog_id) : fieldTo.catalog_id != null) return false;
+        if (catalogId != null ? !catalogId.equals(fieldTo.catalogId) : fieldTo.catalogId != null) return false;
         return value != null ? value.equals(fieldTo.value) : fieldTo.value == null;
     }
 
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (child_fields != null ? child_fields.hashCode() : 0);
-        result = 31 * result + (field_id != null ? field_id.hashCode() : 0);
-        result = 31 * result + (fieldtype != null ? fieldtype.hashCode() : 0);
-        result = 31 * result + (position_in_group != null ? position_in_group.hashCode() : 0);
+        result = 31 * result + (childFields != null ? childFields.hashCode() : 0);
+        result = 31 * result + (fieldId != null ? fieldId.hashCode() : 0);
+        result = 31 * result + (fieldType != null ? fieldType.hashCode() : 0);
+        result = 31 * result + (positionInGroup != null ? positionInGroup.hashCode() : 0);
         result = 31 * result + (maxCount != null ? maxCount.hashCode() : 0);
         result = 31 * result + (length != null ? length.hashCode() : 0);
-        result = 31 * result + (catalog_id != null ? catalog_id.hashCode() : 0);
+        result = 31 * result + (catalogId != null ? catalogId.hashCode() : 0);
         result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
     }
@@ -182,13 +182,13 @@ public class FieldTo extends BaseTo {
         return "FieldTo{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", child_fields=" + child_fields +
-                ", field_id=" + field_id +
-                ", fieldtype=" + fieldtype +
-                ", position_in_group=" + position_in_group +
+                ", child_fields=" + childFields +
+                ", field_id=" + fieldId +
+                ", fieldtype=" + fieldType +
+                ", position_in_group=" + positionInGroup +
                 ", maxCount=" + maxCount +
                 ", length=" + length +
-                ", catalog_id=" + catalog_id +
+                ", catalog_id=" + catalogId +
                 ", value='" + value + '\'' +
                 '}';
     }
