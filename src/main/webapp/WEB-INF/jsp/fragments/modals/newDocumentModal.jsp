@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-center">
-                <a type="button" class="btn btn-success rounded" data-dismiss="modal">Продолжить работу</a>
+                <a type="button" class="btn btn-success rounded reloadButton" data-dismiss="modal">Продолжить работу</a>
             </div>
         </div>
     </div>

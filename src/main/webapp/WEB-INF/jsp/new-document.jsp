@@ -152,7 +152,13 @@
                 });
             }
         });
-
+        // Кнопка отправки
+        $('.submitBtn').click(function(event){
+            event.preventDefault();
+            var dataNewDocArray = {};
+            $("")
+            //$('#templateForm, #templateQuestion').addClass("d-none");
+        });
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>

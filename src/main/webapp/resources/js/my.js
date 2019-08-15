@@ -70,10 +70,8 @@ $(function() {
     //$(".mdb-select li").addClass("disabled");
   });
 
-  // Кнопка отправки
-  $('.submitBtn').click(function(event){
-    event.preventDefault();
-    $('#formField').css('display','none').fadeOut(1000);
+  $(".reloadButton").click(function(){
+    location.reload();
   });
 
 });
