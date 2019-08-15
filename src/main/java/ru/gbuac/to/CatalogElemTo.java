@@ -1,22 +1,20 @@
 package ru.gbuac.to;
 
-import javax.persistence.criteria.CriteriaBuilder;
-
 public class CatalogElemTo extends BaseTo {
-    Integer id_parent_catalogelem;
+    Integer idParentCatalogelem;
 
-    String value_int;
+    String valueInt;
 
-    String value_str;
+    String valueStr;
 
-    Integer catalog_id;
+    Integer catalogId;
 
-    public CatalogElemTo(Integer id, Integer id_parent_catalogelem, String value_int, String value_str, Integer catalog_id) {
+    public CatalogElemTo(Integer id, Integer idParentCatalogelem, String valueInt, String valueStr, Integer catalogId) {
         super(id);
-        this.id_parent_catalogelem = id_parent_catalogelem;
-        this.value_int = value_int;
-        this.value_str = value_str;
-        this.catalog_id = catalog_id;
+        this.idParentCatalogelem = idParentCatalogelem;
+        this.valueInt = valueInt;
+        this.valueStr = valueStr;
+        this.catalogId = catalogId;
     }
 
     @Override
@@ -26,19 +24,19 @@ public class CatalogElemTo extends BaseTo {
 
         CatalogElemTo that = (CatalogElemTo) o;
 
-        if (id_parent_catalogelem != null ? !id_parent_catalogelem.equals(that.id_parent_catalogelem) : that.id_parent_catalogelem != null)
+        if (idParentCatalogelem != null ? !idParentCatalogelem.equals(that.idParentCatalogelem) : that.idParentCatalogelem != null)
             return false;
-        if (value_int != null ? !value_int.equals(that.value_int) : that.value_int != null) return false;
-        if (value_str != null ? !value_str.equals(that.value_str) : that.value_str != null) return false;
-        return catalog_id != null ? catalog_id.equals(that.catalog_id) : that.catalog_id == null;
+        if (valueInt != null ? !valueInt.equals(that.valueInt) : that.valueInt != null) return false;
+        if (valueStr != null ? !valueStr.equals(that.valueStr) : that.valueStr != null) return false;
+        return catalogId != null ? catalogId.equals(that.catalogId) : that.catalogId == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id_parent_catalogelem != null ? id_parent_catalogelem.hashCode() : 0;
-        result = 31 * result + (value_int != null ? value_int.hashCode() : 0);
-        result = 31 * result + (value_str != null ? value_str.hashCode() : 0);
-        result = 31 * result + (catalog_id != null ? catalog_id.hashCode() : 0);
+        int result = idParentCatalogelem != null ? idParentCatalogelem.hashCode() : 0;
+        result = 31 * result + (valueInt != null ? valueInt.hashCode() : 0);
+        result = 31 * result + (valueStr != null ? valueStr.hashCode() : 0);
+        result = 31 * result + (catalogId != null ? catalogId.hashCode() : 0);
         return result;
     }
 
@@ -46,10 +44,10 @@ public class CatalogElemTo extends BaseTo {
     public String toString() {
         return "CatalogElemTo{" +
                 "id=" + id +
-                ", id_parent_catalogelem=" + id_parent_catalogelem +
-                ", value_int='" + value_int + '\'' +
-                ", value_str='" + value_str + '\'' +
-                ", catalog_id=" + catalog_id +
+                ", id_parent_catalogelem=" + idParentCatalogelem +
+                ", value_int='" + valueInt + '\'' +
+                ", value_str='" + valueStr + '\'' +
+                ", catalog_id=" + catalogId +
                 '}';
     }
 }
