@@ -137,9 +137,9 @@
                                     $.getJSON("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", function(dataOption) {
                                         for(var y in dataOption) {
                                             var rowOption = dataOption[y];
-                                            $('#selectField' + rowOption.catalog).append('<option value="' + rowOption.id + '">' + rowOption.valueStr + '</option>');
+                                            $('#selectField' + rowOption.catalogId).append('<option value="' + rowOption.id + '">' + rowOption.valueStr + '</option>');
                                         }
-                                    })
+                                    });
                                 }
                             }
                         }
