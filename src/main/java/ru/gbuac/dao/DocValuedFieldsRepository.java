@@ -6,16 +6,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gbuac.model.DocTypeFields;
+import ru.gbuac.model.DocValuedFields;
 
 import java.util.List;
 
 @Transactional(readOnly = true)
-public interface DocTypeFieldsRepository extends JpaRepository<DocTypeFields, Integer> {
+public interface DocValuedFieldsRepository extends JpaRepository<DocValuedFields, Integer> {
     @Transactional
     @Modifying
-    @Query("DELETE FROM DocTypeFields d WHERE d.id=:id AND d.docType.id=:docTypeId")
-    int delete(@Param("id") int id, @Param("docTypeId") int docTypeId);
+    @Query("DELETE FROM DocValuedFields d WHERE d.id=:id AND d.doc.id=:docId")
+    int delete(@Param("id") int id, @Param("docId") int docId);
 
-    @Query("SELECT d FROM DocTypeFields d WHERE d.docType.id=:docTypeId ORDER BY d.position ASC")
-    List<DocTypeFields> getAll(@Param("docTypeId") int docTypeId);
+    @Query("SELECT d FROM DocValuedFields d WHERE d.doc.id=:docId ORDER BY d.position ASC")
+    List<DocValuedFields> getAll(@Param("docId") int docId);
 }

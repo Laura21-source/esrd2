@@ -1,24 +1,22 @@
-DROP TABLE IF EXISTS valuedfield;
-
 DROP TABLE IF EXISTS field_child_field;
 
 DROP TABLE IF EXISTS doctype_fields;
 
-DROP TABLE IF EXISTS fieldvalues;
-
-DROP TABLE IF EXISTS value;
-
-DROP TABLE IF EXISTS catalogelem;
-
-DROP TABLE IF EXISTS doc_valuedfields;
-
 DROP TABLE IF EXISTS field;
 
-DROP TABLE IF EXISTS catalog;
+DROP TABLE IF EXISTS valuedfield_child_valuedfield;
+
+DROP TABLE IF EXISTS doc_valuedfields;
 
 DROP TABLE IF EXISTS doc;
 
 DROP TABLE IF EXISTS doctype;
+
+DROP TABLE IF EXISTS valuedfield;
+
+DROP TABLE IF EXISTS catalogelem;
+
+DROP TABLE IF EXISTS catalog;
 
 DROP SEQUENCE IF EXISTS global_seq;
 
@@ -75,7 +73,7 @@ CREATE TABLE field_child_field
     field_id          INTEGER                         ,
     child_field_id    INTEGER                         ,
     FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE,
-    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE
+    FOREIGN KEY (child_field_id) REFERENCES field (id) ON DELETE CASCADE
 );
 
 CREATE TABLE doctype_fields
@@ -90,32 +88,33 @@ CREATE TABLE doctype_fields
     FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE
 );
 
-CREATE TABLE value
+CREATE TABLE valuedfield
 (
-    id                     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    catalogelem_id         INTEGER                         ,
-    value_int              INTEGER                         ,
-    value_str              VARCHAR                         ,
-    value_date             TIMESTAMP                       ,
+    id                INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    field_id          INTEGER                 NOT NULL,
+    catalogelem_id    INTEGER                         ,
+    value_int         INTEGER                         ,
+    value_str         VARCHAR                         ,
+    value_date        TIMESTAMP                       ,
     FOREIGN KEY (catalogelem_id) REFERENCES catalogelem (id) ON DELETE CASCADE
 );
 
-CREATE TABLE fieldvalues
+CREATE TABLE valuedfield_child_valuedfield
 (
-    field_id               INTEGER                         ,
-    value_id               INTEGER                         ,
-    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE,
-    FOREIGN KEY (value_id) REFERENCES value (id) ON DELETE CASCADE
+    valuedfield_id          INTEGER                         ,
+    child_valuedfield_id    INTEGER                         ,
+    FOREIGN KEY (valuedfield_id) REFERENCES valuedfield (id) ON DELETE CASCADE,
+    FOREIGN KEY (child_valuedfield_id) REFERENCES valuedfield (id) ON DELETE CASCADE
 );
 
 CREATE TABLE doc_valuedfields
 (
     id                     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     doc_id                 INTEGER                 NOT NULL,
-    field_id               INTEGER                 NOT NULL,
-    position_fact          INTEGER                 NOT NULL,
+    valuedfield_id         INTEGER                 NOT NULL,
+    position               INTEGER                 NOT NULL,
     FOREIGN KEY (doc_id) REFERENCES doc (id) ON DELETE CASCADE,
-    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE
+    FOREIGN KEY (valuedfield_id) REFERENCES valuedfield (id) ON DELETE CASCADE
 );
 
 

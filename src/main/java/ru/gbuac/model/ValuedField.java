@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -14,6 +14,16 @@ import javax.persistence.Table;
 @Setter
 @Table(name = "valuedfield")
 public class ValuedField extends BaseEntity{
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    List<ValuedField> childValuedfield;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "field_id", nullable = false)
+    Field field;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "catalogelem_id", nullable = true)
+    CatalogElem catalogElem;
 
     @Column(name = "value_int")
     Integer valueInt;
@@ -22,5 +32,5 @@ public class ValuedField extends BaseEntity{
     String valueStr;
 
     @Column(name = "value_date")
-    String valueDate;
+    LocalDateTime valueDate;
 }
