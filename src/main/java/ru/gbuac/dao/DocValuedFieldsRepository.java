@@ -18,5 +18,5 @@ public interface DocValuedFieldsRepository extends JpaRepository<DocValuedFields
     int delete(@Param("id") int id, @Param("docId") int docId);
 
     @Query("SELECT d FROM DocValuedFields d WHERE d.doc.id=:docId ORDER BY d.position ASC")
-    List<DocTypeFields> getAll(@Param("docId") int docId);
+    List<DocValuedFields> getAll(@Param("docId") int docId);
 }
