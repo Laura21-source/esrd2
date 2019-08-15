@@ -124,16 +124,16 @@
                         if(rowType.field.fieldType === "GROUP_FIELDS") {
                             $(".templateBlockName").html(rowType.field.name);
                             // Количество селектов в базе
-                            var sumSelectBase = rowType.field.childField.length;
+                            var sumSelectBase = rowType.field.childFields.length;
                             // Количество селектов на странице
                             var sumSelectPage = $("[seq='true']").length;
-                            for(var k in rowType.field.childField) {
-                                var rowSelectField = rowType.field.childField[k];
-                                var selectFieldName = "selectField" + rowSelectField.catalog_id;
+                            for(var k in rowType.field.childFields) {
+                                var rowSelectField = rowType.field.childFields[k];
+                                var selectFieldName = "selectField" + rowSelectField.catalogId;
                                 // Количество селектов на странице должно быть меньше чем в базе
                                 if(sumSelectBase > sumSelectPage) {
-                                    var optionQuestion = "rest/profile/catalogs/" + rowSelectField.catalog_id + "/elems";
-                                    $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option>');
+                                    var optionQuestion = "rest/profile/catalogs/" + rowSelectField.catalogId + "/elems";
+                                    $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div>');
                                     $.getJSON(optionQuestion, function(dataOption) {
                                         for(var y in dataOption) {
                                             var rowOption = dataOption[y];
