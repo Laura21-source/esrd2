@@ -183,7 +183,7 @@
                                     } else {
                                         selectedField = '';
                                     }
-                                    $('#selectField' + rowOption.catalogId).append('<option value="' + rowOption.id + '" disabled selectedField>' + rowOption.valueStr + '</option>');
+                                    $('#selectField' + rowOption.catalogId).append('<option value="' + rowOption.id + '" ' + selectedField + ' disabled>' + rowOption.valueStr + '</option>');
                                 }
                             });
                         }
