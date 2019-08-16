@@ -28,11 +28,11 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Doc updateOrCreate(@Valid @RequestBody Doc doc) {
-        if (doc.isNew()) {
-            return super.create(doc);
+    public DocTo updateOrCreate(@RequestBody DocTo docTo) {
+        if (docTo.isNew()) {
+            return super.create(docTo);
         } else {
-            return super.update(doc, doc.getId());
+            return super.update(docTo, docTo.getId());
         }
     }
 

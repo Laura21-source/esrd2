@@ -51,7 +51,7 @@ public class DocServiceImpl implements DocService {
         }
 
         Doc doc = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
-        DocTo docTo = new DocTo(doc.getRegNum(), doc.getRegDate(), doc.getInsertDateTime(), doc.getDocType().getId(),
+        DocTo docTo = new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDate(), doc.getInsertDateTime(), doc.getDocType().getId(),
             docFieldsTos);
 
         return docTo;
@@ -63,16 +63,16 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public Doc save(Doc docType) {
-        Assert.notNull(docType, "doc must not be null");
-        return docRepository.save(docType);
+    public DocTo save(DocTo docType) {
+        Assert.notNull(docType, "docTo must not be null");
+        return null;
     }
 
     @Override
-    public Doc update(Doc doc, int id) throws NotFoundException {
-        Assert.notNull(doc, "doc must not be null");
-        Doc savedDocType = checkNotFoundWithId(docRepository.save(doc), id);
-        return savedDocType;
+    public DocTo update(DocTo docTo, int id) throws NotFoundException {
+        Assert.notNull(docTo, "docTo must not be null");
+        //Doc savedDocType = checkNotFoundWithId(docRepository.save(doc), id);
+        return null;
     }
 
     @Override

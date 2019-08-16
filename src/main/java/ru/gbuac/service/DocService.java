@@ -13,9 +13,9 @@ public interface DocService {
 
     List<Doc> getAll();
 
-    Doc save(Doc doc);
+    DocTo save(DocTo doc);
 
-    Doc update(Doc doc, int id) throws NotFoundException;
+    DocTo update(DocTo docTo, int id) throws NotFoundException;
 
     void delete(int id) throws NotFoundException;
 }

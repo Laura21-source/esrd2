@@ -35,16 +35,16 @@ public abstract class AbstractDocRestController {
         return docService.getAll();
     }
 
-    public Doc create(Doc doc) {
-        LOG.info("create " + doc);
-        checkNew(doc);
-        return docService.save(doc);
+    public DocTo create(DocTo docTo) {
+        LOG.info("create " + docTo);
+        checkNew(docTo);
+        return docService.save(docTo);
     }
 
-    public Doc update(Doc doc, int id) {
-        LOG.info("update " + doc);
-        assureIdConsistent(doc, id);
-        return docService.update(doc, id);
+    public DocTo update(DocTo docTo, int id) {
+        LOG.info("update " + docTo);
+        assureIdConsistent(docTo, id);
+        return docService.update(docTo, id);
     }
 
     public void delete(int id) {
