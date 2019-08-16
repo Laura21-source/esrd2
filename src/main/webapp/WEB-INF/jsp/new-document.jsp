@@ -79,9 +79,9 @@
                                         <div class="btn btn-primary btn-sm pointer addQuestion mr-3 rounded" title="Добавить вопрос"><i class="fas fa-plus"></i> Добавить</div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-success mb-2 pt-3 submitBtn rounded" data-toggle="modal" data-target="#registrationSuccess">Зарегистрировать</button>
                             </div>
                         </div>
+                        <button type="submit" id="btnSave" class="btn btn-success mb-2 pt-3 submitBtn rounded d-none" data-toggle="modal" data-target="#btnSuccess">Зарегистрировать</button>
                     </form>
                 </div>
             </div>
@@ -105,9 +105,9 @@
         $("#selectType").change(function(){
             var asd = $("#selectType").val();
             if(asd == 0) {
-                $("#templateForm, #templateBlock").addClass("d-none");
+                $("#templateForm, #templateBlock, #btnSave").addClass("d-none");
             } else {
-                $("#templateForm, #templateBlock").removeClass("d-none");
+                $("#templateForm, #templateBlock, #btnSave").removeClass("d-none");
                 // Список полей по виду документа
                 var typeDocument = "rest/profile/doctypes/" + asd + "/fields";
                 $.getJSON(typeDocument, function(dataType) {
@@ -152,7 +152,7 @@
                 })
                 .done(function(response){
                     if(response.length == 0){
-                        $("#templateForm, #templateBlock").addClass("d-none");
+                        $("#templateForm, #templateBlock, #btnSave").addClass("d-none");
                     }
                 });
             }
