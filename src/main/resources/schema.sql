@@ -109,11 +109,6 @@ CREATE TABLE valuedfield_child_valued_field
     FOREIGN KEY (child_valued_field_id) REFERENCES valuedfield (id) ON DELETE CASCADE
 );
 
-alter table valuedfield_child_valued_field owner to esrd_user;
-
-
-
-
 CREATE TABLE doc_valuedfields
 (
     id                     INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
