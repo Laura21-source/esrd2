@@ -174,10 +174,12 @@
                         // Количество селектов на базе должно быть больше чем на странице
                         if(sumSelectBase > sumSelectPage) {
                             $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select white" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true" disabled><option value="" class="alert-primary">Выберите значение справочника</option></select></div>');
+                            numberField = rowSelectField.valueInt;
+                            console.log(numberField);
                             $.getJSON("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", function(dataOption) {
+                                console.log(numberField);
                                 for(var y in dataOption) {
                                     var rowOption = dataOption[y];
-                                    console.log(rowSelectField.valueInt + " - " + rowOption.id);
                                     if(rowSelectField.valueInt === rowOption.id) {
                                         selectedField = 'selected="selected"';
                                     } else {
