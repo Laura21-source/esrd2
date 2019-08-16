@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import ru.gbuac.model.Field;
 import ru.gbuac.model.FieldType;
 import ru.gbuac.model.ValuedField;
+import ru.gbuac.util.DateTimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,26 +61,24 @@ public class FieldTo extends BaseTo {
         this.length = valuedField.getField().getLength();
         this.catalogId = valuedField.getField().getCatalog_id();
         this.childFields = new ArrayList<>();
-        switch (this.fieldType) {
-            case TEXT:
+        switch (this.fieldType.ordinal()) {
+            case 0:
+            case 1:
                 this.value = valuedField.getValueStr();
                 break;
-            case TEXT_MULTI_LINE:
-                this.value = valuedField.getValueStr();
-                break;
-            case NUMBER:
+            case 2:
                 this.value = valuedField.getValueInt().toString();
                 break;
-            case DATE:
-                this.value = valuedField.getValueDate().toString();
+            case 3:
+                this.value = DateTimeUtil.toString(valuedField.getValueDate());
                 break;
-            case TIME:
-                this.value = valuedField.getValueTime().toString();
+            case 4:
+                this.value = DateTimeUtil.toString(valuedField.getValueTime());
                 break;
-            case DATE_TIME:
-                this.value = valuedField.getValueDateTime().toString();
+            case 5:
+                this.value = DateTimeUtil.toString(valuedField.getValueDateTime());
                 break;
-            case CATALOG:
+            case 6:
                 this.value = valuedField.getCatalogElem().getId().toString();
         }
 
@@ -101,9 +100,7 @@ public class FieldTo extends BaseTo {
     }
 
     public FieldTo FieldTo(Field field) {
-        FieldTo fieldTo = new FieldTo(null, field.getName(), new ArrayList<>(), field.getId(), field.getFieldType(),
-                field.getPositionInGroup(), field.getMaxCount(), field.getLength(),
-                field.getCatalog_id());
+        FieldTo fieldTo = new FieldTo(field);
 
         for (Field childField : field.getChildField()) {
             fieldTo.childFields.add(FieldTo(childField));
@@ -112,9 +109,7 @@ public class FieldTo extends BaseTo {
     }
 
     public FieldTo FieldTo(ValuedField valuedField) {
-        FieldTo fieldTo = new FieldTo(valuedField.getId(), valuedField.getField().getName(), new ArrayList<>(), valuedField.getField().getId(), valuedField.getField().getFieldType(),
-                valuedField.getField().getPositionInGroup(), valuedField.getField().getMaxCount(), valuedField.getField().getLength(),
-                valuedField.getField().getCatalog_id());
+        FieldTo fieldTo = new FieldTo(valuedField);
 
         for (ValuedField childField : valuedField.getChildValuedField()) {
             fieldTo.childFields.add(FieldTo(childField));
