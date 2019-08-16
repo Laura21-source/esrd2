@@ -69,9 +69,9 @@
         <h6 class="mt-2">Единая система регистрации документов (ЕСРД)</h6>
       </span>
         <ul class="nav navbar-nav nav-flex-icons ml-auto">
-            <li class="nav-item">
+            <%--<li class="nav-item">
                 <a class="nav-link"><i class="far fa-question-circle"></i> <span class="clearfix d-none d-sm-inline-block">Поддержка</span></a>
-            </li>
+            </li>--%>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> Администратор
