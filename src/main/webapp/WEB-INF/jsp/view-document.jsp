@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="col-md-6">&nbsp;</div>
                             </div>
-                            <div id="templateBlock" class="card p-3">
+                            <div id="templateBlock" class="card p-3 mb-3">
                                 <h5 class="templateBlockName"></h5>
                                 <div class="card-body">
                                     <div class="row card mb-3" id="blockQuestion" req="true">
@@ -79,10 +79,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="marginBlock my-3"></div>
                             <!--<button id="closeDocument" type="submit" class="btn btn-danger mb-5 pt-3 submitBtn rounded" data-toggle="modal" data-target="#registrationCansel">Отмена</button>-->
                             <a href="agree-document" id="closeDocument" type="button" class="btn btn-danger mb-5 pt-3 rounded">Отмена</a>
                             <button id="editDocument" type="submit" class="btn btn-primary mb-5 pt-3 submitBtn rounded">Правка</button>
+                            <div href="#" onclick="window.location.reload();" id="cancelDocument" class="btn btn-danger mb-5 pt-3 rounded d-none">Отменить</div>
                             <button id="saveDocument" type="submit" class="btn btn-success mb-5 pt-3 submitBtn rounded d-none" data-toggle="modal" data-target="#registrationSuccess">Сохранить</button>
                         </div>
                     </form>
