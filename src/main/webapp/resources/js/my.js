@@ -24,7 +24,6 @@ $(function() {
     $('#blockQuestion' + links).find('select').each(function(){
       var selectAttr = $(this).attr("name");
       $('#blockQuestion' + links + selectAttr).attr('name', selectAttr + links);
-      //alert(selectAttr + links);
     });
     $('#blockQuestion' + links + ' select option').prop('selected', false);
     $('#nameQuestion' + links).html("Вопрос " + links1);

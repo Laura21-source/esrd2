@@ -12,7 +12,7 @@
             <div class="card-body">
                 <div class="container-fluid">
                     <div class="alert alert-secondary text-center mb-3">
-                        <h6 class="mt-2">Карточка документа №согл-1/19 от 08.08.2019</h6>
+                        <h6 class="mt-2 documentName"></h6>
                     </div>
                     <form class="registrationForm">
                         <div class="row ml-1 mb-3">
@@ -22,7 +22,6 @@
                             <div class="col-md-10">
                                 <select class="browser-default custom-select" name="selectType" id="selectType">
                                     <option value="" class="alert-primary">Выберите вид документа</option>
-                                    <option value="1" selected disabled>Повестка заседания Правления</option>
                                 </select>
                             </div>
                         </div>
@@ -31,83 +30,56 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-4 text-left">
-                                            <span for="inputDate" class="text-muted"><i class="fas fa-calendar-alt mr-2"></i> Дата заседания</span>
+                                            <span for="inputDate" class="text-muted inputDateName"></span>
                                         </div>
                                         <div class="col-md-8">
-                                            <input title="Выберите дату" type="date" id="inputDate" name="inputDate" class="white form-control" value="2019-08-08" disabled>
+                                            <input title="Выберите дату" type="date" id="inputDate" name="inputDate" class="white form-control" disabled>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6"></div>
+                                <div class="col-md-6">&nbsp;</div>
                             </div>
                             <div class="row ml-1 mb-3">
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-4 text-left">
-                                            <span for="inputTime" class="text-muted"><i class="fas fa-clock mr-2"></i> Время  заседания</span>
+                                            <span for="inputTime" class="text-muted inputTimeName"></span>
                                         </div>
                                         <div class="col-md-8">
-                                            <input title="Выберите время" type="time" id="inputTime" name="inputTime" class="white form-control" value="11:45" disabled>
+                                            <input title="Выберите время" type="time" id="inputTime" name="inputTime" class="white form-control" disabled>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6"></div>
+                                <div class="col-md-6">&nbsp;</div>
                             </div>
-                            <div>&nbsp;</div>
-                            <div class="card my-3" id="blockQuestion" req="true">
-                                <div class="col-12">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-9 text-left">
-                                                <h5 id="nameQuestion">Вопрос 1</h5>
-                                            </div>
-                                            <div class="col-md-3 text-right">
-                                                <div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div>
+                            <div id="templateBlock" class="card p-3">
+                                <h5 class="templateBlockName"></h5>
+                                <div class="card-body">
+                                    <div class="row card mb-3" id="blockQuestion" req="true">
+                                        <div class="col-12">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-9 text-left">
+                                                        <h6 id="nameQuestion">Вопрос 1</h6>
+                                                    </div>
+                                                    <div class="col-md-3 text-right">
+                                                        <div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row templateBlockSelect"></div>
                                             </div>
                                         </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-md-2 text-left mt-3">
-                                                <span class="text-muted"><i class="fas fa-globe mr-2"></i> Тематика</span>
-                                            </div>
-                                            <div class="col-md-10 mt-3">
-                                                <select class="browser-default custom-select" name="selectTheme" id="selectTheme">
-                                                    <option value="" class="alert-primary my-2">Выберите тематику документа</option>
-                                                    <option value="1" class="my-2" selected disabled>Электроэнергия</option>
-                                                    <option value="2" class="my-2" disabled>Водоотведение</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-2 text-left mt-3">
-                                                <span class="text-muted"><i class="fas fa-briefcase mr-2"></i> Организация</span>
-                                            </div>
-                                            <div class="col-md-10 mt-3">
-                                                <select class="browser-default custom-select" name="selectOrganisation" id="selectOrganisation">
-                                                    <option value="" class="alert-primary">Выберите организацию</option>
-                                                    <option value="1" selected disabled>ООО Гарант Инвест</option>
-                                                    <option value="2" disabled>ОАО Бутовский химический завод</option>
-                                                    <option value="3" disabled>ОАО Квант-Н</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-2 text-left mt-3">
-                                                <span class="text-muted"><i class="fas fa-user-tie mr-2"></i> Ответственный</span>
-                                            </div>
-                                            <div class="col-md-10 mt-3">
-                                                <select class="browser-default custom-select" name="selectCrucial" id="selectCrucial">
-                                                    <option value="" class="alert-primary">Выберите ответственное лицо</option>
-                                                    <option value="1" selected disabled>В.Н. Минин, тел. 8 (495) 620 20 00, доб. 14832.</option>
-                                                    <option value="2" disabled>И.И. Власкина, тел. 8 (495) 957 72 16 </option>
-                                                </select>
-                                            </div>
+                                    </div>
+                                    <div class="marginBlock my-3"></div>
+                                    <div class="row">
+                                        <div class="col-12 text-right">
+                                            <button type="button" class="btn btn-primary btn-sm pointer addQuestion mr-3 submitBtn rounded" title="Добавить вопрос" disabled><i class="fas fa-plus"></i> Добавить</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="marginBlock my-3"></div>
-                            <div class="row">
-                                <div class="col-12 text-right">
-                                    <button type="button" class="btn btn-primary btn-sm addQuestion mr-3 rounded" title="Добавить вопрос" disabled><i class="fas fa-plus"></i> Добавить</button>
-                                </div>
-                            </div>
                             <!--<button id="closeDocument" type="submit" class="btn btn-danger mb-5 pt-3 submitBtn rounded" data-toggle="modal" data-target="#registrationCansel">Отмена</button>-->
                             <a href="agree-document" id="closeDocument" type="button" class="btn btn-danger mb-5 pt-3 rounded">Отмена</a>
                             <button id="editDocument" type="submit" class="btn btn-primary mb-5 pt-3 submitBtn rounded">Правка</button>
@@ -123,4 +95,102 @@
 <jsp:include page="fragments/footerNew.jsp"/>
 <jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
+<script>
+    $(function() {
+        // Получаем id документа из строки
+        var urlString = window.location.href;
+        var url = new URL(urlString);
+        var id = url.searchParams.get("id");
+        // Переменная выделения полей
+        var selectedField = '';
+        // Подключение стека полей
+        $.getJSON("rest/profile/docs/" + id, function(data) {
+            var newDate = new Date(data.regDate);
+            function formatDate(date) {
+                var day = date.getDate();
+                var month = date.getMonth()+1;
+                if(month < 10) {
+                    month = '0' + month;
+                }
+                var year = date.getFullYear();
+                return day + '-' + month + '-' + year;
+            }
+            var newDate = formatDate(newDate);
+            $(".documentName").html('Карточка документа №' + data.regNum + ' от ' + newDate);
+            // Получение списка полей вида документа
+            $.getJSON("rest/profile/doctypes/", function(dataType) {
+                for(var k in dataType) {
+                    var rowType = dataType[k];
+                    if(data.docTypeId === rowType.id) {
+                        selectedField = 'selected="selected"';
+                    } else {
+                        selectedField = '';
+                    }
+                    $("#selectType").append('<option value="' + rowType.id + '"' + selectedField + ' disabled>'+ rowType.name +'</option>');
+                }
+            });
+            // Получение основных полей
+            for(var i in data.docValuedFields) {
+                var rowFields = data.docValuedFields[i];
+                if(rowFields.field.fieldType === "DATE") {
+                    var newDateRevers = new Date(rowFields.field.value);
+                    function formatDateRevers(date) {
+                        var day = date.getDate();
+                        var month = date.getMonth()+1;
+                        if(month < 10) {
+                            month = '0' + month;
+                        }
+                        var year = date.getFullYear();
+                        return year + '-' + month + '-' + day;
+                    }
+                    var newDateRevers = formatDateRevers(newDateRevers);
+                    $(".inputDateName").html('<i class="fas fa-calendar-alt mr-2"></i>' + rowFields.field.name);
+                    $("#inputDate").attr("value", newDateRevers);
+                }
+                if(rowFields.field.fieldType === "TIME") {
+                    var newTime = new Date(rowFields.field.value);
+                    function formatTime(date) {
+                        var hours = date.getHours();
+                        var minutes = date.getMinutes();
+                        if(minutes < 10) {
+                            minutes = '0' + minutes;
+                        }
+                        return hours + ':' + minutes;
+                    }
+                    var newTime = formatTime(newTime);
+                    $("#inputTimeBlock").removeClass("d-none");
+                    $(".inputTimeName").html('<i class="fas fa-clock mr-2"></i>' + rowFields.field.name);
+                    $("#inputTime").attr("value", newTime);
+                }
+                if(rowFields.field.fieldType === "GROUP_FIELDS") {
+                    $(".templateBlockName").html(rowFields.field.name);
+                    // Количество селектов в базе
+                    var sumSelectBase = rowFields.field.childFields.length;
+                    // Количество селектов на странице
+                    var sumSelectPage = $("[seq='true']").length;
+                    for(var y in rowFields.field.childFields) {
+                        var rowSelectField = rowFields.field.childFields[y];
+                        var selectFieldName = "selectField" + rowSelectField.catalogId;
+                        // Количество селектов на базе должно быть больше чем на странице
+                        if(sumSelectBase > sumSelectPage) {
+                            $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary">Выберите значение справочника</option></select></div>');
+                            $.getJSON("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", function(dataOption) {
+                                for(var y in dataOption) {
+                                    var rowOption = dataOption[y];
+                                    console.log(rowSelectField.value + " - " + rowOption.id);
+                                    if(rowSelectField.value === rowOption.id) {
+                                        selectedField = 'selected="selected"';
+                                    } else {
+                                        selectedField = '';
+                                    }
+                                    $('#selectField' + rowOption.catalogId).append('<option value="' + rowOption.id + '" disabled selectedField>' + rowOption.valueStr + '</option>');
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
 <jsp:include page="fragments/footerBasement.jsp"/>

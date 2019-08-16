@@ -97,7 +97,7 @@
         // Список полей вида документов
         $.getJSON("rest/profile/doctypes/", function(data) {
             for(var i in data) {
-                var row = data[i]
+                var row = data[i];
                 $("#selectType").append('<option value="' + row.id + '">'+ row.name +'</option>');
             }
         });
@@ -130,7 +130,7 @@
                             for(var k in rowType.field.childFields) {
                                 var rowSelectField = rowType.field.childFields[k];
                                 var selectFieldName = "selectField" + rowSelectField.catalogId;
-                                console.log(rowSelectField.catalogId);
+                                //console.log(rowSelectField.catalogId);
                                 // Количество селектов на базе должно быть больше чем на странице
                                 if(sumSelectBase > sumSelectPage) {
                                     $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div>');
