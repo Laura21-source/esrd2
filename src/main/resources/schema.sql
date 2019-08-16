@@ -33,8 +33,8 @@ CREATE TABLE doc
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     doctype_id       INTEGER                 NOT NULL,
     reg_num          VARCHAR                 NOT NULL,
-    reg_date         TIMESTAMP               NOT NULL,
-    insert_date      TIMESTAMP DEFAULT now() NOT NULL,
+    reg_date         DATE DEFAULT now()      NOT NULL,
+    insert_datetime  TIMESTAMP DEFAULT now() NOT NULL,
     FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
 );
 
@@ -101,13 +101,18 @@ CREATE TABLE valuedfield
     FOREIGN KEY (catalogelem_id) REFERENCES catalogelem (id) ON DELETE CASCADE
 );
 
-CREATE TABLE valuedfield_child_valuedfield
+CREATE TABLE valuedfield_child_valued_field
 (
     valued_field_id          INTEGER                         ,
-    child_valuedfield_id    INTEGER                         ,
+    child_valued_field_id    INTEGER                         ,
     FOREIGN KEY (valued_field_id) REFERENCES valuedfield (id) ON DELETE CASCADE,
-    FOREIGN KEY (child_valuedfield_id) REFERENCES valuedfield (id) ON DELETE CASCADE
+    FOREIGN KEY (child_valued_field_id) REFERENCES valuedfield (id) ON DELETE CASCADE
 );
+
+alter table valuedfield_child_valued_field owner to esrd_user;
+
+
+
 
 CREATE TABLE doc_valuedfields
 (

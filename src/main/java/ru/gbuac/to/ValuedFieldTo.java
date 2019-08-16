@@ -6,11 +6,11 @@ import java.util.List;
 
 public class ValuedFieldTo extends BaseTo {
 
-    Integer fieldId;
+    private Integer fieldId;
 
-    String value;
+    private String value;
 
-    List<ValuedField> childFields;
+    private List<ValuedField> childFields;
 
     public ValuedFieldTo(Integer id, Integer fieldId, String value, List<ValuedField> childFields) {
         super(id);

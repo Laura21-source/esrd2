@@ -1,19 +1,51 @@
 package ru.gbuac.to;
 
 public class CatalogElemTo extends BaseTo {
-    Integer idParentCatalogelem;
+    private Integer idParentCatalogElem;
 
-    String valueInt;
+    private String valueInt;
 
-    String valueStr;
+    private String valueStr;
 
-    Integer catalogId;
+    private Integer catalogId;
 
-    public CatalogElemTo(Integer id, Integer idParentCatalogelem, String valueInt, String valueStr, Integer catalogId) {
+    public CatalogElemTo(Integer id, Integer idParentCatalogElem, String valueInt, String valueStr, Integer catalogId) {
         super(id);
-        this.idParentCatalogelem = idParentCatalogelem;
+        this.idParentCatalogElem = idParentCatalogElem;
         this.valueInt = valueInt;
         this.valueStr = valueStr;
+        this.catalogId = catalogId;
+    }
+
+    public Integer getIdParentCatalogElem() {
+        return idParentCatalogElem;
+    }
+
+    public void setIdParentCatalogElem(Integer idParentCatalogElem) {
+        this.idParentCatalogElem = idParentCatalogElem;
+    }
+
+    public String getValueInt() {
+        return valueInt;
+    }
+
+    public void setValueInt(String valueInt) {
+        this.valueInt = valueInt;
+    }
+
+    public String getValueStr() {
+        return valueStr;
+    }
+
+    public void setValueStr(String valueStr) {
+        this.valueStr = valueStr;
+    }
+
+    public Integer getCatalogId() {
+        return catalogId;
+    }
+
+    public void setCatalogId(Integer catalogId) {
         this.catalogId = catalogId;
     }
 
@@ -24,7 +56,7 @@ public class CatalogElemTo extends BaseTo {
 
         CatalogElemTo that = (CatalogElemTo) o;
 
-        if (idParentCatalogelem != null ? !idParentCatalogelem.equals(that.idParentCatalogelem) : that.idParentCatalogelem != null)
+        if (idParentCatalogElem != null ? !idParentCatalogElem.equals(that.idParentCatalogElem) : that.idParentCatalogElem != null)
             return false;
         if (valueInt != null ? !valueInt.equals(that.valueInt) : that.valueInt != null) return false;
         if (valueStr != null ? !valueStr.equals(that.valueStr) : that.valueStr != null) return false;
@@ -33,7 +65,7 @@ public class CatalogElemTo extends BaseTo {
 
     @Override
     public int hashCode() {
-        int result = idParentCatalogelem != null ? idParentCatalogelem.hashCode() : 0;
+        int result = idParentCatalogElem != null ? idParentCatalogElem.hashCode() : 0;
         result = 31 * result + (valueInt != null ? valueInt.hashCode() : 0);
         result = 31 * result + (valueStr != null ? valueStr.hashCode() : 0);
         result = 31 * result + (catalogId != null ? catalogId.hashCode() : 0);
@@ -44,7 +76,7 @@ public class CatalogElemTo extends BaseTo {
     public String toString() {
         return "CatalogElemTo{" +
                 "id=" + id +
-                ", id_parent_catalogelem=" + idParentCatalogelem +
+                ", id_parent_catalogelem=" + idParentCatalogElem +
                 ", value_int='" + valueInt + '\'' +
                 ", value_str='" + valueStr + '\'' +
                 ", catalog_id=" + catalogId +

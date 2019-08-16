@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocType;
+import ru.gbuac.to.DocTo;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,9 +16,10 @@ public class DocRestController extends AbstractDocRestController {
 
     @Override
     @GetMapping(value = "/{id}")
-    public Doc get(@PathVariable("id") int id) {
-        return super.get(id);
+    public DocTo getFull(@PathVariable("id") int id) {
+        return super.getFull(id);
     }
+
 
     @Override
     @GetMapping

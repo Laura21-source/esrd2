@@ -7,6 +7,7 @@ import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocType;
 import ru.gbuac.service.DocService;
 import ru.gbuac.service.DocTypeService;
+import ru.gbuac.to.DocTo;
 
 import java.util.List;
 
@@ -22,6 +23,11 @@ public abstract class AbstractDocRestController {
     public Doc get(int id) {
         LOG.info("get " + id);
         return docService.get(id);
+    }
+
+    public DocTo getFull(int id) {
+        LOG.info("get " + id);
+        return docService.getFull(id);
     }
 
     public List<Doc> getAll() {

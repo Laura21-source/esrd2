@@ -23,9 +23,14 @@ public abstract class AbstractDocValuedFieldsRestController {
         return docValuedFieldsService.get(id, docId);
     }
 
-    public List<DocFieldsTo> getAll(int docId) {
+    public List<DocValuedFields> getAll(int docId) {
         LOG.info("getAll");
         return docValuedFieldsService.getAll(docId);
+    }
+
+    public List<DocFieldsTo> getAllFull(int docId) {
+        LOG.info("getAll");
+        return docValuedFieldsService.getAllFull(docId);
     }
 
     public DocValuedFields create(DocValuedFields docValuedFields) {
