@@ -43,12 +43,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="view-document" class="collapsible-header waves-effect text-white">
+                        <a href="view-document?id=28" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-eye mr-2"></i>Просмотр документа
                         </a>
                     </li>
                     <li>
-                        <a href="agree-document" class="collapsible-header waves-effect text-white">
+                        <a href="agree-document?id=28" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-file-signature mr-2"></i>Согласование документа
                         </a>
                     </li>
