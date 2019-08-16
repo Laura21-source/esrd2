@@ -134,12 +134,17 @@
                                 // Количество селектов на базе должно быть больше чем на странице
                                 if(sumSelectBase > sumSelectPage) {
                                     $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div>');
-                                    $.getJSON("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", function(dataOption) {
-                                        for(var y in dataOption) {
-                                            var rowOption = dataOption[y];
-                                            $('#selectField' + rowOption.catalogId).append('<option value="' + rowOption.id + '">' + rowOption.valueStr + '</option>');
-                                        }
-                                    });
+                                    // Номер каталога
+                                    var numberCatalog = rowSelectField.catalogId;
+                                    function createOptionFields(url, numberCatalog) {
+                                        $.getJSON(url, function(dataOption) {
+                                            for(var y in dataOption) {
+                                                var rowOption = dataOption[y];
+                                                $('#selectField' + numberCatalog).append('<option value="' + rowOption.id + '">' + rowOption.valueStr + '</option>');
+                                            }
+                                        });
+                                    }
+                                    createOptionFields("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog);
                                 }
                             }
                         }
