@@ -152,8 +152,8 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success mb-5 pt-3 submitBtn rounded">Согласовать</button>
                     </form>
+                    <button type="submit" class="btn btn-success my-5 pt-3 submitBtn rounded" data-toggle="modal" data-target="#btnSuccess">Согласовать</button>
                 </div>
             </div>
         </div>

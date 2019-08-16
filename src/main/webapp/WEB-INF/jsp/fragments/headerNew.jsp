@@ -32,11 +32,11 @@
             <li>
                 <ul class="collapsible collapsible-accordion">
                     <!--<li><a href="#" class="collapsible-header waves-effect text-white">Повестки <span class="badge badge-danger ml-2">42</span></a></li>-->
-                    <li>
+                    <%--<li>
                         <a href="mailing" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-clipboard-list mr-2"></i>Список рассылки
                         </a>
-                    </li>
+                    </li>--%>
                     <li>
                         <a href="new-document" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-file-import mr-2"></i>Регистрация документа

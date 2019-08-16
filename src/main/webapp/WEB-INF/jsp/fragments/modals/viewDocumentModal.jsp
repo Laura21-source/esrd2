@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="modal fade" id="registrationCansel" tabindex="-1" role="dialog" aria-labelledby="registrationCansel"
+<div class="modal fade" id="btnCansel" tabindex="-1" role="dialog" aria-labelledby="btnCansel"
      aria-hidden="true">
     <div class="modal-dialog modal-notify modal-danger" role="document">
         <div class="modal-content">
@@ -26,7 +26,7 @@
 </div>
 
 
-<div class="modal fade" id="registrationSuccess" tabindex="-1" role="dialog" aria-labelledby="registrationSuccess"
+<div class="modal fade" id="btnSuccess" tabindex="-1" role="dialog" aria-labelledby="btnSuccess"
      aria-hidden="true">
     <div class="modal-dialog modal-notify modal-success" role="document">
         <div class="modal-content">
