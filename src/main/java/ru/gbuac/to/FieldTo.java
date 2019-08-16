@@ -58,24 +58,24 @@ public class FieldTo extends BaseTo {
         this.length = valuedField.getField().getLength();
         this.catalogId = valuedField.getField().getCatalog_id();
         this.childFields = new ArrayList<>();
-        switch (this.fieldType.ordinal()) {
-            case 0:
-            case 1:
+        switch (this.fieldType) {
+            case TEXT:
+            case TEXT_MULTI_LINE:
                 this.valueStr = valuedField.getValueStr();
                 break;
-            case 2:
+            case NUMBER:
                 this.valueInt = valuedField.getValueInt();
                 break;
-            case 3:
+            case DATE:
                 this.valueDate = valuedField.getValueDate();
                 break;
-            case 4:
+            case TIME:
                 this.valueDate = valuedField.getValueTime();
                 break;
-            case 5:
+            case DATE_TIME:
                 this.valueDate = valuedField.getValueDateTime();
                 break;
-            case 6:
+            case CATALOG:
                 this.valueInt = valuedField.getCatalogElem().getId();
         }
 
