@@ -6,36 +6,33 @@ import ru.gbuac.model.FieldType;
 import ru.gbuac.model.ValuedField;
 import ru.gbuac.util.DateTimeUtil;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FieldTo extends BaseTo {
 
-    @JsonInclude
     private String name;
 
     private List<FieldTo> childFields;
 
-    @JsonInclude
     private Integer fieldId;
 
-    @JsonInclude
     private FieldType fieldType;
 
-    @JsonInclude
     private Integer positionInGroup;
 
-    @JsonInclude
     private Integer maxCount;
 
-    @JsonInclude
     private Integer length;
 
-    @JsonInclude
     private Integer catalogId;
 
-    @JsonInclude
-    private String value;
+    private Integer valueInt;
+
+    private String valueStr;
+
+    private LocalDateTime valueDate;
 
     public FieldTo(Field field) {
         this.name = field.getName();
@@ -64,22 +61,22 @@ public class FieldTo extends BaseTo {
         switch (this.fieldType.ordinal()) {
             case 0:
             case 1:
-                this.value = valuedField.getValueStr();
+                this.valueStr = valuedField.getValueStr();
                 break;
             case 2:
-                this.value = valuedField.getValueInt().toString();
+                this.valueInt = valuedField.getValueInt();
                 break;
             case 3:
-                this.value = DateTimeUtil.toString(valuedField.getValueDate());
+                this.valueDate = valuedField.getValueDate();
                 break;
             case 4:
-                this.value = DateTimeUtil.toString(valuedField.getValueTime());
+                this.valueDate = valuedField.getValueTime();
                 break;
             case 5:
-                this.value = DateTimeUtil.toString(valuedField.getValueDateTime());
+                this.valueDate = valuedField.getValueDateTime();
                 break;
             case 6:
-                this.value = valuedField.getCatalogElem().getId().toString();
+                this.valueInt = valuedField.getCatalogElem().getId();
         }
 
         for (ValuedField childField : valuedField.getChildValuedField()) {
@@ -181,12 +178,28 @@ public class FieldTo extends BaseTo {
         this.catalogId = catalogId;
     }
 
-    public String getValue() {
-        return value;
+    public Integer getValueInt() {
+        return valueInt;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setValueInt(Integer valueInt) {
+        this.valueInt = valueInt;
+    }
+
+    public String getValueStr() {
+        return valueStr;
+    }
+
+    public void setValueStr(String valueStr) {
+        this.valueStr = valueStr;
+    }
+
+    public LocalDateTime getValueDate() {
+        return valueDate;
+    }
+
+    public void setValueDate(LocalDateTime valueDate) {
+        this.valueDate = valueDate;
     }
 
     @Override
@@ -205,7 +218,9 @@ public class FieldTo extends BaseTo {
         if (maxCount != null ? !maxCount.equals(fieldTo.maxCount) : fieldTo.maxCount != null) return false;
         if (length != null ? !length.equals(fieldTo.length) : fieldTo.length != null) return false;
         if (catalogId != null ? !catalogId.equals(fieldTo.catalogId) : fieldTo.catalogId != null) return false;
-        return value != null ? value.equals(fieldTo.value) : fieldTo.value == null;
+        if (valueInt != null ? !valueInt.equals(fieldTo.valueInt) : fieldTo.valueInt != null) return false;
+        if (valueStr != null ? !valueStr.equals(fieldTo.valueStr) : fieldTo.valueStr != null) return false;
+        return valueDate != null ? valueDate.equals(fieldTo.valueDate) : fieldTo.valueDate == null;
     }
 
     @Override
@@ -218,7 +233,9 @@ public class FieldTo extends BaseTo {
         result = 31 * result + (maxCount != null ? maxCount.hashCode() : 0);
         result = 31 * result + (length != null ? length.hashCode() : 0);
         result = 31 * result + (catalogId != null ? catalogId.hashCode() : 0);
-        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (valueInt != null ? valueInt.hashCode() : 0);
+        result = 31 * result + (valueStr != null ? valueStr.hashCode() : 0);
+        result = 31 * result + (valueDate != null ? valueDate.hashCode() : 0);
         return result;
     }
 
@@ -227,14 +244,16 @@ public class FieldTo extends BaseTo {
         return "FieldTo{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", child_fields=" + childFields +
-                ", field_id=" + fieldId +
-                ", fieldtype=" + fieldType +
-                ", position_in_group=" + positionInGroup +
+                ", childFields=" + childFields +
+                ", fieldId=" + fieldId +
+                ", fieldType=" + fieldType +
+                ", positionInGroup=" + positionInGroup +
                 ", maxCount=" + maxCount +
                 ", length=" + length +
-                ", catalog_id=" + catalogId +
-                ", value='" + value + '\'' +
+                ", catalogId=" + catalogId +
+                ", valueInt=" + valueInt +
+                ", valueStr='" + valueStr + '\'' +
+                ", valueDate=" + valueDate +
                 '}';
     }
 }
