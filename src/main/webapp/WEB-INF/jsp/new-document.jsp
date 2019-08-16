@@ -97,7 +97,7 @@
         // Список полей вида документов
         $.getJSON("rest/profile/doctypes/", function(data) {
             for(var i in data) {
-                var row = data[i]
+                var row = data[i];
                 $("#selectType").append('<option value="' + row.id + '">'+ row.name +'</option>');
             }
         });

@@ -12,7 +12,7 @@
             <div class="card-body">
                 <div class="container-fluid">
                     <div class="alert alert-secondary text-center mb-3">
-                        <h6 class="mt-2">Карточка документа №согл-1/19 от 08.08.2019</h6>
+                        <h6 class="mt-2 documentName"></h6>
                     </div>
                     <form class="registrationForm">
                         <div class="row ml-1 mb-3">
@@ -22,7 +22,6 @@
                             <div class="col-md-10">
                                 <select class="browser-default custom-select" name="selectType" id="selectType">
                                     <option value="" class="alert-primary">Выберите вид документа</option>
-                                    <option value="1" selected disabled>Повестка заседания Правления</option>
                                 </select>
                             </div>
                         </div>
@@ -31,10 +30,10 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-4 text-left">
-                                            <span for="inputDate" class="text-muted"><i class="fas fa-calendar-alt mr-2"></i> Дата заседания</span>
+                                            <span for="inputDate" class="text-muted inputDateName"></span>
                                         </div>
                                         <div class="col-md-8">
-                                            <input title="Выберите дату" type="date" id="inputDate" name="inputDate" class="white form-control" value="2019-08-08" disabled>
+                                            <input title="Выберите дату" type="date" id="inputDate" name="inputDate" class="white form-control" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -123,4 +122,60 @@
 <jsp:include page="fragments/footerNew.jsp"/>
 <jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
+<script>
+    $(function() {
+        // Получаем id документа из строки
+        var urlString = window.location.href;
+        var url = new URL(urlString);
+        var id = url.searchParams.get("id");
+        // Переменная выделения полей
+        var selectedField = '';
+        // Подключение стека полей
+        $.getJSON("rest/profile/docs/" + id, function(data) {
+            var newDate = new Date(data.regDate);
+            function formatDate(date) {
+                var day = date.getDate();
+                var month = date.getMonth()+1;
+                if(month < 10) {
+                    month = '0' + month;
+                }
+                var year = date.getFullYear();
+                return day + '-' + month + '-' + year;
+            }
+            var newDate = formatDate(newDate);
+            $(".documentName").html('Карточка документа №' + data.regNum + ' от ' + newDate);
+            // Получение списка полей вида документа
+            $.getJSON("rest/profile/doctypes/", function(dataType) {
+                for(var k in dataType) {
+                    var rowType = dataType[k];
+                    if(data.docTypeId === rowType.id) {
+                        selectedField = 'selected="selected"';
+                    } else {
+                        selectedField = '';
+                    }
+                    $("#selectType").append('<option value="' + rowType.id + '"' + selectedField + ' disabled>'+ rowType.name +'</option>');
+                }
+            });
+            // Получение основных полей
+            for(var i in data.docValuedFields) {
+                var rowFields = data.docValuedFields[i];
+                if(rowFields.field.fieldType === "DATE") {
+                    var newDateRevers = new Date(rowFields.field.value);
+                    function formatDateRevers(date) {
+                        var day = date.getDate();
+                        var month = date.getMonth()+1;
+                        if(month < 10) {
+                            month = '0' + month;
+                        }
+                        var year = date.getFullYear();
+                        return year + '-' + month + '-' + day;
+                    }
+                    var newDateRevers = formatDateRevers(newDateRevers);
+                    $(".inputDateName").html('<i class="fas fa-calendar-alt mr-2"></i>' + rowFields.field.name);
+                    $("#inputDate").attr("value", newDateRevers);
+                }
+            }
+        });
+    });
+</script>
 <jsp:include page="fragments/footerBasement.jsp"/>
