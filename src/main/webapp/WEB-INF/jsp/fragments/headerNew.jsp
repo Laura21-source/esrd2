@@ -32,23 +32,23 @@
             <li>
                 <ul class="collapsible collapsible-accordion">
                     <!--<li><a href="#" class="collapsible-header waves-effect text-white">Повестки <span class="badge badge-danger ml-2">42</span></a></li>-->
-                    <li>
+                    <%--<li>
                         <a href="mailing" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-clipboard-list mr-2"></i>Список рассылки
                         </a>
-                    </li>
+                    </li>--%>
                     <li>
                         <a href="new-document" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-file-import mr-2"></i>Регистрация документа
                         </a>
                     </li>
                     <li>
-                        <a href="view-document" class="collapsible-header waves-effect text-white">
+                        <a href="view-document?id=28" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-eye mr-2"></i>Просмотр документа
                         </a>
                     </li>
                     <li>
-                        <a href="agree-document" class="collapsible-header waves-effect text-white">
+                        <a href="agree-document?id=28" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-file-signature mr-2"></i>Согласование документа
                         </a>
                     </li>
@@ -69,9 +69,9 @@
         <h6 class="mt-2">Единая система регистрации документов (ЕСРД)</h6>
       </span>
         <ul class="nav navbar-nav nav-flex-icons ml-auto">
-            <li class="nav-item">
+            <%--<li class="nav-item">
                 <a class="nav-link"><i class="far fa-question-circle"></i> <span class="clearfix d-none d-sm-inline-block">Поддержка</span></a>
-            </li>
+            </li>--%>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> Администратор

@@ -79,11 +79,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--<button id="closeDocument" type="submit" class="btn btn-danger mb-5 pt-3 submitBtn rounded" data-toggle="modal" data-target="#registrationCansel">Отмена</button>-->
+                            <!--<button id="closeDocument" type="submit" class="btn btn-danger mb-5 pt-3 submitBtn rounded" data-toggle="modal" data-target="#btnCansel">Отмена</button>-->
                             <a href="agree-document" id="closeDocument" type="button" class="btn btn-danger mb-5 pt-3 rounded">Отмена</a>
                             <button id="editDocument" type="submit" class="btn btn-primary mb-5 pt-3 submitBtn rounded">Правка</button>
                             <div href="#" onclick="window.location.reload();" id="cancelDocument" class="btn btn-danger mb-5 pt-3 rounded d-none">Отменить</div>
-                            <button id="saveDocument" type="submit" class="btn btn-success mb-5 pt-3 submitBtn rounded d-none" data-toggle="modal" data-target="#registrationSuccess">Сохранить</button>
+                            <button id="saveDocument" type="submit" class="btn btn-success mb-5 pt-3 submitBtn rounded d-none" data-toggle="modal" data-target="#btnSuccess">Сохранить</button>
                         </div>
                     </form>
                 </div>
@@ -174,21 +174,24 @@
                         // Количество селектов на базе должно быть больше чем на странице
                         if(sumSelectBase > sumSelectPage) {
                             $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select white" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true" disabled><option value="" class="alert-primary">Выберите значение справочника</option></select></div>');
-                            var numberField = rowSelectField.valueInt;
-                            function createSelectedId(url, number) {
+                            // Номер каталога
+                            var numberCatalog = rowSelectField.catalogId;
+                            // Номер поля для отметки в селектах
+                            var numberSelectedField = rowSelectField.valueInt;
+                            function createSelectedId(url, numberCatalog, numberField) {
                                 $.getJSON(url, function(dataOption) {
                                     for(var y in dataOption) {
                                         var rowOption = dataOption[y];
-                                        if(number === rowOption.id) {
+                                        if(numberField === rowOption.id) {
                                             selectedField = 'selected="selected"';
                                         } else {
                                             selectedField = '';
                                         }
-                                        $('#selectField' + rowOption.catalogId).append('<option value="' + rowOption.id + '" ' + selectedField + '>' + rowOption.valueStr + '</option>');
+                                        $('#selectField' + numberCatalog).append('<option value="' + rowOption.id + '" ' + selectedField + '>' + rowOption.valueStr + '</option>');
                                     }
                                 });
                             }
-                            createSelectedId("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberField)
+                            createSelectedId("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, numberSelectedField);
                         }
                     }
                 }
