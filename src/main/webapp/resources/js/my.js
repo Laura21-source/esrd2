@@ -29,27 +29,12 @@ $(function() {
     $('#nameQuestion' + links).html("Вопрос " + links1);
     $('#delQuestion' + links).removeClass('d-none');
   });
-  $('.addRecipient').click(function(){
-    var links = $("[req='true']").length;
-    var links1 = links + 1;
-    $('#blockRecipient').clone(true).attr('id', 'blockRecipient' + links).appendTo('.marginBlock');
-    $('#blockRecipient' + links + ' #nameRecipient').attr('id', 'nameRecipient' + links);
-    $('#blockRecipient' + links + ' #delRecipient').attr('id', 'delRecipient' + links);
-    $('#blockRecipient' + links + ' select option').prop('selected', false);
-    $('#nameRecipient' + links).html("Получатель " + links1);
-    $('#delRecipient' + links).removeClass('d-none');
-  });
 
-  // Удалить вопрос, получателя
+  // Удалить вопрос
   $('.delQuestion').click(function(){
     var id = $(this).attr("id");
     id = id.substr(11);
     $('#blockQuestion' + id).remove();
-  });
-  $('.delRecipient').click(function(){
-    var id = $(this).attr("id");
-    id = id.substr(12);
-    $('#blockRecipient' + id).remove();
   });
 
   // Отмена закрытия полей
