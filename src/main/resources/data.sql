@@ -36,8 +36,8 @@ INSERT INTO public.doc (id, doctype_id, reg_num, reg_date, insert_datetime) VALU
 INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (29, 4, null, null, null, '2019-08-16', null, null);
 INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (30, 5, null, null, null, null, '14:00:00.000000', null);
 INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (31, 22, null, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (32, 23, 12, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (33, 24, 16, null, null, null, null, null);
+INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (32, 23, 20, null, null, null, null, null);
+INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (33, 24, 12, null, null, null, null, null);
 
 INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (31, 32);
 INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (31, 33);
