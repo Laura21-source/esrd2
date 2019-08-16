@@ -37,68 +37,47 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6"></div>
+                                <div class="col-md-6">&nbsp;</div>
                             </div>
                             <div class="row ml-1 mb-3">
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-4 text-left">
-                                            <span for="inputTime" class="text-muted"><i class="fas fa-clock mr-2"></i> Время  заседания</span>
+                                            <span for="inputTime" class="text-muted inputTimeName"></span>
                                         </div>
                                         <div class="col-md-8">
-                                            <input title="Выберите время" type="time" id="inputTime" name="inputTime" class="white form-control" value="11:45" disabled>
+                                            <input title="Выберите время" type="time" id="inputTime" name="inputTime" class="white form-control" disabled>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6"></div>
+                                <div class="col-md-6">&nbsp;</div>
                             </div>
-                            <div>&nbsp;</div>
-                            <div class="card my-3" id="blockQuestion" req="true">
-                                <div class="col-12">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-9 text-left">
-                                                <h5 id="nameQuestion">Вопрос 1</h5>
-                                            </div>
-                                            <div class="col-md-3 text-right">
-                                                <div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-md-2 text-left mt-3">
-                                                <span class="text-muted"><i class="fas fa-globe mr-2"></i> Тематика</span>
-                                            </div>
-                                            <div class="col-md-10 mt-3">
-                                                <select class="browser-default custom-select" name="selectTheme" id="selectTheme">
-                                                    <option value="" class="alert-primary my-2">Выберите тематику документа</option>
-                                                    <option value="1" class="my-2" selected disabled>Электроэнергия</option>
-                                                    <option value="2" class="my-2" disabled>Водоотведение</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-2 text-left mt-3">
-                                                <span class="text-muted"><i class="fas fa-briefcase mr-2"></i> Организация</span>
-                                            </div>
-                                            <div class="col-md-10 mt-3">
-                                                <select class="browser-default custom-select" name="selectOrganisation" id="selectOrganisation">
-                                                    <option value="" class="alert-primary">Выберите организацию</option>
-                                                    <option value="1" selected disabled>ООО Гарант Инвест</option>
-                                                    <option value="2" disabled>ОАО Бутовский химический завод</option>
-                                                    <option value="3" disabled>ОАО Квант-Н</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-2 text-left mt-3">
-                                                <span class="text-muted"><i class="fas fa-user-tie mr-2"></i> Ответственный</span>
-                                            </div>
-                                            <div class="col-md-10 mt-3">
-                                                <select class="browser-default custom-select" name="selectCrucial" id="selectCrucial">
-                                                    <option value="" class="alert-primary">Выберите ответственное лицо</option>
-                                                    <option value="1" selected disabled>В.Н. Минин, тел. 8 (495) 620 20 00, доб. 14832.</option>
-                                                    <option value="2" disabled>И.И. Власкина, тел. 8 (495) 957 72 16 </option>
-                                                </select>
+                            <div id="templateBlock" class="card p-3">
+                                <h5 class="templateBlockName"></h5>
+                                <div class="card-body">
+                                    <div class="row card mb-3" id="blockQuestion" req="true">
+                                        <div class="col-12">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-9 text-left">
+                                                        <h6 id="nameQuestion">Вопрос 1</h6>
+                                                    </div>
+                                                    <div class="col-md-3 text-right">
+                                                        <div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row templateBlockSelect"></div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="marginBlock my-3"></div>
+                                    <div class="row">
+                                        <div class="col-12 text-right">
+                                            <div class="btn btn-primary btn-sm pointer addQuestion mr-3 rounded" title="Добавить вопрос"><i class="fas fa-plus"></i> Добавить</div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-success mb-2 pt-3 submitBtn rounded" data-toggle="modal" data-target="#registrationSuccess">Зарегистрировать</button>
                                 </div>
                             </div>
                             <div class="marginBlock my-3"></div>
@@ -173,6 +152,48 @@
                     var newDateRevers = formatDateRevers(newDateRevers);
                     $(".inputDateName").html('<i class="fas fa-calendar-alt mr-2"></i>' + rowFields.field.name);
                     $("#inputDate").attr("value", newDateRevers);
+                }
+                if(rowFields.field.fieldType === "TIME") {
+                    var newTime = new Date(rowFields.field.value);
+                    function formatTime(date) {
+                        var hours = date.getHours();
+                        var minutes = date.getMinutes();
+                        if(minutes < 10) {
+                            minutes = '0' + minutes;
+                        }
+                        return hours + ':' + minutes;
+                    }
+                    var newTime = formatTime(newTime);
+                    $("#inputTimeBlock").removeClass("d-none");
+                    $(".inputTimeName").html('<i class="fas fa-clock mr-2"></i>' + rowFields.field.name);
+                    $("#inputTime").attr("value", newTime);
+                }
+                if(rowFields.field.fieldType === "GROUP_FIELDS") {
+                    $(".templateBlockName").html(rowFields.field.name);
+                    // Количество селектов в базе
+                    var sumSelectBase = rowFields.field.childFields.length;
+                    // Количество селектов на странице
+                    var sumSelectPage = $("[seq='true']").length;
+                    for(var y in rowFields.field.childFields) {
+                        var rowSelectField = rowFields.field.childFields[y];
+                        var selectFieldName = "selectField" + rowSelectField.catalogId;
+                        //console.log(rowSelectField.catalogId);
+                        // Количество селектов на базе должно быть больше чем на странице
+                        if(sumSelectBase > sumSelectPage) {
+                            $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary">Выберите значение справочника</option></select></div>');
+                            $.getJSON("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", function(dataOption) {
+                                for(var y in dataOption) {
+                                    var rowOption = dataOption[y];
+                                    if(rowOption.catalogId === rowOption.id) {
+                                        selectedField = 'selected="selected"';
+                                    } else {
+                                        selectedField = '';
+                                    }
+                                    $('#selectField' + rowOption.catalogId).append('<option value="' + rowOption.id + '" disabled selectedField>' + rowOption.valueStr + '</option>');
+                                }
+                            });
+                        }
+                    }
                 }
             }
         });
