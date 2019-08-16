@@ -15,6 +15,9 @@ public class DocTo extends BaseTo {
 
     private List<DocFieldsTo> docValuedFields;
 
+    public DocTo() {
+    }
+
     public DocTo(Integer id, String regNum, LocalDate regDate, LocalDateTime insertDateTime, Integer docTypeId, List<DocFieldsTo> docValuedFields) {
         super(id);
         this.regNum = regNum;

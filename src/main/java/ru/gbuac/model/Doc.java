@@ -38,6 +38,6 @@ public class Doc extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private DocType docType;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "doc")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc")
     private List<DocValuedFields> docValuedFields;
 }
