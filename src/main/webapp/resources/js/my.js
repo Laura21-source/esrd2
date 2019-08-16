@@ -58,7 +58,7 @@ $(function() {
     $(this).addClass("d-none");
     $("#saveDocument, #cancelDocument").removeClass("d-none");
     $("#closeDocument").addClass("d-none");
-    $("option, #inputDate, #inputTime, .addQuestion").attr("disabled",false);
+    $("select, #inputDate, #inputTime, .addQuestion").attr("disabled",false);
   });
 
   $("#saveDocument").click(function(e){
@@ -67,7 +67,7 @@ $(function() {
     $("#cancelDocument").addClass("d-none");
     $("#editDocument").removeClass("d-none");
     $("#closeDocument").removeClass("d-none");
-    $("option, #inputDate, #inputTime, .addQuestion").attr("disabled",true);
+    $("select, #inputDate, #inputTime, .addQuestion").attr("disabled",true);
   });
 
   $(".reloadButton").click(function(){

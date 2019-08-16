@@ -20,7 +20,7 @@
                                 <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
                             </div>
                             <div class="col-md-10">
-                                <select class="browser-default custom-select" name="selectType" id="selectType">
+                                <select class="browser-default custom-select white" name="selectType" id="selectType" disabled>
                                     <option value="" class="alert-primary">Выберите вид документа</option>
                                 </select>
                             </div>
@@ -126,14 +126,14 @@
                     } else {
                         selectedField = '';
                     }
-                    $("#selectType").append('<option value="' + rowType.id + '"' + selectedField + ' disabled>'+ rowType.name +'</option>');
+                    $("#selectType").append('<option value="' + rowType.id + '"' + selectedField + '>'+ rowType.name +'</option>');
                 }
             });
             // Получение основных полей
             for(var i in data.docValuedFields) {
                 var rowFields = data.docValuedFields[i];
                 if(rowFields.field.fieldType === "DATE") {
-                    var newDateRevers = new Date(rowFields.field.value);
+                    var newDateRevers = new Date(rowFields.field.valueDate);
                     function formatDateRevers(date) {
                         var day = date.getDate();
                         var month = date.getMonth()+1;
@@ -148,7 +148,7 @@
                     $("#inputDate").attr("value", newDateRevers);
                 }
                 if(rowFields.field.fieldType === "TIME") {
-                    var newTime = new Date(rowFields.field.value);
+                    var newTime = new Date(rowFields.field.valueDate);
                     function formatTime(date) {
                         var hours = date.getHours();
                         var minutes = date.getMinutes();
@@ -173,17 +173,17 @@
                         var selectFieldName = "selectField" + rowSelectField.catalogId;
                         // Количество селектов на базе должно быть больше чем на странице
                         if(sumSelectBase > sumSelectPage) {
-                            $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary">Выберите значение справочника</option></select></div>');
+                            $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select white" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true" disabled><option value="" class="alert-primary">Выберите значение справочника</option></select></div>');
                             $.getJSON("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", function(dataOption) {
                                 for(var y in dataOption) {
                                     var rowOption = dataOption[y];
-                                    console.log(rowSelectField.value + " - " + rowOption.id);
-                                    if(rowSelectField.value === rowOption.id) {
+                                    console.log(rowSelectField.valueInt + " - " + rowOption.id);
+                                    if(rowSelectField.valueInt === rowOption.id) {
                                         selectedField = 'selected="selected"';
                                     } else {
                                         selectedField = '';
                                     }
-                                    $('#selectField' + rowOption.catalogId).append('<option value="' + rowOption.id + '" ' + selectedField + ' disabled>' + rowOption.valueStr + '</option>');
+                                    $('#selectField' + rowOption.catalogId).append('<option value="' + rowOption.id + '" ' + selectedField + '>' + rowOption.valueStr + '</option>');
                                 }
                             });
                         }
