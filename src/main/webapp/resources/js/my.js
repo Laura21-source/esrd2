@@ -13,17 +13,6 @@ $(function() {
     stopper: "#footer",
   });
 
-  // Получение красивого вида даты
-  function formatDate(date) {
-    var day = date.getDate();
-    var month = date.getMonth()+1;
-    if(month < 10) {
-      month = '0' + month;
-    }
-    var year = date.getFullYear();
-    return day + '-' + month + '-' + '-' + year;
-  }
-
   // Добавить вопрос, получателя
   $('.addQuestion').click(function(){
     var links = $("[req='true']").length;
@@ -35,7 +24,6 @@ $(function() {
     $('#blockQuestion' + links).find('select').each(function(){
       var selectAttr = $(this).attr("name");
       $('#blockQuestion' + links + selectAttr).attr('name', selectAttr + links);
-      //alert(selectAttr + links);
     });
     $('#blockQuestion' + links + ' select option').prop('selected', false);
     $('#nameQuestion' + links).html("Вопрос " + links1);
