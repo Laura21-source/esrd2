@@ -74,7 +74,7 @@
                                     <div class="marginBlock my-3"></div>
                                     <div class="row">
                                         <div class="col-12 text-right">
-                                            <div class="btn btn-primary btn-sm pointer addQuestion mr-3 rounded disabled" title="Добавить вопрос"><i class="fas fa-plus"></i> Добавить</div>
+                                            <button type="button" class="btn btn-primary btn-sm pointer addQuestion mr-3 submitBtn rounded" title="Добавить вопрос" disabled><i class="fas fa-plus"></i> Добавить</button>
                                         </div>
                                     </div>
                                 </div>
