@@ -39,8 +39,8 @@ INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_s
 INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (32, 23, 12, null, null, null, null, null);
 INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (33, 24, 16, null, null, null, null, null);
 
-INSERT INTO public.valuedfield_child_valuedfield (valued_field_id, child_valued_field_id) VALUES (31, 32);
-INSERT INTO public.valuedfield_child_valuedfield (valued_field_id, child_valued_field_id) VALUES (31, 33);
+INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (31, 32);
+INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (31, 33);
 
 INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (35, 28, 30, 2);
 INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (36, 28, 31, 3);
