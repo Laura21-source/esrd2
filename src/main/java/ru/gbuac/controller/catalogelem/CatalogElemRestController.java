@@ -19,4 +19,5 @@ public class CatalogElemRestController extends AbstractCatalogElemRestController
     public List<CatalogElemTo> getAll(@PathVariable("catalogId") int catalogId) {
         return super.getAll(catalogId);
     }
+
 }
