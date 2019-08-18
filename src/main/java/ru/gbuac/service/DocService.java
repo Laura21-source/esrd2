@@ -9,13 +9,15 @@ import java.util.List;
 public interface DocService {
     Doc get(int id) throws NotFoundException;
 
-    DocTo getFull(int id) throws NotFoundException;
+    DocTo getFullByUserName(int id, String userName) throws NotFoundException;
+
+    List<Doc> getAllAgreementByUsername(String userName);
 
     List<Doc> getAll();
 
-    DocTo save(DocTo doc);
+    DocTo save(DocTo doc, String userName);
 
-    DocTo update(DocTo docTo, int id) throws NotFoundException;
+    DocTo update(DocTo docTo, int id, String userName) throws NotFoundException;
 
     void delete(int id) throws NotFoundException;
 }

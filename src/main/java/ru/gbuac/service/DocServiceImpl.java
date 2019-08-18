@@ -1,8 +1,10 @@
 package ru.gbuac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.*;
 import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
@@ -10,6 +12,7 @@ import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FieldTo;
 import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
+import ru.gbuac.util.exception.UnauthorizedUserException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,26 +41,38 @@ public class DocServiceImpl implements DocService {
     @Autowired
     private CatalogElemRepository catalogElemRepository;
 
+    @Autowired
+    private DocTypeRoutesRepository docTypeRoutesRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public Doc get(int id) throws NotFoundException {
         return checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
     }
 
-    public DocTo asDocTo(Doc doc) {
+    public DocTo asDocTo(Doc doc, String userName) {
+        List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(doc.getId());
+        List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(doc.getDocType().getId());
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 
         for (DocValuedFields d:docValuedFields) {
-            List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(d.getDoc().getDocType().getId());
             Role role = docTypeFields.stream().filter(f -> f.getField().getId() == d.getValuedField().getField().getId())
                     .findAny().get().getRole();
 
             docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField()),
-                    d.getPosition(), role));
+                    d.getPosition(), curUserRoles.contains(role)));
         }
 
-        return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDate(), doc.getInsertDateTime(), doc.getDocType().getId(),
-                docFieldsTos);
+        Integer agreementDocId = null;
+        if (doc.getAgreementDoc() != null) {
+            agreementDocId = doc.getAgreementDoc().getId();
+        }
+
+        return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDate(), doc.getInsertDateTime(),
+                doc.getDocType().getId(), agreementDocId, docFieldsTos);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {
@@ -89,33 +104,63 @@ public class DocServiceImpl implements DocService {
                     createNewValueFieldFromTo(d.getField()), d.getPosition()));
         }
         doc.setDocValuedFields(docValuedFields);
+        if (docTo.getAgreementDocId() == null) {
+            doc.setCurrentAgreementStage(1);
+        }
         return doc;
     }
 
     @Override
-    public DocTo getFull(int id) throws NotFoundException {
-        return asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id));
+    public DocTo getFullByUserName(int id, String userName) throws NotFoundException {
+        return asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id), userName);
+    }
+
+    @Override
+    public List<Doc> getAllAgreementByUsername(String userName) {
+        List<Doc> viewDocs = new ArrayList<>();
+        for (DocTypeRoutes docTypeRoute: docTypeRoutesRepository.getByUserName(userName)) {
+            viewDocs.addAll(docRepository.getAllAgreementByDocTypeAndStage(
+                    docTypeRoute.getDocType().getId(), docTypeRoute.getAgreeStage()));
+        }
+        return viewDocs;
     }
 
     @Override
     public List<Doc> getAll() {
-        return docRepository.findAll();
+        return docRepository.getAll();
     }
 
     @Override
-    public DocTo save(DocTo docTo) {
+    public DocTo save(DocTo docTo, String userName) throws UnauthorizedUserException {
         Assert.notNull(docTo, "doc must not be null");
-        docTo.setRegNum("согл-"+ new Random().nextInt(100)+"/19");
-        return asDocTo(docRepository.save(createNewDocFromTo(docTo)));
+        List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTo.getDocTypeId());
+        List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
+
+        Long existRole = 0L;
+        for (DocFieldsTo d:docTo.getChildFields()) {
+            existRole += docTypeFields.stream()
+                    .filter(f -> f.getField().getId() == d.getField().getFieldId())
+                    .filter(f -> curUserRoles.contains(f.getRole())).count();
+        }
+        if (existRole == 0) {
+            throw new UnauthorizedUserException();
+        }
+
+        if (docTo.getAgreementDocId() == null) {
+            docTo.setRegNum("согл-"+ new Random().nextInt(100)+"/19");
+        }
+        else
+            docTo.setRegNum("ДЭПР-"+ new Random().nextInt(100)+"/19");
+        return asDocTo(docRepository.save(createNewDocFromTo(docTo)), userName);
     }
 
     @Override
-    public DocTo update(DocTo docTo, int id) throws NotFoundException {
+    public DocTo update(DocTo docTo, int id, String userName) throws NotFoundException, UnauthorizedUserException {
         Assert.notNull(docTo, "docTo must not be null");
         docValuedFieldsRepository.deleteAll(id);
         Doc doc = createNewDocFromTo(docTo);
         doc.setId(id);
-        return asDocTo(checkNotFoundWithId(docRepository.save(doc), id));
+        return asDocTo(checkNotFoundWithId(docRepository.save(doc), id), userName);
     }
 
     @Override

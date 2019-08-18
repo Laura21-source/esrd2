@@ -27,11 +27,11 @@ INSERT INTO public.field (id, name,  fieldtype, position_in_group, max_count, le
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (22, 23);
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (22, 24);
 
-INSERT INTO public.doctype_fields (id, doctype_id, field_id, position, role) VALUES (25, 1, 4, 1, 'ROLE_ELECTRO_ENERGY');
-INSERT INTO public.doctype_fields (id, doctype_id, field_id, position, role) VALUES (26, 1, 5, 2, 'ROLE_ELECTRO_ENERGY');
-INSERT INTO public.doctype_fields (id, doctype_id, field_id, position, role) VALUES (27, 1, 22, 3, 'ROLE_ELECTRO_ENERGY');
+INSERT INTO public.doctype_fields (id, doctype_id, field_id, position, role) VALUES (25, 1, 4, 1, 'ROLE_POVESTKA');
+INSERT INTO public.doctype_fields (id, doctype_id, field_id, position, role) VALUES (26, 1, 5, 2, 'ROLE_SECRETARY');
+INSERT INTO public.doctype_fields (id, doctype_id, field_id, position, role) VALUES (27, 1, 22, 3, 'ROLE_POVESTKA_QUESTIONS');
 
-INSERT INTO public.doc (id, doctype_id, reg_num, reg_date, insert_datetime) VALUES (28, 1, 'согл-1/19', '2019-08-15', '2019-08-15 00:00:00.000000');
+INSERT INTO public.doc (id, doctype_id, reg_num, reg_date, insert_datetime, cur_agree_stage) VALUES (28, 1, 'согл-1/19', '2019-08-15', '2019-08-15 00:00:00.000000', 1);
 
 INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (29, 4, null, null, null, '2019-08-16', null, null);
 INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (30, 5, null, null, null, null, '14:00:00.000000', null);
@@ -42,7 +42,14 @@ INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_s
 INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (31, 32);
 INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (31, 33);
 
+INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (34, 28, 29, 1);
 INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (35, 28, 30, 2);
 INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (36, 28, 31, 3);
-INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (34, 28, 29, 1);
 
+INSERT INTO public.doctype_routes (id, doctype_id, userldap, agree_stage) VALUES (37, 1, 'user1', 1);
+INSERT INTO public.doctype_routes (id, doctype_id, userldap, agree_stage) VALUES (38, 1, 'user2', 2);
+
+INSERT INTO public.user_roles (userldap, role) VALUES ('user1', 'ROLE_POVESTKA');
+INSERT INTO public.user_roles (userldap, role) VALUES ('user1', 'ROLE_POVESTKA_QUESTIONS');
+INSERT INTO public.user_roles (userldap, role) VALUES ('user2', 'ROLE_POVESTKA');
+INSERT INTO public.user_roles (userldap, role) VALUES ('user2', 'ROLE_SECRETARY');

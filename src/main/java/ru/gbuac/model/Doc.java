@@ -1,7 +1,6 @@
 package ru.gbuac.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,6 +40,13 @@ public class Doc extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc", cascade = CascadeType.ALL)
     private List<DocValuedFields> docValuedFields;
+
+    @OneToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name="agreement_doc_id")
+    private Doc agreementDoc;
+
+    @Column(name = "cur_agree_stage")
+    private Integer currentAgreementStage;
 
     public Doc(Integer id, @NotNull String regNum, @NotNull LocalDate regDate, @NotNull LocalDateTime insertDateTime, @NotNull DocType docType, List<DocValuedFields> docValuedFields) {
         super(id);

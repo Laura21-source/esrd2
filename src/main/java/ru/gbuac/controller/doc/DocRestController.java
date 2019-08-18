@@ -20,6 +20,11 @@ public class DocRestController extends AbstractDocRestController {
         return super.getFull(id);
     }
 
+    @Override
+    @GetMapping(value = "/agreement")
+    public List<Doc> getAllAgreementByUsername() {
+        return super.getAllAgreementByUsername();
+    }
 
     @Override
     @GetMapping
@@ -27,7 +32,7 @@ public class DocRestController extends AbstractDocRestController {
         return super.getAll();
     }
 
-    @PostMapping(value = "/agreement", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public DocTo updateOrCreate(@RequestBody DocTo docTo) {
         if (docTo.isNew()) {
             return super.create(docTo);

@@ -3,6 +3,7 @@ package ru.gbuac.controller.doc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocType;
 import ru.gbuac.service.DocService;
@@ -27,7 +28,12 @@ public abstract class AbstractDocRestController {
 
     public DocTo getFull(int id) {
         LOG.info("get " + id);
-        return docService.getFull(id);
+        return docService.getFullByUserName(id, AuthorizedUser.getUserName());
+    }
+
+    public List<Doc> getAllAgreementByUsername() {
+        LOG.info("getAllAgreement");
+        return docService.getAllAgreementByUsername(AuthorizedUser.getUserName());
     }
 
     public List<Doc> getAll() {
@@ -36,15 +42,15 @@ public abstract class AbstractDocRestController {
     }
 
     public DocTo create(DocTo docTo) {
-        LOG.info("create " + docTo);
+        LOG.info("createFinal " + docTo);
         checkNew(docTo);
-        return docService.save(docTo);
+        return docService.save(docTo, AuthorizedUser.getUserName());
     }
 
     public DocTo update(DocTo docTo, int id) {
         LOG.info("update " + docTo);
         assureIdConsistent(docTo, id);
-        return docService.update(docTo, id);
+        return docService.update(docTo, id, AuthorizedUser.getUserName());
     }
 
     public void delete(int id) {

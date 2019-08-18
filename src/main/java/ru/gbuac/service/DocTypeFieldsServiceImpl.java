@@ -3,8 +3,11 @@ package ru.gbuac.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.DocTypeFieldsRepository;
+import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.model.DocTypeFields;
+import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.to.FieldTo;
 import ru.gbuac.util.FieldUtil;
@@ -21,6 +24,9 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
     @Autowired
     private DocTypeFieldsRepository docTypeFieldsRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public DocTypeFields get(int id, int docTypeId) throws NotFoundException {
         DocTypeFields docTypeFields = docTypeFieldsRepository.findById(id).orElse(null);
@@ -33,13 +39,14 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
     }
 
     @Override
-    public List<DocFieldsTo> getAllFull(int docTypeId) {
+    public List<DocFieldsTo> getAllFullByUserName(int docTypeId, String userName) {
+        List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 
         for (DocTypeFields d:docTypeFields) {
             docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField()),
-                    d.getPosition(), d.getRole()));
+                    d.getPosition(), curUserRoles.contains(d.getRole())));
 
         }
         return docFieldsTos;
