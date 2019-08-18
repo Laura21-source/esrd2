@@ -1,7 +1,6 @@
 package ru.gbuac.to;
 
 import org.hibernate.validator.constraints.SafeHtml;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,17 +18,21 @@ public class DocTo extends BaseTo implements Serializable {
 
     private Integer docTypeId;
 
+    private Integer agreementDocId;
+
     private List<DocFieldsTo> childFields;
 
     public DocTo() {
     }
 
-    public DocTo(Integer id, String regNum, LocalDate regDate, LocalDateTime insertDateTime, Integer docTypeId, List<DocFieldsTo> childFields) {
+    public DocTo(Integer id, String regNum, LocalDate regDate, LocalDateTime insertDateTime, Integer docTypeId,
+                 Integer agreementDocId, List<DocFieldsTo> childFields) {
         super(id);
         this.regNum = regNum;
         this.regDate = regDate;
         this.insertDateTime = insertDateTime;
         this.docTypeId = docTypeId;
+        this.agreementDocId = agreementDocId;
         this.childFields = childFields;
     }
 
@@ -65,6 +68,14 @@ public class DocTo extends BaseTo implements Serializable {
         this.docTypeId = docTypeId;
     }
 
+    public Integer getAgreementDocId() {
+        return agreementDocId;
+    }
+
+    public void setAgreementDocId(Integer agreementDocId) {
+        this.agreementDocId = agreementDocId;
+    }
+
     public List<DocFieldsTo> getChildFields() {
         return childFields;
     }
@@ -85,6 +96,8 @@ public class DocTo extends BaseTo implements Serializable {
         if (insertDateTime != null ? !insertDateTime.equals(docTo.insertDateTime) : docTo.insertDateTime != null)
             return false;
         if (docTypeId != null ? !docTypeId.equals(docTo.docTypeId) : docTo.docTypeId != null) return false;
+        if (agreementDocId != null ? !agreementDocId.equals(docTo.agreementDocId) : docTo.agreementDocId != null)
+            return false;
         return childFields != null ? childFields.equals(docTo.childFields) : docTo.childFields == null;
     }
 
@@ -94,6 +107,7 @@ public class DocTo extends BaseTo implements Serializable {
         result = 31 * result + (regDate != null ? regDate.hashCode() : 0);
         result = 31 * result + (insertDateTime != null ? insertDateTime.hashCode() : 0);
         result = 31 * result + (docTypeId != null ? docTypeId.hashCode() : 0);
+        result = 31 * result + (agreementDocId != null ? agreementDocId.hashCode() : 0);
         result = 31 * result + (childFields != null ? childFields.hashCode() : 0);
         return result;
     }
@@ -106,6 +120,7 @@ public class DocTo extends BaseTo implements Serializable {
                 ", regDate=" + regDate +
                 ", insertDateTime=" + insertDateTime +
                 ", docTypeId=" + docTypeId +
+                ", agreementDocId=" + agreementDocId +
                 ", childFields=" + childFields +
                 '}';
     }

@@ -11,7 +11,7 @@ public interface DocTypeFieldsService {
 
     List<DocTypeFields> getAll(int docTypeId);
 
-    List<DocFieldsTo> getAllFull(int docTypeId);
+    List<DocFieldsTo> getAllFullByUserName(int docTypeId, String userName);
 
     DocTypeFields save(DocTypeFields docTypeFields);
 

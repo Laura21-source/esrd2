@@ -12,9 +12,18 @@ public class DocFieldsTo {
 
     private Integer position;
 
+    private boolean enabled;
+
     private Role role;
 
     public DocFieldsTo() {
+    }
+
+    public DocFieldsTo(Integer id, FieldTo field, Integer position, boolean enabled) {
+        this.id = id;
+        this.field = field;
+        this.position = position;
+        this.enabled = enabled;
     }
 
     public DocFieldsTo(Integer id, FieldTo field, Integer position, Role role) {
@@ -48,6 +57,14 @@ public class DocFieldsTo {
         this.position = position;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -63,6 +80,7 @@ public class DocFieldsTo {
 
         DocFieldsTo that = (DocFieldsTo) o;
 
+        if (enabled != that.enabled) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (field != null ? !field.equals(that.field) : that.field != null) return false;
         if (position != null ? !position.equals(that.position) : that.position != null) return false;
@@ -74,16 +92,18 @@ public class DocFieldsTo {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (field != null ? field.hashCode() : 0);
         result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + (enabled ? 1 : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "DocTypeFieldsTo{" +
-                " id=" + id +
+        return "DocFieldsTo{" +
+                "id=" + id +
                 ", field=" + field +
                 ", position=" + position +
+                ", enabled=" + enabled +
                 ", role=" + role +
                 '}';
     }

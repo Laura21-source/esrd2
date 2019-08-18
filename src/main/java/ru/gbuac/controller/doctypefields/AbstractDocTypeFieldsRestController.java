@@ -3,6 +3,7 @@ package ru.gbuac.controller.doctypefields;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.service.DocTypeFieldsService;
 import ru.gbuac.to.DocFieldsTo;
@@ -28,9 +29,9 @@ public abstract class AbstractDocTypeFieldsRestController {
         return docTypeFieldsService.getAll(docTypeId);
     }
 
-    public List<DocFieldsTo> getAllFull(int docTypeId) {
-        LOG.info("getAllFull");
-        return docTypeFieldsService.getAllFull(docTypeId);
+    public List<DocFieldsTo> getAllFullByUserName(int docTypeId) {
+        LOG.info("getAllFullByUserName");
+        return docTypeFieldsService.getAllFullByUserName(docTypeId, AuthorizedUser.getUserName());
     }
 
     public DocTypeFields create(DocTypeFields docTypeFields) {

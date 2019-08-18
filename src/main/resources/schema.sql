@@ -36,10 +36,35 @@ CREATE TABLE doc
     doctype_id       INTEGER                 NOT NULL,
     reg_num          VARCHAR                 NOT NULL,
     reg_date         DATE DEFAULT now()      NOT NULL,
-    reg_type         INTEGER                 NOT NULL,
     insert_datetime  TIMESTAMP DEFAULT now() NOT NULL,
+    agreement_doc_id INTEGER                         ,
+    cur_agree_stage  INTEGER                         ,
     FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
 );
+
+CREATE TABLE user_roles
+(
+    userldap         VARCHAR                 NOT NULL,
+    role             VARCHAR                 NOT NULL
+);
+
+CREATE TABLE doctype_routes
+(
+    id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    doctype_id       INTEGER                 NOT NULL,
+    userldap         VARCHAR                 NOT NULL,
+    agree_stage      INTEGER                 NOT NULL,
+    FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
+);
+/*
+CREATE TABLE doc_routes
+(
+    id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    doctype_id       INTEGER                 NOT NULL,
+    userldap         VARCHAR                 NOT NULL,
+    agree_order      INTEGER                 NOT NULL,
+    FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
+);*/
 
 CREATE TABLE catalog
 (

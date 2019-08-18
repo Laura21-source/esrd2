@@ -16,7 +16,7 @@ public class DocTypeFieldsRestController extends AbstractDocTypeFieldsRestContro
 
     @Override
     @GetMapping
-    public List<DocFieldsTo> getAllFull(@PathVariable("docTypeId") int docTypeId) {
-        return super.getAllFull(docTypeId);
+    public List<DocFieldsTo> getAllFullByUserName(@PathVariable("docTypeId") int docTypeId) {
+        return super.getAllFullByUserName(docTypeId);
     }
 }

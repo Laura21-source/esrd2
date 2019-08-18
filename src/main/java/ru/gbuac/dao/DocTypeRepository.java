@@ -13,4 +13,6 @@ public interface DocTypeRepository extends JpaRepository<DocType, Integer> {
     @Modifying
     @Query("DELETE FROM DocType d WHERE d.id=:id")
     int delete(@Param("id") int id);
+
+
 }
