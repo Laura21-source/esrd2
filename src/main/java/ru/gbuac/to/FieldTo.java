@@ -1,13 +1,8 @@
 package ru.gbuac.to;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import ru.gbuac.model.Field;
 import ru.gbuac.model.FieldType;
-import ru.gbuac.model.ValuedField;
-import ru.gbuac.util.DateTimeUtil;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FieldTo extends BaseTo {
@@ -34,54 +29,7 @@ public class FieldTo extends BaseTo {
 
     private LocalDateTime valueDate;
 
-    public FieldTo(Field field) {
-        this.name = field.getName();
-        this.fieldId = field.getId();
-        this.fieldType = field.getFieldType();
-        this.positionInGroup = field.getPositionInGroup();
-        this.maxCount = field.getMaxCount();
-        this.length = field.getLength();
-        this.catalogId = field.getCatalog_id();
-        this.childFields = new ArrayList<>();
-        for (Field childField : field.getChildField()) {
-            this.childFields.add(FieldTo(childField));
-        }
-    }
-
-    public FieldTo(ValuedField valuedField) {
-        this.id = valuedField.getId();
-        this.name = valuedField.getField().getName();
-        this.fieldId = valuedField.getField().getId();
-        this.fieldType = valuedField.getField().getFieldType();
-        this.positionInGroup = valuedField.getField().getPositionInGroup();
-        this.maxCount = valuedField.getField().getMaxCount();
-        this.length = valuedField.getField().getLength();
-        this.catalogId = valuedField.getField().getCatalog_id();
-        this.childFields = new ArrayList<>();
-        switch (this.fieldType) {
-            case TEXT:
-            case TEXT_MULTI_LINE:
-                this.valueStr = valuedField.getValueStr();
-                break;
-            case NUMBER:
-                this.valueInt = valuedField.getValueInt();
-                break;
-            case DATE:
-                this.valueDate = valuedField.getValueDate();
-                break;
-            case TIME:
-                this.valueDate = valuedField.getValueTime();
-                break;
-            case DATE_TIME:
-                this.valueDate = valuedField.getValueDateTime();
-                break;
-            case CATALOG:
-                this.valueInt = valuedField.getCatalogElem().getId();
-        }
-
-        for (ValuedField childField : valuedField.getChildValuedField()) {
-            this.childFields.add(FieldTo(childField));
-        }
+    public FieldTo() {
     }
 
     public FieldTo(Integer id, String name, List<FieldTo> childFields, Integer fieldId, FieldType fieldType, Integer positionInGroup, Integer maxCount, Integer length, Integer catalogId) {
@@ -94,24 +42,6 @@ public class FieldTo extends BaseTo {
         this.maxCount = maxCount;
         this.length = length;
         this.catalogId = catalogId;
-    }
-
-    public FieldTo FieldTo(Field field) {
-        FieldTo fieldTo = new FieldTo(field);
-
-        for (Field childField : field.getChildField()) {
-            fieldTo.childFields.add(FieldTo(childField));
-        }
-        return fieldTo;
-    }
-
-    public FieldTo FieldTo(ValuedField valuedField) {
-        FieldTo fieldTo = new FieldTo(valuedField);
-
-        for (ValuedField childField : valuedField.getChildValuedField()) {
-            fieldTo.childFields.add(FieldTo(childField));
-        }
-        return fieldTo;
     }
 
     public String getName() {

@@ -7,6 +7,7 @@ import ru.gbuac.dao.DocTypeFieldsRepository;
 import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.to.FieldTo;
+import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 
         for (DocTypeFields d:docTypeFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(), new FieldTo(d.getField()),
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField()),
                     d.getPosition(), d.getRole()));
 
         }

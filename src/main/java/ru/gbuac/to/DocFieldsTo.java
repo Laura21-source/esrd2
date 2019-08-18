@@ -14,6 +14,9 @@ public class DocFieldsTo {
 
     private Role role;
 
+    public DocFieldsTo() {
+    }
+
     public DocFieldsTo(Integer id, FieldTo field, Integer position, Role role) {
         this.id = id;
         this.field = field;

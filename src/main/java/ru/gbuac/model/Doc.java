@@ -1,6 +1,7 @@
 package ru.gbuac.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,6 +39,15 @@ public class Doc extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private DocType docType;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc", cascade = CascadeType.ALL)
     private List<DocValuedFields> docValuedFields;
+
+    public Doc(Integer id, @NotNull String regNum, @NotNull LocalDate regDate, @NotNull LocalDateTime insertDateTime, @NotNull DocType docType, List<DocValuedFields> docValuedFields) {
+        super(id);
+        this.regNum = regNum;
+        this.regDate = regDate;
+        this.insertDateTime = insertDateTime;
+        this.docType = docType;
+        this.docValuedFields = docValuedFields;
+    }
 }

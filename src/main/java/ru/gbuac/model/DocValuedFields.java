@@ -19,11 +19,18 @@ public class DocValuedFields extends BaseEntity {
     @JsonIgnore
     private Doc doc;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "valuedfield_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private ValuedField valuedField;
 
     @NotNull
     private Integer position;
+
+    public DocValuedFields(Integer id, Doc doc, ValuedField valuedField, @NotNull Integer position) {
+        super(id);
+        this.doc = doc;
+        this.valuedField = valuedField;
+        this.position = position;
+    }
 }

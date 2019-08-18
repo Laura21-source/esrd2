@@ -3,20 +3,18 @@ package ru.gbuac.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import ru.gbuac.dao.DocRepository;
-import ru.gbuac.dao.DocTypeFieldsRepository;
-import ru.gbuac.dao.DocValuedFieldsRepository;
-import ru.gbuac.model.Doc;
-import ru.gbuac.model.DocTypeFields;
-import ru.gbuac.model.DocValuedFields;
-import ru.gbuac.model.Role;
+import ru.gbuac.dao.*;
+import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FieldTo;
+import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -31,14 +29,22 @@ public class DocServiceImpl implements DocService {
     @Autowired
     private DocTypeFieldsRepository docTypeFieldsRepository;
 
+    @Autowired
+    private DocTypeRepository docTypeRepository;
+
+    @Autowired
+    private FieldRepository fieldRepository;
+
+    @Autowired
+    private CatalogElemRepository catalogElemRepository;
+
     @Override
     public Doc get(int id) throws NotFoundException {
         return checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
     }
 
-    @Override
-    public DocTo getFull(int id) throws NotFoundException {
-        List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(id);
+    public DocTo asDocTo(Doc doc) {
+        List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(doc.getId());
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 
         for (DocValuedFields d:docValuedFields) {
@@ -46,15 +52,49 @@ public class DocServiceImpl implements DocService {
             Role role = docTypeFields.stream().filter(f -> f.getField().getId() == d.getValuedField().getField().getId())
                     .findAny().get().getRole();
 
-            docFieldsTos.add(new DocFieldsTo(d.getId(), new FieldTo(d.getValuedField()),
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField()),
                     d.getPosition(), role));
         }
 
-        Doc doc = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
-        DocTo docTo = new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDate(), doc.getInsertDateTime(), doc.getDocType().getId(),
-            docFieldsTos);
+        return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDate(), doc.getInsertDateTime(), doc.getDocType().getId(),
+                docFieldsTos);
+    }
 
-        return docTo;
+    public ValuedField createNewValueFieldFromTo(FieldTo newField) {
+        List<ValuedField> childFields = new ArrayList<>();
+        for (FieldTo childFieldTo : newField.getChildFields()) {
+            childFields.add(createNewValueFieldFromTo(childFieldTo));
+        }
+
+        Field field = fieldRepository.findById(newField.getFieldId()).orElse(null);
+        CatalogElem catalogElem = null;
+        if (field.getFieldType() == FieldType.CATALOG) {
+            catalogElem = catalogElemRepository.findById(newField.getValueInt()).orElse(null);
+            newField.setValueInt(null);
+        }
+
+        return new ValuedField(null, childFields,  field, catalogElem, newField.getValueInt(), newField.getValueStr(),
+                newField.getValueDate(), newField.getValueDate(), newField.getValueDate());
+    }
+
+    public Doc createNewDocFromTo(DocTo docTo) {
+        DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
+        Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDate(), docTo.getInsertDateTime(),
+                docType, null);
+        List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
+        List<DocValuedFields> docValuedFields = new ArrayList<>();
+
+        for (DocFieldsTo d:docFieldsTos) {
+            docValuedFields.add(new DocValuedFields(null, doc,
+                    createNewValueFieldFromTo(d.getField()), d.getPosition()));
+        }
+        doc.setDocValuedFields(docValuedFields);
+        return doc;
+    }
+
+    @Override
+    public DocTo getFull(int id) throws NotFoundException {
+        return asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id));
     }
 
     @Override
@@ -63,16 +103,19 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public DocTo save(DocTo docType) {
-        Assert.notNull(docType, "docTo must not be null");
-        return null;
+    public DocTo save(DocTo docTo) {
+        Assert.notNull(docTo, "doc must not be null");
+        docTo.setRegNum("согл-"+ new Random().nextInt(100)+"/19");
+        return asDocTo(docRepository.save(createNewDocFromTo(docTo)));
     }
 
     @Override
     public DocTo update(DocTo docTo, int id) throws NotFoundException {
         Assert.notNull(docTo, "docTo must not be null");
-        //Doc savedDocType = checkNotFoundWithId(docRepository.save(doc), id);
-        return null;
+        docValuedFieldsRepository.deleteAll(id);
+        Doc doc = createNewDocFromTo(docTo);
+        doc.setId(id);
+        return asDocTo(checkNotFoundWithId(docRepository.save(doc), id));
     }
 
     @Override

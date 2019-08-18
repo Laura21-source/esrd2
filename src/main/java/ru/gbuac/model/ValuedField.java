@@ -38,4 +38,16 @@ public class ValuedField extends BaseEntity{
 
     @Column(name = "value_datetime")
     private LocalDateTime valueDateTime;
+
+    public ValuedField(Integer id, List<ValuedField> childValuedField, Field field, CatalogElem catalogElem, Integer valueInt, String valueStr, LocalDateTime valueDate, LocalDateTime valueTime, LocalDateTime valueDateTime) {
+        super(id);
+        this.childValuedField = childValuedField;
+        this.field = field;
+        this.catalogElem = catalogElem;
+        this.valueInt = valueInt;
+        this.valueStr = valueStr;
+        this.valueDate = valueDate;
+        this.valueTime = valueTime;
+        this.valueDateTime = valueDateTime;
+    }
 }

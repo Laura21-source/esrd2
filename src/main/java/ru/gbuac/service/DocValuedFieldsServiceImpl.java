@@ -10,6 +10,7 @@ import ru.gbuac.model.DocValuedFields;
 import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.to.FieldTo;
+import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
             Role role = docTypeFields.stream().filter(f -> f.getField().getId() == d.getValuedField().getField().getId())
                     .findAny().get().getRole();
 
-            docFieldsTos.add(new DocFieldsTo(d.getId(), new FieldTo(d.getValuedField()),
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField()),
                     d.getPosition(), role));
         }
         return docFieldsTos;

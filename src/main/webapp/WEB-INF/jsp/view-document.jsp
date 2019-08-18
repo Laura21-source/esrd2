@@ -130,8 +130,8 @@
                 }
             });
             // Получение основных полей
-            for(var i in data.docValuedFields) {
-                var rowFields = data.docValuedFields[i];
+            for(var i in data.childFields) {
+                var rowFields = data.childFields[i];
                 if(rowFields.field.fieldType === "DATE") {
                     var newDateRevers = new Date(rowFields.field.valueDate);
                     function formatDateRevers(date) {
