@@ -2,23 +2,29 @@ DROP TABLE IF EXISTS field_child_field;
 
 DROP TABLE IF EXISTS doctype_fields;
 
-DROP TABLE IF EXISTS field;
-
-DROP TABLE IF EXISTS valuedfield_child_valuedfield;
+DROP TABLE IF EXISTS valuedfield_child_valued_field;
 
 DROP TABLE IF EXISTS doc_valuedfields;
 
 DROP TABLE IF EXISTS doc;
 
-DROP TABLE IF EXISTS doctype;
-
 DROP TABLE IF EXISTS valuedfield;
 
 DROP TABLE IF EXISTS catalogelem;
 
+DROP TABLE IF EXISTS field;
+
 DROP TABLE IF EXISTS catalog;
 
+DROP TABLE IF EXISTS doctype_routes;
+
+DROP TABLE IF EXISTS doctype;
+
+DROP TABLE IF EXISTS user_roles;
+
 DROP SEQUENCE IF EXISTS global_seq;
+DROP SEQUENCE IF EXISTS agreement_seq;
+DROP SEQUENCE IF EXISTS depr_seq;
 
 CREATE SEQUENCE global_seq START 100000;
 CREATE SEQUENCE agreement_seq START 1;
@@ -32,13 +38,14 @@ CREATE TABLE doctype
 
 CREATE TABLE doc
 (
-    id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    doctype_id       INTEGER                 NOT NULL,
-    reg_num          VARCHAR                 NOT NULL,
-    reg_date         DATE DEFAULT now()      NOT NULL,
-    insert_datetime  TIMESTAMP DEFAULT now() NOT NULL,
-    agreement_doc_id INTEGER                         ,
-    cur_agree_stage  INTEGER                         ,
+    id                      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    doctype_id              INTEGER                      NOT NULL,
+    reg_num                 VARCHAR                              ,
+    reg_datetime            TIMESTAMP                            ,
+    project_reg_num         VARCHAR                      NOT NULL,
+    project_reg_datetime    TIMESTAMP DEFAULT now()      NOT NULL,
+    insert_datetime         TIMESTAMP DEFAULT now()      NOT NULL,
+    cur_agree_stage         INTEGER                              ,
     FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
 );
 

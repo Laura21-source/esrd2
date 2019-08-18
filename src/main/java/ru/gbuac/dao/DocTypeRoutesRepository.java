@@ -21,4 +21,7 @@ public interface DocTypeRoutesRepository extends JpaRepository<DocTypeRoutes, In
 
     @Query("SELECT d FROM DocTypeRoutes d WHERE d.userldap=:userName")
     List<DocTypeRoutes> getByUserName(@Param("userName") String userName);
+
+    @Query("SELECT max(d.agreeStage) FROM DocTypeRoutes d WHERE d.docType.id=:docTypeId")
+    int getFinalStageForDocType(@Param("docTypeId") int docTypeId);
 }

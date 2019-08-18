@@ -12,28 +12,43 @@ public class DocTo extends BaseTo implements Serializable {
     @SafeHtml
     private String regNum;
 
-    private LocalDate regDate = LocalDate.now();
+    private LocalDateTime regDateTime;
+
+    @SafeHtml
+    private String projectRegNum;
+
+    private LocalDateTime projectRegDateTime = LocalDateTime.now();
 
     private LocalDateTime insertDateTime = LocalDateTime.now();
 
     private Integer docTypeId;
 
-    private Integer agreementDocId;
+    private Integer currentAgreementStage;
+
+    private Boolean finalStage;
 
     private List<DocFieldsTo> childFields;
 
     public DocTo() {
     }
 
-    public DocTo(Integer id, String regNum, LocalDate regDate, LocalDateTime insertDateTime, Integer docTypeId,
-                 Integer agreementDocId, List<DocFieldsTo> childFields) {
+    public DocTo(Integer id, @SafeHtml String regNum, LocalDateTime regDateTime, @SafeHtml String projectRegNum,
+                 LocalDateTime projectRegDateTime, LocalDateTime insertDateTime, Integer docTypeId,
+                 Integer currentAgreementStage, Boolean finalStage, List<DocFieldsTo> childFields) {
         super(id);
         this.regNum = regNum;
-        this.regDate = regDate;
+        this.regDateTime = regDateTime;
+        this.projectRegNum = projectRegNum;
+        this.projectRegDateTime = projectRegDateTime;
         this.insertDateTime = insertDateTime;
         this.docTypeId = docTypeId;
-        this.agreementDocId = agreementDocId;
+        this.currentAgreementStage = currentAgreementStage;
+        this.finalStage = finalStage;
         this.childFields = childFields;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public String getRegNum() {
@@ -44,12 +59,28 @@ public class DocTo extends BaseTo implements Serializable {
         this.regNum = regNum;
     }
 
-    public LocalDate getRegDate() {
-        return regDate;
+    public LocalDateTime getRegDateTime() {
+        return regDateTime;
     }
 
-    public void setRegDate(LocalDate regDate) {
-        this.regDate = regDate;
+    public void setRegDateTime(LocalDateTime regDateTime) {
+        this.regDateTime = regDateTime;
+    }
+
+    public String getProjectRegNum() {
+        return projectRegNum;
+    }
+
+    public void setProjectRegNum(String projectRegNum) {
+        this.projectRegNum = projectRegNum;
+    }
+
+    public LocalDateTime getProjectRegDateTime() {
+        return projectRegDateTime;
+    }
+
+    public void setProjectRegDateTime(LocalDateTime projectRegDateTime) {
+        this.projectRegDateTime = projectRegDateTime;
     }
 
     public LocalDateTime getInsertDateTime() {
@@ -68,12 +99,20 @@ public class DocTo extends BaseTo implements Serializable {
         this.docTypeId = docTypeId;
     }
 
-    public Integer getAgreementDocId() {
-        return agreementDocId;
+    public Integer getCurrentAgreementStage() {
+        return currentAgreementStage;
     }
 
-    public void setAgreementDocId(Integer agreementDocId) {
-        this.agreementDocId = agreementDocId;
+    public void setCurrentAgreementStage(Integer currentAgreementStage) {
+        this.currentAgreementStage = currentAgreementStage;
+    }
+
+    public Boolean isFinalStage() {
+        return finalStage;
+    }
+
+    public void setFinalStage(Boolean finalStage) {
+        this.finalStage = finalStage;
     }
 
     public List<DocFieldsTo> getChildFields() {
@@ -92,22 +131,30 @@ public class DocTo extends BaseTo implements Serializable {
         DocTo docTo = (DocTo) o;
 
         if (regNum != null ? !regNum.equals(docTo.regNum) : docTo.regNum != null) return false;
-        if (regDate != null ? !regDate.equals(docTo.regDate) : docTo.regDate != null) return false;
+        if (regDateTime != null ? !regDateTime.equals(docTo.regDateTime) : docTo.regDateTime != null) return false;
+        if (projectRegNum != null ? !projectRegNum.equals(docTo.projectRegNum) : docTo.projectRegNum != null)
+            return false;
+        if (projectRegDateTime != null ? !projectRegDateTime.equals(docTo.projectRegDateTime) : docTo.projectRegDateTime != null)
+            return false;
         if (insertDateTime != null ? !insertDateTime.equals(docTo.insertDateTime) : docTo.insertDateTime != null)
             return false;
         if (docTypeId != null ? !docTypeId.equals(docTo.docTypeId) : docTo.docTypeId != null) return false;
-        if (agreementDocId != null ? !agreementDocId.equals(docTo.agreementDocId) : docTo.agreementDocId != null)
+        if (currentAgreementStage != null ? !currentAgreementStage.equals(docTo.currentAgreementStage) : docTo.currentAgreementStage != null)
             return false;
+        if (finalStage != null ? !finalStage.equals(docTo.finalStage) : docTo.finalStage != null) return false;
         return childFields != null ? childFields.equals(docTo.childFields) : docTo.childFields == null;
     }
 
     @Override
     public int hashCode() {
         int result = regNum != null ? regNum.hashCode() : 0;
-        result = 31 * result + (regDate != null ? regDate.hashCode() : 0);
+        result = 31 * result + (regDateTime != null ? regDateTime.hashCode() : 0);
+        result = 31 * result + (projectRegNum != null ? projectRegNum.hashCode() : 0);
+        result = 31 * result + (projectRegDateTime != null ? projectRegDateTime.hashCode() : 0);
         result = 31 * result + (insertDateTime != null ? insertDateTime.hashCode() : 0);
         result = 31 * result + (docTypeId != null ? docTypeId.hashCode() : 0);
-        result = 31 * result + (agreementDocId != null ? agreementDocId.hashCode() : 0);
+        result = 31 * result + (currentAgreementStage != null ? currentAgreementStage.hashCode() : 0);
+        result = 31 * result + (finalStage != null ? finalStage.hashCode() : 0);
         result = 31 * result + (childFields != null ? childFields.hashCode() : 0);
         return result;
     }
@@ -117,10 +164,13 @@ public class DocTo extends BaseTo implements Serializable {
         return "DocTo{" +
                 "id=" + id +
                 ", regNum='" + regNum + '\'' +
-                ", regDate=" + regDate +
+                ", regDateTime=" + regDateTime +
+                ", projectRegNum='" + projectRegNum + '\'' +
+                ", projectRegDateTime=" + projectRegDateTime +
                 ", insertDateTime=" + insertDateTime +
                 ", docTypeId=" + docTypeId +
-                ", agreementDocId=" + agreementDocId +
+                ", currentAgreementStage=" + currentAgreementStage +
+                ", finalStage=" + finalStage +
                 ", childFields=" + childFields +
                 '}';
     }

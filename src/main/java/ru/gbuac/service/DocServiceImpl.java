@@ -14,6 +14,7 @@ import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
 import ru.gbuac.util.exception.UnauthorizedUserException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -52,10 +53,15 @@ public class DocServiceImpl implements DocService {
         return checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
     }
 
-    public DocTo asDocTo(Doc doc, String userName) {
+    private DocTo asDocTo(Doc doc, String userName) {
+        Integer docTypeId = doc.getDocType().getId();
+
+        Integer curAgreementStage = doc.getCurrentAgreementStage();
+        Boolean isFinalStage = docTypeRoutesRepository.getFinalStageForDocType(docTypeId) == curAgreementStage;
+
         List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(doc.getId());
-        List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(doc.getDocType().getId());
+        List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 
         for (DocValuedFields d:docValuedFields) {
@@ -66,13 +72,9 @@ public class DocServiceImpl implements DocService {
                     d.getPosition(), curUserRoles.contains(role)));
         }
 
-        Integer agreementDocId = null;
-        if (doc.getAgreementDoc() != null) {
-            agreementDocId = doc.getAgreementDoc().getId();
-        }
-
-        return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDate(), doc.getInsertDateTime(),
-                doc.getDocType().getId(), agreementDocId, docFieldsTos);
+        return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
+                doc.getProjectRegDateTime(), doc.getInsertDateTime(),
+                doc.getDocType().getId(), curAgreementStage, isFinalStage, docFieldsTos);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {
@@ -92,10 +94,11 @@ public class DocServiceImpl implements DocService {
                 newField.getValueDate(), newField.getValueDate(), newField.getValueDate());
     }
 
-    public Doc createNewDocFromTo(DocTo docTo) {
+    private Doc createNewDocFromTo(DocTo docTo) {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
-        Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDate(), docTo.getInsertDateTime(),
-                docType, null);
+        Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDateTime(), docTo.getProjectRegNum(),
+                docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null,
+                docTo.getCurrentAgreementStage());
         List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
         List<DocValuedFields> docValuedFields = new ArrayList<>();
 
@@ -104,9 +107,8 @@ public class DocServiceImpl implements DocService {
                     createNewValueFieldFromTo(d.getField()), d.getPosition()));
         }
         doc.setDocValuedFields(docValuedFields);
-        if (docTo.getAgreementDocId() == null) {
-            doc.setCurrentAgreementStage(1);
-        }
+        doc.setCurrentAgreementStage(docTo.getCurrentAgreementStage());
+
         return doc;
     }
 
@@ -130,6 +132,21 @@ public class DocServiceImpl implements DocService {
         return docRepository.getAll();
     }
 
+    private DocTo prepareToPersist(DocTo docTo) {
+        Integer currentAgreementStage = docTo.getCurrentAgreementStage();
+        Integer finalStageForThisDocType = docTypeRoutesRepository.getFinalStageForDocType(docTo.getDocTypeId());
+        if (docTo.getRegNum() == null) {
+            if (currentAgreementStage == null) {
+                docTo.setCurrentAgreementStage(1);
+                docTo.setFinalStage(false);
+            } else {
+                if (currentAgreementStage != finalStageForThisDocType)
+                    docTo.setCurrentAgreementStage(currentAgreementStage + 1);
+            }
+        }
+        return docTo;
+    }
+
     @Override
     public DocTo save(DocTo docTo, String userName) throws UnauthorizedUserException {
         Assert.notNull(docTo, "doc must not be null");
@@ -146,19 +163,21 @@ public class DocServiceImpl implements DocService {
             throw new UnauthorizedUserException();
         }
 
-        if (docTo.getAgreementDocId() == null) {
-            docTo.setRegNum("согл-"+ new Random().nextInt(100)+"/19");
+        if (docTo.isFinalStage() != null && docTo.isFinalStage()) {
+            docTo.setRegNum("ДЭПР-" + new Random().nextInt(100) + "/19");
+            docTo.setRegDateTime(LocalDateTime.now());
         }
-        else
-            docTo.setRegNum("ДЭПР-"+ new Random().nextInt(100)+"/19");
-        return asDocTo(docRepository.save(createNewDocFromTo(docTo)), userName);
+        else {
+            docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
+        }
+        return asDocTo(docRepository.save(createNewDocFromTo(prepareToPersist(docTo))), userName);
     }
 
     @Override
     public DocTo update(DocTo docTo, int id, String userName) throws NotFoundException, UnauthorizedUserException {
         Assert.notNull(docTo, "docTo must not be null");
         docValuedFieldsRepository.deleteAll(id);
-        Doc doc = createNewDocFromTo(docTo);
+        Doc doc = createNewDocFromTo(prepareToPersist(docTo));
         doc.setId(id);
         return asDocTo(checkNotFoundWithId(docRepository.save(doc), id), userName);
     }

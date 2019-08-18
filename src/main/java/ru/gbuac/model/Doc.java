@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -19,13 +18,19 @@ import java.util.List;
 @Setter
 @Table(name = "doc")
 public class Doc extends BaseEntity {
-    @NotNull
     @Column(name = "reg_num")
     private String regNum;
 
+    @Column(name = "reg_datetime")
+    private LocalDateTime regDateTime;
+
     @NotNull
-    @Column(name = "reg_date")
-    private LocalDate regDate;
+    @Column(name = "project_reg_num")
+    private String projectRegNum;
+
+    @NotNull
+    @Column(name = "project_reg_datetime")
+    private LocalDateTime projectRegDateTime;
 
     @NotNull
     @Column(name = "insert_datetime", nullable = false, columnDefinition = "timestamp default now()")
@@ -41,19 +46,20 @@ public class Doc extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc", cascade = CascadeType.ALL)
     private List<DocValuedFields> docValuedFields;
 
-    @OneToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="agreement_doc_id")
-    private Doc agreementDoc;
-
     @Column(name = "cur_agree_stage")
     private Integer currentAgreementStage;
 
-    public Doc(Integer id, @NotNull String regNum, @NotNull LocalDate regDate, @NotNull LocalDateTime insertDateTime, @NotNull DocType docType, List<DocValuedFields> docValuedFields) {
+    public Doc(Integer id, String regNum, LocalDateTime regDateTime, @NotNull String projectRegNum,
+               @NotNull LocalDateTime projectRegDateTime, @NotNull LocalDateTime insertDateTime,
+               @NotNull DocType docType, List<DocValuedFields> docValuedFields, Integer currentAgreementStage) {
         super(id);
         this.regNum = regNum;
-        this.regDate = regDate;
+        this.regDateTime = regDateTime;
+        this.projectRegNum = projectRegNum;
+        this.projectRegDateTime = projectRegDateTime;
         this.insertDateTime = insertDateTime;
         this.docType = docType;
         this.docValuedFields = docValuedFields;
+        this.currentAgreementStage = currentAgreementStage;
     }
 }
