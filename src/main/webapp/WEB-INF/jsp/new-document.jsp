@@ -181,7 +181,7 @@
                     childFields.push(field1);
                 }
                 if(dataTime !== "") {
-                    var newTime = "1970-01-01T" + dataTime + ":00";
+                    var newTime = dataDate + "T" + dataTime + ":00";
                     field2 = {
                         "field" : {
                             "id" : null,

@@ -105,7 +105,7 @@
         var selectedField = '';
         // Подключение стека полей
         $.getJSON("rest/profile/docs/" + id, function(data) {
-            var newDate = new Date(data.regDate);
+            var newDate = new Date(data.projectRegDateTime);
             function formatDate(date) {
                 var day = date.getDate();
                 var month = date.getMonth()+1;
@@ -116,7 +116,7 @@
                 return day + '-' + month + '-' + year;
             }
             var newDate = formatDate(newDate);
-            $(".documentName").html('Карточка документа №' + data.regNum + ' от ' + newDate);
+            $(".documentName").html('Карточка документа №' + data.projectRegNum + ' от ' + newDate);
             // Получение списка полей вида документа
             $.getJSON("rest/profile/doctypes/", function(dataType) {
                 for(var k in dataType) {
