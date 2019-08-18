@@ -42,7 +42,7 @@
                             <i class="fas fa-file-import mr-2"></i>Регистрация документа
                         </a>
                     </li>
-                    <li>
+                    <%--<li>
                         <a href="view-document?id=28" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-eye mr-2"></i>Просмотр документа
                         </a>
@@ -51,7 +51,7 @@
                         <a href="agree-document?id=28" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-file-signature mr-2"></i>Согласование документа
                         </a>
-                    </li>
+                    </li>--%>
                 </ul>
             </li>
         </ul>
