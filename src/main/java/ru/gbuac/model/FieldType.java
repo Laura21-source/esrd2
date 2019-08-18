@@ -8,5 +8,5 @@ public enum FieldType {
     TIME,
     DATE_TIME,
     CATALOG,
-    GROUP_FIELDS;
+    GROUP_FIELDS
 }

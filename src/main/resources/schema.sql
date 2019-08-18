@@ -36,6 +36,7 @@ CREATE TABLE doc
     doctype_id       INTEGER                 NOT NULL,
     reg_num          VARCHAR                 NOT NULL,
     reg_date         DATE DEFAULT now()      NOT NULL,
+    reg_type         INTEGER                 NOT NULL,
     insert_datetime  TIMESTAMP DEFAULT now() NOT NULL,
     FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
 );

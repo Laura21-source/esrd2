@@ -27,7 +27,7 @@ public class DocRestController extends AbstractDocRestController {
         return super.getAll();
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/agreement", consumes = MediaType.APPLICATION_JSON_VALUE)
     public DocTo updateOrCreate(@RequestBody DocTo docTo) {
         if (docTo.isNew()) {
             return super.create(docTo);
