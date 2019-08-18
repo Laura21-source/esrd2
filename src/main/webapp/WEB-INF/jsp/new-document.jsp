@@ -232,9 +232,7 @@
                     var fieldArray = {
                         "field" : {
                             "id" : null,
-                            "childFields":[
-                                fieldDataOption
-                            ],
+                            "childFields": fieldDataOption,
                             "fieldId" : 22,
                         },
                         "position" : position

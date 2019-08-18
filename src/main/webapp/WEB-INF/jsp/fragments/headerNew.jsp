@@ -40,23 +40,20 @@
                         <a href="#" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-eye mr-2"></i>Повестки <span class="badge badge-primary ml-2">5</span>
                         </a>
-                    </li>
                     <%--<li>
                         <a href="mailing" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-clipboard-list mr-2"></i>Список рассылки
                         </a>
                     </li>--%>
-                    <li>
                         <ul class="collapse">
                             <li>
                                 <a href="view-document" class="collapsible-header waves-effect text-white">
                                     На исполнении <span class="badge badge-primary ml-2">5</span>
                                 </a>
                             </li>
-
                         </ul>
                     </li>
-                    <%--<li>
+                <%--<li>
                         <a href="view-document?id=28" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-eye mr-2"></i>Просмотр документа
                         </a>
