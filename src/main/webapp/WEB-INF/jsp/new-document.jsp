@@ -57,7 +57,7 @@
                         <div id="templateBlock" class="d-none card p-3">
                             <h5 class="templateBlockName"></h5>
                             <div class="card-body">
-                                <div class="row card mb-3" id="blockQuestion" req="true">
+                                <div class="row card mb-3 blockQuestion" id="blockQuestion" data-field="0" req="true">
                                     <div class="col-12">
                                         <div class="card-body">
                                             <div class="row">
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" id="btnSave" class="btn btn-success mb-2 pt-3 submitBtn rounded d-none" data-toggle="modal" data-target="#btnSuccess">Зарегистрировать</button>
+                        <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 submitBtn rounded d-none btnSave" data-toggle="modal" data-target="#btnSuccess">Зарегистрировать</button>
                     </form>
                 </div>
             </div>
@@ -133,7 +133,7 @@
                                 //console.log(rowSelectField.catalogId);
                                 // Количество селектов на базе должно быть больше чем на странице
                                 if(sumSelectBase > sumSelectPage) {
-                                    $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div>');
+                                    $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div>');
                                     // Номер каталога
                                     var numberCatalog = rowSelectField.catalogId;
                                     function createOptionFields(url, numberCatalog) {
@@ -157,20 +157,110 @@
                 });
             }
         });
-        // Кнопка отправки
-        $('.submitBtn').click(function(event){
-            event.preventDefault();
-            var serverStack = $(".registrationForm").serializeArray();
-            /*$(".registrationForm").find('input, textarea, select').each(function(){
-                var valueObj = {
-                    'name' : $(this).attr('id'),
-                    'value' : $(this).val()
+
+        // Формирование объекта JSON
+        function createJSON(id,dataType,dataDate,dataTime,dataField) {
+            var newId = parseInt(id);
+            if(newId === 0) {newId = null;}
+            var newdataType = parseInt(dataType);
+            var childFields = [];
+            if(dataDate || dataTime) {
+                var field1 = '';
+                var field2 = '';
+                if(dataDate !== "") {
+                    var newData = dataDate + "T00:00:00";
+                    field1 = {
+                        "field" : {
+                            "id" : null,
+                            "childFields" : [],
+                            "fieldId" : 4,
+                            "valueDate" : newData
+                        },
+                        "position" : 1,
+                    }
+                    childFields.push(field1);
                 }
-                // Преобразуем в JSON
-                var serverStack = JSON.stringify(valueObj);
-                console.log(serverStack);
-            });*/
-            console.log(serverStack);
+                if(dataTime !== "") {
+                    var newTime = "1970-01-01T" + dataTime + ":00";
+                    field2 = {
+                        "field" : {
+                            "id" : null,
+                            "childFields" : [],
+                            "fieldId" : 5,
+                            "valueDate" : newTime
+                        },
+                        "position" : 2,
+                    }
+                    childFields.push(field2);
+                }
+            }
+            if(dataField !== "") {
+                childFields.push(dataField);
+            }
+            var valueObj = {
+                "id" : newId,
+                "docTypeId" : newdataType,
+                "childFields" : childFields
+            }
+            return valueObj;
+        }
+
+        // Кнопка отправки
+        $('#btnSave').on("click", function(event){
+            event.preventDefault();
+            var dataType = $("#selectType").val();
+            var dataDate = $("#inputDate").val();
+            var dataTime = $("#inputTime").val();
+            var dataField = [];
+            $('.blockQuestion').each(function(i) {
+                if($(this).attr("data-field") == i) {
+                    var fieldOptionBlock = "#blockQuestion";
+                    if(i !== 0) {
+                        fieldOptionBlock = fieldOptionBlock + i;
+                    }
+                    var fieldDataOption = [];
+                    $(fieldOptionBlock + ' select[data-field]').each(function(){
+                        var fieldOption = {
+                            "id" : null,
+                            "childFields" : [],
+                            "fieldId" : $(this).attr("data-field"),
+                            "valueInt" : $(this).val()
+                        }
+                        fieldDataOption.push(fieldOption);
+                    });
+                    var position = 3+i;
+                    var fieldArray = {
+                        "field" : {
+                            "id" : null,
+                            "childFields":[
+                                fieldDataOption
+                            ],
+                            "fieldId" : 22,
+                        },
+                        "position" : position
+                    }
+                    dataField.push(fieldArray);
+                }
+            });
+            var serverStack = createJSON(0,dataType,dataDate,dataTime,dataField);
+            $.post(
+                'http://localhost:8080/esrd2/rest/profile/docs/agreement', // адрес обработчика
+                JSON.stringify(serverStack), // отправляемые данные
+                function(msg) { // получен ответ сервера
+                    alert( "Data Saved: " + msg );
+                    //$('#my_form').hide('slow');
+                    //$('#my_message').html(msg);
+                }
+            );
+
+            $.ajax({
+                method: "POST",
+                url: " ",
+                data: serverStack
+            })
+            .done(function( msg ) {
+                    alert( "Data Saved: " + msg );
+            });
             //$('#templateForm, #templateBlock').addClass("d-none");
         });
     });

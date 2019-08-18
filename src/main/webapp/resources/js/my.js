@@ -21,9 +21,10 @@ $(function() {
     // Добавляем к id полей номер добавляемого вопроса
     $('#blockQuestion' + links + ' #nameQuestion').attr('id', 'nameQuestion' + links);
     $('#blockQuestion' + links + ' #delQuestion').attr('id', 'delQuestion' + links);
+    $('#blockQuestion' + links).attr('data-field', links);
     $('#blockQuestion' + links).find('select').each(function(){
-      var selectAttr = $(this).attr("name");
-      $('#blockQuestion' + links + selectAttr).attr('name', selectAttr + links);
+      var selectName = $(this).attr("name");
+      $('#blockQuestion' + links + selectName).attr('name', selectName + links);
     });
     $('#blockQuestion' + links + ' select option').prop('selected', false);
     $('#nameQuestion' + links).html("Вопрос " + links1);
@@ -53,6 +54,11 @@ $(function() {
     $("#editDocument").removeClass("d-none");
     $("#closeDocument").removeClass("d-none");
     $("select, #inputDate, #inputTime, .addQuestion").attr("disabled",true);
+  });
+
+  // отправка данных на сервер
+  $(".btnSave").on("click", function(e) {
+    e.preventDefault();
   });
 
   $(".reloadButton").click(function(){
