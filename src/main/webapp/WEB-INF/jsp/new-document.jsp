@@ -244,7 +244,7 @@
             });
             var serverStack = createJSON(0,dataType,dataDate,dataTime,dataField);
             $.post(
-                'http://localhost:8080/esrd2/rest/profile/docs/agreement', // адрес обработчика
+                'rest/profile/docs', // адрес обработчика
                 JSON.stringify(serverStack), // отправляемые данные
                 function(msg) { // получен ответ сервера
                     alert( "Data Saved: " + msg );
