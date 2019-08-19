@@ -2,10 +2,10 @@ package ru.gbuac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import ru.gbuac.AuthorizedUser;
+import org.springframework.web.context.ServletContextAware;
 import ru.gbuac.dao.*;
 import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
@@ -18,10 +18,9 @@ import ru.gbuac.util.Templater;
 import ru.gbuac.util.exception.NotFoundException;
 import ru.gbuac.util.exception.UnauthorizedUserException;
 
+import javax.servlet.ServletContext;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
@@ -205,11 +204,11 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public String getPdfPathByDocTo(DocTo docTo) {
-        String templatePath = docTemplatesDir + "Templ.docx";
+    public String getPdfPathByDocTo(DocTo docTo, String rootPath) {
+        String templatePath = rootPath + docTemplatesDir + "Templ.docx";
 
         Map<String, String> simpleTags = new HashMap<>();
-        simpleTags.put("<RegNum>", docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum());
+        simpleTags.put("RegNum", docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum());
         List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
         List<TableRow> rows = new ArrayList<>();
 
@@ -240,17 +239,21 @@ public class DocServiceImpl implements DocService {
                                     case TEXT:
                                         if (fieldChildTo.getTag().contains(fieldTo.getTag()))
                                             commonText.append(catalogElemChild.getValueStr()).append(" ");
+                                        else
+                                            rowCells.put(fieldChildTo.getTag(), catalogElemChild.getValueStr());
                                         break;
                                     case NUMBER:
                                         if (fieldChildTo.getTag().contains(fieldTo.getTag()))
                                             commonText.append(catalogElemChild.getValueInt()).append(" ");
+                                        else
+                                            rowCells.put(fieldChildTo.getTag(), catalogElemChild.getValueInt());
                                         break;
                                 }
                                 break;
                             case GROUP_FIELDS:
                                 break;
                             default:
-                                rowCells.put(fieldTo.getTag(), fieldTo.getValueByFieldType());
+                                rowCells.put(fieldChildTo.getTag(), fieldChildTo.getValueByFieldType());
                         }
                     }
                     rowCells.put(fieldTo.getTag(), commonText.toString());
@@ -262,7 +265,7 @@ public class DocServiceImpl implements DocService {
         }
         TaggedTable taggedTable = new TaggedTable("Table1", rows);
 
-        String pdfTempPath = pdfTempDir + "povestka_test1.pdf";
+        String pdfTempPath = rootPath + pdfTempDir + "povestka_test1.pdf";
         try {
             Templater.fillTagsByDictionary(templatePath, simpleTags, Arrays.asList(taggedTable),
                     pdfTempPath, true);
@@ -270,6 +273,6 @@ public class DocServiceImpl implements DocService {
             pdfTempPath = null;
         }
 
-        return pdfTempPath;
+        return pdfTempPath.replace(rootPath,"");
     }
 }

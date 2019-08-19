@@ -1,11 +1,13 @@
 package ru.gbuac.controller.doc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocType;
 import ru.gbuac.to.DocTo;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -13,6 +15,9 @@ import java.util.List;
 @RequestMapping(value = DocRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DocRestController extends AbstractDocRestController {
     public static final String REST_URL = "/rest/profile/docs";
+
+    @Autowired
+    ServletContext context;
 
     @Override
     @GetMapping(value = "/{id}")
@@ -34,7 +39,7 @@ public class DocRestController extends AbstractDocRestController {
 
     @PostMapping(value = "/pdf", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String getPdfPathByDocTo(@Valid @RequestBody DocTo docTo) {
-        return super.getPdfPathByDocTo(docTo);
+        return super.getPdfPathByDocTo(docTo, context.getRealPath("/"));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
