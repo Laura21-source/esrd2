@@ -1,5 +1,7 @@
 package ru.gbuac.util;
 
+import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
@@ -12,8 +14,8 @@ public class Templater {
 
     public static void main(String[]args) throws Exception {
         Map<String, String> simpleTags = Stream.of(new String[][] {
-                { "<Date>", "3 сентября 2019" },
-                { "<Time>", "10:00" },
+                { "MeetingDate", "3 сентября 2019" },
+                { "MeetingTime", "10:00" },
         }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
         Map<String, String> rowCells1 = Stream.of(new String[][] {
@@ -34,20 +36,21 @@ public class Templater {
 
 
         Templater templater = new Templater();
-        templater.fillTagsByDictionary("C:\\Templ.docx", simpleTags, Arrays.asList(taggedTable), "C:\\Result.docx");
+        templater.fillTagsByDictionary("C:\\DocTemplates\\Templ.docx", simpleTags, Arrays.asList(taggedTable),
+                "C:\\TempPDF\\PDFResult.pdf", true);
 
     }
 
 
-    public void fillTagsByDictionary(String templatePath, Map<String, String> simpleTags, List<TaggedTable> taggedTableList,
-                                     String outDocPath) throws Exception {
+    public static void fillTagsByDictionary(String templatePath, Map<String, String> simpleTags, List<TaggedTable> taggedTableList,
+                                     String outPath, Boolean isPDF) throws Exception {
         XWPFDocument doc = new XWPFDocument(OPCPackage.open(templatePath));
 
         // Замена тэгов щаблона значениями по словарю
         for (XWPFParagraph p : doc.getParagraphs()) {
             String text = p.getText();
             for (Map.Entry<String,String> entry : simpleTags.entrySet()) {
-                text = text.replace(entry.getKey(), entry.getValue());
+                text = text.replace("<"+entry.getKey()+">", entry.getValue());
             }
             changeText(p, text);
         }
@@ -72,35 +75,42 @@ public class Templater {
                     }
                 }
 
-                // Получаем структуру с тэгами для замены в таблице
-                TaggedTable taggedTable = taggedTableList.get(targetTaggedTableIndex);
+                if (targetTaggedTableIndex != -1) {
+                    // Получаем структуру с тэгами для замены в таблице
+                    TaggedTable taggedTable = taggedTableList.get(targetTaggedTableIndex);
 
-                // Перебираем строки в структуре и в зависимости от количества в ней строк, генерим строки в таблице
-                // в документе Word
-                for (int row = 0; row < taggedTable.getRows().size(); row++) {
-                    lastRow = table.getRows().get(table.getNumberOfRows() - 1);
-                    CTRow ctrowTemplate = CTRow.Factory.parse(lastRow.getCtRow().newInputStream());
-                    XWPFTableRow newRow = new XWPFTableRow(ctrowTemplate, table);
+                    // Перебираем строки в структуре и в зависимости от количества в ней строк, генерим строки в таблице
+                    // в документе Word
+                    for (int row = 0; row < taggedTable.getRows().size(); row++) {
+                        lastRow = table.getRows().get(table.getNumberOfRows() - 1);
+                        CTRow ctrowTemplate = CTRow.Factory.parse(lastRow.getCtRow().newInputStream());
+                        XWPFTableRow newRow = new XWPFTableRow(ctrowTemplate, table);
 
-                    for (int cell = 0; cell < newRow.getTableCells().size(); cell++) {
-                        XWPFTableCell cellObj = newRow.getTableCells().get(cell);
-                        for (XWPFParagraph paragraph : cellObj.getParagraphs()) {
-                            String text = paragraph.getText();
-                            for (Map.Entry<String,String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
-                                text = text.replace("<" + taggedTable.getTableName() + "." + entry.getKey() + ">", entry.getValue());
+                        for (int cell = 0; cell < newRow.getTableCells().size(); cell++) {
+                            XWPFTableCell cellObj = newRow.getTableCells().get(cell);
+                            for (XWPFParagraph paragraph : cellObj.getParagraphs()) {
+                                String text = paragraph.getText();
+                                for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
+                                    text = text.replace("<" + taggedTable.getTableName() + "." + entry.getKey() + ">", entry.getValue());
+                                }
+                                changeText(paragraph, text);
                             }
-                            changeText(paragraph, text);
                         }
+                        table.addRow(newRow, table.getNumberOfRows() - 1);
                     }
-                    table.addRow(newRow, table.getNumberOfRows() - 1);
+                    table.removeRow(table.getNumberOfRows() - 1);
                 }
-                table.removeRow(table.getNumberOfRows() - 1);
             }
         }
-        doc.write(new FileOutputStream(outDocPath));
+        if (isPDF) {
+            PdfConverter.getInstance().convert(doc, new FileOutputStream(outPath), null);
+        }
+        else {
+            doc.write(new FileOutputStream(outPath));
+        }
     }
 
-    private void changeText(XWPFParagraph p, String newText) {
+    private static void changeText(XWPFParagraph p, String newText) {
         List<XWPFRun> runs = p.getRuns();
         if (runs.size() != 0) {
             for (int i = runs.size() - 1; i > 0; i--) {

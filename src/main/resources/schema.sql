@@ -83,9 +83,9 @@ CREATE TABLE catalog
 
 CREATE TABLE catalogelem
 (
-    id                  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    value_int           INTEGER                         ,
-    value_str           VARCHAR                         ,
+    id                      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    value_int               INTEGER                         ,
+    value_str               VARCHAR                         ,
     catalog_id              INTEGER                 NOT NULL,
     parent_catalogelem_id   INTEGER                         ,
     FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE
@@ -99,7 +99,8 @@ CREATE TABLE field
     position_in_group INTEGER                         ,
     max_count         INTEGER                         ,
     length            INTEGER                         ,
-    catalog_id            INTEGER                         ,
+    catalog_id        INTEGER                         ,
+    tag               VARCHAR                         ,
     FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE
 );
 

@@ -31,4 +31,6 @@ public class Field extends NamedEntity {
     private Integer length;
 
     private Integer catalog_id;
+
+    private String tag;
 }

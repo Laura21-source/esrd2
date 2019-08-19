@@ -1,6 +1,7 @@
 package ru.gbuac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -11,13 +12,16 @@ import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FieldTo;
 import ru.gbuac.util.FieldUtil;
+import ru.gbuac.util.TableRow;
+import ru.gbuac.util.TaggedTable;
+import ru.gbuac.util.Templater;
 import ru.gbuac.util.exception.NotFoundException;
 import ru.gbuac.util.exception.UnauthorizedUserException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
@@ -40,6 +44,9 @@ public class DocServiceImpl implements DocService {
     private FieldRepository fieldRepository;
 
     @Autowired
+    private CatalogRepository catalogRepository;
+
+    @Autowired
     private CatalogElemRepository catalogElemRepository;
 
     @Autowired
@@ -47,6 +54,15 @@ public class DocServiceImpl implements DocService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Value("${pdf.final.dir}")
+    private String pdfFinalDir;
+
+    @Value("${pdf.temp.dir}")
+    private String pdfTempDir;
+
+    @Value("${doc.templates.dir}")
+    private String docTemplatesDir;
 
     @Override
     public Doc get(int id) throws NotFoundException {
@@ -186,5 +202,74 @@ public class DocServiceImpl implements DocService {
     public void delete(int id) throws NotFoundException {
         Assert.notNull(id, "doc must not be null");
         checkNotFoundWithId(docRepository.delete(id)!= 0, id);
+    }
+
+    @Override
+    public String getPdfPathByDocTo(DocTo docTo) {
+        String templatePath = docTemplatesDir + "Templ.docx";
+
+        Map<String, String> simpleTags = new HashMap<>();
+        simpleTags.put("<RegNum>", docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum());
+        List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
+        List<TableRow> rows = new ArrayList<>();
+
+        for (DocFieldsTo docFieldsTo : docFieldsTos) {
+            FieldTo fieldTo = docFieldsTo.getField();
+            switch (fieldTo.getFieldType())  {
+                case CATALOG:
+                    CatalogElem catalogElem= catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
+                    switch (catalogElem.getCatalog().getCatalogType()) {
+                        case TEXT:
+                            simpleTags.put(fieldTo.getTag(), catalogElem.getValueStr());
+                            break;
+                        case NUMBER:
+                            simpleTags.put(fieldTo.getTag(), catalogElem.getValueInt());
+                            break;
+                    }
+                    break;
+                case GROUP_FIELDS:
+                    Map<String, String> rowCells = new HashMap<>();
+                    rowCells.put("NumTheme", String.valueOf(rows.size() + 1));
+                    StringBuilder commonText = new StringBuilder();
+                    for (FieldTo fieldChildTo : fieldTo.getChildFields()) {
+                        switch (fieldChildTo.getFieldType()) {
+                            case CATALOG:
+                                CatalogElem catalogElemChild =
+                                        catalogElemRepository.findById(fieldChildTo.getValueInt()).orElse(null);
+                                switch (catalogElemChild.getCatalog().getCatalogType()) {
+                                    case TEXT:
+                                        if (fieldChildTo.getTag().contains(fieldTo.getTag()))
+                                            commonText.append(catalogElemChild.getValueStr()).append(" ");
+                                        break;
+                                    case NUMBER:
+                                        if (fieldChildTo.getTag().contains(fieldTo.getTag()))
+                                            commonText.append(catalogElemChild.getValueInt()).append(" ");
+                                        break;
+                                }
+                                break;
+                            case GROUP_FIELDS:
+                                break;
+                            default:
+                                rowCells.put(fieldTo.getTag(), fieldTo.getValueByFieldType());
+                        }
+                    }
+                    rowCells.put(fieldTo.getTag(), commonText.toString());
+                    rows.add(new TableRow(rowCells));
+                    break;
+                default:
+                    simpleTags.put(fieldTo.getTag(), fieldTo.getValueByFieldType());
+            }
+        }
+        TaggedTable taggedTable = new TaggedTable("Table1", rows);
+
+        String pdfTempPath = pdfTempDir + "povestka_test1.pdf";
+        try {
+            Templater.fillTagsByDictionary(templatePath, simpleTags, Arrays.asList(taggedTable),
+                    pdfTempPath, true);
+        } catch (Exception e) {
+            pdfTempPath = null;
+        }
+
+        return pdfTempPath;
     }
 }

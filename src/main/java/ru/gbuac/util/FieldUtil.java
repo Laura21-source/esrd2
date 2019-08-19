@@ -16,7 +16,7 @@ public class FieldUtil {
             childFields.add(asTo(childField));
         }
         return new FieldTo(null, field.getName(), childFields, field.getId(), field.getFieldType(),
-                field.getPositionInGroup(), field.getMaxCount(), field.getLength(), field.getCatalog_id());
+                field.getPositionInGroup(), field.getMaxCount(), field.getLength(), field.getCatalog_id(), field.getTag());
     }
 
     public static FieldTo asTo(ValuedField valuedField) {
@@ -29,7 +29,7 @@ public class FieldUtil {
         FieldTo fieldTo = new FieldTo(valuedField.getId(), valuedField.getField().getName(), childFields,
                 valuedField.getField().getId(), fieldType, valuedField.getField().getPositionInGroup(),
                 valuedField.getField().getMaxCount(), valuedField.getField().getLength(),
-                valuedField.getField().getCatalog_id());
+                valuedField.getField().getCatalog_id(), valuedField.getField().getTag());
 
         switch (fieldType) {
             case TEXT:
@@ -46,7 +46,7 @@ public class FieldUtil {
                 fieldTo.setValueDate(valuedField.getValueTime());
                 break;
             case DATE_TIME:
-                fieldTo.setValueDate(valuedField.getValueTime());
+                fieldTo.setValueDate(valuedField.getValueDateTime());
                 break;
             case CATALOG:
                 fieldTo.setValueInt(valuedField.getCatalogElem().getId());
