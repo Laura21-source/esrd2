@@ -183,7 +183,7 @@
                     $(".inputTimeName").html('<i class="fas fa-clock mr-2"></i>' + rowFields.field.name);
                     $("#inputTime").attr("value", newTime);
                 }
-                if(rowFields.field.fieldType === "GROUP_FIELDS" && rowFields.field.fieldId === 22) {
+                if(rowFields.field.fieldType === "GROUP_FIELDS") {
                     var newBlockArrayElem = {
                         "field" : rowFields.field
                     }

@@ -121,7 +121,7 @@
                             $("#inputDateBlock").removeClass("d-none");
                             $(".inputDateName").html('<i class="fas fa-calendar-alt mr-2"></i>' + rowType.field.name);
                         }
-                        if(rowType.field.fieldType === "GROUP_FIELDS" && rowType.field.fieldId === 22) {
+                        if(rowType.field.fieldType === "GROUP_FIELDS") {
                             $(".templateBlockName").html(rowType.field.name);
                             // Количество селектов в базе
                             var sumSelectBase = rowType.field.childFields.length;
