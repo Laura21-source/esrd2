@@ -247,7 +247,6 @@
                 url: 'rest/profile/docs',
                 data: JSON.stringify(serverStack),
                 contentType: 'application/json; charset=utf-8'
-                success:
             });
 
         });
