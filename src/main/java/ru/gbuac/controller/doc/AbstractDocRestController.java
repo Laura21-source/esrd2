@@ -41,16 +41,16 @@ public abstract class AbstractDocRestController {
         return docService.getAll();
     }
 
-    public DocTo create(DocTo docTo) {
+    public DocTo create(DocTo docTo, String rootPath) {
         LOG.info("createFinal " + docTo);
         checkNew(docTo);
-        return docService.save(docTo, AuthorizedUser.getUserName());
+        return docService.save(docTo, AuthorizedUser.getUserName(), rootPath);
     }
 
-    public DocTo update(DocTo docTo, int id) {
+    public DocTo update(DocTo docTo, int id, String rootPath) {
         LOG.info("update " + docTo);
         assureIdConsistent(docTo, id);
-        return docService.update(docTo, id, AuthorizedUser.getUserName());
+        return docService.update(docTo, id, AuthorizedUser.getUserName(), rootPath);
     }
 
     public void delete(int id) {

@@ -45,9 +45,9 @@ public class DocRestController extends AbstractDocRestController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public DocTo updateOrCreate(@Valid @RequestBody DocTo docTo) {
         if (docTo.isNew()) {
-            return super.create(docTo);
+            return super.create(docTo, context.getRealPath("/"));
         } else {
-            return super.update(docTo, docTo.getId());
+            return super.update(docTo, docTo.getId(), context.getRealPath("/"));
         }
     }
 
