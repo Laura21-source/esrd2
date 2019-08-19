@@ -98,7 +98,7 @@
                                         <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3">
                                             <iframe class="embed-responsive-item" src="resources/img/pdf_12.pdf" height="500"></iframe>
                                         </div>
-                                        <div class="btn btn-primary btn-md my-3 rounded">Переформировать</div>
+                                        <div id="btnReformat" class="btn btn-primary btn-md my-3 rounded">Переформировать</div>
                                         <a class="btn btn-light btn-md my-3" href="resources/img/pdf_12.pdf" target="_blank">Открыть в новом окне</a>
                                     </div>
                                 </div>
@@ -190,7 +190,6 @@
                     newBlockArray.push(newBlockArrayElem);
                 }
             }
-            //console.log(newBlockArray);
             for(var key in newBlockArray) {
                 key = parseInt(key);
                 var newRowFields = newBlockArray[key];
@@ -328,6 +327,49 @@
                /* $('#btnSuccess').on('hidden.bs.modal', function (e) {
                     window.location.href="temp-list";
                 });*/
+            });
+        });
+
+        $('#btnReformat').on("click", function(event) {
+            event.preventDefault();
+            var dataType = $("#selectType").val();
+            var dataDate = $("#inputDate").val();
+            var dataTime = $("#inputTime").val();
+            var dataFieldArray = [];
+            $('.blockQuestion').each(function(i) {
+                if($(this).attr("data-field") == i) {
+                    var fieldOptionBlock = "#blockQuestion";
+                    if(i !== 0) {
+                        fieldOptionBlock = fieldOptionBlock + i;
+                    }
+                    var fieldOptionArray = [];
+                    $(fieldOptionBlock + ' select[data-field]').each(function(){
+                        var fieldOption = {
+                            "id" : null,
+                            "childFields" : [],
+                            "fieldId" : $(this).attr("data-field"),
+                            "valueInt" : $(this).val()
+                        }
+                        fieldOptionArray.push(fieldOption);
+                    });
+                    var position = 3+i;
+                    var dataField = {
+                        "field" : {
+                            "id" : null,
+                            "childFields": fieldOptionArray,
+                            "fieldId" : 22,
+                        },
+                        "position" : position
+                    }
+                }
+                dataFieldArray.push(dataField);
+            });
+            var reformatPDF = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
+            $.ajax({
+                type: "POST",
+                url: 'rest/profile/docs/pdf',
+                data: JSON.stringify(reformatPDF),
+                contentType: 'application/json; charset=utf-8'
             });
         });
     });
