@@ -21,5 +21,5 @@ public interface DocService {
 
     void delete(int id) throws NotFoundException;
 
-    public String getPdfPathByDocTo(DocTo docTo);
+    public String getPdfPathByDocTo(DocTo docTo, String rootPath);
 }
