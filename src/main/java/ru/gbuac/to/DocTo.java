@@ -27,6 +27,7 @@ public class DocTo extends BaseTo implements Serializable {
 
     private Boolean finalStage;
 
+    @SafeHtml
     private String UrlPDF;
 
     private List<DocFieldsTo> childFields;
@@ -36,7 +37,7 @@ public class DocTo extends BaseTo implements Serializable {
 
     public DocTo(Integer id, @SafeHtml String regNum, LocalDateTime regDateTime, @SafeHtml String projectRegNum,
                  LocalDateTime projectRegDateTime, LocalDateTime insertDateTime, Integer docTypeId,
-                 Integer currentAgreementStage, Boolean finalStage, String urlPDF, List<DocFieldsTo> childFields) {
+                 Integer currentAgreementStage, Boolean finalStage, @SafeHtml String urlPDF, List<DocFieldsTo> childFields) {
         super(id);
         this.regNum = regNum;
         this.regDateTime = regDateTime;
@@ -46,7 +47,7 @@ public class DocTo extends BaseTo implements Serializable {
         this.docTypeId = docTypeId;
         this.currentAgreementStage = currentAgreementStage;
         this.finalStage = finalStage;
-        UrlPDF = urlPDF;
+        this.UrlPDF = urlPDF;
         this.childFields = childFields;
     }
 
