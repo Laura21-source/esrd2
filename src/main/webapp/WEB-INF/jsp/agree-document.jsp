@@ -306,7 +306,7 @@
                         "field" : {
                             "id" : null,
                             "childFields": fieldOptionArray,
-                            "fieldId" : 22,
+                            "fieldId" : 6,
                         },
                         "position" : position
                     }
@@ -357,7 +357,7 @@
                         "field" : {
                             "id" : null,
                             "childFields": fieldOptionArray,
-                            "fieldId" : 22,
+                            "fieldId" : 6,
                         },
                         "position" : position
                     }
