@@ -66,9 +66,9 @@ $(function() {
   });
 
   // Сортируемые таблицы
-  $('#dataTable').DataTable({
+  /*$('#dataTable').DataTable({
     "order": [[ 3, "desc" ]]
   });
-  $('.dataTables_length').addClass('bs-select');
+  $('.dataTables_length').addClass('bs-select');*/
 
 });

@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 submitBtn rounded d-none btnSave">Зарегистрировать</button>
+                        <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Зарегистрировать</button>
                     </form>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                             $("#inputDateBlock").removeClass("d-none");
                             $(".inputDateName").html('<i class="fas fa-calendar-alt mr-2"></i>' + rowType.field.name);
                         }
-                        if(rowType.field.fieldType === "GROUP_FIELDS") {
+                        if(rowType.field.fieldType === "GROUP_FIELDS" && rowType.field.fieldId === 22) {
                             $(".templateBlockName").html(rowType.field.name);
                             // Количество селектов в базе
                             var sumSelectBase = rowType.field.childFields.length;

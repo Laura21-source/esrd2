@@ -64,13 +64,14 @@
                                 </div>
                                 <div id="templateBlock" class="card p-3 mb-3">
                                     <h5 class="templateBlockName"></h5>
-                                    <div class="card-body" id="newBlockQuestion">
-                                        <div class="row card mb-3" id="blockQuestion" req="true">
+                                    <div class="card-body">
+                                        <div id="newBlockQuestion"></div>
+                                        <%--<div class="row card mb-3" id="blockQuestion" req="true">
                                             <div class="col-12">
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-md-9 text-left">
-                                                            <h6 id="nameQuestion">Вопрос 1</h6>
+                                                            <h6 id="nameQuestion"></h6>
                                                         </div>
                                                         <div class="col-md-3 text-right">
                                                             <div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div>
@@ -80,7 +81,7 @@
                                                     <div class="row templateBlockSelect"></div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>--%>
                                         <div class="marginBlock my-3"></div>
                                         <div class="row">
                                             <div class="col-12 text-right">
@@ -104,7 +105,7 @@
                             </div>
                         </div>
                     </form>
-                    <button type="submit" class="btn btn-success my-5 pt-3 submitBtn rounded" data-toggle="modal" data-target="#btnSuccess">Согласовать</button>
+                    <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
                 </div>
             </div>
         </div>
@@ -149,9 +150,9 @@
                 }
             });
             // Получение основных полей
+            var newBlockArray = [];
             for(var i in data.childFields) {
                 var rowFields = data.childFields[i];
-                console.log(rowFields);
                 if(rowFields.field.fieldType === "DATE") {
                     var newDateRevers = new Date(rowFields.field.valueDate);
                     function formatDateRevers(date) {
@@ -182,41 +183,153 @@
                     $(".inputTimeName").html('<i class="fas fa-clock mr-2"></i>' + rowFields.field.name);
                     $("#inputTime").attr("value", newTime);
                 }
-                if(rowFields.field.fieldType === "GROUP_FIELDS") {
-                    //$("#newBlockQuestions").append('<div class="row card mb-3" id="blockQuestion" req="true"><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameQuestion"></h6></div><div class="col-md-3 text-right"><div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row templateBlockSelect"></div></div></div></div>');
-                    $(".templateBlockName").html(rowFields.field.name);
-                    // Количество селектов в базе
-                    var sumSelectBase = rowFields.field.childFields.length;
-                    // Количество селектов на странице
-                    var sumSelectPage = $("[seq='true']").length;
-                    for(var y in rowFields.field.childFields) {
-                        var rowSelectField = rowFields.field.childFields[y];
-                        var selectFieldName = "selectField" + rowSelectField.catalogId;
-                        // Количество селектов на базе должно быть больше чем на странице
-                        if(sumSelectBase > sumSelectPage) {
-                            $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select white" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true"><option value="" class="alert-primary">Выберите значение справочника</option></select></div>');
-                            // Номер каталога
-                            var numberCatalog = rowSelectField.catalogId;
-                            // Номер поля для отметки в селектах
-                            var numberSelectedField = rowSelectField.valueInt;
-                            function createSelectedId(url, numberCatalog, numberField) {
-                                $.getJSON(url, function(dataOption) {
-                                    for(var y in dataOption) {
-                                        var rowOption = dataOption[y];
-                                        if(numberField === rowOption.id) {
-                                            selectedField = 'selected="selected"';
-                                        } else {
-                                            selectedField = '';
-                                        }
-                                        $('#selectField' + numberCatalog).append('<option value="' + rowOption.id + '" ' + selectedField + '>' + rowOption.valueStr + '</option>');
-                                    }
-                                });
-                            }
-                            createSelectedId("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, numberSelectedField);
-                        }
+                if(rowFields.field.fieldType === "GROUP_FIELDS" && rowFields.field.fieldId === 22) {
+                    var newBlockArrayElem = {
+                        "field" : rowFields.field
                     }
+                    newBlockArray.push(newBlockArrayElem);
                 }
             }
+            //console.log(newBlockArray);
+            for(var key in newBlockArray) {
+                key = parseInt(key);
+                var newRowFields = newBlockArray[key];
+                var dubbleKey = parseInt(key+1);
+                var questionKey = '';
+                var delButton = ' d-none';
+                if(key != 0) {
+                    questionKey = key;
+                    delButton = '';
+                }
+                $("#newBlockQuestion").append('<div class="row card mb-3 blockQuestion" id="blockQuestion' + questionKey + '" data-field="' + key + '" req="true"><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameQuestion' + questionKey + '">Вопрос ' + dubbleKey + '</h6></div><div class="col-md-3 text-right"><div id="delQuestion' + questionKey + '" class="btn btn-danger btn-sm pointer delQuestion rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row templateBlockSelect"></div></div></div></div>');
+                $(".templateBlockName").html(newRowFields.field.name);
+                for (var y in newRowFields.field.childFields) {
+                    var rowSelectField = newRowFields.field.childFields[y];
+                    var selectFieldName = "selectField" + rowSelectField.catalogId;
+                    $("#blockQuestion" + questionKey + " .templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select white" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '" seq="true"><option value="" class="alert-primary">Выберите значение справочника</option></select></div>');
+                    // Номер каталога
+                    var numberCatalog = rowSelectField.catalogId;
+                    var newnumberCatalog = ('#blockQuestion' + questionKey + ' #selectField' + numberCatalog);
+                    // Номер поля для отметки в селектах
+                    var numberField = rowSelectField.valueInt;
+                    function createSelectedId(url, numberCatalog, numberField) {
+                        $.getJSON(url, function (dataOption) {
+                            for (var m in dataOption) {
+                                var rowOption = dataOption[m];
+                                if (numberField === rowOption.id) {
+                                    selectedField = 'selected="selected"';
+                                } else {
+                                    selectedField = '';
+                                }
+                                //console.log('#blockQuestion' + questionKey + ' #selectField' + numberCatalog);
+                                $(numberCatalog).append('<option value="' + rowOption.id + '" ' + selectedField + '>' + rowOption.valueStr + '</option>');
+                            }
+                        });
+                    }
+                    createSelectedId("rest/profile/catalogs/" + numberCatalog + "/elems", newnumberCatalog, numberField);
+                }
+            }
+        });
+        // Формирование объекта JSON
+        function createJSON(id,dataType,dataDate,dataTime,dataField) {
+            var newId = parseInt(id);
+            if(newId === 0) {newId = null;}
+            var newdataType = parseInt(dataType);
+            var childFields = [];
+            if(dataDate || dataTime) {
+                var field1 = '';
+                var field2 = '';
+                if(dataDate !== "") {
+                    var newData = dataDate + "T00:00:00";
+                    field1 = {
+                        "field" : {
+                            "id" : null,
+                            "childFields" : [],
+                            "fieldId" : 4,
+                            "valueDate" : newData
+                        },
+                        "position" : 1,
+                    }
+                    childFields.push(field1);
+                }
+                if(dataTime !== "") {
+                    var newTime = dataDate + "T" + dataTime + ":00";
+                    field2 = {
+                        "field" : {
+                            "id" : null,
+                            "childFields" : [],
+                            "fieldId" : 5,
+                            "valueDate" : newTime
+                        },
+                        "position" : 2,
+                    }
+                    childFields.push(field2);
+                }
+            }
+            if(dataField !== "") {
+                for(var key in dataField){
+                    childFields.push(dataField[key]);
+                }
+            }
+            var valueObj = {
+                "id" : newId,
+                "docTypeId" : newdataType,
+                "childFields" : childFields
+            }
+            return valueObj;
+        }
+
+        // Кнопка отправки
+        $('#btnSave').on("click", function(event){
+            event.preventDefault();
+            var dataType = $("#selectType").val();
+            var dataDate = $("#inputDate").val();
+            var dataTime = $("#inputTime").val();
+            var dataFieldArray = [];
+            $('.blockQuestion').each(function(i) {
+                if($(this).attr("data-field") == i) {
+                    var fieldOptionBlock = "#blockQuestion";
+                    if(i !== 0) {
+                        fieldOptionBlock = fieldOptionBlock + i;
+                    }
+                    var fieldOptionArray = [];
+                    $(fieldOptionBlock + ' select[data-field]').each(function(){
+                        var fieldOption = {
+                            "id" : null,
+                            "childFields" : [],
+                            "fieldId" : $(this).attr("data-field"),
+                            "valueInt" : $(this).val()
+                        }
+                        fieldOptionArray.push(fieldOption);
+                    });
+                    var position = 3+i;
+                    var dataField = {
+                        "field" : {
+                            "id" : null,
+                            "childFields": fieldOptionArray,
+                            "fieldId" : 22,
+                        },
+                        "position" : position
+                    }
+                }
+                dataFieldArray.push(dataField);
+            });
+            var serverStack = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
+            console.log(serverStack);
+            var serverAjax = $.ajax({
+                type: "POST",
+                url: 'rest/profile/docs',
+                data: JSON.stringify(serverStack),
+                contentType: 'application/json; charset=utf-8'
+            });
+            /*serverAjax.done(function(data) {
+                var projectRegNum = data.projectRegNum;
+                $('#btnSuccess').modal('show');
+                $('#btnSuccess #regNumTemplate').html(projectRegNum);
+                $('#btnSuccess').on('hidden.bs.modal', function (e) {
+                    window.location.href="temp-list";
+                });
+            });*/
         });
     });
 </script>
