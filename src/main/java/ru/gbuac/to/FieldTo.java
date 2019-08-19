@@ -1,6 +1,8 @@
 package ru.gbuac.to;
 
+import org.jsoup.helper.DataUtil;
 import ru.gbuac.model.FieldType;
+import ru.gbuac.util.DateTimeUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +25,8 @@ public class FieldTo extends BaseTo {
 
     private Integer catalogId;
 
+    private String tag;
+
     private Integer valueInt;
 
     private String valueStr;
@@ -32,7 +36,8 @@ public class FieldTo extends BaseTo {
     public FieldTo() {
     }
 
-    public FieldTo(Integer id, String name, List<FieldTo> childFields, Integer fieldId, FieldType fieldType, Integer positionInGroup, Integer maxCount, Integer length, Integer catalogId) {
+    public FieldTo(Integer id, String name, List<FieldTo> childFields, Integer fieldId, FieldType fieldType,
+                   Integer positionInGroup, Integer maxCount, Integer length, Integer catalogId, String tag) {
         super(id);
         this.name = name;
         this.childFields = childFields;
@@ -42,6 +47,7 @@ public class FieldTo extends BaseTo {
         this.maxCount = maxCount;
         this.length = length;
         this.catalogId = catalogId;
+        this.tag = tag;
     }
 
     public String getName() {
@@ -108,6 +114,14 @@ public class FieldTo extends BaseTo {
         this.catalogId = catalogId;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     public Integer getValueInt() {
         return valueInt;
     }
@@ -132,6 +146,23 @@ public class FieldTo extends BaseTo {
         this.valueDate = valueDate;
     }
 
+    public String getValueByFieldType() {
+        switch (fieldType) {
+            case TEXT:
+            case TEXT_MULTI_LINE:
+                return getValueStr();
+            case NUMBER:
+                return getValueInt().toString();
+            case DATE:
+                return DateTimeUtil.toStringPrint(getValueDate().toLocalDate());
+            case TIME:
+                return DateTimeUtil.toString(getValueDate().toLocalTime());
+            case DATE_TIME:
+                return DateTimeUtil.toStringPrint(getValueDate());
+        }
+        return "";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -148,6 +179,7 @@ public class FieldTo extends BaseTo {
         if (maxCount != null ? !maxCount.equals(fieldTo.maxCount) : fieldTo.maxCount != null) return false;
         if (length != null ? !length.equals(fieldTo.length) : fieldTo.length != null) return false;
         if (catalogId != null ? !catalogId.equals(fieldTo.catalogId) : fieldTo.catalogId != null) return false;
+        if (tag != null ? !tag.equals(fieldTo.tag) : fieldTo.tag != null) return false;
         if (valueInt != null ? !valueInt.equals(fieldTo.valueInt) : fieldTo.valueInt != null) return false;
         if (valueStr != null ? !valueStr.equals(fieldTo.valueStr) : fieldTo.valueStr != null) return false;
         return valueDate != null ? valueDate.equals(fieldTo.valueDate) : fieldTo.valueDate == null;
@@ -163,6 +195,7 @@ public class FieldTo extends BaseTo {
         result = 31 * result + (maxCount != null ? maxCount.hashCode() : 0);
         result = 31 * result + (length != null ? length.hashCode() : 0);
         result = 31 * result + (catalogId != null ? catalogId.hashCode() : 0);
+        result = 31 * result + (tag != null ? tag.hashCode() : 0);
         result = 31 * result + (valueInt != null ? valueInt.hashCode() : 0);
         result = 31 * result + (valueStr != null ? valueStr.hashCode() : 0);
         result = 31 * result + (valueDate != null ? valueDate.hashCode() : 0);
@@ -181,6 +214,7 @@ public class FieldTo extends BaseTo {
                 ", maxCount=" + maxCount +
                 ", length=" + length +
                 ", catalogId=" + catalogId +
+                ", tag='" + tag + '\'' +
                 ", valueInt=" + valueInt +
                 ", valueStr='" + valueStr + '\'' +
                 ", valueDate=" + valueDate +

@@ -32,8 +32,13 @@ public class DocRestController extends AbstractDocRestController {
         return super.getAll();
     }
 
+    @PostMapping(value = "/pdf", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String getPdfPathByDocTo(@Valid @RequestBody DocTo docTo) {
+        return super.getPdfPathByDocTo(docTo);
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DocTo updateOrCreate(@RequestBody DocTo docTo) {
+    public DocTo updateOrCreate(@Valid @RequestBody DocTo docTo) {
         if (docTo.isNew()) {
             return super.create(docTo);
         } else {

@@ -8,14 +8,25 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class DateTimeUtil {
+    public static final String DATE_PRINT_PATTERN = "dd MMMM yyyy";
+    public static final String DATE_TIME_PRINT_PATTERN = "dd MMMM HH:mm";
     public static final String DATE_PATTERN = "yyyy-MM-dd";
     public static final String TIME_PATTERN = "HH:mm";
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
+    public static final DateTimeFormatter DATE_PRINT_FORMATTER = DateTimeFormatter.ofPattern(DATE_PRINT_PATTERN);
+    public static final DateTimeFormatter DATE_TIME_PRINT_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PRINT_PATTERN);
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
     public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_PATTERN);
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
 
     private DateTimeUtil() {
+    }
+
+    public static String toStringPrint(LocalDate ld) {
+        return ld == null ? "" : ld.format(DATE_PRINT_FORMATTER);
+    }
+    public static String toStringPrint(LocalDateTime ldt) {
+        return ldt == null ? "" : ldt.format(DATE_TIME_PRINT_FORMATTER);
     }
 
     public static String toString(LocalDate ld) {

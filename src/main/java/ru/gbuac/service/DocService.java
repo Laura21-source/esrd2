@@ -20,4 +20,6 @@ public interface DocService {
     DocTo update(DocTo docTo, int id, String userName) throws NotFoundException;
 
     void delete(int id) throws NotFoundException;
+
+    public String getPdfPathByDocTo(DocTo docTo);
 }

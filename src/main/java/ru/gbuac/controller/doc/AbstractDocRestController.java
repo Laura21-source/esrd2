@@ -57,4 +57,8 @@ public abstract class AbstractDocRestController {
         LOG.info("delete " + id);
         docService.delete(id);
     }
+
+    public String getPdfPathByDocTo(DocTo docTo) {
+        return docService.getPdfPathByDocTo(docTo);
+    }
 }
