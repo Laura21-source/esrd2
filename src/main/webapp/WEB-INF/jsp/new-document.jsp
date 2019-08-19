@@ -195,7 +195,9 @@
                 }
             }
             if(dataField !== "") {
-                childFields.push(dataField);
+                for(var key in dataField){
+                    childFields.push(dataField[key]);
+                }
             }
             var valueObj = {
                 "id" : newId,
@@ -211,14 +213,14 @@
             var dataType = $("#selectType").val();
             var dataDate = $("#inputDate").val();
             var dataTime = $("#inputTime").val();
-            var dataField = [];
+            var dataFieldArray = [];
             $('.blockQuestion').each(function(i) {
                 if($(this).attr("data-field") == i) {
                     var fieldOptionBlock = "#blockQuestion";
                     if(i !== 0) {
                         fieldOptionBlock = fieldOptionBlock + i;
                     }
-                    var fieldDataOption = [];
+                    var fieldOptionArray = [];
                     $(fieldOptionBlock + ' select[data-field]').each(function(){
                         var fieldOption = {
                             "id" : null,
@@ -226,40 +228,27 @@
                             "fieldId" : $(this).attr("data-field"),
                             "valueInt" : $(this).val()
                         }
-                        fieldDataOption.push(fieldOption);
+                        fieldOptionArray.push(fieldOption);
                     });
                     var position = 3+i;
-                    var fieldArray = {
+                    var dataField = {
                         "field" : {
                             "id" : null,
-                            "childFields":[
-                                fieldDataOption
-                            ],
+                            "childFields": fieldOptionArray,
                             "fieldId" : 22,
                         },
                         "position" : position
                     }
-                    dataField.push(fieldArray);
                 }
+                dataFieldArray.push(dataField);
             });
-            var serverStack = createJSON(0,dataType,dataDate,dataTime,dataField);
-            $.post(
-                'rest/profile/docs', // адрес обработчика
-                JSON.stringify(serverStack), // отправляемые данные
-                function(msg) { // получен ответ сервера
-                    alert( "Data Saved: " + msg );
-                    //$('#my_form').hide('slow');
-                    //$('#my_message').html(msg);
-                }
-            );
-
+            var serverStack = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
+            //console.log(serverStack);
             $.ajax({
-                method: "POST",
-                url: " ",
-                data: serverStack
-            })
-            .done(function( msg ) {
-                    alert( "Data Saved: " + msg );
+                type: "POST",
+                url: 'rest/profile/docs',
+                data: JSON.stringify(serverStack),
+                contentType: 'application/json; charset=utf-8'
             });
             //$('#templateForm, #templateBlock').addClass("d-none");
         });

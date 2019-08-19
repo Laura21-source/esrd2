@@ -31,18 +31,29 @@
             </li>
             <li>
                 <ul class="collapsible collapsible-accordion">
-                    <!--<li><a href="#" class="collapsible-header waves-effect text-white">Повестки <span class="badge badge-danger ml-2">42</span></a></li>-->
+                    <li>
+                        <a href="new-document" class="collapsible-header waves-effect text-white">
+                            <i class="fas fa-file-import mr-2"></i>Регистрация
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="collapsible-header waves-effect text-white">
+                            <i class="fas fa-eye mr-2"></i>Повестки <span class="badge badge-primary ml-2">5</span>
+                        </a>
                     <%--<li>
                         <a href="mailing" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-clipboard-list mr-2"></i>Список рассылки
                         </a>
                     </li>--%>
-                    <li>
-                        <a href="new-document" class="collapsible-header waves-effect text-white">
-                            <i class="fas fa-file-import mr-2"></i>Регистрация документа
-                        </a>
+                        <ul class="collapse">
+                            <li>
+                                <a href="view-document" class="collapsible-header waves-effect text-white">
+                                    На исполнении <span class="badge badge-primary ml-2">5</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li>
+                <%--<li>
                         <a href="view-document?id=28" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-eye mr-2"></i>Просмотр документа
                         </a>
@@ -51,7 +62,7 @@
                         <a href="agree-document?id=28" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-file-signature mr-2"></i>Согласование документа
                         </a>
-                    </li>
+                    </li>--%>
                 </ul>
             </li>
         </ul>
