@@ -158,9 +158,9 @@
         });
 
         // Формирование объекта JSON
-        function createJSON(id,dataType,dataDate,dataTime,dataField) {
-            var newId = parseInt(id);
-            if(newId === 0) {newId = null;}
+        function createJSON(dataType,dataDate,dataTime,dataField) {
+            //var newId = parseInt(id);
+            //if(newId === 0) {newId = null;}
             var newdataType = parseInt(dataType);
             var childFields = [];
             if(dataDate || dataTime) {
@@ -170,7 +170,7 @@
                     var newData = dataDate + "T00:00:00";
                     field1 = {
                         "field" : {
-                            "id" : null,
+                            //"id" : null,
                             "childFields" : [],
                             "fieldId" : 4,
                             "valueDate" : newData
@@ -183,7 +183,7 @@
                     var newTime = dataDate + "T" + dataTime + ":00";
                     field2 = {
                         "field" : {
-                            "id" : null,
+                            //"id" : null,
                             "childFields" : [],
                             "fieldId" : 5,
                             "valueDate" : newTime
@@ -199,7 +199,7 @@
                 }
             }
             var valueObj = {
-                "id" : newId,
+                //"id" : newId,
                 "docTypeId" : newdataType,
                 "childFields" : childFields
             }
@@ -222,7 +222,7 @@
                     var fieldOptionArray = [];
                     $(fieldOptionBlock + ' select[data-field]').each(function(){
                         var fieldOption = {
-                            "id" : null,
+                            //"id" : null,
                             "childFields" : [],
                             "fieldId" : $(this).attr("data-field"),
                             "valueInt" : $(this).val()
@@ -232,7 +232,7 @@
                     var position = 3+i;
                     var dataField = {
                         "field" : {
-                            "id" : null,
+                            //"id" : null,
                             "childFields": fieldOptionArray,
                             "fieldId" : 6,
                         },
@@ -241,7 +241,7 @@
                 }
                 dataFieldArray.push(dataField);
             });
-            var serverStack = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
+            var serverStack = createJSON(dataType,dataDate,dataTime,dataFieldArray);
             console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",

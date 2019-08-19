@@ -230,9 +230,9 @@
             }
         });
         // Формирование объекта JSON
-        function createJSON(id,dataType,dataDate,dataTime,dataField) {
-            var newId = parseInt(id);
-            if(newId === 0) {newId = null;}
+        function createJSON(dataType,dataDate,dataTime,dataField) {
+            //var newId = parseInt(id);
+            //if(newId === 0) {newId = null;}
             var newdataType = parseInt(dataType);
             var childFields = [];
             if(dataDate || dataTime) {
@@ -271,7 +271,7 @@
                 }
             }
             var valueObj = {
-                "id" : newId,
+                //"id" : newId,
                 "docTypeId" : newdataType,
                 "childFields" : childFields
             }
@@ -355,7 +355,7 @@
                     var position = 3+i;
                     var dataField = {
                         "field" : {
-                            "id" : null,
+                            //"id" : null,
                             "childFields": fieldOptionArray,
                             "fieldId" : 6,
                         },
