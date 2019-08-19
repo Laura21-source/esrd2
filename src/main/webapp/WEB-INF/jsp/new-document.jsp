@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 submitBtn rounded d-none btnSave" data-toggle="modal" data-target="#btnSuccess">Зарегистрировать</button>
+                        <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 submitBtn rounded d-none btnSave">Зарегистрировать</button>
                     </form>
                 </div>
             </div>
@@ -242,13 +242,20 @@
                 dataFieldArray.push(dataField);
             });
             var serverStack = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
-            $.ajax({
+            var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
                 data: JSON.stringify(serverStack),
                 contentType: 'application/json; charset=utf-8'
             });
-
+            serverAjax.done(function(data) {
+                var projectRegNum = data.projectRegNum;
+                $('#registrationSuccess').modal('show');
+                $('#registrationSuccess #regNumTemplate').html(projectRegNum);
+                $('#registrationSuccess').on('hidden.bs.modal', function (e) {
+                    $("#templateForm, #templateBlock, #btnSave").addClass("d-none");
+                });
+            });
         });
     });
 </script>

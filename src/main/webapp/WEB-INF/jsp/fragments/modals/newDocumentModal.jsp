@@ -16,7 +16,7 @@
                 <div class="text-center">
                     <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                     <h6>Регистрационный номер:</h6>
-                    <h3>согл-1/19</h3>
+                    <h3 id="regNumTemplate"></h3>
                 </div>
             </div>
             <div class="modal-footer justify-content-center">
