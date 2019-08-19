@@ -54,30 +54,7 @@
                             </div>
                             <div id="templateBlock" class="card p-3 mb-3">
                                 <h5 class="templateBlockName"></h5>
-                                <div class="card-body">
-                                    <div class="row card mb-3" id="blockQuestion" req="true">
-                                        <div class="col-12">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-md-9 text-left">
-                                                        <h6 id="nameQuestion">Вопрос 1</h6>
-                                                    </div>
-                                                    <div class="col-md-3 text-right">
-                                                        <div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="row templateBlockSelect"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="marginBlock my-3"></div>
-                                    <div class="row">
-                                        <div class="col-12 text-right">
-                                            <button type="button" class="btn btn-primary btn-sm pointer addQuestion mr-3 submitBtn rounded" title="Добавить вопрос" disabled><i class="fas fa-plus"></i> Добавить</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="card-body" id="newBlockQuestion"></div>
                             </div>
                             <!--<button id="closeDocument" type="submit" class="btn btn-danger mb-5 pt-3 submitBtn rounded" data-toggle="modal" data-target="#btnCansel">Отмена</button>-->
                             <a href="agree-document" id="closeDocument" type="button" class="btn btn-danger mb-5 pt-3 rounded">Отмена</a>
@@ -164,25 +141,50 @@
                 }
                 if(rowFields.field.fieldType === "GROUP_FIELDS") {
                     $(".templateBlockName").html(rowFields.field.name);
+                    // Выводим все вопросы из документа
+                    for (var key in rowFields.field) {
+                        var rowField = rowFields.field[key];
+                        var fieldKey = '';
+                        if (key != 0) {
+                            fieldKey = key;
+                        }
+                        $("#newBlockQuestion").append(
+                            '<div class="row card mb-3 blockQuestion" id="blockQuestion' + fieldKey + '" data-field="' + key + '" req="true">' +
+                            '<div class="col-12">\n' +
+                            '<div class="card-body">\n' +
+                            '<div class="row">\n' +
+                            '<div class="col-md-9 text-left">\n' +
+                            '<h6 id="nameQuestion' + fieldKey + '">' + rowField.name + '</h6>\n' +
+                            '</div>\n' +
+                            '<div class="col-md-3 text-right">\n' +
+                            '<div id="delQuestion' + fieldKey + '" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div>\n' +
+                            '</div>\n' +
+                            '</div>\n' +
+                            '<hr>\n' +
+                            '<div class="row templateBlockSelect"></div>\n' +
+                            '</div>\n' +
+                            '</div>\n' +
+                            '</div>'
+                        );
                     // Количество селектов в базе
                     var sumSelectBase = rowFields.field.childFields.length;
                     // Количество селектов на странице
                     var sumSelectPage = $("[seq='true']").length;
-                    for(var y in rowFields.field.childFields) {
+                    for (var y in rowFields.field.childFields) {
                         var rowSelectField = rowFields.field.childFields[y];
                         var selectFieldName = "selectField" + rowSelectField.catalogId;
                         // Количество селектов на базе должно быть больше чем на странице
-                        if(sumSelectBase > sumSelectPage) {
-                            $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select white" id="' + selectFieldName + '" name="' + selectFieldName + '" seq="true" disabled><option value="" class="alert-primary">Выберите значение справочника</option></select></div>');
+                        if (sumSelectBase > sumSelectPage) {
                             // Номер каталога
                             var numberCatalog = rowSelectField.catalogId;
                             // Номер поля для отметки в селектах
                             var numberSelectedField = rowSelectField.valueInt;
+
                             function createSelectedId(url, numberCatalog, numberField) {
-                                $.getJSON(url, function(dataOption) {
-                                    for(var y in dataOption) {
+                                $.getJSON(url, function (dataOption) {
+                                    for (var y in dataOption) {
                                         var rowOption = dataOption[y];
-                                        if(numberField === rowOption.id) {
+                                        if (numberField === rowOption.id) {
                                             selectedField = 'selected="selected"';
                                         } else {
                                             selectedField = '';
@@ -191,9 +193,11 @@
                                     }
                                 });
                             }
+
                             createSelectedId("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, numberSelectedField);
                         }
                     }
+                }
                 }
             }
         });

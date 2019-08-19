@@ -62,7 +62,7 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-9 text-left">
-                                                    <h6 id="nameQuestion">Вопрос 1</h6>
+                                                    <h6 id="nameQuestion"></h6>
                                                 </div>
                                                 <div class="col-md-3 text-right">
                                                     <div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div>
@@ -130,7 +130,6 @@
                             for(var k in rowType.field.childFields) {
                                 var rowSelectField = rowType.field.childFields[k];
                                 var selectFieldName = "selectField" + rowSelectField.catalogId;
-                                //console.log(rowSelectField.catalogId);
                                 // Количество селектов на базе должно быть больше чем на странице
                                 if(sumSelectBase > sumSelectPage) {
                                     $(".templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '" seq="true"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div>');
@@ -243,14 +242,14 @@
                 dataFieldArray.push(dataField);
             });
             var serverStack = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
-            //console.log(serverStack);
             $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
                 data: JSON.stringify(serverStack),
                 contentType: 'application/json; charset=utf-8'
+                success:
             });
-            //$('#templateForm, #templateBlock').addClass("d-none");
+
         });
     });
 </script>

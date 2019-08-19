@@ -62,58 +62,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <%--<div>&nbsp;</div>
-                                <div class="row card mb-3" id="blockQuestion" req="true">
-                                    <div class="col-12">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-9 text-left">
-                                                    <h5 id="nameQuestion">Вопрос 1</h5>
-                                                </div>
-                                                <div class="col-md-3 text-right">
-                                                    <div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-md-4 text-left mt-3">
-                                                    <span class="text-muted"><i class="fas fa-globe mr-2"></i> Тематика</span>
-                                                </div>
-                                                <div class="col-md-8 mt-3">
-                                                    <select class="browser-default custom-select" name="selectTheme[]" id="selectTheme">
-                                                        <option value="" class="alert-primary">Выберите тематику документа</option>
-                                                        <option value="1" selected>Электроэнергия</option>
-                                                        <option value="2">Водоотведение</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-4 text-left mt-3">
-                                                    <span class="text-muted"><i class="fas fa-briefcase mr-2"></i> Организация</span>
-                                                </div>
-                                                <div class="col-md-8 mt-3">
-                                                    <select class="browser-default custom-select" name="selectOrganisation[]" id="selectOrganisation">
-                                                        <option value="" class="alert-primary">Выберите организацию</option>
-                                                        <option value="1">ООО Гарант Инвест</option>
-                                                        <option value="2">ОАО Бутовский химический завод</option>
-                                                        <option value="3" selected>ОАО Квант-Н</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-4 text-left mt-3">
-                                                    <span class="text-muted"><i class="fas fa-user-tie mr-2"></i> Ответственный</span>
-                                                </div>
-                                                <div class="col-md-8 mt-3">
-                                                    <select class="browser-default custom-select" name="selectCrucial[]" id="selectCrucial">
-                                                        <option value="" class="alert-primary">Выберите ответственное лицо</option>
-                                                        <option value="1" selected>В.Н. Минин, тел. 8 (495) 620 20 00, доб. 14832.</option>
-                                                        <option value="2">И.И. Власкина, тел. 8 (495) 957 72 16 </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>--%>
                                 <div id="templateBlock" class="card p-3 mb-3">
                                     <h5 class="templateBlockName"></h5>
-                                    <div class="card-body">
+                                    <div class="card-body" id="newBlockQuestion">
                                         <div class="row card mb-3" id="blockQuestion" req="true">
                                             <div class="col-12">
                                                 <div class="card-body">
@@ -200,6 +151,7 @@
             // Получение основных полей
             for(var i in data.childFields) {
                 var rowFields = data.childFields[i];
+                console.log(rowFields);
                 if(rowFields.field.fieldType === "DATE") {
                     var newDateRevers = new Date(rowFields.field.valueDate);
                     function formatDateRevers(date) {
@@ -231,6 +183,7 @@
                     $("#inputTime").attr("value", newTime);
                 }
                 if(rowFields.field.fieldType === "GROUP_FIELDS") {
+                    //$("#newBlockQuestions").append('<div class="row card mb-3" id="blockQuestion" req="true"><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameQuestion"></h6></div><div class="col-md-3 text-right"><div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row templateBlockSelect"></div></div></div></div>');
                     $(".templateBlockName").html(rowFields.field.name);
                     // Количество селектов в базе
                     var sumSelectBase = rowFields.field.childFields.length;

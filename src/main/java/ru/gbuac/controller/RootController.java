@@ -54,6 +54,6 @@ public class RootController {
     @GetMapping(value = "/agree-document")
     public String agreeDocument() {return "agree-document";}
 
-    @GetMapping(value = "/mailing")
-    public String mailing() {return "mailing";}
+    @GetMapping(value = "/temp-list")
+    public String tempList() {return "temp-list";}
 }
