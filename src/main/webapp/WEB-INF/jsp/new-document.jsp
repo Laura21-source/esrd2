@@ -242,6 +242,7 @@
                 dataFieldArray.push(dataField);
             });
             var serverStack = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
+            console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',

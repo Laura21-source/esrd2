@@ -322,14 +322,13 @@
                 data: JSON.stringify(serverStack),
                 contentType: 'application/json; charset=utf-8'
             });
-            /*serverAjax.done(function(data) {
-                var projectRegNum = data.projectRegNum;
+            serverAjax.done(function(data) {
                 $('#btnSuccess').modal('show');
-                $('#btnSuccess #regNumTemplate').html(projectRegNum);
-                $('#btnSuccess').on('hidden.bs.modal', function (e) {
+                console.log(data);
+               /* $('#btnSuccess').on('hidden.bs.modal', function (e) {
                     window.location.href="temp-list";
-                });
-            });*/
+                });*/
+            });
         });
     });
 </script>
