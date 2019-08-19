@@ -313,7 +313,7 @@
                 }
                 dataFieldArray.push(dataField);
             });
-            var serverStack = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
+            var serverStack = createJSON(dataType,dataDate,dataTime,dataFieldArray);
             console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
@@ -364,7 +364,7 @@
                 }
                 dataFieldArray.push(dataField);
             });
-            var reformatPDF = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
+            var reformatPDF = createJSON(dataType,dataDate,dataTime,dataFieldArray);
             $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs/pdf',
