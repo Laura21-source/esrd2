@@ -49,9 +49,13 @@ public class Doc extends BaseEntity {
     @Column(name = "cur_agree_stage")
     private Integer currentAgreementStage;
 
+    @Column(name = "url_pdf")
+    private String UrlPDF;
+
     public Doc(Integer id, String regNum, LocalDateTime regDateTime, @NotNull String projectRegNum,
                @NotNull LocalDateTime projectRegDateTime, @NotNull LocalDateTime insertDateTime,
-               @NotNull DocType docType, List<DocValuedFields> docValuedFields, Integer currentAgreementStage) {
+               @NotNull DocType docType, List<DocValuedFields> docValuedFields, Integer currentAgreementStage,
+               String urlPDF) {
         super(id);
         this.regNum = regNum;
         this.regDateTime = regDateTime;
@@ -61,5 +65,6 @@ public class Doc extends BaseEntity {
         this.docType = docType;
         this.docValuedFields = docValuedFields;
         this.currentAgreementStage = currentAgreementStage;
+        UrlPDF = urlPDF;
     }
 }

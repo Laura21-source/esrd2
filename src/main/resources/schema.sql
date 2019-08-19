@@ -46,6 +46,7 @@ CREATE TABLE doc
     project_reg_datetime    TIMESTAMP DEFAULT now()      NOT NULL,
     insert_datetime         TIMESTAMP DEFAULT now()      NOT NULL,
     cur_agree_stage         INTEGER                              ,
+    url_pdf                 VARCHAR                              ,
     FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
 );
 

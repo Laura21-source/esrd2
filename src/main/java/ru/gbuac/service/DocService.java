@@ -15,9 +15,9 @@ public interface DocService {
 
     List<Doc> getAll();
 
-    DocTo save(DocTo doc, String userName);
+    DocTo save(DocTo doc, String userName, String rootPath);
 
-    DocTo update(DocTo docTo, int id, String userName) throws NotFoundException;
+    DocTo update(DocTo docTo, int id, String userName, String rootPath) throws NotFoundException;
 
     void delete(int id) throws NotFoundException;
 

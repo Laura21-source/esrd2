@@ -89,7 +89,7 @@ public class DocServiceImpl implements DocService {
 
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
                 doc.getProjectRegDateTime(), doc.getInsertDateTime(),
-                doc.getDocType().getId(), curAgreementStage, isFinalStage, docFieldsTos);
+                doc.getDocType().getId(), curAgreementStage, isFinalStage, doc.getUrlPDF(), docFieldsTos);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {
@@ -113,7 +113,7 @@ public class DocServiceImpl implements DocService {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
         Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDateTime(), docTo.getProjectRegNum(),
                 docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null,
-                docTo.getCurrentAgreementStage());
+                docTo.getCurrentAgreementStage(), docTo.getUrlPDF());
         List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
         List<DocValuedFields> docValuedFields = new ArrayList<>();
 
@@ -163,7 +163,7 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public DocTo save(DocTo docTo, String userName) throws UnauthorizedUserException {
+    public DocTo save(DocTo docTo, String userName, String rootPath) throws UnauthorizedUserException {
         Assert.notNull(docTo, "doc must not be null");
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTo.getDocTypeId());
         List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
@@ -185,15 +185,17 @@ public class DocServiceImpl implements DocService {
         else {
             docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
         }
+        docTo.setUrlPDF(getPdfPathByDocTo(docTo, rootPath));
         return asDocTo(docRepository.save(createNewDocFromTo(prepareToPersist(docTo))), userName);
     }
 
     @Override
-    public DocTo update(DocTo docTo, int id, String userName) throws NotFoundException, UnauthorizedUserException {
+    public DocTo update(DocTo docTo, int id, String userName, String rootPath) throws NotFoundException, UnauthorizedUserException {
         Assert.notNull(docTo, "docTo must not be null");
         docValuedFieldsRepository.deleteAll(id);
         Doc doc = createNewDocFromTo(prepareToPersist(docTo));
         doc.setId(id);
+        doc.setUrlPDF(getPdfPathByDocTo(docTo, rootPath));
         return asDocTo(checkNotFoundWithId(docRepository.save(doc), id), userName);
     }
 

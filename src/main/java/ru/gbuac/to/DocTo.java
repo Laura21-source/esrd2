@@ -27,6 +27,8 @@ public class DocTo extends BaseTo implements Serializable {
 
     private Boolean finalStage;
 
+    private String UrlPDF;
+
     private List<DocFieldsTo> childFields;
 
     public DocTo() {
@@ -34,7 +36,7 @@ public class DocTo extends BaseTo implements Serializable {
 
     public DocTo(Integer id, @SafeHtml String regNum, LocalDateTime regDateTime, @SafeHtml String projectRegNum,
                  LocalDateTime projectRegDateTime, LocalDateTime insertDateTime, Integer docTypeId,
-                 Integer currentAgreementStage, Boolean finalStage, List<DocFieldsTo> childFields) {
+                 Integer currentAgreementStage, Boolean finalStage, String urlPDF, List<DocFieldsTo> childFields) {
         super(id);
         this.regNum = regNum;
         this.regDateTime = regDateTime;
@@ -44,6 +46,7 @@ public class DocTo extends BaseTo implements Serializable {
         this.docTypeId = docTypeId;
         this.currentAgreementStage = currentAgreementStage;
         this.finalStage = finalStage;
+        UrlPDF = urlPDF;
         this.childFields = childFields;
     }
 
@@ -115,6 +118,14 @@ public class DocTo extends BaseTo implements Serializable {
         this.finalStage = finalStage;
     }
 
+    public String getUrlPDF() {
+        return UrlPDF;
+    }
+
+    public void setUrlPDF(String urlPDF) {
+        UrlPDF = urlPDF;
+    }
+
     public List<DocFieldsTo> getChildFields() {
         return childFields;
     }
@@ -142,6 +153,7 @@ public class DocTo extends BaseTo implements Serializable {
         if (currentAgreementStage != null ? !currentAgreementStage.equals(docTo.currentAgreementStage) : docTo.currentAgreementStage != null)
             return false;
         if (finalStage != null ? !finalStage.equals(docTo.finalStage) : docTo.finalStage != null) return false;
+        if (UrlPDF != null ? !UrlPDF.equals(docTo.UrlPDF) : docTo.UrlPDF != null) return false;
         return childFields != null ? childFields.equals(docTo.childFields) : docTo.childFields == null;
     }
 
@@ -155,6 +167,7 @@ public class DocTo extends BaseTo implements Serializable {
         result = 31 * result + (docTypeId != null ? docTypeId.hashCode() : 0);
         result = 31 * result + (currentAgreementStage != null ? currentAgreementStage.hashCode() : 0);
         result = 31 * result + (finalStage != null ? finalStage.hashCode() : 0);
+        result = 31 * result + (UrlPDF != null ? UrlPDF.hashCode() : 0);
         result = 31 * result + (childFields != null ? childFields.hashCode() : 0);
         return result;
     }
@@ -171,6 +184,7 @@ public class DocTo extends BaseTo implements Serializable {
                 ", docTypeId=" + docTypeId +
                 ", currentAgreementStage=" + currentAgreementStage +
                 ", finalStage=" + finalStage +
+                ", UrlPDF='" + UrlPDF + '\'' +
                 ", childFields=" + childFields +
                 '}';
     }
