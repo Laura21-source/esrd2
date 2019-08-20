@@ -14,28 +14,29 @@ $(function() {
   });
 
   // Добавить вопрос, получателя
-  $('.addQuestion').click(function(){
-    var links = $("[req='true']").length;
+  $('.addGroup').click(function(){
+    var links = $("[data-block='1']").length;
     var links1 = links + 1;
-    $('#blockQuestion').clone(true).attr('id', 'blockQuestion' + links).appendTo('.marginBlock');
+    $('#blockGroup').clone(true).attr('id', 'blockGroup' + links).appendTo('.marginBlock');
     // Добавляем к id полей номер добавляемого вопроса
-    $('#blockQuestion' + links + ' #nameQuestion').attr('id', 'nameQuestion' + links);
-    $('#blockQuestion' + links + ' #delQuestion').attr('id', 'delQuestion' + links);
-    $('#blockQuestion' + links).attr('data-field', links);
-    $('#blockQuestion' + links).find('select').each(function(){
+    $('#blockGroup' + links + ' #nameGroup').attr('id', 'nameGroup' + links);
+    $('#blockGroup' + links + ' #delGroup').attr('id', 'delGroup' + links);
+    $('#blockGroup' + links).attr('data-field', links);
+    $('#blockGroup' + links).find('select').each(function(){
       var selectName = $(this).attr("name");
-      $('#blockQuestion' + links + selectName).attr('name', selectName + links);
+      $('#blockGroup' + links + selectName).attr('name', selectName + links);
     });
-    $('#blockQuestion' + links + ' select option').prop('selected', false);
-    $('#nameQuestion' + links).html("Вопрос " + links1);
-    $('#delQuestion' + links).removeClass('d-none');
+    $('#blockGroup' + links + ' *').prop('selected', false);
+    $('#nameGroup' + links).html("Вопрос " + links1);
+    $('#delGroup' + links).removeClass('d-none');
   });
 
   // Удалить вопрос
-  $('.delQuestion').click(function(){
+  $('.delGroup').click(function(){
     var id = $(this).attr("id");
-    id = id.substr(11);
-    $('#blockQuestion' + id).remove();
+    id = id.substr(8);
+    alert('#blockGroup' + id);
+    $('#blockGroup' + id).remove();
   });
 
   // Отмена закрытия полей
@@ -44,7 +45,7 @@ $(function() {
     $(this).addClass("d-none");
     $("#saveDocument, #cancelDocument").removeClass("d-none");
     $("#closeDocument").addClass("d-none");
-    $("select, #inputDate, #inputTime, .addQuestion").attr("disabled",false);
+    $("select, #inputDate, #inputTime, .addGroup").attr("disabled",false);
   });
 
   $("#saveDocument").click(function(e){
@@ -53,16 +54,7 @@ $(function() {
     $("#cancelDocument").addClass("d-none");
     $("#editDocument").removeClass("d-none");
     $("#closeDocument").removeClass("d-none");
-    $("select, #inputDate, #inputTime, .addQuestion").attr("disabled",true);
-  });
-
-  // отправка данных на сервер
-  $(".btnSave").on("click", function(e) {
-    e.preventDefault();
-  });
-
-  $(".reloadButton").click(function(){
-    location.reload();
+    $("select, #inputDate, #inputTime, .addGroup").attr("disabled",true);
   });
 
   // Сортируемые таблицы

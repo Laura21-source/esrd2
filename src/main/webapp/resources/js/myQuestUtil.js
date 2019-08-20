@@ -1,5 +1,5 @@
 var ajaxUrl = "rest/profile/quests/";
-var questId = getUrlVar("id");
+getUrlVar("id");
 
 if ($.isNumeric(questId)) {
     getResult(questId);

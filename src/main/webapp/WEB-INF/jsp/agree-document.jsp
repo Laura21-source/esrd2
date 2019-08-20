@@ -38,54 +38,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row ml-1 mb-3">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-4 text-left mt-2">
-                                                <span for="inputDate" class="text-muted inputDateName"></span>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <input title="Выберите дату" type="date" id="inputDate" name="inputDate" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ml-1 mb-3">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-4 text-left mt-2">
-                                                <span for="inputTime" class="text-muted inputTimeName"></span>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <input title="Выберите время" type="time" id="inputTime" name="inputTime" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="templateBlock" class="card p-3 mb-3">
-                                    <h5 class="templateBlockName"></h5>
+                                <div id="blockUp"></div>
+                                <div id="blockDown" class="card p-3">
+                                    <h5 class="blockName"></h5>
                                     <div class="card-body">
-                                        <div id="newBlockQuestion"></div>
-                                        <%--<div class="row card mb-3" id="blockQuestion" req="true">
-                                            <div class="col-12">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-md-9 text-left">
-                                                            <h6 id="nameQuestion"></h6>
-                                                        </div>
-                                                        <div class="col-md-3 text-right">
-                                                            <div id="delQuestion" class="btn btn-danger btn-sm pointer delQuestion d-none rounded" title="Удалить вопрос"><i class="fas fa-trash"></i></div>
-                                                        </div>
-                                                    </div>
-                                                    <hr>
-                                                    <div class="row templateBlockSelect"></div>
-                                                </div>
-                                            </div>
-                                        </div>--%>
+                                        <div id="newBlockGroup"></div>
                                         <div class="marginBlock my-3"></div>
                                         <div class="row">
                                             <div class="col-12 text-right">
-                                                <button type="button" class="btn btn-primary btn-sm pointer addQuestion mr-3 submitBtn rounded" title="Добавить вопрос"><i class="fas fa-plus"></i> Добавить</button>
+                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить вопрос"><i class="fas fa-plus"></i> Добавить</div>
                                             </div>
                                         </div>
                                     </div>
@@ -117,118 +78,25 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
+        // Список всех документов
+        var docAllURL = "rest/profile/doctypes/";
         // Получаем id документа из строки
-        var urlString = window.location.href;
-        var url = new URL(urlString);
-        var id = url.searchParams.get("id");
-        // Переменная выделения полей
-        var selectedField = '';
+        var id = getId();
+        // Поля определённого документа
+        var docURL = "rest/profile/docs/" + id;
         // Подключение стека полей
-        $.getJSON("rest/profile/docs/" + id, function(data) {
-            var newDate = new Date(data.projectRegDateTime);
-            function formatDate(date) {
-                var day = date.getDate();
-                var month = date.getMonth()+1;
-                if(month < 10) {
-                    month = '0' + month;
-                }
-                var year = date.getFullYear();
-                return day + '-' + month + '-' + year;
+        $.getJSON(docURL, function(data) {
+            var newDate = '';
+            if(data.projectRegDateTime) {
+                newDate = formatDate(new Date(data.projectRegDateTime), 0);
             }
-            var newDate = formatDate(newDate);
             $(".documentName").html('Согласование документа №' + data.projectRegNum + ' от ' + newDate);
             // Получение списка полей вида документа
-            $.getJSON("rest/profile/doctypes/", function(dataType) {
-                for(var k in dataType) {
-                    var rowType = dataType[k];
-                    if(data.docTypeId === rowType.id) {
-                        selectedField = 'selected="selected"';
-                    } else {
-                        selectedField = '';
-                    }
-                    $("#selectType").append('<option value="' + rowType.id + '"' + selectedField + '>'+ rowType.name +'</option>');
-                }
-            });
+            createOptions(docAllURL, "#selectType", "name", "id", data.docTypeId);
             // Получение основных полей
-            var newBlockArray = [];
-            for(var i in data.childFields) {
-                var rowFields = data.childFields[i];
-                if(rowFields.field.fieldType === "DATE") {
-                    var newDateRevers = new Date(rowFields.field.valueDate);
-                    function formatDateRevers(date) {
-                        var day = date.getDate();
-                        var month = date.getMonth()+1;
-                        if(month < 10) {
-                            month = '0' + month;
-                        }
-                        var year = date.getFullYear();
-                        return year + '-' + month + '-' + day;
-                    }
-                    var newDateRevers = formatDateRevers(newDateRevers);
-                    $(".inputDateName").html('<i class="fas fa-calendar-alt mr-2"></i>' + rowFields.field.name);
-                    $("#inputDate").attr("value", newDateRevers);
-                }
-                if(rowFields.field.fieldType === "TIME") {
-                    var newTime = new Date(rowFields.field.valueDate);
-                    function formatTime(date) {
-                        var hours = date.getHours();
-                        var minutes = date.getMinutes();
-                        if(minutes < 10) {
-                            minutes = '0' + minutes;
-                        }
-                        return hours + ':' + minutes;
-                    }
-                    var newTime = formatTime(newTime);
-                    $("#inputTimeBlock").removeClass("d-none");
-                    $(".inputTimeName").html('<i class="fas fa-clock mr-2"></i>' + rowFields.field.name);
-                    $("#inputTime").attr("value", newTime);
-                }
-                if(rowFields.field.fieldType === "GROUP_FIELDS") {
-                    var newBlockArrayElem = {
-                        "field" : rowFields.field
-                    }
-                    newBlockArray.push(newBlockArrayElem);
-                }
-            }
-            for(var key in newBlockArray) {
-                key = parseInt(key);
-                var newRowFields = newBlockArray[key];
-                var dubbleKey = parseInt(key+1);
-                var questionKey = '';
-                var delButton = ' d-none';
-                if(key != 0) {
-                    questionKey = key;
-                    delButton = '';
-                }
-                $("#newBlockQuestion").append('<div class="row card mb-3 blockQuestion" id="blockQuestion' + questionKey + '" data-field="' + key + '" req="true"><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameQuestion' + questionKey + '">Вопрос ' + dubbleKey + '</h6></div><div class="col-md-3 text-right"><div id="delQuestion' + questionKey + '" class="btn btn-danger btn-sm pointer delQuestion rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row templateBlockSelect"></div></div></div></div>');
-                $(".templateBlockName").html(newRowFields.field.name);
-                for (var y in newRowFields.field.childFields) {
-                    var rowSelectField = newRowFields.field.childFields[y];
-                    var selectFieldName = "selectField" + rowSelectField.catalogId;
-                    $("#blockQuestion" + questionKey + " .templateBlockSelect").append('<div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select white" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '" seq="true"><option value="" class="alert-primary">Выберите значение справочника</option></select></div>');
-                    // Номер каталога
-                    var numberCatalog = rowSelectField.catalogId;
-                    var newnumberCatalog = ('#blockQuestion' + questionKey + ' #selectField' + numberCatalog);
-                    // Номер поля для отметки в селектах
-                    var numberField = rowSelectField.valueInt;
-                    function createSelectedId(url, numberCatalog, numberField) {
-                        $.getJSON(url, function (dataOption) {
-                            for (var m in dataOption) {
-                                var rowOption = dataOption[m];
-                                if (numberField === rowOption.id) {
-                                    selectedField = 'selected="selected"';
-                                } else {
-                                    selectedField = '';
-                                }
-                                //console.log('#blockQuestion' + questionKey + ' #selectField' + numberCatalog);
-                                $(numberCatalog).append('<option value="' + rowOption.id + '" ' + selectedField + '>' + rowOption.valueStr + '</option>');
-                            }
-                        });
-                    }
-                    createSelectedId("rest/profile/catalogs/" + numberCatalog + "/elems", newnumberCatalog, numberField);
-                }
-            }
+            getFieldsDocument("rest/profile/doctypes/" + data.docTypeId + "/fields", id, 0);
         });
+
         // Формирование объекта JSON
         function createJSON(dataType,dataDate,dataTime,dataField) {
             //var newId = parseInt(id);
