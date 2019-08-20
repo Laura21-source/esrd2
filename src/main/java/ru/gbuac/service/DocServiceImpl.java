@@ -2,10 +2,8 @@ package ru.gbuac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.web.context.ServletContextAware;
 import ru.gbuac.dao.*;
 import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
@@ -17,8 +15,6 @@ import ru.gbuac.util.TaggedTable;
 import ru.gbuac.util.Templater;
 import ru.gbuac.util.exception.NotFoundException;
 import ru.gbuac.util.exception.UnauthorizedUserException;
-
-import javax.servlet.ServletContext;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -41,9 +37,6 @@ public class DocServiceImpl implements DocService {
 
     @Autowired
     private FieldRepository fieldRepository;
-
-    @Autowired
-    private CatalogRepository catalogRepository;
 
     @Autowired
     private CatalogElemRepository catalogElemRepository;
@@ -185,8 +178,9 @@ public class DocServiceImpl implements DocService {
         else {
             docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
         }
-        docTo.setUrlPDF(getPdfPathByDocTo(docTo, rootPath));
-        return asDocTo(docRepository.save(createNewDocFromTo(prepareToPersist(docTo))), userName);
+        DocTo saved = asDocTo(docRepository.save(createNewDocFromTo(prepareToPersist(docTo))), userName);
+        saved.setUrlPDF(getPdfPathByDocTo(saved, rootPath));
+        return saved;
     }
 
     @Override
