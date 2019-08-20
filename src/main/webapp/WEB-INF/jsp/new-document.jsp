@@ -158,9 +158,9 @@
         });
 
         // Формирование объекта JSON
-        function createJSON(dataType,dataDate,dataTime,dataField) {
-            //var newId = parseInt(id);
-            //if(newId === 0) {newId = null;}
+        function createJSON(id,dataType,dataDate,dataTime,dataField) {
+            var newId = parseInt(id);
+            if(newId === 0) {newId = null;}
             var newdataType = parseInt(dataType);
             var childFields = [];
             if(dataDate || dataTime) {
@@ -241,7 +241,7 @@
                 }
                 dataFieldArray.push(dataField);
             });
-            var serverStack = createJSON(dataType,dataDate,dataTime,dataFieldArray);
+            var serverStack = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
             console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
