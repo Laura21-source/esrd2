@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="modal fade" id="registrationSuccess" tabindex="-1" role="dialog" aria-labelledby="registrationSuccess"
+<div class="modal fade" id="createSave" tabindex="-1" role="dialog" aria-labelledby="createSave"
      aria-hidden="true">
     <div class="modal-dialog modal-notify modal-success" role="document">
         <div class="modal-content">
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-center">
-                <a type="button" class="btn btn-success rounded reloadButton" data-dismiss="modal">Продолжить работу</a>
+                <a type="button" class="btn btn-success rounded" data-dismiss="modal">Продолжить работу</a>
             </div>
         </div>
     </div>
