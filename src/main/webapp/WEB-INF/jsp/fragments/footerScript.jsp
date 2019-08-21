@@ -7,3 +7,7 @@
 <script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="resources/js/mdb.min.js"></script>
 <script type="text/javascript" src="resources/js/my.js"></script>
+
+<c:if test = "${main}">
+    <p>My salary is: </p>
+</c:if>

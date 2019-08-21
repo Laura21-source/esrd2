@@ -149,7 +149,7 @@ public class FieldTo extends BaseTo {
     public String getValueByFieldType() {
         switch (fieldType) {
             case TEXT:
-            case TEXT_MULTI_LINE:
+            case TEXTAREA:
                 return getValueStr();
             case NUMBER:
                 return getValueInt().toString();
@@ -157,7 +157,7 @@ public class FieldTo extends BaseTo {
                 return DateTimeUtil.toStringPrint(getValueDate().toLocalDate());
             case TIME:
                 return DateTimeUtil.toString(getValueDate().toLocalTime());
-            case DATE_TIME:
+            case DATETIME:
                 return DateTimeUtil.toStringPrint(getValueDate());
         }
         return "";

@@ -2,11 +2,13 @@ package ru.gbuac.model;
 
 public enum FieldType {
     TEXT,
-    TEXT_MULTI_LINE,
+    TEXTAREA,
     NUMBER,
     DATE,
     TIME,
-    DATE_TIME,
+    DATETIME,
     CATALOG,
-    GROUP_FIELDS
+    GROUP_FIELDS,
+    CHECKBOX,
+    ATTACHMENT
 }

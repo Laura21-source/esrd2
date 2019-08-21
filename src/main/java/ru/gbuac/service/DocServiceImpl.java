@@ -1,5 +1,6 @@
 package ru.gbuac.service;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,10 +10,7 @@ import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FieldTo;
-import ru.gbuac.util.FieldUtil;
-import ru.gbuac.util.TableRow;
-import ru.gbuac.util.TaggedTable;
-import ru.gbuac.util.Templater;
+import ru.gbuac.util.*;
 import ru.gbuac.util.exception.NotFoundException;
 import ru.gbuac.util.exception.UnauthorizedUserException;
 import java.time.LocalDateTime;
@@ -199,71 +197,83 @@ public class DocServiceImpl implements DocService {
         checkNotFoundWithId(docRepository.delete(id)!= 0, id);
     }
 
+    public void fillTags(FieldTo fieldTo, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables) {
+        String tag = fieldTo.getTag();
+        if (TagUtil.getTableTag(tag) != null) {
+            Map<String, String> cellsTags;
+            String tableTag = TagUtil.getTableTag(tag);
+            if (!taggedTables.containsKey(tableTag)) {
+                cellsTags = new HashMap<>();
+                taggedTables.put(tableTag, new TaggedTable(tableTag, new ArrayList<TableRow>() {{
+                    add(new TableRow(cellsTags));}}));
+            } else {
+                List<TableRow> rows = taggedTables.get(tableTag).getRows();
+                cellsTags = taggedTables.get(tableTag).getRows().get(rows.size()-1).getCellsTags();
+            }
+            switch (fieldTo.getFieldType()) {
+                case GROUP_FIELDS:
+                    for (FieldTo childField : fieldTo.getChildFields()) {
+                        fillTags(childField, simpleTags, taggedTables);
+                    }
+                    break;
+                case CATALOG:
+                    CatalogElem catalogElemChild =
+                            catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
+                    switch (catalogElemChild.getCatalog().getCatalogType()) {
+                        case TEXT:
+                            cellsTags.put(tag, catalogElemChild.getValueStr());
+                            break;
+                        case NUMBER:
+                            cellsTags.put(tag, catalogElemChild.getValueInt());
+                            break;
+                    }
+                    break;
+                default:
+                    cellsTags.put(tag, fieldTo.getValueByFieldType());
+                    break;
+            }
+        } else
+        if (TagUtil.getSimpleTag(tag) != null) {
+            switch (fieldTo.getFieldType()) {
+                case GROUP_FIELDS:
+                    for (FieldTo childField : fieldTo.getChildFields()) {
+                        fillTags(childField, simpleTags, taggedTables);
+                    }
+                    break;
+                case CATALOG:
+                    CatalogElem catalogElemChild =
+                            catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
+                    switch (catalogElemChild.getCatalog().getCatalogType()) {
+                        case TEXT:
+                            simpleTags.put(tag, catalogElemChild.getValueStr());
+                            break;
+                        case NUMBER:
+                            simpleTags.put(tag, catalogElemChild.getValueInt());
+                            break;
+                    }
+                default:
+                    simpleTags.put(tag, fieldTo.getValueByFieldType());
+                    break;
+            }
+        }
+
+    }
+
     @Override
     public String getPdfPathByDocTo(DocTo docTo, String rootPath) {
         String templatePath = rootPath + docTemplatesDir + "Templ.docx";
 
         Map<String, String> simpleTags = new HashMap<>();
         simpleTags.put("RegNum", docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum());
-        List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
-        List<TableRow> rows = new ArrayList<>();
+        Map<String, TaggedTable> taggedTables = new HashMap<>();
 
-        for (DocFieldsTo docFieldsTo : docFieldsTos) {
-            FieldTo fieldTo = docFieldsTo.getField();
-            switch (fieldTo.getFieldType())  {
-                case CATALOG:
-                    CatalogElem catalogElem= catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
-                    switch (catalogElem.getCatalog().getCatalogType()) {
-                        case TEXT:
-                            simpleTags.put(fieldTo.getTag(), catalogElem.getValueStr());
-                            break;
-                        case NUMBER:
-                            simpleTags.put(fieldTo.getTag(), catalogElem.getValueInt());
-                            break;
-                    }
-                    break;
-                case GROUP_FIELDS:
-                    Map<String, String> rowCells = new HashMap<>();
-                    rowCells.put("NumTheme", String.valueOf(rows.size() + 1));
-                    StringBuilder commonText = new StringBuilder();
-                    for (FieldTo fieldChildTo : fieldTo.getChildFields()) {
-                        switch (fieldChildTo.getFieldType()) {
-                            case CATALOG:
-                                CatalogElem catalogElemChild =
-                                        catalogElemRepository.findById(fieldChildTo.getValueInt()).orElse(null);
-                                switch (catalogElemChild.getCatalog().getCatalogType()) {
-                                    case TEXT:
-                                        if (fieldChildTo.getTag().contains(fieldTo.getTag()))
-                                            commonText.append(catalogElemChild.getValueStr()).append(" ");
-                                        else
-                                            rowCells.put(fieldChildTo.getTag(), catalogElemChild.getValueStr());
-                                        break;
-                                    case NUMBER:
-                                        if (fieldChildTo.getTag().contains(fieldTo.getTag()))
-                                            commonText.append(catalogElemChild.getValueInt()).append(" ");
-                                        else
-                                            rowCells.put(fieldChildTo.getTag(), catalogElemChild.getValueInt());
-                                        break;
-                                }
-                                break;
-                            case GROUP_FIELDS:
-                                break;
-                            default:
-                                rowCells.put(fieldChildTo.getTag(), fieldChildTo.getValueByFieldType());
-                        }
-                    }
-                    rowCells.put(fieldTo.getTag(), commonText.toString());
-                    rows.add(new TableRow(rowCells));
-                    break;
-                default:
-                    simpleTags.put(fieldTo.getTag(), fieldTo.getValueByFieldType());
-            }
+        for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
+            fillTags(docFieldsTo.getField(), simpleTags, taggedTables);
         }
-        TaggedTable taggedTable = new TaggedTable("Table1", rows);
 
         String pdfTempPath = rootPath + pdfTempDir + "povestka_test1.pdf";
         try {
-            Templater.fillTagsByDictionary(templatePath, simpleTags, Arrays.asList(taggedTable),
+            Templater.fillTagsByDictionary(templatePath, simpleTags, taggedTables,
                     pdfTempPath, true);
         } catch (Exception e) {
             pdfTempPath = null;
