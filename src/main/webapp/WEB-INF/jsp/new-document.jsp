@@ -91,6 +91,7 @@
                 $('#createSave').modal('show');
                 $('#createSave #regNumTemplate').html(projectRegNum);
                 $('#createSave').on('hidden.bs.modal', function() {
+                    $('#blockUp, #newBlockGroup').empty();
                     $("#blockUp, #blockDown, #btnSave").addClass("d-none");
                 });
             });

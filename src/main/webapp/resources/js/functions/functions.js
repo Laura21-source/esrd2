@@ -162,7 +162,7 @@
                     "id" : null,
                     "childFields": [],
                     "fieldId": attrId,
-                    "valueDate": value
+                    "valueDate" : value
                 },
                 "position": key,
             }
