@@ -106,7 +106,7 @@
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(sumElem);
             var serverStack = createJSON(id,dataType,dataField,dataBlock);
-            //console.log(serverStack);
+            console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
@@ -116,9 +116,9 @@
             serverAjax.done(function() {
                 $('#btnSuccess').modal('show');
                 //console.log(data);
-                $('#btnSuccess').on('hidden.bs.modal', function() {
+                /*$('#btnSuccess').on('hidden.bs.modal', function() {
                     window.location.href="temp-list";
-                });
+                });*/
             });
         });
 
