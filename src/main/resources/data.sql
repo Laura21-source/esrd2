@@ -57,14 +57,14 @@ INSERT INTO public.catalogelem (id, value_int, value_str, catalog_id, parent_cat
 
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null, 'MeetingDate');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (5, 'Время заседания', 'TIME', null, null, null, null, 'MeetingTime');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (6, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, 'Theme');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (7, 'Предмет вопроса', 'CATALOG', null, null, null, 1001, 'ThemeSubject');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (8, 'Сфера деятельности', 'CATALOG', null, null, null, 1002, 'ThemeDirection');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (9, 'Тариф', 'CATALOG', null, null, null, 1003, 'ThemeTarif');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (10, 'Вид тарифа', 'CATALOG', null, null, null, 1004, 'ThemeTarifView');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (11, 'Подключаемая система при техническом присоединении', 'CATALOG', null, null, null, 1005, 'ThemeTechConnection');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (12, 'Организация', 'CATALOG', null, null, null, 2001, 'ThemeOrganization');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (13, 'Ответственный', 'CATALOG', null, null, null, 2002, 'AuthPerson');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (6, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, '');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (8, 'Сфера деятельности', 'CATALOG', null, null, null, 1002, '[Questions]Direction');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (9, 'Тариф', 'CATALOG', null, null, null, 1003, '[Questions]Tarif');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (12, 'Организация', 'CATALOG', null, null, null, 2001, '[Questions]Organization');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (10, 'Вид тарифа', 'CATALOG', null, null, null, 1004, '[Questions]TarifView');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (7, 'Предмет вопроса', 'CATALOG', null, null, null, 1001, '[Questions]Subject');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (11, 'Подключаемая система при техническом присоединении', 'CATALOG', null, null, null, 1005, '[Questions]TechConnection');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (13, 'Ответственный', 'CATALOG', null, null, null, 2002, '[Questions]AuthPerson');
 --INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Email ответственного', 'CATALOG', null, null, null, null, 'EmailPerson');
 --INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id) VALUES (15, 'Вложение', 'ATTACHMENT', null, null, null, null);
 
