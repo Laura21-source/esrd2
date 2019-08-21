@@ -1,5 +1,10 @@
+    // Количество элементов в массиве
+    function countElem (array) {
+        return array.length;
+    }
+
     // Функция получения текстового поля
-    function createInput (element, type, id, name, title, short, iconName, value) {
+    function createInput (element, type, id, name, title, short, iconName, value, field, up) {
         var inputVal = '';
         if(value) {
             inputVal = ' value="'+ value + '"';
@@ -10,7 +15,11 @@
             col = '<div class="col-md-6">';
             colShort = '<div class="col-md-6">&nbsp;</div>';
         }
-        $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-4 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-8">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" class="white form-control"' + inputVal + '>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
+        var upClass = '';
+        if (up == 1) {
+            upClass = ' upElem';
+        }
+        $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-4 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-8">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" class="white form-control' + upClass + '"' + inputVal + '>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
     }
 
     // Функция получения полей по выбору SELECT Запрос:Атрибут_поля:Название_поля:Значение_поля:Значение_выбранного_поля
@@ -46,7 +55,7 @@
     }
 
     // Получение правильного и обратного формата времени
-    function formatTime (date, reverse) {
+    function formatTime (date) {
         var hours = date.getHours();
         var minutes = date.getMinutes();
         if (minutes < 10) {
@@ -60,18 +69,30 @@
         return new URL(window.location.href).searchParams.get("id");
     }
 
-    // Список полей по виду документа Путь:номер_документа
+    // Список полей по виду документа Путь:номер_документа:короткие_поля
     function getFieldsDocument (url, id, short) {
         $.getJSON (url, function(data) {
             // Массив для полей в одной группе
             var groupFieldsArray = [];
             for (var i in data) {
                 var row = data[i];
-                if (row.field.fieldType === "TIME") {
-                    createInput ("#blockUp", "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name);
-                }
                 if (row.field.fieldType === "DATE") {
-                    createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name);
+                    var valueDate = "";
+                    if (id > 0) {
+                        if(row.field.valueDate !== "") {
+                            valueDate = formatDate(row.field.valueDate, 0);
+                        }
+                    }
+                    createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1);
+                }
+                if (row.field.fieldType === "TIME") {
+                    var valueDate = "";
+                    if (id > 0) {
+                        if(row.field.valueDate !== "") {
+                            valueDate = formatTime(row.field.valueDate);
+                        }
+                    }
+                    createInput ("#blockUp", "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1);
                 }
                 if (row.field.fieldType === "GROUP_FIELDS") {
                     var groupFieldsElement = {
@@ -80,7 +101,7 @@
                     groupFieldsArray.push(groupFieldsElement);
                 }
             }
-            console.log(groupFieldsArray);
+            // console.log(groupFieldsArray);
             for (var key in groupFieldsArray) {
                 key = parseInt(key);
                 var rowFields = groupFieldsArray[key];
@@ -92,7 +113,7 @@
                     delButton = '';
                 }
                 $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + blocKey + '" data-field="' + key + '"><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameGroup' + blocKey + '">Вопрос ' + dubKey + '</h6></div><div class="col-md-3 text-right"><div id="delGroup' + blocKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
-                $(".blockName").html(rowFields.field.name);
+                $(".blockName").html(rowFields.field.name).attr("data-block",rowFields.field.fieldId);
                 for (var y in rowFields.field.childFields) {
                     var rowSelectField = rowFields.field.childFields[y];
                     if (rowSelectField.fieldType === "CATALOG") {
@@ -116,8 +137,42 @@
         });
     }
 
-    // Формирование массива блока для JSON
-    function createDataBlock (position) {
+    // Формирование массива элементов для JSON
+    function createDataField () {
+        var dataField = [];
+        var field = '';
+        var dataDate = '';
+        var valueName = '';
+        $('.upElem').each(function(i) {
+            var key = i+1;
+            var attrElem = $(this).attr("type");
+            var attrVal = $(this).val();
+            var attrId = parseInt($(this).attr("data-field"));
+            if (attrElem === "date") {
+                var value = attrVal + "T00:00:00";
+                dataDate = attrVal;
+                valueName = "valueDate";
+            }
+            if (attrElem === "time") {
+                var value = dataDate + "T" + attrVal + ':00';
+                valueName = "valueDate";
+            }
+            field = {
+                "field": {
+                    "id" : null,
+                    "childFields": [],
+                    "fieldId": attrId,
+                    "valueDate" : value
+                },
+                "position": key,
+            }
+            dataField.push(field);
+        });
+        return dataField;
+    }
+
+    // Формирование массива блока для JSON - аргумент начало отсчёта
+    function createDataBlock (key) {
         var dataBlock = [];
         $('.blockGroup').each(function(i) {
             if($(this).attr("data-field") == i) {
@@ -126,21 +181,22 @@
                     elementBlock = elementBlock + i;
                 }
                 var elementArray = [];
-                $(elementBlock + ' [data-field]').each(function(){
+                $(elementBlock + ' [data-field]').each(function() {
                     var elementBlockElem = {
                         "id" : null,
                         "childFields" : [],
-                        "fieldId" : $(this).attr("data-field"),
-                        "valueInt" : $(this).val()
+                        "fieldId" : parseInt($(this).attr("data-field")),
+                        "valueInt" : parseInt($(this).val())
                     }
                     elementArray.push(elementBlockElem);
                 });
-                var position = position+i;
+                var position = parseInt(key)+i;
+                var fieldId = $(".blockName").attr("data-block");
                 var dataBlockElement = {
                     "field" : {
                         "id" : null,
                         "childFields": elementArray,
-                        "fieldId" : 6,
+                        "fieldId" : parseInt(fieldId),
                     },
                     "position" : position
                 }
@@ -150,46 +206,10 @@
         return dataBlock;
     }
 
-
-
-
-
-    if(dataDate || dataTime) {
-        var field1 = '';
-        var field2 = '';
-        if(dataDate !== "") {
-            var newData = dataDate + "T00:00:00";
-            field1 = {
-                "field" : {
-                    //"id" : null,
-                    "childFields" : [],
-                    "fieldId" : 4,
-                    "valueDate" : newData
-                },
-                "position" : 1,
-            }
-            childFields.push(field1);
-        }
-        if(dataTime !== "") {
-            var newTime = dataDate + "T" + dataTime + ":00";
-            field2 = {
-                "field" : {
-                    //"id" : null,
-                    "childFields" : [],
-                    "fieldId" : 5,
-                    "valueDate" : newTime
-                },
-                "position" : 2,
-            }
-            childFields.push(field2);
-        }
-    }
-
     // Формирование объекта JSON
     function createJSON (id,dataType,dataField,dataBlock) {
         var id = parseInt(id);
         if(id === 0) {id = null;}
-        var dataType = parseInt(dataType);
         var childFields = [];
         if(dataField !== "") {
             for(var key in dataField){
@@ -203,7 +223,7 @@
         }
         var valueObj = {
             "id" : id,
-            "docTypeId" : dataType,
+            "docTypeId" : parseInt(dataType),
             "childFields" : childFields
         }
         return valueObj;
