@@ -64,7 +64,7 @@
     function getFieldsDocument (url, id, short) {
         $.getJSON (url, function(data) {
             // Массив для полей в одной группе
-            var newBlockArray = [];
+            var groupFieldsArray = [];
             for (var i in data) {
                 var row = data[i];
                 if (row.field.fieldType === "TIME") {
@@ -74,30 +74,31 @@
                     createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name);
                 }
                 if (row.field.fieldType === "GROUP_FIELDS") {
-                    var newBlockArrayElem = {
+                    var groupFieldsElement = {
                         "field" : row.field
                     }
-                    newBlockArray.push(newBlockArrayElem);
+                    groupFieldsArray.push(groupFieldsElement);
                 }
             }
-            for (var key in newBlockArray) {
+            console.log(groupFieldsArray);
+            for (var key in groupFieldsArray) {
                 key = parseInt(key);
-                var newRowFields = newBlockArray[key];
-                var dubbleKey = parseInt(key+1);
-                var questionKey = '';
+                var rowFields = groupFieldsArray[key];
+                var dubKey = parseInt(key+1);
+                var blocKey = '';
                 var delButton = ' d-none';
                 if(key != 0) {
-                    questionKey = key;
+                    blocKey = key;
                     delButton = '';
                 }
-                $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + questionKey + '" data-field="' + key + '"><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameGroup' + questionKey + '">Вопрос ' + dubbleKey + '</h6></div><div class="col-md-3 text-right"><div id="delGroup' + questionKey + '" class="btn btn-danger btn-sm pointer delGroup d-none rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
-                $(".blockName").html(newRowFields.field.name);
-                for (var y in newRowFields.field.childFields) {
-                    var rowSelectField = newRowFields.field.childFields[y];
+                $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + blocKey + '" data-field="' + key + '"><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameGroup' + blocKey + '">Вопрос ' + dubKey + '</h6></div><div class="col-md-3 text-right"><div id="delGroup' + blocKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
+                $(".blockName").html(rowFields.field.name);
+                for (var y in rowFields.field.childFields) {
+                    var rowSelectField = rowFields.field.childFields[y];
                     if (rowSelectField.fieldType === "CATALOG") {
                         var selectFieldName = "selectField" + rowSelectField.catalogId;
-                        $("#newBlockGroup" + questionKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
-                        var numberCatalog = ('#blockGroup' + questionKey + ' #selectField' + rowSelectField.catalogId);
+                        $("#newBlockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                        var numberCatalog = ('#blockGroup' + blocKey + ' #selectField' + rowSelectField.catalogId);
                         // Номер поля для отметки в селектах если нужно
                         var numberField = '';
                         if (id > 0) {
@@ -115,14 +116,95 @@
         });
     }
 
+    // Формирование массива блока для JSON
+    function createDataBlock (position) {
+        var dataBlock = [];
+        $('.blockGroup').each(function(i) {
+            if($(this).attr("data-field") == i) {
+                var elementBlock = "#blockGroup";
+                if(i !== 0) {
+                    elementBlock = elementBlock + i;
+                }
+                var elementArray = [];
+                $(elementBlock + ' [data-field]').each(function(){
+                    var elementBlockElem = {
+                        "id" : null,
+                        "childFields" : [],
+                        "fieldId" : $(this).attr("data-field"),
+                        "valueInt" : $(this).val()
+                    }
+                    elementArray.push(elementBlockElem);
+                });
+                var position = position+i;
+                var dataBlockElement = {
+                    "field" : {
+                        "id" : null,
+                        "childFields": elementArray,
+                        "fieldId" : 6,
+                    },
+                    "position" : position
+                }
+            }
+            dataBlock.push(dataBlockElement);
+        });
+        return dataBlock;
+    }
 
-    /*$(".blockName").html(row.field.name);
-    for(var k in row.field.childFields) {
-        var rowSelectField = row.field.childFields[k];
-        var selectFieldName = "selectField" + rowSelectField.catalogId;
-        $(".blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
-        // Получаем поля Option для Select CATALOG
-        createOptions("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", '#selectField'+rowSelectField.catalogId, "valueStr", "id", "");
-    }*/
 
 
+
+
+    if(dataDate || dataTime) {
+        var field1 = '';
+        var field2 = '';
+        if(dataDate !== "") {
+            var newData = dataDate + "T00:00:00";
+            field1 = {
+                "field" : {
+                    //"id" : null,
+                    "childFields" : [],
+                    "fieldId" : 4,
+                    "valueDate" : newData
+                },
+                "position" : 1,
+            }
+            childFields.push(field1);
+        }
+        if(dataTime !== "") {
+            var newTime = dataDate + "T" + dataTime + ":00";
+            field2 = {
+                "field" : {
+                    //"id" : null,
+                    "childFields" : [],
+                    "fieldId" : 5,
+                    "valueDate" : newTime
+                },
+                "position" : 2,
+            }
+            childFields.push(field2);
+        }
+    }
+
+    // Формирование объекта JSON
+    function createJSON (id,dataType,dataField,dataBlock) {
+        var id = parseInt(id);
+        if(id === 0) {id = null;}
+        var dataType = parseInt(dataType);
+        var childFields = [];
+        if(dataField !== "") {
+            for(var key in dataField){
+                childFields.push(dataField[key]);
+            }
+        }
+        if(dataBlock !== "") {
+            for(var key in dataBlock){
+                childFields.push(dataBlock[key]);
+            }
+        }
+        var valueObj = {
+            "id" : id,
+            "docTypeId" : dataType,
+            "childFields" : childFields
+        }
+        return valueObj;
+    }

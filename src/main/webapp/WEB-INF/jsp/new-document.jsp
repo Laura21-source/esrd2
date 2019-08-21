@@ -56,7 +56,9 @@
 
         // Выбор типа документа
         $("#selectType").change(function() {
+            // Убрать с экрана все предыдущие поля
             $('#blockUp, #newBlockGroup').empty();
+            $('.blockGroup').remove();
             var asd = $("#selectType").val();
             if(asd == 0) {
                 $("#bBlockUp, #blockDown, #btnSave").addClass("d-none");
@@ -67,57 +69,8 @@
             }
         });
 
-        // Формирование объекта JSON
-        function createJSON(id,dataType,dataDate,dataTime,dataField) {
-            var newId = parseInt(id);
-            if(newId === 0) {newId = null;}
-            var newdataType = parseInt(dataType);
-            var childFields = [];
-            if(dataDate || dataTime) {
-                var field1 = '';
-                var field2 = '';
-                if(dataDate !== "") {
-                    var newData = dataDate + "T00:00:00";
-                    field1 = {
-                        "field" : {
-                            //"id" : null,
-                            "childFields" : [],
-                            "fieldId" : 4,
-                            "valueDate" : newData
-                        },
-                        "position" : 1,
-                    }
-                    childFields.push(field1);
-                }
-                if(dataTime !== "") {
-                    var newTime = dataDate + "T" + dataTime + ":00";
-                    field2 = {
-                        "field" : {
-                            //"id" : null,
-                            "childFields" : [],
-                            "fieldId" : 5,
-                            "valueDate" : newTime
-                        },
-                        "position" : 2,
-                    }
-                    childFields.push(field2);
-                }
-            }
-            if(dataField !== "") {
-                for(var key in dataField){
-                    childFields.push(dataField[key]);
-                }
-            }
-            var valueObj = {
-                "id" : newId,
-                "docTypeId" : newdataType,
-                "childFields" : childFields
-            }
-            return valueObj;
-        }
-
         // Кнопка отправки
-        $('#btnSave').on("click", function(event){
+        $('#btnSave').on("click", function(event) {
             event.preventDefault();
             var dataType = $("#selectType").val();
             var dataDate = $("#inputDate").val();
