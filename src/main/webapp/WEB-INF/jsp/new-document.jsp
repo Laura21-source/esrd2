@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <jsp:include page="fragments/headerNew.jsp"/>
-
+<c:set var = "main" />
 <main>
     <div class="container-fluid text-center mb-4">
         <div class="card mx-auto w-100">

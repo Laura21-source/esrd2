@@ -10,6 +10,9 @@ import java.util.List;
 
 public class FieldUtil {
 
+    public FieldUtil() {
+    }
+
     public static FieldTo asTo(Field field) {
         List<FieldTo> childFields = new ArrayList<>();
         for (Field childField : field.getChildField()) {
@@ -33,7 +36,7 @@ public class FieldUtil {
 
         switch (fieldType) {
             case TEXT:
-            case TEXT_MULTI_LINE:
+            case TEXTAREA:
                 fieldTo.setValueStr(valuedField.getValueStr());
                 break;
             case NUMBER:
@@ -45,7 +48,7 @@ public class FieldUtil {
             case TIME:
                 fieldTo.setValueDate(valuedField.getValueTime());
                 break;
-            case DATE_TIME:
+            case DATETIME:
                 fieldTo.setValueDate(valuedField.getValueDateTime());
                 break;
             case CATALOG:

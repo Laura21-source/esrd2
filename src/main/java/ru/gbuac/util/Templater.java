@@ -35,14 +35,14 @@ public class Templater {
         TaggedTable taggedTable = new TaggedTable("Table1", Arrays.asList(tableRow1, tableRow2));
 
 
-        Templater templater = new Templater();
-        templater.fillTagsByDictionary("C:\\DocTemplates\\Templ.docx", simpleTags, Arrays.asList(taggedTable),
-                "C:\\TempPDF\\PDFResult.pdf", true);
+        //Templater templater = new Templater();
+        //templater.fillTagsByDictionary("C:\\DocTemplates\\Templ.docx", simpleTags, Arrays.asList(taggedTable),
+        //        "C:\\TempPDF\\PDFResult.pdf", true);
 
     }
 
 
-    public static void fillTagsByDictionary(String templatePath, Map<String, String> simpleTags, List<TaggedTable> taggedTableList,
+    public static void fillTagsByDictionary(String templatePath, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables,
                                      String outPath, Boolean isPDF) throws Exception {
         XWPFDocument doc = new XWPFDocument(OPCPackage.open(templatePath));
 
@@ -56,7 +56,7 @@ public class Templater {
         }
 
         // Замена тэгов в таблицах
-        if (taggedTableList.size() != 0 && doc.getTables().size() != 0) {
+        if (taggedTables.size() != 0 && doc.getTables().size() != 0) {
             // Перебор всех таблиц в документе
             for (int i = 0; i <doc.getTables().size(); i++)
             {
@@ -64,20 +64,10 @@ public class Templater {
                 // Ищем, имеет ли текущая таблица каике-либо тэги для замены
                 XWPFTableRow lastRow = table.getRows().get(table.getNumberOfRows() - 1);
                 String firstCellTag = lastRow.getTableCells().get(0).getText();
-                int targetTaggedTableIndex = -1;
 
-                // Если таблица имеет тэги для замены, то определяем, по структуре taggedTableList, где у нас хранятся
-                // для нее тэги. Запоминаем индекс таблицы в targetTaggedTableIndex
-                for (int j = 0; j < taggedTableList.size(); j++) {
-                    if (firstCellTag.contains("<"+taggedTableList.get(0).getTableName())) {
-                        targetTaggedTableIndex = j;
-                        break;
-                    }
-                }
-
-                if (targetTaggedTableIndex != -1) {
+                if (taggedTables.containsKey(TagUtil.getTableTag(firstCellTag))) {
                     // Получаем структуру с тэгами для замены в таблице
-                    TaggedTable taggedTable = taggedTableList.get(targetTaggedTableIndex);
+                    TaggedTable taggedTable = taggedTables.get(TagUtil.getTableTag(firstCellTag));
 
                     // Перебираем строки в структуре и в зависимости от количества в ней строк, генерим строки в таблице
                     // в документе Word
@@ -91,8 +81,9 @@ public class Templater {
                             for (XWPFParagraph paragraph : cellObj.getParagraphs()) {
                                 String text = paragraph.getText();
                                 for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
-                                    text = text.replace("<" + taggedTable.getTableName() + "." + entry.getKey() + ">", entry.getValue());
+                                    text = text.replace("<" + entry.getKey() + ">", entry.getValue());
                                 }
+                                text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
                                 changeText(paragraph, text);
                             }
                         }

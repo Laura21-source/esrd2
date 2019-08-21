@@ -11,6 +11,10 @@ public class TaggedTable {
         this.rows = rows;
     }
 
+    public TaggedTable(String tableName) {
+        this.tableName = tableName;
+    }
+
     public String getTableName() {
         return tableName;
     }
