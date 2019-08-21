@@ -55,7 +55,8 @@
         createOptions("rest/profile/doctypes/", "#selectType", "name", "id", "");
 
         // Выбор типа документа
-        $("#selectType").change(function(){
+        $("#selectType").change(function() {
+            $('#blockUp, #newBlockGroup').empty();
             var asd = $("#selectType").val();
             if(asd == 0) {
                 $("#bBlockUp, #blockDown, #btnSave").addClass("d-none");
