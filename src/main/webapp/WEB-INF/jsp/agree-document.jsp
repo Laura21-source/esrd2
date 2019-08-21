@@ -105,7 +105,7 @@
             var dataField = createDataField();
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(sumElem);
-            var serverStack = createJSON(0,dataType,dataField,dataBlock);
+            var serverStack = createJSON(id,dataType,dataField,dataBlock);
             //console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
@@ -132,7 +132,7 @@
             var dataField = createDataField();
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(sumElem);
-            var serverStack = createJSON(0,dataType,dataField,dataBlock);
+            var serverStack = createJSON(id,dataType,dataField,dataBlock);
             console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
