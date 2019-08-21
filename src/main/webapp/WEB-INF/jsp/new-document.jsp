@@ -73,38 +73,12 @@
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
             var dataType = $("#selectType").val();
-            var dataDate = $("#inputDate").val();
-            var dataTime = $("#inputTime").val();
-            var dataFieldArray = [];
-            $('.blockQuestion').each(function(i) {
-                if($(this).attr("data-field") == i) {
-                    var fieldOptionBlock = "#blockQuestion";
-                    if(i !== 0) {
-                        fieldOptionBlock = fieldOptionBlock + i;
-                    }
-                    var fieldOptionArray = [];
-                    $(fieldOptionBlock + ' select[data-field]').each(function(){
-                        var fieldOption = {
-                            //"id" : null,
-                            "childFields" : [],
-                            "fieldId" : $(this).attr("data-field"),
-                            "valueInt" : $(this).val()
-                        }
-                        fieldOptionArray.push(fieldOption);
-                    });
-                    var position = 3+i;
-                    var dataField = {
-                        "field" : {
-                            //"id" : null,
-                            "childFields": fieldOptionArray,
-                            "fieldId" : 6,
-                        },
-                        "position" : position
-                    }
-                }
-                dataFieldArray.push(dataField);
-            });
-            var serverStack = createJSON(0,dataType,dataDate,dataTime,dataFieldArray);
+            // Формируем поля JSON
+            var dataField = createDataField();
+            //console.log(dataField);
+            var sumElem = countElem(dataField)+1;
+            var dataBlock = createDataBlock(sumElem);
+            var serverStack = createJSON(0,dataType,dataField,dataBlock);
             console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
