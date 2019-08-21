@@ -40,6 +40,7 @@
 
     // Получение правильного и обратного формата даты
     function formatDate (date, reverse) {
+        var date = new Date(date);
         var day = date.getDate();
         var month = date.getMonth()+1;
         if (month < 10) {
@@ -56,6 +57,7 @@
 
     // Получение правильного и обратного формата времени
     function formatTime (date) {
+        var date = new Date(date);
         var hours = date.getHours();
         var minutes = date.getMinutes();
         if (minutes < 10) {
@@ -74,13 +76,18 @@
         $.getJSON (url, function(data) {
             // Массив для полей в одной группе
             var groupFieldsArray = [];
-            for (var i in data) {
-                var row = data[i];
+            // Проверяем регистрация или редактирование документа
+            var rowChild = data;
+            if(id > 0) {
+                rowChild = data.childFields;
+            }
+            for (var i in rowChild) {
+                var row = rowChild[i];
                 if (row.field.fieldType === "DATE") {
                     var valueDate = "";
                     if (id > 0) {
                         if(row.field.valueDate !== "") {
-                            valueDate = formatDate(row.field.valueDate, 0);
+                            valueDate = formatDate(row.field.valueDate, 1);
                         }
                     }
                     createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1);
@@ -142,7 +149,6 @@
         var dataField = [];
         var field = '';
         var dataDate = '';
-        var valueName = '';
         $('.upElem').each(function(i) {
             var key = i+1;
             var attrElem = $(this).attr("type");
@@ -151,11 +157,9 @@
             if (attrElem === "date") {
                 var value = attrVal + "T00:00:00";
                 dataDate = attrVal;
-                valueName = "valueDate";
             }
             if (attrElem === "time") {
                 var value = dataDate + "T" + attrVal + ':00';
-                valueName = "valueDate";
             }
             field = {
                 "field": {

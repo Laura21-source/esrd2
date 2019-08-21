@@ -69,17 +69,16 @@
             }
         });
 
-        // Кнопка отправки
+        // Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
             var dataType = $("#selectType").val();
             // Формируем поля JSON
             var dataField = createDataField();
-            //console.log(dataField);
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(sumElem);
             var serverStack = createJSON(0,dataType,dataField,dataBlock);
-            console.log(serverStack);
+            //console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
@@ -91,7 +90,7 @@
                 $('#createSave').modal('show');
                 $('#createSave #regNumTemplate').html(projectRegNum);
                 $('#createSave').on('hidden.bs.modal', function() {
-                    $('#blockUp, #newBlockGroup').empty();
+                    $('#selectType').val("");
                     $("#blockUp, #blockDown, #btnSave").addClass("d-none");
                 });
             });

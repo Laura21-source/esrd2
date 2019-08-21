@@ -94,50 +94,19 @@
             // Получение списка полей вида документа
             createOptions(docAllURL, "#selectType", "name", "id", data.docTypeId);
             // Получение основных полей
-            getFieldsDocument("rest/profile/doctypes/" + data.docTypeId + "/fields", id, 0);
+            getFieldsDocument("rest/profile/docs/" + id + "/", id, 0);
         });
 
-
-
-
-
         // Кнопка отправки
-        $('#btnSave').on("click", function(event){
+        $('#btnSave').on("click", function(event) {
             event.preventDefault();
-
-            var dataDate = $("#inputDate").val();
-            var dataTime = $("#inputTime").val();
-            var dataFieldArray = [];
-            $('.blockQuestion').each(function(i) {
-                if($(this).attr("data-field") == i) {
-                    var fieldOptionBlock = "#blockQuestion";
-                    if(i !== 0) {
-                        fieldOptionBlock = fieldOptionBlock + i;
-                    }
-                    var fieldOptionArray = [];
-                    $(fieldOptionBlock + ' select[data-field]').each(function(){
-                        var fieldOption = {
-                            "id" : null,
-                            "childFields" : [],
-                            "fieldId" : $(this).attr("data-field"),
-                            "valueInt" : $(this).val()
-                        }
-                        fieldOptionArray.push(fieldOption);
-                    });
-                    var position = 3+i;
-                    var dataField = {
-                        "field" : {
-                            "id" : null,
-                            "childFields": fieldOptionArray,
-                            "fieldId" : 6,
-                        },
-                        "position" : position
-                    }
-                }
-                dataFieldArray.push(dataField);
-            });
-            var serverStack = createJSON(dataType,dataDate,dataTime,dataFieldArray);
-            console.log(serverStack);
+            var dataType = $("#selectType").val();
+            // Формируем поля JSON
+            var dataField = createDataField();
+            var sumElem = countElem(dataField)+1;
+            var dataBlock = createDataBlock(sumElem);
+            var serverStack = createJSON(0,dataType,dataField,dataBlock);
+            //console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
@@ -145,49 +114,51 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
+                var projectRegNum = data.projectRegNum;
+                $('#createSave').modal('show');
+                $('#createSave #regNumTemplate').html(projectRegNum);
+                $('#createSave').on('hidden.bs.modal', function() {
+                    $('#selectType').val("");
+                    $("#blockUp, #blockDown, #btnSave").addClass("d-none");
+                });
+            });
+        });
+
+        // Отправка на сервер
+        $('#btnSave').on("click", function(event) {
+            event.preventDefault();
+            var dataType = $("#selectType").val();
+            // Формируем поля JSON
+            var dataField = createDataField();
+            var sumElem = countElem(dataField)+1;
+            var dataBlock = createDataBlock(sumElem);
+            var serverStack = createJSON(0,dataType,dataField,dataBlock);
+            console.log(serverStack);
+            var serverAjax = $.ajax({
+                type: "POST",
+                url: 'rest/profile/docs',
+                data: JSON.stringify(serverStack),
+                contentType: 'application/json; charset=utf-8'
+            });
+            serverAjax.done(function() {
                 $('#btnSuccess').modal('show');
-                console.log(data);
-               /* $('#btnSuccess').on('hidden.bs.modal', function (e) {
-                    window.location.href="temp-list";
+                //console.log(data);
+                /*$('#btnSuccess').on('hidden.bs.modal', function() {
+                     window.location.href="temp-list";
                 });*/
             });
         });
 
+        // Отправка на сервер файла PDF
         $('#btnReformat').on("click", function(event) {
             event.preventDefault();
             var dataType = $("#selectType").val();
-            var dataDate = $("#inputDate").val();
-            var dataTime = $("#inputTime").val();
-            var dataFieldArray = [];
-            $('.blockQuestion').each(function(i) {
-                if($(this).attr("data-field") == i) {
-                    var fieldOptionBlock = "#blockQuestion";
-                    if(i !== 0) {
-                        fieldOptionBlock = fieldOptionBlock + i;
-                    }
-                    var fieldOptionArray = [];
-                    $(fieldOptionBlock + ' select[data-field]').each(function(){
-                        var fieldOption = {
-                            "id" : null,
-                            "childFields" : [],
-                            "fieldId" : $(this).attr("data-field"),
-                            "valueInt" : $(this).val()
-                        }
-                        fieldOptionArray.push(fieldOption);
-                    });
-                    var position = 3+i;
-                    var dataField = {
-                        "field" : {
-                            //"id" : null,
-                            "childFields": fieldOptionArray,
-                            "fieldId" : 6,
-                        },
-                        "position" : position
-                    }
-                }
-                dataFieldArray.push(dataField);
-            });
-            var reformatPDF = createJSON(dataType,dataDate,dataTime,dataFieldArray);
+            // Формируем поля JSON
+            var dataField = createDataField();
+            var sumElem = countElem(dataField)+1;
+            var dataBlock = createDataBlock(sumElem);
+            var reformatPDF = createJSON(0,dataType,dataField,dataBlock);
+            //console.log(reformatPDF);
             $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs/pdf',
