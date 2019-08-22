@@ -1,11 +1,14 @@
 package ru.gbuac.util;
 
-import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
-import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
+import com.documents4j.api.DocumentType;
+import com.documents4j.api.IConverter;
+import com.documents4j.job.LocalConverter;
+import com.google.common.io.Files;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
-import java.io.FileOutputStream;
+
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -94,12 +97,15 @@ public class Templater {
             }
         }
         if (isPDF) {
-            PdfConverter.getInstance().convert(doc, new FileOutputStream(outPath), null);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            doc.write(byteArrayOutputStream);
+            saveAsPdf(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()), outPath);
         }
         else {
             doc.write(new FileOutputStream(outPath));
         }
     }
+
 
     private static void changeText(XWPFParagraph p, String newText) {
         List<XWPFRun> runs = p.getRuns();
@@ -109,6 +115,16 @@ public class Templater {
             }
             XWPFRun run = runs.get(0);
             run.setText(newText, 0);
+        }
+    }
+
+    public static void saveAsPdf(InputStream docxInputStream, String outPath) throws IOException {
+        try (OutputStream outputStream = new FileOutputStream(new File(outPath))) {
+            IConverter converter = LocalConverter.builder().build();
+            converter
+                    .convert(docxInputStream).as(DocumentType.DOCX)
+                    .to(outputStream).as(DocumentType.PDF)
+                    .prioritizeWith(1000).execute();
         }
     }
 }
