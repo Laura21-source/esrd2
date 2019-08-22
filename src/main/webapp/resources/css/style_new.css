@@ -35,15 +35,38 @@ header, main, footer {padding-left: 240px;}
 .bs-select, .dataTables_info {
   text-align: left!important;
 }
-/*table.dataTable thead .sorting:after,
-table.dataTable thead .sorting:before,
-table.dataTable thead .sorting_asc:after,
-table.dataTable thead .sorting_asc:before,
-table.dataTable thead .sorting_asc_disabled:after,
-table.dataTable thead .sorting_asc_disabled:before,
-table.dataTable thead .sorting_desc:after,
-table.dataTable thead .sorting_desc:before,
-table.dataTable thead .sorting_desc_disabled:after,
-table.dataTable thead .sorting_desc_disabled:before {
-  bottom: .5em;
-}*/
+
+/* Лоадер */
+@keyframes bouncing-loader {
+  to {
+    opacity: 0.1;
+    transform: translate3d(0, -16px, 0);
+  }
+}
+.bouncingLoader {
+  display: flex;
+  justify-content: center;
+}
+.bouncingLoader > div {
+  width: 13px;
+  height: 13px;
+  margin: 32px 3px;
+  background: #666668;
+  border-radius: 50%;
+  animation: bouncing-loader 0.6s infinite alternate;
+}
+.bouncingLoader > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.bouncingLoader > div:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.bouncingLoader > div:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.bouncingLoader > div:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.bouncingLoader > div:nth-child(6) {
+  animation-delay: 0.2s;
+}
