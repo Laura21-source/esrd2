@@ -114,7 +114,6 @@ public class DocServiceImpl implements DocService {
         }
         doc.setDocValuedFields(docValuedFields);
         doc.setCurrentAgreementStage(docTo.getCurrentAgreementStage());
-
         return doc;
     }
 
@@ -132,8 +131,6 @@ public class DocServiceImpl implements DocService {
                     createNewValueFieldFromTo(d.getField()), d.getPosition()));
         }
         doc.setDocValuedFields(docValuedFields);
-        doc.setCurrentAgreementStage(docTo.getCurrentAgreementStage());
-
         return doc;
     }
 
@@ -157,19 +154,18 @@ public class DocServiceImpl implements DocService {
         return docRepository.getAll();
     }
 
-    private DocTo prepareToPersist(DocTo docTo) {
-        Integer currentAgreementStage = docTo.getCurrentAgreementStage();
-        Integer finalStageForThisDocType = docTypeRoutesRepository.getFinalStageForDocType(docTo.getDocTypeId());
-        if (docTo.getRegNum() == null) {
+    private Doc prepareToPersist(Doc doc) {
+        Integer currentAgreementStage = doc.getCurrentAgreementStage();
+        Integer finalStageForThisDocType = docTypeRoutesRepository.getFinalStageForDocType(doc.getDocType().getId());
+        if (doc.getRegNum() == null) {
             if (currentAgreementStage == null) {
-                docTo.setCurrentAgreementStage(1);
-                docTo.setFinalStage(false);
+                doc.setCurrentAgreementStage(1);
             } else {
                 if (currentAgreementStage != finalStageForThisDocType)
-                    docTo.setCurrentAgreementStage(currentAgreementStage + 1);
+                    doc.setCurrentAgreementStage(currentAgreementStage + 1);
             }
         }
-        return docTo;
+        return doc;
     }
 
     @Override
@@ -195,7 +191,7 @@ public class DocServiceImpl implements DocService {
         else {
             docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
         }
-        DocTo saved = asDocTo(docRepository.save(createNewDocFromTo(prepareToPersist(docTo))), userName);
+        DocTo saved = asDocTo(docRepository.save(prepareToPersist(createNewDocFromTo(docTo))), userName);
         String urlPdf = getPdfPathByDocTo(saved, rootPath);
         docRepository.setUrlPDF(saved.getId(), urlPdf);
         saved.setUrlPDF(urlPdf);
@@ -205,9 +201,9 @@ public class DocServiceImpl implements DocService {
     @Override
     public DocTo update(DocTo docTo, int id, String userName, String rootPath) throws NotFoundException, UnauthorizedUserException {
         Assert.notNull(docTo, "docTo must not be null");
-        Doc updated = docFromTo(prepareToPersist(docTo));
+        Doc updated = docFromTo(docTo);
         docValuedFieldsRepository.deleteAll(id);
-        DocTo updatedTo = asDocTo(checkNotFoundWithId(docRepository.save(updated), id), userName);
+        DocTo updatedTo = asDocTo(checkNotFoundWithId(docRepository.save(prepareToPersist(updated)), id), userName);
         updatedTo.setUrlPDF(getPdfPathByDocTo(updatedTo, rootPath));
         return updatedTo;
     }
