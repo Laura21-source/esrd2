@@ -97,7 +97,7 @@
             getFieldsDocument("rest/profile/docs/" + id + "/", id, 0);
         });
 
-        // Кнопка отправки
+        // Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
             var dataType = $("#selectType").val();
@@ -113,39 +113,12 @@
                 data: JSON.stringify(serverStack),
                 contentType: 'application/json; charset=utf-8'
             });
-            serverAjax.done(function(data) {
-                var projectRegNum = data.projectRegNum;
-                $('#createSave').modal('show');
-                $('#createSave #regNumTemplate').html(projectRegNum);
-                $('#createSave').on('hidden.bs.modal', function() {
-                    $('#selectType').val("");
-                    $("#blockUp, #blockDown, #btnSave").addClass("d-none");
-                });
-            });
-        });
-
-        // Отправка на сервер
-        $('#btnSave').on("click", function(event) {
-            event.preventDefault();
-            var dataType = $("#selectType").val();
-            // Формируем поля JSON
-            var dataField = createDataField();
-            var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(sumElem);
-            var serverStack = createJSON(id,dataType,dataField,dataBlock);
-            console.log(serverStack);
-            var serverAjax = $.ajax({
-                type: "POST",
-                url: 'rest/profile/docs',
-                data: JSON.stringify(serverStack),
-                contentType: 'application/json; charset=utf-8'
-            });
             serverAjax.done(function() {
                 $('#btnSuccess').modal('show');
                 //console.log(data);
-                /*$('#btnSuccess').on('hidden.bs.modal', function() {
-                     window.location.href="temp-list";
-                });*/
+                $('#btnSuccess').on('hidden.bs.modal', function() {
+                    window.location.href="temp-list";
+                });
             });
         });
 
@@ -157,7 +130,7 @@
             var dataField = createDataField();
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(sumElem);
-            var reformatPDF = createJSON(0,dataType,dataField,dataBlock);
+            var reformatPDF = createJSON(id,dataType,dataField,dataBlock);
             //console.log(reformatPDF);
             $.ajax({
                 type: "POST",
