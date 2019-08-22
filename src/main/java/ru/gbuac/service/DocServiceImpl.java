@@ -177,7 +177,7 @@ public class DocServiceImpl implements DocService {
             docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
         }
         DocTo saved = asDocTo(docRepository.save(createNewDocFromTo(prepareToPersist(docTo))), userName);
-        //saved.setUrlPDF(getPdfPathByDocTo(saved, rootPath));
+        saved.setUrlPDF(getPdfPathByDocTo(saved, rootPath));
         return saved;
     }
 

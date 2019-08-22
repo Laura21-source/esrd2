@@ -108,7 +108,7 @@
                     groupFieldsArray.push(groupFieldsElement);
                 }
             }
-            // console.log(groupFieldsArray);
+            //console.log(groupFieldsArray);
             for (var key in groupFieldsArray) {
                 key = parseInt(key);
                 var rowFields = groupFieldsArray[key];
@@ -125,7 +125,7 @@
                     var rowSelectField = rowFields.field.childFields[y];
                     if (rowSelectField.fieldType === "CATALOG") {
                         var selectFieldName = "selectField" + rowSelectField.catalogId;
-                        $("#newBlockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                        $("#blockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
                         var numberCatalog = ('#blockGroup' + blocKey + ' #selectField' + rowSelectField.catalogId);
                         // Номер поля для отметки в селектах если нужно
                         var numberField = '';

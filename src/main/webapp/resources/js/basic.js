@@ -57,9 +57,9 @@ $(function() {
   });*/
 
   // Сортируемые таблицы
-  /*$('#dataTable').DataTable({
-    "order": [[ 3, "desc" ]]
-  });
-  $('.dataTables_length').addClass('bs-select');*/
+  $('#dataTable').DataTable();
+  $('.dataTables_length').addClass('bs-select');
 
+  // Текстовый редактор
+  $("#demo").mdbWYSIWYG();
 });

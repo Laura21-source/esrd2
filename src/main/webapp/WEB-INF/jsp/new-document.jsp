@@ -77,12 +77,12 @@
             var dataField = createDataField();
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(sumElem);
-            var serverStack = createJSON(0,dataType,dataField,dataBlock);
+            var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
             //console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
-                data: JSON.stringify(serverStack),
+                data: serverStack,
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
