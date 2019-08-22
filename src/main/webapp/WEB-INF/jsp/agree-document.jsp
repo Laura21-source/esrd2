@@ -57,10 +57,10 @@
                                     <div class="sticky-content">
                                         <div class="alert alert-primary mx-auto text-uppercase">Готовый документ</div>
                                         <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3">
-                                            <iframe class="embed-responsive-item" src="resources/img/pdf_12.pdf" height="500"></iframe>
+                                            <iframe class="embed-responsive-item pdfSRC" src="" height="500"></iframe>
                                         </div>
                                         <div id="btnReformat" class="btn btn-primary btn-md my-3 rounded">Переформировать</div>
-                                        <a class="btn btn-light btn-md my-3" href="resources/img/pdf_12.pdf" target="_blank">Открыть в новом окне</a>
+                                        <a class="btn btn-light btn-md my-3 pdfHREF" href="" target="_blank">Открыть в новом окне</a>
                                     </div>
                                 </div>
                             </div>
@@ -86,11 +86,16 @@
         var docURL = "rest/profile/docs/" + id;
         // Подключение стека полей
         $.getJSON(docURL, function(data) {
+            // Дата документа
             var newDate = '';
             if(data.projectRegDateTime) {
                 newDate = formatDate(new Date(data.projectRegDateTime), 0);
             }
             $(".documentName").html('Согласование документа №' + data.projectRegNum + ' от ' + newDate);
+            // Ссылки на докусмент PDF
+            var documentPDF = data.UrlPDF;
+            $('.pdfSRC').attr('src', documentPDF);
+            $('.pdfHREF').attr('href', documentPDF);
             // Получение списка полей вида документа
             createOptions(docAllURL, "#selectType", "name", "id", data.docTypeId);
             // Получение основных полей
@@ -102,15 +107,16 @@
             event.preventDefault();
             var dataType = $("#selectType").val();
             // Формируем поля JSON
-            var dataField = createDataField();
+            var dataField = createDataField(id);
             var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(sumElem);
-            var serverStack = createJSON(id,dataType,dataField,dataBlock);
-            //console.log(serverStack);
-            var serverAjax = $.ajax({
+            var dataBlock = createDataBlock(id, sumElem);
+            //console.log(JSON.stringify(dataBlock));
+            var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
+            console.log(serverStack);
+            /*var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
-                data: JSON.stringify(serverStack),
+                data: serverStack,
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function() {
@@ -119,7 +125,7 @@
                 $('#btnSuccess').on('hidden.bs.modal', function() {
                     window.location.href="temp-list";
                 });
-            });
+            });*/
         });
 
         // Отправка на сервер файла PDF
@@ -127,17 +133,17 @@
             event.preventDefault();
             var dataType = $("#selectType").val();
             // Формируем поля JSON
-            var dataField = createDataField();
+            var dataField = createDataField(id);
             var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(sumElem);
-            var reformatPDF = createJSON(id,dataType,dataField,dataBlock);
-            //console.log(reformatPDF);
-            $.ajax({
+            var dataBlock = createDataBlock(id, sumElem);
+            var reformatPDF = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
+            console.log(reformatPDF);
+            /*$.ajax({
                 type: "POST",
                 url: 'rest/profile/docs/pdf',
-                data: JSON.stringify(reformatPDF),
+                data: reformatPDF,
                 contentType: 'application/json; charset=utf-8'
-            });
+            });*/
         });
     });
 </script>
