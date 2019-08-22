@@ -21,4 +21,9 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
 
     @Query("SELECT d FROM Doc d ORDER BY d.regDateTime, d.projectRegDateTime ASC ")
     List<Doc> getAll();
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Doc d SET d.UrlPDF=:urlPdf WHERE d.id=:id")
+    void setUrlPDF(@Param("id") int id, @Param("urlPdf") String urlPdf);
 }
