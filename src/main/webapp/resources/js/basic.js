@@ -13,32 +13,8 @@ $(function() {
     stopper: "#footer",
   });
 
-  // Сортируемые таблицы
-  $('#dataTable').DataTable({
-      "language": {
-        "processing": "Подождите...",
-        "search": "Поиск:",
-        "lengthMenu": "Показать _MENU_ записей",
-        "info": "Страница _PAGE_ из _PAGES_",
-        "infoEmpty": "Нет записей",
-        "infoFiltered": "(отфильтровано из _MAX_ записей)",
-        "infoPostFix": "",
-        "loadingRecords": "Загрузка записей...",
-        "zeroRecords": "Записи отсутствуют.",
-        "emptyTable": "В таблице отсутствуют данные"
-      },
-      "paginate": {
-        "first": "Первая",
-        "previous": "Предыдущая",
-        "next": "Следующая",
-        "last": "Последняя"
-      },
-      "aria": {
-        "sortAscending": ": активировать для сортировки столбца по возрастанию",
-        "sortDescending": ": активировать для сортировки столбца по убыванию"
-      }
-  });
-  $('.dataTables_length').addClass('bs-select');
+  // Всплывающие подсказки
+  $('[data-toggle="tooltip"]').tooltip();
 
   // Добавить вопрос, получателя
   $('.addGroup').on("click",function() {

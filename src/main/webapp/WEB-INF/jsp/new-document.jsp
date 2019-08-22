@@ -14,15 +14,16 @@
                     <div class="alert alert-secondary text-center mb-3">
                         <h4 class="mt-2">Подготовка проекта документа</h4>
                     </div>
-                    <form class="registrationForm">
+                    <form class="registrationForm needs-validation" novalidate>
                         <div class="row ml-1 mb-3">
                             <div class="col-md-2 text-left mt-2">
                                 <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
                             </div>
                             <div class="col-md-10">
-                                <select class="browser-default custom-select" name="selectType" id="selectType">
+                                <select class="browser-default custom-select" name="selectType" id="selectType" required>
                                     <option value="" class="alert-primary" selected>Выберите вид документа</option>
                                 </select>
+                                <div class="invalid-tooltip">Выберите тип документа</div>
                             </div>
                         </div>
                         <div id="blockUp" class="d-none"></div>
@@ -37,6 +38,15 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="bouncingLoader d-none">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
                         <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Зарегистрировать</button>
                     </form>
@@ -72,6 +82,9 @@
         // Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
+            var trueName =  $(this).html();
+            $(".bouncingLoader").removeClass('d-none');
+            $(this).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Отправка запроса...').attr('disabled', true);
             var dataType = $("#selectType").val();
             // Формируем поля JSON
             var dataField = createDataField(0);
@@ -86,12 +99,14 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
+                $(".bouncingLoader").addClass('d-none');
                 var projectRegNum = data.projectRegNum;
                 $('#createSave').modal('show');
                 $('#createSave #regNumTemplate').html(projectRegNum);
                 $('#createSave').on('hidden.bs.modal', function() {
                     $('#selectType').val("");
                     $("#blockUp, #blockDown, #btnSave").addClass("d-none");
+                    $("#btnSave").html(trueName).attr('disabled', false);
                 });
             });
         });

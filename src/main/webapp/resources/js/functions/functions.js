@@ -23,7 +23,7 @@
         if (up == 1) {
             upClass = ' upElem';
         }
-        $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-4 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-8">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + ' class="white form-control' + upClass + '"' + inputVal + '>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
+        $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-4 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-8">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + ' class="white form-control' + upClass + '"' + inputVal + ' required><div class="invalid-tooltip">Поле обязательно для заполнения</div>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
     }
 
     // Функция получения полей по выбору SELECT Запрос:Атрибут_поля:Название_поля:Значение_поля:Значение_выбранного_поля:ID_поля
@@ -116,7 +116,7 @@
                     groupFieldsArray.push(groupFieldsElement);
                 }
             }
-            console.log(groupFieldsArray);
+            //console.log(groupFieldsArray);
             for (var key in groupFieldsArray) {
                 key = parseInt(key);
                 var rowFields = groupFieldsArray[key];
@@ -139,7 +139,7 @@
                             idField = ' data-id="' + rowSelectField.id + '"';
                         }
                         var selectFieldName = "selectField" + rowSelectField.catalogId;
-                        $("#blockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                        $("#blockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + ' required><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
                         var numberCatalog = ('#blockGroup' + blocKey + ' #selectField' + rowSelectField.catalogId);
                         // Номер поля для отметки в селектах если нужно
                         var numberField = '';
@@ -257,6 +257,24 @@
             "id" : id,
             "docTypeId" : parseInt(dataType),
             "childFields" : childFields
+        }
+        return valueObj;
+    }
+
+    // Получение массива записей в таблице документов
+    function getDocumentsArray (url) {
+        getDocumentsArray = [];
+        $.getJSON (url, function(data) {
+           for(var i in data) {
+               var row = data[i];
+               var newDate = formatDate(row.projectRegDateTime, 0);
+               var rowName = 'row' + i;
+               $('#rowContent').attr('class', rowName);
+               $('.' + rowName + ':last').html('<td>' + key + '</td><td class="text-left">' + row.projectRegNum + '</td><td class="text-left">' + newDate + '</td><td class="text-left">' + row.docType.name + '</td>');
+           }
+        });
+        var valueObj = {
+            "data" : getDocumentsArray
         }
         return valueObj;
     }
