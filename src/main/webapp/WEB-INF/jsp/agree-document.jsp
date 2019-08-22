@@ -107,9 +107,10 @@
             event.preventDefault();
             var dataType = $("#selectType").val();
             // Формируем поля JSON
-            var dataField = createDataField();
+            var dataField = createDataField(id);
             var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(sumElem);
+            var dataBlock = createDataBlock(id, sumElem);
+            //console.log(JSON.stringify(dataBlock));
             var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
             console.log(serverStack);
             /*var serverAjax = $.ajax({
@@ -132,9 +133,9 @@
             event.preventDefault();
             var dataType = $("#selectType").val();
             // Формируем поля JSON
-            var dataField = createDataField();
+            var dataField = createDataField(id);
             var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(sumElem);
+            var dataBlock = createDataBlock(id, sumElem);
             var reformatPDF = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
             console.log(reformatPDF);
             /*$.ajax({

@@ -74,9 +74,9 @@
             event.preventDefault();
             var dataType = $("#selectType").val();
             // Формируем поля JSON
-            var dataField = createDataField();
+            var dataField = createDataField(0);
             var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(sumElem);
+            var dataBlock = createDataBlock(0, sumElem);
             var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
             //console.log(serverStack);
             var serverAjax = $.ajax({

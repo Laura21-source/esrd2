@@ -4,7 +4,11 @@
     }
 
     // Функция получения текстового поля
-    function createInput (element, type, id, name, title, short, iconName, value, field, up) {
+    function createInput (element, type, id, name, title, short, iconName, value, field, up, idField) {
+        var idVal = "";
+        if(idField) {
+            idVal = ' data-id="' + idField + '"';
+        }
         var inputVal = '';
         if(value) {
             inputVal = ' value="'+ value + '"';
@@ -19,10 +23,10 @@
         if (up == 1) {
             upClass = ' upElem';
         }
-        $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-4 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-8">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" class="white form-control' + upClass + '"' + inputVal + '>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
+        $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-4 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-8">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + ' class="white form-control' + upClass + '"' + inputVal + '>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
     }
 
-    // Функция получения полей по выбору SELECT Запрос:Атрибут_поля:Название_поля:Значение_поля:Значение_выбранного_поля
+    // Функция получения полей по выбору SELECT Запрос:Атрибут_поля:Название_поля:Значение_поля:Значение_выбранного_поля:ID_поля
     function createOptions (url, field, name, id, select) {
         $.getJSON (url, function(data) {
             for (var i in data) {
@@ -30,7 +34,7 @@
                 // Получаем отмеченные поля если есть необходимость
                 if (select) {
                     if(select === data[i][id]) {
-                        selectedField = 'selected="selected"';
+                        selectedField = ' selected="selected"';
                     }
                 }
                 $(field).append('<option value="' + data[i][id] + '"' + selectedField + '>' +  data[i][name] + '</option>');
@@ -78,28 +82,32 @@
             var groupFieldsArray = [];
             // Проверяем регистрация или редактирование документа
             var rowChild = data;
+            // Переменная даты
+            var valueDate = "";
+            // Переменная поля
+            var idField = "";
             if(id > 0) {
                 rowChild = data.childFields;
             }
             for (var i in rowChild) {
                 var row = rowChild[i];
                 if (row.field.fieldType === "DATE") {
-                    var valueDate = "";
                     if (id > 0) {
+                        idField = row.field.id;
                         if(row.field.valueDate !== "") {
                             valueDate = formatDate(row.field.valueDate, 1);
                         }
                     }
-                    createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1);
+                    createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField);
                 }
                 if (row.field.fieldType === "TIME") {
-                    var valueDate = "";
                     if (id > 0) {
+                        idField = row.field.id;
                         if(row.field.valueDate !== "") {
                             valueDate = formatTime(row.field.valueDate);
                         }
                     }
-                    createInput ("#blockUp", "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1);
+                    createInput ("#blockUp", "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField);
                 }
                 if (row.field.fieldType === "GROUP_FIELDS") {
                     var groupFieldsElement = {
@@ -108,7 +116,7 @@
                     groupFieldsArray.push(groupFieldsElement);
                 }
             }
-            //console.log(groupFieldsArray);
+            console.log(groupFieldsArray);
             for (var key in groupFieldsArray) {
                 key = parseInt(key);
                 var rowFields = groupFieldsArray[key];
@@ -119,13 +127,19 @@
                     blocKey = key;
                     delButton = '';
                 }
-                $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + blocKey + '" data-field="' + key + '"><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameGroup' + blocKey + '">Вопрос ' + dubKey + '</h6></div><div class="col-md-3 text-right"><div id="delGroup' + blocKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
-                $(".blockName").html(rowFields.field.name).attr("data-block",rowFields.field.fieldId);
+                if(id > 0) {
+                    idField = ' data-id="' + rowFields.field.id + '"';
+                }
+                $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + blocKey + '" data-field="' + key + '"' + idField + '><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameGroup' + blocKey + '">Вопрос ' + dubKey + '</h6></div><div class="col-md-3 text-right"><div id="delGroup' + blocKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
+                $(".blockName").html(rowFields.field.name).attr("data-block" , rowFields.field.fieldId);
                 for (var y in rowFields.field.childFields) {
                     var rowSelectField = rowFields.field.childFields[y];
                     if (rowSelectField.fieldType === "CATALOG") {
+                        if(id > 0) {
+                            idField = ' data-id="' + rowSelectField.id + '"';
+                        }
                         var selectFieldName = "selectField" + rowSelectField.catalogId;
-                        $("#blockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                        $("#blockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
                         var numberCatalog = ('#blockGroup' + blocKey + ' #selectField' + rowSelectField.catalogId);
                         // Номер поля для отметки в селектах если нужно
                         var numberField = '';
@@ -145,9 +159,11 @@
     }
 
     // Формирование массива элементов для JSON
-    function createDataField () {
+    function createDataField (id) {
+        var id = parseInt(id);
         var dataField = [];
         var field = '';
+        var idField = null;
         var dataDate = '';
         $('.upElem').each(function(i) {
             var key = i+1;
@@ -161,9 +177,12 @@
             if (attrElem === "time") {
                 var value = dataDate + "T" + attrVal + ':00';
             }
+            if(id > 0) {
+                idField = parseInt($(this).attr("data-id"));
+            }
             field = {
                 "field": {
-                    "id" : null,
+                    "id" : idField,
                     "childFields": [],
                     "fieldId": attrId,
                     "valueDate" : value
@@ -176,7 +195,9 @@
     }
 
     // Формирование массива блока для JSON - аргумент начало отсчёта
-    function createDataBlock (key) {
+    function createDataBlock (id, key) {
+        var id = parseInt(id);
+        var idField = null;
         var dataBlock = [];
         $('.blockGroup').each(function(i) {
             if($(this).attr("data-field") == i) {
@@ -186,21 +207,28 @@
                 }
                 var elementArray = [];
                 $(elementBlock + ' [data-field]').each(function() {
+                    if(id > 0) {
+                        idField = parseInt($(this).attr("data-id"));
+                    }
                     var elementBlockElem = {
-                        "id" : null,
+                        "id" : idField,
                         "childFields" : [],
                         "fieldId" : parseInt($(this).attr("data-field")),
                         "valueInt" : parseInt($(this).val())
                     }
                     elementArray.push(elementBlockElem);
                 });
+                console.log(JSON.stringify(elementArray));
                 var position = parseInt(key)+i;
-                var fieldId = $(".blockName").attr("data-block");
+                var fieldId = parseInt($(".blockName").attr("data-block"));
+                if(id > 0) {
+                    idField = parseInt($(elementBlock).attr("data-id"));
+                }
                 var dataBlockElement = {
                     "field" : {
-                        "id" : null,
+                        "id" : idField,
                         "childFields": elementArray,
-                        "fieldId" : parseInt(fieldId),
+                        "fieldId" : fieldId,
                     },
                     "position" : position
                 }
