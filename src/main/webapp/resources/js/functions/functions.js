@@ -218,7 +218,7 @@
                     }
                     elementArray.push(elementBlockElem);
                 });
-                console.log(JSON.stringify(elementArray));
+                //console.log(JSON.stringify(elementArray));
                 var position = parseInt(key)+i;
                 var fieldId = parseInt($(".blockName").attr("data-block"));
                 if(id > 0) {

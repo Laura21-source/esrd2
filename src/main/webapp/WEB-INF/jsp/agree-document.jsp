@@ -93,7 +93,7 @@
             }
             $(".documentName").html('Согласование документа №' + data.projectRegNum + ' от ' + newDate);
             // Ссылки на докусмент PDF
-            var documentPDF = 'resources/img/pdf_12.pdf';
+            var documentPDF = data.UrlPDF;
             $('.pdfSRC').attr('src', documentPDF);
             $('.pdfHREF').attr('href', documentPDF);
             // Получение списка полей вида документа
