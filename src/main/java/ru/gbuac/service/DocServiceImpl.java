@@ -118,6 +118,25 @@ public class DocServiceImpl implements DocService {
         return doc;
     }
 
+    private Doc docFromTo(DocTo docTo) {
+        DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
+        Doc exDoc = checkNotFoundWithId(docRepository.findById(docTo.getId()).orElse(null), docTo.getId());
+        Doc doc = new Doc(exDoc.getId(), exDoc.getRegNum(), exDoc.getRegDateTime(), exDoc.getProjectRegNum(),
+                exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, null,
+                exDoc.getCurrentAgreementStage(), exDoc.getUrlPDF());
+        List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
+        List<DocValuedFields> docValuedFields = new ArrayList<>();
+
+        for (DocFieldsTo d:docFieldsTos) {
+            docValuedFields.add(new DocValuedFields(null, doc,
+                    createNewValueFieldFromTo(d.getField()), d.getPosition()));
+        }
+        doc.setDocValuedFields(docValuedFields);
+        doc.setCurrentAgreementStage(docTo.getCurrentAgreementStage());
+
+        return doc;
+    }
+
     @Override
     public DocTo getFullByUserName(int id, String userName) throws NotFoundException {
         return asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id), userName);
@@ -186,11 +205,11 @@ public class DocServiceImpl implements DocService {
     @Override
     public DocTo update(DocTo docTo, int id, String userName, String rootPath) throws NotFoundException, UnauthorizedUserException {
         Assert.notNull(docTo, "docTo must not be null");
+        Doc updated = docFromTo(prepareToPersist(docTo));
         docValuedFieldsRepository.deleteAll(id);
-        Doc doc = createNewDocFromTo(prepareToPersist(docTo));
-        doc.setId(id);
-        doc.setUrlPDF(getPdfPathByDocTo(docTo, rootPath));
-        return asDocTo(checkNotFoundWithId(docRepository.save(doc), id), userName);
+        DocTo updatedTo = asDocTo(checkNotFoundWithId(docRepository.save(updated), id), userName);
+        updatedTo.setUrlPDF(getPdfPathByDocTo(updatedTo, rootPath));
+        return updatedTo;
     }
 
     @Override
