@@ -36,18 +36,23 @@
 <script>
     $(function() {
         var tableArray = getListArray("rest/profile/docs/agreement");
-        console.log(tableArray);
+        var listRow = createJSONTable(tableArray);
+        console.log(listRow);
         // Сортируемые таблицы
         $('#dataTable').DataTable({
-            "ajax": tableArray,
-            columns: [
+            "ajax" : listRow
+            /*"ajax": {
+                url : "rest/profile/docs/agreement",
+                dataSrc: ''
+            }*/,
+            "columns": [
                 { data: 'id' },
                 { data: 'number' },
                 { data: 'date' },
-                { data: 'name' }
-            ]
-        });
-            /*"language": {
+                { data: 'name' },
+                { data: 'link' }
+            ],
+            "language": {
                 "processing": "Подождите...",
                 "search": "Поиск:",
                 "lengthMenu": "Показать _MENU_ записей",
@@ -69,7 +74,7 @@
                     "sortDescending": ": активировать для сортировки столбца по убыванию"
                 }
             }
-        });*/
+        });
         $('.dataTables_length').addClass('bs-select');
     });
 </script>

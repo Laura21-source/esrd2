@@ -44,9 +44,9 @@
                             class="fas fa-angle-down rotate-icon"></i></a>
                         <div class="collapsible-body">
                             <ul class="list-unstyled">
-                                <li><a href="temp-list" class="waves-effect"><i class="far fa-list-alt mr-2"></i>На исполнении</a>
+                                <li><a href="agreement" class="waves-effect"><i class="far fa-list-alt mr-2"></i>На исполнении</a>
                                 </li>
-                                <li><a href="temp-list" class="waves-effect"><i class="fas fa-list-alt mr-2"></i>На подписании</a>
+                                <li><a href="agreement" class="waves-effect"><i class="fas fa-list-alt mr-2"></i>На подписании</a>
                                 </li>
                             </ul>
                         </div>

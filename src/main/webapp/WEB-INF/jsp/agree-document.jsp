@@ -141,7 +141,7 @@
                 $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
                 $('#btnSuccess').on('hidden.bs.modal', function() {
                     $("#btnSave").attr('disabled', false).html(trueName);
-                    window.location.href="temp-list";
+                    window.location.href="agreement";
                 });
             });
         });
@@ -158,6 +158,8 @@
             var dataField = createDataField(id);
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(id, sumElem);
+            var templPDF = createJSON(id,dataType,dataField,dataBlock);
+            console.log(templPDF);
             var reformatPDF = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
             console.log(reformatPDF);
             var serverAjax = $.ajax({

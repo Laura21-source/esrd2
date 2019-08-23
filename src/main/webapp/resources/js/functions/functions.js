@@ -284,15 +284,19 @@
                     "id" : key,
                     "number" : row.projectRegNum,
                     "date" : newDate,
-                    "name" : row.docType.name
+                    "name" : row.docType.name,
+                    "link" : '<a href="agree-document?id=' + row.id + '"><i class="fas fa-edit text-primary pointer"></i></a>'
                 }
-                console.log(element);
                 getListArray.push(element);
             }
-            console.log(getListArray);
         });
+        return getListArray;
+    }
+
+    function createJSONTable (url) {
         var valueObj = {
-            "data" : getListArray
+            "data" : url
         }
+        //return JSON.stringify(valueObj);
         return valueObj;
     }
