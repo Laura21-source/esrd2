@@ -39,12 +39,15 @@
         console.log(tableArray);
         // Сортируемые таблицы
         $('#dataTable').DataTable({
-            "ajax": {
-                url : tableArray,
-                dataSrc: 'data'
-            },
-            columns: [ ... ]
-            "language": {
+            "ajax": tableArray,
+            columns: [
+                { data: 'id' },
+                { data: 'number' },
+                { data: 'date' },
+                { data: 'name' }
+            ]
+        });
+            /*"language": {
                 "processing": "Подождите...",
                 "search": "Поиск:",
                 "lengthMenu": "Показать _MENU_ записей",
@@ -66,7 +69,7 @@
                     "sortDescending": ": активировать для сортировки столбца по убыванию"
                 }
             }
-        });
+        });*/
         $('.dataTables_length').addClass('bs-select');
     });
 </script>
