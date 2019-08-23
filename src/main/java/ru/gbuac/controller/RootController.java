@@ -56,4 +56,7 @@ public class RootController {
 
     @GetMapping(value = "/temp-list")
     public String tempList() {return "temp-list";}
+
+    @GetMapping(value = "/agreement")
+    public String agreement() {return "agreement";}
 }
