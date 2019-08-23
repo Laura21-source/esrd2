@@ -83,8 +83,6 @@ INSERT INTO public.doctype_fields (id, doctype_id, field_id, position, role) VAL
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position, role) VALUES (18, 1, 6, 3, 'ROLE_POVESTKA_QUESTIONS');
 
 INSERT INTO public.doc (id, doctype_id, project_reg_num, project_reg_datetime, insert_datetime, cur_agree_stage) VALUES (19, 1, 'согл-1/19', '2019-08-15', '2019-08-15 00:00:00.000000', 1);
-INSERT INTO public.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, cur_agree_stage, url_pdf) VALUES (100000, 1, null, null, 'согл-25/19', '2019-08-22 15:04:11.740000', '2019-08-22 15:04:11.740000', 1, 'resources/files/temp_pdf/povestka_test1.pdf');
-INSERT INTO public.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, cur_agree_stage, url_pdf) VALUES (100014, 1, null, null, 'согл-41/19', '2019-08-22 15:04:36.581000', '2019-08-22 15:04:36.581000', 1, 'resources/files/temp_pdf/povestka_test1.pdf');
 
 INSERT INTO public.doctype_routes (id, doctype_id, userldap, agree_stage) VALUES (20, 1, 'user2', 1);
 INSERT INTO public.doctype_routes (id, doctype_id, userldap, agree_stage) VALUES (21, 1, 'admin', 2);
@@ -106,27 +104,6 @@ INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_s
 INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (31, 13, 2007, null, null, null, null, null);
 --INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (32, 14, null, null, 'Test@mail.ru', null, null, null);
 --INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (33, 15, null, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100002, 4, null, null, null, '2019-12-12', '00:00:00', '2019-12-12 00:00:00.000000');
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100004, 5, null, null, null, '2019-12-12', '18:00:00', '2019-12-12 18:00:00.000000');
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100006, 6, null, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100007, 7, 3002, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100008, 8, 3008, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100009, 9, 30012, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100010, 10, 30037, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100011, 11, 30032, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100012, 12, 2003, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100013, 13, 2008, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100016, 4, null, null, null, '2019-05-12', '00:00:00', '2019-05-12 00:00:00.000000');
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100018, 5, null, null, null, '2019-05-12', '16:00:00', '2019-05-12 16:00:00.000000');
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100020, 6, null, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100021, 7, 3005, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100022, 8, 3009, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100023, 9, 30013, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100024, 10, 30027, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100025, 11, 30033, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100026, 12, 2003, null, null, null, null, null);
-INSERT INTO public.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100027, 13, 2008, null, null, null, null, null);
-
 
 INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (24, 25);
 INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (24, 26);
@@ -137,27 +114,7 @@ INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued
 INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (24, 31);
 --INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (24, 32);
 --INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (24, 33);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100006, 100007);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100006, 100008);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100006, 100009);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100006, 100010);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100006, 100011);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100006, 100012);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100006, 100013);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100021);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100022);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100023);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100024);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100025);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100026);
-INSERT INTO public.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100027);
 
 INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (34, 19, 22, 1);
 INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (35, 19, 23, 2);
 INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (36, 19, 24, 3);
-INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (100001, 100000, 100002, 1);
-INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (100003, 100000, 100004, 2);
-INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (100005, 100000, 100006, 3);
-INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (100015, 100014, 100016, 1);
-INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (100017, 100014, 100018, 2);
-INSERT INTO public.doc_valuedfields (id, doc_id, valuedfield_id, position) VALUES (100019, 100014, 100020, 3);
