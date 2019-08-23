@@ -144,7 +144,7 @@ public class DocServiceImpl implements DocService {
         checkNotFoundWithId(docRepository.delete(id)!= 0, id);
     }
 
-    private void fillTags(FieldTo fieldTo, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables) {
+    private void fillTags(FieldTo fieldTo, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables, Integer maxCellsCount) {
         String tag = fieldTo.getTag();
         if (TagUtil.getTableTag(tag) != null) {
             Map<String, String> cellsTags;
@@ -155,12 +155,19 @@ public class DocServiceImpl implements DocService {
                     add(new TableRow(cellsTags));}}));
             } else {
                 List<TableRow> rows = taggedTables.get(tableTag).getRows();
-                cellsTags = taggedTables.get(tableTag).getRows().get(rows.size()-1).getCellsTags();
+                if (rows.get(rows.size()-1).getCellsTags().size() == maxCellsCount) {
+                    cellsTags = new HashMap<>();
+                    rows.add((new TableRow(cellsTags)));
+                }
+                else
+                {
+                    cellsTags = rows.get(rows.size()-1).getCellsTags();
+                }
             }
             switch (fieldTo.getFieldType()) {
                 case GROUP_FIELDS:
                     for (FieldTo childField : fieldTo.getChildFields()) {
-                        fillTags(childField, simpleTags, taggedTables);
+                        fillTags(childField, simpleTags, taggedTables, fieldTo.getChildFields().size());
                     }
                     break;
                 case CATALOG:
@@ -184,7 +191,7 @@ public class DocServiceImpl implements DocService {
             switch (fieldTo.getFieldType()) {
                 case GROUP_FIELDS:
                     for (FieldTo childField : fieldTo.getChildFields()) {
-                        fillTags(childField, simpleTags, taggedTables);
+                        fillTags(childField, simpleTags, taggedTables, fieldTo.getChildFields().size());
                     }
                     break;
                 case CATALOG:
@@ -222,7 +229,7 @@ public class DocServiceImpl implements DocService {
         Map<String, TaggedTable> taggedTables = new HashMap<>();
 
         for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
-            fillTags(docFieldsTo.getField(), simpleTags, taggedTables);
+            fillTags(docFieldsTo.getField(), simpleTags, taggedTables, docTo.getChildFields().size());
         }
 
         try {
