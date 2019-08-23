@@ -33,9 +33,10 @@
                 <ul class="collapsible collapsible-accordion">
                     <li>
                         <a href="new-document" class="collapsible-header waves-effect text-white">
-                            <i class="fas fa-file-import mr-2"></i>Регистрация
+                            <i class="fas fa-file-import mr-2"></i>Подготовка проекта документа
                         </a>
                     </li>
+                    <h4 class="">Документы</h4>
                     <li>
                         <a href="temp-list" class="collapsible-header waves-effect text-white">
                             <i class="fas fa-eye mr-2"></i>Повестки <span class="badge badge-primary ml-2">5</span>
