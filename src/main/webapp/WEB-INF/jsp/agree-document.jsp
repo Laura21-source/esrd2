@@ -59,15 +59,6 @@
                                         <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3">
                                             <iframe class="embed-responsive-item pdfSRC" src="" height="500"></iframe>
                                         </div>
-                                        <div class="bouncingLoader d-none">
-                                            <div></div>
-                                            <div></div>
-                                            <div></div>
-                                            <div></div>
-                                            <div></div>
-                                            <div></div>
-                                            <div></div>
-                                        </div>
                                         <div id="btnReformat" class="btn btn-primary btn-md my-3 rounded">Переформировать</div>
                                         <a class="btn btn-light btn-md my-3 pdfHREF" href="" target="_blank">Открыть в новом окне</a>
                                     </div>
@@ -134,7 +125,7 @@
             //console.log(JSON.stringify(dataBlock));
             var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
             console.log(serverStack);
-            var serverAjax = $.ajax({
+            /*var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
                 data: serverStack,
@@ -148,15 +139,12 @@
                     $("#btnSave").html(trueName).attr('disabled', false);
                     window.location.href="temp-list";
                 });
-            });
+            });*/
         });
 
         // Отправка на сервер файла PDF
         $('#btnReformat').on("click", function(event) {
             event.preventDefault();
-            var trueName =  $(this).html();
-            $(".bouncingLoader").removeClass('d-none');
-            $(this).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Отправка запроса...').attr('disabled', true);
             var dataType = $("#selectType").val();
             // Формируем поля JSON
             var dataField = createDataField(id);
@@ -164,16 +152,12 @@
             var dataBlock = createDataBlock(id, sumElem);
             var reformatPDF = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
             console.log(reformatPDF);
-            var serverAjax = $.ajax({
+            /*$.ajax({
                 type: "POST",
                 url: 'rest/profile/docs/pdf',
                 data: reformatPDF,
                 contentType: 'application/json; charset=utf-8'
-            });
-            serverAjax.done(function(data) {
-                $(".bouncingLoader").addClass('d-none');
-                $("#btnSave").html(trueName).attr('disabled', false);
-            });
+            });*/
         });
     });
 </script>
