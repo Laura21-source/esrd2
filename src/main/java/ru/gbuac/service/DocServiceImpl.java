@@ -10,6 +10,7 @@ import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FieldTo;
+import ru.gbuac.to.PdfTo;
 import ru.gbuac.util.*;
 import ru.gbuac.util.exception.NotFoundException;
 import ru.gbuac.util.exception.UnauthorizedUserException;
@@ -206,8 +207,8 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public String getPdfPathByDocTo(DocTo docTo, String rootPath) {
-        return createPdf(asDocTo(docFromTo(docTo), null), rootPath, true);
+    public PdfTo getPdfPathByDocTo(DocTo docTo, String rootPath) {
+        return new PdfTo(createPdf(asDocTo(docFromTo(docTo), null), rootPath, true));
     }
 
     private String createPdf(DocTo docTo, String rootPath, Boolean saveToTempDir) {

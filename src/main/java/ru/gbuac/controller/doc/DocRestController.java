@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocType;
 import ru.gbuac.to.DocTo;
+import ru.gbuac.to.PdfTo;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
@@ -38,7 +39,7 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @PostMapping(value = "/pdf", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String getPdfPathByDocTo(@Valid @RequestBody DocTo docTo) {
+    public PdfTo getPdfPathByDocTo(@Valid @RequestBody DocTo docTo) {
         return super.getPdfPathByDocTo(docTo, context.getRealPath("/"));
     }
 

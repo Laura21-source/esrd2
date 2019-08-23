@@ -9,6 +9,7 @@ import ru.gbuac.model.DocType;
 import ru.gbuac.service.DocService;
 import ru.gbuac.service.DocTypeService;
 import ru.gbuac.to.DocTo;
+import ru.gbuac.to.PdfTo;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public abstract class AbstractDocRestController {
         docService.delete(id);
     }
 
-    public String getPdfPathByDocTo(DocTo docTo, String rootPath) {
+    public PdfTo getPdfPathByDocTo(DocTo docTo, String rootPath) {
         return docService.getPdfPathByDocTo(docTo, rootPath);
     }
 }

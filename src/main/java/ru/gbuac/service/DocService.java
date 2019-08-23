@@ -2,6 +2,7 @@ package ru.gbuac.service;
 
 import ru.gbuac.model.Doc;
 import ru.gbuac.to.DocTo;
+import ru.gbuac.to.PdfTo;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public interface DocService {
 
     void delete(int id) throws NotFoundException;
 
-    public String getPdfPathByDocTo(DocTo docTo, String rootPath);
+    PdfTo getPdfPathByDocTo(DocTo docTo, String rootPath);
 }
