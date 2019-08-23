@@ -2,12 +2,10 @@ package ru.gbuac.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public class Role implements GrantedAuthority {
+import javax.persistence.Entity;
 
-    String name;
+@Entity
+public class Role extends BaseEntity {
 
-    @Override
-    public String getAuthority() {
-        return name;
-    }
+
 }
