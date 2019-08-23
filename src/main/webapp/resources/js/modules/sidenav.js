@@ -394,14 +394,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           e.preventDefault();
 
           if (_this3.menuOut === true) {
-            _this3.menuOut = false;
-
             _this3.removeMenu();
           } else {
-            if (_this3.options.showOverlay === true) {
-              _this3.$sidenavOverlay = $('<div id="sidenav-overlay"></div>');
+            _this3.menuOut = true;
 
-              _this3.$body.append(_this3.$sidenavOverlay);
+            if (_this3.options.showOverlay === true) {
+              if (!$('#sidenav-overlay').length) {
+                _this3.$sidenavOverlay = $('<div id="sidenav-overlay"></div>');
+
+                _this3.$body.append(_this3.$sidenavOverlay);
+              }
             } else {
               _this3.showCloseButton();
             }
@@ -414,13 +416,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               translateX = [0, _this3.options.MENU_WIDTH];
             }
 
-            _this3.$menu.velocity({
-              translateX: translateX
-            }, {
-              duration: _this3.options.timeDurationOpen,
-              queue: false,
-              easing: _this3.options.easingOpen
-            });
+            if (_this3.$menu.css('transform') !== 'matrix(1, 0, 0, 1, 0, 0)') {
+              _this3.$menu.velocity({
+                translateX: translateX
+              }, {
+                duration: _this3.options.timeDurationOpen,
+                queue: false,
+                easing: _this3.options.easingOpen
+              });
+            }
 
             _this3.$sidenavOverlay.on('click', function () {
               return _this3.removeMenu();
@@ -433,6 +437,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
               _this3.$menu.find('.custom-scrollbar').css('padding-bottom', '30px');
             });
+
+            _this3.menuOut = true;
           }
         });
       }
@@ -550,6 +556,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         }
 
         this.hideSidenavOverlay();
+        this.menuOut = false;
       }
     }]);
 

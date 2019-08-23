@@ -121,7 +121,7 @@
             event.preventDefault();
             $('#btnSuccess').modal('show');
             var trueName =  $(this).html();
-            $(this).html('Отправка запроса').attr('disabled', true);
+            $(this).attr('disabled', true).html('Отправка запроса');
             var dataType = $("#selectType").val();
             // Формируем поля JSON
             var dataField = createDataField(id);
@@ -140,7 +140,7 @@
                 $('.loaderSuccess').addClass('d-none');
                 $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
                 $('#btnSuccess').on('hidden.bs.modal', function() {
-                    $("#btnSave").html(trueName).attr('disabled', false);
+                    $("#btnSave").attr('disabled', false).html(trueName);
                     window.location.href="temp-list";
                 });
             });
@@ -150,7 +150,7 @@
         $('#btnReformat').on("click", function(event) {
             event.preventDefault();
             var trueName =  $(this).html();
-            $(this).html('Отправка запроса');
+            $(this).attr('disabled', true).html('Отправка запроса');
             $(".pdfSRC").addClass("d-none");
             $(".bigLoader").removeClass("d-none").fadeIn(500);
             var dataType = $("#selectType").val();
@@ -168,7 +168,7 @@
             });
             serverAjax.done(function(data) {
                 $(".bigLoader").addClass("d-none").fadeOut(1000);
-                $("#btnReformat").html(trueName);
+                $("#btnReformat").attr('disabled', false).html(trueName);
                 $(".pdfSRC").removeClass("d-none").attr("src", data.urlPDF);
                 $(".pdfHREF").attr("href", data.urlPDF);
             });
