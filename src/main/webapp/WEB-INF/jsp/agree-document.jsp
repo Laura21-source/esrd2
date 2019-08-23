@@ -124,8 +124,8 @@
             var dataBlock = createDataBlock(id, sumElem);
             //console.log(JSON.stringify(dataBlock));
             var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
-            console.log(serverStack);
-            /*var serverAjax = $.ajax({
+            //console.log(serverStack);
+            var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
                 data: serverStack,
@@ -139,7 +139,7 @@
                     $("#btnSave").html(trueName).attr('disabled', false);
                     window.location.href="temp-list";
                 });
-            });*/
+            });
         });
 
         // Отправка на сервер файла PDF
@@ -152,12 +152,15 @@
             var dataBlock = createDataBlock(id, sumElem);
             var reformatPDF = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
             console.log(reformatPDF);
-            /*$.ajax({
+            var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs/pdf',
                 data: reformatPDF,
                 contentType: 'application/json; charset=utf-8'
-            });*/
+            });
+            serverAjax.done(function(data) {
+                $("#pdfSRC").html(data);
+            });
         });
     });
 </script>
