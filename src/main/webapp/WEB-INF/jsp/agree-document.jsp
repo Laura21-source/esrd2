@@ -137,10 +137,11 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function() {
-                //console.log(data);
+                $('.loaderSuccess').addClass('d-none');
+                $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
                 $('#btnSuccess').on('hidden.bs.modal', function() {
                     $("#btnSave").html(trueName).attr('disabled', false);
-                    //window.location.href="temp-list";
+                    window.location.href="temp-list";
                 });
             });
         });
@@ -168,7 +169,7 @@
             serverAjax.done(function(data) {
                 $(".bigLoader").addClass("d-none").fadeOut(500);
                 $("#btnSave").html(trueName).attr('disabled', false);
-                $(".pdfSRC").removeClass("d-none").attr("src", data).fadeIn(500);
+                $(".pdfSRC").removeClass("d-none").attr("src", data.urlPDF).fadeIn(500);
             });
         });
     });

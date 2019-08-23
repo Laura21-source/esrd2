@@ -36,29 +36,7 @@ header, main, footer {padding-left: 240px;}
   text-align: left!important;
 }
 
-/* Лоадер */
-.h-100vh {
-  height:  100%;
-}
-
-.circle {
-  border-radius: 100%;
-}
-
-.circle-radius-200 {
-  width: 200px!important;
-  height: 200px!important;
-}
-
-.circle-radius-205 {
-  width: 205px!important;
-  height: 205px!important;
-}
-
-.p-absolute {
-  position: absolute;
-}
-
-.spinner-border {
-  border-color: #ff005e transparent #ff005e #ff005e;
+/* Лоадер  окно */
+.btnSuccess {
+  height: 50vh;
 }

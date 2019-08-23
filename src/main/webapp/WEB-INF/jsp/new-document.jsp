@@ -39,15 +39,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="bouncingLoader d-none">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
                         <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Зарегистрировать</button>
                     </form>
                 </div>
@@ -82,9 +73,9 @@
         // Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
+            $('#createSave').modal('show');
             var trueName =  $(this).html();
-            $(".bouncingLoader").removeClass('d-none');
-            $(this).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Отправка запроса...').attr('disabled', true);
+            $(this).html('Отправка запроса').attr('disabled', true);
             var dataType = $("#selectType").val();
             // Формируем поля JSON
             var dataField = createDataField(0);
@@ -99,9 +90,9 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
-                $(".bouncingLoader").addClass('d-none');
+                $('.loaderSuccess').addClass('d-none');
+                $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
                 var projectRegNum = data.projectRegNum;
-                $('#createSave').modal('show');
                 $('#createSave #regNumTemplate').html(projectRegNum);
                 $('#createSave').on('hidden.bs.modal', function() {
                     $('#selectType').val("");
