@@ -45,7 +45,7 @@ public class Templater {
     }
 
 
-    public static void fillTagsByDictionary(String templatePath, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables,
+    public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables,
                                      String outPath, Boolean isPDF) throws Exception {
         XWPFDocument doc = new XWPFDocument(OPCPackage.open(templatePath));
 
@@ -96,14 +96,12 @@ public class Templater {
                 }
             }
         }
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        doc.write(byteArrayOutputStream);
         if (isPDF) {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            doc.write(byteArrayOutputStream);
-            saveAsPdf(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()), outPath);
+            byteArrayOutputStream = getPdfBytes(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
         }
-        else {
-            doc.write(new FileOutputStream(outPath));
-        }
+        return byteArrayOutputStream;
     }
 
 
@@ -118,13 +116,13 @@ public class Templater {
         }
     }
 
-    public static void saveAsPdf(InputStream docxInputStream, String outPath) throws IOException {
-        try (OutputStream outputStream = new FileOutputStream(new File(outPath))) {
-            IConverter converter = LocalConverter.builder().build();
-            converter
-                    .convert(docxInputStream).as(DocumentType.DOCX)
-                    .to(outputStream).as(DocumentType.PDF)
-                    .prioritizeWith(1000).execute();
-        }
+    private static ByteArrayOutputStream getPdfBytes(InputStream docxInputStream) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        IConverter converter = LocalConverter.builder().build();
+        converter
+                .convert(docxInputStream).as(DocumentType.DOCX)
+                .to(byteArrayOutputStream).as(DocumentType.PDF)
+                .prioritizeWith(1000).execute();
+        return byteArrayOutputStream;
     }
 }
