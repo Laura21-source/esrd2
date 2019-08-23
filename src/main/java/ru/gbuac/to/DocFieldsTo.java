@@ -1,7 +1,6 @@
 package ru.gbuac.to;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ru.gbuac.model.DocType;
 import ru.gbuac.model.Role;
 
 public class DocFieldsTo {

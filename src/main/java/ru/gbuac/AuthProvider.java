@@ -12,7 +12,6 @@ import org.springframework.security.ldap.SpringSecurityLdapTemplate;
 import org.springframework.security.ldap.authentication.AbstractLdapAuthenticationProvider;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import ru.gbuac.dao.RoleRepository;
 
 import javax.naming.AuthenticationException;
 import javax.naming.NamingException;

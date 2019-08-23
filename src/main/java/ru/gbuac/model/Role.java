@@ -2,14 +2,12 @@ package ru.gbuac.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public enum Role implements GrantedAuthority {
-    ROLE_ADMIN,
-    ROLE_POVESTKA,
-    ROLE_POVESTKA_QUESTIONS,
-    ROLE_SECRETARY;
+public class Role implements GrantedAuthority {
+
+    String name;
 
     @Override
     public String getAuthority() {
-        return name();
+        return name;
     }
 }
