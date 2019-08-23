@@ -14,21 +14,17 @@
                     <div class="alert alert-secondary text-center mb-3">
                         <h6 class="mt-2">Документы на исполнении</h6>
                     </div>
-                    <table id="dataTable" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                    <table id="dataTable" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
                         <thead>
                         <tr>
-                            <th class="th-sm font-weight-bold alert-primary" width="30%">Номер</th>
-                            <th class="th-sm font-weight-bold alert-primary" width="30%">Дата регистрации</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="10%">№ п/п</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="20%">Номер</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="20%">Дата регистрации</th>
                             <th class="th-sm font-weight-bold alert-primary" width="40%">Название</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="10%">Согласовать</th>
                         </tr>
                         </thead>
-                       <%-- <tfoot>
-                        <tr>
-                            <th class="font-weight-bold">Номер</th>
-                            <th class="font-weight-bold">Дата регистрации</th>
-                            <th class="font-weight-bold">Название</th>
-                        </tr>
-                        </tfoot>--%>
+                        <tbody id="rowContent"></tbody>
                     </table>
                 </div>
             </div>
@@ -42,7 +38,7 @@
     $(function() {
         var tableArray = getDocumentsArray("rest/profile/docs/agreement");
         // Сортируемые таблицы
-        $('#dataTable').DataTable({
+        /*$('#dataTable').DataTable({
             "ajax": tableArray,
             "language": {
                 "processing": "Подождите...",
@@ -67,8 +63,7 @@
                 }
             }
         });
-        $('.dataTables_length').addClass('bs-select');
-
+        $('.dataTables_length').addClass('bs-select');*/
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>
