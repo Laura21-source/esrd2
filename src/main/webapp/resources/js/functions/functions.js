@@ -263,7 +263,6 @@
 
     // Получение массива записей в таблице документов
     function getDocumentsArray (url) {
-        //getDocumentsArray = [];
         $.getJSON (url, function(data) {
            for(var i in data) {
                var row = data[i];
@@ -272,8 +271,28 @@
                $('#rowContent').append('<tr></tr><td>' + key + '</td><td class="text-left">' + row.projectRegNum + '</td><td class="text-left">' + newDate + '</td><td class="text-left">' + row.docType.name + '</td><td><a href="agree-document?id=' + row.id + '"><i class="fas fa-edit text-primary pointer"></i></a></td></tr>');
            }
         });
-        /*var valueObj = {
-            "data" : getDocumentsArray
+    }
+
+    function getListArray (url) {
+        var getListArray = [];
+        $.getJSON (url, function(data) {
+            for(var i in data) {
+                var row = data[i];
+                var newDate = formatDate(row.projectRegDateTime, 0);
+                var key = parseInt(i)+1;
+                var element = {
+                    "id" : key,
+                    "number" : row.projectRegNum,
+                    "date" : newDate,
+                    "name" : row.docType.name
+                }
+                console.log(element);
+                getListArray.push(element);
+            }
+            console.log(getListArray);
+        });
+        var valueObj = {
+            "data" : getListArray
         }
-        return valueObj;*/
+        return valueObj;
     }

@@ -24,7 +24,6 @@
                             <th class="th-sm font-weight-bold alert-primary" width="10%">Согласовать</th>
                         </tr>
                         </thead>
-                        <tbody id="rowContent"></tbody>
                     </table>
                 </div>
             </div>
@@ -36,10 +35,15 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        var tableArray = getDocumentsArray("rest/profile/docs/agreement");
+        var tableArray = getListArray("rest/profile/docs/agreement");
+        console.log(tableArray);
         // Сортируемые таблицы
-        /*$('#dataTable').DataTable({
-            "ajax": tableArray,
+        $('#dataTable').DataTable({
+            "ajax": {
+                url : tableArray,
+                dataSrc: 'data'
+            },
+            columns: [ ... ]
             "language": {
                 "processing": "Подождите...",
                 "search": "Поиск:",
@@ -63,7 +67,7 @@
                 }
             }
         });
-        $('.dataTables_length').addClass('bs-select');*/
+        $('.dataTables_length').addClass('bs-select');
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>

@@ -75,7 +75,7 @@
             event.preventDefault();
             $('#createSave').modal('show');
             var trueName =  $(this).html();
-            $(this).html('Отправка запроса').attr('disabled', true);
+            $(this).attr('disabled', true).html('Отправка запроса');
             var dataType = $("#selectType").val();
             // Формируем поля JSON
             var dataField = createDataField(0);
@@ -97,7 +97,7 @@
                 $('#createSave').on('hidden.bs.modal', function() {
                     $('#selectType').val("");
                     $("#blockUp, #blockDown, #btnSave").addClass("d-none");
-                    $("#btnSave").html(trueName).attr('disabled', false);
+                    $("#btnSave").attr('disabled', false).html(trueName);
                 });
             });
         });
