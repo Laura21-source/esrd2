@@ -145,6 +145,7 @@
         // Отправка на сервер файла PDF
         $('#btnReformat').on("click", function(event) {
             event.preventDefault();
+
             var dataType = $("#selectType").val();
             // Формируем поля JSON
             var dataField = createDataField(id);
@@ -159,7 +160,7 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
-                $("#pdfSRC").html(data);
+                $("#pdfSRC").attr("src", data).fadeIn(500);
             });
         });
     });
