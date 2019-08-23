@@ -150,7 +150,7 @@
         $('#btnReformat').on("click", function(event) {
             event.preventDefault();
             var trueName =  $(this).html();
-            $(this).html('Отправка запроса').attr('disabled', true);
+            $(this).html('Отправка запроса');
             $(".pdfSRC").addClass("d-none");
             $(".bigLoader").removeClass("d-none").fadeIn(500);
             var dataType = $("#selectType").val();
@@ -168,8 +168,9 @@
             });
             serverAjax.done(function(data) {
                 $(".bigLoader").addClass("d-none").fadeOut(1000);
-                $("#btnSave").html(trueName).attr('disabled', false);
+                $("#btnReformat").html(trueName);
                 $(".pdfSRC").removeClass("d-none").attr("src", data.urlPDF);
+                $(".pdfHREF").attr("href", data.urlPDF);
             });
         });
     });
