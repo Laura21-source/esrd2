@@ -167,9 +167,9 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
-                $(".bigLoader").addClass("d-none").fadeOut(500);
+                $(".bigLoader").addClass("d-none").fadeOut(1000);
                 $("#btnSave").html(trueName).attr('disabled', false);
-                $(".pdfSRC").removeClass("d-none").attr("src", data.urlPDF).fadeIn(500);
+                $(".pdfSRC").removeClass("d-none").attr("src", data.urlPDF);
             });
         });
     });
