@@ -39,8 +39,8 @@
 
 <div class="modal fade" id="btnSuccess" tabindex="-1" role="dialog" aria-labelledby="btnSuccess"
      aria-hidden="true">
-    <div class="modal-dialog modal-notify modal-success" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered modal-notify modal-success" role="document">
+        <div class="modal-content blockSuccess d-none">
             <div class="modal-header">
                 <p class="heading lead">Документ успешно согласован!</p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -55,6 +55,24 @@
             </div>
             <div class="modal-footer justify-content-center">
                 <a type="button" class="btn btn-success rounded" data-dismiss="modal">Продолжить работу</a>
+            </div>
+        </div>
+        <div class="modal-content">
+            <div class="modal-body d-flex align-items-center justify-content-center">
+                <div class="container-fluid h-100vh">
+                    <div class="row h-100">
+                        <div class="w-100 h-100 m-auto flex-center">
+                            <div class="spinner-border circle-radius-205 p-absolute" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="card circle circle-radius-200">
+                                <div class="card-body flex-center">
+                                    <img id="logo" src="https://mdbootstrap.com/img/Marketing/other/logo/logo-mdb-vue-small.png" alt="MDB Logo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

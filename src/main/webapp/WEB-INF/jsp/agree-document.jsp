@@ -56,7 +56,21 @@
                                 <div class="container-fluid mx-2">
                                     <div class="sticky-content">
                                         <div class="alert alert-primary mx-auto text-uppercase">Готовый документ</div>
-                                        <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3">
+                                        <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3 d-flex align-items-center justify-content-center">
+                                            <!--Big blue Loader-->
+                                            <div class="preloader-wrapper active bigLoader d-none">
+                                                <div class="spinner-layer spinner-blue-only">
+                                                    <div class="circle-clipper left">
+                                                        <div class="circle"></div>
+                                                    </div>
+                                                    <div class="gap-patch">
+                                                        <div class="circle"></div>
+                                                    </div>
+                                                    <div class="circle-clipper right">
+                                                        <div class="circle"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <iframe class="embed-responsive-item pdfSRC" src="" height="500"></iframe>
                                         </div>
                                         <div id="btnReformat" class="btn btn-primary btn-md my-3 rounded">Переформировать</div>
@@ -66,15 +80,6 @@
                             </div>
                         </div>
                     </form>
-                    <div class="bouncingLoader d-none">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
                     <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
                 </div>
             </div>
@@ -114,9 +119,9 @@
         // Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
+            $('#btnSuccess').modal('show');
             var trueName =  $(this).html();
-            $(".bouncingLoader").removeClass('d-none');
-            $(this).html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Отправка запроса...').attr('disabled', true);
+            $(this).html('Отправка запроса').attr('disabled', true);
             var dataType = $("#selectType").val();
             // Формируем поля JSON
             var dataField = createDataField(id);
@@ -132,12 +137,10 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function() {
-                $(".bouncingLoader").addClass('d-none');
-                $('#btnSuccess').modal('show');
                 //console.log(data);
                 $('#btnSuccess').on('hidden.bs.modal', function() {
                     $("#btnSave").html(trueName).attr('disabled', false);
-                    window.location.href="temp-list";
+                    //window.location.href="temp-list";
                 });
             });
         });
@@ -145,7 +148,10 @@
         // Отправка на сервер файла PDF
         $('#btnReformat').on("click", function(event) {
             event.preventDefault();
-
+            var trueName =  $(this).html();
+            $(this).html('Отправка запроса').attr('disabled', true);
+            $(".pdfSRC").addClass("d-none");
+            $(".bigLoader").removeClass("d-none").fadeIn(500);
             var dataType = $("#selectType").val();
             // Формируем поля JSON
             var dataField = createDataField(id);
@@ -160,7 +166,9 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
-                $("#pdfSRC").attr("src", data).fadeIn(500);
+                $(".bigLoader").addClass("d-none").fadeOut(500);
+                $("#btnSave").html(trueName).attr('disabled', false);
+                $(".pdfSRC").removeClass("d-none").attr("src", data).fadeIn(500);
             });
         });
     });
