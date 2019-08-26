@@ -36,7 +36,7 @@
 <script>
     $(function() {
         var tableArray = getListArray("rest/profile/docs/agreement");
-        console.log(tableArray);
+        //console.log(tableArray);
         // Сортируемые таблицы
         $('#dataTable').DataTable({
             "ajax" : tableArray

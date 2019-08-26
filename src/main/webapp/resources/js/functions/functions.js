@@ -183,11 +183,25 @@
             var attrVal = $(this).val();
             var attrId = parseInt($(this).attr("data-field"));
             if (attrElem === "date") {
-                var value = attrVal + "T00:00:00";
-                dataDate = attrVal;
+                if (attrVal != '') {
+                    var value = attrVal + "T00:00:00";
+                    dataDate = attrVal;
+                } else {
+                    var value = null;
+                }
             }
             if (attrElem === "time") {
-                var value = dataDate + "T" + attrVal + ':00';
+                if (attrVal != '') {
+                    if (dataDate != '') {
+                        var value = dataDate + "T" + attrVal + ':00';
+                    } else {
+                        var dataDate = new Date();
+                        dataDate = formatDate(dataDate, 1)
+                        var value = dataDate + "T" + attrVal + ':00';
+                    }
+                } else {
+                    var value = null;
+                }
             }
             if(id > 0) {
                 idField = parseInt($(this).attr("data-id"));
@@ -289,22 +303,25 @@
         var getListArray = [];
         $.getJSON (url, function(data) {
             for(var i in data) {
+                console.log(data);
                 var row = data[i];
                 var newDate = formatDate(row.projectRegDateTime, 0);
                 var key = parseInt(i)+1;
-                var element = {
+                var elementList = {
                     "id" : key,
                     "number" : row.projectRegNum,
                     "date" : newDate,
                     "name" : row.docType.name,
-                    "link" : '<a href="agree-document?id=' + row.id + '"><i class="fas fa-edit text-primary pointer"></i></a>'
+                    "link" : row.id
+                    /*"link" : '<a href="agree-document?id=' + row.id + '"><i class="fas fa-edit text-primary pointer"></i></a>'*/
                 }
-                getListArray.push(element);
+                getListArray.push(elementList);
             }
         });
+        console.log(getListArray);
         var tableArray = {
             "data" : getListArray
         }
-        return tableArray;
-        //return JSON.stringify(valueObj);
+        //return tableArray;
+        return JSON.stringify(tableArray);
     }
