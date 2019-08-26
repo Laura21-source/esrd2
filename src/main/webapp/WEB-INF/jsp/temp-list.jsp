@@ -36,11 +36,10 @@
 <script>
     $(function() {
         var tableArray = getListArray("rest/profile/docs/agreement");
-        var listRow = createJSONTable(tableArray);
-        console.log(listRow);
+        console.log(tableArray);
         // Сортируемые таблицы
         $('#dataTable').DataTable({
-            "ajax" : listRow
+            "ajax" : tableArray
             /*"ajax": {
                 url : "rest/profile/docs/agreement",
                 dataSrc: ''

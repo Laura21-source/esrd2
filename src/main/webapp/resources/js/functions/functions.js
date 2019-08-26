@@ -136,7 +136,6 @@
                     idField = ' data-id="' + rowFields.field.id + '"';
                 }
                 var enabled = '';
-                alert(rowFields.enabled);
                 if(rowFields.enabled == false) {
                     enabled = ' disabled';
                 }
@@ -303,13 +302,9 @@
                 getListArray.push(element);
             }
         });
-        return getListArray;
-    }
-
-    function createJSONTable (url) {
-        var valueObj = {
-            "data" : url
+        var tableArray = {
+            "data" : getListArray
         }
+        return tableArray;
         //return JSON.stringify(valueObj);
-        return valueObj;
     }
