@@ -301,27 +301,31 @@
 
     function getListArray (url) {
         var getListArray = [];
+        var tableArray = '';
         $.getJSON (url, function(data) {
             for(var i in data) {
-                console.log(data);
                 var row = data[i];
                 var newDate = formatDate(row.projectRegDateTime, 0);
                 var key = parseInt(i)+1;
-                var elementList = {
+                var element = {
                     "id" : key,
                     "number" : row.projectRegNum,
                     "date" : newDate,
                     "name" : row.docType.name,
-                    "link" : row.id
-                    /*"link" : '<a href="agree-document?id=' + row.id + '"><i class="fas fa-edit text-primary pointer"></i></a>'*/
+                    "link" : "<a href='agree-document?id=" + row.id + "'><i class='fas fa-edit text-primary'></i></a>"
                 }
-                getListArray.push(elementList);
+                getListArray.push(element);
             }
+            //console.log(JSON.stringify(getListArray));
+            tableArray = {
+                "data" : getListArray
+            }
+            tableArray = JSON.stringify(tableArray);
+            //console.log(tableArray);
         });
-        console.log(getListArray);
-        var tableArray = {
+        /*tableArray = {
             "data" : getListArray
-        }
-        //return tableArray;
-        return JSON.stringify(tableArray);
+        }*/
+        console.log(JSON.stringify(tableArray));
+        return tableArray;
     }
