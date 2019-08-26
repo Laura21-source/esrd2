@@ -36,14 +36,15 @@
 <script>
     $(function() {
         var tableArray = getListArray("rest/profile/docs/agreement");
+        //tableArray = JSON.stringify(tableArray);
         //console.log(tableArray);
         // Сортируемые таблицы
         $('#dataTable').DataTable({
-            "ajax" : tableArray
-            /*"ajax": {
+            "ajax" : tableArray,
+           /* "ajax": {
                 url : "rest/profile/docs/agreement",
                 dataSrc: ''
-            }*/,
+            },*/
             "columns": [
                 { data: 'id' },
                 { data: 'number' },
