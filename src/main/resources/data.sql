@@ -134,3 +134,6 @@ INSERT INTO public.user_roles (userldap, role) VALUES ('user1', 'ROLE_POVESTKA')
 INSERT INTO public.user_roles (userldap, role) VALUES ('user1', 'ROLE_POVESTKA_QUESTIONS');
 INSERT INTO public.user_roles (userldap, role) VALUES ('user2', 'ROLE_POVESTKA');
 INSERT INTO public.user_roles (userldap, role) VALUES ('user2', 'ROLE_SECRETARY');
+INSERT INTO public.user_roles (userldap, role) VALUES ('admin', 'ROLE_POVESTKA');
+INSERT INTO public.user_roles (userldap, role) VALUES ('admin', 'ROLE_POVESTKA_QUESTIONS');
+INSERT INTO public.user_roles (userldap, role) VALUES ('admin', 'ROLE_SECRETARY');

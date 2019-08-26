@@ -173,7 +173,7 @@ public class DocServiceImpl implements DocService {
                 case CATALOG:
                     CatalogElem catalogElemChild = null;
                     if (fieldTo.getValueInt() != null) {
-                        catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
+                        catalogElemChild = catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
                         switch (catalogElemChild.getCatalog().getCatalogType()) {
                             case TEXT:
                                 cellsTags.put(tag, catalogElemChild.getValueStr());
