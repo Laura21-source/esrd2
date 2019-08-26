@@ -3,6 +3,7 @@ package ru.gbuac.controller.docvaluedfields;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.DocValuedFields;
 import ru.gbuac.service.DocValuedFieldsService;
 import ru.gbuac.to.DocFieldsTo;
@@ -30,7 +31,7 @@ public abstract class AbstractDocValuedFieldsRestController {
 
     public List<DocFieldsTo> getAllFull(int docId) {
         LOG.info("getAll");
-        return docValuedFieldsService.getAllFull(docId);
+        return docValuedFieldsService.getAllFull(docId, AuthorizedUser.getUserName());
     }
 
     public DocValuedFields create(DocValuedFields docValuedFields) {

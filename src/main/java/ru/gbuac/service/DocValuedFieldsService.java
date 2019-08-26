@@ -12,7 +12,7 @@ public interface DocValuedFieldsService {
 
     List<DocValuedFields> getAll(int docId);
 
-    List<DocFieldsTo> getAllFull(int docId);
+    List<DocFieldsTo> getAllFull(int docId, String userName);
 
     DocValuedFields save(DocValuedFields docValuedFields);
 

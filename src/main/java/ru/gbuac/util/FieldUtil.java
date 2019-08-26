@@ -2,6 +2,7 @@ package ru.gbuac.util;
 
 import ru.gbuac.model.Field;
 import ru.gbuac.model.FieldType;
+import ru.gbuac.model.Role;
 import ru.gbuac.model.ValuedField;
 import ru.gbuac.to.FieldTo;
 
@@ -13,28 +14,31 @@ public class FieldUtil {
     public FieldUtil() {
     }
 
-    public static FieldTo asTo(Field field) {
+    public static FieldTo asTo(Field field, List<Role> curUserRoles) {
         List<FieldTo> childFields = new ArrayList<>();
         for (Field childField : field.getChildField()) {
-            childFields.add(asTo(childField));
+            childFields.add(asTo(childField, curUserRoles));
         }
+        Boolean enabled = curUserRoles.contains(field.getRole());
+
         return new FieldTo(null, field.getName(), childFields, field.getId(), field.getFieldType(),
-                field.getPositionInGroup(), field.getMaxCount(), field.getLength(), field.getCatalog_id(), field.getTag());
+                field.getPositionInGroup(), field.getMaxCount(), field.getLength(), field.getCatalog_id(),
+                enabled, enabled ? field.getRequired() : false, field.getRole(), field.getTag());
     }
 
-    public static FieldTo asTo(ValuedField valuedField) {
+    public static FieldTo asTo(ValuedField valuedField, List<Role> curUserRoles) {
         List<FieldTo> childFields = new ArrayList<>();
         for (ValuedField childField : valuedField.getChildValuedField()) {
-            childFields.add(asTo(childField));
+            childFields.add(asTo(childField, curUserRoles));
         }
-        FieldType fieldType = valuedField.getField().getFieldType();
+        Field field = valuedField.getField();
+        Boolean enabled = curUserRoles.contains(field.getRole());
 
-        FieldTo fieldTo = new FieldTo(valuedField.getId(), valuedField.getField().getName(), childFields,
-                valuedField.getField().getId(), fieldType, valuedField.getField().getPositionInGroup(),
-                valuedField.getField().getMaxCount(), valuedField.getField().getLength(),
-                valuedField.getField().getCatalog_id(), valuedField.getField().getTag());
+        FieldTo fieldTo = new FieldTo(valuedField.getId(), field.getName(), childFields,
+                field.getId(), field.getFieldType(), field.getPositionInGroup(), field.getMaxCount(), field.getLength(),
+                field.getCatalog_id(), enabled, enabled ? field.getRequired() : false, field.getRole(), field.getTag());
 
-        switch (fieldType) {
+        switch (field.getFieldType()) {
             case TEXT:
             case TEXTAREA:
                 fieldTo.setValueStr(valuedField.getValueStr());

@@ -1,6 +1,5 @@
 package ru.gbuac.service;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,10 +13,8 @@ import ru.gbuac.to.PdfTo;
 import ru.gbuac.util.*;
 import ru.gbuac.util.exception.NotFoundException;
 import ru.gbuac.util.exception.UnauthorizedUserException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -102,13 +99,11 @@ public class DocServiceImpl implements DocService {
     public DocTo save(DocTo docTo, String userName, String rootPath) throws UnauthorizedUserException {
         Assert.notNull(docTo, "doc must not be null");
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTo.getDocTypeId());
-        List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
 
         Long existRole = 0L;
         for (DocFieldsTo d:docTo.getChildFields()) {
             existRole += docTypeFields.stream()
-                    .filter(f -> f.getField().getId() == d.getField().getFieldId())
-                    .filter(f -> curUserRoles.contains(f.getRole())).count();
+                    .filter(f -> f.getField().getId() == d.getField().getFieldId()).count();
         }
         if (existRole == 0) {
             throw new UnauthorizedUserException();
@@ -256,15 +251,11 @@ public class DocServiceImpl implements DocService {
 
         List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
         List<DocValuedFields> docValuedFields = doc.getDocValuedFields();
-        List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 
         for (DocValuedFields d:docValuedFields) {
-            Role role = docTypeFields.stream().filter(f -> f.getField().getId() == d.getValuedField().getField().getId())
-                    .findAny().get().getRole();
-
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField()),
-                    d.getPosition(), curUserRoles.contains(role)));
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles),
+                    d.getPosition()));
         }
 
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),

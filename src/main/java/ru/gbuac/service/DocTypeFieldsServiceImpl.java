@@ -45,8 +45,8 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 
         for (DocTypeFields d:docTypeFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField()),
-                    d.getPosition(), curUserRoles.contains(d.getRole())));
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField(), curUserRoles),
+                    d.getPosition()));
 
         }
         return docFieldsTos;
