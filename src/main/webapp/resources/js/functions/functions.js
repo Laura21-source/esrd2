@@ -192,13 +192,7 @@
             }
             if (attrElem === "time") {
                 if (attrVal != '') {
-                    if (dataDate != '') {
-                        var value = dataDate + "T" + attrVal + ':00';
-                    } else {
-                        var dataDate = new Date();
-                        dataDate = formatDate(dataDate, 1)
-                        var value = dataDate + "T" + attrVal + ':00';
-                    }
+                    var value = "1900-01-01" + "T" + attrVal + ":00";
                 } else {
                     var value = null;
                 }
@@ -321,11 +315,11 @@
                 "data" : getListArray
             }
             tableArray = JSON.stringify(tableArray);
-            //console.log(tableArray);
+            console.log(tableArray);
         });
         /*tableArray = {
             "data" : getListArray
         }*/
-        console.log(JSON.stringify(tableArray));
+        //console.log(JSON.stringify(tableArray));
         return tableArray;
     }
