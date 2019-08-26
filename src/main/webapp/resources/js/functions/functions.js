@@ -315,11 +315,18 @@
                 "data" : getListArray
             }
             tableArray = JSON.stringify(tableArray);
-            console.log(tableArray);
+            //console.log(tableArray);
+            $.ajax({
+                type: "POST",
+                url: 'resources/files/datatable.txt',
+                data: tableArray,
+                contentType: 'application/json; charset=utf-8',
+                success: function() {
+                    alert("Получилось!");
+                },
+                error: function() {
+                    alert("Фиг тебе!");
+                }
+            });
         });
-        /*tableArray = {
-            "data" : getListArray
-        }*/
-        //console.log(JSON.stringify(tableArray));
-        return tableArray;
     }

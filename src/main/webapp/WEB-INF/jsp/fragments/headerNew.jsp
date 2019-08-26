@@ -78,8 +78,12 @@
                    aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <sec:authentication property="principal.username"/>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Настройки</a>
-                    <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+                    <%--<a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Настройки</a>--%>
+                    <form:form class="dropdown-item" action="logout" method="post">
+                        <span type="submit">
+                            <i class="fas fa-sign-out-alt"></i> <spring:message code="app.quit"/>
+                        </span>
+                    </form:form>
                 </div>
             </li>
         </ul>

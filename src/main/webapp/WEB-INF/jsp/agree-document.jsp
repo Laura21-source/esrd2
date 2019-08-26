@@ -73,7 +73,7 @@
                                             </div>
                                             <iframe class="embed-responsive-item pdfSRC" src="" height="500"></iframe>
                                         </div>
-                                        <div id="btnReformat" class="btn btn-primary btn-md my-3 rounded">Переформировать</div>
+                                        <div id="btnReformat" class="btn btn-primary btn-md my-3 rounded pointer">Переформировать</div>
                                         <a class="btn btn-light btn-md my-3 pdfHREF" href="" target="_blank">Открыть в новом окне</a>
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@
         $('#btnReformat').on("click", function(event) {
             event.preventDefault();
             var trueName =  $(this).html();
-            $(this).attr('disabled', true).html('Отправка запроса');
+            $(this).html('Отправка запроса'); //.attr('disabled', true)
             $(".pdfSRC").addClass("d-none");
             $(".bigLoader").removeClass("d-none").fadeIn(500);
             var dataType = $("#selectType").val();
@@ -170,7 +170,7 @@
             });
             serverAjax.done(function(data) {
                 $(".bigLoader").addClass("d-none").fadeOut(1000);
-                $("#btnReformat").attr('disabled', false).html(trueName);
+                $("#btnReformat").html(trueName); //.attr('disabled', false)
                 $(".pdfSRC").removeClass("d-none").attr("src", data.urlPDF);
                 $(".pdfHREF").attr("href", data.urlPDF);
             });
