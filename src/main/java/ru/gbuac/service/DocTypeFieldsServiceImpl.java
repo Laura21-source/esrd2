@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.DocTypeFieldsRepository;
+import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;

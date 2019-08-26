@@ -1,12 +1,32 @@
 package ru.gbuac.model;
 
-import org.hibernate.annotations.BatchSize;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class User extends BaseEntity {
+@NoArgsConstructor
+@Getter
+@Setter
+@Table(name = "user")
+public class User extends NamedEntity {
+    @Column(name = "name")
+    private String name;
 
+    @Column(name = "lastname")
+    private String lastname;
 
+    @Column(name = "patronym")
+    private String patronym;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "position")
+    private String position;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Role> roles;
 }

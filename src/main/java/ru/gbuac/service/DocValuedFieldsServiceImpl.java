@@ -7,6 +7,7 @@ import ru.gbuac.dao.DocTypeFieldsRepository;
 import ru.gbuac.dao.DocValuedFieldsRepository;
 import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.model.DocValuedFields;
+import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
