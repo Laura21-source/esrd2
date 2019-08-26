@@ -171,15 +171,20 @@ public class DocServiceImpl implements DocService {
                     }
                     break;
                 case CATALOG:
-                    CatalogElem catalogElemChild =
-                            catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
-                    switch (catalogElemChild.getCatalog().getCatalogType()) {
-                        case TEXT:
-                            cellsTags.put(tag, catalogElemChild.getValueStr());
-                            break;
-                        case NUMBER:
-                            cellsTags.put(tag, catalogElemChild.getValueInt());
-                            break;
+                    CatalogElem catalogElemChild = null;
+                    if (fieldTo.getValueInt() != null) {
+                        catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
+                        switch (catalogElemChild.getCatalog().getCatalogType()) {
+                            case TEXT:
+                                cellsTags.put(tag, catalogElemChild.getValueStr());
+                                break;
+                            case NUMBER:
+                                cellsTags.put(tag, catalogElemChild.getValueInt());
+                                break;
+                        }
+                    }
+                    else {
+                        cellsTags.put(tag, "");
                     }
                     break;
                 default:
@@ -276,8 +281,10 @@ public class DocServiceImpl implements DocService {
         Field field = fieldRepository.findById(newField.getFieldId()).orElse(null);
         CatalogElem catalogElem = null;
         if (field.getFieldType() == FieldType.CATALOG) {
-            catalogElem = catalogElemRepository.findById(newField.getValueInt()).orElse(null);
-            newField.setValueInt(null);
+            if (newField.getValueInt() != null) {
+                catalogElem = catalogElemRepository.findById(newField.getValueInt()).orElse(null);
+                newField.setValueInt(null);
+            }
         }
 
         return new ValuedField(null, childFields,  field, catalogElem, newField.getValueInt(), newField.getValueStr(),
