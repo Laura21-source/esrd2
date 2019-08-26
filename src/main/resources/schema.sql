@@ -1,27 +1,15 @@
 DROP TABLE IF EXISTS field_child_field;
-
 DROP TABLE IF EXISTS doctype_fields;
-
 DROP TABLE IF EXISTS valuedfield_child_valued_field;
-
 DROP TABLE IF EXISTS doc_valuedfields;
-
 DROP TABLE IF EXISTS doc;
-
 DROP TABLE IF EXISTS valuedfield;
-
 DROP TABLE IF EXISTS catalogelem;
-
 DROP TABLE IF EXISTS field;
-
 DROP TABLE IF EXISTS catalog;
-
 DROP TABLE IF EXISTS doctype_routes;
-
 DROP TABLE IF EXISTS doctype;
-
 DROP TABLE IF EXISTS user_roles;
-
 DROP SEQUENCE IF EXISTS global_seq;
 DROP SEQUENCE IF EXISTS agreement_seq;
 DROP SEQUENCE IF EXISTS depr_seq;
@@ -64,6 +52,7 @@ CREATE TABLE doctype_routes
     agree_stage      INTEGER                 NOT NULL,
     FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
 );
+
 /*
 CREATE TABLE doc_routes
 (
@@ -101,6 +90,8 @@ CREATE TABLE field
     max_count         INTEGER                         ,
     length            INTEGER                         ,
     catalog_id        INTEGER                         ,
+    required          BOOLEAN DEFAULT FALSE   NOT NULL,
+    role              VARCHAR                         ,
     tag               VARCHAR                         ,
     FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE
 );
@@ -119,6 +110,7 @@ CREATE TABLE doctype_fields
     doctype_id          INTEGER                 NOT NULL,
     field_id            INTEGER                 NOT NULL,
     position            INTEGER                 NOT NULL,
+    required            BOOLEAN DEFAULT FALSE   NOT NULL,
     role                VARCHAR                 NOT NULL,
     CONSTRAINT c_doctype_fields UNIQUE (doctype_id, field_id, position, role),
     FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE,

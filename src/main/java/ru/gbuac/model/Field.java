@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -31,6 +32,12 @@ public class Field extends NamedEntity {
     private Integer length;
 
     private Integer catalog_id;
+
+    @NotNull
+    private Boolean required;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     private String tag;
 }

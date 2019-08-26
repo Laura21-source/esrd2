@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.DocTypeFieldsRepository;
 import ru.gbuac.dao.DocValuedFieldsRepository;
+import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.model.DocValuedFields;
 import ru.gbuac.model.Role;
@@ -25,7 +26,7 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     private DocValuedFieldsRepository docValuedFieldsRepository;
 
     @Autowired
-    private DocTypeFieldsRepository docTypeFieldsRepository;
+    private RoleRepository roleRepository;
 
     @Override
     public DocValuedFields get(int id, int docId) throws NotFoundException {
@@ -39,17 +40,14 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     }
 
     @Override
-    public List<DocFieldsTo> getAllFull(int docId) {
+    public List<DocFieldsTo> getAllFull(int docId, String userName) {
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
+        List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
 
         for (DocValuedFields d:docValuedFields) {
-            List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(d.getDoc().getDocType().getId());
-            Role role = docTypeFields.stream().filter(f -> f.getField().getId() == d.getValuedField().getField().getId())
-                    .findAny().get().getRole();
-
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField()),
-                    d.getPosition(), role));
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles),
+                    d.getPosition()));
         }
         return docFieldsTos;
     }

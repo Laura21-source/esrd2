@@ -1,7 +1,6 @@
 package ru.gbuac.to;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ru.gbuac.model.DocType;
 import ru.gbuac.model.Role;
 
 public class DocFieldsTo {
@@ -12,25 +11,13 @@ public class DocFieldsTo {
 
     private Integer position;
 
-    private boolean enabled;
-
-    private Role role;
-
     public DocFieldsTo() {
     }
 
-    public DocFieldsTo(Integer id, FieldTo field, Integer position, boolean enabled) {
+    public DocFieldsTo(Integer id, FieldTo field, Integer position) {
         this.id = id;
         this.field = field;
         this.position = position;
-        this.enabled = enabled;
-    }
-
-    public DocFieldsTo(Integer id, FieldTo field, Integer position, Role role) {
-        this.id = id;
-        this.field = field;
-        this.position = position;
-        this.role = role;
     }
 
     public Integer getId() {
@@ -57,22 +44,6 @@ public class DocFieldsTo {
         this.position = position;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,11 +51,9 @@ public class DocFieldsTo {
 
         DocFieldsTo that = (DocFieldsTo) o;
 
-        if (enabled != that.enabled) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (field != null ? !field.equals(that.field) : that.field != null) return false;
-        if (position != null ? !position.equals(that.position) : that.position != null) return false;
-        return role == that.role;
+        return position != null ? position.equals(that.position) : that.position == null;
     }
 
     @Override
@@ -92,8 +61,6 @@ public class DocFieldsTo {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (field != null ? field.hashCode() : 0);
         result = 31 * result + (position != null ? position.hashCode() : 0);
-        result = 31 * result + (enabled ? 1 : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 
@@ -103,8 +70,6 @@ public class DocFieldsTo {
                 "id=" + id +
                 ", field=" + field +
                 ", position=" + position +
-                ", enabled=" + enabled +
-                ", role=" + role +
                 '}';
     }
 }

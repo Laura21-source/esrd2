@@ -26,7 +26,4 @@ public class DocTypeFields extends BaseEntity {
 
     @NotNull
     private Integer position;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
 }
