@@ -31,7 +31,7 @@
             </li>
             <li>
                 <ul class="collapsible collapsible-accordion">
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="far fa-file-alt mr-2"></i>Подготовка документа<i
+                    <%--<li><a class="collapsible-header waves-effect arrow-r"><i class="far fa-file-alt mr-2"></i>Подготовка документа<i
                             class="fas fa-angle-down rotate-icon"></i></a>
                         <div class="collapsible-body">
                             <ul class="list-unstyled">
@@ -39,14 +39,17 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-file-signature mr-2"></i>Согласование<i
+                    </li>--%>
+                    <li><a class="collapsible-header waves-effect arrow-r" href="new-document"><i class="far fa-file-alt mr-2"></i>Подготовка документа</a></li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-file-signature mr-2"></i>Документы<i
                             class="fas fa-angle-down rotate-icon"></i></a>
                         <div class="collapsible-body">
                             <ul class="list-unstyled">
-                                <li><a href="agreement" class="waves-effect"><i class="far fa-list-alt mr-2"></i>На исполнении</a>
+                                <li><a href="agreement" class="waves-effect">На согласовании/подписании</a>
                                 </li>
-                                <li><a href="agreement" class="waves-effect"><i class="fas fa-list-alt mr-2"></i>На подписании</a>
+                                <li><a href="agreement" class="waves-effect">Согласованные/подписанные</a>
+                                </li>
+                                <li><a href="agreement" class="waves-effect">Зарегистрированые</a>
                                 </li>
                             </ul>
                         </div>
