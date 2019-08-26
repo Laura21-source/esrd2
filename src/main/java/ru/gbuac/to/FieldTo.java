@@ -154,11 +154,11 @@ public class FieldTo extends BaseTo {
             case NUMBER:
                 return getValueInt().toString();
             case DATE:
-                return DateTimeUtil.toStringPrint(getValueDate().toLocalDate());
+                return getValueDate() != null ? DateTimeUtil.toStringPrint(getValueDate().toLocalDate()) : "";
             case TIME:
-                return DateTimeUtil.toString(getValueDate().toLocalTime());
+                return getValueDate() != null ?DateTimeUtil.toString(getValueDate().toLocalTime()) : "";
             case DATETIME:
-                return DateTimeUtil.toStringPrint(getValueDate());
+                return getValueDate() != null ?DateTimeUtil.toStringPrint(getValueDate()) : "";
         }
         return "";
     }

@@ -52,7 +52,8 @@ public class FieldUtil {
                 fieldTo.setValueDate(valuedField.getValueDateTime());
                 break;
             case CATALOG:
-                fieldTo.setValueInt(valuedField.getCatalogElem().getId());
+                if (valuedField.getCatalogElem() != null)
+                    fieldTo.setValueInt(valuedField.getCatalogElem().getId());
         }
         return fieldTo;
     }
