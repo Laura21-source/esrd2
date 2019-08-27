@@ -31,7 +31,9 @@ public class Field extends NamedEntity {
 
     private Integer length;
 
-    private Integer catalog_id;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "catalog_id", nullable = true)
+    private Catalog catalog;
 
     @NotNull
     private Boolean required;

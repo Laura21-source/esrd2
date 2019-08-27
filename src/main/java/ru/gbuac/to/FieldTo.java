@@ -23,6 +23,8 @@ public class FieldTo extends BaseTo {
 
     private Integer length;
 
+    private Integer parentCatalogId;
+
     private Integer catalogId;
 
     private Boolean enabled;
@@ -43,7 +45,8 @@ public class FieldTo extends BaseTo {
     }
 
     public FieldTo(Integer id, String name, List<FieldTo> childFields, Integer fieldId, FieldType fieldType,
-                   Integer positionInGroup, Integer maxCount, Integer length, Integer catalogId, Boolean enabled,
+                   Integer positionInGroup, Integer maxCount, Integer length,
+                   Integer parentCatalogId, Integer catalogId, Boolean enabled,
                    Boolean required, Role role, String tag) {
         super(id);
         this.name = name;
@@ -53,6 +56,7 @@ public class FieldTo extends BaseTo {
         this.positionInGroup = positionInGroup;
         this.maxCount = maxCount;
         this.length = length;
+        this.parentCatalogId = parentCatalogId;
         this.catalogId = catalogId;
         this.enabled = enabled;
         this.required = required;
@@ -114,6 +118,14 @@ public class FieldTo extends BaseTo {
 
     public void setLength(Integer length) {
         this.length = length;
+    }
+
+    public Integer getParentCatalogId() {
+        return parentCatalogId;
+    }
+
+    public void setParentCatalogId(Integer parentCatalogId) {
+        this.parentCatalogId = parentCatalogId;
     }
 
     public Integer getCatalogId() {
@@ -212,6 +224,8 @@ public class FieldTo extends BaseTo {
             return false;
         if (maxCount != null ? !maxCount.equals(fieldTo.maxCount) : fieldTo.maxCount != null) return false;
         if (length != null ? !length.equals(fieldTo.length) : fieldTo.length != null) return false;
+        if (parentCatalogId != null ? !parentCatalogId.equals(fieldTo.parentCatalogId) : fieldTo.parentCatalogId != null)
+            return false;
         if (catalogId != null ? !catalogId.equals(fieldTo.catalogId) : fieldTo.catalogId != null) return false;
         if (enabled != null ? !enabled.equals(fieldTo.enabled) : fieldTo.enabled != null) return false;
         if (required != null ? !required.equals(fieldTo.required) : fieldTo.required != null) return false;
@@ -231,6 +245,7 @@ public class FieldTo extends BaseTo {
         result = 31 * result + (positionInGroup != null ? positionInGroup.hashCode() : 0);
         result = 31 * result + (maxCount != null ? maxCount.hashCode() : 0);
         result = 31 * result + (length != null ? length.hashCode() : 0);
+        result = 31 * result + (parentCatalogId != null ? parentCatalogId.hashCode() : 0);
         result = 31 * result + (catalogId != null ? catalogId.hashCode() : 0);
         result = 31 * result + (enabled != null ? enabled.hashCode() : 0);
         result = 31 * result + (required != null ? required.hashCode() : 0);
@@ -253,6 +268,7 @@ public class FieldTo extends BaseTo {
                 ", positionInGroup=" + positionInGroup +
                 ", maxCount=" + maxCount +
                 ", length=" + length +
+                ", parentCatalogId=" + parentCatalogId +
                 ", catalogId=" + catalogId +
                 ", enabled=" + enabled +
                 ", required=" + required +

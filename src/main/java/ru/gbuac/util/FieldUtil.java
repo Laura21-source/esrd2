@@ -1,9 +1,6 @@
 package ru.gbuac.util;
 
-import ru.gbuac.model.Field;
-import ru.gbuac.model.FieldType;
-import ru.gbuac.model.Role;
-import ru.gbuac.model.ValuedField;
+import ru.gbuac.model.*;
 import ru.gbuac.to.FieldTo;
 
 import java.util.ArrayList;
@@ -21,10 +18,20 @@ public class FieldUtil {
             childFields.add(asTo(childField, curUserRoles));
         }
         Boolean enabled = curUserRoles.contains(field.getRole());
+        Integer catalog_id = getCatalogId(field.getCatalog());
+        Integer parentCatalog_id = getParentCatalogId(field.getCatalog());
 
         return new FieldTo(null, field.getName(), childFields, field.getId(), field.getFieldType(),
-                field.getPositionInGroup(), field.getMaxCount(), field.getLength(), field.getCatalog_id(),
+                field.getPositionInGroup(), field.getMaxCount(), field.getLength(), parentCatalog_id, catalog_id,
                 enabled, enabled ? field.getRequired() : false, field.getRole(), field.getTag());
+    }
+
+    private static Integer getCatalogId(Catalog catalog) {
+        return catalog != null ? catalog.getId() : null;
+    }
+
+    private static Integer getParentCatalogId(Catalog catalog) {
+        return catalog != null ? catalog.getParentCatalog() : null;
     }
 
     public static FieldTo asTo(ValuedField valuedField, List<Role> curUserRoles) {
@@ -35,10 +42,13 @@ public class FieldUtil {
         }
         Field field = valuedField.getField();
         Boolean enabled = curUserRoles.contains(field.getRole());
+        Integer catalog_id = getCatalogId(field.getCatalog());
+        Integer parentCatalog_id = getParentCatalogId(field.getCatalog());
 
         FieldTo fieldTo = new FieldTo(valuedField.getId(), field.getName(), childFields,
                 field.getId(), field.getFieldType(), field.getPositionInGroup(), field.getMaxCount(), field.getLength(),
-                field.getCatalog_id(), enabled, enabled ? field.getRequired() : false, field.getRole(), field.getTag());
+                parentCatalog_id, catalog_id, enabled, enabled ? field.getRequired() : false, field.getRole(),
+                field.getTag());
 
         switch (field.getFieldType()) {
             case TEXT:
