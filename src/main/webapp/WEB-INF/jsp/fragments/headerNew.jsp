@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!doctype html>
 <html lang="ru">
@@ -80,9 +79,9 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <%--<a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Настройки</a>--%>
                     <form:form class="dropdown-item" action="logout" method="post">
-                        <span type="submit">
+                        <button type="submit">
                             <i class="fas fa-sign-out-alt"></i> <spring:message code="app.quit"/>
-                        </span>
+                        </button>
                     </form:form>
                 </div>
             </li>
