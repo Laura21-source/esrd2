@@ -4,7 +4,22 @@
     }
 
     // Функция получения текстового поля
-    function createInput (element, type, id, name, title, short, iconName, value, field, up, idField, enabled) {
+    /*
+    1. element - Элемент к которому добавляется поле
+    2. type - Тип поля (data, time, text);
+    3. id - Значение атрибута id;
+    4. name - Название поля (англ.)
+    5. title - Поясняющая надпись (рус);
+    6. short - Цифровое значения короткого поля (1 - да)
+    7. iconName - обозначение иконки справа
+    8. value - Значение атрибута value
+    9. field - Значение атрибута data-field
+    10. up - Присвоени класса upElem (1 - да)
+    11. idField - Значение атрибута data-id
+    12. enabled - Значение атрибута enabled (булевое)
+    13. required - Значение атрибута required (булевое)
+    */
+    function createInput (element, type, id, name, title, short, iconName, value, field, up, idField, enabled, required) {
         var idVal = "";
         if(idField) {
             idVal = ' data-id="' + idField + '"';
@@ -24,10 +39,14 @@
             upClass = ' upElem';
         }
         var enaBled = '';
-        if (enabled == false) {
+        if (enabled == true) {
             enaBled = ' disabled';
         }
-        $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-4 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-8">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + ' class="white form-control' + upClass + '"' + inputVal + '><div class="invalid-tooltip">Поле обязательно для заполнения</div>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
+        var reqUired = '';
+        if (required == true) {
+            reqUired = ' required';
+        }
+        $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-4 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-8">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired +' class="white form-control' + upClass + '"' + inputVal + '><div class="invalid-tooltip">Поле обязательно для заполнения</div>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
     }
 
     // Функция получения полей по выбору SELECT Запрос:Атрибут_поля:Название_поля:Значение_поля:Значение_выбранного_поля:ID_поля
@@ -102,7 +121,7 @@
                             valueDate = formatDate(row.field.valueDate, 1);
                         }
                     }
-                    createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.enabled);
+                    createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required);
                 }
                 if (row.field.fieldType === "TIME") {
                     if (id > 0) {
@@ -111,12 +130,13 @@
                             valueDate = formatTime(row.field.valueDate);
                         }
                     }
-                    createInput ("#blockUp", "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.enabled);
+                    createInput ("#blockUp", "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required);
                 }
                 if (row.field.fieldType === "GROUP_FIELDS") {
                     var groupFieldsElement = {
                         "field" : row.field,
-                        "enabled" : row.enabled
+                        "enabled" : row.enabled,
+                        "required" : row.required
                     }
                     groupFieldsArray.push(groupFieldsElement);
                 }
@@ -136,8 +156,12 @@
                     idField = ' data-id="' + rowFields.field.id + '"';
                 }
                 var enabled = '';
-                if(rowFields.enabled == false) {
+                if(rowFields.enabled == true) {
                     enabled = ' disabled';
+                }
+                var required = '';
+                if(rowFields.required == true) {
+                    required = ' required';
                 }
                 $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + blocKey + '" data-field="' + key + '"' + idField + '><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameGroup' + blocKey + '">Вопрос ' + dubKey + '</h6></div><div class="col-md-3 text-right"><div id="delGroup' + blocKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
                 $(".blockName").html(rowFields.field.name).attr("data-block" , rowFields.field.fieldId);
@@ -147,11 +171,14 @@
                         if(id > 0) {
                             idField = ' data-id="' + rowSelectField.id + '"';
                         }
-                        if(rowSelectField.enabled == false) {
+                        if(rowSelectField.enabled == true) {
                             enabled = ' disabled';
                         }
+                        if(rowSelectField.required == true) {
+                            required = ' required';
+                        }
                         var selectFieldName = "selectField" + rowSelectField.catalogId;
-                        $("#blockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + enabled + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                        $("#blockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + enabled + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
                         var numberCatalog = ('#blockGroup' + blocKey + ' #selectField' + rowSelectField.catalogId);
                         // Номер поля для отметки в селектах если нужно
                         var numberField = '';

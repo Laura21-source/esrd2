@@ -53,7 +53,7 @@
 <script>
     $(function() {
         // Список полей вида документов
-        createOptions("rest/profile/doctypes/", "#selectType", "name", "id", "");
+        createOptions("rest/profile/doctypes/", "#selectType", "name", "id", "", "", "", "", "", "", "", "");
 
         // Выбор типа документа
         $("#selectType").change(function() {
