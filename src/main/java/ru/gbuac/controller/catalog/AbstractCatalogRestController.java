@@ -24,6 +24,11 @@ public abstract class AbstractCatalogRestController {
         return catalogService.get(id);
     }
 
+    public List<Catalog> getChildCatalogsByElementId(int elementId) {
+        LOG.info("getChildCatalogByElementId " + elementId);
+        return catalogService.getChildCatalogsByElementId(elementId);
+    }
+
     public List<Catalog> getAll() {
         LOG.info("getAll");
         return catalogService.getAll();
