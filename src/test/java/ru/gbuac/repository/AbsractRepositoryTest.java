@@ -9,14 +9,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.dao.UserRepository;
-
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-
+@Transactional
 public abstract class AbsractRepositoryTest {
 
         protected MockMvc mockMvc;

@@ -18,7 +18,7 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 
    // @Query("SELECT r FROM Role r WHERE r.id=:id")
    // List<GrantedAuthority> getAuthoritiesByUsername(@Param("userName") String username);​
-    @Query("SELECT r FROM Role r WHERE r.id=:id")
+    @Query("SELECT r FROM Role r WHERE r.users IN :userName")
     List<Role> getRolesByUsername(@Param("userName") String username);
 
 }
