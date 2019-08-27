@@ -19,5 +19,4 @@ public class TestUtil {
     public static RequestPostProcessor userHttpBasic(String username, String password) {
         return SecurityMockMvcRequestPostProcessors.httpBasic(username, password);
     }
-
 }
