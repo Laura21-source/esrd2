@@ -16,17 +16,9 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Query("DELETE FROM User u WHERE u.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT FROM Role r WHERE r.id=:id")
-    List<GrantedAuthority> getAuthoritiesByUsername(@Param("userName") String username);
-​
-    @Query("SELECT r FROM Role r WHERE r id=:id")
+   // @Query("SELECT r FROM Role r WHERE r.id=:id")
+   // List<GrantedAuthority> getAuthoritiesByUsername(@Param("userName") String username);​
+    @Query("SELECT r FROM Role r WHERE r.id=:id")
     List<Role> getRolesByUsername(@Param("userName") String username);
-
-
-    @Query("SELECT new ru.gbuac.model.User.i) FROM User a " +
-            "WHERE a.id = " +
-            "(SELECT min(a1.id) FROM Answer a1, Question q " +
-            " WHERE a1.question.id = q.id AND q.id=:questionId AND a1.id > :id)")
-    AnswerTo getOneMoreThanId(@Param("id") int id, @Param("UserId") int questionId);
 
 }
