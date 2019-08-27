@@ -110,9 +110,7 @@ CREATE TABLE doctype_fields
     doctype_id          INTEGER                 NOT NULL,
     field_id            INTEGER                 NOT NULL,
     position            INTEGER                 NOT NULL,
-    required            BOOLEAN DEFAULT FALSE   NOT NULL,
-    role                VARCHAR                 NOT NULL,
-    CONSTRAINT c_doctype_fields UNIQUE (doctype_id, field_id, position, role),
+    CONSTRAINT c_doctype_fields UNIQUE (doctype_id, field_id, position),
     FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE,
     FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE
 );
