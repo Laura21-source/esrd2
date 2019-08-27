@@ -45,6 +45,5 @@ public class RoleRepositoryTest extends AbsractRepositoryTest {
         roleRepository.delete(savedRole.getId());
         List<Role> returnedRoles = roleRepository.findAll();
         Assert.assertEquals(Collections.emptyList(), returnedRoles);
-
     }
 }
