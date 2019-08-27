@@ -177,8 +177,8 @@ CREATE TABLE role
 
 CREATE TABLE user_roles
 (
-    user_id          INTEGER                         ,
-    role_id          INTEGER                         ,
+    user_id          INTEGER            NOT NULL,
+    role_id          INTEGER            NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
 );

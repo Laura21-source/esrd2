@@ -46,13 +46,22 @@ public abstract class AbsractRepositoryTest {
                     .build();
         }
 
-        User getUser() {
+        public User getUser() {
             return new User("user1", "Pupkin", "Vasya", "Vasilievich", "vasya@tut.ru", "123456", "specialist");
         }
 
-        User getUser2() {
+        public User getUser2() {
             return new User("user2", "Sokolov", "Eugeny", "Ivanovich", "sokol@tut.ru", "354553", "expert");
         }
+
+        @Before
+        public void clearRepository() {
+            for (User user : userRepository.findAll()) {
+                    userRepository.delete(user.getId());
+            }
+        }
+
+
 
 
 }
