@@ -78,10 +78,10 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <%--<a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Настройки</a>--%>
-                    <form:form class="dropdown-item" action="logout" method="post">
-                        <button type="submit">
+                    <form:form id="form-logout" class="dropdown-item" action="logout" method="post">
+                        <span type="submit" onclick="document.forms['form-logout'].submit();">
                             <i class="fas fa-sign-out-alt"></i> <spring:message code="app.quit"/>
-                        </button>
+                        </span>
                     </form:form>
                 </div>
             </li>
