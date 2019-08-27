@@ -22,4 +22,8 @@ public class Role extends NamedEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "roles")
     private List<User> users;
+
+    public Role(String name) {
+        this.name = name;
+    }
 }

@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.dao.UserRepository;
+import ru.gbuac.model.Role;
 import ru.gbuac.model.User;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -54,14 +55,22 @@ public abstract class AbsractRepositoryTest {
             return new User("user2", "Sokolov", "Eugeny", "Ivanovich", "sokol@tut.ru", "354553", "expert");
         }
 
+        public Role getRole() {
+            return new Role("секретарь");
+
+        }
+
+        public Role getRole2() {
+            return new Role("отраслевое управление");
+        }
+
         @Before
         public void clearRepository() {
             for (User user : userRepository.findAll()) {
                     userRepository.delete(user.getId());
             }
+            for (Role role : roleRepository.findAll()) {
+                roleRepository.delete(role.getId());
+            }
         }
-
-
-
-
 }
