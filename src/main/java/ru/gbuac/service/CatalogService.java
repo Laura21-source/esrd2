@@ -9,6 +9,8 @@ import java.util.List;
 public interface CatalogService {
     Catalog get(int id) throws NotFoundException;
 
+    List<Catalog> getChildCatalogsByElementId(int elementId);
+
     List<Catalog> getAll();
 
     Catalog save(Catalog catalog);

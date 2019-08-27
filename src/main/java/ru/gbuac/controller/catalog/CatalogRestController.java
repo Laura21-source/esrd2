@@ -20,6 +20,12 @@ public class CatalogRestController extends AbstractCatalogRestController {
     }
 
     @Override
+    @GetMapping(value = "/childs/{elementId}")
+    public List<Catalog> getChildCatalogsByElementId(@PathVariable("elementId") int elementId) {
+        return super.getChildCatalogsByElementId(elementId);
+    }
+
+    @Override
     @GetMapping
     public List<Catalog> getAll() {
         return super.getAll();

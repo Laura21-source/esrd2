@@ -28,6 +28,11 @@ public abstract class AbstractCatalogElemRestController {
         return catalogElemService.getAll(catalogId);
     }
 
+    public List<CatalogElemTo> getAllByParentCatalogElem(int catalogId, int idParentCatalogElem) {
+        LOG.info("getAllByParentCatalogElem");
+        return catalogElemService.getAllByParentCatalogElem(catalogId, idParentCatalogElem);
+    }
+
     public CatalogElem create(CatalogElem catalogElem) {
         LOG.info("create " + catalogElem);
         checkNew(catalogElem);

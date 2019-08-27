@@ -37,6 +37,18 @@ public class CatalogElemServiceImpl implements CatalogElemService{
     }
 
     @Override
+    public List<CatalogElemTo> getAllByParentCatalogElem(int catalogId, int idParentCatalogElem) {
+        List<CatalogElem> catalogElems = catalogElemRepository.getAllByParentCatalogElem(catalogId, idParentCatalogElem);
+        List<CatalogElemTo> catalogElemTos = new ArrayList<>();
+        for (CatalogElem c : catalogElems) {
+            catalogElemTos.add(new CatalogElemTo(c.getId(), null, c.getValueInt(),
+                    c.getValueStr(), c.getCatalog().getId()));
+        }
+
+        return catalogElemTos;
+    }
+
+    @Override
     public CatalogElem save(CatalogElem catalogElem) {
         Assert.notNull(catalogElem, "catalogElem must not be null");
         return catalogElemRepository.save(catalogElem);
