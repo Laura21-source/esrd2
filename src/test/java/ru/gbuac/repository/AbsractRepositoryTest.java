@@ -46,5 +46,13 @@ public abstract class AbsractRepositoryTest {
                     .build();
         }
 
+        User getUser() {
+            return new User("user1", "Pupkin", "Vasya", "Vasilievich", "vasya@tut.ru", "123456", "specialist");
+        }
+
+        User getUser2() {
+            return new User("user2", "Sokolov", "Eugeny", "Ivanovich", "sokol@tut.ru", "354553", "expert");
+        }
+
 
 }
