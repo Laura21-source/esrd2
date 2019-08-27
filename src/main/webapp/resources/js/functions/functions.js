@@ -167,30 +167,27 @@
                 if(id > 0) {
                     idField = ' data-id="' + rowFields.field.id + '"';
                 }
-                var enabled = '';
-                if(rowFields.enabled == false) {
-                    enabled = ' disabled';
-                }
-                var required = '';
-                if(rowFields.required == true) {
-                    required = ' required';
-                }
                 $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + blocKey + '" data-field="' + key + '"' + idField + '><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameGroup' + blocKey + '">Вопрос ' + dubKey + '</h6></div><div class="col-md-3 text-right"><div id="delGroup' + blocKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
-                $(".blockName").html(rowFields.field.name).attr("data-block" , rowFields.field.fieldId);
+                $(".blockName").html(rowFields.field.name).attr("data-block", rowFields.field.fieldId);
+                if(rowFields.field.enabled == false) {
+                    $(".addGroup").remove();
+                }
                 for (var y in rowFields.field.childFields) {
                     var rowSelectField = rowFields.field.childFields[y];
                     if (rowSelectField.fieldType === "CATALOG") {
                         if(id > 0) {
                             idField = ' data-id="' + rowSelectField.id + '"';
                         }
+                        var enaOpiton = '';
                         if(rowSelectField.enabled == false) {
-                            enabled = ' disabled';
+                            enaOpiton = ' disabled';
                         }
+                        var required = '';
                         if(rowSelectField.required == true) {
                             required = ' required';
                         }
                         var selectFieldName = "selectField" + rowSelectField.catalogId;
-                        $("#blockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + enabled + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                        $("#blockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
                         var numberCatalog = ('#blockGroup' + blocKey + ' #selectField' + rowSelectField.catalogId);
                         // Номер поля для отметки в селектах если нужно
                         var numberField = '';
