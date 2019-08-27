@@ -11,7 +11,7 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "users")
 public class User extends NamedEntity {
     @Column(name = "lastname")
     private String lastname;
@@ -32,6 +32,10 @@ public class User extends NamedEntity {
     private String position;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private List<Role> roles;
 
     public User(@NotBlank @SafeHtml String name, String lastname, String firstname, String patronym, String email,

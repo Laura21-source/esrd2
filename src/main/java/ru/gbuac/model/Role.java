@@ -20,6 +20,6 @@ public class Role extends NamedEntity {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "roles")
     private List<User> users;
 }
