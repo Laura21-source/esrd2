@@ -36,34 +36,8 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        var tableArray = getDocumentsArray("rest/profile/docs/agreement");
-        // Сортируемые таблицы
-        /*$('#dataTable').DataTable({
-            "ajax": tableArray,
-            "language": {
-                "processing": "Подождите...",
-                "search": "Поиск:",
-                "lengthMenu": "Показать _MENU_ записей",
-                "info": "Страница _PAGE_ из _PAGES_",
-                "infoEmpty": "",
-                "infoFiltered": "(отфильтровано из _MAX_ записей)",
-                "infoPostFix": "",
-                "loadingRecords": "Загрузка записей...",
-                "zeroRecords": "Записи отсутствуют.",
-                "emptyTable": "В таблице отсутствуют данные",
-                "paginate": {
-                    "first": "",
-                    "previous": "",
-                    "next": "",
-                    "last": ""
-                },
-                "aria": {
-                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
-                    "sortDescending": ": активировать для сортировки столбца по убыванию"
-                }
-            }
-        });
-        $('.dataTables_length').addClass('bs-select');*/
+        var dataTable = getDocumentsArray("rest/profile/docs/agreement");
+        console.log(dataTable);
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>

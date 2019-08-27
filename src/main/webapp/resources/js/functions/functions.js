@@ -3,6 +3,11 @@
         return array.length;
     }
 
+    // Получение id документа из адресной строки
+    function getId () {
+        return new URL(window.location.href).searchParams.get("id");
+    }
+
     // Функция получения текстового поля
     /*
     1. element - Элемент к которому добавляется поле
@@ -16,8 +21,8 @@
     9. field - Значение атрибута data-field
     10. up - Присвоени класса upElem (1 - да)
     11. idField - Значение атрибута data-id
-    12. enabled - Значение атрибута enabled (булевое)
-    13. required - Значение атрибута required (булевое)
+    12. enabled - Значение атрибута enabled (true - да)
+    13. required - Значение атрибута required (true - да)
     */
     function createInput (element, type, id, name, title, short, iconName, value, field, up, idField, enabled, required) {
         var idVal = "";
@@ -49,7 +54,14 @@
         $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-4 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-8">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired +' class="white form-control' + upClass + '"' + inputVal + '><div class="invalid-tooltip">Поле обязательно для заполнения</div>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
     }
 
-    // Функция получения полей по выбору SELECT Запрос:Атрибут_поля:Название_поля:Значение_поля:Значение_выбранного_поля:ID_поля
+    // Функция получения полей по выбору SELECT
+    /*
+    1. url - Запрос
+    2. field - Элемент SELECT к которому добавляется поле
+    3. name - Название поля
+    4. id - Значение атрибута value у выбранного поля
+    5. select - Значение атрибута value
+    */
     function createOptions (url, field, name, id, select) {
         $.getJSON (url, function(data) {
             for (var i in data) {
@@ -93,12 +105,12 @@
         return hours + ':' + minutes;
     }
 
-    // Получение id документа из адресной строки
-    function getId () {
-        return new URL(window.location.href).searchParams.get("id");
-    }
-
-    // Список полей по виду документа Путь:номер_документа:короткие_поля
+    // Список полей по виду документа
+    /*
+    1. url - Запрос
+    2. id - Номер документа
+    3. short - Цифровое значения короткого поля (1 - да)
+    */
     function getFieldsDocument (url, id, short) {
         $.getJSON (url, function(data) {
             // Массив для полей в одной группе
@@ -320,40 +332,54 @@
         });
     }
 
-    function getListArray (url) {
-        var getListArray = [];
-        var tableArray = '';
-        $.getJSON (url, function(data) {
-            for(var i in data) {
-                var row = data[i];
-                var newDate = formatDate(row.projectRegDateTime, 0);
-                var key = parseInt(i)+1;
-                var element = {
-                    "id" : key,
-                    "number" : row.projectRegNum,
-                    "date" : newDate,
-                    "name" : row.docType.name,
-                    "link" : "<a href='agree-document?id=" + row.id + "'><i class='fas fa-edit text-primary'></i></a>"
+    // Функция получения записей в таблицу
+    function dataTableArray (element, url) {
+        $(element).DataTable({
+            "columns": [
+                { 'data': 'docType.id' },
+                { 'data': 'id' },
+                { 'data': 'projectRegNum' },
+                { 'data': 'insertDateTime' },
+                { 'data': 'docType.name' },
+            ],
+            "ajax": {
+                "url" : url,
+                "dataSrc" : function(data) {
+                    $.each(data, function(i, item) {
+                        var key = parseInt(i)+1;
+                        item.docType.id = key;
+                        var number =  item.id;
+                        item.id = item.projectRegNum;
+                        item.projectRegNum = formatDate(item.insertDateTime, 0);
+                        item.insertDateTime = item.docType.name;
+                        item.docType.name = "<a href='agree-document?id=" + number + "'><i class='fas fa-edit text-primary'></i></a>";
+                    });
+                    return data;
                 }
-                getListArray.push(element);
-            }
-            //console.log(JSON.stringify(getListArray));
-            tableArray = {
-                "data" : getListArray
-            }
-            tableArray = JSON.stringify(tableArray);
-            //console.log(tableArray);
-            $.ajax({
-                type: "POST",
-                url: 'resources/files/datatable.txt',
-                data: tableArray,
-                contentType: 'application/json; charset=utf-8',
-                success: function() {
-                    alert("Получилось!");
+            },
+            "iDisplayLength": 25,
+            "language": {
+                "processing": "Подождите...",
+                "search": "Поиск:",
+                "lengthMenu": "Показать _MENU_ записей",
+                "info": "Страница _PAGE_ из _PAGES_",
+                "infoEmpty": "",
+                "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                "infoPostFix": "",
+                "loadingRecords": "Загрузка записей...",
+                "zeroRecords": "Записи отсутствуют.",
+                "emptyTable": "В таблице отсутствуют данные",
+                "paginate": {
+                    "first": "",
+                    "previous": "",
+                    "next": "",
+                    "last": ""
                 },
-                error: function() {
-                    alert("Фиг тебе!");
+                "aria": {
+                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                    "sortDescending": ": активировать для сортировки столбца по убыванию"
                 }
-            });
+            }
         });
+        $('.dataTables_length').addClass('bs-select');
     }
