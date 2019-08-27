@@ -17,6 +17,7 @@ public class FieldUtil {
     public static FieldTo asTo(Field field, List<Role> curUserRoles) {
         List<FieldTo> childFields = new ArrayList<>();
         for (Field childField : field.getChildField()) {
+            childField.setRole(field.getRole());
             childFields.add(asTo(childField, curUserRoles));
         }
         Boolean enabled = curUserRoles.contains(field.getRole());
@@ -29,6 +30,7 @@ public class FieldUtil {
     public static FieldTo asTo(ValuedField valuedField, List<Role> curUserRoles) {
         List<FieldTo> childFields = new ArrayList<>();
         for (ValuedField childField : valuedField.getChildValuedField()) {
+            childField.getField().setRole(valuedField.getField().getRole());
             childFields.add(asTo(childField, curUserRoles));
         }
         Field field = valuedField.getField();
