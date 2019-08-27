@@ -44,7 +44,7 @@
             upClass = ' upElem';
         }
         var enaBled = '';
-        if (enabled == true) {
+        if (enabled == false) {
             enaBled = ' disabled';
         }
         var reqUired = '';
@@ -168,7 +168,7 @@
                     idField = ' data-id="' + rowFields.field.id + '"';
                 }
                 var enabled = '';
-                if(rowFields.enabled == true) {
+                if(rowFields.enabled == false) {
                     enabled = ' disabled';
                 }
                 var required = '';
@@ -318,18 +318,6 @@
             "childFields" : childFields
         }
         return valueObj;
-    }
-
-    // Получение массива записей в таблице документов
-    function getDocumentsArray (url) {
-        $.getJSON (url, function(data) {
-           for(var i in data) {
-               var row = data[i];
-               var newDate = formatDate(row.projectRegDateTime, 0);
-               var key = parseInt(i)+1;
-               $('#rowContent').append('<tr></tr><td>' + key + '</td><td class="text-left">' + row.projectRegNum + '</td><td class="text-left">' + newDate + '</td><td class="text-left">' + row.docType.name + '</td><td><a href="agree-document?id=' + row.id + '"><i class="fas fa-edit text-primary pointer"></i></a></td></tr>');
-           }
-        });
     }
 
     // Функция получения записей в таблицу
