@@ -183,7 +183,7 @@
                         if(id > 0) {
                             idField = ' data-id="' + rowSelectField.id + '"';
                         }
-                        if(rowSelectField.enabled == true) {
+                        if(rowSelectField.enabled == false) {
                             enabled = ' disabled';
                         }
                         if(rowSelectField.required == true) {
