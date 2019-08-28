@@ -11,6 +11,7 @@ import ru.gbuac.model.DocValuedFields;
 import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.util.FieldUtil;
+import ru.gbuac.util.RolesUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     public List<DocFieldsTo> getAllFull(int docId, String userName) {
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
-        List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
+        List<Role> curUserRoles = RolesUtil.getPlainList(roleRepository.getRolesByUsername(userName));
 
         for (DocValuedFields d:docValuedFields) {
             docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles),

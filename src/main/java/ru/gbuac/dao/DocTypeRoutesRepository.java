@@ -16,10 +16,10 @@ public interface DocTypeRoutesRepository extends JpaRepository<DocTypeRoutes, In
     @Query("DELETE FROM DocTypeRoutes d WHERE d.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT d.userldap FROM DocTypeRoutes d WHERE d.agreeStage=:agreeStage AND d.docType.id=:docTypeId")
+    @Query("SELECT d.username FROM DocTypeRoutes d WHERE d.agreeStage=:agreeStage AND d.docType.id=:docTypeId")
     List<String> getGrantedUsersOnStageOfDocType(@Param("agreeStage") int agreeStage, @Param("docTypeId") int docTypeId);
 
-    @Query("SELECT d FROM DocTypeRoutes d WHERE d.userldap=:userName")
+    @Query("SELECT d FROM DocTypeRoutes d WHERE d.username=:userName")
     List<DocTypeRoutes> getByUserName(@Param("userName") String userName);
 
     @Query("SELECT max(d.agreeStage) FROM DocTypeRoutes d WHERE d.docType.id=:docTypeId")

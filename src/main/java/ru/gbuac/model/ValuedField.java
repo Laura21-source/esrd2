@@ -3,6 +3,8 @@ package ru.gbuac.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.SafeHtml;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +30,7 @@ public class ValuedField extends BaseEntity{
     private Integer valueInt;
 
     @Column(name = "value_str")
+    @SafeHtml
     private String valueStr;
 
     @Column(name = "value_date")
@@ -39,7 +42,9 @@ public class ValuedField extends BaseEntity{
     @Column(name = "value_datetime")
     private LocalDateTime valueDateTime;
 
-    public ValuedField(Integer id, List<ValuedField> childValuedField, Field field, CatalogElem catalogElem, Integer valueInt, String valueStr, LocalDateTime valueDate, LocalDateTime valueTime, LocalDateTime valueDateTime) {
+    public ValuedField(Integer id, List<ValuedField> childValuedField, Field field, CatalogElem catalogElem,
+                       Integer valueInt, @SafeHtml String valueStr, LocalDateTime valueDate,
+                       LocalDateTime valueTime, LocalDateTime valueDateTime) {
         super(id);
         this.childValuedField = childValuedField;
         this.field = field;

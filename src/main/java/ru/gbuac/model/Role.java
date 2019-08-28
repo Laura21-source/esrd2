@@ -1,13 +1,11 @@
 package ru.gbuac.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.SafeHtml;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -15,13 +13,18 @@ import java.util.List;
 @Getter
 @Setter
 @Table (name = "role")
-public class Role extends NamedEntity {
-
-    @Column(name = "name")
-    private String name;
+public class Role extends NamedEntity implements GrantedAuthority {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "roles")
     private List<User> users;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Role> childRole;
+
+    @Override
+    public String getAuthority() {
+        return this.getName();
+    }
 
     public Role(String name) {
         this.name = name;

@@ -25,52 +25,63 @@ import java.util.List;
 @Transactional
 public abstract class AbsractRepositoryTest {
 
-        protected MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
-        @Autowired
-        UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
-        @Autowired
-        RoleRepository roleRepository;
+    @Autowired
+    RoleRepository roleRepository;
 
-        @Autowired
-        private FilterChainProxy filterChainProxy;
+    @Autowired
+    private FilterChainProxy filterChainProxy;
 
-        @Autowired
-        private WebApplicationContext webApplicationContext;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
-        @PostConstruct
-        public void setup() throws Exception {
-            mockMvc = webAppContextSetup(webApplicationContext)
-                    .dispatchOptions(true)
-                    .addFilters(filterChainProxy)
-                    .build();
+    @PostConstruct
+    public void setup() throws Exception {
+        mockMvc = webAppContextSetup(webApplicationContext)
+                .dispatchOptions(true)
+                .addFilters(filterChainProxy)
+                .build();
+    }
+
+    public User getUser() {
+        return new User("user1", "Pupkin", "Vasya", "Vasilievich", "vasya@tut.ru", "123456", "specialist");
+    }
+
+    public User getUser2() {
+        return new User("user2", "Sokolov", "Eugeny", "Ivanovich", "sokol@tut.ru", "354553", "expert");
+    }
+
+    public Role getRole() {
+        return new Role("Секретарь правления");
+    }
+
+    public Role getRole2() {
+        return new Role("Отраслевое управление");
+    }
+
+    public Role getChildRole() {
+        return new Role("Дата повестки");
+    }
+
+    public Role getChildRole2() {
+        return new Role("Время повестки");
+    }
+
+    public Role getChildRole3() {
+        return new Role("Вопросы повестки");
+    }
+
+    @Before
+    public void clearRepository() {
+        for (Role role : roleRepository.findAll()) {
+            roleRepository.delete(role.getId());
         }
-
-        public User getUser() {
-            return new User("user1", "Pupkin", "Vasya", "Vasilievich", "vasya@tut.ru", "123456", "specialist");
+        for (User user : userRepository.findAll()) {
+            userRepository.delete(user.getId());
         }
-
-        public User getUser2() {
-            return new User("user2", "Sokolov", "Eugeny", "Ivanovich", "sokol@tut.ru", "354553", "expert");
-        }
-
-        public Role getRole() {
-            return new Role("секретарь");
-
-        }
-
-        public Role getRole2() {
-            return new Role("отраслевое управление");
-        }
-
-        @Before
-        public void clearRepository() {
-            for (User user : userRepository.findAll()) {
-                    userRepository.delete(user.getId());
-            }
-            for (Role role : roleRepository.findAll()) {
-                roleRepository.delete(role.getId());
-            }
-        }
+    }
 }

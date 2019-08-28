@@ -9,6 +9,7 @@ import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.util.FieldUtil;
+import ru.gbuac.util.RolesUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
 
     @Override
     public List<DocFieldsTo> getAllFullByUserName(int docTypeId, String userName) {
-        List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
+        List<Role> curUserRoles = RolesUtil.getPlainList(roleRepository.getRolesByUsername(userName));
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 

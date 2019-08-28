@@ -105,9 +105,9 @@ INSERT INTO public.catalogelem (id, value_int, value_str, catalog_id, parent_cat
 INSERT INTO public.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2076, null, 'централизованная система водоотведения', 1005, null);
 INSERT INTO public.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2017, null, 'О корректировке долгосрочных тарифов', 1002, 2007);
 
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role, tag) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null, true, 'ROLE_POVESTKA', 'MeetingDate');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role, tag) VALUES (5, 'Время заседания', 'TIME', null, null, null, null, true, 'ROLE_SECRETARY', 'MeetingTime');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role, tag) VALUES (6, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, true, 'ROLE_POVESTKA_QUESTIONS', '');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null, true, 3003, 'MeetingDate');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (5, 'Время заседания', 'TIME', null, null, null, null, true, 3004, 'MeetingTime');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (6, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, true, 3005, '');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (7, 'Предмет вопроса', 'CATALOG', null, null, null, 1001, true, '[Questions]Subject');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (8, 'Вопрос', 'CATALOG', null, null, null, 1002, false, '[Questions]Question');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (9, 'Сфера деятельности', 'CATALOG', null, null, null, 1003, false, '[Questions]Direction');
@@ -133,13 +133,24 @@ INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (1
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (17, 1, 5, 2);
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 6, 3);
 
-INSERT INTO public.doctype_routes (id, doctype_id, userldap, agree_stage) VALUES (20, 1, 'user2', 1);
-INSERT INTO public.doctype_routes (id, doctype_id, userldap, agree_stage) VALUES (21, 1, 'admin', 2);
+INSERT INTO public.doctype_routes (id, doctype_id, username, agree_stage)VALUES (20, 1, 'user2', 1);
+INSERT INTO public.doctype_routes (id, doctype_id, username, agree_stage)VALUES (21, 1, 'admin', 2);
 
-INSERT INTO public.user_roles (userldap, role) VALUES ('user1', 'ROLE_POVESTKA');
-INSERT INTO public.user_roles (userldap, role) VALUES ('user1', 'ROLE_POVESTKA_QUESTIONS');
-INSERT INTO public.user_roles (userldap, role) VALUES ('user2', 'ROLE_POVESTKA');
-INSERT INTO public.user_roles (userldap, role) VALUES ('user2', 'ROLE_SECRETARY');
-INSERT INTO public.user_roles (userldap, role) VALUES ('admin', 'ROLE_POVESTKA');
-INSERT INTO public.user_roles (userldap, role) VALUES ('admin', 'ROLE_POVESTKA_QUESTIONS');
-INSERT INTO public.user_roles (userldap, role) VALUES ('admin', 'ROLE_SECRETARY');
+INSERT INTO public.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4000, 'admin', 'Махров', 'Станислав', 'Станиславович', 'MakhrovSS1@mos.ru', '15-451', 'Начальник отдела');
+INSERT INTO public.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4001, 'user1', 'Петров', 'Петр', 'Петрович', 'PetrovPP@mos.ru', null, 'Главный специалист');
+INSERT INTO public.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4002, 'user2', 'Широкова', 'Елена', 'Юрьевна', 'IvanovII@mos.ru', null, 'Заместитель начальника Управления');
+
+INSERT INTO public.role (id, name) VALUES (3000, 'Администратор');
+INSERT INTO public.role (id, name) VALUES (3001, 'Отраслевое управление');
+INSERT INTO public.role (id, name) VALUES (3002, 'Секретарь Правления');
+INSERT INTO public.role (id, name) VALUES (3003, 'Дата повестки');
+INSERT INTO public.role (id, name) VALUES (3004, 'Время повестки');
+INSERT INTO public.role (id, name) VALUES (3005, 'Вопросы повестки');
+
+INSERT INTO public.role_child_role (role_id, child_role_id) VALUES (3001, 3003);
+INSERT INTO public.role_child_role (role_id, child_role_id) VALUES (3001, 3005);
+INSERT INTO public.role_child_role (role_id, child_role_id) VALUES (3002, 3003);
+
+INSERT INTO public.user_roles (user_id, role_id) VALUES (4000, 3000);
+INSERT INTO public.user_roles (user_id, role_id) VALUES (4001, 3001);
+INSERT INTO public.user_roles (user_id, role_id) VALUES (4002, 3002);

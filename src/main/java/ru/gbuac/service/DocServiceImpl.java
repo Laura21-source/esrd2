@@ -100,10 +100,10 @@ public class DocServiceImpl implements DocService {
         Assert.notNull(docTo, "doc must not be null");
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTo.getDocTypeId());
 
-        Long existRole = 0L;
+        long existRole = 0L;
         for (DocFieldsTo d:docTo.getChildFields()) {
             existRole += docTypeFields.stream()
-                    .filter(f -> f.getField().getId() == d.getField().getFieldId()).count();
+                    .filter(f -> f.getField().getId().equals(d.getField().getFieldId())).count();
         }
         if (existRole == 0) {
             throw new UnauthorizedUserException();
@@ -249,7 +249,7 @@ public class DocServiceImpl implements DocService {
         Integer curAgreementStage = doc.getCurrentAgreementStage();
         Boolean isFinalStage = docTypeRoutesRepository.getFinalStageForDocType(docTypeId) == curAgreementStage;
 
-        List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
+        List<Role> curUserRoles = RolesUtil.getPlainList(roleRepository.getRolesByUsername(userName));
         List<DocValuedFields> docValuedFields = doc.getDocValuedFields();
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 

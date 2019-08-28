@@ -2,7 +2,9 @@ package ru.gbuac.repository;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.security.core.GrantedAuthority;
 import ru.gbuac.model.Role;
+import ru.gbuac.model.User;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,5 +47,31 @@ public class RoleRepositoryTest extends AbsractRepositoryTest {
         roleRepository.delete(savedRole.getId());
         List<Role> returnedRoles = roleRepository.findAll();
         Assert.assertEquals(Collections.emptyList(), returnedRoles);
+    }
+
+    @Test
+    public void getRolesByUsername() {
+        Role savedRole1 = roleRepository.save(getRole());
+        Role savedRole2 = roleRepository.save(getRole2());
+        User newUser = getUser();
+        savedRole1.setUsers(Arrays.asList(newUser));
+        savedRole2.setUsers(Arrays.asList(newUser));
+        newUser.setRoles(Arrays.asList(savedRole1, savedRole2));
+        User returnedUser = userRepository.save(newUser);
+        List<Role> returnedRoles = roleRepository.getRolesByUsername(returnedUser.getName());
+        Assert.assertEquals(Arrays.asList(savedRole1, savedRole2), returnedRoles);
+    }
+
+    @Test
+    public void getAuthoritiesByUsername() {
+        Role savedRole1 = roleRepository.save(getRole());
+        Role savedRole2 = roleRepository.save(getRole2());
+        User newUser = getUser();
+        savedRole1.setUsers(Arrays.asList(newUser));
+        savedRole2.setUsers(Arrays.asList(newUser));
+        newUser.setRoles(Arrays.asList(savedRole1, savedRole2));
+        User returnedUser = userRepository.save(newUser);
+        List<GrantedAuthority> returnedRoles = roleRepository.getAuthoritiesByUsername(returnedUser.getName());
+        Assert.assertEquals(Arrays.asList(savedRole1, savedRole2), returnedRoles);
     }
 }

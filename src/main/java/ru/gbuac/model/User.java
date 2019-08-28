@@ -14,21 +14,27 @@ import java.util.*;
 @Table(name = "users")
 public class User extends NamedEntity {
     @Column(name = "lastname")
+    @SafeHtml
     private String lastname;
 
     @Column(name = "firstname")
+    @SafeHtml
     private String firstname;
 
     @Column(name = "patronym")
+    @SafeHtml
     private String patronym;
 
     @Column(name = "email")
+    @SafeHtml
     private String email;
 
     @Column(name = "phone")
+    @SafeHtml
     private String phone;
 
     @Column(name = "position")
+    @SafeHtml
     private String position;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

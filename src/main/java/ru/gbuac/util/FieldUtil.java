@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FieldUtil {
 
-    public FieldUtil() {
+    private FieldUtil() {
     }
 
     public static FieldTo asTo(Field field, List<Role> curUserRoles) {

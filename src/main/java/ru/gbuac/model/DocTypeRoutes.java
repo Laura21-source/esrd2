@@ -21,7 +21,7 @@ public class DocTypeRoutes extends BaseEntity {
     @JsonIgnore
     private DocType docType;
 
-    private String userldap;
+    private String username;
 
     @Column(name = "agree_stage")
     private Integer agreeStage;
