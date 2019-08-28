@@ -100,7 +100,7 @@ public final class AuthProvider extends AbstractLdapAuthenticationProvider {
     }
 
     private List<GrantedAuthority> getUserAuthorities(String username) {
-        return roleRepository.getAuthoritiesByUsername(username.toLowerCase());
+        return null; // roleRepository.getAuthoritiesByUsername(username.toLowerCase());
     }
 
     private DirContext bindAsUser(String username, String password) {

@@ -1,15 +1,29 @@
 package ru.gbuac.model;
 
-import org.springframework.security.core.GrantedAuthority;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.validator.constraints.SafeHtml;
 
-public enum Role implements GrantedAuthority {
-    ROLE_ADMIN,
-    ROLE_POVESTKA,
-    ROLE_POVESTKA_QUESTIONS,
-    ROLE_SECRETARY;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
-    @Override
-    public String getAuthority() {
-        return name();
+@Entity
+@NoArgsConstructor
+@Getter
+@Setter
+@Table (name = "role")
+public class Role extends NamedEntity {
+
+    @Column(name = "name")
+    private String name;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "roles")
+    private List<User> users;
+
+    public Role(String name) {
+        this.name = name;
     }
 }

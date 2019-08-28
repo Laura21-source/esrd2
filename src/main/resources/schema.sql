@@ -146,4 +146,31 @@ CREATE TABLE doc_valuedfields
     FOREIGN KEY (valuedfield_id) REFERENCES valuedfield (id) ON DELETE CASCADE
 );
 
+CREATE TABLE users
+(
+    id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name        VARCHAR                 NOT NULL,
+    lastname    VARCHAR                         ,
+    firstname   VARCHAR                         ,
+    patronym    VARCHAR                         ,
+    email       VARCHAR                         ,
+    phone       VARCHAR                         ,
+    position    VARCHAR
+);
+
+
+CREATE TABLE role
+(
+    id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name        VARCHAR                 NOT NULL
+);
+
+CREATE TABLE user_roles
+(
+    user_id          INTEGER            NOT NULL,
+    role_id          INTEGER            NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
+);
+
 

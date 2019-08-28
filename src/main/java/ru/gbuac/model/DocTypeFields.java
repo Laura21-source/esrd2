@@ -26,4 +26,7 @@ public class DocTypeFields extends BaseEntity {
 
     @NotNull
     private Integer position;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Role role;
 }
