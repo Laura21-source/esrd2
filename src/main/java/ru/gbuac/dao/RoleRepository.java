@@ -17,9 +17,12 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     int delete(@Param("id") int id);
 
     @Query("SELECT r FROM Role r JOIN r.users u WHERE u.name IN :userName")
-    List<GrantedAuthority> getAuthoritiesByUsername(@Param("userName") String username);
+    List<GrantedAuthority> getAuthoritiesByUsername(@Param("userName") String userName);
 
     @Query("SELECT r FROM Role r JOIN r.users u WHERE u.name IN :userName")
-    List<Role> getRolesByUsername(@Param("userName") String username);
+    List<Role> getRolesByUsername(@Param("userName") String userName);
+
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Role r JOIN r.users u WHERE u.name=:userName AND r.name=:role")
+    boolean isUsernameHasRole(@Param("userName") String userName, @Param("role") String role);
 
 }

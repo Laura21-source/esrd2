@@ -3,6 +3,7 @@ package ru.gbuac.controller.doc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocType;
 import ru.gbuac.to.DocTo;
@@ -30,6 +31,18 @@ public class DocRestController extends AbstractDocRestController {
     @GetMapping(value = "/agreement")
     public List<Doc> getAllAgreementByUsername() {
         return super.getAllAgreementByUsername();
+    }
+
+    @Override
+    @GetMapping(value = "/agreed")
+    public List<Doc> getAllAgreedByUsername() {
+        return super.getAllAgreedByUsername();
+    }
+
+    @Override
+    @GetMapping(value = "/registered")
+    public List<Doc> getAllRegisteredByUsername() {
+        return super.getAllRegisteredByUsername();
     }
 
     @Override

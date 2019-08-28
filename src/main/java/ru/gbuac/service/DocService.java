@@ -14,6 +14,10 @@ public interface DocService {
 
     List<Doc> getAllAgreementByUsername(String userName);
 
+    List<Doc> getAllAgreedByUsername(String userName);
+
+    List<Doc> getAllRegisteredByUsername(String userName);
+
     List<Doc> getAll();
 
     DocTo save(DocTo doc, String userName, String rootPath);

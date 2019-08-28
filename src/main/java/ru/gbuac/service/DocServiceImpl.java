@@ -2,6 +2,9 @@ package ru.gbuac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.*;
@@ -77,6 +80,26 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
+    public List<Doc> getAllAgreedByUsername(String userName) {
+        List<Doc> viewDocs = new ArrayList<>();
+        for (DocTypeRoutes docTypeRoute: docTypeRoutesRepository.getByUserName(userName)) {
+            viewDocs.addAll(docRepository.getAllAgreedByDocTypeAndStage(
+                    docTypeRoute.getDocType().getId(), docTypeRoute.getAgreeStage()));
+        }
+        return viewDocs;
+    }
+
+    @Override
+    public List<Doc> getAllRegisteredByUsername(String userName) {
+        List<Doc> viewDocs = new ArrayList<>();
+        for (DocTypeRoutes docTypeRoute: docTypeRoutesRepository.getByUserName(userName)) {
+            viewDocs.addAll(docRepository.getAllRegisteredByDocTypeAndStage(
+                    docTypeRoute.getDocType().getId(), docTypeRoute.getAgreeStage()));
+        }
+        return viewDocs;
+    }
+
+    @Override
     public List<Doc> getAll() {
         return docRepository.getAll();
     }
@@ -100,12 +123,12 @@ public class DocServiceImpl implements DocService {
         Assert.notNull(docTo, "doc must not be null");
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTo.getDocTypeId());
 
-        long existRole = 0L;
-        for (DocFieldsTo d:docTo.getChildFields()) {
-            existRole += docTypeFields.stream()
-                    .filter(f -> f.getField().getId().equals(d.getField().getFieldId())).count();
-        }
-        if (existRole == 0) {
+        boolean hasRights =
+                docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docTo.getCurrentAgreementStage(),
+                        docTo.getDocTypeId(), userName);
+        boolean isAdmin = roleRepository.isUsernameHasRole(userName, "ADMIN");
+
+        if (!hasRights && !isAdmin) {
             throw new UnauthorizedUserException();
         }
 
@@ -210,7 +233,6 @@ public class DocServiceImpl implements DocService {
                     break;
             }
         }
-
     }
 
     @Override

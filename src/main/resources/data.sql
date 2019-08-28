@@ -133,14 +133,11 @@ INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (1
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (17, 1, 5, 2);
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 6, 3);
 
-INSERT INTO public.doctype_routes (id, doctype_id, username, agree_stage)VALUES (20, 1, 'user2', 1);
-INSERT INTO public.doctype_routes (id, doctype_id, username, agree_stage)VALUES (21, 1, 'admin', 2);
-
 INSERT INTO public.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4000, 'admin', 'Махров', 'Станислав', 'Станиславович', 'MakhrovSS1@mos.ru', '15-451', 'Начальник отдела');
 INSERT INTO public.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4001, 'user1', 'Петров', 'Петр', 'Петрович', 'PetrovPP@mos.ru', null, 'Главный специалист');
 INSERT INTO public.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4002, 'user2', 'Широкова', 'Елена', 'Юрьевна', 'IvanovII@mos.ru', null, 'Заместитель начальника Управления');
 
-INSERT INTO public.role (id, name) VALUES (3000, 'Администратор');
+INSERT INTO public.role (id, name) VALUES (3000, 'ADMIN');
 INSERT INTO public.role (id, name) VALUES (3001, 'Отраслевое управление');
 INSERT INTO public.role (id, name) VALUES (3002, 'Секретарь Правления');
 INSERT INTO public.role (id, name) VALUES (3003, 'Дата повестки');
@@ -154,3 +151,6 @@ INSERT INTO public.role_child_role (role_id, child_role_id) VALUES (3002, 3003);
 INSERT INTO public.user_roles (user_id, role_id) VALUES (4000, 3000);
 INSERT INTO public.user_roles (user_id, role_id) VALUES (4001, 3001);
 INSERT INTO public.user_roles (user_id, role_id) VALUES (4002, 3002);
+
+INSERT INTO public.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (20, 1, '4002', 1);
+INSERT INTO public.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, '4000', 2);

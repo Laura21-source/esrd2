@@ -19,6 +19,12 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId AND d.currentAgreementStage=:stage AND d.regNum IS NULL")
     List<Doc> getAllAgreementByDocTypeAndStage(@Param("docTypeId") int docTypeId, @Param("stage") int stage);
 
+    @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId AND d.currentAgreementStage>:stage")
+    List<Doc> getAllAgreedByDocTypeAndStage(@Param("docTypeId") int docTypeId, @Param("stage") int stage);
+
+    @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId AND d.currentAgreementStage>:stage AND d.regNum IS NOT NULL")
+    List<Doc> getAllRegisteredByDocTypeAndStage(@Param("docTypeId") int docTypeId, @Param("stage") int stage);
+
     @Query("SELECT d FROM Doc d ORDER BY d.regDateTime, d.projectRegDateTime ASC ")
     List<Doc> getAll();
 
