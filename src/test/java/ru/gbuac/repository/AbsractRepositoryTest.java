@@ -77,9 +77,6 @@ public abstract class AbsractRepositoryTest {
 
     @Before
     public void clearRepository() {
-        for (Role role : roleRepository.findAll()) {
-            roleRepository.delete(role.getId());
-        }
         for (User user : userRepository.findAll()) {
             userRepository.delete(user.getId());
         }

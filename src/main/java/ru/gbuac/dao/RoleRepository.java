@@ -13,7 +13,7 @@ import java.util.List;
 public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Transactional
     @Modifying
-    @Query("DELETE FROM User u WHERE u.id=:id")
+    @Query("DELETE FROM Role r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
     @Query("SELECT r FROM Role r JOIN r.users u WHERE u.name IN :userName")

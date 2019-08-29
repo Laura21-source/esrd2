@@ -20,10 +20,13 @@ public class RoleRepositoryTest extends AbsractRepositoryTest {
 
     @Test
     public void getAll() {
+        List<Role> existedRoles = roleRepository.findAll();
         Role savedRole1 = roleRepository.save(getRole());
         Role savedRole2 = roleRepository.save(getRole2());
         List<Role> returnedRoles = roleRepository.findAll();
-        Assert.assertEquals(Arrays.asList(savedRole1, savedRole2), returnedRoles);
+        existedRoles.add(savedRole1);
+        existedRoles.add(savedRole2);
+        Assert.assertEquals(existedRoles, returnedRoles);
     }
 
     @Test
@@ -43,10 +46,13 @@ public class RoleRepositoryTest extends AbsractRepositoryTest {
 
     @Test
     public void delete() {
+        List<Role> existedRoles = roleRepository.findAll();
         Role savedRole = roleRepository.save(getRole());
-        roleRepository.delete(savedRole.getId());
         List<Role> returnedRoles = roleRepository.findAll();
-        Assert.assertEquals(Collections.emptyList(), returnedRoles);
+        existedRoles.add(savedRole);
+        roleRepository.delete(savedRole.getId());
+        Assert.assertEquals(existedRoles, returnedRoles);
+
     }
 
     @Test
