@@ -148,7 +148,7 @@ INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 10);
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 11);
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 12);
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 13);
---INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 14);
+INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 14);
 --INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 15);
 
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (16, 1, 4, 1);
