@@ -133,11 +133,10 @@ public class DocServiceImpl implements DocService {
         Doc docToSave = prepareToPersist(createNewDocFromTo(docTo));
         boolean hasRights = false;
         if (docTo.isNew()) {
-            hasRights =
-                    docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docToSave.getCurrentAgreementStage(),
-                            docTo.getDocTypeId(), userName);
-        } else {
             hasRights = AuthorizedUser.hasRole(docTypeRepository.findById(docTo.getId()).orElse(null).getRole().getAuthority());
+        } else {
+            hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docToSave.getCurrentAgreementStage(),
+                    docTo.getDocTypeId(), userName);
         }
 
         //TODO необходимо написать проверку: соответствют ли
