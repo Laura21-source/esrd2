@@ -2,9 +2,6 @@ package ru.gbuac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.AuthorizedUser;
@@ -103,6 +100,16 @@ public class DocServiceImpl implements DocService {
     @Override
     public List<Doc> getAll() {
         return docRepository.getAll();
+    }
+
+    @Override
+    public List<Doc> getAllAgreement() {
+        return docRepository.getAllAgreement();
+    }
+
+    @Override
+    public List<Doc> getAllRegistered() {
+        return docRepository.getAllRegistered();
     }
 
     private Doc prepareToPersist(Doc doc) {

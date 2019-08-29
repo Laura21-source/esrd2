@@ -17,7 +17,7 @@ public class FieldUtil {
             childField.setRole(field.getRole());
             childFields.add(asTo(childField, curUserRoles));
         }
-        Boolean enabled = curUserRoles.contains(field.getRole().getAuthority());
+        Boolean enabled = curUserRoles.contains(field.getRole().getAuthority()) || curUserRoles.contains("ROLE_ADMIN");
         Integer catalog_id = getCatalogId(field.getCatalog());
         Integer parentCatalog_id = getParentCatalogId(field.getCatalog());
 
@@ -41,7 +41,7 @@ public class FieldUtil {
             childFields.add(asTo(childField, curUserRoles));
         }
         Field field = valuedField.getField();
-        Boolean enabled = curUserRoles.contains(field.getRole().getAuthority());
+        Boolean enabled = curUserRoles.contains(field.getRole().getAuthority()) || curUserRoles.contains("ROLE_ADMIN");
         Integer catalog_id = getCatalogId(field.getCatalog());
         Integer parentCatalog_id = getParentCatalogId(field.getCatalog());
 

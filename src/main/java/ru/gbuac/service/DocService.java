@@ -20,6 +20,10 @@ public interface DocService {
 
     List<Doc> getAll();
 
+    List<Doc> getAllAgreement();
+
+    List<Doc> getAllRegistered();
+
     DocTo save(DocTo doc, String userName, String rootPath);
 
     DocTo update(DocTo docTo, int id, String userName, String rootPath) throws NotFoundException;
