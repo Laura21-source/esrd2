@@ -56,30 +56,15 @@ public abstract class AbsractRepositoryTest {
     }
 
     public Role getRole() {
-        return new Role("Секретарь правления");
+        return new Role("Тестовая роль 1");
     }
 
     public Role getRole2() {
-        return new Role("Отраслевое управление");
-    }
-
-    public Role getChildRole() {
-        return new Role("Дата повестки");
-    }
-
-    public Role getChildRole2() {
-        return new Role("Время повестки");
-    }
-
-    public Role getChildRole3() {
-        return new Role("Вопросы повестки");
+        return new Role("Тестовая роль 2");
     }
 
     @Before
     public void clearRepository() {
-        for (Role role : roleRepository.findAll()) {
-            roleRepository.delete(role.getId());
-        }
         for (User user : userRepository.findAll()) {
             userRepository.delete(user.getId());
         }
