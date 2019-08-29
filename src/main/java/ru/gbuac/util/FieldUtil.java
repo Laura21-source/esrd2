@@ -11,13 +11,13 @@ public class FieldUtil {
     private FieldUtil() {
     }
 
-    public static FieldTo asTo(Field field, List<Role> curUserRoles) {
+    public static FieldTo asTo(Field field, List<String> curUserRoles) {
         List<FieldTo> childFields = new ArrayList<>();
         for (Field childField : field.getChildField()) {
             childField.setRole(field.getRole());
             childFields.add(asTo(childField, curUserRoles));
         }
-        Boolean enabled = curUserRoles.contains(field.getRole());
+        Boolean enabled = curUserRoles.contains(field.getRole().getAuthority());
         Integer catalog_id = getCatalogId(field.getCatalog());
         Integer parentCatalog_id = getParentCatalogId(field.getCatalog());
 
@@ -34,14 +34,14 @@ public class FieldUtil {
         return catalog != null ? catalog.getParentCatalog() : null;
     }
 
-    public static FieldTo asTo(ValuedField valuedField, List<Role> curUserRoles) {
+    public static FieldTo asTo(ValuedField valuedField, List<String> curUserRoles) {
         List<FieldTo> childFields = new ArrayList<>();
         for (ValuedField childField : valuedField.getChildValuedField()) {
             childField.getField().setRole(valuedField.getField().getRole());
             childFields.add(asTo(childField, curUserRoles));
         }
         Field field = valuedField.getField();
-        Boolean enabled = curUserRoles.contains(field.getRole());
+        Boolean enabled = curUserRoles.contains(field.getRole().getAuthority());
         Integer catalog_id = getCatalogId(field.getCatalog());
         Integer parentCatalog_id = getParentCatalogId(field.getCatalog());
 

@@ -23,7 +23,7 @@ public class Role extends NamedEntity implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return this.getName();
+        return "ROLE_" + this.getName();
     }
 
     public Role(String name) {

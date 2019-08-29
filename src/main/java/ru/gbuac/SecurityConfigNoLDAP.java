@@ -51,9 +51,11 @@ public class SecurityConfigNoLDAP extends WebSecurityConfigurerAdapter {
                 .inMemoryAuthentication()
                 .withUser("admin").password("{noop}admin").roles("ADMIN")
                 .and()
-                .withUser("user1").password("{noop}user1").roles("USER")
+                .withUser("user1").password("{noop}user1")
+                    .roles("USER","Отраслевое управление", "Дата повестки", "Вопросы повестки")
                 .and()
-                .withUser("user2").password("{noop}user2").roles("USER");
+                .withUser("user2").password("{noop}user2")
+                    .roles("USER", "Секретарь Правления", "Дата повестки", "Время повестки");
     }
 
 

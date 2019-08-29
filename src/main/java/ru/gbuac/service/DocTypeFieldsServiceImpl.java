@@ -3,13 +3,12 @@ package ru.gbuac.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.DocTypeFieldsRepository;
 import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.model.DocTypeFields;
-import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.util.FieldUtil;
-import ru.gbuac.util.RolesUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
 
     @Override
     public List<DocFieldsTo> getAllFullByUserName(int docTypeId, String userName) {
-        List<Role> curUserRoles = RolesUtil.getPlainList(roleRepository.getRolesByUsername(userName));
+        List<String> curUserRoles = AuthorizedUser.getRoles();
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 

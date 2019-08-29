@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS role_child_role;
 DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS doctype_routes;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS field_child_field;
@@ -10,6 +9,7 @@ DROP TABLE IF EXISTS valuedfield_child_valued_field;
 DROP TABLE IF EXISTS doc_valuedfields;
 DROP TABLE IF EXISTS doc;
 DROP TABLE IF EXISTS doctype;
+DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS valuedfield;
 DROP TABLE IF EXISTS catalogelem;
 DROP TABLE IF EXISTS catalog;
@@ -20,38 +20,6 @@ DROP SEQUENCE IF EXISTS depr_seq;
 CREATE SEQUENCE global_seq START 100000;
 CREATE SEQUENCE agreement_seq START 1;
 CREATE SEQUENCE depr_seq START 1;
-
-CREATE TABLE doctype
-(
-    id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name             VARCHAR                 NOT NULL
-);
-
-CREATE TABLE doc
-(
-    id                      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    doctype_id              INTEGER                      NOT NULL,
-    reg_num                 VARCHAR                              ,
-    reg_datetime            TIMESTAMP                            ,
-    project_reg_num         VARCHAR                      NOT NULL,
-    project_reg_datetime    TIMESTAMP DEFAULT now()      NOT NULL,
-    insert_datetime         TIMESTAMP DEFAULT now()      NOT NULL,
-    cur_agree_stage         INTEGER                              ,
-    url_pdf                 VARCHAR                              ,
-    FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
-);
-
-CREATE TABLE users
-(
-    id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name        VARCHAR                 NOT NULL,
-    lastname    VARCHAR                         ,
-    firstname   VARCHAR                         ,
-    patronym    VARCHAR                         ,
-    email       VARCHAR                         ,
-    phone       VARCHAR                         ,
-    position    VARCHAR
-);
 
 CREATE TABLE role
 (
@@ -67,12 +35,46 @@ CREATE TABLE role_child_role
     FOREIGN KEY (child_role_id) REFERENCES role (id) ON DELETE CASCADE
 );
 
+CREATE TABLE users
+(
+    id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name        VARCHAR                 NOT NULL,
+    lastname    VARCHAR                         ,
+    firstname   VARCHAR                         ,
+    patronym    VARCHAR                         ,
+    email       VARCHAR                         ,
+    phone       VARCHAR                         ,
+    position    VARCHAR
+);
+
 CREATE TABLE user_roles
 (
     user_id          INTEGER            NOT NULL,
     role_id          INTEGER            NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
+);
+
+CREATE TABLE doctype
+(
+    id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name             VARCHAR                 NOT NULL,
+    role_id          INTEGER                 NOT NULL,
+    FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
+);
+
+CREATE TABLE doc
+(
+    id                      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    doctype_id              INTEGER                      NOT NULL,
+    reg_num                 VARCHAR                              ,
+    reg_datetime            TIMESTAMP                            ,
+    project_reg_num         VARCHAR                      NOT NULL,
+    project_reg_datetime    TIMESTAMP DEFAULT now()      NOT NULL,
+    insert_datetime         TIMESTAMP DEFAULT now()      NOT NULL,
+    cur_agree_stage         INTEGER                              ,
+    url_pdf                 VARCHAR                              ,
+    FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE
 );
 
 CREATE TABLE doctype_routes
@@ -125,7 +127,8 @@ CREATE TABLE field
     required          BOOLEAN DEFAULT FALSE   NOT NULL,
     role_id           INTEGER                         ,
     tag               VARCHAR                         ,
-    FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE
+    FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
 );
 
 CREATE TABLE field_child_field

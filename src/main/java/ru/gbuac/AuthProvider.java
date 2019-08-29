@@ -13,6 +13,7 @@ import org.springframework.security.ldap.authentication.AbstractLdapAuthenticati
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import ru.gbuac.dao.RoleRepository;
+import ru.gbuac.model.Role;
 
 import javax.naming.AuthenticationException;
 import javax.naming.NamingException;
@@ -21,12 +22,10 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.ldap.Control;
 import javax.naming.ldap.InitialLdapContext;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public final class AuthProvider extends AbstractLdapAuthenticationProvider {
     private static final Pattern SUB_ERROR_CODE = Pattern.compile(".*data\\s([0-9a-f]{3,4}).*");
@@ -100,7 +99,21 @@ public final class AuthProvider extends AbstractLdapAuthenticationProvider {
     }
 
     private List<GrantedAuthority> getUserAuthorities(String username) {
-        return roleRepository.getAuthoritiesByUsername(username.toLowerCase());
+        List<Role> roles = getFullPlainList(roleRepository.getRolesByUsername(username.toLowerCase()));
+        return roles.stream().map(r -> (GrantedAuthority)r).collect(Collectors.toList());
+    }
+
+    public static List<Role> getFullPlainList(List<Role> roles) {
+        List<Role> plainList = new ArrayList<>();
+        addToPlainList(plainList, roles);
+        return plainList;
+    }
+
+    private static void addToPlainList(List<Role> plainList, List<Role> roles) {
+        for (Role role : roles) {
+            plainList.add(role);
+            addToPlainList(plainList, role.getChildRole());
+        }
     }
 
     private DirContext bindAsUser(String username, String password) {

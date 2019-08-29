@@ -13,13 +13,13 @@ import java.util.List;
 public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Transactional
     @Modifying
-    @Query("DELETE FROM User u WHERE u.id=:id")
+    @Query("DELETE FROM Role r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
     @Query("SELECT r FROM Role r JOIN r.users u WHERE u.name IN :userName")
     List<GrantedAuthority> getAuthoritiesByUsername(@Param("userName") String userName);
 
-    @Query("SELECT r FROM Role r JOIN r.users u WHERE u.name IN :userName")
+    @Query("SELECT r FROM Role r JOIN r.users u JOIN r.childRole c WHERE u.name IN :userName")
     List<Role> getRolesByUsername(@Param("userName") String userName);
 
     @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Role r JOIN r.users u WHERE u.name=:userName AND r.name=:role")

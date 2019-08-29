@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.*;
 import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
@@ -111,7 +112,7 @@ public class DocServiceImpl implements DocService {
             if (currentAgreementStage == null) {
                 doc.setCurrentAgreementStage(1);
             } else {
-                if (currentAgreementStage != finalStageForThisDocType)
+                if (!currentAgreementStage.equals(finalStageForThisDocType))
                     doc.setCurrentAgreementStage(currentAgreementStage + 1);
             }
         }
@@ -121,16 +122,6 @@ public class DocServiceImpl implements DocService {
     @Override
     public DocTo save(DocTo docTo, String userName, String rootPath) throws UnauthorizedUserException {
         Assert.notNull(docTo, "doc must not be null");
-        List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTo.getDocTypeId());
-
-        boolean hasRights =
-                docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docTo.getCurrentAgreementStage(),
-                        docTo.getDocTypeId(), userName);
-        boolean isAdmin = roleRepository.isUsernameHasRole(userName, "ADMIN");
-
-        if (!hasRights && !isAdmin) {
-            throw new UnauthorizedUserException();
-        }
 
         if (docTo.isFinalStage() != null && docTo.isFinalStage()) {
             docTo.setRegNum("ДЭПР-" + new Random().nextInt(100) + "/19");
@@ -139,7 +130,27 @@ public class DocServiceImpl implements DocService {
         else {
             docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
         }
-        DocTo saved = asDocTo(docRepository.save(prepareToPersist(createNewDocFromTo(docTo))), userName);
+        Doc docToSave = prepareToPersist(createNewDocFromTo(docTo));
+        boolean hasRights = false;
+        if (docTo.isNew()) {
+            hasRights =
+                    docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docToSave.getCurrentAgreementStage(),
+                            docTo.getDocTypeId(), userName);
+        } else {
+            hasRights = AuthorizedUser.hasRole(docTypeRepository.findById(docTo.getId()).orElse(null).getRole().getAuthority());
+        }
+
+        //TODO необходимо написать проверку: соответствют ли
+        /*
+            Нужно написать рекурсивную функцию, которая будет проверять права юзера на изменение полей.
+         */
+
+        if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
+            throw new UnauthorizedUserException();
+        }
+
+
+        DocTo saved = asDocTo(docRepository.save(docToSave), userName);
         String urlPdf = createPdf(saved, rootPath, false);
         docRepository.setUrlPDF(saved.getId(), urlPdf);
         saved.setUrlPDF(urlPdf);
@@ -271,7 +282,7 @@ public class DocServiceImpl implements DocService {
         Integer curAgreementStage = doc.getCurrentAgreementStage();
         Boolean isFinalStage = docTypeRoutesRepository.getFinalStageForDocType(docTypeId) == curAgreementStage;
 
-        List<Role> curUserRoles = RolesUtil.getPlainList(roleRepository.getRolesByUsername(userName));
+        List<String> curUserRoles = AuthorizedUser.getRoles();
         List<DocValuedFields> docValuedFields = doc.getDocValuedFields();
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
 

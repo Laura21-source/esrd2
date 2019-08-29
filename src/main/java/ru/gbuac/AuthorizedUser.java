@@ -4,17 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import ru.gbuac.util.exception.NotFoundException;
-
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import static java.util.Objects.requireNonNull;
 
 @Configuration
@@ -33,8 +33,17 @@ public class AuthorizedUser {
         if (auth == null) {
             return null;
         }
-        LdapUserDetailsImpl principal = (LdapUserDetailsImpl)auth.getPrincipal();
-        return principal;
+        return (LdapUserDetailsImpl)auth.getPrincipal();
+    }
+
+    public static List<String> getRoles() {
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+    }
+
+    public static boolean hasRole(String role) {
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains(role);
     }
 
     private static LdapUserDetailsImpl get() {
