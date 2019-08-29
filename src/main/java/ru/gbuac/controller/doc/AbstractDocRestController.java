@@ -39,13 +39,13 @@ public abstract class AbstractDocRestController {
     }
 
     public List<Doc> getAllAgreedByUsername() {
-        LOG.info("getAllAgreement");
+        LOG.info("getAllAgreed");
         return AuthorizedUser.hasRole("ADMIN") ?
                 docService.getAllRegistered() : docService.getAllAgreedByUsername(AuthorizedUser.getUserName());
     }
 
     public List<Doc> getAllRegisteredByUsername() {
-        LOG.info("getAllAgreement");
+        LOG.info("getAllRegistered");
         return AuthorizedUser.hasRole("ADMIN") ?
                 docService.getAllRegistered() : docService.getAllRegisteredByUsername(AuthorizedUser.getUserName());
     }
