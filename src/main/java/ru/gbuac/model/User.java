@@ -1,17 +1,57 @@
 package ru.gbuac.model;
-
-import org.hibernate.annotations.BatchSize;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.validator.constraints.SafeHtml;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.*;
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
+@Table(name = "users")
 public class User extends NamedEntity {
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "userldap"))
-    @Column(name = "role")
-    @ElementCollection(fetch = FetchType.EAGER)
-    @BatchSize(size = 200)
-    private Set<Role> roles;
+    @Column(name = "lastname")
+    @SafeHtml
+    private String lastname;
 
+    @Column(name = "firstname")
+    @SafeHtml
+    private String firstname;
 
+    @Column(name = "patronym")
+    @SafeHtml
+    private String patronym;
+
+    @Column(name = "email")
+    @SafeHtml
+    private String email;
+
+    @Column(name = "phone")
+    @SafeHtml
+    private String phone;
+
+    @Column(name = "position")
+    @SafeHtml
+    private String position;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles;
+
+    public User(@NotBlank @SafeHtml String name, String lastname, String firstname, String patronym, String email,
+                String phone, String position) {
+        super(name);
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.patronym = patronym;
+        this.email = email;
+        this.phone = phone;
+        this.position = position;
+    }
 }

@@ -1,42 +1,25 @@
 package ru.gbuac.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.gbuac.model.Role;
-
-import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-@Repository
-public class RoleRepository {
+@Transactional(readOnly = true)
+public interface RoleRepository extends JpaRepository<Role, Integer> {
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Role r WHERE r.id=:id")
+    int delete(@Param("id") int id);
 
-    private final JdbcTemplate jdbcTemplate;
+    @Query("SELECT r FROM Role r JOIN r.users u JOIN r.childRole c WHERE u.name IN :userName")
+    List<Role> getRolesByUsername(@Param("userName") String userName);
 
-    @Autowired
-    public RoleRepository(@Qualifier("dataSource") DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public List<GrantedAuthority> getAuthoritiesByUsername(String username) {
-        String query = "SELECT role FROM user_roles a WHERE a.userldap=?";
-
-        List<GrantedAuthority> authorities =
-                jdbcTemplate.query(query, (rs, rowNum) -> Role.valueOf(rs.getString(1)), username);
-        return authorities;
-    }
-
-    public List<Role> getRolesByUsername(String username) {
-        String query = "SELECT role FROM user_roles a WHERE a.userldap=?";
-
-        List<Role> roles =
-                jdbcTemplate.query(query, (rs, rowNum) -> Role.valueOf(rs.getString(1)), username);
-        return roles;
-    }
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Role r JOIN r.users u WHERE u.name=:userName AND r.name=:role")
+    boolean isUsernameHasRole(@Param("userName") String userName, @Param("role") String role);
 
 }

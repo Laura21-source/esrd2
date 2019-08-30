@@ -21,7 +21,9 @@ public class DocTypeRoutes extends BaseEntity {
     @JsonIgnore
     private DocType docType;
 
-    private String userldap;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = true)
+    private User user;
 
     @Column(name = "agree_stage")
     private Integer agreeStage;

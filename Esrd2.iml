@@ -6,6 +6,10 @@
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/src/main/java" />
+          <root url="file://$MODULE_DIR$/src/main/resources" />
+        </sourceRoots>
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -17,9 +21,11 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="Entities" />
-          <factory-entry name="entityManagerFactory" value="167aeab6-c296-4a22-ba95-193dabd7ad11" />
+          <factory-entry name="entityManagerFactory" value="06b7c890-29ca-4799-9ae3-40668b070d30" />
         </datasource-mapping>
-        <naming-strategy-map />
+        <naming-strategy-map>
+          <unit-entry name="entityManagerFactory" />
+        </naming-strategy-map>
       </configuration>
     </facet>
   </component>
@@ -29,10 +35,23 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-conversion:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-all:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-local:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.zeroturnaround:zt-exec:1.8" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:1.4" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-word:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-base:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-transformer-process:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.0.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.0.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.0.2.RELEASE" level="project" />

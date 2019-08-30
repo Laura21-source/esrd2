@@ -14,13 +14,13 @@ import javax.validation.constraints.NotNull;
 @Table(name = "doctype_fields")
 public class DocTypeFields extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctype_id", nullable = true)
+    @JoinColumn(name = "doctype_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private DocType docType;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "field_id", nullable = true)
+    @JoinColumn(name = "field_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Field field;
 

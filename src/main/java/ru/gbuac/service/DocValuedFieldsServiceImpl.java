@@ -3,14 +3,10 @@ package ru.gbuac.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import ru.gbuac.dao.DocTypeFieldsRepository;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.DocValuedFieldsRepository;
-import ru.gbuac.dao.RoleRepository;
-import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.model.DocValuedFields;
-import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;
-import ru.gbuac.to.FieldTo;
 import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
@@ -24,9 +20,6 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
 
     @Autowired
     private DocValuedFieldsRepository docValuedFieldsRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Override
     public DocValuedFields get(int id, int docId) throws NotFoundException {
@@ -43,7 +36,7 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     public List<DocFieldsTo> getAllFull(int docId, String userName) {
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
-        List<Role> curUserRoles = roleRepository.getRolesByUsername(userName);
+        List<String> curUserRoles = AuthorizedUser.getRoles();
 
         for (DocValuedFields d:docValuedFields) {
             docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles),

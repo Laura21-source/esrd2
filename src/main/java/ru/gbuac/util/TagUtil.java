@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TagUtil {
-    public TagUtil() {
+    private TagUtil() {
     }
 
     public static String getTableTag(String tag) {
