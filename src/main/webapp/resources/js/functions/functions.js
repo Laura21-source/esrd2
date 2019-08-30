@@ -59,22 +59,26 @@
     1. url - Запрос
     2. field - Элемент SELECT к которому добавляется поле
     3. name - Название поля
-    4. id - Значение атрибута value у выбранного поля
-    5. select - Значение атрибута value
+    4. id - Название атрибута у выбранного поля
+    5. select - Значение выбранного атрибута value
     */
     function createOptions (url, field, name, id, select) {
-        $.getJSON (url, function(data) {
+        return $.getJSON (url, function(data) {
             for (var i in data) {
                 var selectedField = '';
                 // Получаем отмеченные поля если есть необходимость
-                if (select) {
+                if (select != '') {
                     if(select === data[i][id]) {
                         selectedField = ' selected="selected"';
                     }
                 }
-                $(field).append('<option value="' + data[i][id] + '"' + selectedField + '>' +  data[i][name] + '</option>');
+                $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  data[i][name] + '</option>');
             }
-        });
+        })
+            .done(function(json) {
+                var jsonZapros = json.length;
+                $(field).parents(".blockRow").attr("data-option",jsonZapros);
+            });
     }
 
     // Получение правильного и обратного формата даты
@@ -105,6 +109,27 @@
         return hours + ':' + minutes;
     }
 
+    // Изменение полей при выборе OPTION
+    function changeSelect (data, field) {
+        $(data).map(function(i, element) {
+            console.log(element);
+            var numberCatalogField = element.substr(11);
+            var nameCatalogField = "#" + element;
+            $(this).find("select option.active").remove();
+            //alert("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " -- " + nameCatalogField);
+            createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + field, nameCatalogField, "valueStr", "id", "");
+            $(this).removeClass('d-none');
+            alert(nameCatalogField);
+            var sumOption = $(nameCatalogField).attr("data-option");
+            //alert(sumOption);
+            if(sumOption > 0) {
+                $(this).removeClass('d-none');
+            } else {
+                $(this).addClass('d-none');
+            }
+        });
+    }
+
     // Список полей по виду документа
     /*
     1. url - Запрос
@@ -112,7 +137,7 @@
     3. short - Цифровое значения короткого поля (1 - да)
     */
     function getFieldsDocument (url, id, short) {
-        $.getJSON (url, function(data) {
+        return $.getJSON (url, function(data) {
             // Массив для полей в одной группе
             var groupFieldsArray = [];
             // Проверяем регистрация или редактирование документа
@@ -121,6 +146,8 @@
             var valueDate = "";
             // Переменная поля
             var idField = "";
+            // переменная счёта полей
+            var blocKey = '';
             if(id > 0) {
                 rowChild = data.childFields;
             }
@@ -146,9 +173,7 @@
                 }
                 if (row.field.fieldType === "GROUP_FIELDS") {
                     var groupFieldsElement = {
-                        "field" : row.field,
-                        "enabled" : row.enabled,
-                        "required" : row.required
+                        "field" : row.field
                     }
                     groupFieldsArray.push(groupFieldsElement);
                 }
@@ -158,7 +183,6 @@
                 key = parseInt(key);
                 var rowFields = groupFieldsArray[key];
                 var dubKey = parseInt(key+1);
-                var blocKey = '';
                 var delButton = ' d-none';
                 if(key != 0) {
                     blocKey = key;
@@ -174,9 +198,20 @@
                 }
                 for (var y in rowFields.field.childFields) {
                     var rowSelectField = rowFields.field.childFields[y];
+                    // Есть ли родитель у блока
+                    var parentBlock = '';
+                    var parentCatalog = '';
+                    if(rowSelectField.parentCatalogId > 0 && !id) {
+                        //var parentBlockId = $("#blockGroup" + blocKey).attr("data-field");
+                        parentCatalog = ' p' + rowSelectField.parentCatalogId;
+                        parentBlock = ' d-none';
+                    }
                     if (rowSelectField.fieldType === "CATALOG") {
+                        var numberField = '';
                         if(id > 0) {
                             idField = ' data-id="' + rowSelectField.id + '"';
+                            // Номер поля для отметки в селектах если нужно
+                            numberField = rowSelectField.valueInt;
                         }
                         var enaOpiton = '';
                         if(rowSelectField.enabled == false) {
@@ -187,20 +222,47 @@
                             required = ' required';
                         }
                         var selectFieldName = "selectField" + rowSelectField.catalogId;
-                        $("#blockGroup" + blocKey + " .blockGroupFields").append('<div class="row blockRow"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
-                        var numberCatalog = ('#blockGroup' + blocKey + ' #selectField' + rowSelectField.catalogId);
-                        // Номер поля для отметки в селектах если нужно
-                        var numberField = '';
-                        if (id > 0) {
-                            numberField = rowSelectField.valueInt;
+                        $("#blockGroup .blockGroupFields").append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                        var numberCatalog = ('#blockGroup #selectField' + rowSelectField.catalogId);
+                        $("#"+selectFieldName).on('change', function () {
+                            var numberSelectField = $(this).val();
+                            var idParent = $(this).attr("name");
+                            idParent = idParent.substr(11);
+                            $(".p" + idParent).each(function () {
+                                $(this).removeClass('d-none');
+                                $(this).find("select").each(function () {
+                                    var tempCatalogField = $(this).attr("id");
+                                    var numberCatalogField = tempCatalogField.substr(11);
+                                    var nameCatalogField = "#" + tempCatalogField;
+                                    var idParentSearch = $(this).parents(".blockRow");
+                                    //console.log(idParentSearch);
+                                    var idParentField =  $(idParentSearch).attr("data-row");
+                                    var idParentBlock = $("[data-row = " + idParentField + "]");
+                                    //alert("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " -- " + nameCatalogField);
+                                    createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "");
+                                    var sumOption = $(idParentSearch).attr("data-option");
+                                    //console.log(sumOption);
+                                    $(this).find("option.active").remove();
+                                    /*if(sumOption > 0) {
+                                        $(idParentBlock).removeClass('d-none');
+                                    } else {
+                                        $(idParentBlock).addClass('d-none');
+                                    }*/
+                                });
+                                //
+                                //console.log(idParentBlock);
+                                //changeSelect(tempCatalogField, numberSelectField);
+                            });
+                        });
+                        if(parentBlock == '') {
+                            createOptions ("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField);
                         }
-                        createOptions ("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField);
                     }
                 }
             }
         })
-            .done(function(response){
-                if (response.length == 0){
+            .done(function(response) {
+                if (response.length == 0) {
                     $("#blockUp, #blockDown, #btnSave").addClass("d-none");
                 }
         });
