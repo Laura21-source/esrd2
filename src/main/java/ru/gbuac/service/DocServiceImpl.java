@@ -14,6 +14,8 @@ import ru.gbuac.to.PdfTo;
 import ru.gbuac.util.*;
 import ru.gbuac.util.exception.NotFoundException;
 import ru.gbuac.util.exception.UnauthorizedUserException;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
@@ -112,9 +114,7 @@ public class DocServiceImpl implements DocService {
         return docRepository.getAllRegistered();
     }
 
-    private Doc prepareToPersist(Doc doc) {
-        Integer currentAgreementStage = doc.getCurrentAgreementStage();
-        Integer finalStageForThisDocType = docTypeRoutesRepository.getFinalStageForDocType(doc.getDocType().getId());
+    private Doc prepareToPersist(Doc doc, Integer currentAgreementStage, Integer finalStageForThisDocType) {
         if (doc.getRegNum() == null) {
             if (currentAgreementStage == null) {
                 doc.setCurrentAgreementStage(1);
@@ -129,32 +129,16 @@ public class DocServiceImpl implements DocService {
     @Override
     public DocTo save(DocTo docTo, String userName, String rootPath) throws UnauthorizedUserException {
         Assert.notNull(docTo, "doc must not be null");
+        Integer currentAgreementStage = docTo.getCurrentAgreementStage();
+        Integer finalStageForThisDocType = docTypeRoutesRepository.getFinalStageForDocType(docTo.getDocTypeId());
 
-        if (docTo.isFinalStage() != null && docTo.isFinalStage()) {
-            docTo.setRegNum("ДЭПР-" + new Random().nextInt(100) + "/19");
-            docTo.setRegDateTime(LocalDateTime.now());
-        }
-        else {
-            docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
-        }
-        Doc docToSave = prepareToPersist(createNewDocFromTo(docTo));
-        boolean hasRights = false;
-        if (docTo.isNew()) {
-            hasRights = AuthorizedUser.hasRole(docTypeRepository.findById(docTo.getDocTypeId()).orElse(null).getRole().getAuthority());
-        } else {
-            hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docToSave.getCurrentAgreementStage(),
-                    docTo.getDocTypeId(), userName);
-        }
-
-        //TODO необходимо написать проверку: соответствют ли
-        /*
-            Нужно написать рекурсивную функцию, которая будет проверять права юзера на изменение полей.
-         */
-
+        boolean hasRights = AuthorizedUser.hasRole(docTypeRepository.findById(docTo.getDocTypeId()).orElse(null).getRole().getAuthority());
         if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
             throw new UnauthorizedUserException();
         }
 
+        docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
+        Doc docToSave = prepareToPersist(createNewDocFromTo(docTo), currentAgreementStage, finalStageForThisDocType);
 
         DocTo saved = asDocTo(docRepository.save(docToSave), userName);
         String urlPdf = createPdf(saved, rootPath, false);
@@ -166,9 +150,25 @@ public class DocServiceImpl implements DocService {
     @Override
     public DocTo update(DocTo docTo, int id, String userName, String rootPath) throws NotFoundException, UnauthorizedUserException {
         Assert.notNull(docTo, "docTo must not be null");
+        Integer finalStageForThisDocType = docTypeRoutesRepository.getFinalStageForDocType(docTo.getDocTypeId());
+
         Doc updated = docFromTo(docTo);
+        Integer currentAgreementStage = updated.getCurrentAgreementStage();
+
+        if (finalStageForThisDocType == currentAgreementStage) {
+            updated.setRegNum("ДЭПР-" + new Random().nextInt(100) + "/19");
+            updated.setRegDateTime(LocalDateTime.now());
+        }
+
+        boolean hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(currentAgreementStage,
+                updated.getDocType().getId(), userName);
+
+        if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
+            throw new UnauthorizedUserException();
+        }
+
         docValuedFieldsRepository.deleteAll(id);
-        DocTo updatedTo = asDocTo(checkNotFoundWithId(docRepository.save(prepareToPersist(updated)), id), userName);
+        DocTo updatedTo = asDocTo(checkNotFoundWithId(docRepository.save(updated), id), userName);
         updatedTo.setUrlPDF(createPdf(updatedTo, rootPath, false));
         return updatedTo;
     }
