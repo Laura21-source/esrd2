@@ -12,7 +12,7 @@
             <div class="card-body">
                 <div class="container-fluid">
                     <div class="alert alert-secondary text-center mb-3">
-                        <h6 class="mt-2">Документы на исполнении</h6>
+                        <h6 class="mt-2">Зарегистрированные документы</h6>
                     </div>
                     <table id="dataTable" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
                         <thead>
