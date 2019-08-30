@@ -44,11 +44,13 @@
                             class="fas fa-angle-down rotate-icon"></i></a>
                         <div class="collapsible-body">
                             <ul class="list-unstyled">
+                                <li><a href="all" class="waves-effect">Все документы</a>
+                                </li>
                                 <li><a href="agreement" class="waves-effect">На согласовании/подписании</a>
                                 </li>
-                                <li><a href="agreement" class="waves-effect">Согласованные/подписанные</a>
+                                <li><a href="agreed" class="waves-effect">Согласованные/подписанные</a>
                                 </li>
-                                <li><a href="agreement" class="waves-effect">Зарегистрированые</a>
+                                <li><a href="registered" class="waves-effect">Зарегистрированые</a>
                                 </li>
                             </ul>
                         </div>

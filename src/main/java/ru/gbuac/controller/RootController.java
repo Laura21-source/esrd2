@@ -57,6 +57,15 @@ public class RootController {
     @GetMapping(value = "/temp-list")
     public String tempList() { return "temp-list"; }
 
+    @GetMapping(value = "/all")
+    public String all() { return "all"; }
+
     @GetMapping(value = "/agreement")
     public String agreement() { return "agreement"; }
+
+    @GetMapping(value = "/agreed")
+    public String agreed() { return "agreed"; }
+
+    @GetMapping(value = "/registered")
+    public String registered() { return "registered"; }
 }
