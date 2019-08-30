@@ -12,7 +12,7 @@
             <div class="card-body">
                 <div class="container-fluid">
                     <div class="alert alert-secondary text-center mb-3">
-                        <h6 class="mt-2">Согласованные документы</h6>
+                        <h6 class="mt-2">Согласованные/подписанные документы</h6>
                     </div>
                     <table id="dataTable" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
                         <thead>
@@ -20,7 +20,7 @@
                             <th class="th-sm font-weight-bold alert-primary" width="10%">№ п/п</th>
                             <th class="th-sm font-weight-bold alert-primary" width="20%">Номер</th>
                             <th class="th-sm font-weight-bold alert-primary" width="20%">Дата регистрации</th>
-                            <th class="th-sm font-weight-bold alert-primary" width="40%">Название</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="40%">Вид документа</th>
                             <th class="th-sm font-weight-bold alert-primary" width="10%">Согласовать</th>
                         </tr>
                         </thead>

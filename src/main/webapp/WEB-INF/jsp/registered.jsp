@@ -20,7 +20,7 @@
                             <th class="th-sm font-weight-bold alert-primary" width="10%">№ п/п</th>
                             <th class="th-sm font-weight-bold alert-primary" width="20%">Номер</th>
                             <th class="th-sm font-weight-bold alert-primary" width="20%">Дата регистрации</th>
-                            <th class="th-sm font-weight-bold alert-primary" width="40%">Название</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="40%">Вид документа</th>
                             <th class="th-sm font-weight-bold alert-primary" width="10%">Согласовать</th>
                         </tr>
                         </thead>
