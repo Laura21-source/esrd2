@@ -43,7 +43,8 @@ public class AuthorizedUser {
 
     public static boolean hasRole(String role) {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority).collect(Collectors.toList()).contains("ROLE_" + role);
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList()).contains(!role.contains("ROLE_") ? "ROLE_" + role : role);
     }
 
     private static LdapUserDetailsImpl get() {
