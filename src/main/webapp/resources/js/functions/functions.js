@@ -146,8 +146,6 @@
             var valueDate = "";
             // Переменная поля
             var idField = "";
-            // переменная счёта полей
-            var blocKey = '';
             if(id > 0) {
                 rowChild = data.childFields;
             }
@@ -180,10 +178,13 @@
             }
             //console.log(groupFieldsArray);
             for (var key in groupFieldsArray) {
+                //console.log(groupFieldsArray);
                 key = parseInt(key);
                 var rowFields = groupFieldsArray[key];
                 var dubKey = parseInt(key+1);
                 var delButton = ' d-none';
+                // переменная счёта полей
+                var blocKey = '';
                 if(key != 0) {
                     blocKey = key;
                     delButton = '';
@@ -197,15 +198,16 @@
                     $(".addGroup").remove();
                 }
                 for (var y in rowFields.field.childFields) {
+                    //console.log(rowFields.field.childFields);
                     var rowSelectField = rowFields.field.childFields[y];
                     // Есть ли родитель у блока
                     var parentBlock = '';
                     var parentCatalog = '';
-                    if(rowSelectField.parentCatalogId > 0 && !id) {
+                    /*if(rowSelectField.parentCatalogId > 0 && !id) {
                         //var parentBlockId = $("#blockGroup" + blocKey).attr("data-field");
                         parentCatalog = ' p' + rowSelectField.parentCatalogId;
                         parentBlock = ' d-none';
-                    }
+                    }*/
                     if (rowSelectField.fieldType === "CATALOG") {
                         var numberField = '';
                         if(id > 0) {
@@ -222,41 +224,42 @@
                             required = ' required';
                         }
                         var selectFieldName = "selectField" + rowSelectField.catalogId;
-                        $("#blockGroup .blockGroupFields").append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
-                        var numberCatalog = ('#blockGroup #selectField' + rowSelectField.catalogId);
-                        $("#"+selectFieldName).on('change', function () {
-                            var numberSelectField = $(this).val();
-                            var idParent = $(this).attr("name");
-                            idParent = idParent.substr(11);
-                            $(".p" + idParent).each(function () {
-                                $(this).removeClass('d-none');
-                                $(this).find("select").each(function () {
-                                    var tempCatalogField = $(this).attr("id");
-                                    var numberCatalogField = tempCatalogField.substr(11);
-                                    var nameCatalogField = "#" + tempCatalogField;
-                                    var idParentSearch = $(this).parents(".blockRow");
-                                    //console.log(idParentSearch);
-                                    var idParentField =  $(idParentSearch).attr("data-row");
-                                    var idParentBlock = $("[data-row = " + idParentField + "]");
-                                    //alert("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " -- " + nameCatalogField);
-                                    createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "");
-                                    var sumOption = $(idParentSearch).attr("data-option");
-                                    //console.log(sumOption);
-                                    $(this).find("option.active").remove();
-                                    /*if(sumOption > 0) {
-                                        $(idParentBlock).removeClass('d-none');
-                                    } else {
-                                        $(idParentBlock).addClass('d-none');
-                                    }*/
-                                });
-                                //
-                                //console.log(idParentBlock);
-                                //changeSelect(tempCatalogField, numberSelectField);
-                            });
-                        });
-                        if(parentBlock == '') {
+                        $('#blockGroup' + blocKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                        var numberCatalog = ('#blockGroup' + blocKey + ' #selectField' + rowSelectField.catalogId);
+                        console.log(numberCatalog);
+                        // $("#"+selectFieldName).on('change', function () {
+                        //     var numberSelectField = $(this).val();
+                        //     var idParent = $(this).attr("name");
+                        //     idParent = idParent.substr(11);
+                        //     $(".p" + idParent).each(function () {
+                        //         $(this).removeClass('d-none');
+                        //         $(this).find("select").each(function () {
+                        //             var tempCatalogField = $(this).attr("id");
+                        //             var numberCatalogField = tempCatalogField.substr(11);
+                        //             var nameCatalogField = "#" + tempCatalogField;
+                        //             var idParentSearch = $(this).parents(".blockRow");
+                        //             //console.log(idParentSearch);
+                        //             var idParentField =  $(idParentSearch).attr("data-row");
+                        //             var idParentBlock = $("[data-row = " + idParentField + "]");
+                        //             //alert("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " -- " + nameCatalogField);
+                        //             createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "");
+                        //             var sumOption = $(idParentSearch).attr("data-option");
+                        //             //console.log(sumOption);
+                        //             $(this).find("option.active").remove();
+                        //             /*if(sumOption > 0) {
+                        //                 $(idParentBlock).removeClass('d-none');
+                        //             } else {
+                        //                 $(idParentBlock).addClass('d-none');
+                        //             }*/
+                        //         });
+                        //         //
+                        //         //console.log(idParentBlock);
+                        //         //changeSelect(tempCatalogField, numberSelectField);
+                        //     });
+                        // });
+                        /*if(parentBlock == '') {*/
                             createOptions ("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField);
-                        }
+                        /*}*/
                     }
                 }
             }
