@@ -18,8 +18,4 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     @Query("SELECT r FROM Role r JOIN r.users u JOIN r.childRole c WHERE u.name IN :userName")
     List<Role> getRolesByUsername(@Param("userName") String userName);
-
-    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Role r JOIN r.users u WHERE u.name=:userName AND r.name=:role")
-    boolean isUsernameHasRole(@Param("userName") String userName, @Param("role") String role);
-
 }
