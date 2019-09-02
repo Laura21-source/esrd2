@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static ru.gbuac.AuthorizedUser.hasRole;
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -67,7 +68,7 @@ public class DocServiceImpl implements DocService {
 
     @Override
     public DocTo getFullByUserName(int id, String userName) throws NotFoundException {
-        return asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id), userName);
+        return asDocTo(Objects.requireNonNull(checkNotFoundWithId(docRepository.findById(id).orElse(null), id)), userName);
     }
 
     @Override
@@ -126,14 +127,13 @@ public class DocServiceImpl implements DocService {
         if (docTo.isFinalStage() != null && docTo.isFinalStage()) {
             docTo.setRegNum("ДЭПР-" + new Random().nextInt(100) + "/19");
             docTo.setRegDateTime(LocalDateTime.now());
-        }
-        else {
-            docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
+        } else {
+            docTo.setProjectRegNum("согл-" + new Random().nextInt(100) + "/19");
         }
         Doc docToSave = prepareToPersist(createNewDocFromTo(docTo));
         boolean hasRights = false;
         if (docTo.isNew()) {
-            hasRights = AuthorizedUser.hasRole(docTypeRepository.findById(docTo.getDocTypeId()).orElse(null).getRole().getAuthority());
+            hasRights = hasRole(Objects.requireNonNull(docTypeRepository.findById(docTo.getDocTypeId()).orElse(null)).getRole().getAuthority());
         } else {
             hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docToSave.getCurrentAgreementStage(),
                     docTo.getDocTypeId(), userName);
@@ -144,7 +144,30 @@ public class DocServiceImpl implements DocService {
             Нужно написать рекурсивную функцию, которая будет проверять права юзера на изменение полей.
          */
 
-        if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
+//        while (AuthorizedUser.hasRole(" "))
+//            if (!valueInt && !ValueStr && valueDate == nullify) {
+//                docTo.getChildFields().equals(docTypeFieldsRepository.getAll(docTo.getDocTypeId()));
+//
+//            } else if(!AuthorizedUser.hasRole("")) {
+//                hasRights = false;
+//            }
+//        break0=;
+
+        int childCount = docTo.getChildFields().size();
+        while (childCount != 0 && hasRights){
+            FieldTo fieldTo = docTo.getChildFields().get(childCount-1).getField();
+            if (fieldTo.getValueByFieldType() != null) {
+                Field etalonField = fieldRepository.findById(fieldTo.getId()).orElse(null);
+
+                if (!AuthorizedUser.hasRole(Objects.requireNonNull(etalonField).getRole().getAuthority())) {
+                    hasRights = false;
+                }
+            }
+            childCount-=1;
+        }
+
+
+        if (!hasRights && !hasRole("ADMIN")) {
             throw new UnauthorizedUserException();
         }
 
@@ -202,7 +225,7 @@ public class DocServiceImpl implements DocService {
                     CatalogElem catalogElemChild = null;
                     if (fieldTo.getValueInt() != null) {
                         catalogElemChild = catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
-                        switch (catalogElemChild.getCatalog().getCatalogType()) {
+                        switch (Objects.requireNonNull(catalogElemChild).getCatalog().getCatalogType()) {
                             case TEXT:
                                 cellsTags.put(tag, catalogElemChild.getValueStr());
                                 break;
@@ -230,7 +253,7 @@ public class DocServiceImpl implements DocService {
                 case CATALOG:
                     CatalogElem catalogElemChild =
                             catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
-                    switch (catalogElemChild.getCatalog().getCatalogType()) {
+                    switch (Objects.requireNonNull(catalogElemChild).getCatalog().getCatalogType()) {
                         case TEXT:
                             simpleTags.put(tag, catalogElemChild.getValueStr());
                             break;
@@ -303,7 +326,7 @@ public class DocServiceImpl implements DocService {
 
         Field field = fieldRepository.findById(newField.getFieldId()).orElse(null);
         CatalogElem catalogElem = null;
-        if (field.getFieldType() == FieldType.CATALOG) {
+        if (Objects.requireNonNull(field).getFieldType() == FieldType.CATALOG) {
             if (newField.getValueInt() != null) {
                 catalogElem = catalogElemRepository.findById(newField.getValueInt()).orElse(null);
                 newField.setValueInt(null);
@@ -334,7 +357,7 @@ public class DocServiceImpl implements DocService {
     private Doc docFromTo(DocTo docTo) {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
         Doc exDoc = checkNotFoundWithId(docRepository.findById(docTo.getId()).orElse(null), docTo.getId());
-        Doc doc = new Doc(exDoc.getId(), exDoc.getRegNum(), exDoc.getRegDateTime(), exDoc.getProjectRegNum(),
+        Doc doc = new Doc(Objects.requireNonNull(exDoc).getId(), exDoc.getRegNum(), exDoc.getRegDateTime(), exDoc.getProjectRegNum(),
                 exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, null,
                 exDoc.getCurrentAgreementStage(), exDoc.getUrlPDF());
         List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
