@@ -21,7 +21,7 @@
                             </div>
                         </div>
                     </div>
-                    <form class="registrationForm">
+                    <form class="registrationForm" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <div class="row ml-1 mb-3">
@@ -111,7 +111,7 @@
             $('.pdfSRC').attr('src', documentPDF);
             $('.pdfHREF').attr('href', documentPDF);
             // Получение списка полей вида документа
-            createOptions(docAllURL, "#selectType", "name", "id", data.docTypeId);
+            createOptions(docAllURL, "#selectType", "name", "id", data.docTypeId,"","","","","","","","","");
             // Получение основных полей
             getFieldsDocument("rest/profile/docs/" + id + "/", id, 0);
         });

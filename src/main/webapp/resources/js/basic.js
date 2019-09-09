@@ -41,6 +41,24 @@ $(function() {
     $('#blockGroup' + id).remove();
   });
 
+  // Отправка файла на сервер
+  $(document).on("change", "#inputFile", function() {
+    var filename = $('#inputFile').val();
+    console.log(filename);
+    $.ajax({
+      type: "POST",
+      url: "rest/profile/docs/uploadfile",
+      enctype: 'multipart/form-data',
+      data: {file: filename},
+      success: function () {
+        alert("Data Uploaded: ");
+      },
+      error: function () {
+        alert("Error!");
+      }
+    });
+  });
+
   // Отмена закрытия полей
   /*$("#editDocument").on("click", function(e) {
     e.preventDefault();
