@@ -21,7 +21,7 @@
                             </div>
                         </div>
                     </div>
-                    <form class="registrationForm" enctype="multipart/form-data">
+                    <form class="registrationForm">
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <div class="row ml-1 mb-3">

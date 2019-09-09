@@ -14,7 +14,7 @@
                     <div class="alert alert-secondary text-center mb-3">
                         <h4 class="mt-2">Подготовка проекта документа</h4>
                     </div>
-                    <form class="registrationForm needs-validation" novalidate enctype="multipart/form-data">
+                    <form class="registrationForm needs-validation" novalidate>
                         <div class="row ml-1 mb-3">
                             <div class="col-md-2 text-left mt-2">
                                 <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>

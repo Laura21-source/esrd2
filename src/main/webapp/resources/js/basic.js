@@ -43,12 +43,17 @@ $(function() {
 
   // Отправка файла на сервер
   $(document).on("change", "#inputFile", function() {
-    var filename = $('#inputFile').val();
+    //var filename = $('#inputFile').val();
+    var data = new FormData($('.registrationForm')[0]);
     $.ajax({
       type: "POST",
       url: "rest/profile/docs/uploadfile",
       enctype: 'multipart/form-data',
-      data: {file: filename},
+      processData: false, //prevent jQuery from automatically transforming the data into a query string
+      contentType: false,
+      cache: false,
+      timeout: 600000,
+      data: data,
       success: function () {
         alert("Data Uploaded: ");
       },
