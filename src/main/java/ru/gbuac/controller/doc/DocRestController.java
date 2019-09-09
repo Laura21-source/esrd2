@@ -1,15 +1,21 @@
 package ru.gbuac.controller.doc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.MultipartFilter;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocType;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.PdfTo;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.util.List;
@@ -52,8 +58,8 @@ public class DocRestController extends AbstractDocRestController {
         return super.getAll();
     }
 
-    @PostMapping(value = "/uploadfile", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String fileUploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/uploadfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String fileUploadFile(@RequestParam("inputFile") MultipartFile file) {
         return super.fileUploadFile(file, context.getRealPath("/"));
     }
 
