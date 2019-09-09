@@ -11,7 +11,7 @@ import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FieldTo;
-import ru.gbuac.to.PdfTo;
+import ru.gbuac.to.FileTo;
 import ru.gbuac.util.*;
 import ru.gbuac.util.exception.FileUploadException;
 import ru.gbuac.util.exception.GeneratePdfException;
@@ -263,20 +263,20 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public String uploadFile(MultipartFile file, String rootPath) throws FileUploadException {
-        String savePath = rootPath + uploadsTempDir + file.getName() + " " + UUID.randomUUID().toString();
+    public FileTo uploadFile(MultipartFile inputFile, String rootPath) throws FileUploadException {
+        String savePath = rootPath + uploadsTempDir + UUID.randomUUID().toString() + "_" + inputFile.getName();
         try {
-            file.transferTo(new File(savePath));
+            inputFile.transferTo(new File(savePath));
         }
          catch (IOException e) {
             throw new FileUploadException();
         }
-        return savePath;
+        return new FileTo(savePath);
     }
 
     @Override
-    public PdfTo createPDF(DocTo docTo, String rootPath) {
-        return new PdfTo(createPdf(asDocTo(docFromTo(docTo), null), rootPath, true));
+    public FileTo createPDF(DocTo docTo, String rootPath) {
+        return new FileTo(createPdf(asDocTo(docFromTo(docTo), null), rootPath, true));
     }
 
     private String createPdf(DocTo docTo, String rootPath, Boolean saveToTempDir) {

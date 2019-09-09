@@ -177,5 +177,5 @@ INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (1
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (17, 1, 5, 2);
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 6, 3);
 
-INSERT INTO public.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (20, 1, '4002', 1);
---INSERT INTO public.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, '4000', 2);
+INSERT INTO public.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (20, 1, '4001', 1);
+INSERT INTO public.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, '4002', 2);
