@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.*;
 import ru.gbuac.model.*;
@@ -12,12 +13,15 @@ import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FieldTo;
 import ru.gbuac.to.PdfTo;
 import ru.gbuac.util.*;
+import ru.gbuac.util.exception.FileUploadException;
+import ru.gbuac.util.exception.GeneratePdfException;
 import ru.gbuac.util.exception.NotFoundException;
 import ru.gbuac.util.exception.UnauthorizedUserException;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -58,6 +62,12 @@ public class DocServiceImpl implements DocService {
 
     @Value("${doc.templates.dir}")
     private String docTemplatesDir;
+
+    @Value("${uploads.temp.dir}")
+    private String uploadsTempDir;
+
+    @Value("${uploads.dir}")
+    private String uploadsDir;
 
     @Override
     public Doc get(int id) throws NotFoundException {
@@ -253,7 +263,19 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public PdfTo getPdfPathByDocTo(DocTo docTo, String rootPath) {
+    public String uploadFile(MultipartFile file, String rootPath) throws FileUploadException {
+        String savePath = rootPath + uploadsTempDir + file.getName() + " " + UUID.randomUUID().toString();
+        try {
+            file.transferTo(new File(savePath));
+        }
+         catch (IOException e) {
+            throw new FileUploadException();
+        }
+        return savePath;
+    }
+
+    @Override
+    public PdfTo createPDF(DocTo docTo, String rootPath) {
         return new PdfTo(createPdf(asDocTo(docFromTo(docTo), null), rootPath, true));
     }
 
@@ -277,6 +299,7 @@ public class DocServiceImpl implements DocService {
                     pdfTempPath, true);
             byteArrayOutputStream.writeTo(new FileOutputStream(savePath));
         } catch (Exception e) {
+            throw new GeneratePdfException();
         }
 
         return savePath.replace(rootPath,"");

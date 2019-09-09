@@ -34,7 +34,6 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("SELECT d FROM Doc d WHERE d.regNum IS NOT NULL")
     List<Doc> getAllRegistered();
 
-
     @Transactional
     @Modifying
     @Query("UPDATE Doc d SET d.UrlPDF=:urlPdf WHERE d.id=:id")
