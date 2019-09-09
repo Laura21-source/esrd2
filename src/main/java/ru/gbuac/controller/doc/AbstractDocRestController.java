@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Doc;
-import ru.gbuac.model.DocType;
 import ru.gbuac.service.DocService;
-import ru.gbuac.service.DocTypeService;
 import ru.gbuac.to.DocTo;
-import ru.gbuac.to.PdfTo;
+import ru.gbuac.to.FileTo;
 
 import java.util.List;
 
@@ -73,11 +71,11 @@ public abstract class AbstractDocRestController {
         docService.delete(id);
     }
 
-    public String fileUploadFile(MultipartFile file, String rootPath) {
-        return docService.uploadFile(file, rootPath);
+    public FileTo fileUploadFile(MultipartFile inputFile, String rootPath) {
+        return docService.uploadFile(inputFile, rootPath);
     }
 
-    public PdfTo createPDF(DocTo docTo, String rootPath) {
+    public FileTo createPDF(DocTo docTo, String rootPath) {
         return docService.createPDF(docTo, rootPath);
     }
 }
