@@ -44,7 +44,6 @@ $(function() {
   // Отправка файла на сервер
   $(document).on("change", "#inputFile", function() {
     var filename = $('#inputFile').val();
-    console.log(filename);
     $.ajax({
       type: "POST",
       url: "rest/profile/docs/uploadfile",

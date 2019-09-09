@@ -247,6 +247,13 @@
                             $('#blockGroup' + blocKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted"><i class="fas fa-file-download mr-2"></i>' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><textarea></textarea></div></div>');
                         }
                     }
+                    if (rowSelectField.fieldType === "TEXT") {
+                        // Добавлякем строку
+                        if(parentBlock == '') {
+                            $('#blockGroup' + blocKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted"><i class="fas fa-file-download mr-2"></i>' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
+                            createInput(".col-md-9:last", "text", "", "inputText", "Введите значение", 0, '<i class="fas fa-file mr-2"></i>' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 1, idField, rowSelectField.enabled, rowSelectField.required, '');
+                        }
+                    }
                 }
             }
         })
