@@ -161,7 +161,7 @@ INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, len
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (13, 'Организация', 'CATALOG', null, null, null, 1006, true, '[Questions]Organization');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (14, 'Ответственный', 'CATALOG', null, null, null, 1007, true, '[Questions]AuthPerson');
 --INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Email ответственного', 'CATALOG', null, null, null, null, 'EmailPerson');
---INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id) VALUES (15, 'Вложение', 'ATTACHMENT', null, null, null, null);
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (15, 'Вложение', 'ATTACHMENT', null, null, null, null, true, '');
 
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 7);
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 8);
