@@ -264,7 +264,7 @@ public class DocServiceImpl implements DocService {
 
     @Override
     public FileTo uploadFile(MultipartFile inputFile, String rootPath) throws FileUploadException {
-        String savePath = rootPath + uploadsTempDir + UUID.randomUUID().toString() + "_" + inputFile.getName();
+        String savePath = rootPath + uploadsTempDir + UUID.randomUUID().toString() + "_" + inputFile.getOriginalFilename();
         try {
             inputFile.transferTo(new File(savePath));
         }
