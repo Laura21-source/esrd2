@@ -172,7 +172,7 @@
                 if(id > 0) {idField = ' data-id="' + rowFields.field.id + '"';}
                 // Добавляем вопрос
                 $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + blocKey + '" data-field="' + key + '"' + idField + '><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameGroup' + blocKey + '">Вопрос ' + dubKey + '</h6></div><div class="col-md-3 text-right"><div id="delGroup' + blocKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
-                $(".blockName").html(rowFields.field.name).attr("data-block", rowFields.field.fieldId);
+                $(".blockName").html(rowFields.field.name).attr("data-block", /*rowFields.field.fieldId*/blocKey);
                 if(rowFields.field.enabled == false) {$(".addGroup").remove();}
                 for (var y in rowFields.field.childFields) {
                     //console.log(rowFields.field.childFields);
@@ -198,12 +198,13 @@
                     if(rowSelectField.required == true) {required = ' required';}
                     // Если вид поля SELECT
                     if (rowSelectField.fieldType === "CATALOG") {
-                        var selectFieldName = "selectField" + rowSelectField.catalogId;
+                        var selectFieldName = 'select' + blocKey + 'Field' + rowSelectField.catalogId;
                         // Добавляем строку
                         $('#blockGroup' + blocKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
-                        var numberCatalog = ('#blockGroup' + blocKey + ' #selectField' + rowSelectField.catalogId);
+                        var numberCatalog = ('#blockGroup' + blocKey + ' #select' + blocKey + 'Field' + rowSelectField.catalogId);
                         //console.log(numberCatalog);
-                        $('#blockGroup' + blocKey + ' #'+selectFieldName).on('change', function () {
+
+/*                        $('#blockGroup' + blocKey + ' #'+selectFieldName).on('change', function () {
                             //console.log('#blockGroup' + blocKey + ' #'+selectFieldName);
                             var numberSelectField = $(this).val();
                             var idParent = $(this).attr("name");
@@ -223,7 +224,7 @@
                                     // Открываем опции
                                     createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "");
                                     var sumOption = $(nameCatalogField).parents(".blockRow").attr("data-option");
-                                    console.log(nameCatalogField + ' -- ' + sumOption);
+                                    //console.log(nameCatalogField + ' -- ' + sumOption);
                                     $(this).find("option.active").remove();
                                     if(sumOption > 0) {
                                         $(this).removeClass('d-none');
@@ -235,7 +236,7 @@
                                 //console.log(idParentBlock);
                                 //changeSelect(tempCatalogField, numberSelectField);
                             });
-                        });
+                        });*/
                         if(parentBlock == '') {
                             // Добавляем опции
                             createOptions ("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField);

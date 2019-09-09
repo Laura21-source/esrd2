@@ -107,7 +107,7 @@
             }
             $(".documentName").html('Согласование документа №' + data.projectRegNum + ' от ' + newDate);
             // Ссылки на докусмент PDF
-            var documentPDF = data.UrlPDF;
+            var documentPDF = data.fileUrl;
             $('.pdfSRC').attr('src', documentPDF);
             $('.pdfHREF').attr('href', documentPDF);
             // Получение списка полей вида документа
@@ -171,8 +171,8 @@
             serverAjax.done(function(data) {
                 $(".bigLoader").addClass("d-none").fadeOut(1000);
                 $("#btnReformat").html(trueName); //.attr('disabled', false)
-                $(".pdfSRC").removeClass("d-none").attr("src", data.urlPDF);
-                $(".pdfHREF").attr("href", data.urlPDF);
+                $(".pdfSRC").removeClass("d-none").attr("src", data.fileUrl);
+                $(".pdfHREF").attr("href", data.fileUrl);
             });
         });
     });
