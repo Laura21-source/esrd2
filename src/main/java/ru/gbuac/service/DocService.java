@@ -1,8 +1,11 @@
 package ru.gbuac.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.model.Doc;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.PdfTo;
+import ru.gbuac.util.exception.FileUploadException;
+import ru.gbuac.util.exception.GeneratePdfException;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.List;
@@ -30,5 +33,7 @@ public interface DocService {
 
     void delete(int id) throws NotFoundException;
 
-    PdfTo getPdfPathByDocTo(DocTo docTo, String rootPath);
+    String uploadFile(MultipartFile file, String rootPath) throws FileUploadException;
+
+    PdfTo createPDF(DocTo docTo, String rootPath) throws GeneratePdfException;
 }

@@ -3,6 +3,7 @@ package ru.gbuac.controller.doc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocType;
@@ -72,7 +73,11 @@ public abstract class AbstractDocRestController {
         docService.delete(id);
     }
 
-    public PdfTo getPdfPathByDocTo(DocTo docTo, String rootPath) {
-        return docService.getPdfPathByDocTo(docTo, rootPath);
+    public String fileUploadFile(MultipartFile file, String rootPath) {
+        return docService.uploadFile(file, rootPath);
+    }
+
+    public PdfTo createPDF(DocTo docTo, String rootPath) {
+        return docService.createPDF(docTo, rootPath);
     }
 }

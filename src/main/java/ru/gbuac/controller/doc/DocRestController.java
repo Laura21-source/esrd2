@@ -3,6 +3,7 @@ package ru.gbuac.controller.doc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocType;
@@ -51,9 +52,14 @@ public class DocRestController extends AbstractDocRestController {
         return super.getAll();
     }
 
+    @PostMapping(value = "/uploadfile", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String fileUploadFile(@RequestParam("file") MultipartFile file) {
+        return super.fileUploadFile(file, context.getRealPath("/"));
+    }
+
     @PostMapping(value = "/pdf", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public PdfTo getPdfPathByDocTo(@Valid @RequestBody DocTo docTo) {
-        return super.getPdfPathByDocTo(docTo, context.getRealPath("/"));
+    public PdfTo createPDF(@Valid @RequestBody DocTo docTo) {
+        return super.createPDF(docTo, context.getRealPath("/"));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
