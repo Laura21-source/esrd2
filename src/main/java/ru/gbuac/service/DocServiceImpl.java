@@ -236,7 +236,9 @@ public class DocServiceImpl implements DocService {
                     }
                     break;
                 default:
-                    cellsTags.put(tag, fieldTo.getValueByFieldType());
+                    if (!tag.equals("")) {
+                        cellsTags.put(tag, fieldTo.getValueByFieldType());
+                    }
                     break;
             }
         } else
@@ -261,7 +263,9 @@ public class DocServiceImpl implements DocService {
                             break;
                     }
                 default:
-                    simpleTags.put(tag, fieldTo.getValueByFieldType());
+                    if (!tag.equals("")) {
+                        simpleTags.put(tag, fieldTo.getValueByFieldType());
+                    }
                     break;
             }
         }
@@ -281,7 +285,7 @@ public class DocServiceImpl implements DocService {
 
     @Override
     public FileTo createDOCX(DocTo docTo, String rootPath) {
-        return new FileTo(createPDFOrDocx(asDocTo(docFromTo(docTo), null), rootPath,  true, false));
+        return new FileTo(createPDFOrDocx(asDocTo(createNewDocFromTo(docTo), null), rootPath,  true, false));
     }
 
     @Override
@@ -300,12 +304,12 @@ public class DocServiceImpl implements DocService {
         String pdfPath = rootPath + pdfDir + docTo.getId() + ".pdf";
 
         String pdfSavePath = saveToTempDir ? pdfTempPath : pdfPath;
-        String docxSavePath = rootPath + docxTempDir + docTo.getId() + ".docx";
+        String docxSavePath = rootPath + docxTempDir + UUID.randomUUID().toString() + ".docx";
 
         String savePath = isPDF ? pdfSavePath : docxSavePath;
 
         Map<String, String> simpleTags = new HashMap<>();
-        simpleTags.put("RegNum", docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum());
+        simpleTags.put("RegNum", Optional.ofNullable(docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum()).orElse(""));
         Map<String, TaggedTable> taggedTables = new HashMap<>();
 
         for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
@@ -327,7 +331,8 @@ public class DocServiceImpl implements DocService {
         Integer docTypeId = doc.getDocType().getId();
 
         Integer curAgreementStage = doc.getCurrentAgreementStage();
-        Boolean isFinalStage = docTypeRoutesRepository.getFinalStageForDocType(docTypeId) == curAgreementStage;
+        Boolean isFinalStage = docTypeRoutesRepository.getFinalStageForDocType(docTypeId) ==
+                Optional.ofNullable(curAgreementStage).orElse(0);
 
         List<String> curUserRoles = AuthorizedUser.getRoles();
         List<DocValuedFields> docValuedFields = doc.getDocValuedFields();
@@ -395,5 +400,4 @@ public class DocServiceImpl implements DocService {
         doc.setDocValuedFields(docValuedFields);
         return doc;
     }
-
 }
