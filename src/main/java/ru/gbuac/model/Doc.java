@@ -1,5 +1,6 @@
 package ru.gbuac.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,6 +51,10 @@ public class Doc extends BaseEntity {
 
     @Column(name = "url_pdf")
     private String urlPDF;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc")
+    private List<DocAgreement> docAgreements;
 
     public Doc(Integer id, String regNum, LocalDateTime regDateTime, @NotNull String projectRegNum,
                @NotNull LocalDateTime projectRegDateTime, @NotNull LocalDateTime insertDateTime,

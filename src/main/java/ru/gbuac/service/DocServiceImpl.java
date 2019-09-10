@@ -52,7 +52,10 @@ public class DocServiceImpl implements DocService {
     private DocTypeRoutesRepository docTypeRoutesRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private DocAgreementRepository docAgreementRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Value("${pdf.final.dir}")
     private String pdfDir;
@@ -128,13 +131,11 @@ public class DocServiceImpl implements DocService {
     }
 
     private Doc prepareToPersist(Doc doc, Integer currentAgreementStage, Integer finalStageForThisDocType) {
-        if (doc.getRegNum() == null) {
-            if (currentAgreementStage == null) {
-                doc.setCurrentAgreementStage(1);
-            } else {
-                if (!currentAgreementStage.equals(finalStageForThisDocType))
-                    doc.setCurrentAgreementStage(currentAgreementStage + 1);
-            }
+        if (currentAgreementStage == null) {
+            doc.setCurrentAgreementStage(1);
+        } else {
+            if (!currentAgreementStage.equals(finalStageForThisDocType))
+                doc.setCurrentAgreementStage(currentAgreementStage + 1);
         }
         return doc;
     }
@@ -171,6 +172,8 @@ public class DocServiceImpl implements DocService {
         if (finalStageForThisDocType == currentAgreementStage) {
             updated.setRegNum("ДЭПР-" + new Random().nextInt(100) + "/19");
             updated.setRegDateTime(LocalDateTime.now());
+        } else {
+            updated = prepareToPersist(updated, currentAgreementStage, finalStageForThisDocType);
         }
 
         boolean hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(currentAgreementStage,
@@ -181,7 +184,10 @@ public class DocServiceImpl implements DocService {
         }
 
         docValuedFieldsRepository.deleteAll(id);
-        DocTo updatedTo = asDocTo(checkNotFoundWithId(docRepository.save(updated), id), userName);
+        updated = checkNotFoundWithId(docRepository.save(updated), id);
+        User user = userRepository.getByName(userName);
+        docAgreementRepository.save(new DocAgreement(null, updated, user, ""));
+        DocTo updatedTo = asDocTo(updated, userName);
         updatedTo.setUrlPDF(createPDFOrDocx(updatedTo, rootPath, false, true));
         return updatedTo;
     }

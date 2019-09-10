@@ -88,18 +88,18 @@ CREATE TABLE doctype_routes
     FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-/*
+
 CREATE TABLE doc_agreement
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     doc_id           INTEGER                 NOT NULL,
     user_id          INTEGER                 NOT NULL,
     agreed_datetime  TIMESTAMP                       ,
-    decision         VARCHAR                         ,
+    comment          VARCHAR                         ,
     FOREIGN KEY (doc_id) REFERENCES doc (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-*/
+
 /*
 CREATE TABLE doc_routes
 (
