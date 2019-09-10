@@ -81,6 +81,7 @@
                         </div>
                     </form>
                     <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
+                    <button type="submit" id="btnDone" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Подписать</button>
                 </div>
             </div>
         </div>
@@ -107,7 +108,7 @@
             }
             $(".documentName").html('Согласование документа №' + data.projectRegNum + ' от ' + newDate);
             // Ссылки на докусмент PDF
-            var documentPDF = data.fileUrl;
+            var documentPDF = data.UrlPDF;
             $('.pdfSRC').attr('src', documentPDF);
             $('.pdfHREF').attr('href', documentPDF);
             // Получение списка полей вида документа
@@ -150,7 +151,7 @@
         $('#btnReformat').on("click", function(event) {
             event.preventDefault();
             var trueName =  $(this).html();
-            $(this).html('Отправка запроса'); //.attr('disabled', true)
+            $(this).html('Отправка запроса').attr('disabled', true);
             $(".pdfSRC").addClass("d-none");
             $(".bigLoader").removeClass("d-none").fadeIn(500);
             var dataType = $("#selectType").val();
@@ -170,7 +171,7 @@
             });
             serverAjax.done(function(data) {
                 $(".bigLoader").addClass("d-none").fadeOut(1000);
-                $("#btnReformat").html(trueName); //.attr('disabled', false)
+                $("#btnReformat").html(trueName).attr('disabled', false).addClass('btn-primary');
                 $(".pdfSRC").removeClass("d-none").attr("src", data.fileUrl);
                 $(".pdfHREF").attr("href", data.fileUrl);
             });

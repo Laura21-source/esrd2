@@ -25,11 +25,11 @@ $(function() {
     $('#blockGroup' + links + ' #nameGroup').attr('id', 'nameGroup' + links);
     $('#blockGroup' + links + ' #delGroup').attr('id', 'delGroup' + links);
     $('#blockGroup' + links).attr('data-field', links);
-    /*$('#blockGroup' + links).find('select').each(function() {
-      var selectName = $(this).attr("name");
-      alert(selectName);
-      $('#blockGroup' + links + selectName).attr('name', selectName + links);
-    });*/
+    $('#blockGroup' + links).find('select').each(function() {
+      var selectName = $(this).attr("id");
+      console.log(selectName);
+      $(this).attr('id', selectName + links);
+    });
     $('#blockGroup' + links + ' *').prop('selected', false);
     $('#nameGroup' + links).html("Вопрос " + links1);
     $('#delGroup' + links).removeClass('d-none');

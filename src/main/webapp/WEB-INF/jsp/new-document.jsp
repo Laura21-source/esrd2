@@ -92,6 +92,7 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
+                $("#btnSluzh").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
                 $('.loaderSuccess').addClass('d-none');
                 $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
                 var projectRegNum = data.projectRegNum;
@@ -109,8 +110,6 @@
             event.preventDefault();
             var trueName =  $(this).html();
             $(this).attr('disabled', true).html('Отправка запроса');
-            $(".pdfSRC").addClass("d-none");
-            $(".bigLoader").removeClass("d-none").fadeIn(500);
             var dataType = $("#selectType").val();
             // Формируем поля JSON
             var dataField = createDataField(0);
@@ -127,18 +126,12 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
-                //$(".bigLoader").addClass("d-none").fadeOut(1000);
-                $("#btnSluzh").addClass('d-none');
+                $("#btnSluzh").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html(trueName);
                 $('#btnLoad').removeClass('d-none').attr("href", data.fileUrl);
-                //$("#btnSluzh").attr('disabled', false).removeClass('btn-warning').addClass('btn-primary').html('Скачать');
-                //$(".pdfSRC").removeClass("d-none").attr("src", data.fileUrl);
-                //$(".pdfHREF").attr("href", data.fileUrl);
-                alert(data.fileUrl);
             });
             serverAjax.fail(function(data) {
-                //alert(data.fileUrl);
-                //$("#btnSluzh").attr('disabled', true).removeClass('btn-warning').addClass('btn-danger').html('Ошибка');
-                $("#btnSluzh").addClass('d-none');
+                alert(data.fileUrl);
+                $("#btnSluzh").attr('disabled', true).removeClass('btn-warning').addClass('btn-danger').html('Ошибка');
             });
         });
     });
