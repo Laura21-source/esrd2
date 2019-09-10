@@ -159,9 +159,9 @@
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(id, sumElem);
             var templPDF = createJSON(id,dataType,dataField,dataBlock);
-            console.log(templPDF);
+            //console.log(templPDF);
             var reformatPDF = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
-            console.log(reformatPDF);
+            //console.log(reformatPDF);
             var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs/pdf',

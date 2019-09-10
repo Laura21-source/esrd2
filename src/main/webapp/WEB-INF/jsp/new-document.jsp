@@ -101,6 +101,36 @@
                 });
             });
         });
+
+        // Отправка на сервер файла служебки
+        $('#btnReformat').on("click", function(event) {
+            event.preventDefault();
+            var trueName =  $(this).html();
+            $(this).html('Отправка запроса'); //.attr('disabled', true)
+            $(".pdfSRC").addClass("d-none");
+            $(".bigLoader").removeClass("d-none").fadeIn(500);
+            var dataType = $("#selectType").val();
+            // Формируем поля JSON
+            var dataField = createDataField(id);
+            var sumElem = countElem(dataField)+1;
+            var dataBlock = createDataBlock(id, sumElem);
+            var templSluzh = createJSON(id,dataType,dataField,dataBlock);
+            console.log(templSluzh);
+            var repostSluzh = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
+            console.log(repostSluzh);
+            var serverAjax = $.ajax({
+                type: "POST",
+                url: 'rest/profile/docs/docx',
+                data: repostSluzh,
+                contentType: 'application/json; charset=utf-8'
+            });
+            serverAjax.done(function(data) {
+                $(".bigLoader").addClass("d-none").fadeOut(1000);
+                $("#btnReformat").html(trueName); //.attr('disabled', false)
+                $(".pdfSRC").removeClass("d-none").attr("src", data.fileUrl);
+                $(".pdfHREF").attr("href", data.fileUrl);
+            });
+        });
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>
