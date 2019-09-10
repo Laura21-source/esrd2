@@ -184,7 +184,7 @@
                     // Есть ли родитель у блока
                     var parentBlock = '';
                     var parentCatalog = '';
-                    if(rowSelectField.parentCatalogId > 0 && !id) {
+                    if(rowSelectField.parentCatalogId > 0/* && !id*/) {
                         //var parentBlockId = $("#blockGroup" + blocKey).attr("data-field");
                         parentCatalog = ' p' + rowSelectField.parentCatalogId;
                         parentBlock = ' d-none';
