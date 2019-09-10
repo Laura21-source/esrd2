@@ -194,6 +194,8 @@ INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (8, 19);
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (20, 1, 4, 1);
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (21, 1, 5, 2);
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (22, 1, 6, 3);
+INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (23, 1, 7, 4);
+INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (24, 1, 8, 5);
 
 INSERT INTO public.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (23, 1, '4001', 1);
 INSERT INTO public.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (24, 1, '4002', 2);
