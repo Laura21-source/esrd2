@@ -54,7 +54,7 @@
         } else if (text == 1) {
             $(element).append('<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '>');
         } else {
-            $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-6 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-6">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '><div class="invalid-feedback">Поле обязательно для заполнения</div>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
+            $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-5 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-7">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '><div class="invalid-feedback">Поле обязательно для заполнения</div>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
         }
     }
 
@@ -277,9 +277,12 @@
                 valueData = 1;
                 if (attrVal != '') {var value = "1900-01-01" + "T" + attrVal + ":00";} else {var value = null;}
             }
-            if (attrElem === "text") {valueData = 2;}
-            if(id > 0) {idField = parseInt($(this).attr("data-id"));}
-            if(valueData == 1) {
+            if (attrElem === "text") {
+                valueData = 2;
+                value = attrVal;
+            }
+            if (id > 0) {idField = parseInt($(this).attr("data-id"));}
+            if (valueData === 1) {
                 field = {
                     "field": {
                         "id" : idField,
@@ -289,8 +292,7 @@
                     },
                     "position": key,
                 }
-            }
-            if(valueData == 2) {
+            } else if (valueData === 2) {
                 field = {
                     "field": {
                         "id" : idField,
