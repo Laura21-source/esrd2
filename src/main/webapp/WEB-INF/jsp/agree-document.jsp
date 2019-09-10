@@ -30,12 +30,12 @@
                                             <div class="col-md-3 text-left mt-2">
                                                 <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-3">
                                                 <select class="browser-default custom-select" name="selectType" id="selectType" required>
                                                     <option value="" class="alert-primary">Выберите вид документа</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-4">&nbsp;</div>
+                                            <div class="col-md-6">&nbsp;</div>
                                         </div>
                                     </div>
                                 </div>
