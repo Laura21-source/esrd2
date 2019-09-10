@@ -157,6 +157,9 @@
                     }
                     createInput ("#blockUp", "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
                 }
+                if (row.field.fieldType === "TEXT") {
+                    createInput("#blockUp", "text", "blockText", "inputText", "Введите значение", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, row.field.valueStr, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
+                }
                 if (row.field.fieldType === "GROUP_FIELDS") {
                     var groupFieldsElement = {"field" : row.field}
                     groupFieldsArray.push(groupFieldsElement);
@@ -187,10 +190,8 @@
                     var parentBlock = '';
                     var parentCatalog = '';
                     if(rowSelectField.parentCatalogId > 0/* && !id*/) {
-                        //var parentBlockId = $("#blockGroup" + blocKey).attr("data-field");
                         parentCatalog = ' p' + rowSelectField.parentCatalogId;
                         parentBlock = ' d-none';
-                        //console.log(parentBlockId);
                     }
                     var numberField = '';
                     if(id > 0) {
@@ -204,10 +205,10 @@
                     if(rowSelectField.required == true) {required = ' required';}
                     // Если вид поля SELECT
                     if (rowSelectField.fieldType === "CATALOG") {
-                        var selectFieldName = 'select' + blocKey + 'Field' + rowSelectField.catalogId;
+                        var selectFieldName = 'selectField' + rowSelectField.catalogId;
                         // Добавляем строку
                         $('#blockGroup' + blocKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
-                        var numberCatalog = ('#blockGroup' + blocKey + ' #select' + blocKey + 'Field' + rowSelectField.catalogId);
+                        var numberCatalog = ('#blockGroup' + blocKey + ' #selectField' + rowSelectField.catalogId);
                         //console.log(numberCatalog);
                         $('#blockGroup' + blocKey + ' #'+selectFieldName).on('change', function () {
                             //console.log('#blockGroup' + blocKey + ' #'+selectFieldName);
@@ -217,31 +218,17 @@
                             $(".p" + idParent).each(function () {
                                 $(this).removeClass('d-none');
                                 $(this).find("select").each(function () {
-                                    var tempCatalogField = $(this).attr("id");
+                                    var tempCatalogField = $(this).attr("name");
                                     var numberCatalogField = tempCatalogField.substr(11);
                                     var nameCatalogField = '#' + tempCatalogField;
-                                    //var idParentField =  $(idParentSearch).attr("data-row");
-                                    //var idParentBlock = $("[data-row = " + idParentField + "]");
-                                    //console.log(idParentBlock);
-                                    // Количество опций по запросу
+                                    var parentUp = $();
+                                    console.log(parentUp);
+                                    // Количество опций по запросу, тут же в функции прячем ненужные
                                     sumOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField);
-                                    /*var idParentSearch = $(this).parents(".blockRow");
-                                    var idParentField =  $(idParentSearch).attr("data-option");
-                                    console.log(idParentField);*/
                                     // Открываем опции
                                     createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "");
-                                    //var sumOption = $(nameCatalogField).parents(".blockRow").attr("data-option");
-                                    //console.log(nameCatalogField + ' -- ' + sumOption);
                                     $(this).find("option.active").remove();
-                                    /*if(sumOption > 0) {
-                                        $(this).removeClass('d-none');
-                                    } else {
-                                        $(this).addClass('d-none');
-                                    }*/
                                 });
-                                //
-                                //console.log(idParentBlock);
-                                //changeSelect(tempCatalogField, numberSelectField);
                             });
                         });
                         if(parentBlock == '') {

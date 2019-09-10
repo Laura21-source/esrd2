@@ -112,7 +112,7 @@
             $('.pdfSRC').attr('src', documentPDF);
             $('.pdfHREF').attr('href', documentPDF);
             // Получение списка полей вида документа
-            createOptions(docAllURL, "#selectType", "name", "id", data.docTypeId,"","","","","","","","","");
+            createOptions(docAllURL, "#selectType", "name", "id", data.docTypeId,"","","","","","","","","","");
             // Получение основных полей
             getFieldsDocument("rest/profile/docs/" + id + "/", id, 0);
         });

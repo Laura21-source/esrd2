@@ -55,7 +55,7 @@
 <script>
     $(function() {
         // Список полей вида документов
-        createOptions("rest/profile/doctypes/", "#selectType", "name", "id", "", "", "", "", "", "", "", "","","");
+        createOptions("rest/profile/doctypes/", "#selectType", "name", "id", "", "", "", "", "", "", "", "","","","");
 
         // Выбор типа документа
         $("#selectType").change(function() {
@@ -128,9 +128,12 @@
             serverAjax.done(function(data) {
                 $("#btnSluzh").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html(trueName);
                 $('#btnLoad').removeClass('d-none').attr("href", data.fileUrl);
+                $('#btnLoad').click(function() {
+                    $("#btnSluzh").removeClass('d-none').removeClass('waves-effect');
+                    $('#btnLoad').addClass('d-none');
+                });
             });
             serverAjax.fail(function(data) {
-                //alert(data.fileUrl);
                 $("#btnSluzh").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
             });
         });
