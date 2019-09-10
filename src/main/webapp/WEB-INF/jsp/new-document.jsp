@@ -39,7 +39,9 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Зарегистрировать</button>
+                        <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Отправить на согласование</button>
+                        <button type="button" id="btnSluzh" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>
+                        <a href="" type="button" id="btnLoad" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave">Скачать файл</a>
                     </form>
                 </div>
             </div>
@@ -62,9 +64,9 @@
             $('.blockGroup').remove();
             var asd = $("#selectType").val();
             if(asd == 0) {
-                $("#bBlockUp, #blockDown, #btnSave").addClass("d-none");
+                $("#bBlockUp, #blockDown, #btnSave, #btnSluzh").addClass("d-none");
             } else {
-                $("#blockUp, #blockDown, #btnSave").removeClass("d-none");
+                $("#blockUp, #blockDown, #btnSave, #btnSluzh").removeClass("d-none");
                 // Список полей по виду документа
                 getFieldsDocument("rest/profile/doctypes/" + asd + "/fields", 0, 1);
             }
@@ -103,20 +105,20 @@
         });
 
         // Отправка на сервер файла служебки
-        $('#btnReformat').on("click", function(event) {
+        $('#btnSluzh').on("click", function(event) {
             event.preventDefault();
             var trueName =  $(this).html();
-            $(this).html('Отправка запроса'); //.attr('disabled', true)
+            $(this).attr('disabled', true).html('Отправка запроса');
             $(".pdfSRC").addClass("d-none");
             $(".bigLoader").removeClass("d-none").fadeIn(500);
             var dataType = $("#selectType").val();
             // Формируем поля JSON
-            var dataField = createDataField(id);
+            var dataField = createDataField(0);
             var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(id, sumElem);
-            var templSluzh = createJSON(id,dataType,dataField,dataBlock);
+            var dataBlock = createDataBlock(0, sumElem);
+            var templSluzh = createJSON(0,dataType,dataField,dataBlock);
             console.log(templSluzh);
-            var repostSluzh = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
+            var repostSluzh = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
             console.log(repostSluzh);
             var serverAjax = $.ajax({
                 type: "POST",
@@ -125,10 +127,18 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
-                $(".bigLoader").addClass("d-none").fadeOut(1000);
-                $("#btnReformat").html(trueName); //.attr('disabled', false)
-                $(".pdfSRC").removeClass("d-none").attr("src", data.fileUrl);
-                $(".pdfHREF").attr("href", data.fileUrl);
+                //$(".bigLoader").addClass("d-none").fadeOut(1000);
+                $("#btnSluzh").addClass('d-none');
+                $('#btnLoad').removeClass('d-none').attr("href", data.fileUrl);
+                //$("#btnSluzh").attr('disabled', false).removeClass('btn-warning').addClass('btn-primary').html('Скачать');
+                //$(".pdfSRC").removeClass("d-none").attr("src", data.fileUrl);
+                //$(".pdfHREF").attr("href", data.fileUrl);
+                alert(data.fileUrl);
+            });
+            serverAjax.fail(function(data) {
+                //alert(data.fileUrl);
+                //$("#btnSluzh").attr('disabled', true).removeClass('btn-warning').addClass('btn-danger').html('Ошибка');
+                $("#btnSluzh").addClass('d-none');
             });
         });
     });
