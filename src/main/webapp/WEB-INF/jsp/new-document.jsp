@@ -16,15 +16,16 @@
                     </div>
                     <form class="registrationForm needs-validation" novalidate>
                         <div class="row ml-1 mb-3">
-                            <div class="col-md-2 text-left mt-2">
+                            <div class="col-md-4 text-left mt-2">
                                 <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-4">
                                 <select class="browser-default custom-select" name="selectType" id="selectType" required>
                                     <option value="" class="alert-primary" selected>Выберите вид документа</option>
                                 </select>
                                 <div class="invalid-tooltip">Выберите тип документа</div>
                             </div>
+                            <div class="col-md-2">&nbsp;</div>
                         </div>
                         <div id="blockUp" class="d-none"></div>
                         <div id="blockDown" class="d-none card p-3">

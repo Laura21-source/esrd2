@@ -20,7 +20,7 @@ $(function() {
   $('.addGroup').on("click",function() {
     var links = $("[data-block='1']").length;
     var links1 = links + 1;
-    $('#blockGroup').clone(true).attr('id', 'blockGroup' + links).appendTo("#newBlockGroup");
+    $('#blockGroup').clone().attr('id', 'blockGroup' + links).appendTo("#newBlockGroup");
     // Добавляем к id полей номер добавляемого вопроса
     $('#blockGroup' + links + ' #nameGroup').attr('id', 'nameGroup' + links);
     $('#blockGroup' + links + ' #delGroup').attr('id', 'delGroup' + links);
