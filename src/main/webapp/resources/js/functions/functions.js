@@ -267,26 +267,39 @@
             var attrVal = $(this).val();
             var attrId = parseInt($(this).attr("data-field"));
             if (attrElem === "date") {
-                valueData = "valueDate";
+                valueData = 1;
                 if (attrVal != '') {
                     var value = attrVal + "T00:00:00";
                     dataDate = attrVal;
                 } else {var value = null;}
             }
             if (attrElem === "time") {
-                valueData = "valueDate";
+                valueData = 1;
                 if (attrVal != '') {var value = "1900-01-01" + "T" + attrVal + ":00";} else {var value = null;}
             }
-            if (attrElem === "text") {valueData = "valueStr";}
+            if (attrElem === "text") {valueData = 2;}
             if(id > 0) {idField = parseInt($(this).attr("data-id"));}
-            field = {
-                "field": {
-                    "id" : idField,
-                    "childFields": [],
-                    "fieldId": attrId,
-                    valueData : value
-                },
-                "position": key,
+            if(valueData == 1) {
+                field = {
+                    "field": {
+                        "id" : idField,
+                        "childFields": [],
+                        "fieldId": attrId,
+                        "valueDate" : value
+                    },
+                    "position": key,
+                }
+            }
+            if(valueData == 2) {
+                field = {
+                    "field": {
+                        "id" : idField,
+                        "childFields": [],
+                        "fieldId": attrId,
+                        "valueStr" : value
+                    },
+                    "position": key,
+                }
             }
             dataField.push(field);
         });
