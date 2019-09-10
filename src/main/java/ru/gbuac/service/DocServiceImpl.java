@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.rmi.server.UID;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -241,7 +242,9 @@ public class DocServiceImpl implements DocService {
             switch (fieldTo.getFieldType()) {
                 case GROUP_FIELDS:
                     for (FieldTo childField : fieldTo.getChildFields()) {
-                        fillTags(childField, simpleTags, taggedTables, fieldTo.getChildFields().size());
+                        int childMaxCellsCount = (int) fieldTo.getChildFields().stream()
+                                .filter(c -> !c.getTag().equals("")).count();
+                        fillTags(childField, simpleTags, taggedTables, childMaxCellsCount);
                     }
                     break;
                 case CATALOG:
@@ -264,7 +267,7 @@ public class DocServiceImpl implements DocService {
 
     @Override
     public FileTo uploadFile(MultipartFile inputFile, String rootPath) throws FileUploadException {
-        String savePath = rootPath + uploadsTempDir + UUID.randomUUID().toString() + "_" + inputFile.getName();
+        String savePath = rootPath + uploadsTempDir + UUID.randomUUID().toString() + "_" + inputFile.getOriginalFilename();
         try {
             inputFile.transferTo(new File(savePath));
         }
@@ -279,8 +282,34 @@ public class DocServiceImpl implements DocService {
         return new FileTo(createPdf(asDocTo(docFromTo(docTo), null), rootPath, true));
     }
 
+    private String createDoc(DocTo docTo, String rootPath) {
+        DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
+        String templatePath = rootPath + docTemplatesDir + docType.getTmpTemplateFileName();
+        String savePath = rootPath + uploadsTempDir + UUID.randomUUID().toString() + ".docx";
+
+        Map<String, String> simpleTags = new HashMap<>();
+        simpleTags.put("RegNum", docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum());
+        Map<String, TaggedTable> taggedTables = new HashMap<>();
+
+        for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
+            fillTags(docFieldsTo.getField(), simpleTags, taggedTables, docTo.getChildFields().size());
+        }
+
+        try {
+            ByteArrayOutputStream byteArrayOutputStream =
+                    Templater.fillTagsByDictionary(templatePath, simpleTags, taggedTables,
+                            savePath, false);
+            byteArrayOutputStream.writeTo(new FileOutputStream(savePath));
+        } catch (Exception e) {
+            throw new GeneratePdfException();
+        }
+
+        return savePath.replace(rootPath,"");
+    }
+
     private String createPdf(DocTo docTo, String rootPath, Boolean saveToTempDir) {
-        String templatePath = rootPath + docTemplatesDir + "Templ.docx";
+        DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
+        String templatePath = rootPath + docTemplatesDir + docType.getTemplateFileName();
         String pdfTempPath = rootPath + pdfTempDir + docTo.getId() + ".pdf";
         String pdfPath = rootPath + pdfDir + docTo.getId() + ".pdf";
         String savePath = saveToTempDir ? pdfTempPath : pdfPath;

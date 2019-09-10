@@ -57,9 +57,11 @@ CREATE TABLE user_roles
 
 CREATE TABLE doctype
 (
-    id               INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name             VARCHAR                 NOT NULL,
-    role_id          INTEGER                 NOT NULL,
+    id                      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name                    VARCHAR                 NOT NULL,
+    tmp_template_filename   VARCHAR                         ,
+    template_filename       VARCHAR                         ,
+    role_id                 INTEGER                 NOT NULL,
     FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
 );
 
