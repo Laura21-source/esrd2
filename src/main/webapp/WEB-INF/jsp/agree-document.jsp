@@ -81,7 +81,7 @@
                         </div>
                     </form>
                     <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
-                    <button type="submit" id="btnDone" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Подписать</button>
+                    <button type="submit" id="btnDone" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Подписать</button>
                 </div>
             </div>
         </div>
@@ -171,7 +171,7 @@
             });
             serverAjax.done(function(data) {
                 $(".bigLoader").addClass("d-none").fadeOut(1000);
-                $("#btnReformat").html(trueName).attr('disabled', false).addClass('btn-primary');
+                $("#btnReformat").html(trueName).attr('disabled', false).removeClass('waves-effect');
                 $(".pdfSRC").removeClass("d-none").attr("src", data.fileUrl);
                 $(".pdfHREF").attr("href", data.fileUrl);
             });
