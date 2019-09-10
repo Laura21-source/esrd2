@@ -130,8 +130,8 @@
                 $('#btnLoad').removeClass('d-none').attr("href", data.fileUrl);
             });
             serverAjax.fail(function(data) {
-                alert(data.fileUrl);
-                $("#btnSluzh").attr('disabled', true).removeClass('btn-warning').addClass('btn-danger').html('Ошибка');
+                //alert(data.fileUrl);
+                $("#btnSluzh").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
             });
         });
     });

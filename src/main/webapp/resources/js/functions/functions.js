@@ -21,7 +21,7 @@
     13. required - Значение атрибута required (true - да)
     14. attachment - Поле инпут для ввода данных
     */
-    function createInput (element, type, id, name, title, short, iconName, value, field, up, idField, enabled, required, attachment) {
+    function createInput (element, type, id, name, title, short, iconName, value, field, up, idField, enabled, required, attachment, text) {
         var idVal = "";
         if (idField) {
             idVal = ' data-id="' + idField + '"';
@@ -50,6 +50,8 @@
         }
         if (attachment == 1) {
             $(element).append('<div class="md-form file-field"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл"></div></div>');
+        } else if (text == 1) {
+            $(element).append('<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '><div class="invalid-tooltip">Поле обязательно для заполнения</div>');
         } else {
             $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-4 text-left">' + '<span for="' + name + '" class="text-muted">' + iconName + '</span>' + '</div>' + '<div class="col-md-8">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '><div class="invalid-tooltip">Поле обязательно для заполнения</div>' + '</div>' + '</div>' + '</div>' + colShort + '</div>');
         }
@@ -146,14 +148,14 @@
                         idField = row.field.id;
                         if(row.field.valueDate !== "") {valueDate = formatDate(row.field.valueDate, 1);}
                     }
-                    createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required);
+                    createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
                 }
                 if (row.field.fieldType === "TIME") {
                     if (id > 0) {
                         idField = row.field.id;
                         if(row.field.valueDate !== "") {valueDate = formatTime(row.field.valueDate);}
                     }
-                    createInput ("#blockUp", "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required);
+                    createInput ("#blockUp", "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
                 }
                 if (row.field.fieldType === "GROUP_FIELDS") {
                     var groupFieldsElement = {"field" : row.field}
@@ -248,23 +250,23 @@
                         }
                     }
                     if (rowSelectField.fieldType === "ATTACHMENT") {
-                        // Добавлякем строку
+                        // Добавляем строку
                         if(parentBlock == '') {
                             $('#blockGroup' + blocKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted"><i class="fas fa-file-download mr-2"></i>' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
-                            createInput(".col-md-9:last", "file", "inputFile", "inputFile", "Загрузить файл", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, 1);
+                            createInput(".col-md-9:last", "file", "inputFile", "inputFile", "Загрузить файл", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, 1, '');
                         }
                     }
                     if (rowSelectField.fieldType === "TEXTAREA") {
-                        // Добавлякем строку
+                        // Добавляем строку
                         if(parentBlock == '') {
                             $('#blockGroup' + blocKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted"><i class="fas fa-file-download mr-2"></i>' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><textarea></textarea></div></div>');
                         }
                     }
                     if (rowSelectField.fieldType === "TEXT") {
-                        // Добавлякем строку
+                        // Добавляем строку
                         if(parentBlock == '') {
-                            $('#blockGroup' + blocKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted"><i class="fas fa-file-download mr-2"></i>' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
-                            createInput(".col-md-9:last", "text", "", "inputText", "Введите значение", 0, '<i class="fas fa-file mr-2"></i>' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 1, idField, rowSelectField.enabled, rowSelectField.required, '');
+                            $('#blockGroup' + blocKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted"><i class="fas fa-file mr-2"></i>' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
+                            createInput(".col-md-9:last", "text", "", "inputText", "Введите значение", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, '', 1);
                         }
                     }
                 }
