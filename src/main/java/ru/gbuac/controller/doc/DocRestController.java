@@ -55,6 +55,11 @@ public class DocRestController extends AbstractDocRestController {
         return super.fileUploadFile(inputFile, context.getRealPath("/"));
     }
 
+    @PostMapping(value = "/docx", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public FileTo createDocx(@Valid @RequestBody DocTo docTo) {
+        return super.createDocx(docTo, context.getRealPath("/"));
+    }
+
     @PostMapping(value = "/pdf", consumes = MediaType.APPLICATION_JSON_VALUE)
     public FileTo createPDF(@Valid @RequestBody DocTo docTo) {
         return super.createPDF(docTo, context.getRealPath("/"));

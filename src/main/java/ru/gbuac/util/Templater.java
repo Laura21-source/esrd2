@@ -45,8 +45,9 @@ public class Templater {
     }
 
 
-    public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables,
-                                     String outPath, Boolean isPDF) throws Exception {
+    public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags,
+                                                             Map<String, TaggedTable> taggedTables,
+                                     Boolean isPDF) throws Exception {
         XWPFDocument doc = new XWPFDocument(OPCPackage.open(templatePath));
 
         // Замена тэгов щаблона значениями по словарю

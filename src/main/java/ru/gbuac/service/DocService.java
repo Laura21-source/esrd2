@@ -5,6 +5,7 @@ import ru.gbuac.model.Doc;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FileTo;
 import ru.gbuac.util.exception.FileUploadException;
+import ru.gbuac.util.exception.GenerateDocxException;
 import ru.gbuac.util.exception.GeneratePdfException;
 import ru.gbuac.util.exception.NotFoundException;
 
@@ -34,6 +35,8 @@ public interface DocService {
     void delete(int id) throws NotFoundException;
 
     FileTo uploadFile(MultipartFile inputFile, String rootPath) throws FileUploadException;
+
+    FileTo createDOCX(DocTo docTo, String rootPath) throws GenerateDocxException;
 
     FileTo createPDF(DocTo docTo, String rootPath) throws GeneratePdfException;
 }

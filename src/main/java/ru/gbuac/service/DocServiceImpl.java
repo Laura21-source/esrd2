@@ -22,7 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.rmi.server.UID;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -60,6 +59,9 @@ public class DocServiceImpl implements DocService {
 
     @Value("${pdf.temp.dir}")
     private String pdfTempDir;
+
+    @Value("${docx.temp.dir}")
+    private String docxTempDir;
 
     @Value("${doc.templates.dir}")
     private String docTemplatesDir;
@@ -152,7 +154,7 @@ public class DocServiceImpl implements DocService {
         Doc docToSave = prepareToPersist(createNewDocFromTo(docTo), currentAgreementStage, finalStageForThisDocType);
 
         DocTo saved = asDocTo(docRepository.save(docToSave), userName);
-        String urlPdf = createPdf(saved, rootPath, false);
+        String urlPdf = createPDFOrDocx(saved, rootPath, false, true);
         docRepository.setUrlPDF(saved.getId(), urlPdf);
         saved.setUrlPDF(urlPdf);
         return saved;
@@ -180,7 +182,7 @@ public class DocServiceImpl implements DocService {
 
         docValuedFieldsRepository.deleteAll(id);
         DocTo updatedTo = asDocTo(checkNotFoundWithId(docRepository.save(updated), id), userName);
-        updatedTo.setUrlPDF(createPdf(updatedTo, rootPath, false));
+        updatedTo.setUrlPDF(createPDFOrDocx(updatedTo, rootPath, false, true));
         return updatedTo;
     }
 
@@ -278,41 +280,29 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
+    public FileTo createDOCX(DocTo docTo, String rootPath) {
+        return new FileTo(createPDFOrDocx(asDocTo(docFromTo(docTo), null), rootPath,  true, false));
+    }
+
+    @Override
     public FileTo createPDF(DocTo docTo, String rootPath) {
-        return new FileTo(createPdf(asDocTo(docFromTo(docTo), null), rootPath, true));
+        return new FileTo(createPDFOrDocx(asDocTo(docFromTo(docTo), null), rootPath, true, true));
     }
 
-    private String createDoc(DocTo docTo, String rootPath) {
-        DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
-        String templatePath = rootPath + docTemplatesDir + docType.getTmpTemplateFileName();
-        String savePath = rootPath + uploadsTempDir + UUID.randomUUID().toString() + ".docx";
-
-        Map<String, String> simpleTags = new HashMap<>();
-        simpleTags.put("RegNum", docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum());
-        Map<String, TaggedTable> taggedTables = new HashMap<>();
-
-        for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
-            fillTags(docFieldsTo.getField(), simpleTags, taggedTables, docTo.getChildFields().size());
-        }
-
-        try {
-            ByteArrayOutputStream byteArrayOutputStream =
-                    Templater.fillTagsByDictionary(templatePath, simpleTags, taggedTables,
-                            savePath, false);
-            byteArrayOutputStream.writeTo(new FileOutputStream(savePath));
-        } catch (Exception e) {
-            throw new GeneratePdfException();
-        }
-
-        return savePath.replace(rootPath,"");
-    }
-
-    private String createPdf(DocTo docTo, String rootPath, Boolean saveToTempDir) {
+    private String createPDFOrDocx(DocTo docTo, String rootPath, Boolean saveToTempDir, Boolean isPDF) {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
         String templatePath = rootPath + docTemplatesDir + docType.getTemplateFileName();
+        String tmpTemplatePath = rootPath + docTemplatesDir + docType.getTmpTemplateFileName();
+
+        String genTemplatePath = isPDF ? templatePath : tmpTemplatePath;
+
         String pdfTempPath = rootPath + pdfTempDir + docTo.getId() + ".pdf";
         String pdfPath = rootPath + pdfDir + docTo.getId() + ".pdf";
-        String savePath = saveToTempDir ? pdfTempPath : pdfPath;
+
+        String pdfSavePath = saveToTempDir ? pdfTempPath : pdfPath;
+        String docxSavePath = rootPath + docxTempDir + docTo.getId() + ".docx";
+
+        String savePath = isPDF ? pdfSavePath : docxSavePath;
 
         Map<String, String> simpleTags = new HashMap<>();
         simpleTags.put("RegNum", docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum());
@@ -324,8 +314,7 @@ public class DocServiceImpl implements DocService {
 
         try {
             ByteArrayOutputStream byteArrayOutputStream =
-                    Templater.fillTagsByDictionary(templatePath, simpleTags, taggedTables,
-                    pdfTempPath, true);
+                    Templater.fillTagsByDictionary(genTemplatePath, simpleTags, taggedTables, isPDF);
             byteArrayOutputStream.writeTo(new FileOutputStream(savePath));
         } catch (Exception e) {
             throw new GeneratePdfException();

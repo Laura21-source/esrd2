@@ -75,6 +75,10 @@ public abstract class AbstractDocRestController {
         return docService.uploadFile(inputFile, rootPath);
     }
 
+    public FileTo createDocx(DocTo docTo, String rootPath) {
+        return docService.createDOCX(docTo, rootPath);
+    }
+
     public FileTo createPDF(DocTo docTo, String rootPath) {
         return docService.createPDF(docTo, rootPath);
     }
