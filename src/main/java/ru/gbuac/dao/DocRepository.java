@@ -36,6 +36,6 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Doc d SET d.UrlPDF=:urlPdf WHERE d.id=:id")
+    @Query("UPDATE Doc d SET d.urlPDF=:urlPdf WHERE d.id=:id")
     void setUrlPDF(@Param("id") int id, @Param("urlPdf") String urlPdf);
 }

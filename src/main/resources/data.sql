@@ -20,7 +20,8 @@ INSERT INTO public.user_roles (user_id, role_id) VALUES (4001, 3006);
 INSERT INTO public.user_roles (user_id, role_id) VALUES (4002, 3002);
 INSERT INTO public.user_roles (user_id, role_id) VALUES (4002, 3006);
 
-INSERT INTO public.doctype (id, name, role_id) VALUES (1, 'Повестка заседания Правления', 3001);
+INSERT INTO public.doctype (id, name, role_id, tmp_template_filename, template_filename)
+VALUES (1, 'Повестка заседания Правления', 3001, 'zapiska.docx', 'povestka.docx');
 INSERT INTO public.doctype (id, name, role_id) VALUES (2, 'Приказ', 3001);
 INSERT INTO public.doctype (id, name, role_id) VALUES (3, 'Протокол', 3001);
 
@@ -152,16 +153,16 @@ INSERT INTO public.catalogelem (id, value_int, value_str, catalog_id, parent_cat
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null, true, 3003, 'MeetingDate');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (5, 'Время заседания', 'TIME', null, null, null, null, true, 3004, 'MeetingTime');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (6, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, true, 3005, '');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (7, 'Предмет вопроса', 'CATALOG', null, null, null, 1001, true, '[Questions]Subject');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (8, 'Вопрос', 'CATALOG', null, null, null, 1002, false, '[Questions]Question');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (9, 'Сфера деятельности', 'CATALOG', null, null, null, 1003, false, '[Questions]Direction');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (10, 'Номер приказа', 'CATALOG', null, null, null, 1008, false, '[Questions]OrderNumber');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (11, 'Вид тарифа', 'CATALOG', null, null, null, 1004, false, '[Questions]TarifView');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (12, 'Подключаемая система при техническом присоединении', 'CATALOG', null, null, null, 1005, false, '[Questions]TechConnection');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (13, 'Организация', 'CATALOG', null, null, null, 1006, true, '[Questions]Organization');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (14, 'Ответственный', 'CATALOG', null, null, null, 1007, true, '[Questions]AuthPerson');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (7, 'Предмет вопроса', 'CATALOG', null, null, null, 1001, true, 3005, '[Questions]Subject');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (8, 'Вопрос', 'CATALOG', null, null, null, 1002, false, 3005, '[Questions]Question');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (9, 'Сфера деятельности', 'CATALOG', null, null, null, 1003, false, 3005, '[Questions]Direction');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (10, 'Номер приказа', 'CATALOG', null, null, null, 1008, false, 3005, '[Questions]OrderNumber');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (11, 'Вид тарифа', 'CATALOG', null, null, null, 1004, false, 3005, '[Questions]TarifView');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (12, 'Подключаемая система при техническом присоединении', 'CATALOG', null, null, null, 1005, false, 3005, '[Questions]TechConnection');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (13, 'Организация', 'CATALOG', null, null, null, 1006, true, 3005, '[Questions]Organization');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (14, 'Ответственный', 'CATALOG', null, null, null, 1007, true, 3005, '[Questions]AuthPerson');
 --INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Email ответственного', 'CATALOG', null, null, null, null, 'EmailPerson');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, tag) VALUES (15, 'Вложение', 'ATTACHMENT', null, null, null, null, true, '');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (15, 'Вложение', 'ATTACHMENT', null, null, null, null, true, 3005, '');
 
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 7);
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (6, 8);

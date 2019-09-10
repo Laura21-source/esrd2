@@ -8,7 +8,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class Doc extends BaseEntity {
     private Integer currentAgreementStage;
 
     @Column(name = "url_pdf")
-    private String UrlPDF;
+    private String urlPDF;
 
     public Doc(Integer id, String regNum, LocalDateTime regDateTime, @NotNull String projectRegNum,
                @NotNull LocalDateTime projectRegDateTime, @NotNull LocalDateTime insertDateTime,
@@ -65,6 +64,6 @@ public class Doc extends BaseEntity {
         this.docType = docType;
         this.docValuedFields = docValuedFields;
         this.currentAgreementStage = currentAgreementStage;
-        UrlPDF = urlPDF;
+        this.urlPDF = urlPDF;
     }
 }

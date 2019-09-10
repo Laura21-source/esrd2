@@ -39,7 +39,7 @@ public class Templater {
 
 
         //Templater templater = new Templater();
-        //templater.fillTagsByDictionary("C:\\DocTemplates\\Templ.docx", simpleTags, Arrays.asList(taggedTable),
+        //templater.fillTagsByDictionary("C:\\DocTemplates\\povestka.docx", simpleTags, Arrays.asList(taggedTable),
         //        "C:\\TempPDF\\PDFResult.pdf", true);
 
     }

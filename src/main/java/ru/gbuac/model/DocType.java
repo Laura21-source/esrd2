@@ -17,6 +17,13 @@ public class DocType extends NamedEntity {
     //private List<Doc> docs;
     //@OneToMany(fetch = FetchType.LAZY, mappedBy = "docType")
     //private List<DocTypeFields> docTypeFields;
+
+    @Column(name = "tmp_template_filename")
+    private String tmpTemplateFileName;
+
+    @Column(name = "template_filename")
+    private String templateFileName;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
