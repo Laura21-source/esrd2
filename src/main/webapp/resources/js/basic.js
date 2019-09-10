@@ -54,13 +54,13 @@ $(function() {
       contentType: false,
       cache: false,
       timeout: 600000,
-      data: data,
+      data: data/*,
       success: function () {
         alert("Data Uploaded: ");
       },
       error: function () {
         alert("Error!");
-      }
+      }*/
     });
   });
 

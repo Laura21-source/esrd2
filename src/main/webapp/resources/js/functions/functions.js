@@ -204,7 +204,7 @@
                         var numberCatalog = ('#blockGroup' + blocKey + ' #select' + blocKey + 'Field' + rowSelectField.catalogId);
                         //console.log(numberCatalog);
 
-/*                        $('#blockGroup' + blocKey + ' #'+selectFieldName).on('change', function () {
+                        $('#blockGroup' + blocKey + ' #'+selectFieldName).on('change', function () {
                             //console.log('#blockGroup' + blocKey + ' #'+selectFieldName);
                             var numberSelectField = $(this).val();
                             var idParent = $(this).attr("name");
@@ -215,28 +215,30 @@
                                     var tempCatalogField = $(this).attr("id");
                                     var numberCatalogField = tempCatalogField.substr(11);
                                     var nameCatalogField = '#' + tempCatalogField;
-                                    //var idParentSearch = $(this).parents(".blockRow");
                                     //var idParentField =  $(idParentSearch).attr("data-row");
                                     //var idParentBlock = $("[data-row = " + idParentField + "]");
                                     //console.log(idParentBlock);
                                     // Количество опций по запросу
                                     sumOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField);
+                                    var idParentSearch = $(this).parents(".blockRow");
+                                    var idParentField =  $(idParentSearch).attr("data-option");
+                                    console.log(idParentField);
                                     // Открываем опции
                                     createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "");
-                                    var sumOption = $(nameCatalogField).parents(".blockRow").attr("data-option");
+                                    //var sumOption = $(nameCatalogField).parents(".blockRow").attr("data-option");
                                     //console.log(nameCatalogField + ' -- ' + sumOption);
                                     $(this).find("option.active").remove();
-                                    if(sumOption > 0) {
+                                    /*if(sumOption > 0) {
                                         $(this).removeClass('d-none');
                                     } else {
                                         $(this).addClass('d-none');
-                                    }
+                                    }*/
                                 });
                                 //
                                 //console.log(idParentBlock);
                                 //changeSelect(tempCatalogField, numberSelectField);
                             });
-                        });*/
+                        });
                         if(parentBlock == '') {
                             // Добавляем опции
                             createOptions ("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField);
