@@ -85,7 +85,7 @@
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(0, sumElem);
             var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-            console.log(serverStack);
+            //console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
@@ -103,6 +103,15 @@
                     $("#blockUp, #blockDown, #btnSave").addClass("d-none");
                     $("#btnSave").attr('disabled', false).html(trueName);
                 });
+            });
+            var serverWord = $.ajax({
+                type: "POST",
+                url: 'rest/profile/docs/docx',
+                data: serverStack,
+                contentType: 'application/json; charset=utf-8'
+            });
+            serverWord.done(function(data) {
+                $('#modalLoad').attr("href", data.fileUrl);
             });
         });
 

@@ -67,6 +67,7 @@
             </div>
             <div class="modal-footer justify-content-center footerSuccess d-none">
                 <a type="button" class="btn btn-success rounded" data-dismiss="modal">Продолжить работу</a>
+                <a id="modalLoad" href="" type="button" class="btn btn-primary rounded">Скачать</a>
             </div>
         </div>
     </div>
