@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS role_child_role;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS doctype_routes;
+DROP TABLE IF EXISTS doc_agreement;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS field_child_field;
 DROP TABLE IF EXISTS doctype_fields;
@@ -13,9 +14,6 @@ DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS valuedfield;
 DROP TABLE IF EXISTS catalogelem;
 DROP TABLE IF EXISTS catalog;
-DROP SEQUENCE IF EXISTS global_seq;
-DROP SEQUENCE IF EXISTS agreement_seq;
-DROP SEQUENCE IF EXISTS depr_seq;
 
 CREATE SEQUENCE global_seq START 100000;
 CREATE SEQUENCE agreement_seq START 1;
