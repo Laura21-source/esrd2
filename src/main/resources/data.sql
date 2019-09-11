@@ -172,12 +172,11 @@ INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, len
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (11, 'Сфера деятельности', 'CATALOG', null, null, null, 1003, false, 3005, '[Questions]Direction');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (12, 'Реквизиты приказа', 'CATALOG', null, null, null, 1008, false, 3005, '[Questions]OrderNumber');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (13, 'Вид тарифа', 'CATALOG', null, null, null, 1004, false, 3005, '[Questions]TarifView');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (14, 'Подключаемая система при техническом присоединении', 'CATALOG', null, null, null, 1005, false, 3005, '[Questions]TechConnection');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (14, 'Прочее', 'TEXT', null, null, null, null, false, null, '[Questions]Comments');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (15, 'Организация', 'CATALOG', null, null, null, 1006, true, 3005, '[Questions]Organization');
 INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (16, 'Ответственный', 'CATALOG', null, null, null, 1007, true, 3005, '[Questions]AuthPerson');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (17, 'Прочее', 'TEXT', null, null, null, null, false, null, '[Questions]Comments');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (18, 'Дополнительная информация', 'TEXT', null, null, null, null, false, null, '[Questions]AdditionalInfo');
-INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (19, 'Вложение', 'ATTACHMENT', null, null, null, null, true, 3005, '');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (17, 'Дополнительная информация', 'TEXT', null, null, null, null, false, null, '[Questions]AdditionalInfo');
+INSERT INTO public.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, required, role_id, tag) VALUES (18, 'Вложение', 'ATTACHMENT', null, null, null, null, true, 3005, '');
 
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (8, 9);
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (8, 10);
@@ -189,7 +188,6 @@ INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (8, 15);
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (8, 16);
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (8, 17);
 INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (8, 18);
-INSERT INTO public.field_child_field(field_id, child_field_id) VALUES (8, 19);
 
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (20, 1, 4, 1);
 INSERT INTO public.doctype_fields (id, doctype_id, field_id, position) VALUES (21, 1, 5, 2);
