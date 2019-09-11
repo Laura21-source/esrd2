@@ -42,7 +42,7 @@
     <div class="modal-dialog modal-dialog-centered modal-notify modal-success" role="document">
         <div class="modal-content btnSuccess">
             <div class="modal-header headerSuccess d-none">
-                <p class="heading lead">Документ успешно согласован!</p>
+                <p class="heading lead">Согласование документа</p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="white-text">&times;</span>
                 </button>
@@ -96,7 +96,7 @@
                 </div>
                 <div class="text-center bodySuccess d-none">
                     <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
-                    <h6>Согласование успешно завершено!</h6>
+                    <h6>Документ успешно согласован!</h6>
                 </div>
             </div>
             <div class="modal-footer justify-content-center footerSuccess d-none">

@@ -50,7 +50,7 @@
             reqUired = ' required';
         }
         if (attachment == 1) {
-            $(element).append('<div class="md-form file-field"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл"></div></div>');
+            $(element).append('<div class="md-form file-field"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл"></div></div>');
         } else if (text == 1) {
             $(element).append('<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '>');
         } else {
@@ -195,7 +195,7 @@
                     // Есть ли родитель у блока
                     var parentBlock = '';
                     var parentCatalog = '';
-                    if(rowSelectField.parentCatalogId > 0) {
+                    if(rowSelectField.parentCatalogId > 0 && id==0) {
                         parentCatalog = ' p' + rowSelectField.parentCatalogId;
                         parentBlock = ' d-none';
                     }
@@ -225,8 +225,11 @@
                     if (rowSelectField.fieldType === "ATTACHMENT") {
                         // Добавляем строку
                         if(parentBlock == '') {
+                            /*var fileId = y+1;
+                            var nameFile = "inputFile" + fileId;*/
                             $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
-                            createInput(".col-md-9:last", "file", "inputFile", "inputFile", "Загрузить файл", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, 1, '');
+                            createInput(".col-md-9:last", "file", 'inputFile', 'inputFile', "Загрузить файл", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, 1, '');
+                            /*fileId = fileId+1;*/
                         }
                     }
                     if (rowSelectField.fieldType === "TEXTAREA") {
@@ -241,7 +244,7 @@
                             var textId = y+1;
                             var nameText = "inputText" + textId;
                             $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
-                            createInput(".col-md-9:last", "text", "", "inputText", "Введите значение", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, '', 1);
+                            createInput(".col-md-9:last", "text", nameText, nameText, "Введите значение", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, '', 1);
                             textId = textId+1;
                         }
                     }
@@ -321,11 +324,21 @@
                 var elementArray = [];
                 $(elementBlock + ' [data-field]').each(function() {
                     if(id > 0) {idField = parseInt($(this).attr("data-id"));}
-                    var elementBlockElem = {
-                        "id" : idField,
-                        "childFields" : [],
-                        "fieldId" : parseInt($(this).attr("data-field")),
-                        "valueInt" : parseInt($(this).val())
+                    var typeAttr = $(this).attr("type");
+                    if (typeAttr && typeAttr !== '') {
+                        var elementBlockElem = {
+                            "id" : idField,
+                            "childFields" : [],
+                            "fieldId" : parseInt($(this).attr("data-field")),
+                            "valueStr" : $(this).val()
+                        }
+                    } else {
+                        var elementBlockElem = {
+                            "id" : idField,
+                            "childFields" : [],
+                            "fieldId" : parseInt($(this).attr("data-field")),
+                            "valueInt" : parseInt($(this).val())
+                        }
                     }
                     elementArray.push(elementBlockElem);
                 });
@@ -378,8 +391,13 @@
                         var key = parseInt(i)+1;
                         item.docType.id = key;
                         var number =  item.id;
-                        item.id = item.projectRegNum;
-                        item.projectRegNum = formatDate(item.insertDateTime, 0);
+                        if (item.regNum && item.regNum !== '') {
+                            item.id = item.regNum;
+                            item.projectRegNum = formatDate(item.regDateTime, 0);
+                        } else {
+                            item.id = item.projectRegNum;
+                            item.projectRegNum = formatDate(item.insertDateTime, 0);
+                        }
                         item.insertDateTime = item.docType.name;
                         item.docType.name = "<a href='agree-document?id=" + number + "'><i class='fas fa-edit text-primary'></i></a>";
                     });

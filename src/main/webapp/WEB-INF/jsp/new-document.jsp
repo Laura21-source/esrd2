@@ -35,14 +35,14 @@
                                 <div class="marginBlock my-3"></div>
                                 <div class="row">
                                     <div class="col-12 text-right">
-                                        <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить вопрос"><i class="fas fa-plus"></i> Добавить</div>
+                                        <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить вопрос"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Отправить на согласование</button>
                         <button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>
-                        <a href="" type="button" id="btnLoad" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave">Скачать файл</a>
+                        <a href="" type="button" id="btnLoad" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
                     </form>
                 </div>
             </div>
@@ -64,7 +64,7 @@
             $('#blockUp, #newBlockGroup').empty();
             $('.blockGroup').remove();
             var asd = $("#selectType").val();
-            if(asd == 0) {
+            if(asd === 0) {
                 $("#blockUp, #blockDown, #btnSave, #btnWordFile").addClass("d-none");
             } else {
                 $("#blockUp, #blockDown, #btnSave, #btnWordFile").removeClass("d-none");
@@ -125,14 +125,14 @@
             var dataField = createDataField(0);
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(0, sumElem);
-            var templSluzh = createJSON(0,dataType,dataField,dataBlock);
-            console.log(templSluzh);
-            var repostSluzh = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-            console.log(repostSluzh);
+            var tempWordFile = createJSON(0,dataType,dataField,dataBlock);
+            console.log(tempWordFile);
+            var repostWordFile = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
+            console.log(repostWordFile);
             var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs/docx',
-                data: repostSluzh,
+                data: repostWordFile,
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {

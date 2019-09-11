@@ -17,7 +17,7 @@
                                 <h6 class="mt-2 documentName"></h6>
                             </div>
                             <div class="col-sm-6">
-                                <button type="button" class="btn btn-primary btn-sm float-right rounded" data-toggle="modal" data-target="#listAgree">Список согласования</button>
+                                <button type="button" class="btn btn-primary btn-sm float-right rounded" data-toggle="modal" data-target="#listAgree"><i class="fas fa-list-ul mr-2"></i>Список согласования</button>
                             </div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                                         <div class="marginBlock my-3"></div>
                                         <div class="row">
                                             <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить вопрос"><i class="fas fa-plus"></i> Добавить</div>
+                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить вопрос"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                             </div>
                                         </div>
                                     </div>
@@ -73,8 +73,26 @@
                                             </div>
                                             <iframe class="embed-responsive-item pdfSRC" src="" height="500"></iframe>
                                         </div>
-                                        <div id="btnReformat" class="btn btn-primary btn-md my-3 rounded pointer">Переформировать</div>
-                                        <a class="btn btn-light btn-md my-3 pdfHREF" href="" target="_blank">Открыть в новом окне</a>
+                                        <a href="" id="btnLoad" class="btn btn-default btn-md my-3 rounded pdfHREF" target="_blank" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
+                                        <div id="btnReformat" class="btn btn-mdb-color btn-md my-3 rounded pointer"><i class="fas fa-sync mr-2"></i>Переформировать</div>
+                                        <a class="btn btn-light-blue btn-md my-3 pdfHREF" href="" target="_blank">Открыть в новом окне</a>
+                                        <div id="blockLoadPDF" class="d-none my-3">
+                                            <div class="alert alert-secondary mx-auto text-uppercase mb-3">Загрузить подписанный документ</div>
+                                            <div class="form-row mb-4 d-flex align-items-center justify-content-center">
+                                                <div class="md-form file-field col">
+                                                    <div class="btn btn-mdb-color btn-md float-left">
+                                                        <span>Обзор</span>
+                                                        <input title="Загрузить подписанный документ" type="file" id="inputPDF" name="inputPDF">
+                                                    </div>
+                                                    <div class="file-path-wrapper">
+                                                        <input class="file-path validate" type="text" placeholder="Выберите файл">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <a href="" id="btnLoadPDF" class="btn btn-mdb-color btn-md my-3 rounded" target="_blank" title="Загрузить файл"><i class="fas fa-upload mr-2"></i>Загрузить</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -108,8 +126,21 @@
             $(".documentName").html('Согласование документа №' + data.projectRegNum + ' от ' + newDate);
             // Меняем кнопку согласования на подписания
             if (data.finalStage === true) {
-                // Меняем кнопку согласования на подписания
-                $('#btnSave').html('Подписать');
+                // Меняем название документа
+                if(data.regNum && data.regNum !== '') {
+                    // Если документ подписан
+                    newDate = formatDate(new Date(data.regDateTime), 0);
+                    $(".documentName").html('Документ №' + data.regNum + ' от ' + newDate);
+                    $('#btnSave, #addGroup, #btnReformat').addClass('d-none');
+                    $('#blockLoadPDF').removeClass('d-none');
+                } else {
+                    $(".documentName").html('Подписание документа №' + data.projectRegNum + ' от ' + newDate);
+                    // Меняем кнопку согласования на подписания
+                    $('#btnSave').html('Подписать');
+                }
+                // Меняем названия в модальном окне
+                $('.heading').html('Подписание документа');
+                $('.bodySuccess h6').html('Документ успешно подписан!');
             }
             // Ссылки на документ PDF
             var documentPDF = data.UrlPDF;

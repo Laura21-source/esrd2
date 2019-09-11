@@ -31,6 +31,7 @@ $(function() {
       $(this).attr('id', selectName + links);
     });
     $('#blockGroup' + links + ' *').prop('selected', false);
+    $('#blockGroup' + links + ' input').html('');
     $('#nameGroup' + links).html("Вопрос " + links1);
     $('#delGroup' + links).removeClass('d-none');
   });
@@ -45,6 +46,31 @@ $(function() {
   // Отправка файла на сервер
   $(document).on("change", "#inputFile", function() {
     //var filename = $('#inputFile').val();
+    //var data = $(this).val();
+    var data = new FormData($('.registrationForm')[0]);
+    $.ajax({
+      type: "POST",
+      url: "rest/profile/docs/uploadfile",
+      enctype: 'multipart/form-data',
+      processData: false, //prevent jQuery from automatically transforming the data into a query string
+      contentType: false,
+      cache: false,
+      timeout: 600000,
+      data: data/*,
+      success: function () {
+        alert("Data Uploaded: ");
+      },
+      error: function () {
+        alert("Error!");
+      }*/
+    });
+  });
+
+  $('#btnLoadPDF').on("click", function(e) {
+    e.preventDefault();
+    alert('Есть!');
+    //var filename = $('#inputFile').val();
+    //var data = $(this).val();
     var data = new FormData($('.registrationForm')[0]);
     $.ajax({
       type: "POST",
