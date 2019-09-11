@@ -97,6 +97,7 @@ CREATE TABLE doc_agreement
     user_id          INTEGER                 NOT NULL,
     agreed_datetime  TIMESTAMP                       ,
     comment          VARCHAR                         ,
+    decision_type    VARCHAR                         ,
     FOREIGN KEY (doc_id) REFERENCES doc (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );

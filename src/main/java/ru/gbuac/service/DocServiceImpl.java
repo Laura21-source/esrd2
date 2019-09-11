@@ -130,6 +130,7 @@ public class DocServiceImpl implements DocService {
         return docRepository.getAllRegistered();
     }
 
+    // Инкрементирование стадии согласования
     private Doc prepareToPersist(Doc doc, Integer currentAgreementStage, Integer finalStageForThisDocType) {
         if (currentAgreementStage == null) {
             doc.setCurrentAgreementStage(1);
@@ -164,16 +165,16 @@ public class DocServiceImpl implements DocService {
     @Override
     public DocTo update(DocTo docTo, int id, String userName, String rootPath) throws NotFoundException, UnauthorizedUserException {
         Assert.notNull(docTo, "docTo must not be null");
-        Integer finalStageForThisDocType = docTypeRoutesRepository.getFinalStageForDocType(docTo.getDocTypeId());
+        int finalStageForThisDocType = docTypeRoutesRepository.getFinalStageForDocType(docTo.getDocTypeId());
 
         Doc updated = docFromTo(docTo);
-        Integer currentAgreementStage = updated.getCurrentAgreementStage();
+        int currentAgreementStage = updated.getCurrentAgreementStage();
 
         if (finalStageForThisDocType == currentAgreementStage) {
             updated.setRegNum("ДЭПР-" + new Random().nextInt(100) + "/19");
             updated.setRegDateTime(LocalDateTime.now());
         } else {
-            updated = prepareToPersist(updated, currentAgreementStage, finalStageForThisDocType);
+            prepareToPersist(updated, currentAgreementStage, finalStageForThisDocType);
         }
 
         boolean hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(currentAgreementStage,
@@ -183,13 +184,26 @@ public class DocServiceImpl implements DocService {
             throw new UnauthorizedUserException();
         }
 
+
+        // Генерация проектного PDF с добавлением ссылки в сущность, либо если isFinalStage, то
+        // перемещаем файл из временного хранилища temp_uploads в хранилище pdf
+        if (finalStageForThisDocType != currentAgreementStage) {
+            updated.setUrlPDF(createPDFOrDocx(asDocTo(updated, userName), rootPath, false, true));
+        } else {
+            String pdfPath = rootPath + pdfDir + docTo.getId() + ".pdf";
+            moveFile(rootPath + updated.getUrlPDF(), pdfPath);
+        }
         docValuedFieldsRepository.deleteAll(id);
         updated = checkNotFoundWithId(docRepository.save(updated), id);
         User user = userRepository.getByName(userName);
-        docAgreementRepository.save(new DocAgreement(null, updated, user, ""));
-        DocTo updatedTo = asDocTo(updated, userName);
-        updatedTo.setUrlPDF(createPDFOrDocx(updatedTo, rootPath, false, true));
-        return updatedTo;
+        docAgreementRepository.save(new DocAgreement(null, updated, user, "", DecisionType.ACCEPTED));
+        return asDocTo(updated, userName);
+    }
+
+    public static void moveFile(String oldPath, String newPath) {
+        new File(newPath).delete();
+        File oldFile = new File(oldPath);
+        oldFile.renameTo(new File(newPath));
     }
 
     @Override
