@@ -7,11 +7,11 @@ $(function() {
   $(".button-collapse").sideNav();
 
   // Привязка к верхнему краю документа
-  $(".sticky-content").sticky({
+  /*$(".sticky-content").sticky({
     topSpacing: 0,
     minWidth: 992,
     stopper: "#footer",
-  });
+  });*/
 
   // Всплывающие подсказки
   $('[data-toggle="tooltip"]').tooltip();
@@ -56,21 +56,12 @@ $(function() {
       contentType: false,
       cache: false,
       timeout: 600000,
-      data: data/*,
-      success: function () {
-        alert("Data Uploaded: ");
-      },
-      error: function () {
-        alert("Error!");
-      }*/
+      data: data
     });
   });
 
   $('#btnLoadPDF').on("click", function(e) {
     e.preventDefault();
-    alert('Есть!');
-    //var filename = $('#inputFile').val();
-    //var data = $(this).val();
     var data = new FormData($('.registrationForm')[0]);
     $.ajax({
       type: "POST",
@@ -80,13 +71,13 @@ $(function() {
       contentType: false,
       cache: false,
       timeout: 600000,
-      data: data/*,
-      success: function () {
-        alert("Data Uploaded: ");
+      data: data,
+      success: function (data) {
+        $('.pdfSRC').attr('src', data.fileUrl);
       },
       error: function () {
         alert("Error!");
-      }*/
+      }
     });
   });
 
