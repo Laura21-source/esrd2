@@ -27,15 +27,14 @@
                                 <div class="row ml-1 mb-3">
                                     <div class="col-12">
                                         <div class="row">
-                                            <div class="col-md-3 text-left mt-2">
+                                            <div class="col-md-6 text-left mt-2">
                                                 <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-6">
                                                 <select class="browser-default custom-select" name="selectType" id="selectType" required>
                                                     <option value="" class="alert-primary">Выберите вид документа</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-6">&nbsp;</div>
                                         </div>
                                     </div>
                                 </div>
