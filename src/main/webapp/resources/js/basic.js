@@ -62,6 +62,7 @@ $(function() {
 
   $('#btnLoadPDF').on("click", function(e) {
     e.preventDefault();
+    $(".bigLoader").removeClass("d-none").fadeIn(500);
     var data = new FormData($('.registrationForm')[0]);
     $.ajax({
       type: "POST",
@@ -73,7 +74,9 @@ $(function() {
       timeout: 600000,
       data: data,
       success: function (data) {
-        $('.pdfSRC').attr('src', data.fileUrl);
+        var dataFile =  data.fileUrl +".pdf";
+        $(".bigLoader").addClass("d-none").fadeOut(1000);
+        $('.pdfSRC').attr('src', dataFile);
       },
       error: function () {
         alert("Error!");
