@@ -132,11 +132,11 @@
                     newDate = formatDate(new Date(data.regDateTime), 0);
                     $(".documentName").html('Документ №' + data.regNum + ' от ' + newDate);
                     $('#btnSave, #addGroup, #btnReformat').addClass('d-none');
-                    $('#blockLoadPDF').removeClass('d-none');
                 } else {
                     $(".documentName").html('Подписание документа №' + data.projectRegNum + ' от ' + newDate);
                     // Меняем кнопку согласования на подписания
                     $('#btnSave').html('Подписать');
+                    $('#blockLoadPDF').removeClass('d-none');
                 }
                 // Меняем названия в модальном окне
                 $('.heading').html('Подписание документа');
