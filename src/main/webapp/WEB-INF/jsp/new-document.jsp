@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Отправить на согласование</button>
-                        <button type="button" id="btnSluzh" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>
+                        <button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>
                         <a href="" type="button" id="btnLoad" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave">Скачать файл</a>
                     </form>
                 </div>
@@ -65,9 +65,9 @@
             $('.blockGroup').remove();
             var asd = $("#selectType").val();
             if(asd == 0) {
-                $("#bBlockUp, #blockDown, #btnSave, #btnSluzh").addClass("d-none");
+                $("#blockUp, #blockDown, #btnSave, #btnWordFile").addClass("d-none");
             } else {
-                $("#blockUp, #blockDown, #btnSave, #btnSluzh").removeClass("d-none");
+                $("#blockUp, #blockDown, #btnSave, #btnWordFile").removeClass("d-none");
                 // Список полей по виду документа
                 getFieldsDocument("rest/profile/doctypes/" + asd + "/fields", 0, 1);
             }
@@ -93,7 +93,7 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
-                $("#btnSluzh").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
+                $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
                 $('.loaderSuccess').addClass('d-none');
                 $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
                 var projectRegNum = data.projectRegNum;
@@ -116,7 +116,7 @@
         });
 
         // Отправка на сервер файла служебки
-        $('#btnSluzh').on("click", function(event) {
+        $('#btnWordFile').on("click", function(event) {
             event.preventDefault();
             var trueName =  $(this).html();
             $(this).attr('disabled', true).html('Отправка запроса');
@@ -136,15 +136,15 @@
                 contentType: 'application/json; charset=utf-8'
             });
             serverAjax.done(function(data) {
-                $("#btnSluzh").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html(trueName);
+                $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html(trueName);
                 $('#btnLoad').removeClass('d-none').attr("href", data.fileUrl);
                 $('#btnLoad').click(function() {
-                    $("#btnSluzh").removeClass('d-none').removeClass('waves-effect');
+                    $("#btnWordFile").removeClass('d-none').removeClass('waves-effect');
                     $('#btnLoad').addClass('d-none');
                 });
             });
             serverAjax.fail(function(data) {
-                $("#btnSluzh").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
+                $("#btnWordFile").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
             });
         });
     });

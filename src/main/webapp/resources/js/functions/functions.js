@@ -167,7 +167,7 @@
                 var textId = i+1;
                 if (row.field.fieldType === "TEXT") {
                     var nameText = "inputText" + textId;
-                    createInput("#blockUp", "text", nameText, nameText, "Введите значение", short, '<i class="fas fa-file mr-2"></i>' + row.field.name, row.field.valueStr, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
+                    createInput("#blockUp", "text", nameText, nameText, "Введите значение", short, '' + row.field.name, row.field.valueStr, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
                     textId = textId+1;
                 }
                 if (row.field.fieldType === "GROUP_FIELDS") {
@@ -225,14 +225,14 @@
                     if (rowSelectField.fieldType === "ATTACHMENT") {
                         // Добавляем строку
                         if(parentBlock == '') {
-                            $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted"><i class="fas fa-file-download mr-2"></i>' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
+                            $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
                             createInput(".col-md-9:last", "file", "inputFile", "inputFile", "Загрузить файл", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, 1, '');
                         }
                     }
                     if (rowSelectField.fieldType === "TEXTAREA") {
                         // Добавляем строку
                         if(parentBlock == '') {
-                            $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted"><i class="fas fa-file-download mr-2"></i>' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><textarea></textarea></div></div>');
+                            $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><textarea></textarea></div></div>');
                         }
                     }
                     if (rowSelectField.fieldType === "TEXT") {
@@ -240,7 +240,7 @@
                         if(parentBlock == '') {
                             var textId = y+1;
                             var nameText = "inputText" + textId;
-                            $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted"><i class="fas fa-file mr-2"></i>' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
+                            $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
                             createInput(".col-md-9:last", "text", "", "inputText", "Введите значение", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, '', 1);
                             textId = textId+1;
                         }
