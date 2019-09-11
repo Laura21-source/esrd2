@@ -36,10 +36,15 @@ public class DocAgreement extends BaseEntity {
     @SafeHtml
     private String comment;
 
-    public DocAgreement(Integer id, Doc doc, User user, @SafeHtml String comment) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "decision_type")
+    private DecisionType decisionType;
+
+    public DocAgreement(Integer id, Doc doc, User user, @SafeHtml String comment, DecisionType decisionType) {
         super(id);
         this.doc = doc;
         this.user = user;
         this.comment = comment;
+        this.decisionType = decisionType;
     }
 }

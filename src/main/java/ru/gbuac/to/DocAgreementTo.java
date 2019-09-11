@@ -1,6 +1,7 @@
 package ru.gbuac.to;
 
 import org.hibernate.validator.constraints.SafeHtml;
+import ru.gbuac.model.DecisionType;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,8 @@ public class DocAgreementTo {
     @SafeHtml
     String comment;
 
+    DecisionType decisionType;
+
     boolean currentUser;
 
     public DocAgreementTo() {
@@ -30,13 +33,14 @@ public class DocAgreementTo {
 
     public DocAgreementTo(@SafeHtml String lastName, @SafeHtml String firstName, @SafeHtml String patronym,
                           @SafeHtml String position, LocalDateTime agreedDateTime, @SafeHtml String comment,
-                          boolean currentUser) {
+                          DecisionType decisionType, boolean currentUser) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.patronym = patronym;
         this.position = position;
         this.agreedDateTime = agreedDateTime;
         this.comment = comment;
+        this.decisionType = decisionType;
         this.currentUser = currentUser;
     }
 
@@ -88,6 +92,14 @@ public class DocAgreementTo {
         this.comment = comment;
     }
 
+    public DecisionType getDecisionType() {
+        return decisionType;
+    }
+
+    public void setDecisionType(DecisionType decisionType) {
+        this.decisionType = decisionType;
+    }
+
     public boolean isCurrentUser() {
         return currentUser;
     }
@@ -110,7 +122,8 @@ public class DocAgreementTo {
         if (position != null ? !position.equals(that.position) : that.position != null) return false;
         if (agreedDateTime != null ? !agreedDateTime.equals(that.agreedDateTime) : that.agreedDateTime != null)
             return false;
-        return comment != null ? comment.equals(that.comment) : that.comment == null;
+        if (comment != null ? !comment.equals(that.comment) : that.comment != null) return false;
+        return decisionType == that.decisionType;
     }
 
     @Override
@@ -121,6 +134,7 @@ public class DocAgreementTo {
         result = 31 * result + (position != null ? position.hashCode() : 0);
         result = 31 * result + (agreedDateTime != null ? agreedDateTime.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        result = 31 * result + (decisionType != null ? decisionType.hashCode() : 0);
         result = 31 * result + (currentUser ? 1 : 0);
         return result;
     }
@@ -134,6 +148,7 @@ public class DocAgreementTo {
                 ", position='" + position + '\'' +
                 ", agreedDateTime=" + agreedDateTime +
                 ", comment='" + comment + '\'' +
+                ", decisionType=" + decisionType +
                 ", currentUser=" + currentUser +
                 '}';
     }

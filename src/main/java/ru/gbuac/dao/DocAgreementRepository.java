@@ -17,6 +17,9 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
     @Query("DELETE FROM DocAgreement a WHERE a.id=:id AND a.doc.id=:docId")
     int delete(@Param("id") int id, @Param("docId") int docId);
 
-    @Query("SELECT new ru.gbuac.to.DocAgreementTo(u.lastname, u.firstname, u.patronym, u.position, l.agreedDateTime, l.comment, CASE WHEN r.agreeStage = d.currentAgreementStage THEN TRUE ELSE FALSE END) FROM DocTypeRoutes r LEFT OUTER JOIN r.user u LEFT OUTER JOIN r.docType.doc d LEFT OUTER JOIN d.docAgreements l ON l.user.id = r.user.id WHERE d.id=:docId")
+    @Query("SELECT new ru.gbuac.to.DocAgreementTo(u.lastname, u.firstname, u.patronym, u.position, l.agreedDateTime, " +
+            "l.comment, l.decisionType, CASE WHEN r.agreeStage = d.currentAgreementStage THEN TRUE ELSE FALSE END) " +
+            "FROM DocTypeRoutes r LEFT OUTER JOIN r.user u LEFT OUTER JOIN r.docType.doc d " +
+            "LEFT OUTER JOIN d.docAgreements l ON l.user.id = r.user.id WHERE d.id=:docId")
     List<DocAgreementTo> getAgreementList(@Param("docId") int docId);
 }
