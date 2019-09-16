@@ -30,6 +30,7 @@
         <jsoup.version>1.10.1</jsoup.version>
         <jackson-json.version>2.9.5</jackson-json.version>
         <spring-ldap-core.version>2.3.2.RELEASE</spring-ldap-core.version>
+        <maven.surefire.version>2.22.0</maven.surefire.version>
 
         <!--webjars-->
         <webjars-bootstrap.version>3.3.7-1</webjars-bootstrap.version>
@@ -269,11 +270,23 @@
 
 
     </dependencies>
+
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.version}</version>
+                <configuration>
+                    <includes>
+                        <include>TestFail.java</include>
+                    </includes>
+                    <skipTests>true</skipTests>
+                </configuration>
             </plugin>
         </plugins>
     </build>
