@@ -16,6 +16,11 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Query("DELETE FROM Role r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Role  r WHERE r.name=:name")
+    String delete(@Param("name") String name);
+
     @Query("SELECT r FROM Role r JOIN r.users u JOIN r.childRole c WHERE u.name IN :userName")
     List<Role> getRolesByUsername(@Param("userName") String userName);
 }

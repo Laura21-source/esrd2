@@ -14,6 +14,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("DELETE FROM User u WHERE u.id=:id")
     int delete(@Param("id") int id);
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM User u WHERE u.name=:name")
+    String delete(@Param("name") String name);
+
     @Query("SELECT u FROM User u WHERE u.name=:name")
     User getByName(@Param("name") String name);
 }
