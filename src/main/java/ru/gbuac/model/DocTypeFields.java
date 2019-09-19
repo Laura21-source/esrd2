@@ -24,6 +24,10 @@ public class DocTypeFields extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Field field;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id", nullable = true)
+    private Role role;
+
     @NotNull
     private Integer position;
 }

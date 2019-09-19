@@ -140,10 +140,8 @@ CREATE TABLE field
     length            INTEGER                         ,
     catalog_id        INTEGER                         ,
     required          BOOLEAN DEFAULT FALSE   NOT NULL,
-    role_id           INTEGER                         ,
     tag               VARCHAR                         ,
-    FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE,
-    FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
+    FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE
 );
 
 CREATE TABLE field_child_field
@@ -157,12 +155,14 @@ CREATE TABLE field_child_field
 CREATE TABLE doctype_fields
 (
     id                INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    doctype_id          INTEGER                 NOT NULL,
-    field_id            INTEGER                 NOT NULL,
-    position            INTEGER                 NOT NULL,
+    doctype_id        INTEGER                 NOT NULL,
+    field_id          INTEGER                 NOT NULL,
+    position          INTEGER                 NOT NULL,
+    role_id           INTEGER                         ,
     CONSTRAINT c_doctype_fields UNIQUE (doctype_id, field_id, position),
     FOREIGN KEY (doctype_id) REFERENCES doctype (id) ON DELETE CASCADE,
-    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE
+    FOREIGN KEY (field_id) REFERENCES field (id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
 );
 
 CREATE TABLE valuedfield

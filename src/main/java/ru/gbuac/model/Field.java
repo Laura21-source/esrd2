@@ -38,9 +38,5 @@ public class Field extends NamedEntity {
     @NotNull
     private Boolean required;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", nullable = true)
-    private Role role;
-
     private String tag;
 }
