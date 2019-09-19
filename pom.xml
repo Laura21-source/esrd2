@@ -312,8 +312,12 @@
             <version>2.3.2.RELEASE</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.ldap/org.springframework.ldap -->
-
-
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
 
     </dependencies>
 
