@@ -2,6 +2,9 @@ package ru.gbuac.to;
 
 import ru.gbuac.HasId;
 
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class BaseTo implements HasId {
 
     protected Integer id;
