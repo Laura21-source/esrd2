@@ -1,23 +1,23 @@
-DROP TABLE IF EXISTS role_child_role;
-DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS doctype_routes;
-DROP TABLE IF EXISTS doc_agreement;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS field_child_field;
-DROP TABLE IF EXISTS doctype_fields;
-DROP TABLE IF EXISTS field;
-DROP TABLE IF EXISTS valuedfield_child_valued_field;
-DROP TABLE IF EXISTS doc_valuedfields;
-DROP TABLE IF EXISTS doc;
-DROP TABLE IF EXISTS doctype;
-DROP TABLE IF EXISTS role;
-DROP TABLE IF EXISTS valuedfield;
-DROP TABLE IF EXISTS catalogelem;
-DROP TABLE IF EXISTS catalog;
+DROP TABLE IF EXISTS esrd.role_child_role CASCADE;
+DROP TABLE IF EXISTS esrd.user_roles CASCADE;
+DROP TABLE IF EXISTS esrd.doctype_routes CASCADE;
+DROP TABLE IF EXISTS esrd.doc_agreement CASCADE;
+DROP TABLE IF EXISTS esrd.users CASCADE;
+DROP TABLE IF EXISTS esrd.field_child_field CASCADE;
+DROP TABLE IF EXISTS esrd.doctype_fields CASCADE;
+DROP TABLE IF EXISTS esrd.field CASCADE;
+DROP TABLE IF EXISTS esrd.valuedfield_child_valued_field CASCADE;
+DROP TABLE IF EXISTS esrd.doc_valuedfields CASCADE;
+DROP TABLE IF EXISTS esrd.doc CASCADE;
+DROP TABLE IF EXISTS esrd.doctype CASCADE;
+DROP TABLE IF EXISTS esrd.role CASCADE;
+DROP TABLE IF EXISTS esrd.valuedfield CASCADE;
+DROP TABLE IF EXISTS esrd.catalogelem CASCADE;
+DROP TABLE IF EXISTS esrd.catalog CASCADE;
 
-DROP SEQUENCE IF EXISTS global_seq;
-DROP SEQUENCE IF EXISTS agreement_seq;
-DROP SEQUENCE IF EXISTS depr_seq;
+DROP SEQUENCE IF EXISTS esrd.global_seq;
+DROP SEQUENCE IF EXISTS esrd.agreement_seq;
+DROP SEQUENCE IF EXISTS esrd.depr_seq;
 CREATE SEQUENCE esrd.global_seq START 100000;
 CREATE SEQUENCE esrd.agreement_seq START 1;
 CREATE SEQUENCE esrd.depr_seq START 1;
@@ -32,8 +32,8 @@ CREATE TABLE esrd.role_child_role
 (
     role_id          INTEGER                         NOT NULL,
     child_role_id    INTEGER                         NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE,
-    FOREIGN KEY (child_role_id) REFERENCES role (id) ON DELETE CASCADE
+    FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE,
+    FOREIGN KEY (child_role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.users
@@ -63,7 +63,7 @@ CREATE TABLE esrd.doctype
     tmp_template_filename   VARCHAR                         ,
     template_filename       VARCHAR                         ,
     role_id                 INTEGER                 NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
+    FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doc
