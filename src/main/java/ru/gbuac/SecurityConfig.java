@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().ignoringAntMatchers("/rest/**").and()
                 .formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/my-quests")
+                .defaultSuccessUrl("/new-document")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .and().logout()
