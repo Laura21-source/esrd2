@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
@@ -56,6 +57,9 @@ public class DocServiceImpl implements DocService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FieldsStagesRepository fieldsStagesRepository;
 
     @Value("${pdf.final.dir}")
     private String pdfDir;
@@ -132,19 +136,14 @@ public class DocServiceImpl implements DocService {
 
     // Инкрементирование стадии согласования
     private Doc prepareToPersist(Doc doc, Integer currentAgreementStage, Integer finalStageForThisDocType) {
-        if (currentAgreementStage == null) {
-            doc.setCurrentAgreementStage(1);
-        } else {
-            if (!currentAgreementStage.equals(finalStageForThisDocType))
-                doc.setCurrentAgreementStage(currentAgreementStage + 1);
-        }
+        if (!currentAgreementStage.equals(finalStageForThisDocType))
+            doc.setCurrentAgreementStage(currentAgreementStage + 1);
         return doc;
     }
 
     @Override
     public DocTo save(DocTo docTo, String userName, String rootPath) throws UnauthorizedUserException {
         Assert.notNull(docTo, "doc must not be null");
-        Integer currentAgreementStage = docTo.getCurrentAgreementStage();
         Integer finalStageForThisDocType = docTypeRoutesRepository.getFinalStageForDocType(docTo.getDocTypeId());
 
         boolean hasRights = AuthorizedUser.hasRole(docTypeRepository.findById(docTo.getDocTypeId()).orElse(null).getRole().getAuthority());
@@ -153,7 +152,7 @@ public class DocServiceImpl implements DocService {
         }
 
         docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
-        Doc docToSave = prepareToPersist(createNewDocFromTo(docTo), currentAgreementStage, finalStageForThisDocType);
+        Doc docToSave = prepareToPersist(createNewDocFromTo(docTo), 0, finalStageForThisDocType);
 
         DocTo saved = asDocTo(docRepository.save(docToSave), userName);
         String urlPdf = createPDFOrDocx(saved, rootPath, false, true);
@@ -349,18 +348,18 @@ public class DocServiceImpl implements DocService {
 
     private DocTo asDocTo(Doc doc, String userName) {
         Integer docTypeId = doc.getDocType().getId();
-
         Integer curAgreementStage = doc.getCurrentAgreementStage();
         Boolean isFinalStage = docTypeRoutesRepository.getFinalStageForDocType(docTypeId) ==
                 Optional.ofNullable(curAgreementStage).orElse(0);
-
         List<String> curUserRoles = AuthorizedUser.getRoles();
         List<DocValuedFields> docValuedFields = doc.getDocValuedFields();
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
+        List<FieldsStages> fieldsStages = fieldsStagesRepository.getAll(docTypeId);
+        Map<Integer, FieldsStages> fMap = fieldsStages.stream().filter(f -> f.getAgreeStage().equals(curAgreementStage))
+                .collect(Collectors.toMap(FieldsStages::getFieldId, f -> f));
 
         for (DocValuedFields d:docValuedFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles),
-                    d.getPosition()));
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsStages>) fMap), d.getPosition()));
         }
 
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),

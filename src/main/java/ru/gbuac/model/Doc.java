@@ -46,8 +46,9 @@ public class Doc extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc", cascade = CascadeType.ALL)
     private List<DocValuedFields> docValuedFields;
 
+    @NotNull
     @Column(name = "cur_agree_stage")
-    private Integer currentAgreementStage;
+    private Integer currentAgreementStage = 0;
 
     @Column(name = "url_pdf")
     private String urlPDF;

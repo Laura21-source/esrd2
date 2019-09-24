@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS esrd.doctype_routes CASCADE;
 DROP TABLE IF EXISTS esrd.doc_agreement CASCADE;
 DROP TABLE IF EXISTS esrd.users CASCADE;
 DROP TABLE IF EXISTS esrd.field_child_field CASCADE;
+DROP TABLE IF EXISTS esrd.fields_stages CASCADE;
 DROP TABLE IF EXISTS esrd.doctype_fields CASCADE;
 DROP TABLE IF EXISTS esrd.field CASCADE;
 DROP TABLE IF EXISTS esrd.valuedfield_child_valued_field CASCADE;
@@ -75,7 +76,7 @@ CREATE TABLE esrd.doc
     project_reg_num         VARCHAR                      NOT NULL,
     project_reg_datetime    TIMESTAMP DEFAULT now()      NOT NULL,
     insert_datetime         TIMESTAMP DEFAULT now()      NOT NULL,
-    cur_agree_stage         INTEGER                              ,
+    cur_agree_stage         INTEGER DEFAULT 0            NOT NULL,
     url_pdf                 VARCHAR                              ,
     FOREIGN KEY (doctype_id) REFERENCES esrd.doctype (id) ON DELETE CASCADE
 );
@@ -139,11 +140,8 @@ CREATE TABLE esrd.field
     max_count         INTEGER                         ,
     length            INTEGER                         ,
     catalog_id        INTEGER                         ,
-    required          BOOLEAN DEFAULT FALSE   NOT NULL,
-    role_id           INTEGER                         ,
     tag               VARCHAR                         ,
-    FOREIGN KEY (catalog_id) REFERENCES esrd.catalog (id) ON DELETE CASCADE,
-    FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
+    FOREIGN KEY (catalog_id) REFERENCES esrd.catalog (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.field_child_field
@@ -152,6 +150,18 @@ CREATE TABLE esrd.field_child_field
     child_field_id    INTEGER                         ,
     FOREIGN KEY (field_id) REFERENCES esrd.field (id) ON DELETE CASCADE,
     FOREIGN KEY (child_field_id) REFERENCES esrd.field (id) ON DELETE CASCADE
+);
+
+CREATE TABLE esrd.fields_stages
+(
+    id                INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    doctype_id        INTEGER                 NOT NULL,
+    field_id          INTEGER                 NOT NULL,
+    agree_stage       INTEGER                 NOT NULL,
+    required          BOOLEAN DEFAULT FALSE   NOT NULL,
+    role_id           INTEGER                         ,
+    FOREIGN KEY (doctype_id) REFERENCES esrd.doctype (id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doctype_fields

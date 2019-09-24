@@ -3,9 +3,6 @@ package ru.gbuac.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -34,13 +31,6 @@ public class Field extends NamedEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "catalog_id", nullable = true)
     private Catalog catalog;
-
-    @NotNull
-    private Boolean required;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", nullable = true)
-    private Role role;
 
     private String tag;
 }

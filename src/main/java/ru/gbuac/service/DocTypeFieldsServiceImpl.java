@@ -5,14 +5,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.DocTypeFieldsRepository;
+import ru.gbuac.dao.FieldsStagesRepository;
 import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.model.DocTypeFields;
+import ru.gbuac.model.FieldsStages;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
@@ -24,6 +29,9 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private FieldsStagesRepository fieldsStagesRepository;
 
     @Override
     public DocTypeFields get(int id, int docTypeId) throws NotFoundException {
@@ -41,9 +49,12 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
         List<String> curUserRoles = AuthorizedUser.getRoles();
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
+        List<FieldsStages> fieldsStages = fieldsStagesRepository.getAll(docTypeId);
+        Map<Integer, FieldsStages> fMap = fieldsStages.stream().filter(f -> f.getAgreeStage() == 0)
+                .collect(Collectors.toMap(FieldsStages::getFieldId, f -> f));
 
         for (DocTypeFields d:docTypeFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField(), curUserRoles),
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField(), curUserRoles, (HashMap<Integer, FieldsStages>) fMap),
                     d.getPosition()));
 
         }
