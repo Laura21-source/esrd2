@@ -21,7 +21,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="Entities" />
-          <factory-entry name="entityManagerFactory" value="06b7c890-29ca-4799-9ae3-40668b070d30" />
+          <factory-entry name="entityManagerFactory" value="4fca5af8-44d1-4f4e-be44-b244401a5adb" />
         </datasource-mapping>
         <naming-strategy-map>
           <unit-entry name="entityManagerFactory" />
@@ -40,6 +40,18 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-conversion:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-all:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-local:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.zeroturnaround:zt-exec:1.8" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:1.4" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-word:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-base:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-transformer-process:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: com.documents4j:documents4j-api:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-conversion:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
