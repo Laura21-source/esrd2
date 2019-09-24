@@ -8,5 +8,5 @@
 <script type="text/javascript" src="resources/js/mdb.min.js"></script>
 <script type="text/javascript" src="resources/js/addons/datatables.js"></script>
 <%--<script type="text/javascript" src="resources/js/addons/datatables-select.js"></script>--%>
-<script type="text/javascript" src="resources/js/basic.js"></script>
 <script type="text/javascript" src="resources/js/functions/functions.js"></script>
+<script type="text/javascript" src="resources/js/basic.js"></script>

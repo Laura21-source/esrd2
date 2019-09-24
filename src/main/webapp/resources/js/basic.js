@@ -17,23 +17,27 @@ $(function() {
   $('[data-toggle="tooltip"]').tooltip();
 
   // Добавить вопрос, получателя
-  $('.addGroup').on("click",function() {
+  $(document).on("click", ".addGroup", function() {
     var links = $("[data-block='1']").length;
     var links1 = links + 1;
-    $('#blockGroup').clone().attr('id', 'blockGroup' + links).appendTo("#newBlockGroup");
+    var id = getId();
+    var asd = $("#selectType").val();
+    var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", id, links1);
+    $('#newBlockGroup').append(newField);
+    /*$('#blockGroup').clone().attr('id', 'blockGroup' + links).appendTo("#newBlockGroup");
     // Добавляем к id полей номер добавляемого вопроса
     $('#blockGroup' + links + ' #nameGroup').attr('id', 'nameGroup' + links);
     $('#blockGroup' + links + ' #delGroup').attr('id', 'delGroup' + links);
     $('#blockGroup' + links).attr('data-field', links);
     $('#blockGroup' + links).find('select').each(function() {
       var selectName = $(this).attr("id");
-      console.log(selectName);
+      //console.log(selectName);
       $(this).attr('id', selectName + links);
     });
     $('#blockGroup' + links + ' *').prop('selected', false);
     $('#blockGroup' + links + ' input').html('');
     $('#nameGroup' + links).html("Вопрос " + links1);
-    $('#delGroup' + links).removeClass('d-none');
+    $('#delGroup' + links).removeClass('d-none');*/
   });
 
   // Удалить вопрос

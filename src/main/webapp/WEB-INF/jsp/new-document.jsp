@@ -63,16 +63,17 @@
             $('#blockUp, #newBlockGroup').empty();
             $('.blockGroup').remove();
             var asd = $("#selectType").val();
-            if(asd === 0) {
-                $("#blockUp, #blockDown, #btnSave, #btnWordFile").addClass("d-none");
-            } else {
+            if(asd && asd !== '') {
+                // Добавить блоки отсюда в файл функций -getFieldsDocument
                 $("#blockUp, #blockDown, #btnSave, #btnWordFile").removeClass("d-none");
                 // Список полей по виду документа
                 getFieldsDocument("rest/profile/doctypes/" + asd + "/fields", 0, 0);
+            } else {
+                $("#blockUp, #blockDown, #btnSave, #btnWordFile").addClass("d-none");
             }
         });
 
-        // Отправка на сервер
+        // Сохранение - Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
             $('#createSave').modal('show');
@@ -124,10 +125,10 @@
             var dataField = createDataField(0);
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(0, sumElem);
-            var tempWordFile = createJSON(0,dataType,dataField,dataBlock);
-            console.log(tempWordFile);
+            //var tempWordFile = createJSON(0,dataType,dataField,dataBlock);
+            //console.log(tempWordFile);
             var repostWordFile = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-            console.log(repostWordFile);
+            //console.log(repostWordFile);
             var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs/docx',
@@ -142,7 +143,7 @@
                     $('#btnLoad').addClass('d-none');
                 });
             });
-            serverAjax.fail(function(data) {
+            serverAjax.fail(function() {
                 $("#btnWordFile").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
             });
         });
