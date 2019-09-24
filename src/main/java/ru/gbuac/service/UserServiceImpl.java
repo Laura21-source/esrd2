@@ -20,7 +20,7 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
-public class UserServiceImpl  implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -29,24 +29,6 @@ public class UserServiceImpl  implements UserService{
     @Qualifier(value = "ldapTemplate")
     private LdapTemplate ldapTemplate;
 
-    private class SingleAttributesMapper implements AttributesMapper<String> {
-
-        @Override
-        public String mapFromAttributes(Attributes attrs) throws NamingException {
-            Attribute cn = attrs.get("cn");
-            return cn.toString();
-        }
-    }
-
-    @Override
-    public User getByName(String name) throws NotFoundException {
-        return userRepository.getByName(name) ;
-    }
-
-    @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
-    }
 
     @Override
     public List<String> getAllLdapUsers() {
@@ -56,13 +38,32 @@ public class UserServiceImpl  implements UserService{
     }
 
     @Override
+    public User getByName(String name) throws NotFoundException {
+        return userRepository.getByName(name);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
+//    @Override
+//    public List<User> getAllLdapUsers() {
+//        SearchControls controls = new SearchControls();
+//        controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+//        return ldapTemplate.search(DistinguishedName.EMPTY_PATH, "(objectclass=person)", controls, new UserAttributesMapper());
+//    }
+
+
+
+    @Override
     public User save(User user) {
         return userRepository.save(user);
     }
 
     @Override
     public User update(User user, int id) throws NotFoundException {
-        Assert.notNull(user, "docType must not be null");
+        Assert.notNull(user, "user must not be null");
         return checkNotFoundWithId(userRepository.save(user), id);
     }
 
@@ -70,4 +71,49 @@ public class UserServiceImpl  implements UserService{
     public void delete(int id) throws NotFoundException {
         userRepository.delete(id);
     }
+
+//    @Data
+//    private class UserAttributesMapper implements AttributesMapper<User> {
+//
+//        @Override
+//        public User mapFromAttributes(Attributes attributes) throws NamingException {
+//            User user;
+//            if (attributes == null) {
+//                return null;
+//            }
+//            user = new User();
+//            user.setCn(attributes.get("cn").get().toString());
+//
+//            if (attributes.get("userPassword") != null) {
+//                String userPassword = null;
+//                try {
+//                    userPassword = new String((byte[]) attributes.get("userPassword").get(), "UTF-8");
+//                } catch (UnsupportedEncodingException e) {
+//                }
+//                user.setUserPassword(userPassword);
+//            }
+//            if (attributes.get("uid") != null) {
+//                user.setUid(attributes.get("uid").get().toString());
+//            }
+//            if (attributes.get("sn") != null) {
+//                user.setSn(attributes.get("sn").get().toString());
+//            }
+//            if (attributes.get("postalAddress") != null) {
+//                user.setPostalAddress(attributes.get("postalAddress").get().toString());
+//            }
+//            if (attributes.get("telephoneNumber") != null) {
+//                user.setTelephoneNumber(attributes.get("telephoneNumber").get().toString());
+//            }
+//            return user;
+//        }
+//}
+    private class SingleAttributesMapper implements AttributesMapper<String> {
+
+        @Override
+        public String mapFromAttributes(Attributes attrs) throws NamingException {
+            Attribute cn = attrs.get("cn");
+            return cn.toString();
+        }
+    }
 }
+

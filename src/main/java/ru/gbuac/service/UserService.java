@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface UserService {
 
-    public List<String> getAllLdapUsers();
+    //List<User> getAllLdapUsers();
+
+    List<String> getAllLdapUsers();
 
     User getByName(String name) throws NotFoundException;
 
