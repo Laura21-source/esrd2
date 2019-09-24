@@ -66,8 +66,10 @@
             if(asd && asd !== '') {
                 // Добавить блоки отсюда в файл функций -getFieldsDocument
                 $("#blockUp, #blockDown, #btnSave, #btnWordFile").removeClass("d-none");
-                // Список полей по виду документа
-                getFieldsDocument("rest/profile/doctypes/" + asd + "/fields", 0, 0);
+                // Верхний блок полей
+                getUpFields("rest/profile/doctypes/" + asd + "/fields", 0);
+                // Нижний блок полей
+                getDownFields("rest/profile/doctypes/" + asd + "/fields", 0, '');
             } else {
                 $("#blockUp, #blockDown, #btnSave, #btnWordFile").addClass("d-none");
             }

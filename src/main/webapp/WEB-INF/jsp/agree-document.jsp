@@ -149,7 +149,10 @@
             // Получение списка полей вида документа
             createOptions(docAllURL, "#selectType", "name", "id", data.docTypeId,"","","","","","","","","","");
             // Получение основных полей
-            getFieldsDocument("rest/profile/docs/" + id + "/", id, 0);
+            // Верхний блок полей
+            getUpFields("rest/profile/doctypes/" + asd + "/fields", id);
+            // Нижний блок полей
+            getDownFields("rest/profile/doctypes/" + asd + "/fields", id, '');
         });
 
         // Отправка согласования на сервер
