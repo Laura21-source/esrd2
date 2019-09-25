@@ -76,6 +76,7 @@ CREATE TABLE esrd.doc
     project_reg_num         VARCHAR                      NOT NULL,
     project_reg_datetime    TIMESTAMP DEFAULT now()      NOT NULL,
     insert_datetime         TIMESTAMP DEFAULT now()      NOT NULL,
+    docstatus               VARCHAR                      NOT NULL,
     cur_agree_stage         INTEGER DEFAULT 0            NOT NULL,
     url_pdf                 VARCHAR                              ,
     FOREIGN KEY (doctype_id) REFERENCES esrd.doctype (id) ON DELETE CASCADE

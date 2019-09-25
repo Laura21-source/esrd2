@@ -172,6 +172,7 @@ public class DocServiceImpl implements DocService {
         if (finalStageForThisDocType == currentAgreementStage) {
             updated.setRegNum("ДЭПР-" + new Random().nextInt(100) + "/19");
             updated.setRegDateTime(LocalDateTime.now());
+            updated.setDocStatus(DocStatus.COMPLETED);
         } else {
             prepareToPersist(updated, currentAgreementStage, finalStageForThisDocType);
         }
@@ -373,8 +374,8 @@ public class DocServiceImpl implements DocService {
         }
 
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
-                doc.getProjectRegDateTime(), doc.getInsertDateTime(),
-                doc.getDocType().getId(), curAgreementStage, isFinalStage, doc.getUrlPDF(), docFieldsTos);
+                doc.getProjectRegDateTime(), doc.getInsertDateTime(), doc.getDocType().getId(),
+                doc.getDocStatus(), curAgreementStage, isFinalStage, doc.getUrlPDF(), docFieldsTos);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {

@@ -38,6 +38,11 @@ public class Doc extends BaseEntity {
     private LocalDateTime insertDateTime = LocalDateTime.now();
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "docstatus")
+    private DocStatus docStatus = DocStatus.IN_WORK;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctype_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
