@@ -63,7 +63,7 @@
         return $.getJSON (url, function(data) {
             var jsonZapros = data.length;
             if(jsonZapros > 0) {
-                $(field).parents(".blockRow").attr("data-option",jsonZapros);
+                $(field).parents(".blockRow").attr("data-option",jsonZapros)/*.removeClass('d-none')*/;
             } else {
                 $(field).parents(".blockRow").attr("data-option",jsonZapros).addClass('d-none');
             }
@@ -96,7 +96,8 @@
             var numberSelectField = $(this).val();
             /*var idParent = $(this).attr("name");
             idParent = idParent.substr(11);*/
-            var idParent = $(this).attr("data-catalog")
+            //$(block+' .parent').addClass('d-none');
+            var idParent = $(this).attr("data-catalog");
             $(block + " .p" + idParent).each(function () {
                 $(this).removeClass('d-none');
                 $(this).find("select").each(function () {
@@ -104,6 +105,7 @@
                     var numberCatalogField = $(this).attr("data-catalog");
                     var nameCatalogField = '#' + tempCatalogField;
                     // Количество опций по запросу, тут же в функции прячем ненужные
+                    console.log("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " - " + nameCatalogField);
                     sumOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField);
                     // Открываем опции
                     createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "");
@@ -173,14 +175,17 @@
     function getDownFields(url, id, number) {
         return $.getJSON (url, function(data) {
             var rowChild = data;
-            if(id > 0) {rowChild = data.childFields;}
+            if(id > 0) {
+                rowChild = data.childFields;
+                number = 1;
+            }
             var idField = '';
             for(var key in rowChild) {
                 var row = rowChild[key];
                 if (row.field.fieldType === "GROUP_FIELDS") {
                     key = parseInt(key);
-                    //var rowFields = data[key];
-                    var rowFields = rowChild[key];
+                    var rowFields = data[key];
+                    if(id > 0) {rowFields = row;}
                     var dubKey = 1;
                     var dataField = 0;
                     if(number != '') {
@@ -189,8 +194,12 @@
                     }
                     var delButton = ' d-none';
                     // Кнопка удаления полей
-                    if(number != '') {delButton = '';}
-                    if(id > 0) {idField = ' data-id="' + rowFields.field.id + '"';}
+                    if(id > 0) {
+                        idField = ' data-id="' + rowFields.field.id + '"';
+                        if(number > 1) {delButton = '';}
+                    } else {
+                        if(number != '') {delButton = '';}
+                    }
                     // Добавляем вопрос ' + blocKey + '
                     $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + dubKey + '" data-field="' + dubKey + '"' + idField + '><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameGroup">Вопрос ' + dubKey + '</h6></div><div class="col-md-3 text-right"><div id="delGroup' + dubKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
                     $(".blockName").html(rowFields.field.name).attr("data-block", rowFields.field.fieldId);
@@ -201,12 +210,20 @@
                         // Есть ли родитель у блока
                         var parentBlock = '';
                         var parentCatalog = '';
-                        if(rowSelectField.parentCatalogId > 0/* && id==0*/) {
+                        if(rowSelectField.parentCatalogId > 0) {
                             parentCatalog = ' p' + rowSelectField.parentCatalogId;
                             parentBlock = ' d-none';
                         }
                         var numberField = '';
                         if(id > 0) {
+                            if(rowSelectField.parentCatalogId > 0) {
+                                parentCatalog = ' p' + rowSelectField.parentCatalogId;
+                                if(rowSelectField.valueInt && rowSelectField.valueInt > 0) {
+                                    parentBlock = '';
+                                } else {
+                                    parentBlock = ' d-none';
+                                }
+                            }
                             idField = ' data-id="' + rowSelectField.id + '"';
                             // Номер поля для отметки в селектах если нужно
                             numberField = rowSelectField.valueInt;
@@ -259,133 +276,15 @@
                             }
                         }
                     }
+                    if(id > 0) {
+                        number = number+1;
+                    }
                 }
             }
         }).done(function(response) {
             if (response.length == 0) {$("#blockUp, #blockDown, #btnSave, #btnWordFile").addClass("d-none");}
         });
     }
-
-    /*function getFieldsDocument (url, id, short) {
-        return $.getJSON (url, function(data) {
-            // Массив для полей в одной группе
-            var groupFieldsArray = [];
-            // Проверяем регистрация или редактирование документа
-            var rowChild = data;
-            // Переменная даты
-            var valueDate = "";
-            // Переменная поля
-            var idField = "";
-            if(id > 0) {rowChild = data.childFields;}
-            for (var i in rowChild) {
-                var row = rowChild[i];
-                if (row.field.fieldType === "DATE") {
-                    if (id > 0) {
-                        idField = row.field.id;
-                        if(row.field.valueDate !== "") {valueDate = formatDate(row.field.valueDate, 1);}
-                    }
-                    createInput ("#blockUp", "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
-                }
-                if (row.field.fieldType === "TIME") {
-                    if (id > 0) {
-                        idField = row.field.id;
-                        if(row.field.valueDate !== "") {valueDate = formatTime(row.field.valueDate);}
-                    }
-                    createInput ("#blockUp", "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
-                }
-                var textId = i+1;
-                if (row.field.fieldType === "TEXT") {
-                    var nameText = "inputText" + textId;
-                    createInput("#blockUp", "text", nameText, nameText, "Введите значение", short, '' + row.field.name, row.field.valueStr, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
-                    textId = textId+1;
-                }
-                if (row.field.fieldType === "GROUP_FIELDS") {
-                    var groupFieldsElement = {"field" : row.field}
-                    groupFieldsArray.push(groupFieldsElement);
-                }
-            }
-            //console.log(groupFieldsArray);
-            for (var key in groupFieldsArray) {
-                //console.log(groupFieldsArray);
-                key = parseInt(key);
-                var rowFields = groupFieldsArray[key];
-                var dubKey = parseInt(key+1);
-                var delButton = ' d-none';
-                // Кнопка удаления полей
-                if(key != 0) {delButton = '';}
-                if(id > 0) {idField = ' data-id="' + rowFields.field.id + '"';}
-                // Добавляем вопрос ' + blocKey + '
-                $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup" data-field="' + key + '"' + idField + '><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h6 id="nameGroup">Вопрос ' + dubKey + '</h6></div><div class="col-md-3 text-right"><div id="delGroup" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
-                $(".blockName").html(rowFields.field.name).attr("data-block", rowFields.field.fieldId);
-                if(rowFields.field.enabled == false) {$(".addGroup").remove();}
-                for (var y in rowFields.field.childFields) {
-                    //console.log(rowFields.field.childFields);
-                    var rowSelectField = rowFields.field.childFields[y];
-                    // Есть ли родитель у блока
-                    var parentBlock = '';
-                    var parentCatalog = '';
-                    if(rowSelectField.parentCatalogId > 0 && id==0) {
-                        parentCatalog = ' p' + rowSelectField.parentCatalogId;
-                        parentBlock = ' d-none';
-                    }
-                    var numberField = '';
-                    if(id > 0) {
-                        idField = ' data-id="' + rowSelectField.id + '"';
-                        // Номер поля для отметки в селектах если нужно
-                        numberField = rowSelectField.valueInt;
-                    }
-                    var enaOpiton = '';
-                    if(rowSelectField.enabled == false) {enaOpiton = ' disabled';}
-                    var required = '';
-                    if(rowSelectField.required == true) {required = ' required';}
-                    // Если вид поля SELECT
-                    if (rowSelectField.fieldType === "CATALOG") {
-                        var selectFieldName = 'selectField' + rowSelectField.catalogId;
-                        // Добавляем строку
-                        $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
-                        var numberCatalog = ('#blockGroup #selectField' + rowSelectField.catalogId);
-                        // Формирование правильных полей
-                        var numberFieldValue = $(selectFieldName).parents('.blockGroup').attr('data-field');
-                        console.log(numberFieldValue);
-                        createOptionsValue('#blockGroup #'+selectFieldName);
-                        if(parentBlock == '') {
-                            // Добавляем опции
-                            createOptions ("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField);
-                        }
-                    }
-                    if (rowSelectField.fieldType === "ATTACHMENT") {
-                        // Добавляем строку
-                        if(parentBlock == '') {
-                            /!*var fileId = y+1;
-                            var nameFile = "inputFile" + fileId;*!/
-                            $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
-                            createInput(".col-md-9:last", "file", 'inputFile', 'inputFile', "Загрузить файл", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, 1, '');
-                            /!*fileId = fileId+1;*!/
-                        }
-                    }
-                    if (rowSelectField.fieldType === "TEXTAREA") {
-                        // Добавляем строку
-                        if(parentBlock == '') {
-                            $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><textarea></textarea></div></div>');
-                        }
-                    }
-                    if (rowSelectField.fieldType === "TEXT") {
-                        // Добавляем строку
-                        if(parentBlock == '') {
-                            var textId = y+1;
-                            var nameText = "inputText" + textId;
-                            $('#blockGroup .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"></div></div>');
-                            createInput(".col-md-9:last", "text", nameText, nameText, "Введите значение", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, '', 1);
-                            textId = textId+1;
-                        }
-                    }
-                }
-            }
-        })
-            .done(function(response) {
-                if (response.length == 0) {$("#blockUp, #blockDown, #btnSave, #btnWordFile").addClass("d-none");}
-        });
-    }*/
 
     // Формирование массива элементов для JSON
     function createDataField (id) {

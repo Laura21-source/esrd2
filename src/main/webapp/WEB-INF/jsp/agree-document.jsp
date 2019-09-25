@@ -27,10 +27,10 @@
                                 <div class="row ml-1 mb-3">
                                     <div class="col-12">
                                         <div class="row">
-                                            <div class="col-md-6 text-left mt-2">
+                                            <div class="col-md-3 text-left mt-2">
                                                 <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-9">
                                                 <select class="browser-default custom-select" name="selectType" id="selectType" required>
                                                     <option value="" class="alert-primary">Выберите вид документа</option>
                                                 </select>
@@ -71,7 +71,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <iframe class="embed-responsive-item pdfSRC" src="" height="500"></iframe>
+                                            <iframe class="embed-responsive-item pdfSRC" src=""></iframe>
                                         </div>
                                         <a href="" id="btnLoad" class="btn btn-default btn-md my-3 rounded pdfHREF" target="_blank" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
                                         <div id="btnReformat" class="btn btn-mdb-color btn-md my-3 rounded pointer"><i class="fas fa-sync mr-2"></i>Переформировать</div>
