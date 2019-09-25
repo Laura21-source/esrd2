@@ -25,7 +25,7 @@ public class FieldUtil {
 
         return new FieldTo(null, field.getName(), childFields, field.getId(), field.getFieldType(),
                 field.getPositionInGroup(), field.getMaxCount(), field.getLength(), parentCatalog_id, catalog_id,
-                enabled, enabled && (fieldsStages != null || fieldsStages.getRequired()), field.getTag());
+                enabled, enabled && (fieldsStages != null && fieldsStages.getRequired()), field.getTag());
     }
 
     private static Integer getCatalogId(Catalog catalog) {
@@ -51,7 +51,7 @@ public class FieldUtil {
         FieldTo fieldTo = new FieldTo(valuedField.getId(), field.getName(), childFields,
                 field.getId(), field.getFieldType(), field.getPositionInGroup(), field.getMaxCount(), field.getLength(),
                 parentCatalog_id, catalog_id, enabled,
-                enabled && (fieldsStages != null || fieldsStages.getRequired()), field.getTag());
+                enabled && (fieldsStages != null && fieldsStages.getRequired()), field.getTag());
 
         switch (field.getFieldType()) {
             case TEXT:
