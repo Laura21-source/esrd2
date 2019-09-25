@@ -18,10 +18,10 @@ DROP TABLE IF EXISTS esrd.catalog CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq;
-DROP SEQUENCE IF EXISTS esrd.depr_seq;
+DROP SEQUENCE IF EXISTS esrd.agenda_seq;
 CREATE SEQUENCE esrd.global_seq START 100000;
 CREATE SEQUENCE esrd.agreement_seq START 1;
-CREATE SEQUENCE esrd.depr_seq START 1;
+CREATE SEQUENCE esrd.agenda_seq START 1;
 
 CREATE TABLE esrd.role
 (
