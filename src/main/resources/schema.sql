@@ -57,6 +57,12 @@ CREATE TABLE esrd.user_roles
     FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
 );
 
+CREATE TABLE esrd.doc_number_prefixes
+(
+    id         INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    name       VARCHAR      NOT NULL
+);
+
 CREATE TABLE esrd.doctype
 (
     id                      INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
@@ -64,7 +70,9 @@ CREATE TABLE esrd.doctype
     tmp_template_filename   VARCHAR                         ,
     template_filename       VARCHAR                         ,
     role_id                 INTEGER                 NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
+    doc_number_prefix_id    INTEGER                 NOT NULL,
+    FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE,
+    FOREIGN KEY (doc_number_prefix_id) REFERENCES esrd.doc_number_prefixes (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doc

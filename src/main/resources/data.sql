@@ -13,10 +13,16 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4001, 3006);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3002);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3006);
 
-INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename)
-VALUES (1, 'Повестка заседания Правления', 3001, 'zapiska.docx', 'povestka.docx');
-INSERT INTO esrd.doctype (id, name, role_id) VALUES (2, 'Приказ', 3001);
-INSERT INTO esrd.doctype (id, name, role_id) VALUES (3, 'Протокол', 3001);
+INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (1, 'ДГИ-П');
+INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (2, 'ДГИ-ПP');
+INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (3, 'согл');
+
+INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id)
+VALUES (1, 'Повестка заседания Правления', 3001, 'zapiska.docx', 'povestka.docx', 1);
+INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (2, 'Приказ', 3001, 2);
+INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (3, 'Протокол', 3001, 3);
+
+
 
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1001, null, 'Предмет вопроса', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1002, 1001, 'Вопрос', 0);
@@ -201,3 +207,5 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20,
 
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4001, 1);
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4002, 2);
+
+

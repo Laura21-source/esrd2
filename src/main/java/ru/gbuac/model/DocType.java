@@ -36,4 +36,8 @@ public class DocType extends NamedEntity {
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "docType")
     private List<Doc> doc;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "doc_number_prefix_id", nullable = false)
+    private DocNumberPrefixes docNumberPrefixes;
 }
