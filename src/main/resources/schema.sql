@@ -207,4 +207,20 @@ CREATE TABLE esrd.doc_valuedfields
     FOREIGN KEY (valuedfield_id) REFERENCES esrd.valuedfield (id) ON DELETE CASCADE
 );
 
+CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR)
+    RETURNS VARCHAR AS $$
+DECLARE Result VARCHAR;
+    DECLARE YearPostfix VARCHAR;
+BEGIN
+    YearPostfix = SUBSTRING(CAST(DATE_PART('year', CURRENT_DATE) AS text),3);
+    IF (mask='согл') THEN
+        SELECT 'согл-'||nextval('esrd.agreement_seq')||'/'||YearPostfix INTO Result;
+    ELSIF (mask='ДПР-П') THEN
+        SELECT 'ДПР-П-'||nextval('esrd.agenda_seq')||'/'||YearPostfix INTO Result;
+    ELSE
+        RAISE 'Incorrect mask for generating document number' USING ERRCODE = 'INCORRECT_DOCNUMBER_MASK';
+    END IF;
+    RETURN Result;
+END; $$ LANGUAGE plpgsql;
+
 
