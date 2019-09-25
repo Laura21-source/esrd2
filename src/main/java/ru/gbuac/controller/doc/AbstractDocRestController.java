@@ -71,6 +71,11 @@ public abstract class AbstractDocRestController {
         docService.delete(id);
     }
 
+    public DocTo rejectDocAgreement(int id, String targetUserName) {
+        LOG.info("rejectDocAgreement " + id);
+        return docService.rejectDocAgreement(id, targetUserName);
+    }
+
     public FileTo fileUploadFile(MultipartFile inputFile, String rootPath) {
         return docService.uploadFile(inputFile, rootPath);
     }

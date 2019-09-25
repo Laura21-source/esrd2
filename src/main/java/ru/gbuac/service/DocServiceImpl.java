@@ -86,7 +86,7 @@ public class DocServiceImpl implements DocService {
 
     @Override
     public DocTo getFullByUserName(int id, String userName) throws NotFoundException {
-        return asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id), userName);
+        return asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id));
     }
 
     @Override
@@ -154,7 +154,7 @@ public class DocServiceImpl implements DocService {
         docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
         Doc docToSave = prepareToPersist(createNewDocFromTo(docTo), 0, finalStageForThisDocType);
 
-        DocTo saved = asDocTo(docRepository.save(docToSave), userName);
+        DocTo saved = asDocTo(docRepository.save(docToSave));
         String urlPdf = createPDFOrDocx(saved, rootPath, false, true);
         docRepository.setUrlPDF(saved.getId(), urlPdf);
         saved.setUrlPDF(urlPdf);
@@ -187,7 +187,7 @@ public class DocServiceImpl implements DocService {
         // Генерация проектного PDF с добавлением ссылки в сущность, либо если isFinalStage, то
         // перемещаем файл из временного хранилища temp_uploads в хранилище pdf
         if (finalStageForThisDocType != currentAgreementStage) {
-            updated.setUrlPDF(createPDFOrDocx(asDocTo(updated, userName), rootPath, false, true));
+            updated.setUrlPDF(createPDFOrDocx(asDocTo(updated), rootPath, false, true));
         } else {
             String pdfPath = rootPath + pdfDir + docTo.getId() + ".pdf";
             moveFile(rootPath + updated.getUrlPDF(), pdfPath);
@@ -196,7 +196,7 @@ public class DocServiceImpl implements DocService {
         updated = checkNotFoundWithId(docRepository.save(updated), id);
         User user = userRepository.getByName(userName);
         docAgreementRepository.save(new DocAgreement(null, updated, user, "", DecisionType.ACCEPTED));
-        return asDocTo(updated, userName);
+        return asDocTo(updated);
     }
 
     public static void moveFile(String oldPath, String newPath) {
@@ -209,6 +209,16 @@ public class DocServiceImpl implements DocService {
     public void delete(int id) throws NotFoundException {
         Assert.notNull(id, "doc must not be null");
         checkNotFoundWithId(docRepository.delete(id)!= 0, id);
+    }
+
+    @Override
+    public DocTo rejectDocAgreement(int id, String targetUserName) throws NotFoundException {
+        Doc updated = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
+        int stage = docTypeRoutesRepository
+                .getStageByUserNameForDocType(targetUserName, updated.getDocType().getId(),
+                        updated.getCurrentAgreementStage());
+        updated.setCurrentAgreementStage(stage);
+        return asDocTo(checkNotFoundWithId(docRepository.save(updated), id));
     }
 
     private void fillTags(FieldTo fieldTo, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables, Integer maxCellsCount) {
@@ -304,12 +314,12 @@ public class DocServiceImpl implements DocService {
 
     @Override
     public FileTo createDOCX(DocTo docTo, String rootPath) {
-        return new FileTo(createPDFOrDocx(asDocTo(createNewDocFromTo(docTo), null), rootPath,  true, false));
+        return new FileTo(createPDFOrDocx(asDocTo(createNewDocFromTo(docTo)), rootPath,  true, false));
     }
 
     @Override
     public FileTo createPDF(DocTo docTo, String rootPath) {
-        return new FileTo(createPDFOrDocx(asDocTo(docFromTo(docTo), null), rootPath, true, true));
+        return new FileTo(createPDFOrDocx(asDocTo(docFromTo(docTo)), rootPath, true, true));
     }
 
     private String createPDFOrDocx(DocTo docTo, String rootPath, Boolean saveToTempDir, Boolean isPDF) {
@@ -346,7 +356,7 @@ public class DocServiceImpl implements DocService {
         return savePath.replace(rootPath,"");
     }
 
-    private DocTo asDocTo(Doc doc, String userName) {
+    private DocTo asDocTo(Doc doc) {
         Integer docTypeId = doc.getDocType().getId();
         Integer curAgreementStage = doc.getCurrentAgreementStage();
         Boolean isFinalStage = docTypeRoutesRepository.getFinalStageForDocType(docTypeId) ==

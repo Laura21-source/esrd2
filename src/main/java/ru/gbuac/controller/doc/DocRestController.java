@@ -79,4 +79,10 @@ public class DocRestController extends AbstractDocRestController {
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
     }
+
+    @Override
+    @PostMapping(value = "/rejectDocAgreement/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public DocTo rejectDocAgreement(@PathVariable("id")int id, @RequestParam("targetUserName") String targetUserName) {
+        return super.rejectDocAgreement(id, targetUserName);
+    }
 }
