@@ -150,9 +150,9 @@
             createOptions(docAllURL, "#selectType", "name", "id", data.docTypeId,"","","","","","","","","","");
             // Получение основных полей
             // Верхний блок полей
-            getUpFields("rest/profile/doctypes/" + asd + "/fields", id);
+            getUpFields(docURL, id);
             // Нижний блок полей
-            getDownFields("rest/profile/doctypes/" + asd + "/fields", id, '');
+            getDownFields(docURL, id, 0);
         });
 
         // Отправка согласования на сервер

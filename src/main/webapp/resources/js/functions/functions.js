@@ -179,7 +179,8 @@
                 var row = rowChild[key];
                 if (row.field.fieldType === "GROUP_FIELDS") {
                     key = parseInt(key);
-                    var rowFields = data[key];
+                    //var rowFields = data[key];
+                    var rowFields = rowChild[key];
                     var dubKey = 1;
                     var dataField = 0;
                     if(number != '') {
@@ -446,8 +447,9 @@
         var id = parseInt(id);
         var idField = null;
         var dataBlock = [];
-        var valueData = '';
-        $('.blockGroup').each(function(i) {
+        $('.blockGroup').each(function(item) {
+            var i = parseInt(item)+1;
+            console.log(i);
             if($(this).attr("data-field") == i) {
                 var elementBlock = "#blockGroup";
                 if(i !== 0) {elementBlock = elementBlock + i;}
