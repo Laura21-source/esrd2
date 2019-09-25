@@ -17,12 +17,18 @@ public interface DocTypeRoutesRepository extends JpaRepository<DocTypeRoutes, In
     @Query("DELETE FROM DocTypeRoutes d WHERE d.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT CASE WHEN COUNT(d) > 0 THEN true ELSE false END FROM DocTypeRoutes d WHERE d.agreeStage=:agreeStage AND d.docType.id=:docTypeId AND d.user.name=:userName")
+    @Query("SELECT CASE WHEN COUNT(d) > 0 THEN true ELSE false END FROM DocTypeRoutes d WHERE d.agreeStage=:agreeStage " +
+            "AND d.docType.id=:docTypeId AND d.user.name=:userName")
     boolean isHasRightsForDocTypeOnStage(@Param("agreeStage") int agreeStage, @Param("docTypeId") int docTypeId,
                                          @Param("userName") String userName);
 
     @Query("SELECT d FROM DocTypeRoutes d WHERE d.user.name=:userName")
     List<DocTypeRoutes> getByUserName(@Param("userName") String userName);
+
+    @Query("SELECT max(d.agreeStage) FROM DocTypeRoutes d WHERE d.user.name=:userName AND d.docType.id=:docTypeId " +
+            "AND d.agreeStage < :stageLimit")
+    int getStageByUserNameForDocType(@Param("userName") String userName, @Param("docTypeId") int docTypeId,
+                                     @Param("stageLimit") int stageLimit);
 
     @Query("SELECT max(d.agreeStage) FROM DocTypeRoutes d WHERE d.docType.id=:docTypeId")
     int getFinalStageForDocType(@Param("docTypeId") int docTypeId);

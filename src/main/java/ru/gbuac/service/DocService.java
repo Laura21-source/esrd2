@@ -34,6 +34,8 @@ public interface DocService {
 
     void delete(int id) throws NotFoundException;
 
+    DocTo rejectDocAgreement(int id, String targetUserName) throws NotFoundException;
+
     FileTo uploadFile(MultipartFile inputFile, String rootPath) throws FileUploadException;
 
     FileTo createDOCX(DocTo docTo, String rootPath) throws GenerateDocxException;

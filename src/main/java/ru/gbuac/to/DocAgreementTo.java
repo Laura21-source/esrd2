@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 public class DocAgreementTo {
 
     @SafeHtml
+    String name;
+
+    @SafeHtml
     String lastName;
 
     @SafeHtml
@@ -32,9 +35,10 @@ public class DocAgreementTo {
 
     boolean currentUser;
 
-    public DocAgreementTo(@SafeHtml String lastName, @SafeHtml String firstName, @SafeHtml String patronym,
+    public DocAgreementTo(@SafeHtml String name, @SafeHtml String lastName, @SafeHtml String firstName, @SafeHtml String patronym,
                           @SafeHtml String position, LocalDateTime agreedDateTime, @SafeHtml String comment,
                           DecisionType decisionType, boolean currentUser) {
+        this.name = name;
         this.lastName = lastName;
         this.firstName = firstName;
         this.patronym = patronym;
