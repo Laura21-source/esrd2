@@ -47,4 +47,10 @@ public class DocNumberPrefixesServiceImpl implements DocNumberPrefixesService {
         Assert.notNull(id, "docNumberPrefixes must not be null");
         checkNotFoundWithId(docNumberPrefixesRepository.delete(id)!= 0, id);
     }
+
+    @Override
+    public String getMaskByDocTypeId(int docTypeId) {
+        Assert.notNull(docTypeId, "docNumberPrefixes must not be null");
+        return docNumberPrefixesRepository.getMaskByDocTypeId(docTypeId);
+    }
 }

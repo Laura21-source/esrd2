@@ -15,4 +15,6 @@ public interface DocNumberPrefixesService {
     DocNumberPrefixes update(DocNumberPrefixes docNumberPrefixes, int id) throws NotFoundException;
 
     void delete(int id) throws NotFoundException;
+
+    String getMaskByDocTypeId(int docTypeId);
 }

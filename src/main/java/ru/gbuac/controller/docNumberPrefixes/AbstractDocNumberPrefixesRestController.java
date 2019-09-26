@@ -43,4 +43,9 @@ public abstract class AbstractDocNumberPrefixesRestController {
         LOG.info("delete " + id);
         docNumberPrefixesService.delete(id);
     }
+
+    public String getMaskByDocTypeId(int docTypeId) {
+        LOG.info("getMaskByDocTypeId");
+        return docNumberPrefixesService.getMaskByDocTypeId(docTypeId);
+    }
 }

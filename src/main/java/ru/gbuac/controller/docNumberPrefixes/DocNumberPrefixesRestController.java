@@ -4,9 +4,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.DocNumberPrefixes;
 
-
 import javax.validation.Valid;
 import java.util.List;
+
 
 @RestController
 @RequestMapping(value = DocNumberPrefixesRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,5 +38,11 @@ public class DocNumberPrefixesRestController extends AbstractDocNumberPrefixesRe
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
+    }
+
+    @Override
+    @GetMapping(value = "/getMaskByDocTypeId/{docTypeId}")
+    public String getMaskByDocTypeId(int docTypeId) {
+        return super.getMaskByDocTypeId(docTypeId);
     }
 }
