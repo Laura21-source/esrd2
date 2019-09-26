@@ -173,7 +173,9 @@ public class DocServiceImpl implements DocService {
         int currentAgreementStage = updated.getCurrentAgreementStage();
 
         if (finalStageForThisDocType == currentAgreementStage) {
-            updated.setRegNum(docNumberPrefixesRepository.generateDocNumber(docNumberPrefixesRepository.getMaskByDocTypeId(docTo.getDocTypeId())));
+            String docTypeMask = docNumberPrefixesRepository.getMaskByDocTypeId(docTo.getDocTypeId());
+            String docNumber = docNumberPrefixesRepository.generateDocNumber(docTypeMask);
+            updated.setRegNum(docNumber);
             updated.setRegDateTime(LocalDateTime.now());
             updated.setDocStatus(DocStatus.COMPLETED);
         } else {
