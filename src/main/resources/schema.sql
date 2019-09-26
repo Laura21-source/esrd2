@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS esrd.role_child_role CASCADE;
 DROP TABLE IF EXISTS esrd.user_roles CASCADE;
+DROP TABLE IF EXISTS esrd.doc_number_prefixes CASCADE;
 DROP TABLE IF EXISTS esrd.doctype_routes CASCADE;
 DROP TABLE IF EXISTS esrd.doc_agreement CASCADE;
 DROP TABLE IF EXISTS esrd.users CASCADE;

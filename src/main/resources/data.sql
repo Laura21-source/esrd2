@@ -15,11 +15,12 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3006);
 
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (23, 'ДПР-П');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (24, 'ДПР-ПP');
+INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (25, 'ДПР-ПPО');
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id)
-VALUES (1, 'Повестка заседания Правления', 3001, 'zapiska.docx', 'povestka.docx', 1);
-INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (2, 'Приказ', 3001, 2);
-INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (3, 'Протокол', 3001, 3);
+VALUES (1, 'Повестка заседания Правления', 3001, 'zapiska.docx', 'povestka.docx', 23);
+INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (2, 'Приказ', 3001, 23);
+INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (3, 'Протокол', 3001, 25);
 
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1001, null, 'Предмет вопроса', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1002, 1001, 'Вопрос', 0);
