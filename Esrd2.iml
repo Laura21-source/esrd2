@@ -13,14 +13,7 @@
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/ru/gbuac/SecurityConfig.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/ru/gbuac/LdapConfiguration.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/ru/gbuac/AuthorizedUser.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/ru/gbuac/SecurityConfigNoLDAP.java</file>
-        </fileset>
-      </configuration>
+      <configuration />
     </facet>
     <facet type="jpa" name="JPA">
       <configuration>
@@ -28,7 +21,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="Entities" />
-          <factory-entry name="entityManagerFactory" value="33802c50-8a9c-4e01-aebd-55af710527a2" />
+          <factory-entry name="entityManagerFactory" value="06b7c890-29ca-4799-9ae3-40668b070d30" />
         </datasource-mapping>
         <naming-strategy-map>
           <unit-entry name="entityManagerFactory" />
@@ -47,6 +40,30 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-conversion:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-all:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-local:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.zeroturnaround:zt-exec:1.8" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:1.4" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-word:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-base:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-transformer-process:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-conversion:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-api:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-all:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-local:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.zeroturnaround:zt-exec:1.8" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:1.4" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-word:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-transformer-msoffice-base:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: com.documents4j:documents4j-util-transformer-process:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.0.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.0.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.0.2.RELEASE" level="project" />

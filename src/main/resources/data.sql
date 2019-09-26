@@ -19,7 +19,7 @@ INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (25, 'ДПР-ПPО');
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id)
 VALUES (1, 'Повестка заседания Правления', 3001, 'zapiska.docx', 'povestka.docx', 23);
-INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (2, 'Приказ', 3001, 23);
+INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (2, 'Приказ', 3001, 24);
 INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (3, 'Протокол', 3001, 25);
 
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1001, null, 'Предмет вопроса', 0);
