@@ -31,7 +31,7 @@
                                                 <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
                                             </div>
                                             <div class="col-md-9">
-                                                <select class="browser-default custom-select" name="selectType" id="selectType" required>
+                                                <select class="browser-default custom-select" name="selectType" id="selectType" required disabled>
                                                     <option value="" class="alert-primary">Выберите вид документа</option>
                                                 </select>
                                             </div>
