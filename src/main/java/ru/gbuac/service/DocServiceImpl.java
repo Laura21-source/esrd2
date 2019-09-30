@@ -61,6 +61,9 @@ public class DocServiceImpl implements DocService {
     @Autowired
     private FieldsStagesRepository fieldsStagesRepository;
 
+    @Autowired
+    private DocNumberPrefixesRepository docNumberPrefixesRepository;
+
     @Value("${pdf.final.dir}")
     private String pdfDir;
 
@@ -151,7 +154,7 @@ public class DocServiceImpl implements DocService {
             throw new UnauthorizedUserException();
         }
 
-        docTo.setProjectRegNum("согл-"+ new Random().nextInt(100)+"/19");
+        docTo.setProjectRegNum(docNumberPrefixesRepository.generateDocNumber("согл"));
         Doc docToSave = prepareToPersist(createNewDocFromTo(docTo), 0, finalStageForThisDocType);
 
         DocTo saved = asDocTo(docRepository.save(docToSave));
@@ -170,7 +173,9 @@ public class DocServiceImpl implements DocService {
         int currentAgreementStage = updated.getCurrentAgreementStage();
 
         if (finalStageForThisDocType == currentAgreementStage) {
-            updated.setRegNum("ДЭПР-" + new Random().nextInt(100) + "/19");
+            String docTypeMask = docNumberPrefixesRepository.getMaskByDocTypeId(docTo.getDocTypeId());
+            String docNumber = docNumberPrefixesRepository.generateDocNumber(docTypeMask);
+            updated.setRegNum(docNumber);
             updated.setRegDateTime(LocalDateTime.now());
             updated.setDocStatus(DocStatus.COMPLETED);
         } else {
@@ -183,7 +188,6 @@ public class DocServiceImpl implements DocService {
         if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
             throw new UnauthorizedUserException();
         }
-
 
         // Генерация проектного PDF с добавлением ссылки в сущность, либо если isFinalStage, то
         // перемещаем файл из временного хранилища temp_uploads в хранилище pdf

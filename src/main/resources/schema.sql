@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS esrd.role_child_role CASCADE;
 DROP TABLE IF EXISTS esrd.user_roles CASCADE;
+DROP TABLE IF EXISTS esrd.doc_number_prefixes CASCADE;
 DROP TABLE IF EXISTS esrd.doctype_routes CASCADE;
 DROP TABLE IF EXISTS esrd.doc_agreement CASCADE;
 DROP TABLE IF EXISTS esrd.users CASCADE;
@@ -18,10 +19,10 @@ DROP TABLE IF EXISTS esrd.catalog CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq;
-DROP SEQUENCE IF EXISTS esrd.depr_seq;
+DROP SEQUENCE IF EXISTS esrd.agenda_seq;
 CREATE SEQUENCE esrd.global_seq START 100000;
 CREATE SEQUENCE esrd.agreement_seq START 1;
-CREATE SEQUENCE esrd.depr_seq START 1;
+CREATE SEQUENCE esrd.agenda_seq START 1;
 
 CREATE TABLE esrd.role
 (
@@ -57,6 +58,12 @@ CREATE TABLE esrd.user_roles
     FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
 );
 
+CREATE TABLE esrd.doc_number_prefixes
+(
+    id         INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    name       VARCHAR      NOT NULL
+);
+
 CREATE TABLE esrd.doctype
 (
     id                      INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
@@ -64,7 +71,9 @@ CREATE TABLE esrd.doctype
     tmp_template_filename   VARCHAR                         ,
     template_filename       VARCHAR                         ,
     role_id                 INTEGER                 NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
+    doc_number_prefix_id    INTEGER                 NOT NULL,
+    FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE,
+    FOREIGN KEY (doc_number_prefix_id) REFERENCES esrd.doc_number_prefixes (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doc
@@ -206,5 +215,21 @@ CREATE TABLE esrd.doc_valuedfields
     FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
     FOREIGN KEY (valuedfield_id) REFERENCES esrd.valuedfield (id) ON DELETE CASCADE
 );
+
+CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR)
+    RETURNS VARCHAR AS $$
+DECLARE Result VARCHAR;
+    DECLARE YearPostfix VARCHAR;
+BEGIN
+    YearPostfix = SUBSTRING(CAST(DATE_PART('year', CURRENT_DATE) AS text),3);
+    IF (mask='согл') THEN
+        SELECT 'согл-'||nextval('esrd.agreement_seq')||'/'||YearPostfix INTO Result;
+    ELSIF (mask='ДПР-П') THEN
+        SELECT 'ДПР-П-'||nextval('esrd.agenda_seq')||'/'||YearPostfix INTO Result;
+    ELSE
+        RAISE 'Incorrect mask for generating document number' USING ERRCODE = 'INCORRECT_DOCNUMBER_MASK';
+    END IF;
+    RETURN Result;
+END; $$ LANGUAGE plpgsql;
 
 
