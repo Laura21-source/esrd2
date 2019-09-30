@@ -14,13 +14,22 @@ public class LdapConfiguration {
     @Value("${ad.url}")
     private String AD_URL;
 
+    @Value("${ad.username}")
+    private String AD_USERNAME;
+
+    @Value("${ad.password}")
+    private String AD_PASSWORD;
+
+    @Value("${ad.base}")
+    private String AD_BASE;
+
     @Bean
     public LdapContextSource contextSource(){
         LdapContextSource contextSource = new LdapContextSource();
         contextSource.setUrl(AD_URL);
-        contextSource.setBase("DC=econ,DC=mos,DC=ru");
-        contextSource.setUserDn("ECON\\MakhrovSS");
-        contextSource.setPassword("Xe4aCane");
+        contextSource.setBase(AD_BASE);
+        contextSource.setUserDn(AD_USERNAME);
+        contextSource.setPassword(AD_PASSWORD);
         return contextSource;
     }
 
