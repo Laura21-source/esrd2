@@ -13,22 +13,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row mb-3">
-                    <div class="col-8">Иванов И.А.</div>
-                    <div class="col-4"><i class="fas fa-check text-success"></i></div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-8">Сидоров А.В.</div>
-                    <div class="col-4"><i class="fas fa-check text-success"></i></div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-8">Петров И.Г.</div>
-                    <div class="col-4"><i class="fas fa-user-clock text-warning"></i></div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-8">Минин В.В.</div>
-                    <div class="col-4"><i class="fas fa-ellipsis-h text-muted"></i></div>
-                </div>
             </div>
             <div class="modal-footer text-center">
                 <button type="button" class="btn btn-primary btn-sm rounded" data-dismiss="modal">Закрыть</button>

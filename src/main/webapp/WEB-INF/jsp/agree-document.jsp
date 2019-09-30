@@ -155,6 +155,22 @@
             getDownFields(docURL, id, 0);
         });
 
+        // Список согласования документа
+        $.getJSON('rest/profile/docs/' + id + '/agreement/list/', function(data){
+            for(var i in data) {
+                var row = data[i];
+                var currentUser = '<i class="fas fa-user-clock text-warning"></i>';
+                if(row.currentUser === false) {
+                    if(row.decisionType && row.decisionType === 'ACCEPTED') {
+                        currentUser = '<i class="fas fa-check text-success"></i>';
+                    } else {
+                        currentUser = '<i class="fas fa-ellipsis-h text-muted"></i>';
+                    }
+                }
+                $('#listAgree .modal-body').append('<div class="row mb-3"><div class="col-8">'+row.lastName+' '+row.firstName+' '+row.patronym+'</div><div class="col-4">'+currentUser+'</div></div>');
+            }
+        });
+
         // Отправка согласования на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
