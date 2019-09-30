@@ -13,9 +13,12 @@ import java.util.List;
 public interface OrganizationRepository extends JpaRepository<Organization, Integer> {
     @Transactional
     @Modifying
-    @Query("DELETE FROM Organization o WHERE o.id=:orgId")
-    void delete(@Param("orgId") int orgId);
+    @Query("DELETE FROM Organization o WHERE o.id=:id")
+    void delete(@Param("id") int id);
 
-    @Query("SELECT o FROM Organization o WHERE o.id=:orgId ORDER BY o.shortName ASC")
-    List<Organization> getAllOrganizations(@Param("orgId") int orgId);
+    @Query("SELECT o FROM Organization o WHERE o.id=:id  ORDER BY o.shortName ASC")
+    List<Organization> getAllOrganizations(@Param("id") int id);
+
+    @Query("SELECT o FROM Organization  o WHERE o.id=:id")
+    Organization get(@Param("id") int id);
 }

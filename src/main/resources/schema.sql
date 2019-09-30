@@ -216,6 +216,19 @@ CREATE TABLE esrd.doc_valuedfields
     FOREIGN KEY (valuedfield_id) REFERENCES esrd.valuedfield (id) ON DELETE CASCADE
 );
 
+CREATE TABLE organization
+(
+    id                     INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    short_name             VARCHAR                 NOT NULL,
+    full_name              VARCHAR                 NOT NULL,
+    ogrn                   VARCHAR                 NOT NULL,
+    inn                    VARCHAR                 NOT NULL,
+    kpp                    VARCHAR                 NOT NULL,
+    address                VARCHAR                 NOT NULL,
+    fio_manager            VARCHAR                 NOT NULL,
+    position_manager       VARCHAR                 NOT NULL
+);
+
 CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR)
     RETURNS VARCHAR AS $$
 DECLARE Result VARCHAR;
@@ -232,18 +245,7 @@ BEGIN
     RETURN Result;
 END; $$ LANGUAGE plpgsql;
 
-CREATE TABLE organization
-(
-    id                     INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
-    short_name             VARCHAR                 NOT NULL,
-    full_name              VARCHAR                 NOT NULL,
-    ogrn                   VARCHAR                 NOT NULL,
-    inn                    VARCHAR                 NOT NULL,
-    kpp                    VARCHAR                 NOT NULL,
-    address                VARCHAR                 NOT NULL,
-    fio_manager            VARCHAR                 NOT NULL,
-    position_manager       VARCHAR                 NOT NULL
-);
+
 
 
 

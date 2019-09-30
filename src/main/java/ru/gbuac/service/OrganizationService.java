@@ -6,13 +6,13 @@ import ru.gbuac.util.exception.NotFoundException;
 import java.util.List;
 
 public interface OrganizationService {
-    Organization get(int orgId) throws NotFoundException;
+    Organization get(int id) throws NotFoundException;
 
-    List<Organization> getAllOrganizations(int orgId);
+    List<Organization> getAllOrganizations(int id);
 
-    Organization save(Organization organization);
+    Organization save(Organization organization, String rootPath);
 
     Organization update(Organization organization, int id) throws NotFoundException;
 
-    void delete(int orgId) throws NotFoundException;
+    void delete(int id) throws NotFoundException;
 }
