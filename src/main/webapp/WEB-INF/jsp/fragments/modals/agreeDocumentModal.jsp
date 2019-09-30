@@ -3,13 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="modal fade right" id="listAgree" tabindex="-1" role="dialog" aria-labelledby="listAgree"
-     aria-hidden="true" data-backdrop="false">
-    <div class="modal-dialog modal-side modal-top-right modal-right" role="document">
+     aria-hidden="true" data-backdrop="true">
+    <div class="modal-dialog modal-size-lg modal-side modal-top-right modal-notify" role="document">
         <div class="modal-content">
             <div class="modal-header alert alert-secondary">
                 <h6>Список согласования</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="t" rue="">×</span>
+                    <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
