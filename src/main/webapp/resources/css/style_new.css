@@ -23,8 +23,11 @@ header, main, footer {padding-left: 240px;}
 .bs-select, .dataTables_info {text-align: left!important;}
 /* Лоадер  окно */
 .btnSuccess {height: 50vh;}
-/* ширина опций по размеру селекта */
+/* Серый цвет у залоченных полей */
 .disableElem {
   background: rgb(232, 235, 237)!important;
   color: #666666!important;
 }
+/* Ширина модального окна */
+.modal-size-lg {width: 500px!important;}
+
