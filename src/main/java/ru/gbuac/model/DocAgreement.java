@@ -28,6 +28,11 @@ public class DocAgreement extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "returned_user_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User returnedUser;
+
     @NotNull
     @Column(name = "agreed_datetime", nullable = false, columnDefinition = "timestamp default now()")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -40,10 +45,11 @@ public class DocAgreement extends BaseEntity {
     @Column(name = "decision_type")
     private DecisionType decisionType;
 
-    public DocAgreement(Integer id, Doc doc, User user, @SafeHtml String comment, DecisionType decisionType) {
+    public DocAgreement(Integer id, Doc doc, User user, User returnedUser, @SafeHtml String comment, DecisionType decisionType) {
         super(id);
         this.doc = doc;
         this.user = user;
+        this.user = returnedUser;
         this.comment = comment;
         this.decisionType = decisionType;
     }

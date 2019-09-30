@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-    //List<User> getAllLdapUsers();
-
-    List<String> getAllLdapUsers();
+    List<User> getAllLdapUsers();
 
     User getByName(String name) throws NotFoundException;
 
@@ -21,4 +19,7 @@ public interface UserService {
 
     void delete(int id) throws NotFoundException;
 
+    void deleteByName(String name) throws NotFoundException;
+
+    void sinchronizeUsersByLdap();
 }

@@ -40,7 +40,7 @@ public class Doc extends BaseEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "docstatus")
-    private DocStatus docStatus = DocStatus.IN_WORK;
+    private DocStatus docStatus = DocStatus.IN_AGREEMENT;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)

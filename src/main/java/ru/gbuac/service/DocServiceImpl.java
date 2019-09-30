@@ -87,9 +87,21 @@ public class DocServiceImpl implements DocService {
         return checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
     }
 
+    private boolean isHasRightsToDocument(DocTo docTo, String userName) {
+        return docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docTo.getCurrentAgreementStage(),
+                docTo.getDocTypeId(), userName);
+    }
+
+    private boolean isHasRightsToDocument(Doc doc, String userName) {
+        return docTypeRoutesRepository.isHasRightsForDocTypeOnStage(doc.getCurrentAgreementStage(),
+                doc.getDocType().getId(), userName);
+    }
+
     @Override
     public DocTo getFullByUserName(int id, String userName) throws NotFoundException {
-        return asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id));
+        DocTo docTo = asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id));
+        docTo.setCanAgree(isHasRightsToDocument(docTo, userName));
+        return docTo;
     }
 
     @Override
@@ -161,11 +173,13 @@ public class DocServiceImpl implements DocService {
         String urlPdf = createPDFOrDocx(saved, rootPath, false, true);
         docRepository.setUrlPDF(saved.getId(), urlPdf);
         saved.setUrlPDF(urlPdf);
+        saved.setCanAgree(hasRights);
         return saved;
     }
 
     @Override
     public DocTo update(DocTo docTo, int id, String userName, String rootPath) throws NotFoundException, UnauthorizedUserException {
+        String comment = docTo.getComment();
         Assert.notNull(docTo, "docTo must not be null");
         int finalStageForThisDocType = docTypeRoutesRepository.getFinalStageForDocType(docTo.getDocTypeId());
 
@@ -182,9 +196,7 @@ public class DocServiceImpl implements DocService {
             prepareToPersist(updated, currentAgreementStage, finalStageForThisDocType);
         }
 
-        boolean hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(currentAgreementStage,
-                updated.getDocType().getId(), userName);
-
+        boolean hasRights = isHasRightsToDocument(updated, userName);
         if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
             throw new UnauthorizedUserException();
         }
@@ -200,7 +212,9 @@ public class DocServiceImpl implements DocService {
         docValuedFieldsRepository.deleteAll(id);
         updated = checkNotFoundWithId(docRepository.save(updated), id);
         User user = userRepository.getByName(userName);
-        docAgreementRepository.save(new DocAgreement(null, updated, user, "", DecisionType.ACCEPTED));
+        docAgreementRepository.save(new DocAgreement(null, updated, user, null, comment, DecisionType.ACCEPTED));
+        DocTo updatedTo = asDocTo(updated);
+        updatedTo.setCanAgree(hasRights);
         return asDocTo(updated);
     }
 
@@ -217,12 +231,24 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public DocTo rejectDocAgreement(int id, String targetUserName) throws NotFoundException {
+    public DocTo returnDocAgreement(int id, String targetUserName, String userName, String comment) throws NotFoundException {
         Doc updated = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
         int stage = docTypeRoutesRepository
                 .getStageByUserNameForDocType(targetUserName, updated.getDocType().getId(),
                         updated.getCurrentAgreementStage());
         updated.setCurrentAgreementStage(stage);
+        User user = userRepository.getByName(userName);
+        User targetUser = userRepository.getByName(targetUserName);
+        docAgreementRepository.save(new DocAgreement(null, updated, user, targetUser, comment, DecisionType.RETURNED));
+        return asDocTo(checkNotFoundWithId(docRepository.save(updated), id));
+    }
+
+    @Override
+    public DocTo rejectDocAgreement(int id, String userName, String comment) throws NotFoundException {
+        Doc updated = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
+        updated.setDocStatus(DocStatus.AGREEMENT_REJECTED);
+        User user = userRepository.getByName(userName);
+        docAgreementRepository.save(new DocAgreement(null, updated, user, null, comment, DecisionType.REJECTED));
         return asDocTo(checkNotFoundWithId(docRepository.save(updated), id));
     }
 
@@ -364,7 +390,7 @@ public class DocServiceImpl implements DocService {
     private DocTo asDocTo(Doc doc) {
         Integer docTypeId = doc.getDocType().getId();
         Integer curAgreementStage = doc.getCurrentAgreementStage();
-        Boolean isFinalStage = docTypeRoutesRepository.getFinalStageForDocType(docTypeId) ==
+        boolean isFinalStage = docTypeRoutesRepository.getFinalStageForDocType(docTypeId) ==
                 Optional.ofNullable(curAgreementStage).orElse(0);
         List<String> curUserRoles = AuthorizedUser.getRoles();
         List<DocValuedFields> docValuedFields = doc.getDocValuedFields();
@@ -379,7 +405,8 @@ public class DocServiceImpl implements DocService {
 
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
                 doc.getProjectRegDateTime(), doc.getInsertDateTime(), doc.getDocType().getId(),
-                doc.getDocStatus(), curAgreementStage, isFinalStage, doc.getUrlPDF(), docFieldsTos);
+                doc.getDocStatus(), curAgreementStage, isFinalStage, false, doc.getUrlPDF(), null,
+                docFieldsTos);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {

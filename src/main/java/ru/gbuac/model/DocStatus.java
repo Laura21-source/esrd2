@@ -2,5 +2,7 @@ package ru.gbuac.model;
 
 public enum DocStatus {
     IN_WORK,
-    COMPLETED
+    COMPLETED,
+    IN_AGREEMENT,
+    AGREEMENT_REJECTED
 }

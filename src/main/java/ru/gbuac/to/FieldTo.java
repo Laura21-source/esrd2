@@ -1,6 +1,7 @@
 package ru.gbuac.to;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import ru.gbuac.model.FieldType;
 import ru.gbuac.model.Role;
@@ -8,6 +9,7 @@ import ru.gbuac.util.DateTimeUtil;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 public class FieldTo extends BaseTo {
