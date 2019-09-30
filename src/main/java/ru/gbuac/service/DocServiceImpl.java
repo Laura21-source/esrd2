@@ -87,20 +87,12 @@ public class DocServiceImpl implements DocService {
         return checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
     }
 
-    private boolean isHasRightsToDocument(DocTo docTo, String userName) {
-        return docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docTo.getCurrentAgreementStage(),
-                docTo.getDocTypeId(), userName);
-    }
-
-    private boolean isHasRightsToDocument(Doc doc, String userName) {
-        return docTypeRoutesRepository.isHasRightsForDocTypeOnStage(doc.getCurrentAgreementStage(),
-                doc.getDocType().getId(), userName);
-    }
-
     @Override
     public DocTo getFullByUserName(int id, String userName) throws NotFoundException {
         DocTo docTo = asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id));
-        docTo.setCanAgree(isHasRightsToDocument(docTo, userName));
+        boolean hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docTo.getCurrentAgreementStage(),
+                docTo.getDocTypeId(), userName);
+        docTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));
         return docTo;
     }
 
@@ -196,7 +188,8 @@ public class DocServiceImpl implements DocService {
             prepareToPersist(updated, currentAgreementStage, finalStageForThisDocType);
         }
 
-        boolean hasRights = isHasRightsToDocument(updated, userName);
+        boolean hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(currentAgreementStage,
+                updated.getDocType().getId(), userName);
         if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
             throw new UnauthorizedUserException();
         }
