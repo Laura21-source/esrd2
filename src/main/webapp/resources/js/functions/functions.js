@@ -44,7 +44,7 @@
         var enaBled = '';
         if (enabled == false) {
             enaBled = ' disabled';
-            upClass = ' disableElem';
+            upClass = upClass + ' disableElem';
         }
         var reqUired = '';
         if (required == true) {

@@ -87,7 +87,7 @@
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(0, sumElem);
             var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-            //console.log(serverStack);
+            console.log(serverStack);
             var serverAjax = $.ajax({
                 type: "POST",
                 url: 'rest/profile/docs',
@@ -127,8 +127,6 @@
             var dataField = createDataField(0);
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(0, sumElem);
-            //var tempWordFile = createJSON(0,dataType,dataField,dataBlock);
-            //console.log(tempWordFile);
             var repostWordFile = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
             //console.log(repostWordFile);
             var serverAjax = $.ajax({
