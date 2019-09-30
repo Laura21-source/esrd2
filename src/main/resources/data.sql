@@ -206,4 +206,6 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20,
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4001, 1);
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4002, 2);
 
-
+INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (26,'АО "99 завод авиационного технологического оборудования"',  'Акционерное общество "99 завод авиационного технологического оборудования"', '1147746385500', '7751520180', '775101001', '100001, Москва, ул. Мясницккая, д. 5', 'Павлов Иван Иванович', 'генеральный директор');
+INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (27, 'АО "Агрокомбинат "Московский"',  'Акционерное общество "Агрокомбинат "Московский"','1025000654623', '5003003432', '775101001', '100011, Москва, ул. Лобачевского, д. 31', 'Богданов Иван Петрович', 'генеральный директор');
+INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (28, 'АО "Ведущий научно-исследовательский институт химической технологии"',  'Акционерное общество "Ведущий научно-исследовательский институт химической технологии"', '5087746165910', '7724675770', '772401001', '100001, Москва, ул. Большая Ордынка, д. 11', 'Сергеев Николай Николаевич', 'генеральный директор');
