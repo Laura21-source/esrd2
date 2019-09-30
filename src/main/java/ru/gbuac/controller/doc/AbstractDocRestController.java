@@ -9,9 +9,7 @@ import ru.gbuac.model.Doc;
 import ru.gbuac.service.DocService;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FileTo;
-
 import java.util.List;
-
 import static ru.gbuac.util.ValidationUtil.assureIdConsistent;
 import static ru.gbuac.util.ValidationUtil.checkNew;
 
@@ -71,9 +69,14 @@ public abstract class AbstractDocRestController {
         docService.delete(id);
     }
 
-    public DocTo rejectDocAgreement(int id, String targetUserName) {
-        LOG.info("rejectDocAgreement " + id);
-        return docService.rejectDocAgreement(id, targetUserName);
+    public DocTo returnDocAgreement(int id, String targetUserName, String comment) {
+        LOG.info("returnDocAgreement " + id);
+        return docService.returnDocAgreement(id, targetUserName, AuthorizedUser.getUserName(), comment);
+    }
+
+    public DocTo rejectDocAgreement(int id,  String comment) {
+        LOG.info("returnDocAgreement " + id);
+        return docService.rejectDocAgreement(id, AuthorizedUser.getUserName(), comment);
     }
 
     public FileTo fileUploadFile(MultipartFile inputFile, String rootPath) {

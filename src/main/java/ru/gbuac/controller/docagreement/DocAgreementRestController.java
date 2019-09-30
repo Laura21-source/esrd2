@@ -2,9 +2,7 @@ package ru.gbuac.controller.docagreement;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import ru.gbuac.controller.doctypefields.DocTypeFieldsRestController;
 import ru.gbuac.to.DocAgreementTo;
-
 import java.util.List;
 
 @RestController

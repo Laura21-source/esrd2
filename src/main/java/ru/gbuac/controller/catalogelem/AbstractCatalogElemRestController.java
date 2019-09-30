@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.gbuac.model.CatalogElem;
 import ru.gbuac.service.CatalogElemService;
 import ru.gbuac.to.CatalogElemTo;
-
 import java.util.List;
-
 import static ru.gbuac.util.ValidationUtil.assureIdConsistent;
 import static ru.gbuac.util.ValidationUtil.checkNew;
 

@@ -1,8 +1,10 @@
 package ru.gbuac.to;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 public class CatalogElemTo extends BaseTo {

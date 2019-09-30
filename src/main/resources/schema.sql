@@ -17,9 +17,9 @@ DROP TABLE IF EXISTS esrd.valuedfield CASCADE;
 DROP TABLE IF EXISTS esrd.catalogelem CASCADE;
 DROP TABLE IF EXISTS esrd.catalog CASCADE;
 
-DROP SEQUENCE IF EXISTS esrd.global_seq;
-DROP SEQUENCE IF EXISTS esrd.agreement_seq;
-DROP SEQUENCE IF EXISTS esrd.agenda_seq;
+DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.agenda_seq CASCADE;
 CREATE SEQUENCE esrd.global_seq START 100000;
 CREATE SEQUENCE esrd.agreement_seq START 1;
 CREATE SEQUENCE esrd.agenda_seq START 1;
@@ -106,6 +106,7 @@ CREATE TABLE esrd.doc_agreement
     id               INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
     doc_id           INTEGER                 NOT NULL,
     user_id          INTEGER                 NOT NULL,
+    returned_user_id INTEGER                         ,
     agreed_datetime  TIMESTAMP                       ,
     comment          VARCHAR                         ,
     decision_type    VARCHAR                         ,

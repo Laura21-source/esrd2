@@ -10,5 +10,7 @@ public enum FieldType {
     CATALOG,
     GROUP_FIELDS,
     CHECKBOX,
-    ATTACHMENT
+    ATTACHMENT,
+    CATALOG_USERS,
+    CATALOG_ORGANIZATIONS
 }

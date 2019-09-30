@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.model.Doc;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FileTo;
-
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.util.List;
@@ -81,8 +80,15 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
+    @PostMapping(value = "/returnDocAgreement/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public DocTo returnDocAgreement(@PathVariable("id")int id, @RequestParam("targetUserName") String targetUserName,
+                                    @RequestParam("comment") String comment) {
+        return super.returnDocAgreement(id, targetUserName, comment);
+    }
+
+    @Override
     @PostMapping(value = "/rejectDocAgreement/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DocTo rejectDocAgreement(@PathVariable("id")int id, @RequestParam("targetUserName") String targetUserName) {
-        return super.rejectDocAgreement(id, targetUserName);
+    public DocTo rejectDocAgreement(@PathVariable("id")int id, @RequestParam("comment") String comment) {
+        return super.rejectDocAgreement(id, comment);
     }
 }
