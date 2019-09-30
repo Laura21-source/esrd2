@@ -49,7 +49,7 @@ public class DocAgreement extends BaseEntity {
         super(id);
         this.doc = doc;
         this.user = user;
-        this.user = returnedUser;
+        this.returnedUser = returnedUser;
         this.comment = comment;
         this.decisionType = decisionType;
     }
