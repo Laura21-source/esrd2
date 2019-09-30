@@ -35,7 +35,8 @@ public class OrganizationRestController extends AbstractOrganizationRestControll
         return super.get(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    @DeleteMapping(value = "/{id}")
     public void delete(int id) {
         super.delete(id);
     }
