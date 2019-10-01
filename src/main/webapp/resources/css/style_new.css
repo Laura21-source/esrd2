@@ -22,12 +22,12 @@ header, main, footer {padding-left: 240px;}
 /* Сортируемые таблицы */
 .bs-select, .dataTables_info {text-align: left!important;}
 /* Лоадер  окно */
-.btnSuccess {height: 50vh;}
+.btnSuccess, .btnCancel {height: 50vh;}
 /* Серый цвет у залоченных полей */
 .disableElem {
   background: rgb(232, 235, 237)!important;
   color: #666666!important;
 }
 /* Ширина модального окна */
-.modal-size-lg {width: 500px!important;}
+.modal-size-lg {width: 600px!important;}
 

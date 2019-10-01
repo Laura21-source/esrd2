@@ -97,8 +97,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-3" id="commentText">
+                            <div class="col-md-3">&nbsp;</div>
+                            <div class="col-md-6 form-group text-left">
+                                <label class="text-muted">Комментарий</label>
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="col-md-3">&nbsp;</div>
+                        </div>
                     </form>
                     <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
+                    <button type="submit" id="btnReset" class="btn btn-danger mb-2 my-4 pt-3 rounded btnReset">Отменить согласование</button>
                 </div>
             </div>
         </div>
@@ -131,7 +140,7 @@
                     // Если документ подписан
                     newDate = formatDate(new Date(data.regDateTime), 0);
                     $(".documentName").html('Документ №' + data.regNum + ' от ' + newDate);
-                    $('#btnSave, #addGroup, #btnReformat').addClass('d-none');
+                    $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
                 } else {
                     $(".documentName").html('Подписание документа №' + data.projectRegNum + ' от ' + newDate);
                     // Меняем кнопку согласования на подписания
@@ -141,10 +150,10 @@
                 // Меняем названия в модальном окне
                 $('.heading').html('Подписание документа');
                 $('.bodySuccess h6').html('Документ успешно подписан!');
-                // Имеет ли право пользователь подписывать документ
-                if(data.canAgree === false) {
-                    $('#btnSave, #addGroup, #btnReformat').addClass('d-none');
-                }
+            }
+            // Имеет ли право пользователь подписывать документ
+            if(data.canAgree === false) {
+                $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
             }
             // Ссылки на документ PDF
             var documentPDF = data.UrlPDF;
@@ -171,7 +180,9 @@
                 if(row.decisionType && row.decisionType === 'ACCEPTED') {
                     currentUser = '<i class="fas fa-check text-success"></i>';
                 }
-                $('#listAgree .modal-body').append('<div class="row mb-3"><div class="col-1 text-center">'+currentUser+'</div><div class="col-6">'+row.lastName+' '+row.firstName+' '+row.patronym+'<br><small class="text-muted">'+row.position+'</small></div><div class="col-5">Комментарий</div></div>');
+                var firstName = row.firstName.substr(1);
+                var patronym = row.patronym.substr(1);
+                $('#listAgree .modal-body').append('<div class="row mb-3"><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.lastName+' '+firstName+' '+patronym+'<br><small class="text-muted">'+row.position+'</small></div><div class="col-4"><small>Комментарий</small></div><div class="col-3"><button class="btn btn-danger btn-sm rounded"><i class="fas fa-undo mr-2"></i>Вернуть</button></div></div>');
             }
         });
 
@@ -200,6 +211,37 @@
                 $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
                 $('#btnSuccess').on('hidden.bs.modal', function() {
                     $("#btnSave").attr('disabled', false).html(trueName);
+                    window.location.href="agreement";
+                });
+            });
+        });
+
+        // Отправка отмены согласования на сервер
+        $('#btnReset').on("click", function(event) {
+            event.preventDefault();
+            $('#btnCancel').modal('show');
+            var trueName =  $(this).html();
+            $(this).attr('disabled', true).html('Отправка запроса');
+            var dataType = $("#selectType").val();
+            // Формируем поля JSON
+            var dataField = createDataField(id);
+            var sumElem = countElem(dataField)+1;
+            var dataBlock = createDataBlock(id, sumElem);
+            //console.log(JSON.stringify(dataBlock));
+            var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
+            //console.log(serverStack);
+            var comment = $('#commentText textarea').val();
+            var serverAjax = $.ajax({
+                type: "POST",
+                url: '/rest/profile/docs/rejectDocAgreement/'+id+'?comment='+comment,
+                data: serverStack,
+                contentType: 'application/json; charset=utf-8'
+            });
+            serverAjax.done(function() {
+                $('.loaderCancel').addClass('d-none');
+                $('.bodyCancel, .headerCancel, .footerCancel').removeClass('d-none').fadeIn(500);
+                $('#btnCancel').on('hidden.bs.modal', function() {
+                    $("#btnReset").attr('disabled', false).html(trueName);
                     window.location.href="agreement";
                 });
             });
@@ -234,6 +276,7 @@
                 $(".pdfHREF").attr("href", data.fileUrl);
             });
         });
+
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>

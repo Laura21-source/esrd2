@@ -89,3 +89,72 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="btnCancel" tabindex="-1" role="dialog" aria-labelledby="btnCancel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-notify modal-danger" role="document">
+        <div class="modal-content btnCancel">
+            <div class="modal-header headerCancel d-none">
+                <p class="heading lead">Отмена согласования документа</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body d-flex align-items-center justify-content-center">
+                <div class="preloader-wrapper active big active crazy loaderCancel">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center bodyCancel d-none">
+                    <i class="fas fa-times fa-4x mb-3 animated rotateIn"></i>
+                    <h6>Согласование отменено!</h6>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center footerCancel d-none">
+                <a type="button" class="btn btn-danger rounded" data-dismiss="modal">Продолжить работу</a>
+            </div>
+        </div>
+    </div>
+</div>

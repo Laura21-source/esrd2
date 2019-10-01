@@ -16,7 +16,7 @@ public class OrganizationRestController extends AbstractOrganizationRestControll
     public static final String REST_URL = "/rest/profile/organizations";
 
     @Override
-    @GetMapping
+    @GetMapping(value = "/id")
     public Organization get(@PathVariable("id") int id) {
         return super.get(id);
     }
