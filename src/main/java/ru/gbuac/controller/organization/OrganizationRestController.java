@@ -5,8 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.Organization;
 import ru.gbuac.service.OrganizationService;
-import ru.gbuac.to.DocFieldsTo;
-import ru.gbuac.to.DocTo;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
@@ -17,16 +15,10 @@ import java.util.List;
 public class OrganizationRestController extends AbstractOrganizationRestController {
     public static final String REST_URL = "/rest/profile/organizations";
 
-    @Autowired
-    ServletContext context;
-
-    @Autowired
-    OrganizationService organizationService;
-
     @Override
-    @GetMapping(value = "/getAllOrganizations")
-    public List<Organization> getAllOrganizations(@PathVariable("id") int id) {
-        return super.getAllOrganizations(id);
+    @GetMapping
+    public List<Organization> getAll(@PathVariable("id") int id) {
+        return super.getAll(id);
     }
 
     @Override
@@ -44,9 +36,9 @@ public class OrganizationRestController extends AbstractOrganizationRestControll
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Organization updateOrCreate(@Valid @RequestBody Organization organization) {
         if (organization.isNew()) {
-            return super.create(organization, context.getRealPath("/"));
+            return super.create(organization);
         } else {
-            return super.update(organization, organization.getId(), context.getRealPath("/"));
+            return super.update(organization, organization.getId());
         }
     }
 }

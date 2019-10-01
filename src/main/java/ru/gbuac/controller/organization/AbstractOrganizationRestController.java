@@ -23,9 +23,9 @@ public abstract class AbstractOrganizationRestController {
     @Autowired
     OrganizationService organizationService;
 
-    public List<Organization> getAllOrganizations(int id) {
-        LOG.info("getAllOrganizations");
-        return organizationService.getAllOrganizations(id);
+    public List<Organization> getAll(int id) {
+        LOG.info("getAll");
+        return organizationService.getAll(id);
     }
 
     public void delete(int id) {
@@ -38,13 +38,13 @@ public abstract class AbstractOrganizationRestController {
         return organizationService.get(id);
     }
 
-    public Organization create(Organization organization, String rootPath) {
-        LOG.info("createFinal " + "organization");
+    public Organization create(Organization organization) {
+        LOG.info("create " + organization);
         checkNew(organization);
-        return organizationService.save(organization, rootPath);
+        return organizationService.save(organization);
     }
 
-    public Organization update(Organization organization, int id, String realPath) {
+    public Organization update(Organization organization, int id) {
         LOG.info("update " + organization);
         assureIdConsistent(organization, id);
         return organizationService.update(organization, id);

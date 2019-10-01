@@ -24,13 +24,13 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public List<Organization> getAllOrganizations(int id) {
+    public List<Organization> getAll(int id) {
         return organizationRepository.getAllOrganizations(id);
     }
 
 
     @Override
-    public Organization save(Organization organization, String rootPath) {
+    public Organization save(Organization organization) {
         Assert.notNull(organization, "organization must not be null");
         return organizationRepository.save(organization);
     }
@@ -38,8 +38,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Organization update(Organization organization, int id) throws NotFoundException {
         Assert.notNull(organization, "organization must not be null");
-        Organization savedOrganization = checkNotFoundWithId(organizationRepository.save(organization), id);
-        return savedOrganization;
+        return checkNotFoundWithId(organizationRepository.save(organization), id);
     }
 
     @Override
