@@ -38,8 +38,7 @@ public class DocNumberPrefixesServiceImpl implements DocNumberPrefixesService {
     @Override
     public DocNumberPrefixes update(DocNumberPrefixes docNumberPrefixes, int id) throws NotFoundException {
         Assert.notNull(docNumberPrefixes, "docNumberPrefixes must not be null");
-        DocNumberPrefixes savedDocNumberPrefixes = checkNotFoundWithId(docNumberPrefixesRepository.save(docNumberPrefixes), id);
-        return savedDocNumberPrefixes;
+        return checkNotFoundWithId(docNumberPrefixesRepository.save(docNumberPrefixes), id);
     }
 
     @Override

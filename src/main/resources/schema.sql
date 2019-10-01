@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS esrd.role CASCADE;
 DROP TABLE IF EXISTS esrd.valuedfield CASCADE;
 DROP TABLE IF EXISTS esrd.catalogelem CASCADE;
 DROP TABLE IF EXISTS esrd.catalog CASCADE;
+DROP TABLE IF EXISTS esrd.organization CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
@@ -215,6 +216,19 @@ CREATE TABLE esrd.doc_valuedfields
     position               INTEGER                 NOT NULL,
     FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
     FOREIGN KEY (valuedfield_id) REFERENCES esrd.valuedfield (id) ON DELETE CASCADE
+);
+
+CREATE TABLE esrd.organization
+(
+    id                     INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    short_name             VARCHAR                 NOT NULL,
+    full_name              VARCHAR                 NOT NULL,
+    ogrn                   VARCHAR                 NOT NULL,
+    inn                    VARCHAR                 NOT NULL,
+    kpp                    VARCHAR                 NOT NULL,
+    address                VARCHAR                 NOT NULL,
+    fio_manager            VARCHAR                 NOT NULL,
+    position_manager       VARCHAR                 NOT NULL
 );
 
 CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR)
