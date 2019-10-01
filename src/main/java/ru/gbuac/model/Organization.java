@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Table(name = "organization")
-public class Organization extends NamedEntity {
+public class Organization extends BaseEntity {
 
     @SafeHtml
     @Column(name = "short_name")

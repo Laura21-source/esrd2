@@ -8,7 +8,7 @@ import java.util.List;
 public interface OrganizationService {
     Organization get(int id) throws NotFoundException;
 
-    List<Organization> getAll(int id);
+    List<Organization> getAll();
 
     Organization save(Organization organization);
 

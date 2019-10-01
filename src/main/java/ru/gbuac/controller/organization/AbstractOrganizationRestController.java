@@ -3,15 +3,9 @@ package ru.gbuac.controller.organization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Organization;
 import ru.gbuac.service.OrganizationService;
-import ru.gbuac.to.DocTo;
 
-import javax.validation.Valid;
 import java.util.List;
 
 import static ru.gbuac.util.ValidationUtil.assureIdConsistent;
@@ -23,9 +17,9 @@ public abstract class AbstractOrganizationRestController {
     @Autowired
     OrganizationService organizationService;
 
-    public List<Organization> getAll(int id) {
+    public List<Organization> getAll() {
         LOG.info("getAll");
-        return organizationService.getAll(id);
+        return organizationService.getAll();
     }
 
     public void delete(int id) {
@@ -49,4 +43,5 @@ public abstract class AbstractOrganizationRestController {
         assureIdConsistent(organization, id);
         return organizationService.update(organization, id);
     }
+
 }

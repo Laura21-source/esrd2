@@ -24,8 +24,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public List<Organization> getAll(int id) {
-        return organizationRepository.getAllOrganizations(id);
+    public List<Organization> getAll() {
+        return organizationRepository.findAll();
     }
 
 

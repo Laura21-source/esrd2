@@ -1,12 +1,10 @@
 package ru.gbuac.controller.organization;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.Organization;
-import ru.gbuac.service.OrganizationService;
 
-import javax.servlet.ServletContext;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -17,12 +15,12 @@ public class OrganizationRestController extends AbstractOrganizationRestControll
 
     @Override
     @GetMapping
-    public List<Organization> getAll(@PathVariable("id") int id) {
-        return super.getAll(id);
+    public List<Organization> getAll() {
+        return super.getAll();
     }
 
     @Override
-    @GetMapping
+    @GetMapping(value = "/get/{id}")
     public Organization get(@PathVariable("id") int id) {
         return super.get(id);
     }
