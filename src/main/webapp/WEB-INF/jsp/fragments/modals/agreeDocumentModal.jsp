@@ -81,6 +81,8 @@
                 <div class="text-center bodySuccess d-none">
                     <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
                     <h6>Документ успешно согласован!</h6>
+                    <h6 id="regName"></h6>
+                    <h3 id="regNum"></h3>
                 </div>
             </div>
             <div class="modal-footer justify-content-center footerSuccess d-none">

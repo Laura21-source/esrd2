@@ -211,13 +211,23 @@
                 data: serverStack,
                 contentType: 'application/json; charset=utf-8'
             });
-            serverAjax.done(function() {
+            serverAjax.done(function(data) {
                 $('.loaderSuccess').addClass('d-none');
                 $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
-                $('#btnSuccess').on('hidden.bs.modal', function() {
-                    $("#btnSave").attr('disabled', false).html(trueName);
-                    window.location.href="agreement";
-                });
+                var regNum = data.regNum;
+                if(regNum) {
+                    $('#btnSuccess #regName').html('Регистрационный номер:');
+                    $('#btnSuccess #regNum').html(regNum);
+                    $('#btnSuccess').on('hidden.bs.modal', function() {
+                        $("#btnSave").attr('disabled', false).html(trueName);
+                        window.location.href="agree-document?id="+data.id;
+                    });
+                } else {
+                    $('#btnSuccess').on('hidden.bs.modal', function() {
+                        $("#btnSave").attr('disabled', false).html(trueName);
+                        window.location.href="agreement";
+                    });
+                }
             });
         });
 
