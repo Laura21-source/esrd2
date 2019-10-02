@@ -541,8 +541,8 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (11, 'Реквизиты приказа', 'CATALOG', null, null, null, 1008, '[Questions]OrderNumber');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (12, 'Вид тарифа', 'CATALOG', null, null, null, 1004, '[Questions]TarifView');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (13, 'Прочее', 'TEXT', null, null, null, null, '[Questions]Comments');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Организация', 'CATALOG', null, null, null, 1006, '[Questions]Organization');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (15, 'Ответственный', 'CATALOG', null, null, null, 1007, '[Questions]AuthPerson');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Организация', 'CATALOG_ORGANIZATIONS', null, null, null, 1006, '[Questions]Organization');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (15, 'Ответственный', 'CATALOG_USERS', null, null, null, 1007, '[Questions]AuthPerson');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (16, 'Дополнительная информация', 'TEXT', null, null, null, null, '[Questions]AdditionalInfo');
 
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (23, 1, 4, 0, true, 3001);
@@ -577,5 +577,8 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20,
 
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4001, 1);
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4002, 2);
+
+INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (37, 'ООО "ТОМА"', 'Общество с ограниченной ответственностью "ТОМА"', '3453434343', '7775545446', '3434343', 'ул. Новый Арбат, 11', 'Сидоров Сидор Сидорович', 'Генеральный директор');
+INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (38, 'ООО "ТЕСТ"', 'Общество с ограниченной ответственностью "ТЕСТ"', '34343434343', '7743563435', '4343433', 'ул. Бахрушина, 20', 'Петров Петр Петрович', 'Руководитель');
 
 

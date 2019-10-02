@@ -90,9 +90,16 @@ public class DocServiceImpl implements DocService {
     @Override
     public DocTo getFullByUserName(int id, String userName) throws NotFoundException {
         DocTo docTo = asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id));
-        boolean hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docTo.getCurrentAgreementStage(),
-                docTo.getDocTypeId(), userName);
-        docTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));
+        DocStatus docStatus = docTo.getDocStatus();
+        if (docStatus.equals(DocStatus.COMPLETED) || (docStatus.equals(DocStatus.AGREEMENT_REJECTED)))  {
+            docTo.setCanAgree(false);
+        }
+        else {
+
+            boolean hasRights = docTypeRoutesRepository.isHasRightsForDocTypeOnStage(docTo.getCurrentAgreementStage(),
+                    docTo.getDocTypeId(), userName);
+            docTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));
+        }
         return docTo;
     }
 
