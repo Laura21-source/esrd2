@@ -79,13 +79,27 @@
     4. id - Название атрибута у выбранного поля
     5. select - Значение выбранного атрибута value
     */
-    function createOptions (url, field, name, id, select) {
+    function createOptions (url, field, name, id, select, spisok) {
         return $.getJSON (url, function(data) {
             for (var i in data) {
                 var selectedField = '';
                 // Получаем отмеченные поля если есть необходимость
                 if (select != '') {if (select === data[i][id]) {selectedField = ' selected="selected"';}}
-                $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  data[i][name] + '</option>');
+                if(spisok === '') {
+                    $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  data[i][name] + '</option>');
+                } else if(spisok === 'organisations') {
+                    $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  data[i][name] + '</option>');
+                } else if(spisok === 'users') {
+                    var userName = data[i]['lastname'];
+                    var firstName = data[i]['firstname'].substr(0,1)+'.';
+                    var patroNym = data[i]['patronym'].substr(0,1)+'.';
+                    var phone = '';
+                    if(data[i]['phone'] && data[i]['phone'] != '') {
+                        phone = ' , тел. ' + data[i]['phone'];
+                    }
+                    userName = userName + ' ' + firstName + ' ' + patroNym + phone;
+                    $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  userName + '</option>');
+                }
             }
         })
     }
@@ -109,7 +123,7 @@
                     console.log("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " - " + nameCatalogField);
                     sumOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField);
                     // Открываем опции
-                    createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "");
+                    createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "", "");
                     $(this).find("option.active").remove();
                 });
             });
@@ -233,22 +247,34 @@
                         if(rowSelectField.enabled == false) {enaOpiton = ' disabled';}
                         var required = '';
                         if(rowSelectField.required == true) {required = ' required';}
+                        var selectFieldName = 'selectField' + dubKey + rowSelectField.catalogId;
                         // Если вид поля SELECT
                         if (rowSelectField.fieldType === "CATALOG") {
-                            var selectFieldName = 'selectField' + dubKey + rowSelectField.catalogId;
                             // Добавляем строку
                             $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
-                            //var numberCatalog = ('#blockGroup' + dubKey + '#selectField' + dubKey + rowSelectField.catalogId);
                             var numberCatalog = ('#' + selectFieldName);
                             // Формирование правильных полей
-                            //var numberFieldValue = $(selectFieldName).parents('.blockGroup').attr('data-field');
-                            //console.log(numberFieldValue);
-                            //createOptionsValue('#blockGroup' + dubKey + ' #'+selectFieldName);
                             createOptionsValue(numberCatalog, '#blockGroup' + dubKey);
+                            // Добавляем опции
+                            createOptions ("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField, "");
+                        }
+                        // Если вид поля справочник организаций
+                        if (rowSelectField.fieldType === "CATALOG_ORGANIZATIONS") {
+                            // Добавляем строку
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                            var numberCatalog = ('#' + selectFieldName);
                             if(parentBlock == '') {
                                 // Добавляем опции
-                                createOptions ("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField);
+                                createOptions ("rest/profile/organizations/", numberCatalog, "shortName", "id", numberField, 'organisations');
                             }
+                        }
+                        // Если вид поля справочник организаций
+                        if (rowSelectField.fieldType === "CATALOG_USERS") {
+                            // Добавляем строку
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                            var numberCatalog = ('#' + selectFieldName);
+                            // Добавляем опции
+                            createOptions ("rest/profile/users/", numberCatalog, "", "id", numberField, 'users');
                         }
                         if (rowSelectField.fieldType === "ATTACHMENT") {
                             // Добавляем строку
