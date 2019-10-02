@@ -169,9 +169,13 @@
         });
 
         // Список согласования документа
-        $.getJSON('rest/profile/docs/' + id + '/agreement/list/', function(data){
+        $.getJSON('rest/profile/docs/' + id + '/agreement/list/', function(data) {
+            /*$('#listAgree .modal-body').append('<div class="row mb-3 d-flex align-items-center text-center font-weight-bold"><div class="col-1">Статус</div><div class="col-4">Пользователь</div><div class="col-4">Комментарий</div><div class="col-3">Редактирование</div></div>');*/
             for(var i in data) {
                 var row = data[i];
+                var returnButton = '';
+                var comment = '';
+                if(row.comment) {comment = row.comment;}
                 if(row.currentUser === true) {
                     var currentUser = '<i class="fas fa-user-clock text-warning"></i>';
                 } else {
@@ -179,10 +183,11 @@
                 }
                 if(row.decisionType && row.decisionType === 'ACCEPTED') {
                     currentUser = '<i class="fas fa-check text-success"></i>';
+                    returnButton = '<button class="btn btn-danger btn-sm rounded btnReturn" data-user="'+row.name+'"><i class="fas fa-undo-alt mr-2"></i>Вернуть</button>';
                 }
-                var firstName = row.firstName.substr(1);
-                var patronym = row.patronym.substr(1);
-                $('#listAgree .modal-body').append('<div class="row mb-3"><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.lastName+' '+firstName+' '+patronym+'<br><small class="text-muted">'+row.position+'</small></div><div class="col-4"><small>Комментарий</small></div><div class="col-3"><button class="btn btn-danger btn-sm rounded"><i class="fas fa-undo mr-2"></i>Вернуть</button></div></div>');
+                var firstName = row.firstName.substr(0,1)+'.';
+                var patronym = row.patronym.substr(0,1)+'.';
+                $('#listAgree .modal-body').append('<div class="row mb-3 d-flex align-items-center"><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.lastName+' '+firstName+' '+patronym+'<br><small class="text-muted">'+row.position+'</small></div><div class="col-4"><small>'+comment+'</small></div><div class="col-3">'+returnButton+'</div></div>');
             }
         });
 
@@ -233,7 +238,7 @@
             var comment = $('#commentText textarea').val();
             var serverAjax = $.ajax({
                 type: "POST",
-                url: '/rest/profile/docs/rejectDocAgreement/'+id+'?comment='+comment,
+                url: 'rest/profile/docs/rejectDocAgreement/'+id+'?comment='+comment,
                 data: serverStack,
                 contentType: 'application/json; charset=utf-8'
             });
