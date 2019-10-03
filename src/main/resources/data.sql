@@ -1,6 +1,7 @@
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4000, 'admin', 'Махров', 'Станислав', 'Станиславович', 'MakhrovSS1@mos.ru', '15-451', 'Начальник отдела');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4001, 'user1', 'Петров', 'Петр', 'Петрович', 'PetrovPP@mos.ru', null, 'Главный специалист');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4002, 'user2', 'Широкова', 'Елена', 'Юрьевна', 'IvanovII@mos.ru', null, 'Заместитель начальника Управления');
+INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (3999, 'user3', 'Петров', 'Петр', 'Петрович', 'PetrovII@mos.ru', null, 'Начальник Управления');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4003, 'KKozhin', 'Кожин', 'Констнтин', 'Сергеевич', null, '299-8653', null);
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4004, 'NPopova', 'Попова', 'Наталья', 'Леонидовна', null, '957-9413', null);
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4005, 'SKorotaeva', 'Коротаева', 'Светлана', 'Петровна', null, null, null);
@@ -375,12 +376,14 @@ INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, p
 INSERT INTO esrd.role (id, name) VALUES (3000, 'ADMIN');
 INSERT INTO esrd.role (id, name) VALUES (3001, 'Отраслевое управление');
 INSERT INTO esrd.role (id, name) VALUES (3002, 'Секретарь Правления');
+INSERT INTO esrd.role (id, name) VALUES (3003, 'Начальник Отраслевого Управления');
 INSERT INTO esrd.role (id, name) VALUES (3006, 'USER');
 
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4000, 3000);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4001, 3001);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4001, 3006);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (3999, 3003);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3006);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3002);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3006);
@@ -391,7 +394,7 @@ INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (25, 'ДПР-ПPО');
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id)
 VALUES (1, 'Повестка заседания Правления', 3001, 'zapiska.docx', 'povestka.docx', 23);
-INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (2, 'Приказ', 3001, 24);
+INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (2, 'Материалы к Повестке заседания Правления', 3001, 24);
 INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (3, 'Протокол', 3001, 25);
 
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1001, null, 'Предмет вопроса', 0);
@@ -541,8 +544,8 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (11, 'Реквизиты приказа', 'CATALOG', null, null, null, 1008, '[Questions]OrderNumber');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (12, 'Вид тарифа', 'CATALOG', null, null, null, 1004, '[Questions]TarifView');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (13, 'Прочее', 'TEXT', null, null, null, null, '[Questions]Comments');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Организация', 'CATALOG_ORGANIZATIONS', null, null, null, 1006, '[Questions]Organization');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (15, 'Ответственный', 'CATALOG_USERS', null, null, null, 1007, '[Questions]AuthPerson');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Организация', 'CATALOG_ORGANIZATIONS', null, null, null, null, '[Questions]Organization');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (15, 'Ответственный', 'CATALOG_USERS', null, null, null, null, '[Questions]AuthPerson');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (16, 'Дополнительная информация', 'TEXT', null, null, null, null, '[Questions]AdditionalInfo');
 
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (23, 1, 4, 0, true, 3001);
@@ -577,8 +580,24 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20,
 
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4001, 1);
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4002, 2);
+INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (70, 2, 3999, 1);
 
 INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (37, 'ООО "ТОМА"', 'Общество с ограниченной ответственностью "ТОМА"', '3453434343', '7775545446', '3434343', 'ул. Новый Арбат, 11', 'Сидоров Сидор Сидорович', 'Генеральный директор');
 INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (38, 'ООО "ТЕСТ"', 'Общество с ограниченной ответственностью "ТЕСТ"', '34343434343', '7743563435', '4343433', 'ул. Бахрушина, 20', 'Петров Петр Петрович', 'Руководитель');
 
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (39, 'Регистрационный номер повестки', 'CATALOG_REGNUMBERS', null, null, null, null, 'RegNumber');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (40, 'Материалы', 'GROUP_FIELDS', null, 4, null, null, '');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (41, 'Экспертное заключение', 'ATTACHMENT', null, null, null, null, null);
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (42, 'Проект приказа', 'ATTACHMENT', null, null, null, null, null);
+
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (50, 2, 39, 0, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (51, 2, 40, 0, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (52, 2, 41, 0, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (53, 2, 42, 0, true, 3001);
+
+INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (40, 41);
+INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (40, 42);
+
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (43, 2, 39, 1);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (44, 2, 40, 2);
 
