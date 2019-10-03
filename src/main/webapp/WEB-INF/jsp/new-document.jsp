@@ -14,7 +14,7 @@
                     <div class="alert alert-secondary text-center mb-3">
                         <h4 class="mt-2">Подготовка проекта документа</h4>
                     </div>
-                    <form class="registrationForm needs-validation" <%--novalidate--%>>
+                    <form class="registrationForm needs-validation" novalidate>
                         <div class="row ml-1 mb-3">
                             <div class="col-md-3 text-left mt-2">
                                 <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
@@ -76,58 +76,58 @@
             }
         });
 
-        var element = $('.registrationForm').find('*required');
+        var element = $('input,textarea,select').attr('required',true);
         console.log(element);
 
         // Сохранение - Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
-            /*var forms = $('.registrationForm');
+            var forms = $('.registrationForm');
+            var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
             $(forms).addClass('was-validated');
             event.preventDefault();
-            $(forms).find('[required]').each(function() {
-                console.log($(this));
-                if($(this).checkValidity() === false) {
-                    event.stopPropagation();
-                }
-            }, false);*/
-            $('#createSave').modal('show');
-            var trueName =  $(this).html();
-            $(this).attr('disabled', true).html('Отправка запроса');
-            var dataType = $("#selectType").val();
-            // Формируем поля JSON
-            var dataField = createDataField(0);
-            var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(0, sumElem);
-            var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-            console.log(serverStack);
-            var serverAjax = $.ajax({
-                type: "POST",
-                url: 'rest/profile/docs',
-                data: serverStack,
-                contentType: 'application/json; charset=utf-8'
-            });
-            serverAjax.done(function(data) {
-                $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
-                $('.loaderSuccess').addClass('d-none');
-                $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
-                var projectRegNum = data.projectRegNum;
-                $('#createSave #regNumTemplate').html(projectRegNum);
-                $('#createSave').on('hidden.bs.modal', function() {
-                    $('#selectType').val("");
-                    $("#blockUp, #blockDown, #btnSave").addClass("d-none");
-                    $("#btnSave").attr('disabled', false).html(trueName);
+            var checkField = checkValidation(formsValue);
+            if(checkField === false) {
+                event.stopPropagation();
+            } else {
+                $('#createSave').modal('show');
+                var trueName =  $(this).html();
+                $(this).attr('disabled', true).html('Отправка запроса');
+                var dataType = $("#selectType").val();
+                // Формируем поля JSON
+                var dataField = createDataField(0);
+                var sumElem = countElem(dataField)+1;
+                var dataBlock = createDataBlock(0, sumElem);
+                var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
+                console.log(serverStack);
+                var serverAjax = $.ajax({
+                    type: "POST",
+                    url: 'rest/profile/docs',
+                    data: serverStack,
+                    contentType: 'application/json; charset=utf-8'
                 });
-            });
-            var serverWord = $.ajax({
-                type: "POST",
-                url: 'rest/profile/docs/docx',
-                data: serverStack,
-                contentType: 'application/json; charset=utf-8'
-            });
-            serverWord.done(function(data) {
-                $('#modalLoad').attr("href", data.fileUrl);
-            });
+                serverAjax.done(function(data) {
+                    $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
+                    $('.loaderSuccess').addClass('d-none');
+                    $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
+                    $('.registrationForm').removeClass('was-validated');
+                    var projectRegNum = data.projectRegNum;
+                    $('#createSave #regNumTemplate').html(projectRegNum);
+                    $('#createSave').on('hidden.bs.modal', function() {
+                        $('#selectType').val("");
+                        $("#blockUp, #blockDown, #btnSave").addClass("d-none");
+                        $("#btnSave").attr('disabled', false).html(trueName);
+                    });
+                });
+                var serverWord = $.ajax({
+                    type: "POST",
+                    url: 'rest/profile/docs/docx',
+                    data: serverStack,
+                    contentType: 'application/json; charset=utf-8'
+                });
+                serverWord.done(function(data) {
+                    $('#modalLoad').attr("href", data.fileUrl);
+                });            }
         });
 
         // Отправка на сервер файла служебки

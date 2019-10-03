@@ -4,6 +4,16 @@
     // Получение id документа из адресной строки
     function getId () {return new URL(window.location.href).searchParams.get("id"); }
 
+    // Прооверка полей на заполняемость
+    function checkValidation(value) {
+        var validation = true;
+        $(value).each(function() {
+            console.log($(this).val());
+            if($(this).val() === '') {validation = false;}
+        });
+        return validation;
+    }
+
     // Функция получения текстового поля
     /*
     1. element - Элемент к которому добавляется поле
