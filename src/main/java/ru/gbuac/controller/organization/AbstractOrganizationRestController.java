@@ -33,6 +33,11 @@ public abstract class AbstractOrganizationRestController {
         return organizationService.getAll();
     }
 
+    public Organization getEGRULData(String INN) {
+        LOG.info("getEGRULData");
+        return organizationService.getEGRULData(INN);
+    }
+
     public Organization create(Organization organization) {
         LOG.info("create " + organization);
         checkNew(organization);
