@@ -36,4 +36,5 @@ header, main, footer {padding-left: 240px;}
 .modal-size-lg {width: 700px!important;}
 .modal-size-md {width: 500px!important;}
 .modal-dialog {max-width: 100%!important;}
-
+.fontSmall {font-size: 0.8rem;}
+sup {font-size: 7px;}

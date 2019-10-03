@@ -74,26 +74,10 @@ $(function() {
     });
   });
 
-  // Валидация формы
-    window.addEventListener('load', function() {
-// Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName('needs-validation');
-// Loop over them and prevent submission
-      var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-          if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-          form.classList.add('was-validated');
-        }, false);
-      });
-    }, false);
-
   // Добавление элемента в список организаций
   $('.btnAddElement').click(function(e){
     e.preventDefault();
-    $(".bigFormLoader").removeClass("d-none").fadeIn(500);
+    $(".bigFormLoader").removeClass("d-none").fadeIn();
     $('.addElementForm').addClass('d-none');
     // Формируем JSON из полей
     //var dataField = [];
@@ -115,19 +99,21 @@ $(function() {
       type: "POST",
       url: "rest/profile/organizations",
       data: data,
+      contentType: 'application/json; charset=utf-8',
       success: function (data) {
-        $(".bigFormLoader").addClass("d-none").fadeOut(1000);
-        $('.addElementForm').removeClass('d-none');
+        $(".bigFormLoader, .btnBlock, .addElementForm").addClass("d-none").fadeOut();
+        $('#addElement .modal-body').append('<div class="alert alert-success alertBlock"><i class="fas fa-thumbs-up mr-2 text-success"></i>Успешно! Организация добавлена!</div>');
       },
       error: function () {
-        alert("Error!");
-        $(".bigFormLoader").addClass("d-none").fadeOut(1000);
-        $('.addElementForm').removeClass('d-none');
+        $(".bigFormLoader, .btnBlock, .addElementForm").addClass("d-none").fadeOut();
+        $('#addElement .modal-body').append('<div class="alert alert-danger alertBlock"><i class="fas fa-exclamation-triangle mr-2 text-danger"></i>Ошибка! Организация не добавлена!</div>');
       }
     });
   });
   // Очищаем форму при закрытии модального окна
   $('#addElement').on('hidden.bs.modal', function() {
+    $('.addElementForm, .btnBlock').removeClass('d-none');
+    $('.alertBlock').addClass('d-none');
     $('.addElementForm input').val('');
   });
   // Отмена закрытия полей

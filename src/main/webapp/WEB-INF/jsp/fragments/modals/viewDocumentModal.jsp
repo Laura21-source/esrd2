@@ -12,91 +12,93 @@
                     <span aria-hidden="true" class="white-text">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body fontSmall">
                 <div class="progress md-progress primary-color-dark bigFormLoader d-none">
                     <div class="indeterminate"></div>
                 </div>
-                <form class="addElementForm">
+                <form class="addElementForm needs-validation" novalidate>
                     <div class="row mb-2">
-                        <div class="col-3">
-                            <span class="text-muted">ИНН</span>
+                        <div class="col-4">
+                            <div class="text-muted">ИНН<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
-                        <div class="col-9">
+                        <div class="col-8">
                             <div class="input-group">
-                                <input type="text" id="inn" class="form-control">
+                                <input type="text" id="inn" class="form-control form-control-sm" required>
                                 <div class="input-group-append">
-                                    <button class="btn btn-md btn-primary m-0 px-3" type="button" id="btnEgrul">Заполнить из ЕГРЮЛ</button>
+                                    <button class="btn btn-sm btn-primary m-0 px-3" type="button" id="btnEgrul">Заполнить из ЕГРЮЛ</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-3">
-                            <span class="text-muted">Сокращённое название</span>
+                        <div class="col-4">
+                            <div class="text-muted">Короткое название<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
-                        <div class="col-9">
-                            <input type="text" id="shortName" class="form-control" <%--disabled--%>>
+                        <div class="col-8">
+                            <input type="text" id="shortName" class="form-control form-control-sm" required disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-3">
-                            <span class="text-muted">Полное название</span>
+                        <div class="col-4">
+                            <div class="text-muted">Полное название<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
-                        <div class="col-9">
-                            <input type="text" id="fullName" class="form-control" <%--disabled--%>>
+                        <div class="col-8">
+                            <input type="text" id="fullName" class="form-control form-control-sm" required disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-6">
                             <div class="row">
-                                <div class="col-3 d-flex align-items-center justify-content-center">
-                                    <span class="text-muted">ОГРН</span>
+                                <div class="col-4 d-flex align-items-center justify-content-center">
+                                    <div class="text-muted">ОГРН<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                 </div>
-                                <div class="col-9">
-                                    <input type="text" id="ogrn" class="form-control" <%--disabled--%>>
+                                <div class="col-8">
+                                    <input type="text" id="ogrn" class="form-control form-control-sm" required disabled>
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="row">
-                                <div class="col-3 d-flex align-items-center justify-content-center">
-                                    <span class="text-muted">КПП</span>
+                                <div class="col-4 d-flex align-items-center justify-content-center">
+                                    <div class="text-muted">КПП<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                 </div>
-                                <div class="col-9">
-                                    <input type="text" id="kpp" class="form-control" <%--disabled--%>>
+                                <div class="col-8">
+                                    <input type="text" id="kpp" class="form-control form-control-sm" required disabled>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-3">
-                            <span class="text-muted">Адрес</span>
+                        <div class="col-4">
+                            <div class="text-muted">Адрес<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
-                        <div class="col-9">
-                            <input type="text" id="address" class="form-control" <%--disabled--%>>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-3">
-                            <span class="text-muted">Должность</span>
-                        </div>
-                        <div class="col-9">
-                            <input type="text" id="positionManager" class="form-control" <%--disabled--%>>
+                        <div class="col-8">
+                            <input type="text" id="address" class="form-control form-control-sm" required disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-3">
-                            <span class="text-muted">ФИО</span>
+                        <div class="col-4">
+                            <span class="text-muted">Должность<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                         </div>
-                        <div class="col-9">
-                            <input type="text" id="fioManager" class="form-control" <%--disabled--%>>
+                        <div class="col-8">
+                            <input type="text" id="positionManager" class="form-control form-control-sm" required disabled>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4">
+                            <span class="text-muted">ФИО<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
+                        </div>
+                        <div class="col-8">
+                            <input type="text" id="fioManager" class="form-control form-control-sm" required disabled>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="d-flex align-items-center justify-content-center pb-2">
-                <a href=#" type="button" class="btn btn-primary rounded btnAddElement">Добавить</a>
-                <a href="#" type="button" class="btn btn-danger rounded" data-dismiss="modal">Отмена</a>
+            <div class="btnBlock">
+                <div class="d-flex align-items-center justify-content-center pb-2">
+                    <a href=#" type="button" class="btn btn-md btn-primary rounded btnAddElement">Добавить</a>
+                    <a href="#" type="button" class="btn btn-md btn-danger rounded" data-dismiss="modal">Отмена</a>
+                </div>
             </div>
         </div>
     </div>

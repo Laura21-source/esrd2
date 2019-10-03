@@ -21,19 +21,20 @@
                             </div>
                         </div>
                     </div>
-                    <form class="registrationForm">
+                    <form class="registrationForm needs-validation" <%--novalidate--%>>
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <div class="row ml-1 mb-3">
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-md-3 text-left mt-2">
-                                                <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
+                                                <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                             </div>
                                             <div class="col-md-9">
                                                 <select class="browser-default custom-select" name="selectType" id="selectType" required disabled>
                                                     <option value="" class="alert-primary">Выберите вид документа</option>
                                                 </select>
+                                                <div class="invalid-feedback">Поле обязательно для заполнения</div>
                                             </div>
                                         </div>
                                     </div>
