@@ -8,10 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.*;
 import ru.gbuac.model.*;
-import ru.gbuac.to.DocFieldsTo;
-import ru.gbuac.to.DocTo;
-import ru.gbuac.to.FieldTo;
-import ru.gbuac.to.FileTo;
+import ru.gbuac.to.*;
 import ru.gbuac.util.*;
 import ru.gbuac.util.exception.FileUploadException;
 import ru.gbuac.util.exception.GeneratePdfException;
@@ -149,7 +146,7 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public List<String> getRegNumbers() {
+    public List<DocNumberTo> getRegNumbers() {
         return docRepository.getRegNumbers();
     }
 

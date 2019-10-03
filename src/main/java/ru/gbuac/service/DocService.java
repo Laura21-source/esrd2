@@ -2,6 +2,7 @@ package ru.gbuac.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.model.Doc;
+import ru.gbuac.to.DocNumberTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FileTo;
 import ru.gbuac.util.exception.FileUploadException;
@@ -28,7 +29,7 @@ public interface DocService {
 
     List<Doc> getAllRegistered();
 
-    List<String> getRegNumbers();
+    List<DocNumberTo> getRegNumbers();
 
     DocTo save(DocTo doc, String userName, String rootPath);
 

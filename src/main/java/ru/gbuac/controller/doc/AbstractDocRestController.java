@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Doc;
 import ru.gbuac.service.DocService;
+import ru.gbuac.to.DocNumberTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FileTo;
 import java.util.List;
@@ -47,7 +48,7 @@ public abstract class AbstractDocRestController {
                 docService.getAllRegistered() : docService.getAllRegisteredByUsername(AuthorizedUser.getUserName());
     }
 
-    public List<String> getRegNumbers() {
+    public List<DocNumberTo> getRegNumbers() {
         LOG.info("getRegNumbers");
         return docService.getRegNumbers();
     }

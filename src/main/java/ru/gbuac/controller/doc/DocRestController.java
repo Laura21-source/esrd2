@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.model.Doc;
+import ru.gbuac.to.DocNumberTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FileTo;
 import javax.servlet.ServletContext;
@@ -45,7 +46,7 @@ public class DocRestController extends AbstractDocRestController {
 
     @Override
     @GetMapping(value = "/regnumbers")
-    public List<String> getRegNumbers() {
+    public List<DocNumberTo> getRegNumbers() {
         return super.getRegNumbers();
     }
 
