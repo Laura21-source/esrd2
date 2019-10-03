@@ -76,52 +76,58 @@
             }
         });
 
+        var element = $('.registrationForm').find('*required');
+        console.log(element);
+
         // Сохранение - Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
-            /*var form = $('.registrationForm');
-            if (form.checkValidity() === false) {
-                event.stopPropagation();
-            } else {
-                form.addClass('was-validated');*/
-                $('#createSave').modal('show');
-                var trueName =  $(this).html();
-                $(this).attr('disabled', true).html('Отправка запроса');
-                var dataType = $("#selectType").val();
-                // Формируем поля JSON
-                var dataField = createDataField(0);
-                var sumElem = countElem(dataField)+1;
-                var dataBlock = createDataBlock(0, sumElem);
-                var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-                console.log(serverStack);
-                var serverAjax = $.ajax({
-                    type: "POST",
-                    url: 'rest/profile/docs',
-                    data: serverStack,
-                    contentType: 'application/json; charset=utf-8'
+            /*var forms = $('.registrationForm');
+            $(forms).addClass('was-validated');
+            event.preventDefault();
+            $(forms).find('[required]').each(function() {
+                console.log($(this));
+                if($(this).checkValidity() === false) {
+                    event.stopPropagation();
+                }
+            }, false);*/
+            $('#createSave').modal('show');
+            var trueName =  $(this).html();
+            $(this).attr('disabled', true).html('Отправка запроса');
+            var dataType = $("#selectType").val();
+            // Формируем поля JSON
+            var dataField = createDataField(0);
+            var sumElem = countElem(dataField)+1;
+            var dataBlock = createDataBlock(0, sumElem);
+            var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
+            console.log(serverStack);
+            var serverAjax = $.ajax({
+                type: "POST",
+                url: 'rest/profile/docs',
+                data: serverStack,
+                contentType: 'application/json; charset=utf-8'
+            });
+            serverAjax.done(function(data) {
+                $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
+                $('.loaderSuccess').addClass('d-none');
+                $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
+                var projectRegNum = data.projectRegNum;
+                $('#createSave #regNumTemplate').html(projectRegNum);
+                $('#createSave').on('hidden.bs.modal', function() {
+                    $('#selectType').val("");
+                    $("#blockUp, #blockDown, #btnSave").addClass("d-none");
+                    $("#btnSave").attr('disabled', false).html(trueName);
                 });
-                serverAjax.done(function(data) {
-                    $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
-                    $('.loaderSuccess').addClass('d-none');
-                    $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
-                    var projectRegNum = data.projectRegNum;
-                    $('#createSave #regNumTemplate').html(projectRegNum);
-                    $('#createSave').on('hidden.bs.modal', function() {
-                        $('#selectType').val("");
-                        $("#blockUp, #blockDown, #btnSave").addClass("d-none");
-                        $("#btnSave").attr('disabled', false).html(trueName);
-                    });
-                });
-                var serverWord = $.ajax({
-                    type: "POST",
-                    url: 'rest/profile/docs/docx',
-                    data: serverStack,
-                    contentType: 'application/json; charset=utf-8'
-                });
-                serverWord.done(function(data) {
-                    $('#modalLoad').attr("href", data.fileUrl);
-                });
-          /*  }*/
+            });
+            var serverWord = $.ajax({
+                type: "POST",
+                url: 'rest/profile/docs/docx',
+                data: serverStack,
+                contentType: 'application/json; charset=utf-8'
+            });
+            serverWord.done(function(data) {
+                $('#modalLoad').attr("href", data.fileUrl);
+            });
         });
 
         // Отправка на сервер файла служебки

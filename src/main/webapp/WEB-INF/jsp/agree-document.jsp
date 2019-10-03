@@ -28,7 +28,7 @@
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-md-3 text-left mt-2">
-                                                <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
+                                                <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<%--<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup>--%></div>
                                             </div>
                                             <div class="col-md-9">
                                                 <select class="browser-default custom-select" name="selectType" id="selectType" required disabled>
