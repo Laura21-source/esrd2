@@ -44,6 +44,12 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
+    @GetMapping(value = "/regnumbers")
+    public List<String> getRegNumbers() {
+        return super.getRegNumbers();
+    }
+
+    @Override
     @GetMapping
     public List<Doc> getAll() {
         return super.getAll();

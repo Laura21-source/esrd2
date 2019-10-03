@@ -148,6 +148,11 @@ public class DocServiceImpl implements DocService {
         return docRepository.getAllRegistered();
     }
 
+    @Override
+    public List<String> getRegNumbers() {
+        return docRepository.getRegNumbers();
+    }
+
     // Инкрементирование стадии согласования
     private Doc prepareToPersist(Doc doc, Integer currentAgreementStage, Integer finalStageForThisDocType) {
         if (!currentAgreementStage.equals(finalStageForThisDocType))

@@ -34,6 +34,9 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("SELECT d FROM Doc d WHERE d.regNum IS NOT NULL")
     List<Doc> getAllRegistered();
 
+    @Query("SELECT d.regNum FROM Doc d WHERE d.regNum is NOT NULL ORDER BY d.regNum")
+    List<String> getRegNumbers();
+
     @Query("SELECT d.docType.id FROM Doc d WHERE d.id=:id")
     int getDocTypeByDocId(@Param("id") int id);
 

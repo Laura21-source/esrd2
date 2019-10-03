@@ -76,6 +76,7 @@ public class FieldUtil {
                 break;
             case CATALOG_ORGANIZATIONS:
             case CATALOG_USERS:
+            case CATALOG_REGNUMBERS:
                 if (valuedField.getValueInt() != null)
                     fieldTo.setValueInt(valuedField.getValueInt());
                 break;
