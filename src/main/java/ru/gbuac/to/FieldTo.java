@@ -80,7 +80,7 @@ public class FieldTo extends BaseTo {
             case CATALOG_USERS:
             case CATALOG_ORGANIZATIONS:
             case CATALOG_REGNUMBERS:
-                return getValueInt() != null ? getValueStr() : "";
+                return getValueInt() != null ? getValueInt().toString() : "";
         }
         return "";
     }

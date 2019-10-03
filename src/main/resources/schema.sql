@@ -231,18 +231,18 @@ CREATE TABLE esrd.organization
     position_manager       VARCHAR                 NOT NULL
 );
 
-CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR)
+CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR, optional VARCHAR DEFAULT NULL)
     RETURNS VARCHAR AS $$
 DECLARE Result VARCHAR;
-    DECLARE YearPostfix VARCHAR;
+DECLARE yearPostfix VARCHAR;
 BEGIN
-    YearPostfix = SUBSTRING(CAST(DATE_PART('year', CURRENT_DATE) AS text),3);
+    yearPostfix = SUBSTRING(CAST(DATE_PART('year', CURRENT_DATE) AS text),3);
     IF (mask='согл') THEN
-        SELECT 'согл-'||nextval('esrd.agreement_seq')||'/'||YearPostfix INTO Result;
+        SELECT 'согл-'||nextval('esrd.agreement_seq')||'/'||yearPostfix INTO Result;
     ELSIF (mask='ДПР-П') THEN
-        SELECT 'ДПР-П-'||nextval('esrd.agenda_seq')||'/'||YearPostfix INTO Result;
+        SELECT 'ДПР-П-'||optional||'/'||yearPostfix INTO Result;
     ELSIF (mask='ДПР-М') THEN
-        SELECT 'ДПР-М-'||nextval('esrd.agenda_seq')||'/'||YearPostfix INTO Result;
+        SELECT 'ДПР-М-'||nextval('esrd.agenda_seq')||'/'||yearPostfix INTO Result;
     ELSE
         RAISE 'Incorrect mask for generating document number' USING ERRCODE = 'INCORRECT_DOCNUMBER_MASK';
     END IF;

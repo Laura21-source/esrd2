@@ -23,7 +23,7 @@ public interface DocNumberPrefixesRepository extends JpaRepository<DocNumberPref
 
     @Procedure
     @Transactional
-    String generateDocNumber(String mask);
+    String generateDocNumber(String mask, String optional);
 
     @Query("SELECT d.name FROM DocNumberPrefixes d JOIN d.docType dt WHERE dt.id=:docTypeId")
     String getMaskByDocTypeId(@Param("docTypeId") int docTypeId);

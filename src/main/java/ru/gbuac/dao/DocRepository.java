@@ -29,6 +29,9 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("SELECT d FROM Doc d")
     List<Doc> getAll();
 
+    @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId")
+    List<Doc> getAllByDocType(@Param("docTypeId") int docTypeId);
+
     @Query("SELECT d FROM Doc d WHERE d.regNum IS NULL")
     List<Doc> getAllAgreement();
 

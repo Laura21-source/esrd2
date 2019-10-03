@@ -19,7 +19,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,6 +62,9 @@ public class DocServiceImpl implements DocService {
 
     @Autowired
     private DocNumberPrefixesRepository docNumberPrefixesRepository;
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
 
     @Value("${pdf.final.dir}")
     private String pdfDir;
@@ -167,7 +172,7 @@ public class DocServiceImpl implements DocService {
             throw new UnauthorizedUserException();
         }
 
-        docTo.setProjectRegNum(docNumberPrefixesRepository.generateDocNumber("согл"));
+        docTo.setProjectRegNum(docNumberPrefixesRepository.generateDocNumber("согл", ""));
         Doc docToSave = prepareToPersist(createNewDocFromTo(docTo), 0, finalStageForThisDocType);
 
         DocTo saved = asDocTo(docRepository.save(docToSave));
@@ -189,7 +194,29 @@ public class DocServiceImpl implements DocService {
 
         if (finalStageForThisDocType == currentAgreementStage) {
             String docTypeMask = docNumberPrefixesRepository.getMaskByDocTypeId(docTo.getDocTypeId());
-            String docNumber = docNumberPrefixesRepository.generateDocNumber(docTypeMask);
+            String docNumber = "";
+            if (docTo.getDocTypeId() == 1) {
+                List<Doc> docs = docRepository.getAllByDocType(docTo.getDocTypeId());
+                StringBuilder optional = new StringBuilder();
+                for (DocValuedFields docValuedFields : updated.getDocValuedFields()) {
+                    if (docValuedFields.getValuedField().getField().getId() == 4) {
+                        LocalDate agendaDate = docValuedFields.getValuedField().getValueDate().toLocalDate();
+                        optional.append(agendaDate.format(DateTimeFormatter.ofPattern("dd.MM")));
+                        long agendaCountForDay = docs.stream()
+                                .flatMap(f -> f.getDocValuedFields().stream())
+                                .filter(f -> f.getValuedField().getField().getId() == 4)
+                                .filter(f -> f.getValuedField().getValueDate().toLocalDate().equals(agendaDate))
+                                .count();
+                        optional.append("-");
+                        optional.append(agendaCountForDay);
+                        break;
+                    }
+                }
+                docNumber = docNumberPrefixesRepository.generateDocNumber(docTypeMask, optional.toString());
+            }
+            else {
+                docNumber = docNumberPrefixesRepository.generateDocNumber(docTypeMask, "");
+            }
             updated.setRegNum(docNumber);
             updated.setRegDateTime(LocalDateTime.now());
             updated.setDocStatus(DocStatus.COMPLETED);
@@ -205,12 +232,7 @@ public class DocServiceImpl implements DocService {
 
         // Генерация проектного PDF с добавлением ссылки в сущность, либо если isFinalStage, то
         // перемещаем файл из временного хранилища temp_uploads в хранилище pdf
-        if (finalStageForThisDocType != currentAgreementStage) {
-            updated.setUrlPDF(createPDFOrDocx(asDocTo(updated), rootPath, false, true));
-        } else {
-            String pdfPath = rootPath + pdfDir + docTo.getId() + ".pdf";
-            moveFile(rootPath + updated.getUrlPDF(), pdfPath);
-        }
+        updated.setUrlPDF(createPDFOrDocx(asDocTo(updated), rootPath, false, true));
         docValuedFieldsRepository.deleteAll(id);
         updated = checkNotFoundWithId(docRepository.save(updated), id);
         User user = userRepository.getByName(userName);
@@ -297,6 +319,19 @@ public class DocServiceImpl implements DocService {
                         cellsTags.put(tag, "");
                     }
                     break;
+                case CATALOG_USERS:
+                    User user = userRepository.findById(fieldTo.getValueInt()).orElse(null);
+                    cellsTags.put(tag, user.getFirstname().substring(0,1) + "." + user.getPatronym().substring(0,1) + ". " + user.getLastname() +
+                            " " + "8(495)620-20-00, доб. " + user.getPhone());
+                    break;
+                case CATALOG_ORGANIZATIONS:
+                    Organization organization = organizationRepository.findById(fieldTo.getValueInt()).orElse(null);
+                    cellsTags.put(tag, organization.getShortName());
+                    break;
+                case CATALOG_REGNUMBERS:
+                    String regNum = docRepository.findById(fieldTo.getValueInt()).orElse(null).getRegNum();
+                    cellsTags.put(tag, regNum);
+                    break;
                 default:
                     if (!tag.equals("")) {
                         cellsTags.put(tag, fieldTo.getValueByFieldType());
@@ -324,6 +359,19 @@ public class DocServiceImpl implements DocService {
                             simpleTags.put(tag, catalogElemChild.getValueInt());
                             break;
                     }
+                case CATALOG_USERS:
+                    User user = userRepository.findById(fieldTo.getValueInt()).orElse(null);
+                    simpleTags.put(tag, user.getFirstname().substring(0,1) + "." + user.getPatronym().substring(0,1) + ". " + user.getLastname() +
+                            " " + "8(495)620-20-00, доб. " + user.getPhone());
+                    break;
+                case CATALOG_ORGANIZATIONS:
+                    Organization organization = organizationRepository.findById(fieldTo.getValueInt()).orElse(null);
+                    simpleTags.put(tag, organization.getShortName());
+                    break;
+                case CATALOG_REGNUMBERS:
+                    String regNum = docRepository.findById(fieldTo.getValueInt()).orElse(null).getRegNum();
+                    simpleTags.put(tag, regNum);
+                    break;
                 default:
                     if (!tag.equals("")) {
                         simpleTags.put(tag, fieldTo.getValueByFieldType());

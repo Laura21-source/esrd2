@@ -1,17 +1,11 @@
 package ru.gbuac.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.List;
-
-
-
-
 
 @Entity
 @NoArgsConstructor
@@ -23,6 +17,7 @@ import java.util.List;
         procedureName = "generateDocNumber",
         parameters = {
                 @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "mask"),
+                @StoredProcedureParameter(mode = ParameterMode.IN, type = String.class, name = "optional")
         }
 )
 public class DocNumberPrefixes extends NamedEntity {
