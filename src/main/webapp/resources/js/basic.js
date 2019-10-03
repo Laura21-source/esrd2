@@ -80,7 +80,6 @@ $(function() {
     $(".bigFormLoader").removeClass("d-none").fadeIn();
     $('.addElementForm').addClass('d-none');
     // Формируем JSON из полей
-    //var dataField = [];
     var dataField = {
       "id" : null,
       "shortName" : $('#shortName').val(),
@@ -92,7 +91,6 @@ $(function() {
       "fioManager" : $('#fioManager').val(),
       "positionManager" : $('#positionManager').val()
     };
-    //dataField.push(field);
     var data = JSON.stringify(dataField);
     console.log(data);
     $.ajax({

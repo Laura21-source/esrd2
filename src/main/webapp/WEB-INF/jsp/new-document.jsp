@@ -79,11 +79,11 @@
         // Сохранение - Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
-            var form = $('.registrationForm');
+            /*var form = $('.registrationForm');
             if (form.checkValidity() === false) {
                 event.stopPropagation();
             } else {
-                form.addClass('was-validated');
+                form.addClass('was-validated');*/
                 $('#createSave').modal('show');
                 var trueName =  $(this).html();
                 $(this).attr('disabled', true).html('Отправка запроса');
@@ -121,7 +121,7 @@
                 serverWord.done(function(data) {
                     $('#modalLoad').attr("href", data.fileUrl);
                 });
-            }
+          /*  }*/
         });
 
         // Отправка на сервер файла служебки
