@@ -90,7 +90,42 @@ $(function() {
       });
     }, false);
 
-
+  // Добавление элемента в список организаций
+  $('.btnAddElement').click(function(e){
+    e.preventDefault();
+    $(".bigFormLoader").removeClass("d-none").fadeIn(500);
+    $('.addElementForm').addClass('d-none');
+    // Формируем JSON из полей
+    var dataField = [];
+    var field = {
+      "id" : null,
+      "shortName" : $('#shortName').val(),
+      "fullName" : $('#fullName').val(),
+      "ogrn" : $('#ogrn').val(),
+      "inn" : $('#inn').val(),
+      "kpp" : $('#kpp').val(),
+      "address" : $('#address').val(),
+      "fioManager" : $('#fioManager').val(),
+      "positionManager" : $('#positionManager').val()
+    };
+    dataField.push(field);
+    var data = JSON.stringify(dataField);
+    console.log(data);
+    $.ajax({
+      type: "POST",
+      url: "rest/profile/organizations",
+      data: data,
+      success: function (data) {
+        $(".bigFormLoader").addClass("d-none").fadeOut(1000);
+        $('.addElementForm').removeClass('d-none');
+      },
+      error: function () {
+        alert("Error!");
+        $(".bigFormLoader").addClass("d-none").fadeOut(1000);
+        $('.addElementForm').removeClass('d-none');
+      }
+    });
+  });
   // Отмена закрытия полей
   /*$("#editDocument").on("click", function(e) {
     e.preventDefault();

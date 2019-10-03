@@ -51,6 +51,7 @@
 
 <jsp:include page="fragments/footerNew.jsp"/>
 <jsp:include page="fragments/modals/newDocumentModal.jsp"/>
+<jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {

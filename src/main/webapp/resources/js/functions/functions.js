@@ -255,13 +255,16 @@
                             var numberCatalog = ('#' + selectFieldName);
                             // Формирование правильных полей
                             createOptionsValue(numberCatalog, '#blockGroup' + dubKey);
-                            // Добавляем опции
-                            createOptions ("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField, "");
+                            if(parentBlock == '') {
+                                // Добавляем опции
+                                createOptions("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField, "");
+                            }
                         }
                         // Если вид поля справочник организаций
                         if (rowSelectField.fieldType === "CATALOG_ORGANIZATIONS") {
                             // Добавляем строку
-                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div></div>');
+                            // Организовать по появлению переменной формирование строки с элементом добавления элемента
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><span class="text-muted">' + rowSelectField.name + '</span></div><div class="col-md-9 mt-3"><div class="input-group"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select><div class="input-group-append"><button class="btn btn-primary btn-md addElement m-0 z-depth-0 waves-effect" data-toggle="modal" data-target="#addElement" type="button" title="Добавить элемент"><i class="fas fa-plus white-text"></i></button></div></div></div></div>');
                             var numberCatalog = ('#' + selectFieldName);
                             if(parentBlock == '') {
                                 // Добавляем опции
