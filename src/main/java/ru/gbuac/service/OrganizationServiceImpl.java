@@ -36,17 +36,17 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Organization getEGRULData(String INN) {
         JSONObject query = new JSONObject();
-        query.put("query", "Stackabuser");
+        query.put("query", INN);
         query.put("branch_type", "MAIN");
         String JSONString = query.toJSONString();
 
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
-
         try {
-
-            HttpPost request = new HttpPost("http://yoururl");
-            StringEntity params =new StringEntity("details={\"name\":\"myname\",\"age\":\"20\"} ");
-            request.addHeader("content-type", "application/x-www-form-urlencoded");
+            HttpPost request = new HttpPost("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party");
+            StringEntity params =new StringEntity("details=" + JSONString);
+            request.addHeader("Content-Type", "application/json");
+            request.addHeader("Accept", "application/json");
+            request.addHeader("Authorization", "Token 13c49f7cdb1ab14887f0329ff2bba40073a74c25");
             request.setEntity(params);
             HttpResponse response = httpClient.execute(request);
 

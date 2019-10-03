@@ -8,6 +8,9 @@ public class TagUtil {
     }
 
     public static String getTableTag(String tag) {
+        if (tag == null) {
+            return null;
+        }
         final String regex = "\\[[^\\[]*\\]";
         final Pattern pattern;
         pattern = Pattern.compile(regex);
@@ -17,6 +20,9 @@ public class TagUtil {
 
 
     public static String getSimpleTag(String tag) {
+        if (tag == null) {
+            return null;
+        }
         final String regex = "].*";
         final Pattern pattern;
         pattern = Pattern.compile(regex);

@@ -389,7 +389,7 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3002);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3006);
 
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (23, 'ДПР-П');
-INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (24, 'ДПР-ПP');
+INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (24, 'ДПР-М');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (25, 'ДПР-ПPО');
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id)
