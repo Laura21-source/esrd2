@@ -77,6 +77,10 @@ public class FieldTo extends BaseTo {
                 return getValueDate() != null ?DateTimeUtil.toString(getValueDate().toLocalTime()) : "";
             case DATETIME:
                 return getValueDate() != null ?DateTimeUtil.toStringPrint(getValueDate()) : "";
+            case CATALOG_USERS:
+            case CATALOG_ORGANIZATIONS:
+            case CATALOG_REGNUMBERS:
+                return getValueInt() != null ? getValueStr() : "";
         }
         return "";
     }
