@@ -73,6 +73,12 @@ public class FieldUtil {
             case CATALOG:
                 if (valuedField.getCatalogElem() != null)
                     fieldTo.setValueInt(valuedField.getCatalogElem().getId());
+                break;
+            case CATALOG_ORGANIZATIONS:
+            case CATALOG_USERS:
+                if (valuedField.getValueInt() != null)
+                    fieldTo.setValueInt(valuedField.getValueInt());
+                break;
         }
         return fieldTo;
     }

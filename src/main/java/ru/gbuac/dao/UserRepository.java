@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gbuac.model.User;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
@@ -16,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.name=:name")
     User getByName(@Param("name") String name);
+
+    @Query("SELECT u FROM User u ORDER BY u.lastname ASC")
+    List<User> getAll();
 }
