@@ -96,8 +96,8 @@ $(function() {
     $(".bigFormLoader").removeClass("d-none").fadeIn(500);
     $('.addElementForm').addClass('d-none');
     // Формируем JSON из полей
-    var dataField = [];
-    var field = {
+    //var dataField = [];
+    var dataField = {
       "id" : null,
       "shortName" : $('#shortName').val(),
       "fullName" : $('#fullName').val(),
@@ -108,7 +108,7 @@ $(function() {
       "fioManager" : $('#fioManager').val(),
       "positionManager" : $('#positionManager').val()
     };
-    dataField.push(field);
+    //dataField.push(field);
     var data = JSON.stringify(dataField);
     console.log(data);
     $.ajax({
@@ -125,6 +125,10 @@ $(function() {
         $('.addElementForm').removeClass('d-none');
       }
     });
+  });
+  // Очищаем форму при закрытии модального окна
+  $('#addElement').on('hidden.bs.modal', function() {
+    $('.addElementForm input').val('');
   });
   // Отмена закрытия полей
   /*$("#editDocument").on("click", function(e) {
