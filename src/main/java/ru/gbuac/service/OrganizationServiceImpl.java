@@ -1,5 +1,11 @@
 package ru.gbuac.service;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -26,6 +32,34 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<Organization> getAll() {
         return organizationRepository.findAll();
     }
+
+    @Override
+    public Organization getEGRULData(String INN) {
+        JSONObject query = new JSONObject();
+        query.put("query", "Stackabuser");
+        query.put("branch_type", "MAIN");
+        String JSONString = query.toJSONString();
+
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+
+        try {
+
+            HttpPost request = new HttpPost("http://yoururl");
+            StringEntity params =new StringEntity("details={\"name\":\"myname\",\"age\":\"20\"} ");
+            request.addHeader("content-type", "application/x-www-form-urlencoded");
+            request.setEntity(params);
+            HttpResponse response = httpClient.execute(request);
+
+            int f;
+            f = 3;
+
+        }   catch (Exception ex) {
+
+        }
+
+        Organization returned = new Organization();
+        return null;
+    };
 
     @Override
     public Organization save(Organization organization) {

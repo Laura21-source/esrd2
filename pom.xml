@@ -31,6 +31,7 @@
         <jackson-json.version>2.9.5</jackson-json.version>
         <spring-ldap-core.version>2.3.2.RELEASE</spring-ldap-core.version>
         <maven.surefire.version>2.22.0</maven.surefire.version>
+        <json-simple>1.1.1</json-simple>
 
         <!--webjars-->
         <webjars-bootstrap.version>3.3.7-1</webjars-bootstrap.version>
@@ -129,6 +130,11 @@
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>${json-simple}</version>
         </dependency>
 
         <!--Web-->
@@ -267,6 +273,14 @@
             <artifactId>documents4j-transformer-msoffice-word</artifactId>
             <version>1.0.3</version>
         </dependency>
+
+        <!-- HTTP Client -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.10</version>
+        </dependency>
+
 
 
     </dependencies>

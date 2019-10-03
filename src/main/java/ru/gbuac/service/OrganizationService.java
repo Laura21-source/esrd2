@@ -10,6 +10,8 @@ public interface OrganizationService {
 
     List<Organization> getAll();
 
+    Organization getEGRULData(String INN);
+
     Organization save(Organization organization);
 
     Organization update(Organization organization, int id) throws NotFoundException;
