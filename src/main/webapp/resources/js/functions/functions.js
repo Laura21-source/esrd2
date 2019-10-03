@@ -204,7 +204,7 @@
                 // Если вид поля справочник организаций
                 if (row.field.fieldType === "CATALOG_REGNUMBERS") {
                     // Добавляем строку
-                    $('#blockUp').append('<div class="row ml-1 mb-3"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
+                    $('#blockUp').append('<div class="row ml-1 mb-3"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select class="browser-default custom-select upElem" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                     var numberCatalog = ('#' + selectFieldName);
                     // Добавляем опции
                     createOptions ("rest/profile/docs/regnumbers/", numberCatalog, "regNum", "id", numberField, '');
@@ -379,6 +379,10 @@
                 valueData = 2;
                 value = attrVal;
             }
+            if (attrElem === "select") {
+                valueData = 3;
+                value = attrVal;
+            }
             if (id > 0) {idField = parseInt($(this).attr("data-id"));}
             if (valueData === 1) {
                 field = {
@@ -400,6 +404,16 @@
                     },
                     "position": key,
                 }
+            } else if (valueData === 3) {
+                field = {
+                    "field": {
+                        "id" : idField,
+                        "childFields": [],
+                        "fieldId": attrId,
+                        "valueInt" : value
+                    },
+                    "position": key,
+                }
             }
             dataField.push(field);
         });
@@ -413,7 +427,7 @@
         var dataBlock = [];
         $('.blockGroup').each(function(item) {
             var i = parseInt(item)+1;
-            console.log(i);
+            //console.log(i);
             if($(this).attr("data-field") == i) {
                 var elementBlock = "#blockGroup";
                 if(i !== 0) {elementBlock = elementBlock + i;}
