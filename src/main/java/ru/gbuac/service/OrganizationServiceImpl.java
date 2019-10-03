@@ -1,11 +1,14 @@
 package ru.gbuac.service;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -56,45 +59,39 @@ public class OrganizationServiceImpl implements OrganizationService {
         organizationRepository.delete(id);
     }
 
-    public Organization getEGRULData(String inn) {
-        //
-//для запроса к api требуется сформировать запрос в виде json структуры, в java можно его сформировать с помощью
-        //библиотеки com.googlecode.json-simple. для создания структуры в начале создается пустой экземпляр jsonObject
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("query", inn);//
-        /*согласно примеру требемому формату запроса для данного апи jsonObject заполняется query --inn(для получения inn с контроллера),
-        branch_type MAIN - остальное тут по шаблону запроса
-        Головные организации и филиалы
-Если у компании есть филиалы, запрос вернёт несколько объектов. Если нужна только головная организация, укажите дополнительный параметр branch_type:
-
-{
-    "query": "7707083893",
-    "branch_type": "MAIN"
-}
-Чт
-         */
-        jsonObject.put("branch_type", "MAIN");
-        jsonObject.toString();//для того, чтобы в составе POST запроса можно было передать структуру JSON приводится к строке. POST
-        //может передавать только текстовые данныею
-        HttpClient httpClient = HttpClientBuilder.create().build(); //HTTPClient создается для отправки этого запроса, поскольку там есть метод
-        //execute(request)
-
-        try {//тут формируется тело этого запроса
-
-            HttpPost request = new HttpPost("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party");//HTTPPost класс существует чтобы отпраялять такие запросы
-            StringEntity params = new StringEntity(jsonObject.toString());//Этот класс сущность для заполнения состава запроса
-            request.addHeader("content-type", "application/json");//в заголовок запроса нужно записать согласно примеру запроса
+    @Override
+    public Organization getEGRULData(String INN) {
+        JSONObject query = new JSONObject();
+        query.put("query", INN);
+        query.put("branch_type", "MAIN");
+        String JSONString = query.toJSONString();
+        Organization returned = new Organization();
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+        try {
+            HttpPost request = new HttpPost("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party");
+            StringEntity params =new StringEntity(JSONString);
+            params.setContentEncoding("application/json;charset=UTF-8");
+            params.setContentType("application/json;charset=UTF-8");
+            request.addHeader("Content-Type", "application/json");
+            request.addHeader("Accept", "application/json");
             request.addHeader("Authorization", "Token 13c49f7cdb1ab14887f0329ff2bba40073a74c25");
-            request.setEntity(params);//от состава запроса String Entity приходят параметры, которые записывается в него
-            HttpResponse response = httpClient.execute(request);//ответ
-            String result = EntityUtils.toString(response.getEntity());//EntityUtils тут нужен для того чтобы HTTPEntity, ответ преобразовать к строке
-            int a = 3;
-            a = 3;
-        } catch (Exception ex) {
-
-            //handle exception here
-
+            request.setEntity(params);
+            HttpResponse response = httpClient.execute(request);
+            String data = EntityUtils.toString(response.getEntity());
+            JsonParser parser = new JsonParser();
+            JsonObject root = parser.parse(data).getAsJsonObject();
+            returned.setInn(INN);
+            JsonObject jsonObjectSuggestions = root.get("suggestions").getAsJsonArray().get(0).getAsJsonObject();
+            returned.setShortName(jsonObjectSuggestions.get("value").getAsString());
+            JsonObject jsonObjectData = jsonObjectSuggestions.get("data").getAsJsonObject();
+            returned.setKpp(jsonObjectData.get("kpp").getAsString());
+            returned.setOgrn(jsonObjectData.get("ogrn").getAsString());
+            returned.setFullName(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString());
+            returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
+            returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
+            returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
+        }   catch (Exception ex) {
         }
-        return null;
-    }
+        return returned;
+    };
 }
