@@ -15,4 +15,6 @@ public interface OrganizationService {
     Organization update(Organization organization, int id) throws NotFoundException;
 
     void delete(int id) throws NotFoundException;
+
+    Organization getEGRULData(String inn);
 }

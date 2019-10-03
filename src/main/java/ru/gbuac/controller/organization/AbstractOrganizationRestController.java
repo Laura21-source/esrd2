@@ -49,4 +49,9 @@ public abstract class AbstractOrganizationRestController {
         LOG.info("delete");
         organizationService.delete(id);
     }
+
+    public Organization getEGRULData(String inn) {
+        LOG.info("getEGRULData");
+        return organizationService.getEGRULData(inn);
+    }
 }

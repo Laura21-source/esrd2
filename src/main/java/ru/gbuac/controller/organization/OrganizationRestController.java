@@ -42,4 +42,10 @@ public class OrganizationRestController extends AbstractOrganizationRestControll
     public void delete(int id) {
         super.delete(id);
     }
+
+    @Override
+    @GetMapping(value = "/getEGRULData")
+    public Organization getEGRULData(@RequestParam("inn") String inn) {
+        return super.getEGRULData(inn);
+    }
 }
