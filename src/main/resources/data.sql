@@ -406,9 +406,6 @@ INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1007, null, 'Ответственный', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1008, 1001, 'Номер приказа', 0);
 
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2001, null, 'ООО "ТОМА"', 1006, null);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2002, null, 'ООО "ТЕСТ-1"', 1006, null);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2003, null, 'ООО "ТЕСТ-2', 1006, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2004, null, 'Соколов И.В., тел. 8 (495) 957-75-00, доб. 55-345', 1007, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2005, null, 'Петров А.А., тел. 8 (495) 957-75-00, доб. 44-345', 1007, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2006, null, 'Сидоров П.А., тел. 8 (495) 957-75-00, доб. 44-245', 1007, null);
@@ -544,8 +541,8 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (11, 'Реквизиты приказа', 'CATALOG', null, null, null, 1008, '[Questions]OrderNumber');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (12, 'Вид тарифа', 'CATALOG', null, null, null, 1004, '[Questions]TarifView');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (13, 'Прочее', 'TEXT', null, null, null, null, '[Questions]Comments');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Организация', 'CATALOG_ORGANIZATIONS', null, null, null, null, '[Questions]Organization');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (15, 'Ответственный', 'CATALOG_USERS', null, null, null, null, '[Questions]AuthPerson');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Организация', 'CATALOG_ORGANIZATIONS', null, null, null, 1006, '[Questions]Organization');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (15, 'Ответственный', 'CATALOG_USERS', null, null, null, 1007, '[Questions]AuthPerson');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (16, 'Дополнительная информация', 'TEXT', null, null, null, null, '[Questions]AdditionalInfo');
 
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (23, 1, 4, 0, true, 3001);
