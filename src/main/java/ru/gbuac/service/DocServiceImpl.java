@@ -202,7 +202,11 @@ public class DocServiceImpl implements DocService {
                     if (docValuedFields.getValuedField().getField().getId() == 4) {
                         LocalDate agendaDate = docValuedFields.getValuedField().getValueDate().toLocalDate();
                         optional.append(agendaDate.format(DateTimeFormatter.ofPattern("dd.MM")));
-                        long agendaCountForDay = 1;
+                        long agendaCountForDay = docs.stream()
+                                .flatMap(f -> f.getDocValuedFields().stream())
+                                .filter(f -> f.getValuedField().getField().getId() == 4)
+                                .filter(f -> f.getValuedField().getValueDate().toLocalDate().equals(agendaDate))
+                                .count();
                         optional.append("-");
                         optional.append(agendaCountForDay);
                         break;
