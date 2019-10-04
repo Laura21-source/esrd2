@@ -404,7 +404,7 @@ INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (25, 'ДПР-ПPО');
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id)
 VALUES (1, 'Повестка заседания Правления', 3001, 'zapiska.docx', 'povestka.docx', 23);
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id)
-VALUES (2, 'Материалы к Повестке заседания Правления', 3001, 'zapiska.docx', 'povestka.docx', 24);
+VALUES (2, 'Материалы к Повестке заседания Правления', 3001, 'zapiska_dop.docx', 'zapiska_dop.docx', 24);
 INSERT INTO esrd.doctype (id, name, role_id, doc_number_prefix_id) VALUES (3, 'Протокол', 3001, 25);
 
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1001, null, 'Предмет вопроса', 0);
@@ -597,7 +597,7 @@ INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (70
 INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (37, 'ООО "ТОМА"', 'Общество с ограниченной ответственностью "ТОМА"', '3453434343', '7775545446', '3434343', 'ул. Новый Арбат, 11', 'Сидоров Сидор Сидорович', 'Генеральный директор');
 INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (38, 'ООО "ТЕСТ"', 'Общество с ограниченной ответственностью "ТЕСТ"', '34343434343', '7743563435', '4343433', 'ул. Бахрушина, 20', 'Петров Петр Петрович', 'Руководитель');
 
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (39, 'Регистрационный номер повестки', 'CATALOG_REGNUMBERS', null, null, null, null, 'RegNumber');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (39, 'Регистрационный номер повестки', 'CATALOG_REGNUMBERS', null, null, null, null, 'DocNumber');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (40, 'Материалы', 'GROUP_FIELDS', null, 4, null, null, null);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (41, 'Номер вопроса', 'TEXT', null, null, null, null, null);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (42, 'Экспертное заключение', 'ATTACHMENT', null, null, null, null, null);
