@@ -69,7 +69,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
         try {
             HttpPost request = new HttpPost("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party");
-            StringEntity params =new StringEntity(JSONString);
+            StringEntity params = new StringEntity(JSONString);
             params.setContentEncoding("application/json;charset=UTF-8");
             params.setContentType("application/json;charset=UTF-8");
             request.addHeader("Content-Type", "application/json");
@@ -93,5 +93,14 @@ public class OrganizationServiceImpl implements OrganizationService {
         }   catch (Exception ex) {
         }
         return returned;
-    };
+    }
+
+    @Override
+    public Organization getOrgByInn(String inn) {
+        return organizationRepository.getOrgByInn(inn);
+    }
+
+    ;
+
+
 }

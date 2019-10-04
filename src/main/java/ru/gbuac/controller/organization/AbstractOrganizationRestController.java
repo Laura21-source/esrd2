@@ -54,4 +54,10 @@ public abstract class AbstractOrganizationRestController {
         LOG.info("getEGRULData");
         return organizationService.getEGRULData(inn);
     }
+
+    public Organization getOrgByInn(String inn) {
+        LOG.info("getOrgByInn");
+        return organizationService.getOrgByInn(inn);
+
+    }
 }

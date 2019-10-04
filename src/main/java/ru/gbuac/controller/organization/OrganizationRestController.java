@@ -48,4 +48,10 @@ public class OrganizationRestController extends AbstractOrganizationRestControll
     public Organization getEGRULData(@RequestParam("inn") String inn) {
         return super.getEGRULData(inn);
     }
+
+    @Override
+    @GetMapping(value = "/getByInn")
+    public Organization getOrgByInn(@RequestParam("inn") String inn) {
+        return super.getOrgByInn(inn);
+    }
 }
