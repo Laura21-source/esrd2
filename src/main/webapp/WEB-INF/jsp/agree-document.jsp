@@ -21,7 +21,7 @@
                             </div>
                         </div>
                     </div>
-                    <form class="registrationForm needs-validation" <%--novalidate--%>>
+                    <form class="registrationForm needs-validation" novalidate>
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <div class="row ml-1 mb-3">
@@ -77,7 +77,7 @@
                                         <a href="" id="btnLoad" class="btn btn-default btn-md my-3 rounded pdfHREF" target="_blank" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
                                         <div id="btnReformat" class="btn btn-mdb-color btn-md my-3 rounded pointer"><i class="fas fa-sync mr-2"></i>Переформировать</div>
                                         <a class="btn btn-light-blue btn-md my-3 pdfHREF" href="" target="_blank">Открыть в новом окне</a>
-                                       <%-- <div id="blockLoadPDF" class="d-none my-3">
+                                        <div id="blockLoadPDF" class="d-none my-3">
                                             <div class="alert alert-secondary mx-auto text-uppercase mb-3">Загрузить подписанный документ</div>
                                             <div class="form-row mb-4 d-flex align-items-center justify-content-center">
                                                 <div class="md-form file-field col">
@@ -93,7 +93,7 @@
                                                     <a href="" id="btnLoadPDF" class="btn btn-mdb-color btn-md my-3 rounded" target="_blank" title="Загрузить файл"><i class="fas fa-upload mr-2"></i>Загрузить</a>
                                                 </div>
                                             </div>
-                                        </div>--%>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -196,41 +196,50 @@
         // Отправка согласования на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
-            $('#btnSuccess').modal('show');
-            var trueName =  $(this).html();
-            $(this).attr('disabled', true).html('Отправка запроса');
-            var dataType = $("#selectType").val();
-            // Формируем поля JSON
-            var dataField = createDataField(id);
-            var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(id, sumElem);
-            //console.log(JSON.stringify(dataBlock));
-            var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
-            //console.log(serverStack);
-            var serverAjax = $.ajax({
-                type: "POST",
-                url: 'rest/profile/docs',
-                data: serverStack,
-                contentType: 'application/json; charset=utf-8'
-            });
-            serverAjax.done(function(data) {
-                $('.loaderSuccess').addClass('d-none');
-                $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
-                var regNum = data.regNum;
-                if(regNum) {
-                    $('#btnSuccess #regName').html('Регистрационный номер:');
-                    $('#btnSuccess #regNum').html(regNum);
-                    $('#btnSuccess').on('hidden.bs.modal', function() {
-                        $("#btnSave").attr('disabled', false).html(trueName);
-                        window.location.href="agree-document?id="+data.id;
-                    });
-                } else {
-                    $('#btnSuccess').on('hidden.bs.modal', function() {
-                        $("#btnSave").attr('disabled', false).html(trueName);
-                        window.location.href="agreement";
-                    });
-                }
-            });
+            var forms = $('.registrationForm');
+            var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
+            $(forms).addClass('was-validated');
+            event.preventDefault();
+            var checkField = checkValidation(formsValue);
+            if(checkField === false) {
+                event.stopPropagation();
+            } else {
+                $('#btnSuccess').modal('show');
+                var trueName = $(this).html();
+                $(this).attr('disabled', true).html('Отправка запроса');
+                var dataType = $("#selectType").val();
+                // Формируем поля JSON
+                var dataField = createDataField(id);
+                var sumElem = countElem(dataField) + 1;
+                var dataBlock = createDataBlock(id, sumElem);
+                //console.log(JSON.stringify(dataBlock));
+                var serverStack = JSON.stringify(createJSON(id, dataType, dataField, dataBlock));
+                //console.log(serverStack);
+                var serverAjax = $.ajax({
+                    type: "POST",
+                    url: 'rest/profile/docs',
+                    data: serverStack,
+                    contentType: 'application/json; charset=utf-8'
+                });
+                serverAjax.done(function (data) {
+                    $('.loaderSuccess').addClass('d-none');
+                    $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
+                    var regNum = data.regNum;
+                    if (regNum) {
+                        $('#btnSuccess #regName').html('Регистрационный номер:');
+                        $('#btnSuccess #regNum').html(regNum);
+                        $('#btnSuccess').on('hidden.bs.modal', function () {
+                            $("#btnSave").attr('disabled', false).html(trueName);
+                            window.location.href = "agree-document?id=" + data.id;
+                        });
+                    } else {
+                        $('#btnSuccess').on('hidden.bs.modal', function () {
+                            $("#btnSave").attr('disabled', false).html(trueName);
+                            window.location.href = "agreement";
+                        });
+                    }
+                });
+            }
         });
 
         // Отправка отмены согласования на сервер
