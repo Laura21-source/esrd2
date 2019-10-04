@@ -84,18 +84,8 @@ public final class AuthProvider extends AbstractLdapAuthenticationProvider {
     }
 
     protected Collection<? extends GrantedAuthority> loadUserAuthorities(DirContextOperations userData, String username, String password) {
-        String[] groups = userData.getStringAttributes("memberOf");
-        if (groups == null) {
-            this.logger.debug("No values for 'memberOf' attribute.");
-            return AuthorityUtils.NO_AUTHORITIES;
-        } else {
-            if (this.logger.isDebugEnabled()) {
-                this.logger.debug("'memberOf' attribute values: " + Arrays.asList(groups));
-            }
-
             List<GrantedAuthority> authorities = getUserAuthorities(username);
             return authorities;
-        }
     }
 
     private List<GrantedAuthority> getUserAuthorities(String username) {

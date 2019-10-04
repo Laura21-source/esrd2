@@ -375,7 +375,6 @@ INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, p
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4373, 'SaprykinaAA', 'Сапрыкина', 'Анна', 'Андреевна', 'SaprykinaAA@mos.ru', '17227', 'Заведующий сектором');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4374, 'MakhrovSS', 'Махров', 'Станислав', 'Станиславович', 'MakhrovSS1@mos.ru', '15451', 'Начальник отдела');
 
-
 INSERT INTO esrd.role (id, name) VALUES (3000, 'ADMIN');
 INSERT INTO esrd.role (id, name) VALUES (3001, 'Отраслевое управление');
 INSERT INTO esrd.role (id, name) VALUES (3002, 'Секретарь Правления');
@@ -587,13 +586,13 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (19,
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20, 1, 7, 4);
 
 --Роуты реальных юзеров
---INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4329, 1);
---INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4373, 2);
---INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (70, 2, 4329, 1);
+INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4329, 1);
+INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4373, 2);
+INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (70, 2, 4329, 1);
 
-INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4001, 1);
-INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4002, 2);
-INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (70, 2, 3999, 1);
+--INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4001, 1);
+--INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4002, 2);
+--INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (70, 2, 3999, 1);
 
 INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (37, 'ООО "ТОМА"', 'Общество с ограниченной ответственностью "ТОМА"', '3453434343', '7775545446', '3434343', 'ул. Новый Арбат, 11', 'Сидоров Сидор Сидорович', 'Генеральный директор');
 INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (38, 'ООО "ТЕСТ"', 'Общество с ограниченной ответственностью "ТЕСТ"', '34343434343', '7743563435', '4343433', 'ул. Бахрушина, 20', 'Петров Петр Петрович', 'Руководитель');
