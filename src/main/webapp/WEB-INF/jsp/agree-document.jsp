@@ -77,7 +77,7 @@
                                         <a href="" id="btnLoad" class="btn btn-default btn-md my-3 rounded pdfHREF" target="_blank" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
                                         <div id="btnReformat" class="btn btn-mdb-color btn-md my-3 rounded pointer"><i class="fas fa-sync mr-2"></i>Переформировать</div>
                                         <a class="btn btn-light-blue btn-md my-3 pdfHREF" href="" target="_blank">Открыть в новом окне</a>
-                                        <div id="blockLoadPDF" class="d-none my-3">
+                                        <%--<div id="blockLoadPDF" class="d-none my-3">
                                             <div class="alert alert-secondary mx-auto text-uppercase mb-3">Загрузить подписанный документ</div>
                                             <div class="form-row mb-4 d-flex align-items-center justify-content-center">
                                                 <div class="md-form file-field col">
@@ -93,7 +93,7 @@
                                                     <a href="" id="btnLoadPDF" class="btn btn-mdb-color btn-md my-3 rounded" target="_blank" title="Загрузить файл"><i class="fas fa-upload mr-2"></i>Загрузить</a>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>--%>
                                     </div>
                                 </div>
                             </div>
