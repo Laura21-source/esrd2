@@ -610,7 +610,7 @@ INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, 
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (52, 2, 41, 0, true, 3001);
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (53, 2, 42, 0, true, 3001);
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (54, 2, 43, 0, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (54, 2, 44, 0, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (55, 2, 44, 0, true, 3001);
 
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (40, 41);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (40, 42);
