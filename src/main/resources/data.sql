@@ -394,8 +394,8 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (3999, 3003);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4374, 3000); -- Право ADMIN для Махрова
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4329, 3001); -- Право Отраслевое управление для Гладких
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4329, 3006); -- Право USER для Гладких
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3002); -- Право Секретарь Правления для Гладких
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3006); -- Право Секретарь Правления для Гладких
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3002); -- Право Секретарь Правления для Сапрыкиной
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3006); -- Право USER для Сапрыкиной
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4329, 3003); -- Право Начальника отраслевого Управления для Гладких
 
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (23, 'ДПР-П');
@@ -585,6 +585,10 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (17,
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 5, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (19, 1, 6, 3);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20, 1, 7, 4);
+
+--INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4329, 1);
+--INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4373, 2);
+--INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (70, 2, 4329, 1);
 
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4001, 1);
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4002, 2);
