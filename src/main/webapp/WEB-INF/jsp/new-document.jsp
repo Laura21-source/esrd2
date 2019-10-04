@@ -85,6 +85,8 @@
             event.preventDefault();
             var checkField = checkValidation(formsValue);
             if(checkField === false) {
+                toastr["error"]("Заполните обязательные поля!");
+                $(forms).addClass('was-validated');
                 event.stopPropagation();
             } else {
                 $('#createSave').modal('show');
@@ -116,15 +118,22 @@
                         $("#btnSave").attr('disabled', false).html(trueName);
                     });
                 });
+                serverAjax.fail(function () {
+                    toastr["error"]("Ошибка сохранения!");
+                });
                 var serverWord = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs/docx',
                     data: serverStack,
-                    contentType: 'application/json; charset=utf-8'
+                    contentType: 'application/json; charset=utf-8',
                 });
                 serverWord.done(function(data) {
                     $('#modalLoad').attr("href", data.fileUrl);
-                });            }
+                });
+                serverWord.fail(function () {
+                    toastr["error"]("Ошибка сохранения!");
+                });
+            }
         });
 
         // Отправка на сервер файла служебки
@@ -132,10 +141,11 @@
             event.preventDefault();
             var forms = $('.registrationForm');
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
-            $(forms).addClass('was-validated');
             event.preventDefault();
             var checkField = checkValidation(formsValue);
             if(checkField === false) {
+                toastr["error"]("Заполните обязательные поля!");
+                $(forms).addClass('was-validated');
                 event.stopPropagation();
             } else {
                 var trueName = $(this).html();
@@ -162,6 +172,7 @@
                     });
                 });
                 serverAjax.fail(function () {
+                    toastr["error"]("Ошибка сохранения!");
                     $("#btnWordFile").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
                 });
             }

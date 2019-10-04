@@ -198,10 +198,11 @@
             event.preventDefault();
             var forms = $('.registrationForm');
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
-            $(forms).addClass('was-validated');
             event.preventDefault();
             var checkField = checkValidation(formsValue);
             if(checkField === false) {
+                toastr["error"]("Заполните обязательные поля!");
+                $(forms).addClass('was-validated');
                 event.stopPropagation();
             } else {
                 $('#btnSuccess').modal('show');
@@ -239,6 +240,9 @@
                         });
                     }
                 });
+                serverAjax.fail(function () {
+                    toastr["error"]("Ошибка приложения!");
+                });
             }
         });
 
@@ -271,6 +275,9 @@
                     window.location.href="agreement";
                 });
             });
+            serverAjax.fail(function () {
+                toastr["error"]("Ошибка приложения!");
+            });
         });
 
         // Отправка на сервер файла PDF
@@ -301,8 +308,10 @@
                 $(".pdfSRC").removeClass("d-none").attr("src", data.fileUrl);
                 $(".pdfHREF").attr("href", data.fileUrl);
             });
+            serverAjax.fail(function () {
+                toastr["error"]("Ошибка отправки файла!");
+            });
         });
-
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>

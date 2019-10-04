@@ -14,6 +14,38 @@
         return validation;
     }
 
+    // Конфигурация сообщения об ошибках
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "md-toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": 300,
+        "hideDuration": 1000,
+        "timeOut": 5000,
+        "extendedTimeOut": 1000,
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    // Сообщения об ошибках
+    /*function failNoty(jqXHR) {
+        closeNoty();
+        // https://stackoverflow.com/questions/48229776
+        var errorInfo = JSON.parse(jqXHR.responseText);
+        failedNote = new Noty({
+            text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + errorInfo.typeMessage + "<br>" + errorInfo.details.join("<br>"),
+            type: "error",
+            layout: "bottomRight",
+            timeout: 4000
+        }).show();
+    }*/
+
     // Заполнение данных организации
     function getValueOrganisation (url, element) {
         return $.getJSON (url, function(data) {

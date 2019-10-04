@@ -13,20 +13,6 @@ $(function() {
     stopper: "#footer",
   });*/
 
-  // Валидация
-  /*window.addEventListener('load', function() {
-    var forms = document.getElementsByClassName('needs-validation');
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);*/
-
   // Всплывающие подсказки
   $('[data-toggle="tooltip"]').tooltip();
 
@@ -60,7 +46,10 @@ $(function() {
       contentType: false,
       cache: false,
       timeout: 600000,
-      data: data
+      data: data,
+      error: function () {
+        toastr["error"]("Ошибка сохранения файла!");
+      }
     });
   });
 
@@ -83,7 +72,7 @@ $(function() {
         $('.pdfSRC').attr('src', dataFile);
       },
       error: function () {
-        alert("Error!");
+        toastr["error"]("Ошибка переформирования файла!");
       }
     });
   });
@@ -100,10 +89,11 @@ $(function() {
     event.preventDefault();
     var forms = $('.addElementForm');
     var formsValue = $('.addElementForm input,.addElementForm textarea,.addElementForm select').filter('[required]');
-    $(forms).addClass('was-validated');
     event.preventDefault();
     var checkField = checkValidation(formsValue);
     if(checkField === false) {
+      toastr["error"]("Заполните обязательные поля!");
+      $(forms).addClass('was-validated');
       event.stopPropagation();
     } else {
       $('.bigFormLoader').removeClass("d-none").fadeIn();
@@ -121,7 +111,7 @@ $(function() {
         "positionManager": $('#positionManager').val()
       };
       var data = JSON.stringify(dataField);
-      console.log("number - " + number);
+      //console.log("number - " + number);
       $.ajax({
         type: "POST",
         url: "rest/profile/organizations",
