@@ -8,10 +8,23 @@
     function checkValidation(value) {
         var validation = true;
         $(value).each(function() {
-            console.log($(this).val());
+            //console.log($(this).val());
             if($(this).val() === '') {validation = false;}
         });
         return validation;
+    }
+
+    // Заполнение данных организации
+    function getValueOrganisation (url, element) {
+        return $.getJSON (url, function(data) {
+            $(element + ' #shortName').val(data.shortName);
+            $(element + ' #fullName').val(data.fullName);
+            $(element + ' #ogrn').val(data.ogrn);
+            $(element + ' #kpp').val(data.kpp);
+            $(element + ' #address').val(data.address);
+            $(element + ' #fioManager').val(data.fioManager);
+            $(element + ' #positionManager').val(data.positionManager);
+        });
     }
 
     // Функция получения текстового поля
@@ -134,7 +147,7 @@
                     var numberCatalogField = $(this).attr("data-catalog");
                     var nameCatalogField = '#' + tempCatalogField;
                     // Количество опций по запросу, тут же в функции прячем ненужные
-                    console.log("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " - " + nameCatalogField);
+                    //console.log("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " - " + nameCatalogField);
                     sumOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField);
                     // Открываем опции
                     createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "", "");
@@ -309,8 +322,8 @@
                         if (rowSelectField.fieldType === "CATALOG_ORGANIZATIONS") {
                             // Добавляем строку
                             // Организовать по появлению переменной формирование строки с элементом добавления элемента
-                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3"><div class="input-group"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select><div class="input-group-append"><button class="btn btn-primary btn-md addElement m-0 z-depth-0 waves-effect" data-toggle="modal" data-target="#addElement" type="button" title="Добавить элемент" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div></div></div>');
                             var numberCatalog = ('#' + selectFieldName);
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3"><div class="input-group"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select><div class="input-group-append"><button class="btn btn-primary btn-md addElement m-0 z-depth-0 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" title="Добавить элемент" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div></div></div>');
                             if(parentBlock == '') {
                                 // Добавляем опции
                                 createOptions ("rest/profile/organizations/", numberCatalog, "shortName", "id", numberField, 'organisations');

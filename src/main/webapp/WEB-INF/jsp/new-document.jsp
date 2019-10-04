@@ -76,9 +76,6 @@
             }
         });
 
-        var element = $('input,textarea,select').attr('required',true);
-        console.log(element);
-
         // Сохранение - Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
@@ -99,7 +96,7 @@
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem);
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-                console.log(serverStack);
+                //console.log(serverStack);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
@@ -133,32 +130,41 @@
         // Отправка на сервер файла служебки
         $('#btnWordFile').on("click", function(event) {
             event.preventDefault();
-            var trueName =  $(this).html();
-            $(this).attr('disabled', true).html('Отправка запроса');
-            var dataType = $("#selectType").val();
-            // Формируем поля JSON
-            var dataField = createDataField(0);
-            var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(0, sumElem);
-            var repostWordFile = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-            //console.log(repostWordFile);
-            var serverAjax = $.ajax({
-                type: "POST",
-                url: 'rest/profile/docs/docx',
-                data: repostWordFile,
-                contentType: 'application/json; charset=utf-8'
-            });
-            serverAjax.done(function(data) {
-                $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html(trueName);
-                $('#btnLoad').removeClass('d-none').attr("href", data.fileUrl);
-                $('#btnLoad').click(function() {
-                    $("#btnWordFile").removeClass('d-none').removeClass('waves-effect');
-                    $('#btnLoad').addClass('d-none');
+            var forms = $('.registrationForm');
+            var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
+            $(forms).addClass('was-validated');
+            event.preventDefault();
+            var checkField = checkValidation(formsValue);
+            if(checkField === false) {
+                event.stopPropagation();
+            } else {
+                var trueName = $(this).html();
+                $(this).attr('disabled', true).html('Отправка запроса');
+                var dataType = $("#selectType").val();
+                // Формируем поля JSON
+                var dataField = createDataField(0);
+                var sumElem = countElem(dataField) + 1;
+                var dataBlock = createDataBlock(0, sumElem);
+                var repostWordFile = JSON.stringify(createJSON(0, dataType, dataField, dataBlock));
+                //console.log(repostWordFile);
+                var serverAjax = $.ajax({
+                    type: "POST",
+                    url: 'rest/profile/docs/docx',
+                    data: repostWordFile,
+                    contentType: 'application/json; charset=utf-8'
                 });
-            });
-            serverAjax.fail(function() {
-                $("#btnWordFile").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
-            });
+                serverAjax.done(function (data) {
+                    $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html(trueName);
+                    $('#btnLoad').removeClass('d-none').attr("href", data.fileUrl);
+                    $('#btnLoad').click(function () {
+                        $("#btnWordFile").removeClass('d-none').removeClass('waves-effect');
+                        $('#btnLoad').addClass('d-none');
+                    });
+                });
+                serverAjax.fail(function () {
+                    $("#btnWordFile").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
+                });
+            }
         });
     });
 </script>

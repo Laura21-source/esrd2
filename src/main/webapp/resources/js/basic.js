@@ -14,10 +14,8 @@ $(function() {
   });*/
 
   // Валидация
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  /*window.addEventListener('load', function() {
     var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
     var validation = Array.prototype.filter.call(forms, function(form) {
       form.addEventListener('submit', function(event) {
         if (form.checkValidity() === false) {
@@ -27,7 +25,7 @@ $(function() {
         form.classList.add('was-validated');
       }, false);
     });
-  }, false);
+  }, false);*/
 
   // Всплывающие подсказки
   $('[data-toggle="tooltip"]').tooltip();
@@ -90,39 +88,61 @@ $(function() {
     });
   });
 
+  // Заполнение данных организации
+  $('#btnEgrul').click(function() {
+    var inn = $('.addElementForm #inn').val();
+    return getValueOrganisation ('rest/profile/organizations/getEGRULData?INN='+inn, '.addElementForm');
+  });
+
   // Добавление элемента в список организаций
-  $('.btnAddElement').click(function(e){
-    e.preventDefault();
-    $(".bigFormLoader").removeClass("d-none").fadeIn();
-    $('.addElementForm').addClass('d-none');
-    // Формируем JSON из полей
-    var dataField = {
-      "id" : null,
-      "shortName" : $('#shortName').val(),
-      "fullName" : $('#fullName').val(),
-      "ogrn" : $('#ogrn').val(),
-      "inn" : $('#inn').val(),
-      "kpp" : $('#kpp').val(),
-      "address" : $('#address').val(),
-      "fioManager" : $('#fioManager').val(),
-      "positionManager" : $('#positionManager').val()
-    };
-    var data = JSON.stringify(dataField);
-    console.log(data);
-    $.ajax({
-      type: "POST",
-      url: "rest/profile/organizations",
-      data: data,
-      contentType: 'application/json; charset=utf-8',
-      success: function (data) {
-        $(".bigFormLoader, .btnBlock, .addElementForm").addClass("d-none").fadeOut();
-        $('#addElement .modal-body').append('<div class="alert alert-success alertBlock"><i class="fas fa-thumbs-up mr-2 text-success"></i>Успешно! Организация добавлена!</div>');
-      },
-      error: function () {
-        $(".bigFormLoader, .btnBlock, .addElementForm").addClass("d-none").fadeOut();
-        $('#addElement .modal-body').append('<div class="alert alert-danger alertBlock"><i class="fas fa-exclamation-triangle mr-2 text-danger"></i>Ошибка! Организация не добавлена!</div>');
-      }
-    });
+  $('.btnAddElement').click(function(event) {
+    var number = $('.addElement').attr('data-catalog');
+    event.preventDefault();
+    var forms = $('.addElementForm');
+    var formsValue = $('.addElementForm input,.addElementForm textarea,.addElementForm select').filter('[required]');
+    $(forms).addClass('was-validated');
+    event.preventDefault();
+    var checkField = checkValidation(formsValue);
+    if(checkField === false) {
+      event.stopPropagation();
+    } else {
+      $('.bigFormLoader').removeClass("d-none").fadeIn();
+      $('.addElementForm').addClass('d-none');
+      // Формируем JSON из полей
+      var dataField = {
+        "id": null,
+        "shortName": $('#shortName').val(),
+        "fullName": $('#fullName').val(),
+        "ogrn": $('#ogrn').val(),
+        "inn": $('#inn').val(),
+        "kpp": $('#kpp').val(),
+        "address": $('#address').val(),
+        "fioManager": $('#fioManager').val(),
+        "positionManager": $('#positionManager').val()
+      };
+      var data = JSON.stringify(dataField);
+      console.log("number - " + number);
+      $.ajax({
+        type: "POST",
+        url: "rest/profile/organizations",
+        data: data,
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+          $(".bigFormLoader, .btnBlock, .addElementForm").addClass("d-none").fadeOut();
+          $('#addElement .modal-body').append('<div class="alert alert-success alertBlock"><i class="fas fa-thumbs-up mr-2 text-success"></i>Успешно! Организация добавлена!</div>');
+          // Получаем id добавленной организации
+          var numberField = data.id;
+          // Обновляем опции списка организаций
+          /*$('select[data-catalog="'+ number +'"]').each(function() { 'select[data-catalog="'+ number +'"]'*/
+            createOptions ("rest/profile/organizations/", number, "shortName", "id", numberField, 'organisations');
+          /*});*/
+        },
+        error: function () {
+          $(".bigFormLoader, .btnBlock, .addElementForm").addClass("d-none").fadeOut();
+          $('#addElement .modal-body').append('<div class="alert alert-danger alertBlock"><i class="fas fa-exclamation-triangle mr-2 text-danger"></i>Ошибка! Организация не добавлена!</div>');
+        }
+      });
+    }
   });
   // Очищаем форму при закрытии модального окна
   $('#addElement').on('hidden.bs.modal', function() {
@@ -130,21 +150,4 @@ $(function() {
     $('.alertBlock').addClass('d-none');
     $('.addElementForm input').val('');
   });
-  // Отмена закрытия полей
-  /*$("#editDocument").on("click", function(e) {
-    e.preventDefault();
-    $(this).addClass("d-none");
-    $("#saveDocument, #cancelDocument").removeClass("d-none");
-    $("#closeDocument").addClass("d-none");
-    $("select, #inputDate, #inputTime, .addGroup").attr("disabled",false);
-  });*/
-
-  /*$("#saveDocument").on("click", function(e) {
-    e.preventDefault();
-    $(this).addClass("d-none");
-    $("#cancelDocument").addClass("d-none");
-    $("#editDocument").removeClass("d-none");
-    $("#closeDocument").removeClass("d-none");
-    $("select, #inputDate, #inputTime, .addGroup").attr("disabled",true);
-  });*/
 });
