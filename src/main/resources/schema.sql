@@ -228,7 +228,8 @@ CREATE TABLE esrd.organization
     kpp                    VARCHAR                 NOT NULL,
     address                VARCHAR                 NOT NULL,
     fio_manager            VARCHAR                 NOT NULL,
-    position_manager       VARCHAR                 NOT NULL
+    position_manager       VARCHAR                 NOT NULL,
+    CONSTRAINT c_organization UNIQUE (inn)
 );
 
 CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR)
