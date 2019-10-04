@@ -15,4 +15,7 @@ public interface OrganizationRepository extends JpaRepository<Organization, Inte
     @Modifying
     @Query("DELETE FROM Organization o WHERE o.id=:id")
     void delete(@Param("id") int id);
+
+    @Query("SELECT o FROM Organization o WHERE o.inn=:inn")
+    Organization getByInn(@Param("inn") String inn);
 }

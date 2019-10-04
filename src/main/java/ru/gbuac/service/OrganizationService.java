@@ -8,6 +8,8 @@ import java.util.List;
 public interface OrganizationService {
     Organization get(int id) throws NotFoundException;
 
+    Organization getByInn(String inn) throws NotFoundException;
+
     List<Organization> getAll();
 
     Organization getEGRULData(String INN);

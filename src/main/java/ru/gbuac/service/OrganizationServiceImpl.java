@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.gbuac.util.ValidationUtil.checkNotFound;
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -40,6 +41,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Organization get(int id) throws NotFoundException {
         return checkNotFoundWithId(organizationRepository.findById(id).orElse(null), id);
+    }
+
+    @Override
+    public Organization getByInn(String inn) throws NotFoundException {
+        return checkNotFound(organizationRepository.getByInn(inn), "inn="+inn);
     }
 
     @Override

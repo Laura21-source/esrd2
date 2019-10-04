@@ -28,6 +28,10 @@ public abstract class AbstractOrganizationRestController {
         return organizationService.get(id);
     }
 
+    public Organization getByInn(String inn) {
+        LOG.info("getByInn");
+        return organizationService.getByInn(inn);
+    }
     public List<Organization> getAll() {
         LOG.info("getAll");
         return organizationService.getAll();

@@ -22,6 +22,12 @@ public class OrganizationRestController extends AbstractOrganizationRestControll
     }
 
     @Override
+    @GetMapping(value = "/get")
+    public Organization getByInn(@RequestParam String inn) {
+        return super.getByInn(inn);
+    }
+
+    @Override
     @GetMapping
     public List<Organization> getAll() {
         return super.getAll();
