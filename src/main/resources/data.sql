@@ -586,6 +586,7 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (18,
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (19, 1, 6, 3);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20, 1, 7, 4);
 
+--Роуты реальных юзеров
 --INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4329, 1);
 --INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4373, 2);
 --INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (70, 2, 4329, 1);
@@ -602,16 +603,19 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (41, 'Номер вопроса', 'TEXT', null, null, null, null, null);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (42, 'Экспертное заключение', 'ATTACHMENT', null, null, null, null, null);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (43, 'Проект приказа', 'ATTACHMENT', null, null, null, null, null);
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (44, 'Дополнительные материалы', 'ATTACHMENT', null, null, null, null, null);
 
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (50, 2, 39, 0, true, 3001);
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (51, 2, 40, 0, true, 3001);
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (52, 2, 41, 0, true, 3001);
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (53, 2, 42, 0, true, 3001);
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (54, 2, 43, 0, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (54, 2, 44, 0, true, 3001);
 
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (40, 41);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (40, 42);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (40, 43);
+INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (40, 44);
 
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (44, 2, 39, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (45, 2, 40, 2);
