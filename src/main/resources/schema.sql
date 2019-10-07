@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS esrd.valuedfield CASCADE;
 DROP TABLE IF EXISTS esrd.catalogelem CASCADE;
 DROP TABLE IF EXISTS esrd.catalog CASCADE;
 DROP TABLE IF EXISTS esrd.organization CASCADE;
+DROP TABLE IF EXISTS esrd.department CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
@@ -230,6 +231,12 @@ CREATE TABLE esrd.organization
     fio_manager            VARCHAR                 NOT NULL,
     position_manager       VARCHAR                 NOT NULL,
     CONSTRAINT c_organization UNIQUE (inn)
+);
+
+CREATE TABLE esrd.department
+(
+    id                       INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    name   VARCHAR          NOT NULL
 );
 
 CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR, optional VARCHAR DEFAULT NULL)

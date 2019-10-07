@@ -30,7 +30,7 @@ public class Doc extends BaseEntity {
 
     @NotNull
     @Column(name = "project_reg_datetime", nullable = false, columnDefinition = "timestamp default now()")
-    private LocalDateTime projectRegDateTime = LocalDateTime.now();;
+    private LocalDateTime projectRegDateTime = LocalDateTime.now();
 
     @NotNull
     @Column(name = "insert_datetime", nullable = false, columnDefinition = "timestamp default now()")
