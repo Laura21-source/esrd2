@@ -232,6 +232,14 @@ CREATE TABLE esrd.organization
     CONSTRAINT c_organization UNIQUE (inn)
 );
 
+CREATE TABLE esrd.department
+(
+    id                     INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    name             VARCHAR                 NOT NULL,
+    user_id         INTEGER                 NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE
+);
+
 CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR, optional VARCHAR DEFAULT NULL)
     RETURNS VARCHAR AS $$
 DECLARE Result VARCHAR;
