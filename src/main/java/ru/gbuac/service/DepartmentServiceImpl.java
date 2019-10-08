@@ -1,6 +1,7 @@
 package ru.gbuac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.DepartmentRepository;
 import ru.gbuac.model.Department;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
+@Service
 public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
