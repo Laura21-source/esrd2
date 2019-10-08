@@ -175,12 +175,17 @@ public class DocServiceImpl implements DocService {
         docTo.setProjectRegNum(docNumberPrefixesRepository.generateDocNumber("согл", ""));
         Doc docToSave = prepareToPersist(createNewDocFromTo(docTo), 0, finalStageForThisDocType);
 
-        DocTo saved = asDocTo(docRepository.save(docToSave));
-        String urlPdf = createPDFOrDocx(saved, rootPath, false, true);
-        docRepository.setUrlPDF(saved.getId(), urlPdf);
-        saved.setUrlPDF(urlPdf);
-        saved.setCanAgree(hasRights);
-        return saved;
+        Doc saved = docRepository.save(docToSave);
+        DocTo savedTo = asDocTo(saved);
+        String urlPdf = createPDFOrDocx(savedTo, rootPath, false, true);
+        docRepository.setUrlPDF(savedTo.getId(), urlPdf);
+        savedTo.setUrlPDF(urlPdf);
+        savedTo.setCanAgree(hasRights);
+        List<DocTypeRoutes> agreementListTemplate = docTypeRoutesRepository.getAgreementTemplate(docTo.getDocTypeId());
+        for (DocTypeRoutes ae : agreementListTemplate) {
+            docAgreementRepository.save(new DocAgreement(null, saved, ae.getUser()));
+        }
+        return savedTo;
     }
 
     @Override
@@ -235,8 +240,13 @@ public class DocServiceImpl implements DocService {
         updated.setUrlPDF(createPDFOrDocx(asDocTo(updated), rootPath, false, true));
         docValuedFieldsRepository.deleteAll(id);
         updated = checkNotFoundWithId(docRepository.save(updated), id);
-        User user = userRepository.getByName(userName);
-        docAgreementRepository.save(new DocAgreement(null, updated, user, null, comment, DecisionType.ACCEPTED));
+
+        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(userName);
+        docAgreement.setComment(comment);
+        docAgreement.setDecisionType(DecisionType.ACCEPTED);
+        docAgreement.setAgreedDateTime(LocalDateTime.now());
+        docAgreementRepository.save(docAgreement);
+
         DocTo updatedTo = asDocTo(updated);
         updatedTo.setCanAgree(hasRights);
         return asDocTo(updated);
@@ -263,7 +273,14 @@ public class DocServiceImpl implements DocService {
         updated.setCurrentAgreementStage(stage);
         User user = userRepository.getByName(userName);
         User targetUser = userRepository.getByName(targetUserName);
-        docAgreementRepository.save(new DocAgreement(null, updated, user, targetUser, comment, DecisionType.RETURNED));
+        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(userName);
+        docAgreement.setAgreedDateTime(LocalDateTime.now());
+        docAgreement.setComment(comment);
+        docAgreement.setReturnedUser(targetUser);
+        docAgreement.setDecisionType(DecisionType.RETURNED);
+        docAgreementRepository.save(docAgreement);
+        docAgreementRepository.save(new DocAgreement(null, updated, targetUser));
+        docAgreementRepository.save(new DocAgreement(null, updated, user));
         return asDocTo(checkNotFoundWithId(docRepository.save(updated), id));
     }
 
@@ -272,7 +289,11 @@ public class DocServiceImpl implements DocService {
         Doc updated = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
         updated.setDocStatus(DocStatus.AGREEMENT_REJECTED);
         User user = userRepository.getByName(userName);
-        docAgreementRepository.save(new DocAgreement(null, updated, user, null, comment, DecisionType.REJECTED));
+        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(userName);
+        docAgreement.setAgreedDateTime(LocalDateTime.now());
+        docAgreement.setComment(comment);
+        docAgreement.setDecisionType(DecisionType.REJECTED);
+        docAgreementRepository.save(docAgreement);
         return asDocTo(checkNotFoundWithId(docRepository.save(updated), id));
     }
 

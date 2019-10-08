@@ -33,10 +33,9 @@ public class DocAgreement extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User returnedUser;
 
-    @NotNull
-    @Column(name = "agreed_datetime", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "agreed_datetime", nullable = true)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime agreedDateTime = LocalDateTime.now();
+    private LocalDateTime agreedDateTime;
 
     @SafeHtml
     private String comment;
@@ -45,12 +44,9 @@ public class DocAgreement extends BaseEntity {
     @Column(name = "decision_type")
     private DecisionType decisionType;
 
-    public DocAgreement(Integer id, Doc doc, User user, User returnedUser, @SafeHtml String comment, DecisionType decisionType) {
+    public DocAgreement(Integer id, Doc doc, User user) {
         super(id);
         this.doc = doc;
         this.user = user;
-        this.returnedUser = returnedUser;
-        this.comment = comment;
-        this.decisionType = decisionType;
     }
 }

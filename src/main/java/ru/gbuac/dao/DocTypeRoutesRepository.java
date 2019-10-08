@@ -32,4 +32,7 @@ public interface DocTypeRoutesRepository extends JpaRepository<DocTypeRoutes, In
 
     @Query("SELECT max(d.agreeStage) FROM DocTypeRoutes d WHERE d.docType.id=:docTypeId")
     int getFinalStageForDocType(@Param("docTypeId") int docTypeId);
+
+    @Query("SELECT d FROM DocTypeRoutes d WHERE d.docType.id=:docTypeId")
+    List<DocTypeRoutes> getAgreementTemplate(@Param("docTypeId") int docTypeId);
 }

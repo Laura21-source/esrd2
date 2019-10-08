@@ -8,7 +8,7 @@ import java.util.List;
 public interface DocAgreementService {
     DocAgreement get(int id, int docId) throws NotFoundException;
 
-    List<DocAgreementTo> getAgreementList(int docId);
+    List<DocAgreementTo> getAgreementList(int docId, String userName);
 
     List<DocAgreement> getAll(int docId);
 

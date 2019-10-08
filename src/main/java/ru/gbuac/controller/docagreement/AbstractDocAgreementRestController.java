@@ -3,6 +3,7 @@ package ru.gbuac.controller.docagreement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.DocAgreement;
 import ru.gbuac.service.DocAgreementService;
 import ru.gbuac.to.DocAgreementTo;
@@ -25,7 +26,7 @@ public abstract class AbstractDocAgreementRestController {
 
     public List<DocAgreementTo> getAgreementList(int docId) {
         LOG.info("getAgreementList");
-        return docAgreementService.getAgreementList(docId);
+        return docAgreementService.getAgreementList(docId, AuthorizedUser.getUserName());
     }
 
     public List<DocAgreement> getAll(int docId) {
