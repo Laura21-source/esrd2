@@ -386,8 +386,6 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4001, 3001);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4001, 3006);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3002);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3006);
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3002);
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3006);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (3999, 3003);
 
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4374, 3000); -- Право ADMIN для Махрова
@@ -550,13 +548,15 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (7, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, '');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (8, 'Предмет вопроса', 'CATALOG', null, null, null, 1001, '[Questions]Subject');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (9, 'Вопрос', 'CATALOG', null, null, null, 1002, '[Questions]Question');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (10, 'Сфера деятельности', 'CATALOG', null, null, null, 1003, '[Questions]Direction');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (11, 'Реквизиты приказа', 'CATALOG', null, null, null, 1008, '[Questions]OrderNumber');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (12, 'Вид тарифа', 'CATALOG', null, null, null, 1004, '[Questions]TarifView');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (13, 'Прочее', 'TEXT', null, null, null, null, '[Questions]Comments');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Организация', 'CATALOG_ORGANIZATIONS', null, null, null, 1006, '[Questions]Organization');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (15, 'Ответственный', 'CATALOG_USERS', null, null, null, 1007, '[Questions]AuthPerson');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (16, 'Дополнительная информация', 'TEXT', null, null, null, null, '[Questions]AdditionalInfo');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (10, 'Период', 'TEXT', null, null, null, null, '[Questions]Period');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (11, 'Сфера деятельности', 'CATALOG', null, null, null, 1003, '[Questions]Direction');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (12, 'Реквизиты приказа', 'CATALOG', null, null, null, 1008, '[Questions]OrderNumber');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (13, 'Вид тарифа', 'CATALOG', null, null, null, 1004, '[Questions]TarifView');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Прочее', 'TEXT', null, null, null, null, '[Questions]Comments');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (15, 'Организация', 'CATALOG_ORGANIZATIONS', null, null, null, 1006, '[Questions]Organization');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (16, 'Ответственный', 'CATALOG_USERS', null, null, null, 1007, '[Questions]AuthPerson');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (17, 'Дополнительная информация', 'TEXT', null, null, null, null, '[Questions]AdditionalInfo');
+
 
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (200, 1, 4, 0, true, 3001);
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (201, 1, 7, 0, true, 3001);
@@ -569,35 +569,39 @@ INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, 
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (208, 1, 14, 0, true, 3001);
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (209, 1, 15, 0, true, 3001);
 INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (210, 1, 16, 0, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (211, 1, 17, 0, false, 3001);
 --
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (211, 1, 4, 1, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (212, 1, 7, 1, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (213, 1, 8, 1, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (214, 1, 9, 1, false, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (215, 1, 10, 1, false, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (216, 1, 11, 1, false, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (217, 1, 12, 1, false, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (218, 1, 13, 1, false, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (219, 1, 14, 1, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (220, 1, 15, 1, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (221, 1, 16, 1, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (212, 1, 4, 1, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (213, 1, 7, 1, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (214, 1, 8, 1, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (215, 1, 9, 1, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (216, 1, 10, 1, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (217, 1, 11, 1, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (218, 1, 12, 1, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (219, 1, 13, 1, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (220, 1, 14, 1, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (221, 1, 15, 1, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (222, 1, 16, 1, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (223, 1, 17, 1, false, 3001);
 --
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (222, 1, 4, 2, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (223, 1, 7, 2, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (224, 1, 8, 2, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (225, 1, 9, 2, false, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (226, 1, 10, 2, false, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (227, 1, 11, 2, false, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (228, 1, 12, 2, false, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (229, 1, 13, 2, false, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (230, 1, 14, 2, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (231, 1, 15, 2, true, 3001);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (232, 1, 16, 2, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (224, 1, 4, 2, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (225, 1, 7, 2, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (226, 1, 8, 2, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (227, 1, 9, 2, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (228, 1, 10, 2, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (229, 1, 11, 2, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (230, 1, 12, 2, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (231, 1, 13, 2, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (232, 1, 14, 2, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (233, 1, 15, 2, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (234, 1, 16, 2, false, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (235, 1, 17, 1, false, 3001);
 --
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (233, 1, 6, 4, true, 3001);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (236, 1, 6, 4, true, 3001);
 --
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (234, 1, 4, 5, true, 3002);
-INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (235, 1, 5, 5, true, 3002);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (237, 1, 4, 5, true, 3002);
+INSERT INTO esrd.fields_stages(id, doctype_id, field_id, agree_stage, required, role_id) VALUES (238, 1, 5, 5, true, 3002);
+
 
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 8);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 9);
@@ -608,12 +612,14 @@ INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 13);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 14);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 15);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 16);
+INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 17);
 
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (17, 1, 4, 1);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 5, 2);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (19, 1, 6, 3);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20, 1, 7, 4);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 4, 1);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (19, 1, 5, 2);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20, 1, 6, 3);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (21, 1, 7, 4);
 
+/*
 --Роуты реальных юзеров
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (100, 1, 4331, 1); -- на Елену Парван
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (101, 1, 4193, 2); -- на Лебедеву
@@ -622,13 +628,14 @@ INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (10
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (104, 1, 4373, 5); -- на Сапрыкину (секретарь)
 
 INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (70, 2, 4329, 1); -- на Гладких
+*/
 
---INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (21, 1, 4001, 1);
---INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (22, 1, 4002, 2);
---INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (70, 2, 3999, 1);
+INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (100, 1, 4001, 1);
+INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (101, 1, 4002, 2);
+INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (102, 2, 3999, 1);
 
-INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (37, 'ООО "ТОМА"', 'Общество с ограниченной ответственностью "ТОМА"', '3453434343', '7775545446', '3434343', 'ул. Новый Арбат, 11', 'Сидоров Сидор Сидорович', 'Генеральный директор');
-INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (38, 'ООО "ТЕСТ"', 'Общество с ограниченной ответственностью "ТЕСТ"', '34343434343', '7743563435', '4343433', 'ул. Бахрушина, 20', 'Петров Петр Петрович', 'Руководитель');
+--INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (37, 'ООО "ТОМА"', 'Общество с ограниченной ответственностью "ТОМА"', '3453434343', '7775545446', '3434343', 'ул. Новый Арбат, 11', 'Сидоров Сидор Сидорович', 'Генеральный директор');
+--INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (38, 'ООО "ТЕСТ"', 'Общество с ограниченной ответственностью "ТЕСТ"', '34343434343', '7743563435', '4343433', 'ул. Бахрушина, 20', 'Петров Петр Петрович', 'Руководитель');
 
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (39, 'Регистрационный номер повестки', 'CATALOG_REGNUMBERS', null, null, null, null, 'DocNumber');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (40, 'Материалы', 'GROUP_FIELDS', null, 4, null, null, null);

@@ -19,12 +19,32 @@ import javax.persistence.Table;
 public class Organization extends BaseEntity {
 
     @SafeHtml
+    @Column(name = "short_name_lf")
+    private String shortNameLf;
+
+    @SafeHtml
+    @Column(name = "full_name_lf")
+    public String fullNameLf;
+
+    @SafeHtml
     @Column(name = "short_name")
     private String shortName;
 
     @SafeHtml
     @Column(name = "full_name")
     public String fullName;
+
+    @SafeHtml
+    @Column(name = "short_legal_form")
+    private String shortLegalForm;
+
+    @SafeHtml
+    @Column(name = "full_legal_form")
+    public String fullLegalForm;
+
+    @SafeHtml
+    @Column(name = "normalized_name")
+    public String normalizedName;
 
     @SafeHtml
     @Column(name = "ogrn")

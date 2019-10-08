@@ -78,19 +78,37 @@ public class OrganizationServiceImpl implements OrganizationService {
 
             returned.setInn(INN);
             JsonObject jsonObjectSuggestions = root.get("suggestions").getAsJsonArray().get(0).getAsJsonObject();
-            returned.setShortName(jsonObjectSuggestions.get("value").getAsString());
+
             JsonObject jsonObjectData = jsonObjectSuggestions.get("data").getAsJsonObject();
             returned.setKpp(jsonObjectData.get("kpp").getAsString());
             returned.setOgrn(jsonObjectData.get("ogrn").getAsString());
-            returned.setFullName(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString());
+            returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString()));
+            returned.setFullNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString()));
+            returned.setShortLegalForm(jsonObjectData.get("opf").getAsJsonObject().get("short").getAsString());
+            returned.setFullLegalForm(jsonObjectData.get("opf").getAsJsonObject().get("full").getAsString());
+            returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short").getAsString()));
+            returned.setFullNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full").getAsString()));
             returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
             returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
             returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
+            returned.setNormalizedName(jsonObjectData.get("opf").getAsJsonObject().get("short").getAsString() + " "
+                    + replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full").getAsString()));
         }   catch (Exception ex) {
 
         }
         return returned;
     };
+
+    private String replaceQuotes(String text) {
+        if (text.chars().filter(ch -> ch == '"').count() % 2 == 0) {
+            replaceQuotes(replaceLast(text.replaceFirst("\"","«"), "\"", "»"));
+        }
+        return text;
+    }
+
+    public static String replaceLast(String text, String regex, String replacement) {
+        return text.replaceFirst("(?s)"+regex+"(?!.*?"+regex+")", replacement);
+    }
 
     public String convert(InputStream inputStream, Charset charset) throws IOException {
 
