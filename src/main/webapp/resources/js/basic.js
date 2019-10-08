@@ -47,6 +47,9 @@ $(function() {
       cache: false,
       timeout: 600000,
       data: data,
+      success: function (data) {
+
+      },
       error: function () {
         toastr["error"]("Ошибка сохранения файла!");
       }
@@ -122,10 +125,9 @@ $(function() {
           $('#addElement .modal-body').append('<div class="alert alert-success alertBlock"><i class="fas fa-thumbs-up mr-2 text-success"></i>Успешно! Организация добавлена!</div>');
           // Получаем id добавленной организации
           var numberField = data.id;
+          $(number + ' option').remove();
           // Обновляем опции списка организаций
-          /*$('select[data-catalog="'+ number +'"]').each(function() { 'select[data-catalog="'+ number +'"]'*/
-            createOptions ("rest/profile/organizations/", number, "shortName", "id", numberField, 'organisations');
-          /*});*/
+          createOptions ("rest/profile/organizations/", number, "shortName", "id", numberField, 'organisations');
         },
         error: function () {
           $(".bigFormLoader, .btnBlock, .addElementForm").addClass("d-none").fadeOut();
