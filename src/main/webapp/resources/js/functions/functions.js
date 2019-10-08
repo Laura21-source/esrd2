@@ -33,19 +33,6 @@
         "hideMethod": "fadeOut"
     }
 
-    // Сообщения об ошибках
-    /*function failNoty(jqXHR) {
-        closeNoty();
-        // https://stackoverflow.com/questions/48229776
-        var errorInfo = JSON.parse(jqXHR.responseText);
-        failedNote = new Noty({
-            text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + errorInfo.typeMessage + "<br>" + errorInfo.details.join("<br>"),
-            type: "error",
-            layout: "bottomRight",
-            timeout: 4000
-        }).show();
-    }*/
-
     // Заполнение данных организации
     function getValueOrganisation (url, element) {
         return $.getJSON (url, function(data) {
@@ -355,7 +342,7 @@
                             // Добавляем строку
                             // Организовать по появлению переменной формирование строки с элементом добавления элемента
                             var numberCatalog = ('#' + selectFieldName);
-                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3"><div class="input-group"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select><div class="input-group-append"><button class="btn btn-primary btn-md addElement m-0 z-depth-0 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" title="Добавить элемент" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div></div></div>');
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3"><div class="input-group"><select class="browser-default custom-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select><div class="input-group-append"><button class="btn btn-primary btn-md addElement rounded-right m-0 z-depth-0 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" title="Добавить элемент" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div></div></div>');
                             if(parentBlock == '') {
                                 // Добавляем опции
                                 createOptions ("rest/profile/organizations/", numberCatalog, "shortName", "id", numberField, 'organisations');

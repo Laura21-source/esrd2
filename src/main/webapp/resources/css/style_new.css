@@ -38,3 +38,8 @@ header, main, footer {padding-left: 240px;}
 .modal-dialog {max-width: 100%!important;}
 .fontSmall {font-size: 0.8rem;}
 sup {font-size: 7px;}
+/* Ширина выпадающего списка по размеру поля SELECT */
+/*
+select, select option {
+  width: 100% !important;
+}*/
