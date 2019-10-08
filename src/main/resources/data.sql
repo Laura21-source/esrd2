@@ -621,23 +621,23 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (45,
 
 INSERT INTO esrd.department(id, name) VALUES (500, 'Отдел подготовки совещаний');
 INSERT INTO esrd.department(id, name) VALUES (501, 'Отдел обработки корреспонденции');
-INSERT INTO esrd.department(id, name) VALUES (502, 'Отдел обработки корреспонденции');
-INSERT INTO esrd.department(id, name) VALUES (503, 'Отдел контроля');
-INSERT INTO esrd.department(id, name) VALUES (504, 'Пресс-служба Комплекса');
-INSERT INTO esrd.department(id, name) VALUES (505, 'Отдел мониторинга доходов бюджета');
-INSERT INTO esrd.department(id, name) VALUES (506, 'Отдел сводного бюджетного планирования');
-INSERT INTO esrd.department(id, name) VALUES (507, 'Отдел налоговой политики и мобилизации доходов');
-INSERT INTO esrd.department(id, name) VALUES (508, 'Отдел администрирования торгового сбора');
-INSERT INTO esrd.department(id, name) VALUES (509, 'Отдел методологии  государственных программ');
-INSERT INTO esrd.department(id, name) VALUES (510, 'Отдел экономического анализа и прогнозирования');
-INSERT INTO esrd.department(id, name) VALUES (511, 'Отдел сводных работ и анализа реализации указов Президента РФ в области социально-экономической политики');
-INSERT INTO esrd.department(id, name) VALUES (512, 'Отдел стратегического планирования и анализа реализации Государственных программ');
-INSERT INTO esrd.department(id, name) VALUES (513, 'Отдел анализа секторов экономики');
-INSERT INTO esrd.department(id, name) VALUES (514, 'Отдел планирования, сопровождения и контроля проектов');
-INSERT INTO esrd.department(id, name) VALUES (515, 'Сектор IT');
-INSERT INTO esrd.department(id, name) VALUES (516, 'Отдел градостроительной политики');
-INSERT INTO esrd.department(id, name) VALUES (517, 'Отдел свода АИП и отраслевых показателей');
-INSERT INTO esrd.department(id, name) VALUES (518, 'Отдел строительства объектов социальной сферы');
+INSERT INTO esrd.department(id, name) VALUES (502, 'Отдел контроля');
+INSERT INTO esrd.department(id, name) VALUES (503, 'Пресс-служба Комплекса');
+INSERT INTO esrd.department(id, name) VALUES (504, 'Отдел мониторинга доходов бюджета');
+INSERT INTO esrd.department(id, name) VALUES (505, 'Отдел сводного бюджетного планирования');
+INSERT INTO esrd.department(id, name) VALUES (506, 'Отдел налоговой политики и мобилизации доходов');
+INSERT INTO esrd.department(id, name) VALUES (507, 'Отдел администрирования торгового сбора');
+INSERT INTO esrd.department(id, name) VALUES (508, 'Отдел методологии  государственных программ');
+INSERT INTO esrd.department(id, name) VALUES (509, 'Отдел экономического анализа и прогнозирования');
+INSERT INTO esrd.department(id, name) VALUES (510, 'Отдел сводных работ и анализа реализации указов Президента РФ в области социально-экономической политики');
+INSERT INTO esrd.department(id, name) VALUES (511, 'Отдел стратегического планирования и анализа реализации Государственных программ');
+INSERT INTO esrd.department(id, name) VALUES (512, 'Отдел анализа секторов экономики');
+INSERT INTO esrd.department(id, name) VALUES (513, 'Отдел планирования, сопровождения и контроля проектов');
+INSERT INTO esrd.department(id, name) VALUES (514, 'Сектор IT');
+INSERT INTO esrd.department(id, name) VALUES (515, 'Отдел градостроительной политики');
+INSERT INTO esrd.department(id, name) VALUES (516, 'Отдел свода АИП и отраслевых показателей');
+INSERT INTO esrd.department(id, name) VALUES (517, 'Отдел строительства объектов социальной сферы');
+INSERT INTO esrd.department(id, name) VALUES (518, 'Отдел развития транспорта и дорожно-мостового строительства');
 INSERT INTO esrd.department(id, name) VALUES (519, 'Отдел развития инженерии');
 INSERT INTO esrd.department(id, name) VALUES (520, 'Отдел жилищного строительства');
 INSERT INTO esrd.department(id, name) VALUES (521, 'Отдел экономики образования и культуры');
@@ -676,9 +676,40 @@ INSERT INTO esrd.department(id, name) VALUES (553, 'Сектор сопрово�
 INSERT INTO esrd.department(id, name) VALUES (554, 'Отдел оценки акционерного капитала,  финансовых активов и рассмотрения отчетов');
 INSERT INTO esrd.department(id, name) VALUES (555, 'Отдел оценки недвижимости');
 INSERT INTO esrd.department (id, name) VALUES (560, 'Отдел оценки прав аренды и постановки на баланс');
+INSERT INTO esrd.department (id, name) VALUES (561, 'Управление заместителя Мэра Москвы в Правительстве Москвы по вопросам экономической политики и имущественно-земельных отношений');
+INSERT INTO esrd.department (id, name) VALUES (562, 'Управление бюджетной и налоговой политики');
+INSERT INTO esrd.department (id, name) VALUES (563, 'Управление сводных экономических показателей');
+INSERT INTO esrd.department (id, name) VALUES (564, 'Управление информатизации и связи');
+INSERT INTO esrd.department (id, name) VALUES (565, 'Сводное управление бюджетных инвестиций');
+INSERT INTO esrd.department (id, name) VALUES (566, 'Управление миграционной политики');
+INSERT INTO esrd.department (id, name) VALUES (567, 'Управление бюджетных инвестиций дорожно-мостового, жилищного строительства и объектов инженерии');
+INSERT INTO esrd.department (id, name) VALUES (568, 'Управление экономики отраслей социальной сферы');
+INSERT INTO esrd.department (id, name) VALUES (569, 'Управление экономики жилищного хозяйства');
+INSERT INTO esrd.department (id, name) VALUES (570, 'Управление бюджетного планирования, бухгалтерского учета и государственного заказа');
+INSERT INTO esrd.department (id, name) VALUES (571, 'Управление координации деятельности Департамента и государственной гражданской службы');
+INSERT INTO esrd.department (id, name) VALUES (572, 'Административно-хозяйственное управление');
+INSERT INTO esrd.department (id, name) VALUES (573, 'Управление ценовой и тарифной политики');
+INSERT INTO esrd.department (id, name) VALUES (574, 'Управление стандартизации государственных закупок и тарифного регулирования в сфере ЖКХ');
+INSERT INTO esrd.department (id, name) VALUES (575, 'Юридическое Управление');
+INSERT INTO esrd.department (id, name) VALUES (576, 'ПЕРВЫЙ ОТДЕЛ');
+INSERT INTO esrd.department (id, name) VALUES (577, 'ВТОРОЙ ОТДЕЛ');
+INSERT INTO esrd.department (id, name) VALUES (578, 'Управление регулирования тарифов на услуги транспортных организаций');
+INSERT INTO esrd.department (id, name) VALUES (579, 'Управление топливно-энергетических балансов и инвестиционной политики');
+INSERT INTO esrd.department (id, name) VALUES (580, 'Управление регулирования тарифов в электроэнергетике');
+INSERT INTO esrd.department (id, name) VALUES (581, 'Управление ценообразования в теплоснабжении и коммунальной сфере');
+INSERT INTO esrd.department (id, name) VALUES (582, 'Управление оценки');
+INSERT INTO esrd.department (id, name) VALUES (582, 'Руководство Департамента');
+INSERT INTO esrd.department (id, name) VALUES (583, 'Руководитель');
 
-INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (560, 1);
 
-
+INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (560, 500);
+INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (560, 501);
+INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (560, 502);
+INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (560, 503);
+INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (561, 504);
+INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (561, 505);
+INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (561, 506);
+INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (561, 507);
+INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (561, 508);
 
 
