@@ -97,9 +97,9 @@
             requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
         }
         if (attachment == 1) {
-            $(element).append('<div class="md-form file-field"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл">' + requiredValidate + '</div></div>');
+            $(element).append('<div class="md-form file-field mb-2"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл">' + requiredValidate + '</div></div>');
         } else if (attachment == 2) {
-            $(element).append('<div class="md-form file-field"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл">' + requiredValidate + '</div><a href="" id="btnLoad" class="btn btn-default btn-md my-3 rounded" target="_blank" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a></div>');
+            $(element).append('<div class="row d-flex align-items-center"><div class="col-md-9"><div class="md-form file-field"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл">' + requiredValidate + '</div></div></div><div class="col-md-3"><a href="#" id="btnLoad" class="btn btn-default btn-sm rounded" target="_blank" title="Скачать файл"><i class="fas fa-download"></i></a></div></div>');
         } else if (text == 1) {
             $(element).append('<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '>' + requiredValidate);
         } else {
@@ -182,6 +182,7 @@
     function formatDate (date, reverse) {
         var date = new Date(date);
         var day = date.getDate();
+        if (day < 10) {day = '0' + day;}
         var month = date.getMonth()+1;
         if (month < 10) {month = '0' + month;}
         var year = date.getFullYear();
@@ -192,6 +193,7 @@
     function formatTime (date) {
         var date = new Date(date);
         var hours = date.getHours();
+        if (hours < 10) {hours = '0' + hours;}
         var minutes = date.getMinutes();
         if (minutes < 10) {minutes = '0' + minutes;}
         return hours + ':' + minutes;
@@ -361,12 +363,10 @@
                         if (rowSelectField.fieldType === "ATTACHMENT") {
                             // Добавляем строку
                             if(parentBlock == '') {
-                                var saveBtn = '';
-                                if(id && id > 0) {
-                                    saveBtn = '<button class></button>';
-                                }
+                                var attachment = 1;
+                                if(id && id > 0) {attachment = 2;}
                                 $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row d-flex align-items-center justify-content-center blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9"></div></div>');
-                                createInput(".col-md-9:last", "file", 'inputFile', 'inputFile', "Загрузить файл", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, 1, '');
+                                createInput(".col-md-9:last", "file", 'inputFile', 'inputFile', "Загрузить файл", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, attachment, '');
                             }
                         }
                         if (rowSelectField.fieldType === "TEXTAREA") {
