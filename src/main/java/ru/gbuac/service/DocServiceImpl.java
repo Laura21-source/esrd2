@@ -347,7 +347,7 @@ public class DocServiceImpl implements DocService {
                     break;
                 case CATALOG_ORGANIZATIONS:
                     Organization organization = organizationRepository.findById(fieldTo.getValueInt()).orElse(null);
-                    cellsTags.put(tag, organization.getShortName());
+                    cellsTags.put(tag, organization.getNormalizedName());
                     break;
                 case CATALOG_REGNUMBERS:
                     String regNum = docRepository.findById(fieldTo.getValueInt()).orElse(null).getRegNum();
@@ -387,7 +387,7 @@ public class DocServiceImpl implements DocService {
                     break;
                 case CATALOG_ORGANIZATIONS:
                     Organization organization = organizationRepository.findById(fieldTo.getValueInt()).orElse(null);
-                    simpleTags.put(tag, organization.getShortName());
+                    simpleTags.put(tag, organization.getNormalizedName());
                     break;
                 case CATALOG_REGNUMBERS:
                     String regNum = docRepository.findById(fieldTo.getValueInt()).orElse(null).getRegNum();

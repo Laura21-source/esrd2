@@ -86,13 +86,13 @@ public class OrganizationServiceImpl implements OrganizationService {
             returned.setFullNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString()));
             returned.setShortLegalForm(jsonObjectData.get("opf").getAsJsonObject().get("short").getAsString());
             returned.setFullLegalForm(jsonObjectData.get("opf").getAsJsonObject().get("full").getAsString());
-            returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short").getAsString()));
-            returned.setFullNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full").getAsString()));
+            returned.setShortName(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short").getAsString()));
+            returned.setFullName(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full").getAsString()));
             returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
             returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
             returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
-            returned.setNormalizedName(jsonObjectData.get("opf").getAsJsonObject().get("short").getAsString() + " "
-                    + replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full").getAsString()));
+            returned.setNormalizedName(jsonObjectData.get("opf").getAsJsonObject().get("short").getAsString() + " «"
+                    + replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full").getAsString()) + "»");
         }   catch (Exception ex) {
 
         }
@@ -100,8 +100,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     };
 
     private String replaceQuotes(String text) {
-        if (text.chars().filter(ch -> ch == '"').count() % 2 == 0) {
-            replaceQuotes(replaceLast(text.replaceFirst("\"","«"), "\"", "»"));
+        if (text.chars().filter(ch -> ch == '"').count() % 2 == 0 && text.chars().filter(ch -> ch == '"').count() != 0) {
+            text = replaceQuotes(replaceLast(text.replaceFirst("\"","«"), "\"", "»"));
         }
         return text;
     }
