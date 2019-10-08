@@ -109,6 +109,8 @@
                     </form>
                     <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
                     <button type="submit" id="btnReset" class="btn btn-danger mb-2 my-4 pt-3 rounded btnReset">Отменить согласование</button>
+                    <button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded btnSave">Сгенерировать служебную записку</button>
+                    <a href="" type="button" id="btnLoadS" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
                 </div>
             </div>
         </div>
@@ -137,6 +139,7 @@
             $(".documentName").html('Согласование документа №' + data.projectRegNum + ' от ' + newDate);
             // Меняем кнопку согласования на подписания
             if (data.finalStage === true) {
+                $('#btnWordFile').addClass('d-none');
                 // Меняем название документа
                 if(data.regNum && data.regNum !== '') {
                     // Если документ подписан
@@ -242,6 +245,48 @@
                 });
                 serverAjax.fail(function () {
                     toastr["error"]("Ошибка приложения!");
+                });
+            }
+        });
+
+        // Отправка на сервер файла служебки
+        $('#btnWordFile').on("click", function(event) {
+            event.preventDefault();
+            var forms = $('.registrationForm');
+            var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
+            event.preventDefault();
+            var checkField = checkValidation(formsValue);
+            if(checkField === false) {
+                toastr["error"]("Заполните обязательные поля!");
+                $(forms).addClass('was-validated');
+                event.stopPropagation();
+            } else {
+                var trueName = $(this).html();
+                $(this).attr('disabled', true).html('Отправка запроса');
+                var dataType = $("#selectType").val();
+                // Формируем поля JSON
+                var dataField = createDataField(0);
+                var sumElem = countElem(dataField) + 1;
+                var dataBlock = createDataBlock(0, sumElem);
+                var repostWordFile = JSON.stringify(createJSON(0, dataType, dataField, dataBlock));
+                //console.log(repostWordFile);
+                var serverAjax = $.ajax({
+                    type: "POST",
+                    url: 'rest/profile/docs/docx',
+                    data: repostWordFile,
+                    contentType: 'application/json; charset=utf-8'
+                });
+                serverAjax.done(function (data) {
+                    $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html(trueName);
+                    $('#btnLoadS').removeClass('d-none').attr("href", data.fileUrl);
+                    $('#btnLoadS').click(function () {
+                        $("#btnWordFile").removeClass('d-none').removeClass('waves-effect');
+                        $('#btnLoadS').addClass('d-none');
+                    });
+                });
+                serverAjax.fail(function () {
+                    toastr["error"]("Ошибка сохранения!");
+                    $("#btnWordFile").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
                 });
             }
         });
