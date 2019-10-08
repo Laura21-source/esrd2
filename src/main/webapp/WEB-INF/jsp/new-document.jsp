@@ -98,7 +98,7 @@
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem);
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-                //console.log(serverStack);
+                console.log(serverStack);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
