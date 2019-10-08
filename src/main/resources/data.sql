@@ -619,3 +619,66 @@ INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (40, 44);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (44, 2, 39, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (45, 2, 40, 2);
 
+INSERT INTO esrd.department(id, name) VALUES (500, 'Отдел подготовки совещаний');
+INSERT INTO esrd.department(id, name) VALUES (501, 'Отдел обработки корреспонденции');
+INSERT INTO esrd.department(id, name) VALUES (502, 'Отдел обработки корреспонденции');
+INSERT INTO esrd.department(id, name) VALUES (503, 'Отдел контроля');
+INSERT INTO esrd.department(id, name) VALUES (504, 'Пресс-служба Комплекса');
+INSERT INTO esrd.department(id, name) VALUES (505, 'Отдел мониторинга доходов бюджета');
+INSERT INTO esrd.department(id, name) VALUES (506, 'Отдел сводного бюджетного планирования');
+INSERT INTO esrd.department(id, name) VALUES (507, 'Отдел налоговой политики и мобилизации доходов');
+INSERT INTO esrd.department(id, name) VALUES (508, 'Отдел администрирования торгового сбора');
+INSERT INTO esrd.department(id, name) VALUES (509, 'Отдел методологии  государственных программ');
+INSERT INTO esrd.department(id, name) VALUES (510, 'Отдел экономического анализа и прогнозирования');
+INSERT INTO esrd.department(id, name) VALUES (511, 'Отдел сводных работ и анализа реализации указов Президента РФ в области социально-экономической политики');
+INSERT INTO esrd.department(id, name) VALUES (512, 'Отдел стратегического планирования и анализа реализации Государственных программ');
+INSERT INTO esrd.department(id, name) VALUES (513, 'Отдел анализа секторов экономики');
+INSERT INTO esrd.department(id, name) VALUES (514, 'Отдел планирования, сопровождения и контроля проектов');
+INSERT INTO esrd.department(id, name) VALUES (515, 'Сектор IT');
+INSERT INTO esrd.department(id, name) VALUES (516, 'Отдел градостроительной политики');
+INSERT INTO esrd.department(id, name) VALUES (517, 'Отдел свода АИП и отраслевых показателей');
+INSERT INTO esrd.department(id, name) VALUES (518, 'Отдел строительства объектов социальной сферы');
+INSERT INTO esrd.department(id, name) VALUES (519, 'Отдел развития инженерии');
+INSERT INTO esrd.department(id, name) VALUES (520, 'Отдел жилищного строительства');
+INSERT INTO esrd.department(id, name) VALUES (521, 'Отдел экономики образования и культуры');
+INSERT INTO esrd.department(id, name) VALUES (522, 'Сектор экономики культуры, общественных и межрегиональных связей');
+INSERT INTO esrd.department(id, name) VALUES (523, 'Отдел экономики социальной защиты и прочих отраслей');
+INSERT INTO esrd.department(id, name) VALUES (524, 'Отдел развития жилищного хозяйства и содержания территорий города');
+INSERT INTO esrd.department(id, name) VALUES (525, 'Отдел охраны окружающей среды и совершенствования системы расчетов за ЖКУ');
+INSERT INTO esrd.department(id, name) VALUES (526, 'Планово-экономический отдел');
+INSERT INTO esrd.department(id, name) VALUES (527, 'Контрактная служба');
+INSERT INTO esrd.department(id, name) VALUES (528, 'Отдел государственного заказа');
+INSERT INTO esrd.department(id, name) VALUES (529, 'Отдел государственной службы и кадров');
+INSERT INTO esrd.department(id, name) VALUES (530, 'Отдел входящей и исходящей корреспонденции');
+INSERT INTO esrd.department(id, name) VALUES (531, 'Отдел контроля исполнения поручений');
+INSERT INTO esrd.department(id, name) VALUES (532, 'Отдел организационно-технического обеспечения');
+INSERT INTO esrd.department(id, name) VALUES (533, 'Отдел контроля');
+INSERT INTO esrd.department(id, name) VALUES (534, 'Отдел цен и тарифной политики в городском хозяйстве');
+INSERT INTO esrd.department(id, name) VALUES (535, 'Отдел экономических нормативов и начальных (максимальных) цен контрактов');
+INSERT INTO esrd.department(id, name) VALUES (536, 'Отдел стандартизации государственных закупок');
+INSERT INTO esrd.department(id, name) VALUES (537, 'Сектор тарифного регулировния жилищно-коммунальных услуг');
+INSERT INTO esrd.department(id, name) VALUES (538, 'Отдел договоров, нормативной работы и судебной практики');
+INSERT INTO esrd.department(id, name) VALUES (539, 'Отдел подготовки нормативных актов и применения законодательства в сфере государственного регулирования тарифов');
+INSERT INTO esrd.department(id, name) VALUES (540, 'Отдел правовой защиты и досудебного урегулирования споров');
+INSERT INTO esrd.department(id, name) VALUES (541, 'Сектор правления');
+INSERT INTO esrd.department(id, name) VALUES (542, 'Отдел регулирования тарифов на транспортные услуги для организаций');
+INSERT INTO esrd.department(id, name) VALUES (543, 'Отдел регулирования тарифов на транспортные услуги для населения');
+INSERT INTO esrd.department(id, name) VALUES (544, 'Отдел экономики транспорта');
+INSERT INTO esrd.department(id, name) VALUES (545, 'Отдел топливно-энергетических балансов');
+INSERT INTO esrd.department(id, name) VALUES (546, 'Отдел инвестиционной политики');
+INSERT INTO esrd.department(id, name) VALUES (547, 'Отдел регулирования тарифов (цен) в сфере электроэнергетики');
+INSERT INTO esrd.department(id, name) VALUES (548, 'Отдел регулирования платы за технологисеское присоединение к электрическим сетям');
+INSERT INTO esrd.department(id, name) VALUES (549, 'Отдел регулирования тарифов (цен) в сфере теплоснабжения');
+INSERT INTO esrd.department(id, name) VALUES (550, 'Отдел регулирования тарифов в сфере холодного водоснабжения и водоотведения');
+INSERT INTO esrd.department(id, name) VALUES (551, 'Отдел регулирования тарифов в сфере обращения с отходами');
+INSERT INTO esrd.department(id, name) VALUES (552, 'Отдел регулирования тарифов на присоединение к сетям ресурсоснабжающих организаций');
+INSERT INTO esrd.department(id, name) VALUES (553, 'Сектор сопровождения процессов');
+INSERT INTO esrd.department(id, name) VALUES (554, 'Отдел оценки акционерного капитала,  финансовых активов и рассмотрения отчетов');
+INSERT INTO esrd.department(id, name) VALUES (555, 'Отдел оценки недвижимости');
+INSERT INTO esrd.department (id, name) VALUES (560, 'Отдел оценки прав аренды и постановки на баланс');
+
+INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (560, 1);
+
+
+
+
