@@ -48,9 +48,8 @@ public class User extends NamedEntity {
     private List<Role> roles;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", nullable = false)
+    @JoinColumn(name = "department_id", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
     private Department department;
 
     public User(@NotBlank @SafeHtml String name, String lastname, String firstname, String patronym, String email,

@@ -236,7 +236,7 @@ CREATE TABLE esrd.organization
 CREATE TABLE esrd.department
 (
     id                       INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
-    name   VARCHAR          NOT NULL
+    name   VARCHAR
 );
 
 CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR, optional VARCHAR DEFAULT NULL)

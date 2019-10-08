@@ -18,8 +18,5 @@ public class Department extends NamedEntity {
     private List<User> users;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "depertment_child_departments",
-            joinColumns = @JoinColumn(name = "department_id"),
-            inverseJoinColumns = @JoinColumn(name = "childDepartment_id"))
     private List<Department> childDepartments;
 }
