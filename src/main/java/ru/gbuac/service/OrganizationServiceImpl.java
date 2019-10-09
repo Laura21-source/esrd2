@@ -76,12 +76,13 @@ public class OrganizationServiceImpl implements OrganizationService {
             JsonParser parser = new JsonParser();
             JsonObject root = parser.parse(data).getAsJsonObject();
 
-            returned.setInn(INN);
+
             JsonObject jsonObjectSuggestions = root.get("suggestions").getAsJsonArray().get(0).getAsJsonObject();
 
             JsonObject jsonObjectData = jsonObjectSuggestions.get("data").getAsJsonObject();
             returned.setKpp(jsonObjectData.get("kpp").getAsString());
             returned.setOgrn(jsonObjectData.get("ogrn").getAsString());
+            returned.setInn(jsonObjectData.get("inn").getAsString());
             returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString()));
             returned.setFullNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString()));
             returned.setShortLegalForm(jsonObjectData.get("opf").getAsJsonObject().get("short").getAsString());
