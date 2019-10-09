@@ -20,8 +20,8 @@
                                 <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
                             </div>
                             <div class="col-md-9">
-                                <select class="browser-default custom-select" name="selectType" id="selectType" required>
-                                    <option value="" class="alert-primary" selected>Выберите вид документа</option>
+                                <select class="selectpicker form-control" name="selectType" id="selectType" required>
+                                    <option value="" class="alert-primary">Выберите вид документа</option>
                                 </select>
                                 <div class="invalid-tooltip">Выберите тип документа</div>
                             </div>
@@ -127,7 +127,6 @@
             var dataField = createDataField(0);
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(0, sumElem);
-            //var tempWordFile = createJSON(0,dataType,dataField,dataBlock);
             //console.log(tempWordFile);
             var repostWordFile = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
             //console.log(repostWordFile);

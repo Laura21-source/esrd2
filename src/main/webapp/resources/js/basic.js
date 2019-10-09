@@ -141,7 +141,7 @@ $(function() {
           var numberField = data.id;
           $(number + ' option').remove();
           // Обновляем опции списка организаций
-          createOptions ("rest/profile/organizations/", number, "shortName", "id", numberField, 'organisations');
+          createOptions ("rest/profile/organizations/", number, "normalizedName", "id", numberField, 'organisations');
         },
         error: function () {
           $(".bigFormLoader, .btnBlock, .addElementForm").addClass("d-none").fadeOut();
