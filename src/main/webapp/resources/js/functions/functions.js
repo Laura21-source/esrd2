@@ -8,7 +8,6 @@
     function checkValidation(value) {
         var validation = true;
         $(value).each(function() {
-            //console.log($(this).val());
             if($(this).val() === '') {validation = false;}
         });
         return validation;
@@ -36,13 +35,18 @@
     // Заполнение данных организации
     function getValueOrganisation (url, element) {
         return $.getJSON (url, function(data) {
-            $(element + ' #shortName').val(data.shortName);
-            $(element + ' #fullName').val(data.fullName);
+            $(element + ' #shortNameLf').val(data.shortNameLf);
+            $(element + ' #fullNameLf').val(data.fullNameLf);
+            $(element + ' #inn').val(data.inn);
             $(element + ' #ogrn').val(data.ogrn);
             $(element + ' #kpp').val(data.kpp);
             $(element + ' #address').val(data.address);
             $(element + ' #fioManager').val(data.fioManager);
             $(element + ' #positionManager').val(data.positionManager);
+            $(element + ' #shortName').val(data.shortName);
+            $(element + ' #shortLegalForm').val(data.shortLegalForm);
+            $(element + ' #fullLegalForm').val(data.fullLegalForm);
+            $(element + ' #normalizedName').val(data.normalizedName);
         });
     }
 
