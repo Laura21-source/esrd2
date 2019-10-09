@@ -247,8 +247,8 @@ BEGIN
         SELECT 'согл-'||nextval('esrd.agreement_seq')||'/'||yearPostfix INTO Result;
     ELSIF (mask='ДПР-П') THEN
         SELECT 'ДПР-П-'||optional||'/'||yearPostfix INTO Result;
-    ELSIF (mask='ДПР-М') THEN
-        SELECT 'ДПР-М-'||nextval('esrd.agenda_seq')||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР') THEN
+        SELECT 'ДПР-'||nextval('esrd.agenda_seq')||'/'||yearPostfix INTO Result;
     ELSE
         RAISE 'Incorrect mask for generating document number' USING ERRCODE = 'INCORRECT_DOCNUMBER_MASK';
     END IF;

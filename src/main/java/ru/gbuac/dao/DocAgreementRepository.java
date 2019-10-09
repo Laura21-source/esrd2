@@ -17,11 +17,14 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
     @Query("DELETE FROM DocAgreement a WHERE a.id=:id AND a.doc.id=:docId")
     int delete(@Param("id") int id, @Param("docId") int docId);
 
-    @Query("SELECT max(a) FROM DocAgreement a WHERE a.user.name=:userName AND a.agreedDateTime IS NULL")
-    DocAgreement getLastForAgreeByUserName(@Param("userName") String userName);
+    @Query("SELECT min(a) FROM DocAgreement a WHERE a.user.name=:userName AND a.doc.id=:docId AND a.agreedDateTime IS NULL")
+    DocAgreement getLastForAgreeByUserName(@Param("docId") int docId, @Param("userName") String userName);
+
+    @Query("SELECT min(a) FROM DocAgreement a WHERE a.doc.id=:docId AND a.agreedDateTime IS NULL")
+    DocAgreement getLastForAgreeByUserName(@Param("docId") int docId);
 
     @Query("SELECT new ru.gbuac.to.DocAgreementTo(u.name, u.lastname, u.firstname, u.patronym, u.position, a.agreedDateTime, " +
             "a.comment, a.decisionType, CASE WHEN (a.user.name=:userName AND a.agreedDateTime IS NULL) THEN TRUE ELSE FALSE END) " +
-            "FROM DocAgreement a JOIN a.user u WHERE a.doc.id=:docId")
+            "FROM DocAgreement a JOIN a.user u WHERE a.doc.id=:docId ORDER BY a.id")
     List<DocAgreementTo> getAgreementList(@Param("docId") int docId, @Param("userName") String userName);
 }

@@ -200,7 +200,7 @@ public class DocServiceImpl implements DocService {
         if (finalStageForThisDocType == currentAgreementStage) {
             String docTypeMask = docNumberPrefixesRepository.getMaskByDocTypeId(docTo.getDocTypeId());
             String docNumber = "";
-            if (docTo.getDocTypeId() == 1) {
+            if (docTo.getDocTypeId() == 2) {
                 List<Doc> docs = docRepository.getAllByDocType(docTo.getDocTypeId());
                 StringBuilder optional = new StringBuilder();
                 for (DocValuedFields docValuedFields : updated.getDocValuedFields()) {
@@ -241,8 +241,11 @@ public class DocServiceImpl implements DocService {
         docValuedFieldsRepository.deleteAll(id);
         updated = checkNotFoundWithId(docRepository.save(updated), id);
 
-        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(userName);
-        docAgreement.setComment(comment);
+        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(updated.getId(), userName);
+        if (docAgreement == null) {
+            docAgreement = docAgreementRepository.getLastForAgreeByUserName(updated.getId());
+        }
+        //docAgreement.setComment(comment == null ? "" : comment);
         docAgreement.setDecisionType(DecisionType.ACCEPTED);
         docAgreement.setAgreedDateTime(LocalDateTime.now());
         docAgreementRepository.save(docAgreement);
@@ -273,7 +276,7 @@ public class DocServiceImpl implements DocService {
         updated.setCurrentAgreementStage(stage);
         User user = userRepository.getByName(userName);
         User targetUser = userRepository.getByName(targetUserName);
-        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(userName);
+        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(updated.getId(), userName);
         docAgreement.setAgreedDateTime(LocalDateTime.now());
         docAgreement.setComment(comment);
         docAgreement.setReturnedUser(targetUser);
@@ -289,7 +292,7 @@ public class DocServiceImpl implements DocService {
         Doc updated = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
         updated.setDocStatus(DocStatus.AGREEMENT_REJECTED);
         User user = userRepository.getByName(userName);
-        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(userName);
+        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(updated.getId(), userName);
         docAgreement.setAgreedDateTime(LocalDateTime.now());
         docAgreement.setComment(comment);
         docAgreement.setDecisionType(DecisionType.REJECTED);
