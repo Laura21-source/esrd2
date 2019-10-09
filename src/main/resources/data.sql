@@ -404,8 +404,8 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4329, 3006); -- Прав�
 --INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3002); -- Право Секретарь Правления для Сапрыкиной
 --INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3006); -- Право USER для Сапрыкиной
 
-INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (23, 'ДПР-П');
-INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (24, 'ДПР-М');
+INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (23, 'ДПР');
+INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (24, 'ДПР-П');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (25, 'ДПР-ПPО');
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id)
