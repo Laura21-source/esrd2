@@ -37,6 +37,7 @@
         return $.getJSON (url, function(data) {
             $(element + ' #shortNameLf').val(data.shortNameLf);
             $(element + ' #fullNameLf').val(data.fullNameLf);
+            $(element + ' #inn').val(data.inn);
             $(element + ' #ogrn').val(data.ogrn);
             $(element + ' #kpp').val(data.kpp);
             $(element + ' #address').val(data.address);

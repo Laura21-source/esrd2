@@ -19,11 +19,11 @@
                 <form class="addElementForm needs-validation" novalidate>
                     <div class="row mb-2">
                         <div class="col-4">
-                            <div class="text-muted">ИНН<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
+                            <div class="text-muted">ИНН/ОГРН<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
                         <div class="col-8">
                             <div class="input-group">
-                                <input type="text" id="inn" class="form-control form-control-sm" required>
+                                <input type="text" id="searchValue" class="form-control form-control-sm" required>
                                 <div class="input-group-append">
                                     <button class="btn btn-sm btn-primary m-0 px-3" type="button" id="btnEgrul">Заполнить из ЕГРЮЛ</button>
                                 </div>
@@ -47,9 +47,21 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-6">
+                        <div class="col-12">
                             <div class="row">
-                                <div class="col-4 d-flex align-items-center justify-content-center">
+                                <div class="col-4">
+                                    <div class="text-muted">ИНН<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
+                                </div>
+                                <div class="col-8">
+                                    <input type="text" id="inn" class="form-control form-control-sm" required disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
                                     <div class="text-muted">ОГРН<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                 </div>
                                 <div class="col-8">
@@ -57,9 +69,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
                             <div class="row">
-                                <div class="col-4 d-flex align-items-center justify-content-center">
+                                <div class="col-4">
                                     <div class="text-muted">КПП<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                 </div>
                                 <div class="col-8">

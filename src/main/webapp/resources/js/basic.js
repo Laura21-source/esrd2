@@ -85,8 +85,8 @@ $(function() {
 
   // Заполнение данных организации
   $('#btnEgrul').click(function() {
-    var inn = $('.addElementForm #inn').val();
-    return getValueOrganisation ('rest/profile/organizations/getEGRULData?INN='+inn, '.addElementForm');
+    var searchValue = $('.addElementForm #searchValue').val();
+    return getValueOrganisation ('rest/profile/organizations/getEGRULData?INN='+searchValue, '.addElementForm');
   });
 
   // Добавление номера поля в кнопку добавлению организации
