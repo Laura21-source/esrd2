@@ -23,6 +23,9 @@
                                 <select class="browser-default custom-select" name="selectType" id="selectType" required>
                                     <option value="" class="alert-primary" selected>Выберите вид документа</option>
                                 </select>
+                                <%--<select class="selectpicker form-control" name="selectType" id="selectType" required>
+                                    <option value="" class="alert-primary">Выберите вид документа</option>
+                                </select>--%>
                                 <div class="invalid-feedback">Поле обязательно для заполнения</div>
                             </div>
                         </div>

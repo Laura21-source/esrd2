@@ -35,7 +35,7 @@
                             <div class="text-muted">Короткое название<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
                         <div class="col-8">
-                            <input type="text" id="shortName" class="form-control form-control-sm" required disabled>
+                            <input type="text" id="shortNameLf" class="form-control form-control-sm" required disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -43,7 +43,7 @@
                             <div class="text-muted">Полное название<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
                         <div class="col-8">
-                            <input type="text" id="fullName" class="form-control form-control-sm" required disabled>
+                            <input type="text" id="fullNameLf" class="form-control form-control-sm" required disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -92,6 +92,11 @@
                             <input type="text" id="fioManager" class="form-control form-control-sm" required disabled>
                         </div>
                     </div>
+                    <input type="hidden" id="shortName">
+                    <input type="hidden" id="fullName">
+                    <input type="hidden" id="shortLegalForm">
+                    <input type="hidden" id="fullLegalForm">
+                    <input type="hidden" id="normalizedName">
                 </form>
             </div>
             <div class="btnBlock">

@@ -325,6 +325,40 @@
             });
         });
 
+        // Возврат пользователю согласования с комментарием
+        $('#btnReturn').on("click", function(event) {
+            event.preventDefault();
+            $('#btnCancel').modal('show');
+            var trueName =  $(this).html();
+            $(this).attr('disabled', true).html('Отправка запроса');
+            var dataType = $("#selectType").val();
+            // Формируем поля JSON
+            var dataField = createDataField(id);
+            var sumElem = countElem(dataField)+1;
+            var dataBlock = createDataBlock(id, sumElem);
+            //console.log(JSON.stringify(dataBlock));
+            var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
+            //console.log(serverStack);
+            var comment = $('#commentText textarea').val();
+            var serverAjax = $.ajax({
+                type: "POST",
+                url: 'rest/profile/docs/rejectDocAgreement/'+id+'?comment='+comment,
+                data: serverStack,
+                contentType: 'application/json; charset=utf-8'
+            });
+            serverAjax.done(function() {
+                $('.loaderCancel').addClass('d-none');
+                $('.bodyCancel, .headerCancel, .footerCancel').removeClass('d-none').fadeIn(500);
+                $('#btnCancel').on('hidden.bs.modal', function() {
+                    $("#btnReset").attr('disabled', false).html(trueName);
+                    window.location.href="agreement";
+                });
+            });
+            serverAjax.fail(function () {
+                toastr["error"]("Ошибка приложения!");
+            });
+        });
+
         // Отправка на сервер файла PDF
         $('#btnReformat').on("click", function(event) {
             event.preventDefault();

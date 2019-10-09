@@ -13,6 +13,9 @@ $(function() {
     stopper: "#footer",
   });*/
 
+  // Крутой селект
+  $('.mdb-select').materialSelect();
+
   // Всплывающие подсказки
   $('[data-toggle="tooltip"]').tooltip();
 
@@ -86,9 +89,15 @@ $(function() {
     return getValueOrganisation ('rest/profile/organizations/getEGRULData?INN='+inn, '.addElementForm');
   });
 
+  // Добавление номера поля в кнопку добавлению организации
+  $('#addElement').on('shown.bs.modal', function(event) {
+    var catalogNumber = $(event.relatedTarget).attr('data-catalog');
+    $('.btnAddElement').attr('data-catalog', catalogNumber);
+  });
+
   // Добавление элемента в список организаций
   $('.btnAddElement').click(function(event) {
-    var number = $('.addElement').attr('data-catalog');
+    var number = $(this).attr('data-catalog');
     event.preventDefault();
     var forms = $('.addElementForm');
     var formsValue = $('.addElementForm input,.addElementForm textarea,.addElementForm select').filter('[required]');
@@ -104,8 +113,13 @@ $(function() {
       // Формируем JSON из полей
       var dataField = {
         "id": null,
+        "shortNameLf": $('#shortNameLf').val(),
+        "fullNameLf": $('#fullNameLf').val(),
         "shortName": $('#shortName').val(),
         "fullName": $('#fullName').val(),
+        "shortLegalForm": $('#shortLegalForm').val(),
+        "fullLegalForm": $('#fullLegalForm').val(),
+        "normalizedName": $('#normalizedName').val(),
         "ogrn": $('#ogrn').val(),
         "inn": $('#inn').val(),
         "kpp": $('#kpp').val(),
@@ -114,7 +128,7 @@ $(function() {
         "positionManager": $('#positionManager').val()
       };
       var data = JSON.stringify(dataField);
-      //console.log("number - " + number);
+      console.log("number - " + number);
       $.ajax({
         type: "POST",
         url: "rest/profile/organizations",
@@ -136,10 +150,22 @@ $(function() {
       });
     }
   });
+
   // Очищаем форму при закрытии модального окна
   $('#addElement').on('hidden.bs.modal', function() {
     $('.addElementForm, .btnBlock').removeClass('d-none');
     $('.alertBlock').addClass('d-none');
     $('.addElementForm input').val('');
   });
+  // Bootstrap select русский
+  /*$.fn.selectpicker.defaults = {
+    noneSelectedText: 'Ничего не выбрано',
+    noneResultsText: 'Совпадений не найдено {0}',
+    countSelectedText: 'Выбрано {0} из {1}',
+    maxOptionsText: ['Достигнут предел ({n} {var} максимум)', 'Достигнут предел в группе ({n} {var} максимум)', ['шт.', 'шт.']],
+    doneButtonText: 'Закрыть',
+    selectAllText: 'Выбрать все',
+    deselectAllText: 'Отменить все',
+    multipleSeparator: ', '
+  };*/
 });
