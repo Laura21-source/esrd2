@@ -15,9 +15,8 @@ import java.util.List;
 @Table(name = "department")
 public class Department extends NamedEntity {
 
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="parent_department_id")
-    private Department parentDepartmentId;
+    @Column(name="top_level")
+    private boolean topLevel;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department", cascade = CascadeType.ALL)

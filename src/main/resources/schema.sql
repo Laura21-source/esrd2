@@ -237,7 +237,7 @@ CREATE TABLE esrd.organization
 CREATE TABLE esrd.department
 (
     id                       INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
-    parent_department_id     INTEGER,
+    top_level boolean    ,
     name   VARCHAR
 );
 

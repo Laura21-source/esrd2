@@ -17,6 +17,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
     @Query("DELETE FROM Department d WHERE d.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT d FROM Department d WHERE d.parentDepartmentId IS NULL")
+    @Query("SELECT d FROM Department d WHERE d.topLevel=TRUE")
     List<Department> getAllTopLevelDepartment();
 }
