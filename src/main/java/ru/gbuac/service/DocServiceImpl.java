@@ -203,7 +203,7 @@ public class DocServiceImpl implements DocService {
         updated.setUrlPDF(createPDFOrDocx(asDocTo(updated), rootPath, false, true));
         docValuedFieldsRepository.deleteAll(id);
 
-        List<DocAgreement> docAgreementList = updated.getAgreementList();
+        List<DocAgreement> docAgreementList = docAgreementRepository.getAll(updated.getId());
         DocAgreement daCurrent = docAgreementList.stream().filter(DocAgreement::isCurrentUser).findFirst().orElse(null);
         if (daCurrent != null) {
             daCurrent.setComment(comment);
@@ -218,6 +218,7 @@ public class DocServiceImpl implements DocService {
                 docAgreementRepository.save(daNext);
             }
         }
+        updated.setAgreementList(docAgreementList);
         updated = checkNotFoundWithId(docRepository.save(updated), id);
         DocTo updatedTo = asDocTo(updated);
         updatedTo.setCanAgree(hasRights);
