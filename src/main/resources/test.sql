@@ -1,0 +1,2 @@
+INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user) VALUES (9002, 1, 100046, 4002, null, null, null, null, false, true);
+INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user) VALUES (9003, 2, 100046, 3999, null, null, null, null, true, false);

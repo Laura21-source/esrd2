@@ -9,6 +9,7 @@ import ru.gbuac.model.DocAgreement;
 import ru.gbuac.to.DocAgreementTo;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface DocAgreementRepository extends JpaRepository<DocAgreement, Integer> {
@@ -32,7 +33,7 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
     DocAgreement getFinalAgreement(@Param("docId") int docId);
 
     @Query("SELECT max(a) FROM DocAgreement a WHERE a.doc.id=:docId AND a.decisionType is NOT NULL AND a.finalUser = TRUE")
-    boolean isFinalAgreementStage(@Param("docId") int docId);
+    Optional<Boolean> isFinalAgreementStage(@Param("docId") int docId);
 
     @Query("SELECT a FROM DocAgreement a WHERE a.doc.id=:docId AND a.ordering=:ordering")
     DocAgreement getByOrder(@Param("docId") int docId, @Param("ordering") int ordering);
@@ -40,8 +41,11 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
     @Query("SELECT a FROM DocAgreement a WHERE a.doc.id=:docId order by a.ordering")
     List<DocAgreement> getAll(@Param("docId") int docId);
 
+    /*
     @Query("SELECT new ru.gbuac.to.DocAgreementTo(u.name, u.lastname, u.firstname, u.patronym, u.position, a.agreedDateTime, " +
             "a.comment, a.decisionType, a.currentUser) " +
             "FROM DocAgreement a JOIN a.user u WHERE a.doc.id=:docId ORDER BY a.ordering")
     List<DocAgreementTo> getAgreementList(@Param("docId") int docId);
+
+     */
 }

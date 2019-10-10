@@ -1,5 +1,7 @@
 package ru.gbuac.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,4 +56,17 @@ public class DocAgreement extends BaseEntity {
     @Column(name = "cur_user")
     private boolean currentUser;
 
+    public DocAgreement(Integer id, int ordering, Doc doc, User user, User returnedUser, LocalDateTime agreedDateTime,
+                        @SafeHtml String comment, DecisionType decisionType, boolean finalUser, boolean currentUser) {
+        super(id);
+        this.ordering = ordering;
+        this.doc = doc;
+        this.user = user;
+        this.returnedUser = returnedUser;
+        this.agreedDateTime = agreedDateTime;
+        this.comment = comment;
+        this.decisionType = decisionType;
+        this.finalUser = finalUser;
+        this.currentUser = currentUser;
+    }
 }

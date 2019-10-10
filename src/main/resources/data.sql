@@ -192,7 +192,7 @@ INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, p
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4190, 'BaronAA', 'Барон', 'Артем', 'Андреевич', 'BaronAA@mos.ru', '14838', 'Гл. специалист');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4191, 'RusskihIN', 'Русских', 'Ирина', 'Николаевна', 'RusskikhIN@mos.ru', '14834', 'Начальник отдела');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4192, 'VolkovaON', 'Волкова', 'Ольга', 'Николаевна', 'VolkovaON2@mos.ru', '17233', 'Советник');
-INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4193, 'LebedevaIA', 'Лебедева', 'Ирина', 'Александровна', 'LebedevaIA1@mos.ru', '17479', 'Консультант');
+INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4193, 'LebedevaIA', 'Лебедева', 'Ирина', 'Александровна', 'LebedevaIA1@mos.ru', '17479', 'Начальник отдела');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4194, 'HvastochenkoON', 'Хвасточенко', 'Оксана', 'Николаевна', 'KhvastochenkoON@mos.ru', '19722', 'Гл. специалист');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4195, 'MininVN', 'Минин', 'Валерий', 'Николаевич', 'MininVN@mos.ru', '14832', 'Зам. начальника Управления');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4196, 'PlekhanovaEN', 'Плеханова', 'Екатерина', 'Николаевна', 'PlekhanovaEN@mos.ru', '17439', 'Консультант');
@@ -328,7 +328,7 @@ INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, p
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4326, 'KashmachkovaTN', 'Кашмачкова', 'Татьяна', 'Николаевна', 'KashmachkovaTN@mos.ru', '17275', 'Гл. специалист');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4327, 'KraevaLE', 'Краева', 'Лилия', 'Евгеньевна', 'KraevaLE@mos.ru', '17281', 'Консультант');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4328, 'MityushovaAY', 'Митюшова', 'Анна', 'Юрьевна', 'MityushovaAY@mos.ru', '19084', 'Гл. специалист');
-INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4329, 'GladkikhMV', 'Гладких', 'Михаил', 'Викторович', 'GladkikhMV@mos.ru', '14833', 'И.о. начальника Управления');
+INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4329, 'GladkikhMV', 'Гладких', 'Михаил', 'Викторович', 'GladkikhMV@mos.ru', '14833', 'Начальник Управления');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4330, 'SkripitsynaTA', 'Скрипицына', 'Татьяна', 'Александровна', 'SkripitsynaTA@mos.ru', '14836', 'Зам. начальника отдела');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4331, 'ParvanEV', 'Парван', 'Елена', 'Владимировна', 'ParvanEV@mos.ru', '17295', 'Советник');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, email, phone, position) VALUES (4332, 'VlaskinaII', 'Власкина', 'Ирина', 'Игоревна', 'VlaskinaII@mos.ru', '17216', 'Консультант');
@@ -382,11 +382,13 @@ INSERT INTO esrd.role (id, name) VALUES (3003, 'Руководство отра�
 INSERT INTO esrd.role (id, name) VALUES (3006, 'USER');
 
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4000, 3000);
+
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4001, 3001);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4001, 3006);
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3001);
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3006);
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (3999, 3003);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (3999, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (3999, 3006);
 
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4374, 3000); -- Право ADMIN для Махрова
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4194, 3001); -- Право Отраслевое управление для Хвасточенко О.Н.
