@@ -34,16 +34,21 @@ public abstract class AbstractDocAgreementRestController {
         return docAgreementService.getAll(docId);
     }
 
-    public DocAgreement create(DocAgreement docAgreement) {
+    public DocAgreementTo create(DocAgreement docAgreement) {
         LOG.info("create " + docAgreement);
         checkNew(docAgreement);
         return docAgreementService.save(docAgreement);
     }
 
-    public DocAgreement update(DocAgreement docAgreement, int id) {
+    public DocAgreementTo update(DocAgreement docAgreement, int id) {
         LOG.info("update " + docAgreement);
         assureIdConsistent(docAgreement, id);
         return docAgreementService.update(docAgreement, id);
+    }
+
+    public List<DocAgreementTo> saveList(List<DocAgreement> agreementList, int docId) {
+        LOG.info("saveList " + agreementList);
+        return docAgreementService.saveList(agreementList, docId);
     }
 
     public void delete(int id, int docId) {

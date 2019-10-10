@@ -41,11 +41,8 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
     @Query("SELECT a FROM DocAgreement a WHERE a.doc.id=:docId order by a.ordering")
     List<DocAgreement> getAll(@Param("docId") int docId);
 
-    /*
-    @Query("SELECT new ru.gbuac.to.DocAgreementTo(u.name, u.lastname, u.firstname, u.patronym, u.position, a.agreedDateTime, " +
-            "a.comment, a.decisionType, a.currentUser) " +
+    @Query("SELECT new ru.gbuac.to.DocAgreementTo(a.id, a.ordering, u.id, u.name, u.lastname, u.firstname, u.patronym, u.email, u.position, " +
+            "a.agreedDateTime, a.comment, a.decisionType, a.returnedUser.id, a.finalUser, a.currentUser) " +
             "FROM DocAgreement a JOIN a.user u WHERE a.doc.id=:docId ORDER BY a.ordering")
     List<DocAgreementTo> getAgreementList(@Param("docId") int docId);
-
-     */
 }

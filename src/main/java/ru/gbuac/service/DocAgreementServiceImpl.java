@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.DocAgreementRepository;
 import ru.gbuac.dao.DocRepository;
+import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocAgreement;
+import ru.gbuac.model.User;
 import ru.gbuac.to.DocAgreementTo;
+import ru.gbuac.util.DocAgreementUtil;
 import ru.gbuac.util.exception.NotFoundException;
 import java.util.List;
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
@@ -28,7 +31,7 @@ public class DocAgreementServiceImpl implements DocAgreementService {
 
     @Override
     public List<DocAgreementTo> getAgreementList(int docId) {
-        return null; // docAgreementRepository.getAgreementList(docId);
+        return docAgreementRepository.getAgreementList(docId);
     }
 
     @Override
@@ -37,15 +40,25 @@ public class DocAgreementServiceImpl implements DocAgreementService {
     }
 
     @Override
-    public DocAgreement save(DocAgreement docAgreement) {
+    public DocAgreementTo save(DocAgreement docAgreement) {
         Assert.notNull(docAgreement, "docAgreement must not be null");
-        return docAgreementRepository.save(docAgreement);
+        return DocAgreementUtil.asTo(docAgreementRepository.save(docAgreement));
     }
 
     @Override
-    public DocAgreement update(DocAgreement docAgreement, int id) throws NotFoundException {
+    public DocAgreementTo update(DocAgreement docAgreement, int id) throws NotFoundException {
         Assert.notNull(docAgreement, "docAgreement must not be null");
-        return checkNotFoundWithId(docAgreementRepository.save(docAgreement),id);
+        return DocAgreementUtil.asTo(checkNotFoundWithId(docAgreementRepository.save(docAgreement),id));
+    }
+
+    @Override
+    public List<DocAgreementTo> saveList(List<DocAgreement> agreementList, int docId) {
+        Doc doc = docRepository.findById(docId).orElse(null);
+        for (DocAgreement da: agreementList) {
+            da.setDoc(doc);
+            docAgreementRepository.save(da);
+        }
+        return docAgreementRepository.getAgreementList(docId);
     }
 
     @Override

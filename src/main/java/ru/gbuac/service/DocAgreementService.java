@@ -12,9 +12,11 @@ public interface DocAgreementService {
 
     List<DocAgreement> getAll(int docId);
 
-    DocAgreement save(DocAgreement docAgreement);
+    DocAgreementTo save(DocAgreement docAgreement);
 
-    DocAgreement update(DocAgreement docAgreement, int id) throws NotFoundException;
+    DocAgreementTo update(DocAgreement docAgreement, int id) throws NotFoundException;
+
+    List<DocAgreementTo> saveList(List<DocAgreement> agreementList, int docId);
 
     void delete(int id, int docId) throws NotFoundException;
 }

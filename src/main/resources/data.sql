@@ -574,9 +574,9 @@ INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUE
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (205, 1, 11, false, 3001);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (206, 1, 12, false, 3001);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (207, 1, 13, false, 3001);
-INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (208, 1, 14, true, 3001);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (208, 1, 14, false, 3001);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (209, 1, 15, true, 3001);
-INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (210, 1, 16, false, 3001);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (210, 1, 16, true, 3001);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (211, 1, 17, false, 3001);
 
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 8);
@@ -607,8 +607,7 @@ INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (10
 --INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (101, 1, 4002, 2);
 --INSERT INTO esrd.doctype_routes (id, doctype_id, user_id, agree_stage)VALUES (102, 2, 3999, 1);
 
---INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (37, 'ООО "ТОМА"', 'Общество с ограниченной ответственностью "ТОМА"', '3453434343', '7775545446', '3434343', 'ул. Новый Арбат, 11', 'Сидоров Сидор Сидорович', 'Генеральный директор');
---INSERT INTO esrd.organization (id, short_name, full_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (38, 'ООО "ТЕСТ"', 'Общество с ограниченной ответственностью "ТЕСТ"', '34343434343', '7743563435', '4343433', 'ул. Бахрушина, 20', 'Петров Петр Петрович', 'Руководитель');
+INSERT INTO esrd.organization (id, short_name_lf, full_name_lf, short_name, full_name, short_legal_form, full_legal_form, normalized_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (9999, 'ООО «НЕЙРО СИСТЕМС»', 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ «НЕЙРО СИСТЕМС»', 'НЕЙРО СИСТЕМС', '', 'ООО', 'Общество с ограниченной ответственностью', 'ООО «НЕЙРО СИСТЕМС»', '1197746008900', '7751154014', '775101001', 'г Москва, поселение Внуковское, ул Авиаконструктора Петлякова, д 27, кв 21', 'Денисова Елена Николаевна', 'ГЕНЕРАЛЬНЫЙ ДИРЕКТОР');
 
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (39, 'Регистрационный номер повестки', 'CATALOG_REGNUMBERS', null, null, null, null, 'DocNumber');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (40, 'Материалы', 'GROUP_FIELDS', null, 4, null, null, null);

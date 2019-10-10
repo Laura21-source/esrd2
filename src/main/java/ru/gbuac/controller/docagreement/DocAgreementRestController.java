@@ -2,7 +2,11 @@ package ru.gbuac.controller.docagreement;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.gbuac.model.DocAgreement;
 import ru.gbuac.to.DocAgreementTo;
+import ru.gbuac.to.DocTo;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -14,5 +18,20 @@ public class DocAgreementRestController extends AbstractDocAgreementRestControll
     @GetMapping(value = "/list")
     public List<DocAgreementTo> getAgreementList(@PathVariable("docId") int docId) {
         return super.getAgreementList(docId);
+    }
+
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public DocAgreementTo updateOrCreate(@Valid @RequestBody DocAgreement docAgreement) {
+        if (docAgreement.isNew()) {
+            return super.create(docAgreement);
+        } else {
+            return super.update(docAgreement, docAgreement.getId());
+        }
+    }
+
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<DocAgreementTo> saveList(@Valid @RequestBody List<DocAgreement> agreementList, @PathVariable("docId") int docId) {
+        return super.saveList(agreementList, docId);
     }
 }
