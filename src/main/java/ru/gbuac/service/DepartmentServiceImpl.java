@@ -45,4 +45,9 @@ public class DepartmentServiceImpl implements DepartmentService {
         Assert.notNull(id, "department must not be null");
         checkNotFoundWithId(departmentRepository.delete(id)!= 0, id);
     }
+
+    @Override
+    public List<Department> getAllTopLevelDepartment() {
+        return departmentRepository.getAllTopLevelDepartment();
+    }
 }

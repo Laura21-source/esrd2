@@ -1,5 +1,6 @@
 package ru.gbuac.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,11 @@ import java.util.List;
 @Table(name = "department")
 public class Department extends NamedEntity {
 
+    @ManyToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name="parent_department_id")
+    private Department parentDepartmentId;
+
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department", cascade = CascadeType.ALL)
     private List<User> users;
 

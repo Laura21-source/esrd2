@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS esrd.catalogelem CASCADE;
 DROP TABLE IF EXISTS esrd.catalog CASCADE;
 DROP TABLE IF EXISTS esrd.organization CASCADE;
 DROP TABLE IF EXISTS esrd.department CASCADE;
+DROP TABLE IF EXISTS esrd.department_child_departments CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
@@ -236,7 +237,15 @@ CREATE TABLE esrd.organization
 CREATE TABLE esrd.department
 (
     id                       INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    parent_department_id     INTEGER,
     name   VARCHAR
+);
+
+create table department_child_departments
+(
+    department_id        INTEGER  not null,
+    child_departments_id INTEGER not null
+
 );
 
 CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR, optional VARCHAR DEFAULT NULL)

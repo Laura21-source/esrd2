@@ -30,4 +30,10 @@ public class DepartmentRestController extends AbstractDepartmentRestController{
             return super.update(department, department.getId());
         }
     }
+
+    @Override
+    @GetMapping(value = "/getAllTopLevelDepartment")
+    public List<Department> getAllTopLevelDepartment() {
+        return super.getAllTopLevelDepartment();
+    }
 }

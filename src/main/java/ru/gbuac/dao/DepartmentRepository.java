@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gbuac.model.Department;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 public interface DepartmentRepository extends JpaRepository<Department, Integer> {
 
@@ -14,4 +16,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
     @Modifying
     @Query("DELETE FROM Department d WHERE d.id=:id")
     int delete(@Param("id") int id);
+
+    @Query("SELECT d FROM Department d WHERE d.parentDepartmentId IS NULL")
+    List<Department> getAllTopLevelDepartment();
 }

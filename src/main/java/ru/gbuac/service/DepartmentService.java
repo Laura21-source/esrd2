@@ -15,4 +15,6 @@ public interface DepartmentService {
     Department update(Department department, int id) throws NotFoundException;
 
     void delete(int id) throws NotFoundException;
+
+    List<Department> getAllTopLevelDepartment();
 }

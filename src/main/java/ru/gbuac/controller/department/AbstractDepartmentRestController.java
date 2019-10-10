@@ -43,4 +43,9 @@ public abstract class AbstractDepartmentRestController {
         LOG.info("delete " + id);
         departmentService.delete(id);
     }
+
+    public List<Department> getAllTopLevelDepartment() {
+        LOG.info("getAllTopLevelDepartment");
+        return departmentService.getAllTopLevelDepartment();
+    }
 }
