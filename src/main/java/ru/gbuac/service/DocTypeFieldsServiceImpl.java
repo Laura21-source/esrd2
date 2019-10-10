@@ -47,7 +47,6 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
     @Override
     public List<DocFieldsTo> getAllFullByUserName(int docTypeId, String userName) {
         List<String> curUserRoles = AuthorizedUser.getRoles();
-        boolean r = AuthorizedUser.hasRole("ADMIN");
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
         List<FieldsRoles> fieldsStages = fieldsStagesRepository.getAll(docTypeId);
