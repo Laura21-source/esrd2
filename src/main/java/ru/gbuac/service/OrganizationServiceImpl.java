@@ -62,13 +62,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         Organization returned = new Organization();
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+        String uri = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";
+        if (INN.matches("[0-9]+") && INN.length() > 2) {
+            uri = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party";
+        }
         try {
-            HttpPost request = new HttpPost("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party");
-            StringEntity params =new StringEntity(JSONString);
-            params.setContentEncoding("application/json;charset=UTF-8");
-            params.setContentType("application/json;charset=UTF-8");
-            request.addHeader("Content-Type", "application/json");
-            request.addHeader("Accept", "application/json");
+            HttpPost request = new HttpPost(uri);
+            StringEntity params =new StringEntity(JSONString, "UTF-8");
+            params.setContentEncoding("UTF-8");
+            params.setContentType("application/json");
             request.addHeader("Authorization", "Token 13c49f7cdb1ab14887f0329ff2bba40073a74c25");
             request.setEntity(params);
             HttpResponse response = httpClient.execute(request);
