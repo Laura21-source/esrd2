@@ -50,7 +50,8 @@ CREATE TABLE esrd.users
     patronym    VARCHAR                         ,
     email       VARCHAR                         ,
     phone       VARCHAR                         ,
-    position    VARCHAR
+    position    VARCHAR,
+    department_id VARCHAR
 );
 
 CREATE TABLE esrd.user_roles
