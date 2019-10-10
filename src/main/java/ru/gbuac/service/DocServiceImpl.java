@@ -218,7 +218,6 @@ public class DocServiceImpl implements DocService {
                 docAgreementRepository.save(daNext);
             }
         }
-        updated.setAgreementList(docAgreementList);
         updated = checkNotFoundWithId(docRepository.save(updated), id);
         DocTo updatedTo = asDocTo(updated);
         updatedTo.setCanAgree(hasRights);
@@ -443,8 +442,6 @@ public class DocServiceImpl implements DocService {
         List<String> curUserRoles = AuthorizedUser.getRoles();
         List<DocValuedFields> docValuedFields = doc.getDocValuedFields();
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
-        List<DocAgreement> docAgreementList = doc.getAgreementList();
-        List<DocAgreementTo> docAgreementTos = new ArrayList<>();
         List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(docTypeId);
         Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
@@ -453,22 +450,12 @@ public class DocServiceImpl implements DocService {
             docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap), d.getPosition()));
         }
 
-        for (DocAgreement a:docAgreementList) {
-            docAgreementTos.add(new DocAgreementTo(a.getId(), a.getOrdering(), a.getUser().getId(), a.getUser().getName(),
-                    a.getUser().getLastname(), a.getUser().getFirstname(), a.getUser().getPatronym(), a.getUser().getEmail(),
-                    a.getUser().getPosition(), a.getAgreedDateTime(), a.getComment(), a.getDecisionType(),
-                    a.getReturnedUser() != null ? a.getReturnedUser().getId() : null,
-                    a.isFinalUser(), a.isCurrentUser()));
-        }
-
-        docAgreementTos.sort(Comparator.comparing(DocAgreementTo::getOrdering));
-
         boolean isFinalAgreementStage = docAgreementRepository.isFinalAgreementStage(doc.getId()).orElse(false);
 
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
                 doc.getProjectRegDateTime(), doc.getInsertDateTime(), doc.getDocType().getId(),
                 doc.getDocStatus(), isFinalAgreementStage, false, doc.getUrlPDF(), null,
-                docAgreementTos, docFieldsTos);
+                docFieldsTos);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {
@@ -494,7 +481,7 @@ public class DocServiceImpl implements DocService {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
         Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDateTime(), docTo.getProjectRegNum(),
                 docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null,
-                null, docTo.getUrlPDF());
+                docTo.getUrlPDF());
         List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
         List<DocValuedFields> docValuedFields = new ArrayList<>();
 
@@ -503,16 +490,6 @@ public class DocServiceImpl implements DocService {
                     createNewValueFieldFromTo(d.getField()), d.getPosition()));
         }
         doc.setDocValuedFields(docValuedFields);
-
-        List<DocAgreementTo> docAgreementTos = docTo.getAgreementList();
-        List<DocAgreement> docAgreementList = new ArrayList<>();
-        for (DocAgreementTo a:docAgreementTos) {
-            User user = userRepository.findById(a.getUserId()).orElse(null);
-            User returnedUser = userRepository.findById(a.getReturnedUserId()).orElse(null);
-            docAgreementList.add(new DocAgreement(null, a.getOrdering(), doc, user, returnedUser, a.getAgreedDateTime(),
-                    a.getComment(), a.getDecisionType(), a.isFinalUser(), a.isCurrentUser()));
-        }
-        doc.setAgreementList(docAgreementList);
         return doc;
     }
 
@@ -521,7 +498,7 @@ public class DocServiceImpl implements DocService {
         Doc exDoc = checkNotFoundWithId(docRepository.findById(docTo.getId()).orElse(null), docTo.getId());
         Doc doc = new Doc(exDoc.getId(), exDoc.getRegNum(), exDoc.getRegDateTime(), exDoc.getProjectRegNum(),
                 exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, null,
-                null, exDoc.getUrlPDF());
+                exDoc.getUrlPDF());
 
         List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
         List<DocValuedFields> docValuedFields = new ArrayList<>();
@@ -530,16 +507,6 @@ public class DocServiceImpl implements DocService {
                     createNewValueFieldFromTo(d.getField()), d.getPosition()));
         }
         doc.setDocValuedFields(docValuedFields);
-
-        List<DocAgreementTo> docAgreementTos = docTo.getAgreementList();
-        List<DocAgreement> docAgreementList = new ArrayList<>();
-        for (DocAgreementTo a:docAgreementTos) {
-            User user = userRepository.findById(a.getUserId()).orElse(null);
-            User returnedUser = userRepository.findById(a.getReturnedUserId()).orElse(null);
-            docAgreementList.add(new DocAgreement(null, a.getOrdering(), doc, user, returnedUser, a.getAgreedDateTime(),
-                    a.getComment(), a.getDecisionType(), a.isFinalUser(), a.isCurrentUser()));
-        }
-        doc.setAgreementList(docAgreementList);
 
         return doc;
     }

@@ -28,7 +28,7 @@ public class DocAgreementServiceImpl implements DocAgreementService {
 
     @Override
     public List<DocAgreementTo> getAgreementList(int docId) {
-        return null; // docAgreementRepository.getAgreementList(docId);
+        return docAgreementRepository.getAgreementList(docId);
     }
 
     @Override
