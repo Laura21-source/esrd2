@@ -210,12 +210,9 @@ public class DocServiceImpl implements DocService {
             daCurrent.setDecisionType(DecisionType.ACCEPTED);
             daCurrent.setAgreedDateTime(LocalDateTime.now());
             daCurrent.setCurrentUser(false);
-            docAgreementRepository.save(daCurrent);
-
             if (!isFinalAgreementStage) {
                 DocAgreement daNext = docAgreementRepository.getByOrder(docTo.getId(), daCurrent.getOrdering() + 1);
                 daNext.setCurrentUser(true);
-                docAgreementRepository.save(daNext);
             }
         }
         updated.setAgreementList(docAgreementList);
