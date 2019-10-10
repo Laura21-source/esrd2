@@ -12,6 +12,13 @@ public class UserRestController extends AbstractUserRestController {
     public static final String REST_URL = "/rest/profile/users";
 
     @Override
+    @GetMapping(value = "/{id}")
+    public User get(@PathVariable("id") int id) {
+        return super.get(id);
+    }
+
+
+    @Override
     @GetMapping(value = "/getAllLdapUsers")
     public List<User> getAllLdapUsers() {
         return super.getAllLdapUsers();

@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS esrd.doctype_routes CASCADE;
 DROP TABLE IF EXISTS esrd.doc_agreement CASCADE;
 DROP TABLE IF EXISTS esrd.users CASCADE;
 DROP TABLE IF EXISTS esrd.field_child_field CASCADE;
-DROP TABLE IF EXISTS esrd.fields_stages CASCADE;
+DROP TABLE IF EXISTS esrd.fields_roles CASCADE;
 DROP TABLE IF EXISTS esrd.doctype_fields CASCADE;
 DROP TABLE IF EXISTS esrd.field CASCADE;
 DROP TABLE IF EXISTS esrd.valuedfield_child_valued_field CASCADE;
@@ -87,7 +87,6 @@ CREATE TABLE esrd.doc
     project_reg_datetime    TIMESTAMP DEFAULT now()      NOT NULL,
     insert_datetime         TIMESTAMP DEFAULT now()      NOT NULL,
     docstatus               VARCHAR                      NOT NULL,
-    cur_agree_stage         INTEGER DEFAULT 0            NOT NULL,
     url_pdf                 VARCHAR                              ,
     FOREIGN KEY (doctype_id) REFERENCES esrd.doctype (id) ON DELETE CASCADE
 );
@@ -105,12 +104,15 @@ CREATE TABLE esrd.doctype_routes
 CREATE TABLE esrd.doc_agreement
 (
     id               INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    ordering         INTEGER                 NOT NULL,
     doc_id           INTEGER                 NOT NULL,
     user_id          INTEGER                 NOT NULL,
     returned_user_id INTEGER                         ,
     agreed_datetime  TIMESTAMP                       ,
     comment          VARCHAR                         ,
     decision_type    VARCHAR                         ,
+    final_user       BOOLEAN                         ,
+    cur_user         BOOLEAN                         ,
     FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE
 );
@@ -164,12 +166,11 @@ CREATE TABLE esrd.field_child_field
     FOREIGN KEY (child_field_id) REFERENCES esrd.field (id) ON DELETE CASCADE
 );
 
-CREATE TABLE esrd.fields_stages
+CREATE TABLE esrd.fields_roles
 (
     id                INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
     doctype_id        INTEGER                 NOT NULL,
     field_id          INTEGER                 NOT NULL,
-    agree_stage       INTEGER                 NOT NULL,
     required          BOOLEAN DEFAULT FALSE   NOT NULL,
     role_id           INTEGER                         ,
     FOREIGN KEY (doctype_id) REFERENCES esrd.doctype (id) ON DELETE CASCADE,

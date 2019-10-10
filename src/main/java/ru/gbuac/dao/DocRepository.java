@@ -17,14 +17,17 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("DELETE FROM Doc d WHERE d.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId AND d.currentAgreementStage=:stage AND d.regNum IS NULL")
-    List<Doc> getAllAgreementByDocTypeAndStage(@Param("docTypeId") int docTypeId, @Param("stage") int stage);
+    @Query("SELECT d FROM Doc d JOIN d.agreementList a JOIN a.user WHERE d.docType.id=:docTypeId AND " +
+            "lower(a.user.name)=lower(:userName) AND d.docStatus='IN_AGREEMENT'")
+    List<Doc> getAllAgreementByUserName(@Param("userName") String userName);
 
-    @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId AND d.currentAgreementStage>:stage")
-    List<Doc> getAllAgreedByDocTypeAndStage(@Param("docTypeId") int docTypeId, @Param("stage") int stage);
+    @Query("SELECT d FROM Doc d JOIN d.agreementList a JOIN a.user WHERE d.docType.id=:docTypeId AND " +
+            "lower(a.user.name)=lower(:userName) AND a.decisionType IS NOT NULL")
+    List<Doc> getAllAgreedByUserName(@Param("userName") String userName);
 
-    @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId AND d.currentAgreementStage>:stage AND d.regNum IS NOT NULL")
-    List<Doc> getAllRegisteredByDocTypeAndStage(@Param("docTypeId") int docTypeId, @Param("stage") int stage);
+    @Query("SELECT d FROM Doc d JOIN d.agreementList a JOIN a.user WHERE d.docType.id=:docTypeId AND " +
+            "lower(a.user.name)=lower(:userName) AND a.decisionType IS NOT NULL AND d.docStatus<>'IN_AGREEMENT'")
+    List<Doc> getAllRegisteredByUserName(@Param("userName") String userName);
 
     @Query("SELECT d FROM Doc d")
     List<Doc> getAll();

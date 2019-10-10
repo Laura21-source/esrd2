@@ -60,6 +60,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User get(int id) throws NotFoundException {
+        return checkNotFoundWithId(userRepository.findById(id).orElse(null), id);
+    }
+
+    @Override
     public List<User> getAll() {
         return userRepository.getAll();
     }

@@ -4,8 +4,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.SafeHtml;
+import ru.gbuac.model.DocAgreement;
 import ru.gbuac.model.DocStatus;
 
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,8 +32,6 @@ public class DocTo extends BaseTo {
 
     private DocStatus docStatus;
 
-    private Integer currentAgreementStage;
-
     private Boolean finalStage;
 
     private Boolean canAgree;
@@ -41,12 +42,14 @@ public class DocTo extends BaseTo {
     @SafeHtml
     private String comment;
 
+    private List<DocAgreement> agreementList;
+
     private List<DocFieldsTo> childFields;
 
     public DocTo(Integer id, @SafeHtml String regNum, LocalDateTime regDateTime, @SafeHtml String projectRegNum,
                  LocalDateTime projectRegDateTime, LocalDateTime insertDateTime, Integer docTypeId, DocStatus docStatus,
-                 Integer currentAgreementStage, Boolean finalStage, Boolean canAgree, @SafeHtml String urlPDF,
-                 @SafeHtml String comment, List<DocFieldsTo> childFields) {
+                 Boolean finalStage, Boolean canAgree, @SafeHtml String urlPDF,
+                 @SafeHtml String comment, List<DocAgreement> agreementList, List<DocFieldsTo> childFields) {
         super(id);
         this.regNum = regNum;
         this.regDateTime = regDateTime;
@@ -55,11 +58,11 @@ public class DocTo extends BaseTo {
         this.insertDateTime = insertDateTime;
         this.docTypeId = docTypeId;
         this.docStatus = docStatus;
-        this.currentAgreementStage = currentAgreementStage;
         this.finalStage = finalStage;
         this.canAgree = canAgree;
         this.UrlPDF = urlPDF;
         this.comment = comment;
+        this.agreementList = agreementList;
         this.childFields = childFields;
     }
 }

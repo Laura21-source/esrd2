@@ -48,24 +48,19 @@ public class Doc extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private DocType docType;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc")
+    private List<DocAgreement> agreementList;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc", cascade = CascadeType.ALL)
     private List<DocValuedFields> docValuedFields;
-
-    @NotNull
-    @Column(name = "cur_agree_stage")
-    private Integer currentAgreementStage = 0;
 
     @Column(name = "url_pdf")
     private String urlPDF;
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc")
-    private List<DocAgreement> docAgreements;
-
     public Doc(Integer id, String regNum, LocalDateTime regDateTime, @NotNull String projectRegNum,
                @NotNull LocalDateTime projectRegDateTime, @NotNull LocalDateTime insertDateTime,
-               @NotNull DocType docType, List<DocValuedFields> docValuedFields, Integer currentAgreementStage,
-               String urlPDF) {
+               @NotNull DocType docType, List<DocAgreement> agreementList, List<DocValuedFields> docValuedFields, String urlPDF) {
         super(id);
         this.regNum = regNum;
         this.regDateTime = regDateTime;
@@ -73,8 +68,8 @@ public class Doc extends BaseEntity {
         this.projectRegDateTime = projectRegDateTime;
         this.insertDateTime = insertDateTime;
         this.docType = docType;
+        this.agreementList = agreementList;
         this.docValuedFields = docValuedFields;
-        this.currentAgreementStage = currentAgreementStage;
         this.urlPDF = urlPDF;
     }
 }

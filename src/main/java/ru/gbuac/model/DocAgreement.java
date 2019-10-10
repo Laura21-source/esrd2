@@ -18,6 +18,10 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "doc_agreement")
 public class DocAgreement extends BaseEntity {
+
+    @Column(name = "ordering")
+    private int ordering;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doc_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -44,9 +48,10 @@ public class DocAgreement extends BaseEntity {
     @Column(name = "decision_type")
     private DecisionType decisionType;
 
-    public DocAgreement(Integer id, Doc doc, User user) {
-        super(id);
-        this.doc = doc;
-        this.user = user;
-    }
+    @Column(name = "final_user")
+    private boolean finalUser;
+
+    @Column(name = "cur_user")
+    private boolean currentUser;
+
 }

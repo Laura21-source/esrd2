@@ -35,6 +35,11 @@ public class AbstractUserRestController {
         return userService.getByName(name);
     }
 
+    public User get(int id) {
+        LOG.info("get " + id);
+        return userService.get(id);
+    }
+
     List<User> getAll() {
         LOG.info("getAll");
         return userService.getAll();

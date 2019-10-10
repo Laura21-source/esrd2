@@ -26,7 +26,7 @@ public abstract class AbstractDocAgreementRestController {
 
     public List<DocAgreementTo> getAgreementList(int docId) {
         LOG.info("getAgreementList");
-        return docAgreementService.getAgreementList(docId, AuthorizedUser.getUserName());
+        return docAgreementService.getAgreementList(docId);
     }
 
     public List<DocAgreement> getAll(int docId) {

@@ -31,10 +31,6 @@ public class DocType extends NamedEntity {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "docType")
-    private List<DocTypeRoutes> docTypeRoutes;
-
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "docType")
     private List<Doc> doc;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

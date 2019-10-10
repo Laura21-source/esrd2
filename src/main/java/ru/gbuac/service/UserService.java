@@ -1,5 +1,6 @@
 package ru.gbuac.service;
 
+import ru.gbuac.model.Organization;
 import ru.gbuac.model.User;
 import ru.gbuac.util.exception.NotFoundException;
 
@@ -10,6 +11,8 @@ public interface UserService {
     List<User> getAllLdapUsers();
 
     User getByName(String name) throws NotFoundException;
+
+    User get(int id) throws NotFoundException;
 
     List<User> getAll();
 

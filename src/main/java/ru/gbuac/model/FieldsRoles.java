@@ -14,8 +14,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "fields_stages")
-public class FieldsStages extends BaseEntity {
+@Table(name = "fields_roles")
+public class FieldsRoles extends BaseEntity {
     @Column(name = "doctype_id", nullable = false)
     @JsonIgnore
     private int docTypeId;
@@ -31,8 +31,4 @@ public class FieldsStages extends BaseEntity {
     @JoinColumn(name = "role_id", nullable = true)
     @JsonIgnore
     private Role role;
-
-    @NotNull
-    @Column(name = "agree_stage")
-    private Integer agreeStage;
 }
