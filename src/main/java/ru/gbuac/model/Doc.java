@@ -49,7 +49,7 @@ public class Doc extends BaseEntity {
     private DocType docType;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc", cascade = CascadeType.ALL)
     private List<DocAgreement> agreementList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc", cascade = CascadeType.ALL)

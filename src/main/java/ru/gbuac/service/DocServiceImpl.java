@@ -492,24 +492,9 @@ public class DocServiceImpl implements DocService {
         Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDateTime(), docTo.getProjectRegNum(),
                 docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null,
                 null, docTo.getUrlPDF());
-        List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
-        List<DocValuedFields> docValuedFields = new ArrayList<>();
 
-        for (DocFieldsTo d:docFieldsTos) {
-            docValuedFields.add(new DocValuedFields(null, doc,
-                    createNewValueFieldFromTo(d.getField()), d.getPosition()));
-        }
-        doc.setDocValuedFields(docValuedFields);
-
-        List<DocAgreementTo> docAgreementTos = docTo.getAgreementList();
-        List<DocAgreement> docAgreementList = new ArrayList<>();
-        for (DocAgreementTo a:docAgreementTos) {
-            User user = userRepository.findById(a.getUserId()).orElse(null);
-            User returnedUser = userRepository.findById(a.getReturnedUserId()).orElse(null);
-            docAgreementList.add(new DocAgreement(null, a.getOrdering(), doc, user, returnedUser, a.getAgreedDateTime(),
-                    a.getComment(), a.getDecisionType(), a.isFinalUser(), a.isCurrentUser()));
-        }
-        doc.setAgreementList(docAgreementList);
+        doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields(), docTo.getAgreementList()));
+        doc.setAgreementList(createNewAgreementListByDoc(doc, docTo.getChildFields(), docTo.getAgreementList()));
         return doc;
     }
 
@@ -520,24 +505,28 @@ public class DocServiceImpl implements DocService {
                 exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, null,
                 null, exDoc.getUrlPDF());
 
-        List<DocFieldsTo> docFieldsTos = docTo.getChildFields();
+        doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields(), docTo.getAgreementList()));
+        doc.setAgreementList(createNewAgreementListByDoc(doc, docTo.getChildFields(), docTo.getAgreementList()));
+
+        return doc;
+    }
+
+    private List<DocValuedFields> createNewValuedFieldsByDoc(Doc doc, List<DocFieldsTo> docFieldsTos, List<DocAgreementTo> docAgreementTos) {
         List<DocValuedFields> docValuedFields = new ArrayList<>();
         for (DocFieldsTo d:docFieldsTos) {
             docValuedFields.add(new DocValuedFields(null, doc,
                     createNewValueFieldFromTo(d.getField()), d.getPosition()));
         }
-        doc.setDocValuedFields(docValuedFields);
-
-        List<DocAgreementTo> docAgreementTos = docTo.getAgreementList();
+        return docValuedFields;
+    }
+    private List<DocAgreement> createNewAgreementListByDoc(Doc doc, List<DocFieldsTo> docFieldsTos, List<DocAgreementTo> docAgreementTos) {
         List<DocAgreement> docAgreementList = new ArrayList<>();
         for (DocAgreementTo a:docAgreementTos) {
             User user = userRepository.findById(a.getUserId()).orElse(null);
-            User returnedUser = userRepository.findById(a.getReturnedUserId()).orElse(null);
+            User returnedUser = a.getReturnedUserId() != null ? userRepository.findById(a.getReturnedUserId()).orElse(null) : null;
             docAgreementList.add(new DocAgreement(null, a.getOrdering(), doc, user, returnedUser, a.getAgreedDateTime(),
                     a.getComment(), a.getDecisionType(), a.isFinalUser(), a.isCurrentUser()));
         }
-        doc.setAgreementList(docAgreementList);
-
-        return doc;
+        return docAgreementList;
     }
 }
