@@ -76,7 +76,7 @@
             </li>--%>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <sec:authentication property="principal.username"/>
+                   aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <sec:authentication property="email"/>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <%--<a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Настройки</a>--%>

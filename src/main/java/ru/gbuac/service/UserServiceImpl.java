@@ -4,6 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.UserRepository;
@@ -21,7 +26,8 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
-public class UserServiceImpl implements UserService {
+@Component
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -30,6 +36,16 @@ public class UserServiceImpl implements UserService {
     @Qualifier(value = "ldapTemplate")
     private LdapTemplate ldapTemplate;
 
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+
+
+
+        SecurityContextHolder.getContext().getAuthentication().getCredentials()
+
+        return getByName(s);
+    }
 
     private List<User> fetchLdapUsers() {
         SearchControls controls = new SearchControls();
