@@ -3,6 +3,8 @@ DROP TABLE IF EXISTS esrd.user_roles CASCADE;
 DROP TABLE IF EXISTS esrd.doc_number_prefixes CASCADE;
 DROP TABLE IF EXISTS esrd.doctype_routes CASCADE;
 DROP TABLE IF EXISTS esrd.doc_agreement CASCADE;
+DROP TABLE IF EXISTS esrd.department CASCADE;
+DROP TABLE IF EXISTS esrd.department_child_departments CASCADE;
 DROP TABLE IF EXISTS esrd.users CASCADE;
 DROP TABLE IF EXISTS esrd.field_child_field CASCADE;
 DROP TABLE IF EXISTS esrd.fields_roles CASCADE;
@@ -39,6 +41,20 @@ CREATE TABLE esrd.role_child_role
     FOREIGN KEY (child_role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
 );
 
+
+CREATE TABLE esrd.department
+(
+    id                    INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    top_level             BOOLEAN,
+    name                  VARCHAR
+);
+
+CREATE TABLE esrd.department_child_departments
+(
+    department_id           INTEGER                NOT NULL,
+    child_departments_id    INTEGER                NOT NULL
+);
+
 CREATE TABLE esrd.users
 (
     id          INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
@@ -48,7 +64,9 @@ CREATE TABLE esrd.users
     patronym    VARCHAR                         ,
     email       VARCHAR                         ,
     phone       VARCHAR                         ,
-    position    VARCHAR
+    position    VARCHAR                         ,
+    department_id INTEGER                       ,
+    FOREIGN KEY (department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.user_roles
