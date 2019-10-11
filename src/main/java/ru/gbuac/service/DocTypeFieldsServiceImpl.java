@@ -31,7 +31,7 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
     private RoleRepository roleRepository;
 
     @Autowired
-    private FieldsRolesRepository fieldsStagesRepository;
+    private FieldsRolesRepository fieldsRolesRepository;
 
     @Override
     public DocTypeFields get(int id, int docTypeId) throws NotFoundException {
@@ -49,7 +49,7 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
         List<String> curUserRoles = AuthorizedUser.getRoles();
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
-        List<FieldsRoles> fieldsStages = fieldsStagesRepository.getAll(docTypeId);
+        List<FieldsRoles> fieldsStages = fieldsRolesRepository.getAll(docTypeId);
         Map<Integer, FieldsRoles> fMap = fieldsStages.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
 
