@@ -32,7 +32,7 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
     @Query("SELECT max(a) FROM DocAgreement a WHERE a.doc.id=:docId AND a.finalUser = TRUE")
     DocAgreement getFinalAgreement(@Param("docId") int docId);
 
-    @Query("SELECT a.finalUser FROM DocAgreement a WHERE a.doc.id=:docId AND a.decisionType is NULL AND a.finalUser = TRUE")
+    @Query("SELECT a.finalUser FROM DocAgreement a WHERE a.doc.id=:docId AND a.decisionType is NULL GROUP BY a.ordering HAVING MIN(a.ordering)")
     Optional<Boolean> isFinalAgreementStage(@Param("docId") int docId);
 
     @Query("SELECT a FROM DocAgreement a WHERE a.doc.id=:docId AND a.ordering=:ordering")

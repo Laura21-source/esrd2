@@ -191,7 +191,7 @@
                 $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
             }
             // Если документ уже подписан
-            if(data.docStatus === 'COMPLETED') {
+            if(data.docStatus === 'IN_WORK') {
                 $('.blockDocument').addClass('d-none');
             }
             // Ссылки на документ PDF
