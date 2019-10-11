@@ -172,21 +172,19 @@
             // Меняем кнопку согласования на подписания
             if (data.finalStage === true) {
                 $('#btnWordFile').addClass('d-none');
-                // Меняем название документа
-                if(data.regNum && data.regNum !== '') {
-                    // Если документ подписан
-                    newDate = formatDate(new Date(data.regDateTime), 0);
-                    $(".documentName").html('Документ №' + data.regNum + ' от ' + newDate);
-                    $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
-                } else {
-                    $(".documentName").html('Подписание документа №' + data.projectRegNum + ' от ' + newDate);
-                    // Меняем кнопку согласования на подписания
-                    $('#btnSave').html('Подписать');
-                    $('#blockLoadPDF').removeClass('d-none');
-                }
+                $(".documentName").html('Подписание документа №' + data.projectRegNum + ' от ' + newDate);
+                // Меняем кнопку согласования на подписания
+                $('#btnSave').html('Подписать');
+                $('#blockLoadPDF').removeClass('d-none');
                 // Меняем названия в модальном окне
                 $('.heading').html('Подписание документа');
                 $('.bodySuccess h6').html('Документ успешно подписан!');
+            }
+            if(data.regNum && data.regNum !== '') {
+                // Если документ подписан
+                newDate = formatDate(new Date(data.regDateTime), 0);
+                $(".documentName").html('Документ №' + data.regNum + ' от ' + newDate);
+                $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
             }
             // Имеет ли право пользователь подписывать документ
             if(data.canAgree === false) {
