@@ -15,6 +15,10 @@ $(function() {
 
   // Крутой селект
   $('.mdb-select').materialSelect();
+  $('.select-wrapper.md-form.md-outline input.select-dropdown').bind('focus blur', function () {
+    $(this).closest('.select-outline').find('label').toggleClass('active');
+    $(this).closest('.select-outline').find('.caret').toggleClass('active');
+  });
 
   // Всплывающие подсказки
   $('[data-toggle="tooltip"]').tooltip();
@@ -29,11 +33,30 @@ $(function() {
     $('#newBlockGroup').append(newField);
   });
 
+  // Добавить получателя
+  $(document).on("click", ".addUser", function() {
+    var links = $('[data-user="1"]').length;
+    var links1 = links + 1;
+    var fieldUser = '#userList'+links1;
+    var newField = createOptions ('rest/profile/users/', fieldUser, '', 'id', '', 'usersList');
+    $('#userListBlock').append('<div class="col-12" id="blockUser'+links1+'"><div class="row d-flex align-items-center justify-content-center fontSmall userListBlock" data-user="1"><div class="col-md-1">'+links1+'.</div><div class="col-md-1"><i class="fas fa-user"></i></div><div class="col-md-8 selectUser select-outline"><select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="'+links1+'" id="userList'+links1+'" searchable=" Поиск" name="userList[]" required><option value="" selected>Выбрать</option></select><div class="fontSmall text-left" id="userListPost'+links1+'"></div></div><div class="col-md-2"><div id="delUser'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" data-toggle="tooltip" title="Удалить пользователя"><i class="fas fa-trash"></i></div></div></div></div>');
+    $('#blockUser'+links1+' .mdb-select').materialSelect();
+    $('[data-toggle="tooltip"]').tooltip();
+    $('#userList'+links1).append(newField);
+  });
+
   // Удалить вопрос
   $(document).on("click", ".delGroup", function() {
     var id = $(this).attr("id");
     id = id.substr(8);
     $('#blockGroup' + id).remove();
+  });
+
+  // Удалить пользователя
+  $(document).on("click", ".delUser", function() {
+    var id = $(this).attr("id");
+    id = id.substr(7);
+    $('#blockUser' + id).remove();
   });
 
   // Отправка файла на сервер
@@ -86,6 +109,7 @@ $(function() {
   // Заполнение данных организации
   $('#btnEgrul').click(function() {
     var searchValue = $('.addElementForm #searchValue').val();
+    searchValue = $.trim(searchValue);
     return getValueOrganisation ('rest/profile/organizations/getEGRULData?INN='+searchValue, '.addElementForm');
   });
 
@@ -128,7 +152,7 @@ $(function() {
         "positionManager": $('#positionManager').val()
       };
       var data = JSON.stringify(dataField);
-      console.log("number - " + number);
+      //console.log("number - " + number);
       $.ajax({
         type: "POST",
         url: "rest/profile/organizations",
@@ -142,6 +166,7 @@ $(function() {
           $(number + ' option').remove();
           // Обновляем опции списка организаций
           createOptions ("rest/profile/organizations/", number, "normalizedName", "id", numberField, 'organisations');
+          $('#addElement').fadeOut(5000);
         },
         error: function () {
           $(".bigFormLoader, .btnBlock, .addElementForm").addClass("d-none").fadeOut();
@@ -157,15 +182,4 @@ $(function() {
     $('.alertBlock').addClass('d-none');
     $('.addElementForm input').val('');
   });
-  // Bootstrap select русский
-  /*$.fn.selectpicker.defaults = {
-    noneSelectedText: 'Ничего не выбрано',
-    noneResultsText: 'Совпадений не найдено {0}',
-    countSelectedText: 'Выбрано {0} из {1}',
-    maxOptionsText: ['Достигнут предел ({n} {var} максимум)', 'Достигнут предел в группе ({n} {var} максимум)', ['шт.', 'шт.']],
-    doneButtonText: 'Закрыть',
-    selectAllText: 'Выбрать все',
-    deselectAllText: 'Отменить все',
-    multipleSeparator: ', '
-  };*/
 });

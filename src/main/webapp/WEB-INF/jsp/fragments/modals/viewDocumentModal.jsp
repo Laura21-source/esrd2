@@ -4,7 +4,7 @@
 
 <div class="modal fade" id="addElement" tabindex="-1" role="dialog" aria-labelledby="addElement"
      aria-hidden="true">
-    <div class="modal-dialog modal-primary modal-dialog-centered modal-size-md modal-notify" role="document">
+    <div class="modal-dialog modal-primary modal-dialog-centered modal-size-lg modal-notify" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <p class="heading lead">Добавление организации</p>
@@ -19,7 +19,7 @@
                 <form class="addElementForm needs-validation" novalidate>
                     <div class="row mb-2">
                         <div class="col-4">
-                            <div class="text-muted">ИНН/ОГРН<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
+                            <div class="text-muted">ИНН/ОГРН/Название<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
                         <div class="col-8">
                             <div class="input-group">
@@ -43,7 +43,8 @@
                             <div class="text-muted">Полное название<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
                         <div class="col-8">
-                            <input type="text" id="fullNameLf" class="form-control form-control-sm" required disabled>
+                            <textarea id="fullNameLf" class="form-control form-control-sm" required disabled></textarea>
+                            <%--<input type="text" id="fullNameLf" class="form-control form-control-sm" required disabled>--%>
                         </div>
                     </div>
                     <div class="row mb-2">

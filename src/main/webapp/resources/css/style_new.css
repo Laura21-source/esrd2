@@ -1,18 +1,18 @@
 html, body {height: 100%;}
 body {
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   background: url(../img/Fon.jpg) no-repeat center center fixed;
   background-size: cover; 
   -webkit-background-size: cover;
 }
 .pointer {cursor: pointer;}
-h1 {font-size: 3.6rem;}
-h2 {font-size: 2.3rem;}
-h3 {font-size: 2rem;}
-h4 {font-size: 1.7rem;}
-h5 {font-size: 1.4rem;}
-h6 {font-size: 1.1rem;}
+h1 {font-size: 2.3rem;}
+h2 {font-size: 2.0rem;}
+h3 {font-size: 1.7rem;}
+h4 {font-size: 1.4rem;}
+h5 {font-size: 1.1rem;}
+h6 {font-size: 0.8rem;}
 header, main, footer {padding-left: 240px;}
 @media only screen and (max-width : 768px) {header, main, footer {padding-left: 0;}}
 /* Меняем дефолтные цвета */
@@ -36,10 +36,15 @@ header, main, footer {padding-left: 240px;}
 .modal-size-lg {width: 700px!important;}
 .modal-size-md {width: 500px!important;}
 .modal-dialog {max-width: 100%!important;}
-.fontSmall {font-size: 0.8rem;}
-sup {font-size: 7px;}
-/* Ширина выпадающего списка по размеру поля SELECT */
-/*
-select, select option {
-  width: 100% !important;
-}*/
+.selectUser .fontSmall {
+  font-size: 0.6rem;
+  margin: 0!important;
+  padding: 0!important;
+  position: absolute;
+  top: -5px;
+}
+sup {font-size: 6px;}
+.mdb-select {
+  margin: 0.8rem 0 0 0!important;
+  padding: 0;
+}
