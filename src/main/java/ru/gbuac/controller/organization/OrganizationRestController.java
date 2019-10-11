@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.Organization;
 import ru.gbuac.service.OrganizationService;
+import ru.gbuac.to.OrganizationTo;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
@@ -29,7 +30,7 @@ public class OrganizationRestController extends AbstractOrganizationRestControll
 
     @Override
     @GetMapping
-    public List<Organization> getAll() {
+    public List<OrganizationTo> getAll() {
         return super.getAll();
     }
 

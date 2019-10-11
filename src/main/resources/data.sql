@@ -753,5 +753,3 @@ INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (107, 17);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (131, 2, 104, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (132, 2, 105, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (133, 2, 107, 3);
-
-INSERT INTO esrd.organization (id, short_name_lf, full_name_lf, short_name, full_name, short_legal_form, full_legal_form, normalized_name, ogrn, inn, kpp, address, fio_manager, position_manager) VALUES (9999, 'ООО «НЕЙРО СИСТЕМС»', 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ «НЕЙРО СИСТЕМС»', 'НЕЙРО СИСТЕМС', '', 'ООО', 'Общество с ограниченной ответственностью', 'ООО «НЕЙРО СИСТЕМС»', '1197746008900', '7751154014', '775101001', 'г Москва, поселение Внуковское, ул Авиаконструктора Петлякова, д 27, кв 21', 'Денисова Елена Николаевна', 'ГЕНЕРАЛЬНЫЙ ДИРЕКТОР');

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.OrganizationRepository;
 import ru.gbuac.model.Organization;
+import ru.gbuac.to.OrganizationTo;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.io.BufferedReader;
@@ -49,8 +50,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public List<Organization> getAll() {
-        return organizationRepository.findAll();
+    public List<OrganizationTo> getAll() {
+        return organizationRepository.getAll();
     }
 
     @Override
@@ -68,7 +69,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
         try {
             HttpPost request = new HttpPost(uri);
-            StringEntity params =new StringEntity(JSONString, "UTF-8");
+            StringEntity params = new StringEntity(JSONString, "UTF-8");
             params.setContentEncoding("UTF-8");
             params.setContentType("application/json");
             request.addHeader("Authorization", "Token 13c49f7cdb1ab14887f0329ff2bba40073a74c25");
@@ -87,15 +88,9 @@ public class OrganizationServiceImpl implements OrganizationService {
             returned.setInn(jsonObjectData.get("inn").getAsString());
             returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString()));
             returned.setFullNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString()));
-            returned.setShortLegalForm(jsonObjectData.get("opf").getAsJsonObject().get("short").getAsString());
-            returned.setFullLegalForm(jsonObjectData.get("opf").getAsJsonObject().get("full").getAsString());
-            returned.setShortName(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short").getAsString()));
-            returned.setFullName(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full").getAsString()));
             returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
             returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
             returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
-            returned.setNormalizedName(jsonObjectData.get("opf").getAsJsonObject().get("short").getAsString() + " «"
-                    + replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full").getAsString()) + "»");
         }   catch (Exception ex) {
 
         }
@@ -103,7 +98,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     };
 
     private String replaceQuotes(String text) {
-        if (text.chars().filter(ch -> ch == '"').count() % 2 == 0 && text.chars().filter(ch -> ch == '"').count() != 0) {
+        long quotesCount = text.chars().filter(ch -> ch == '"').count();
+        if (quotesCount != 0) {
             text = replaceQuotes(replaceLast(text.replaceFirst("\"","«"), "\"", "»"));
         }
         return text;

@@ -1,6 +1,7 @@
 package ru.gbuac.service;
 
 import ru.gbuac.model.Organization;
+import ru.gbuac.to.OrganizationTo;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface OrganizationService {
 
     Organization getByInn(String inn) throws NotFoundException;
 
-    List<Organization> getAll();
+    List<OrganizationTo> getAll();
 
     Organization getEGRULData(String INN);
 

@@ -10,6 +10,7 @@ import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Organization;
 import ru.gbuac.service.OrganizationService;
 import ru.gbuac.to.DocTo;
+import ru.gbuac.to.OrganizationTo;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -32,7 +33,7 @@ public abstract class AbstractOrganizationRestController {
         LOG.info("getByInn");
         return organizationService.getByInn(inn);
     }
-    public List<Organization> getAll() {
+    public List<OrganizationTo> getAll() {
         LOG.info("getAll");
         return organizationService.getAll();
     }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gbuac.model.Organization;
+import ru.gbuac.to.OrganizationTo;
 
 import java.util.List;
 
@@ -18,4 +19,7 @@ public interface OrganizationRepository extends JpaRepository<Organization, Inte
 
     @Query("SELECT o FROM Organization o WHERE o.inn=:inn")
     Organization getByInn(@Param("inn") String inn);
+
+    @Query("SELECT new ru.gbuac.to.OrganizationTo(o.id, o.shortNameLf) FROM Organization o")
+    List<OrganizationTo> getAll();
 }
