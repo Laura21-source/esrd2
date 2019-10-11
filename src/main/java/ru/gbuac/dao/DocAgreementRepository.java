@@ -1,5 +1,6 @@
 package ru.gbuac.dao;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -32,8 +33,8 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
     @Query("SELECT max(a) FROM DocAgreement a WHERE a.doc.id=:docId AND a.finalUser = TRUE")
     DocAgreement getFinalAgreement(@Param("docId") int docId);
 
-    @Query("SELECT a.finalUser FROM DocAgreement a WHERE a.doc.id=:docId AND a.decisionType is NULL GROUP BY a.ordering HAVING MIN(a.ordering)")
-    Optional<Boolean> isFinalAgreementStage(@Param("docId") int docId);
+    @Query("SELECT a.finalUser FROM DocAgreement a WHERE a.doc.id=:docId AND a.decisionType is NULL ORDER BY a.ordering")
+    List<Boolean> isFinalAgreementStage(@Param("docId") int docId, Pageable pageable);
 
     @Query("SELECT a FROM DocAgreement a WHERE a.doc.id=:docId AND a.ordering=:ordering")
     DocAgreement getByOrder(@Param("docId") int docId, @Param("ordering") int ordering);

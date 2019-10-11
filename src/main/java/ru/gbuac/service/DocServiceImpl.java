@@ -2,6 +2,7 @@ package ru.gbuac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,6 +85,11 @@ public class DocServiceImpl implements DocService {
     @Value("${uploads.dir}")
     private String uploadsDir;
 
+    private boolean isFinalAgreementStage(int docId) {
+        List<Boolean> stages = docAgreementRepository.isFinalAgreementStage(docId, PageRequest.of(0,1));
+        return stages.isEmpty() ? false : stages.get(0);
+    }
+
     @Override
     public Doc get(int id) throws NotFoundException {
         return checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
@@ -100,8 +106,8 @@ public class DocServiceImpl implements DocService {
             boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName);
             docTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));
         }
-        Boolean isFinalStage = docAgreementRepository.isFinalAgreementStage(id).orElse(null);
-        if (isFinalStage == null || !isFinalStage) {
+        boolean isFinalAgreementStage = isFinalAgreementStage(id);
+        if (!isFinalAgreementStage) {
             docTo.setFinalStage(false);
         } else {
             docTo.setFinalStage(true);
@@ -172,7 +178,7 @@ public class DocServiceImpl implements DocService {
         Assert.notNull(docTo, "docTo must not be null");
 
         Doc updated = docFromTo(docTo);
-        boolean isFinalAgreementStage = docAgreementRepository.isFinalAgreementStage(docTo.getId()).orElse(false);
+        boolean isFinalAgreementStage = isFinalAgreementStage(id);
 
         if (isFinalAgreementStage) {
             String docTypeMask = docNumberPrefixesRepository.getMaskByDocTypeId(docTo.getDocTypeId());
@@ -469,7 +475,7 @@ public class DocServiceImpl implements DocService {
 
         boolean isFinalAgreementStage = false;
         if (doc.getId() != null) {
-            isFinalAgreementStage = docAgreementRepository.isFinalAgreementStage(doc.getId()).orElse(false);
+            isFinalAgreementStage = isFinalAgreementStage(doc.getId());
         }
 
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
