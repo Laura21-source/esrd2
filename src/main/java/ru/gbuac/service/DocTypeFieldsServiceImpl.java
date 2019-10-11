@@ -9,6 +9,7 @@ import ru.gbuac.dao.FieldsRolesRepository;
 import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.model.FieldsRoles;
+import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
@@ -47,6 +48,15 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
     @Override
     public List<DocFieldsTo> getAllFullByUserName(int docTypeId, String userName) {
         List<String> curUserRoles = AuthorizedUser.getRoles();
+        List<String> curUserChildRoles = new ArrayList<>();
+        for (String role: curUserRoles) {
+            List<Role> childRoles = roleRepository.getChildRoles(role);
+            for (Role childRole: childRoles) {
+                curUserChildRoles.add(childRole.getAuthority());
+            }
+        }
+        curUserRoles.addAll(curUserChildRoles);
+
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
         List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(docTypeId);

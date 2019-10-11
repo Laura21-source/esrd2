@@ -63,6 +63,9 @@ public class DocServiceImpl implements DocService {
     @Autowired
     private OrganizationRepository organizationRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Value("${pdf.final.dir}")
     private String pdfDir;
 
@@ -437,8 +440,16 @@ public class DocServiceImpl implements DocService {
 
     private DocTo asDocTo(Doc doc) {
         Integer docTypeId = doc.getDocType().getId();
-
         List<String> curUserRoles = AuthorizedUser.getRoles();
+        List<String> curUserChildRoles = new ArrayList<>();
+        for (String role: curUserRoles) {
+            List<Role> childRoles = roleRepository.getChildRoles(role);
+            for (Role childRole: childRoles) {
+                curUserChildRoles.add(childRole.getAuthority());
+            }
+        }
+        curUserRoles.addAll(curUserChildRoles);
+
         List<DocValuedFields> docValuedFields = doc.getDocValuedFields();
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
         List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(docTypeId);

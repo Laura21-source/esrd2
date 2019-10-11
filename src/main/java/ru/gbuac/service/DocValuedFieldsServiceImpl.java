@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.AuthorizedUser;
-import ru.gbuac.dao.DocRepository;
-import ru.gbuac.dao.DocTypeFieldsRepository;
-import ru.gbuac.dao.DocValuedFieldsRepository;
-import ru.gbuac.dao.FieldsRolesRepository;
+import ru.gbuac.dao.*;
 import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.model.DocValuedFields;
 import ru.gbuac.model.FieldsRoles;
+import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
@@ -38,6 +36,9 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     @Autowired
     private DocRepository docRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public DocValuedFields get(int id, int docId) throws NotFoundException {
         DocValuedFields docValuedFields = docValuedFieldsRepository.findById(id).orElse(null);
@@ -52,6 +53,15 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     @Override
     public List<DocFieldsTo> getAllFull(int docId, String userName) {
         List<String> curUserRoles = AuthorizedUser.getRoles();
+        List<String> curUserChildRoles = new ArrayList<>();
+        for (String role: curUserRoles) {
+            List<Role> childRoles = roleRepository.getChildRoles(role);
+            for (Role childRole: childRoles) {
+                curUserChildRoles.add(childRole.getAuthority());
+            }
+        }
+        curUserRoles.addAll(curUserChildRoles);
+
         int docTypeId = docRepository.getDocTypeByDocId(docId);
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
@@ -69,20 +79,42 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     @Override
     public List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, String userName) {
         List<String> curUserRoles = AuthorizedUser.getRoles();
-        int docTypeId = docRepository.getDocTypeByDocId(docId);
+        List<String> curUserChildRoles = new ArrayList<>();
+        for (String role: curUserRoles) {
+            List<Role> childRoles = roleRepository.getChildRoles(role);
+            for (Role childRole: childRoles) {
+                curUserChildRoles.add(childRole.getAuthority());
+            }
+        }
+        curUserRoles.addAll(curUserChildRoles);
+
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
-        List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
+        List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(targetDocTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
-        List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(docTypeId);
+        List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(targetDocTypeId);
         Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
 
-        for (DocValuedFields d:docValuedFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap),
-                    d.getPosition()));
+        for (DocTypeFields t:docTypeFields) {
+            boolean hasField = false;
+            for (DocValuedFields v:docValuedFields) {
+                if (t.getField().getId().equals(v.getValuedField().getId()))
+                {
+                    v.getValuedField().setId(null);
+                    docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(v.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap),
+                            v.getPosition()));
+                    hasField = true;
+                    break;
+                }
+            }
+            if (!hasField) {
+                docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(t.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap),
+                        t.getPosition()));
+            }
+
         }
 
-        return null;
+        return docFieldsTos;
     }
 
     @Override
