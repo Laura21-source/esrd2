@@ -35,7 +35,8 @@
                             <div class="text-muted">Короткое название<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
                         <div class="col-8">
-                            <input type="text" id="shortNameLf" class="form-control form-control-sm" required disabled>
+                            <textarea id="shortNameLf" class="form-control form-control-sm" required disabled></textarea>
+                            <%--<input type="text" id="shortNameLf" class="form-control form-control-sm" required disabled>--%>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -88,23 +89,24 @@
                             <div class="text-muted">Адрес<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
                         <div class="col-8">
-                            <input type="text" id="address" class="form-control form-control-sm" required disabled>
+                            <textarea id="address" class="form-control form-control-sm" required disabled></textarea>
+                            <%--<input type="text" id="address" class="form-control form-control-sm" required disabled>--%>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4">
-                            <span class="text-muted">Должность<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
+                            <span class="text-muted">Должность<%--<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup>--%></span>
                         </div>
                         <div class="col-8">
-                            <input type="text" id="positionManager" class="form-control form-control-sm" required disabled>
+                            <input type="text" id="positionManager" class="form-control form-control-sm" disabled>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4">
-                            <span class="text-muted">ФИО<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
+                            <span class="text-muted">ФИО<%--<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup>--%></span>
                         </div>
                         <div class="col-8">
-                            <input type="text" id="fioManager" class="form-control form-control-sm" required disabled>
+                            <input type="text" id="fioManager" class="form-control form-control-sm" disabled>
                         </div>
                     </div>
                     <input type="hidden" id="shortName">
