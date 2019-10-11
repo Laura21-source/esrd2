@@ -15,10 +15,10 @@ $(function() {
 
   // Крутой селект
   $('.mdb-select').materialSelect();
-  $('.select-wrapper.md-form.md-outline input.select-dropdown').bind('focus blur', function () {
+  /*$('.select-wrapper.md-form.md-outline input.select-dropdown').bind('focus blur', function () {
     $(this).closest('.select-outline').find('label').toggleClass('active');
     $(this).closest('.select-outline').find('.caret').toggleClass('active');
-  });
+  });*/
 
   // Всплывающие подсказки
   $('[data-toggle="tooltip"]').tooltip();
@@ -39,7 +39,7 @@ $(function() {
     var links1 = links + 1;
     var fieldUser = '#userList'+links1;
     var newField = createOptions ('rest/profile/users/', fieldUser, '', 'id', '', 'usersList');
-    $('#userListBlock').append('<div class="col-12" id="blockUser'+links1+'"><div class="row d-flex align-items-center justify-content-center fontSmall userListBlock" data-user="1"><div class="col-md-1">'+links1+'.</div><div class="col-md-1"><i class="fas fa-user"></i></div><div class="col-md-8 selectUser select-outline"><select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="'+links1+'" id="userList'+links1+'" searchable=" Поиск" name="userList[]" required><option value="" selected>Выбрать</option></select><div class="fontSmall text-left" id="userListPost'+links1+'"></div></div><div class="col-md-2"><div id="delUser'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" data-toggle="tooltip" title="Удалить пользователя"><i class="fas fa-trash"></i></div></div></div></div>');
+    $('#userListBlock').append('<div class="col-12 blockUser" id="blockUser'+links1+'"><div class="row d-flex align-items-center justify-content-center fontSmall userListBlock" data-user="1"><div class="col-md-1">'+links1+'.</div><div class="col-md-1"><i class="fas fa-user"></i></div><div class="col-md-8 selectUser select-outline"><select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="'+links1+'" id="userList'+links1+'" searchable=" Поиск" name="userList[]" required><option value="" selected>Выбрать</option></select><div class="fontSmall text-left" id="userListPost'+links1+'"></div></div><div class="col-md-2"><div id="delUser'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" data-toggle="tooltip" title="Удалить пользователя"><i class="fas fa-trash"></i></div></div></div></div>');
     $('#blockUser'+links1+' .mdb-select').materialSelect();
     $('[data-toggle="tooltip"]').tooltip();
     $('#userList'+links1).append(newField);

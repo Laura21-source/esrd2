@@ -15,6 +15,21 @@
                         <h4 class="mt-2">Подготовка проекта документа</h4>
                     </div>
                     <form class="registrationForm needs-validation" novalidate>
+                        <%--<div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row ml-1 mb-3 d-flex align-items-center">
+                                    <div class="col-md-3 text-left mt-2">
+                                        <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
+                                    </div>
+                                    <div class="col-md-9 select-outline">
+                                        <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" name="selectType" id="selectType" required>
+                                            <option value="" selected>Выберите вид документа</option>
+                                        </select>
+                                        <div class="invalid-tooltip">Выберите тип документа</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
@@ -27,7 +42,7 @@
                                             <div class="col-md-2">Удалить</div>
                                         </div>
                                         <div class="row" id="userListBlock">
-                                            <div class="col-12 mt-2" id="blockUser1">
+                                            <div class="col-12 mt-2 blockUser" id="blockUser1">
                                                 <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
                                                     <div class="col-md-1">1.</div>
                                                     <div class="col-md-1"><i class="fas fa-user"></i></div>
@@ -91,7 +106,7 @@
                                     </div>
                                     <div class="col-md-9 select-outline">
                                         <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" name="selectType" id="selectType" required>
-                                            <option value="" selected>Выберите вид документа</option>
+                                            <option value="">Выберите вид документа</option>
                                         </select>
                                         <div class="invalid-tooltip">Выберите тип документа</div>
                                     </div>
@@ -127,7 +142,7 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        // Список юзеров
+        // Список согласования
         createOptions ('rest/profile/users/', '#userList1', '', 'id', '', 'usersList');
         // Добавление должности при изменении пользователя
         $(document).on("change", ".userList", function() {
@@ -135,6 +150,9 @@
             var link = $(this).attr('data-spisok');
             createUserList('rest/profile/users/'+userId, '#userListPost'+link);
         });
+
+        // Убрать PDF файл
+        //$('.pdfSRC').attr('src', '');
 
         // Список полей вида документов
         createOptions('rest/profile/doctypes/', '#selectType', 'name', 'id', '', '');
@@ -198,8 +216,9 @@
                     var projectRegNum = data.projectRegNum;
                     $('#createSave #regNumTemplate').html(projectRegNum);
                     $('#createSave').on('hidden.bs.modal', function() {
-                        $('#selectType').val("");
-                        $("#blockUp, #blockDown, #btnSave").addClass("d-none");
+                        $('select').val('');
+                        $('#userListBlock .blockUser:not(:first)').remove();
+                        $("#blockUp, #blockDown, #btnSave, .pdfSRC").addClass("d-none");
                         $("#btnSave").attr('disabled', false).html(trueName);
                     });
                     // Сохранение списка согласования
