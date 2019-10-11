@@ -542,7 +542,7 @@
         return dataBlock;
     }
 
-    // Формирование объекта JSON
+    // Формирование объекта JSON для отправки на сервер
     function createJSON (id,dataType,dataField,dataBlock) {
         var id = parseInt(id);
         if(id === 0) {id = null;}
@@ -556,6 +556,33 @@
         }
         return valueObj;
     }
+
+    // Формирование листа согласования
+    function createAgreeList (data) {
+        var agreeList = [];
+        var agreeSum = $(data).length;
+        var finalUser = false;
+        var currentUser = false;
+        for(var i in data) {
+            if (i < agreeSum) {
+                var ordering = parseInt(i)+1;
+                if (ordering === agreeSum) {finalUser = true;} else {finalUser = false;}
+                if (ordering === 1) {currentUser = true;} else {currentUser = false;}
+                var element = {
+                    "id" : null,
+                    "ordering" : ordering,
+                    "user" : {
+                        "id" : data[i]['value']
+                    },
+                    "finalUser" : finalUser,
+                    "currentUser" : currentUser
+                }
+                agreeList.push(element);
+            }
+        }
+        return agreeList;
+    }
+
 
     // Функция получения записей в таблицу
     function dataTableArray (element, url) {

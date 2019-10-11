@@ -133,7 +133,6 @@
         $(document).on("change", ".userList", function() {
             var userId = $(this).val();
             var link = $(this).attr('data-spisok');
-            //alert(link);
             createUserList('rest/profile/users/'+userId, '#userListPost'+link);
         });
 
@@ -164,6 +163,7 @@
             event.preventDefault();
             var forms = $('.registrationForm');
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
+            var agreeFormsValue = $('.registrationForm #userListBlock select');
             $(forms).addClass('was-validated');
             event.preventDefault();
             var checkField = checkValidation(formsValue);
@@ -181,6 +181,7 @@
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem);
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
+                var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
                 //console.log(serverStack);
                 var serverAjax = $.ajax({
                     type: "POST",
@@ -188,6 +189,7 @@
                     data: serverStack,
                     contentType: 'application/json; charset=utf-8'
                 });
+                // Успешное сохранение документа
                 serverAjax.done(function(data) {
                     $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
                     $('.loaderSuccess').addClass('d-none');
@@ -200,21 +202,36 @@
                         $("#blockUp, #blockDown, #btnSave").addClass("d-none");
                         $("#btnSave").attr('disabled', false).html(trueName);
                     });
+                    // Сохранение списка согласования
+                    var serverAgreeList = $.ajax({
+                        type: "POST",
+                        url: 'rest/profile/docs/'+data.id+'/agreement/list',
+                        data: agreeListStack,
+                        contentType: 'application/json; charset=utf-8',
+                    });
+                    serverAgreeList.done(function() {
+                        toastr["success"]("Успешно сохранён список согласования!");
+                    });
+                    serverAgreeList.fail(function () {
+                        toastr["error"]("Ошибка сохранения списка согласования!");
+                    });
+                    // Сохранение файла служебки
+                    var serverWord = $.ajax({
+                        type: "POST",
+                        url: 'rest/profile/docs/docx',
+                        data: serverStack,
+                        contentType: 'application/json; charset=utf-8',
+                    });
+                    serverWord.done(function(data) {
+                        $('#modalLoad').attr("href", data.fileUrl);
+                    });
+                    serverWord.fail(function () {
+                        toastr["error"]("Ошибка сохранения файла служебки!");
+                    });
                 });
+                // Ошибка сохранения документа
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка сохранения!");
-                });
-                var serverWord = $.ajax({
-                    type: "POST",
-                    url: 'rest/profile/docs/docx',
-                    data: serverStack,
-                    contentType: 'application/json; charset=utf-8',
-                });
-                serverWord.done(function(data) {
-                    $('#modalLoad').attr("href", data.fileUrl);
-                });
-                serverWord.fail(function () {
-                    toastr["error"]("Ошибка сохранения!");
+                    toastr["error"]("Ошибка сохранения документа!");
                 });
             }
         });

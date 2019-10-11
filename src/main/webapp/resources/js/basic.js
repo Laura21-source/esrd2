@@ -23,7 +23,7 @@ $(function() {
   // Всплывающие подсказки
   $('[data-toggle="tooltip"]').tooltip();
 
-  // Добавить вопрос, получателя
+  // Добавить блок
   $(document).on("click", ".addGroup", function() {
     var links = $("[data-block='1']").length;
     var links1 = links + 1;
@@ -33,7 +33,7 @@ $(function() {
     $('#newBlockGroup').append(newField);
   });
 
-  // Добавить получателя
+  // Добавить пользователя
   $(document).on("click", ".addUser", function() {
     var links = $('[data-user="1"]').length;
     var links1 = links + 1;
@@ -45,7 +45,7 @@ $(function() {
     $('#userList'+links1).append(newField);
   });
 
-  // Удалить вопрос
+  // Удалить блок
   $(document).on("click", ".delGroup", function() {
     var id = $(this).attr("id");
     id = id.substr(8);
@@ -166,7 +166,9 @@ $(function() {
           $(number + ' option').remove();
           // Обновляем опции списка организаций
           createOptions ("rest/profile/organizations/", number, "normalizedName", "id", numberField, 'organisations');
-          $('#addElement').fadeOut(5000);
+          setTimeout(function(){
+            $('#addElement').modal('hide');
+          }, 1000);
         },
         error: function () {
           $(".bigFormLoader, .btnBlock, .addElementForm").addClass("d-none").fadeOut();
@@ -180,6 +182,6 @@ $(function() {
   $('#addElement').on('hidden.bs.modal', function() {
     $('.addElementForm, .btnBlock').removeClass('d-none');
     $('.alertBlock').addClass('d-none');
-    $('.addElementForm input').val('');
+    $('.addElementForm input, .addElementForm textarea').val('');
   });
 });
