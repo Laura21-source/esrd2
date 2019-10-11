@@ -373,7 +373,7 @@
                             $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-8 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select></div><div class="col-md-1 mt-3 text-right"><button class="btn btn-primary btn-md addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" data-toggle="tooltip" title="Добавить организацию" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div>');
                             $(numberCatalog + '.mdb-select').materialSelect();
                             // Добавляем опции
-                            createOptions ("rest/profile/organizations/", numberCatalog, "normalizedName", "id", numberField, 'organisations');
+                            createOptions ("rest/profile/organizations/", numberCatalog, "shortNameLf", "id", numberField, 'organisations');
                             // Подсказки
                         }
                         // Если вид поля справочник пользователей

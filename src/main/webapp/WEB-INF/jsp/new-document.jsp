@@ -8,8 +8,8 @@
 <c:set var = "main" />
 <main>
     <div class="container-fluid text-center mb-4">
-        <div class="card mx-auto w-100">
-            <div class="card-body">
+        <div class="card mx-auto w-100 pb-5">
+            <div class="card-body pb-5">
                 <div class="container-fluid">
                     <div class="alert alert-secondary text-center mb-3">
                         <h4 class="mt-2">Подготовка проекта документа</h4>
@@ -83,8 +83,8 @@
                         <div class="alert alert-secondary text-center mt-5 mb-3">
                             <h5 class="mt-2">Поля формирования документа</h5>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
+                        <div class="card pb-5">
+                            <div class="card-body pb-5">
                                 <div class="row ml-1 mb-3 d-flex align-items-center">
                                     <div class="col-md-3 text-left mt-2">
                                         <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
