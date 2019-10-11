@@ -93,7 +93,7 @@ public class DocServiceImpl implements DocService {
     public DocTo getFullByUserName(int id, String userName) throws NotFoundException {
         DocTo docTo = asDocTo(checkNotFoundWithId(docRepository.findById(id).orElse(null), id));
         DocStatus docStatus = docTo.getDocStatus();
-        if (docStatus.equals(DocStatus.COMPLETED) || (docStatus.equals(DocStatus.AGREEMENT_REJECTED)))  {
+        if (!docStatus.equals(DocStatus.IN_AGREEMENT))  {
             docTo.setCanAgree(false);
         }
         else {
@@ -200,7 +200,7 @@ public class DocServiceImpl implements DocService {
             }
             updated.setRegNum(docNumber);
             updated.setRegDateTime(LocalDateTime.now());
-            updated.setDocStatus(DocStatus.COMPLETED);
+            updated.setDocStatus(DocStatus.IN_WORK);
         }
 
         boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName);
