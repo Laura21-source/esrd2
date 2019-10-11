@@ -398,7 +398,7 @@ public class DocServiceImpl implements DocService {
 
     @Override
     public FileTo createPDF(DocTo docTo, String rootPath) {
-        return new FileTo(createPDFOrDocx(asDocTo(docFromTo(docTo)), rootPath, true, true));
+        return new FileTo(createPDFOrDocx(asDocTo(createNewDocFromTo(docTo)), rootPath, true, true));
     }
 
     private String createPDFOrDocx(DocTo docTo, String rootPath, Boolean saveToTempDir, Boolean isPDF) {
@@ -441,8 +441,6 @@ public class DocServiceImpl implements DocService {
         List<String> curUserRoles = AuthorizedUser.getRoles();
         List<DocValuedFields> docValuedFields = doc.getDocValuedFields();
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
-        List<DocAgreement> docAgreementList = doc.getAgreementList();
-        List<DocAgreementTo> docAgreementTos = new ArrayList<>();
         List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(docTypeId);
         Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
@@ -451,7 +449,10 @@ public class DocServiceImpl implements DocService {
             docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap), d.getPosition()));
         }
 
-        boolean isFinalAgreementStage = docAgreementRepository.isFinalAgreementStage(doc.getId()).orElse(false);
+        boolean isFinalAgreementStage = false;
+        if (doc.getId() != null) {
+            isFinalAgreementStage = docAgreementRepository.isFinalAgreementStage(doc.getId()).orElse(false);
+        }
 
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
                 doc.getProjectRegDateTime(), doc.getInsertDateTime(), doc.getDocType().getId(),

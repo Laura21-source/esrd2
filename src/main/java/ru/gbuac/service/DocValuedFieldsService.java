@@ -14,6 +14,8 @@ public interface DocValuedFieldsService {
 
     List<DocFieldsTo> getAllFull(int docId, String userName);
 
+    List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, String userName);
+
     DocValuedFields save(DocValuedFields docValuedFields);
 
     DocValuedFields update(DocValuedFields docValuedFields, int id) throws NotFoundException;

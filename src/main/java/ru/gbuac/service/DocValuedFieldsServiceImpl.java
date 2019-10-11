@@ -62,6 +62,12 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     }
 
     @Override
+    public List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, String userName) {
+
+        return null;
+    }
+
+    @Override
     public DocValuedFields save(DocValuedFields docValuedFields) {
         Assert.notNull(docValuedFields, "docValuedFields must not be null");
         return docValuedFieldsRepository.save(docValuedFields);
