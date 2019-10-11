@@ -19,6 +19,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.name=:name")
     User getByName(@Param("name") String name);
 
-    @Query("SELECT u FROM User u ORDER BY u.lastname ASC")
+    @Query("SELECT new ru.gbuac.to.UserTo(u.id, u.lastname, u.phone) FROM User u ORDER BY u.lastname ASC")
     List<User> getAll();
 }
