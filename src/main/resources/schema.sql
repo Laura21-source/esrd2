@@ -91,10 +91,10 @@ CREATE TABLE esrd.doctype
     template_filename       VARCHAR                         ,
     role_id                 INTEGER                 NOT NULL,
     doc_number_prefix_id    INTEGER                 NOT NULL,
-    default_exec_department_id INTEGER                      ,
+    --default_exec_department_id INTEGER                      ,
     FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE,
     FOREIGN KEY (doc_number_prefix_id) REFERENCES esrd.doc_number_prefixes (id) ON DELETE CASCADE,
-    FOREIGN KEY (default_exec_department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
+    --FOREIGN KEY (default_exec_department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doc
@@ -108,9 +108,9 @@ CREATE TABLE esrd.doc
     insert_datetime         TIMESTAMP DEFAULT now()      NOT NULL,
     docstatus               VARCHAR                      NOT NULL,
     url_pdf                 VARCHAR                              ,
-    exec_department_id      INTEGER                      NOT NULL,
+    --exec_department_id      INTEGER                      NOT NULL,
     FOREIGN KEY (doctype_id) REFERENCES esrd.doctype (id) ON DELETE CASCADE,
-    FOREIGN KEY (exec_department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
+    --FOREIGN KEY (exec_department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doctype_routes
