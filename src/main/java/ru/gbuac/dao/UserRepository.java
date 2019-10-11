@@ -20,6 +20,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.name=:name")
     User getByName(@Param("name") String name);
 
-    @Query("SELECT new ru.gbuac.to.UserTo(u.id, CONCAT(u.lastname, ' ', u.firstname, ' ', u.patronym), u.phone) FROM User u WHERE u.id < 4158 ORDER BY u.lastname ASC")
+    @Query("SELECT new ru.gbuac.to.UserTo(u.id, CONCAT(u.lastname, ' ', u.firstname, ' ', u.patronym), u.phone) FROM User u WHERE u.id < 4058 ORDER BY u.lastname ASC")
     List<UserTo> getAll();
 }
