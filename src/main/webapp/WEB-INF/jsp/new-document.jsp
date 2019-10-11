@@ -209,9 +209,6 @@
                         data: agreeListStack,
                         contentType: 'application/json; charset=utf-8',
                     });
-                    serverAgreeList.done(function() {
-                        toastr["success"]("Успешно сохранён список согласования!");
-                    });
                     serverAgreeList.fail(function () {
                         toastr["error"]("Ошибка сохранения списка согласования!");
                     });
@@ -272,8 +269,50 @@
                     });
                 });
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка сохранения!");
+                    toastr["error"]("Ошибка отправки файла служебки!");
                     $("#btnWordFile").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
+                });
+            }
+        });
+
+        // Отправка на сервер файла PDF
+        $('#btnReformat').on("click", function(event) {
+            event.preventDefault();
+            var forms = $('.registrationForm');
+            var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
+            event.preventDefault();
+            var checkField = checkValidation(formsValue);
+            if(checkField === false) {
+                toastr["error"]("Заполните обязательные поля!");
+                $(forms).addClass('was-validated');
+                event.stopPropagation();
+            } else {
+                var trueName =  $(this).html();
+                $(this).html('Отправка запроса').attr('disabled', true);
+                $(".pdfSRC, .pdfSign").addClass("d-none");
+                $(".bigLoader").removeClass("d-none").fadeIn(500);
+                var dataType = $("#selectType").val();
+                // Формируем поля JSON
+                var dataField = createDataField(0);
+                var sumElem = countElem(dataField)+1;
+                var dataBlock = createDataBlock(0, sumElem);
+                var reformatPDF = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
+                console.log(reformatPDF);
+                var serverAjax = $.ajax({
+                    type: "POST",
+                    url: 'rest/profile/docs/pdf',
+                    data: reformatPDF,
+                    contentType: 'application/json; charset=utf-8'
+                });
+                serverAjax.done(function(data) {
+                    $(".bigLoader").addClass("d-none").fadeOut(1000);
+                    $("#btnReformat").html(trueName).attr('disabled', false).removeClass('waves-effect');
+                    $(".pdfSRC").removeClass("d-none").attr("src", data.fileUrl);
+                    $(".pdfSign").removeClass("d-none");
+                    $(".pdfHREF").attr("href", data.fileUrl);
+                });
+                serverAjax.fail(function () {
+                    toastr["error"]("Ошибка формировки файла PDF!");
                 });
             }
         });

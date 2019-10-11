@@ -136,30 +136,17 @@
         return $.getJSON (url, function(data) {
             for (var i in data) {
                 var selectedField = '';
+                var nameField = data[i][name];
                 // Получаем отмеченные поля если есть необходимость
                 if (select != '') {if (select === data[i][id]) {selectedField = ' selected="selected"';}}
-                if(spisok === '') {
-                    $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  data[i][name] + '</option>');
-                } else if(spisok === 'organisations') {
-                    $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  data[i][name] + '</option>');
-                } else if(spisok === 'users') {
-                    var userName = data[i]['lastname'];
-                    var firstName = data[i]['firstname'].substr(0,1)+'.';
-                    var patroNym = data[i]['patronym'].substr(0,1)+'.';
+                if(spisok === 'users') {
+                    var userName = data[i]['fullName'];
                     var phone = '';
-                    if(data[i]['phone'] && data[i]['phone'] != '') {
-                        phone = ' , тел. ' + data[i]['phone'];
-                    }
-                    userName = userName + ' ' + firstName + ' ' + patroNym + phone;
-                    $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  userName + '</option>');
-                } else if(spisok === 'usersList') {
-                    var userName = data[i]['lastname'];
-                    var firstName = data[i]['firstname'].substr(0,1)+'.';
-                    var patroNym = data[i]['patronym'].substr(0,1)+'.';
-                    userName = userName + ' ' + firstName + ' ' + patroNym;
-                    $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  userName + '</option>');
-                }
-                $(field + '.mdb-select').materialSelect();
+                    if(data[i]['phone'] && data[i]['phone'] != '') {phone = ' , тел. ' + data[i]['phone'];}
+                    nameField = userName + phone;
+                } else if(spisok === 'usersList') {nameField = data[i]['fullName'];}
+                $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  nameField + '</option>');
+                //$(field + '.mdb-select').materialSelect();
             }
         })
     }
@@ -363,8 +350,6 @@
                                 // Добавляем опции
                                 createOptions("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField, "");
                             }
-                            // Подсказки
-                            $('[data-toggle="tooltip"]').tooltip();
                         }
                         // Если вид поля справочник организаций
                         if (rowSelectField.fieldType === "CATALOG_ORGANIZATIONS") {
@@ -373,19 +358,17 @@
                             $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-8 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select></div><div class="col-md-1 mt-3 text-right"><button class="btn btn-primary btn-md addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" data-toggle="tooltip" title="Добавить организацию" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div>');
                             $(numberCatalog + '.mdb-select').materialSelect();
                             // Добавляем опции
-                            createOptions ("rest/profile/organizations/", numberCatalog, "shortNameLf", "id", numberField, 'organisations');
-                            // Подсказки
+                            createOptions ("rest/profile/organizations/", numberCatalog, "shortNameLf", "id", numberField, '');
                         }
                         // Если вид поля справочник пользователей
                         if (rowSelectField.fieldType === "CATALOG_USERS") {
                             var numberCatalog = ('#' + selectFieldName);
                             // Добавляем строку
                             $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
-                            console.log(numberCatalog);
                             $(numberCatalog + '.mdb-select').materialSelect();
                             // Добавляем опции
                             createOptions ("rest/profile/users/", numberCatalog, '', 'id', numberField, 'users');
-                            // Подсказки
+                            $(numberCatalog + '.mdb-select').materialSelect();
                         }
                         if (rowSelectField.fieldType === "ATTACHMENT") {
                             // Добавляем строку
