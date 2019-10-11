@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.UserRepository;
 import ru.gbuac.model.User;
+import ru.gbuac.to.UserTo;
 import ru.gbuac.util.exception.NotFoundException;
 
 import javax.naming.NamingException;
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll() {
+    public List<UserTo> getAll() {
         return userRepository.getAll();
     }
 

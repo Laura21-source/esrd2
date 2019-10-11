@@ -3,6 +3,8 @@ package ru.gbuac.controller.user;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.User;
+import ru.gbuac.to.UserTo;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class UserRestController extends AbstractUserRestController {
 
     @Override
     @GetMapping
-    List<User> getAll() {
+    List<UserTo> getAll() {
        return super.getAll();
     }
 

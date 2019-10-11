@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.gbuac.model.User;
 import ru.gbuac.service.UserService;
+import ru.gbuac.to.UserTo;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class AbstractUserRestController {
         return userService.get(id);
     }
 
-    List<User> getAll() {
+    List<UserTo> getAll() {
         LOG.info("getAll");
         return userService.getAll();
     }
