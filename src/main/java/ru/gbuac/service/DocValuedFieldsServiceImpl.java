@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.DocRepository;
+import ru.gbuac.dao.DocTypeFieldsRepository;
 import ru.gbuac.dao.DocValuedFieldsRepository;
 import ru.gbuac.dao.FieldsRolesRepository;
+import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.model.DocValuedFields;
 import ru.gbuac.model.FieldsRoles;
 import ru.gbuac.to.DocFieldsTo;
@@ -26,6 +28,9 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
 
     @Autowired
     private DocValuedFieldsRepository docValuedFieldsRepository;
+
+    @Autowired
+    private DocTypeFieldsRepository docTypeFieldsRepository;
 
     @Autowired
     private FieldsRolesRepository fieldsRolesRepository;
@@ -63,6 +68,19 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
 
     @Override
     public List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, String userName) {
+        List<String> curUserRoles = AuthorizedUser.getRoles();
+        int docTypeId = docRepository.getDocTypeByDocId(docId);
+        List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
+        List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
+        List<DocFieldsTo> docFieldsTos = new ArrayList<>();
+        List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(docTypeId);
+        Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
+                .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
+
+        for (DocValuedFields d:docValuedFields) {
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap),
+                    d.getPosition()));
+        }
 
         return null;
     }

@@ -49,8 +49,8 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
         List<String> curUserRoles = AuthorizedUser.getRoles();
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
-        List<FieldsRoles> fieldsStages = fieldsRolesRepository.getAll(docTypeId);
-        Map<Integer, FieldsRoles> fMap = fieldsStages.stream()
+        List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(docTypeId);
+        Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
 
         for (DocTypeFields d:docTypeFields) {

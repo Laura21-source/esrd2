@@ -52,10 +52,29 @@ public class SecurityConfigNoLDAP extends WebSecurityConfigurerAdapter {
                 .withUser("admin").password("{noop}admin").roles("ADMIN")
                 .and()
                 .withUser("user1").password("{noop}user1")
-                    .roles("USER","Отраслевое управление")
+                .roles("USER","Отраслевое управление")
                 .and()
                 .withUser("user2").password("{noop}user2")
-                    .roles("USER", "Отраслевое управление");
+                .roles("USER","Отраслевое управление")
+                .and()
+                .withUser("HvastochenkoON").password("{noop}root")
+                    .roles("USER","Отраслевое управление")
+                .and()
+                .withUser("VolkovaON").password("{noop}root")
+                    .roles("USER", "Отраслевое управление")
+                .and()
+                .withUser("ZhegalinaLI").password("{noop}root")
+                .roles("USER", "Отраслевое управление")
+                .and()
+                .withUser("LebedevaIA").password("{noop}root")
+                .roles("USER", "Отраслевое управление");
+/*
+
+
+        NosikMV
+                GladkikhMV
+        SaprykinaAA
+                ShirokovaEY*/
     }
 
 

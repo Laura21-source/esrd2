@@ -24,19 +24,7 @@ public class DocAgreementTo extends BaseTo {
 
     @JsonInclude
     @SafeHtml
-    String lastName;
-
-    @JsonInclude
-    @SafeHtml
-    String firstName;
-
-    @JsonInclude
-    @SafeHtml
-    String patronym;
-
-    @JsonInclude
-    @SafeHtml
-    String email;
+    String fullName;
 
     @JsonInclude
     @SafeHtml
@@ -69,10 +57,7 @@ public class DocAgreementTo extends BaseTo {
         this.ordering = ordering;
         this.userId = userId;
         this.name = name;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.patronym = patronym;
-        this.email = email;
+        this.fullName = lastName + " " + firstName + " " + patronym;
         this.position = position;
         this.agreedDateTime = agreedDateTime;
         this.comment = comment;
