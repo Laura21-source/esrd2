@@ -11,32 +11,95 @@
         <div class="card mx-auto w-100">
             <div class="card-body">
                 <div class="container-fluid">
-                    <div class="alert alert-secondary mb-3">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-sm-6">
-                                <h6 class="mt-2 documentName"></h6>
-                            </div>
-                            <div class="col-sm-6">
-                                <button type="button" class="btn btn-primary btn-sm float-right rounded" data-toggle="modal" data-target="#listAgree"><i class="fas fa-list-ul mr-2"></i>Список согласования</button>
-                            </div>
-                        </div>
+                    <div class="alert alert-secondary text-center mb-3">
+                        <h4 class="mt-2 documentName"></h4>
                     </div>
                     <form class="registrationForm needs-validation" novalidate>
                         <div class="row">
-                            <div class="col-lg-6 col-12">
-                                <div class="row ml-1 mb-3">
-                                    <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-md-3 text-left mt-2">
-                                                <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<%--<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup>--%></div>
+                            <div class="col-md-6">
+                                <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall userList">
+                                            <div class="col-md-1">№</div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-8">Согласователь</div>
+                                            <div class="col-md-2">Удалить</div>
+                                        </div>
+                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall d-none disableUserList">
+                                            <div class="col-md-1">№</div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-4">Согласователь</div>
+                                            <div class="col-md-3">Комментарий</div>
+                                            <div class="col-md-3">Дата/Время</div>
+                                        </div>
+                                        <div id="userListBlockDiv"></div>
+                                        <div class="row" id="userListBlock">
+                                            <div class="col-12 mt-2 blockUser" id="blockUser1">
+                                                <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
+                                                    <div class="col-md-1">1.</div>
+                                                    <div class="col-md-1"><i class="fas fa-user"></i></div>
+                                                    <div class="col-md-8 selectUser select-outline">
+                                                        <select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="1" id="userList1" searchable=' Поиск' name="userList[]" required>
+                                                            <option value="" selected>Выбрать</option>
+                                                        </select>
+                                                        <div class="fontSmall text-left" id="userListPost1"></div>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-9">
-                                                <select class="browser-default custom-select" name="selectType" id="selectType" required disabled>
-                                                    <option value="" class="alert-primary">Выберите вид документа</option>
-                                                </select>
-                                                <div class="invalid-feedback">Поле обязательно для заполнения</div>
+                                            <hr class="my-1">
+                                            <div class="col-12 text-right">
+                                                <div class="btn btn-primary btn-sm addUser rounded px-3" data-toggle="tooltip" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                             </div>
                                         </div>
+                                        <div class="invalid-tooltip">Выберите согласователя</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="container-fluid mx-2">
+                                    <div class="sticky-content">
+                                        <div class="alert alert-primary mx-auto text-uppercase">Готовый документ</div>
+                                        <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3 d-flex align-items-center justify-content-center">
+                                            <!--Big blue Loader-->
+                                            <div class="preloader-wrapper active bigLoader d-none">
+                                                <div class="spinner-layer spinner-blue-only">
+                                                    <div class="circle-clipper left">
+                                                        <div class="circle"></div>
+                                                    </div>
+                                                    <div class="gap-patch">
+                                                        <div class="circle"></div>
+                                                    </div>
+                                                    <div class="circle-clipper right">
+                                                        <div class="circle"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pdfSign"><i class="far fa-file-pdf text-danger fa-10x"></i></div>
+                                            <iframe class="embed-responsive-item pdfSRC" src=""></iframe>
+                                        </div>
+                                        <!--btnLoad--><a href="" id="btnSavePdf" class="btn btn-default btn-sm my-3 rounded pdfHREF px-3" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
+                                        <div id="btnReformat" class="btn btn-mdb-color btn-sm my-3 rounded px-3"><i class="fas fa-sync mr-2"></i>Переформировать</div>
+                                        <a class="btn btn-light-blue btn-sm my-3 pdfHREF px-3" href="" target="_blank">Открыть в новом окне</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-secondary text-center mt-5 mb-3">
+                            <h5 class="mt-2">Поля формирования документа</h5>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row ml-1 mb-3 d-flex align-items-center">
+                                    <div class="col-md-3 text-left mt-2">
+                                        <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
+                                    </div>
+                                    <div class="col-md-9 select-outline">
+                                        <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" disabled name="selectType" id="selectType" required>
+                                            <option value="">Выберите вид документа</option>
+                                        </select>
+                                        <div class="invalid-tooltip">Выберите тип документа</div>
                                     </div>
                                 </div>
                                 <div id="blockUp"></div>
@@ -47,12 +110,27 @@
                                         <div class="marginBlock my-3"></div>
                                         <div class="row">
                                             <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить вопрос"><i class="fas fa-plus mr-2"></i> Добавить</div>
+                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить блок"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mt-3" id="commentText">
+                                    <div class="col-md-3">&nbsp;</div>
+                                    <div class="col-md-6 form-group text-left">
+                                        <label class="text-muted">Комментарий</label>
+                                        <textarea class="form-control" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-md-3">&nbsp;</div>
+                                </div>
+                                <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
+                                <button type="submit" id="btnReset" class="btn btn-danger mb-2 my-4 pt-3 rounded btnReset">Отменить согласование</button>
+                                <button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded btnSave">Сгенерировать служебную записку</button>
+                                <a href="" type="button" id="btnLoadS" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
                             </div>
+                        </div>
+                    </form>
+                            <%--
                             <div class="col-lg-6 col-12">
                                 <div class="container-fluid mx-2">
                                     <div class="sticky-content">
@@ -77,7 +155,7 @@
                                         <a href="" id="btnLoad" class="btn btn-default btn-md my-3 rounded pdfHREF" target="_blank" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
                                         <div id="btnReformat" class="btn btn-mdb-color btn-md my-3 rounded pointer"><i class="fas fa-sync mr-2"></i>Переформировать</div>
                                         <a class="btn btn-light-blue btn-md my-3 pdfHREF" href="" target="_blank">Открыть в новом окне</a>
-                                        <%--<div id="blockLoadPDF" class="d-none my-3">
+                                        &lt;%&ndash;<div id="blockLoadPDF" class="d-none my-3">
                                             <div class="alert alert-secondary mx-auto text-uppercase mb-3">Загрузить подписанный документ</div>
                                             <div class="form-row mb-4 d-flex align-items-center justify-content-center">
                                                 <div class="md-form file-field col">
@@ -93,24 +171,12 @@
                                                     <a href="" id="btnLoadPDF" class="btn btn-mdb-color btn-md my-3 rounded" target="_blank" title="Загрузить файл"><i class="fas fa-upload mr-2"></i>Загрузить</a>
                                                 </div>
                                             </div>
-                                        </div>--%>
+                                        </div>&ndash;%&gt;
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mt-3" id="commentText">
-                            <div class="col-md-3">&nbsp;</div>
-                            <div class="col-md-6 form-group text-left">
-                                <label class="text-muted">Комментарий</label>
-                                <textarea class="form-control" rows="3"></textarea>
-                            </div>
-                            <div class="col-md-3">&nbsp;</div>
-                        </div>
-                    </form>
-                    <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
-                    <button type="submit" id="btnReset" class="btn btn-danger mb-2 my-4 pt-3 rounded btnReset">Отменить согласование</button>
-                    <button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded btnSave">Сгенерировать служебную записку</button>
-                    <a href="" type="button" id="btnLoadS" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
+                        </div>--%>
+
                 </div>
             </div>
         </div>
@@ -129,8 +195,21 @@
         var id = getId();
         // Поля определённого документа
         var docURL = "rest/profile/docs/" + id;
+        // Список согласования
+        //createOptions ('rest/profile/docs/'+id+'/agreement/list', '#userList1', '', 'id', '', 'usersList');
+        // Добавление должности при изменении пользователя
+        /*$(document).on("change", ".userList", function() {
+            var userId = $(this).val();
+            var link = $(this).attr('data-spisok');
+            createUserList('rest/profile/users/'+userId, '#userListPost'+link);
+        });*/
+
         // Подключение стека полей
         $.getJSON(docURL, function(data) {
+            // Список согласования
+            $('#userListBlock, .userList').remove();
+            $('.disableUserList').removeClass('d-none');
+            createUserListDisabled('rest/profile/docs/'+id+'/agreement/list');
             // Дата документа
             var newDate = '';
             if(data.projectRegDateTime) {
@@ -165,7 +244,8 @@
             $('.pdfSRC').attr('src', documentPDF);
             $('.pdfHREF').attr('href', documentPDF);
             // Получение списка полей вида документа
-            createOptions(docAllURL, "#selectType", "name", "id", data.docTypeId,"","","","","","","","","","");
+            createOptions(docAllURL, '#selectType', 'name', 'id', data.docTypeId,'');
+            $('#selectType.mdb-select').materialSelect();
             // Получение основных полей
             // Верхний блок полей
             getUpFields(docURL, id);
@@ -174,8 +254,7 @@
         });
 
         // Список согласования документа
-        $.getJSON('rest/profile/docs/' + id + '/agreement/list/', function(data) {
-            /*$('#listAgree .modal-body').append('<div class="row mb-3 d-flex align-items-center text-center font-weight-bold"><div class="col-1">Статус</div><div class="col-4">Пользователь</div><div class="col-4">Комментарий</div><div class="col-3">Редактирование</div></div>');*/
+        /*$.getJSON('rest/profile/docs/' + id + '/agreement/list/', function(data) {
             for(var i in data) {
                 var row = data[i];
                 var returnButton = '';
@@ -194,7 +273,7 @@
                 var patronym = row.patronym.substr(0,1)+'.';
                 $('#listAgree .modal-body').append('<div class="row mb-3 d-flex align-items-center"><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.lastName+' '+firstName+' '+patronym+'<br><small class="text-muted">'+row.position+'</small></div><div class="col-4"><small>'+comment+'</small></div><div class="col-3">'+returnButton+'</div></div>');
             }
-        });
+        });*/
 
         // Отправка согласования на сервер
         $('#btnSave').on("click", function(event) {
@@ -244,7 +323,7 @@
                     }
                 });
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка приложения!");
+                    toastr["error"]("Ошибка сохранения файла!");
                 });
             }
         });
@@ -285,7 +364,7 @@
                     });
                 });
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка сохранения!");
+                    toastr["error"]("Ошибка отправки файла служебки!");
                     $("#btnWordFile").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
                 });
             }
@@ -321,7 +400,7 @@
                 });
             });
             serverAjax.fail(function () {
-                toastr["error"]("Ошибка приложения!");
+                toastr["error"]("Ошибка отправки отмены согласования!");
             });
         });
 
@@ -355,7 +434,7 @@
                 });
             });
             serverAjax.fail(function () {
-                toastr["error"]("Ошибка приложения!");
+                toastr["error"]("Ошибка отправки возврата согласования!");
             });
         });
 
@@ -364,7 +443,7 @@
             event.preventDefault();
             var trueName =  $(this).html();
             $(this).html('Отправка запроса').attr('disabled', true);
-            $(".pdfSRC").addClass("d-none");
+            $(".pdfSRC, .pdfSign").addClass("d-none");
             $(".bigLoader").removeClass("d-none").fadeIn(500);
             var dataType = $("#selectType").val();
             // Формируем поля JSON
@@ -388,7 +467,7 @@
                 $(".pdfHREF").attr("href", data.fileUrl);
             });
             serverAjax.fail(function () {
-                toastr["error"]("Ошибка отправки файла!");
+                toastr["error"]("Ошибка отправки файла PDF!");
             });
         });
     });

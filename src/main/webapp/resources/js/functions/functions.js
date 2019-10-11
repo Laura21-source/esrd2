@@ -257,7 +257,7 @@
                 // Если вид поля справочник организаций
                 if (row.field.fieldType === "CATALOG_REGNUMBERS") {
                     // Добавляем строку
-                    $('#blockUp').append('<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary upElem" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
+                    $('#blockUp').append('<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary upElem" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                     var numberCatalog = ('#' + selectFieldName);
                     $(numberCatalog + '.mdb-select').materialSelect();
                     // Добавляем опции
@@ -301,8 +301,8 @@
                     // Добавляем вопрос ' + blocKey + '
                     $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + dubKey + '" data-field="' + dubKey + '"' + idField + '><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h5 id="nameGroup">Блок ' + dubKey + '</h5></div><div class="col-md-3 text-right"><div id="delGroup' + dubKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" data-toggle="tooltip" title="Удалить блок"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
                     $(".blockName").html(rowFields.field.name).attr("data-block", rowFields.field.fieldId);
-                    if(row.field.enabled === false) {$(".addGroup").addClass('d-none');}
-                    if(row.field.enabled === true) {$(".addGroup").removeClass('d-none');}
+                    if(row.field.enabled === false) {$('.addGroup, #nameGroup').addClass('d-none');}
+                    if(row.field.enabled === true) {$('.addGroup, #nameGroup').removeClass('d-none');}
                     for (var y in rowFields.field.childFields) {
                         //console.log(rowFields.field.childFields);
                         var rowSelectField = rowFields.field.childFields[y];
@@ -341,7 +341,7 @@
                         // Если вид поля SELECT
                         if (rowSelectField.fieldType === "CATALOG") {
                             // Добавляем строку
-                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3 d-flex align-items-center"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3 d-flex align-items-center"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                             var numberCatalog = ('#' + selectFieldName);
                             $(numberCatalog + '.mdb-select').materialSelect();
                             // Формирование правильных полей
@@ -355,7 +355,7 @@
                         if (rowSelectField.fieldType === "CATALOG_ORGANIZATIONS") {
                             var numberCatalog = ('#' + selectFieldName);
                             // Добавляем строку
-                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-8 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select></div><div class="col-md-1 mt-3 text-right"><button class="btn btn-primary btn-md addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" data-toggle="tooltip" title="Добавить организацию" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div>');
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-8 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select></div><div class="col-md-1 mt-3 text-right"><button class="btn btn-primary btn-md addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" data-toggle="tooltip" title="Добавить организацию" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div>');
                             $(numberCatalog + '.mdb-select').materialSelect();
                             // Добавляем опции
                             createOptions ("rest/profile/organizations/", numberCatalog, "shortNameLf", "id", numberField, '');
@@ -364,7 +364,7 @@
                         if (rowSelectField.fieldType === "CATALOG_USERS") {
                             var numberCatalog = ('#' + selectFieldName);
                             // Добавляем строку
-                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                             $(numberCatalog + '.mdb-select').materialSelect();
                             // Добавляем опции
                             createOptions ("rest/profile/users/", numberCatalog, '', 'id', numberField, 'users');
@@ -622,4 +622,32 @@
             }
         });
         $('.dataTables_length').addClass('bs-select');
+    }
+
+    // Формирование списка согласователей без фозможности редактирования
+    function createUserListDisabled (url) {
+        return $.getJSON(url, function(data) {
+            for(var i in data) {
+                var row = data[i];
+                var position = '';
+                var comment = '';
+                var agreedDateTime = '';
+                if(row.agreedDateTime) {
+                    var newDate = formatDate(row.agreedDateTime);
+                    var newTime = formatTime(row.agreedDateTime);
+                    agreedDateTime = newDate+'/'+newTime;
+                }
+                if(row.comment) {comment = row.comment;}
+                if(row.position) {position = row.position;}
+                if(row.currentUser === true) {
+                    var currentUser = '<i class="fas fa-user-clock text-warning"></i>';
+                } else {
+                    currentUser = '<i class="fas fa-ellipsis-h text-muted"></i>';
+                }
+                if(row.decisionType && row.decisionType === 'ACCEPTED') {
+                    currentUser = '<i class="fas fa-check text-success"></i>';
+                }
+                $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
+            }
+        });
     }
