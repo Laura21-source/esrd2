@@ -101,13 +101,13 @@
             requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
         }
         if (attachment == 1) {
-            $(element).append('<div class="md-form file-field mb-2"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input data-toggle="tooltip" title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл">' + requiredValidate + '</div></div>');
+            $(element).append('<div class="md-form file-field mb-2"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл">' + requiredValidate + '</div></div>');
         } else if (attachment == 2) {
-            $(element).append('<div class="row d-flex align-items-center"><div class="col-md-9"><div class="md-form file-field"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input data-toggle="tooltip" title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл">' + requiredValidate + '</div></div></div><div class="col-md-3"><a href="#" id="btnLoad" class="btn btn-default btn-sm rounded" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download"></i></a></div></div>');
+            $(element).append('<div class="row d-flex align-items-center"><div class="col-md-9"><div class="md-form file-field"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл">' + requiredValidate + '</div></div></div><div class="col-md-3"><a href="#" id="btnLoad" class="btn btn-default btn-sm rounded" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download"></i></a></div></div>');
         } else if (text == 1) {
-            $(element).append('<input data-toggle="tooltip" title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '>' + requiredValidate);
+            $(element).append('<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '>' + requiredValidate);
         } else {
-            $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-3 text-left">' + '<div for="' + name + '" class="text-muted">' + iconName + requiredSup + '</div>' + '</div>' + '<div class="col-md-9">' + '<input data-toggle="tooltip" title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '>' + requiredValidate + '</div>' + '</div>' + '</div>' + colShort + '</div>');
+            $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-3 text-left">' + '<div for="' + name + '" class="text-muted">' + iconName + requiredSup + '</div>' + '</div>' + '<div class="col-md-9">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '>' + requiredValidate + '</div>' + '</div>' + '</div>' + colShort + '</div>');
         }
         $('[data-toggle="tooltip"]').tooltip();
     }
@@ -159,6 +159,7 @@
                     userName = userName + ' ' + firstName + ' ' + patroNym;
                     $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  userName + '</option>');
                 }
+                $(field + '.mdb-select').materialSelect();
             }
         })
     }
@@ -269,7 +270,7 @@
                 // Если вид поля справочник организаций
                 if (row.field.fieldType === "CATALOG_REGNUMBERS") {
                     // Добавляем строку
-                    $('#blockUp').append('<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary upElem" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
+                    $('#blockUp').append('<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary upElem" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                     var numberCatalog = ('#' + selectFieldName);
                     $(numberCatalog + '.mdb-select').materialSelect();
                     // Добавляем опции
@@ -311,7 +312,7 @@
                         if(number != '') {delButton = '';}
                     }
                     // Добавляем вопрос ' + blocKey + '
-                    $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + dubKey + '" data-field="' + dubKey + '"' + idField + '><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h5 id="nameGroup">Блок ' + dubKey + '</h5></div><div class="col-md-3 text-right"><div id="delGroup' + dubKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" data-toggle="tooltip" title="Удалить вопрос"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
+                    $("#newBlockGroup").append('<div class="row card mb-3 blockGroup" id="blockGroup' + dubKey + '" data-field="' + dubKey + '"' + idField + '><div class="col-12"><div class="card-body"><div class="row"><div class="col-md-9 text-left"><h5 id="nameGroup">Блок ' + dubKey + '</h5></div><div class="col-md-3 text-right"><div id="delGroup' + dubKey + '" class="btn btn-danger btn-sm pointer delGroup rounded' + delButton + '" data-toggle="tooltip" title="Удалить блок"><i class="fas fa-trash"></i></div></div></div><hr><div class="row"><div class="col-12 blockGroupFields" data-block="1"></div></div></div></div></div>');
                     $(".blockName").html(rowFields.field.name).attr("data-block", rowFields.field.fieldId);
                     if(row.field.enabled === false) {$(".addGroup").addClass('d-none');}
                     if(row.field.enabled === true) {$(".addGroup").removeClass('d-none');}
@@ -353,7 +354,7 @@
                         // Если вид поля SELECT
                         if (rowSelectField.fieldType === "CATALOG") {
                             // Добавляем строку
-                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3 d-flex align-items-center"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3 d-flex align-items-center"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                             var numberCatalog = ('#' + selectFieldName);
                             $(numberCatalog + '.mdb-select').materialSelect();
                             // Формирование правильных полей
@@ -369,24 +370,22 @@
                         if (rowSelectField.fieldType === "CATALOG_ORGANIZATIONS") {
                             var numberCatalog = ('#' + selectFieldName);
                             // Добавляем строку
-                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-8 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select></div><div class="col-md-1 mt-3 text-right"><button class="btn btn-primary btn-md addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" data-toggle="tooltip" title="Добавить организацию" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div>');
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-8 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select></div><div class="col-md-1 mt-3 text-right"><button class="btn btn-primary btn-md addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" data-toggle="tooltip" title="Добавить организацию" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div>');
                             $(numberCatalog + '.mdb-select').materialSelect();
                             // Добавляем опции
                             createOptions ("rest/profile/organizations/", numberCatalog, "normalizedName", "id", numberField, 'organisations');
                             // Подсказки
-                            $('[data-toggle="tooltip"]').tooltip();
                         }
                         // Если вид поля справочник пользователей
                         if (rowSelectField.fieldType === "CATALOG_USERS") {
                             var numberCatalog = ('#' + selectFieldName);
                             // Добавляем строку
-                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" class="alert-primary" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
+                            $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3 select-outline"><select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" searchable=" Поиск" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="" selected>Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                             console.log(numberCatalog);
                             $(numberCatalog + '.mdb-select').materialSelect();
                             // Добавляем опции
-                            createOptions ("rest/profile/users/", numberCatalog, "", "id", numberField, 'users');
+                            createOptions ("rest/profile/users/", numberCatalog, '', 'id', numberField, 'users');
                             // Подсказки
-                            $('[data-toggle="tooltip"]').tooltip();
                         }
                         if (rowSelectField.fieldType === "ATTACHMENT") {
                             // Добавляем строку
@@ -396,7 +395,6 @@
                                 $('#blockGroup' + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9"></div></div>');
                                 createInput(".col-md-9:last", "file", 'inputFile', 'inputFile', "Загрузить файл", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idField, rowSelectField.enabled, rowSelectField.required, attachment, '');
                                 // Подсказки
-                                $('[data-toggle="tooltip"]').tooltip();
                             }
                         }
                         if (rowSelectField.fieldType === "TEXTAREA") {

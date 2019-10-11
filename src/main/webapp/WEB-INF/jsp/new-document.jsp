@@ -104,7 +104,7 @@
                                         <div class="marginBlock my-3"></div>
                                         <div class="row">
                                             <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" data-toggle="tooltip" title="Добавить вопрос"><i class="fas fa-plus mr-2"></i> Добавить</div>
+                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" data-toggle="tooltip" title="Добавить блок"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                             </div>
                                         </div>
                                     </div>
