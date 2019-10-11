@@ -89,7 +89,7 @@
                         <div class="alert alert-secondary text-center mt-5 mb-3">
                             <h5 class="mt-2">Поля формирования документа</h5>
                         </div>
-                        <div class="card">
+                        <div class="card blockDocument">
                             <div class="card-body">
                                 <div class="row ml-1 mb-3 d-flex align-items-center">
                                     <div class="col-md-3 text-left mt-2">
@@ -130,53 +130,6 @@
                             </div>
                         </div>
                     </form>
-                            <%--
-                            <div class="col-lg-6 col-12">
-                                <div class="container-fluid mx-2">
-                                    <div class="sticky-content">
-                                        <div class="alert alert-primary mx-auto text-uppercase">Готовый документ</div>
-                                        <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3 d-flex align-items-center justify-content-center">
-                                            <!--Big blue Loader-->
-                                            <div class="preloader-wrapper active bigLoader d-none">
-                                                <div class="spinner-layer spinner-blue-only">
-                                                    <div class="circle-clipper left">
-                                                        <div class="circle"></div>
-                                                    </div>
-                                                    <div class="gap-patch">
-                                                        <div class="circle"></div>
-                                                    </div>
-                                                    <div class="circle-clipper right">
-                                                        <div class="circle"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <iframe class="embed-responsive-item pdfSRC" src=""></iframe>
-                                        </div>
-                                        <a href="" id="btnLoad" class="btn btn-default btn-md my-3 rounded pdfHREF" target="_blank" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
-                                        <div id="btnReformat" class="btn btn-mdb-color btn-md my-3 rounded pointer"><i class="fas fa-sync mr-2"></i>Переформировать</div>
-                                        <a class="btn btn-light-blue btn-md my-3 pdfHREF" href="" target="_blank">Открыть в новом окне</a>
-                                        &lt;%&ndash;<div id="blockLoadPDF" class="d-none my-3">
-                                            <div class="alert alert-secondary mx-auto text-uppercase mb-3">Загрузить подписанный документ</div>
-                                            <div class="form-row mb-4 d-flex align-items-center justify-content-center">
-                                                <div class="md-form file-field col">
-                                                    <div class="btn btn-mdb-color btn-md float-left">
-                                                        <span>Обзор</span>
-                                                        <input title="Загрузить подписанный документ" type="file" id="inputPDF" name="inputPDF">
-                                                    </div>
-                                                    <div class="file-path-wrapper">
-                                                        <input class="file-path validate" type="text" placeholder="Выберите файл">
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="" id="btnLoadPDF" class="btn btn-mdb-color btn-md my-3 rounded" target="_blank" title="Загрузить файл"><i class="fas fa-upload mr-2"></i>Загрузить</a>
-                                                </div>
-                                            </div>
-                                        </div>&ndash;%&gt;
-                                    </div>
-                                </div>
-                            </div>
-                        </div>--%>
-
                 </div>
             </div>
         </div>
@@ -238,6 +191,10 @@
             // Имеет ли право пользователь подписывать документ
             if(data.canAgree === false) {
                 $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
+            }
+            // Если документ уже подписан
+            if(data.docStatus === 'COMPLETED') {
+                $('.blockDocument').addClass('d-none');
             }
             // Ссылки на документ PDF
             var documentPDF = data.UrlPDF;
