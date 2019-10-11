@@ -100,6 +100,13 @@ public class DocServiceImpl implements DocService {
             boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName);
             docTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));
         }
+        Boolean isFinalStage = docAgreementRepository.isFinalAgreementStage(id).orElse(null);
+        if (isFinalStage == null || !isFinalStage) {
+            docTo.setFinalStage(false);
+        } else {
+            docTo.setFinalStage(true);
+        }
+
         return docTo;
     }
 
