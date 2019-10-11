@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gbuac.model.User;
+import ru.gbuac.to.UserTo;
 
 import java.util.List;
 
@@ -19,6 +20,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.name=:name")
     User getByName(@Param("name") String name);
 
-    @Query("SELECT new ru.gbuac.to.UserTo(u.id, u.lastname, u.phone) FROM User u ORDER BY u.lastname ASC")
-    List<User> getAll();
+    @Query("SELECT new ru.gbuac.to.UserTo(u.id, CONCAT(u.lastname, ' ', u.firstname, ' ', u.patronym), u.phone) FROM User u WHERE u.id < 4058 ORDER BY u.lastname ASC")
+    List<UserTo> getAll();
 }
