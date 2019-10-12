@@ -571,28 +571,43 @@
     function dataTableArray (element, url) {
         $(element).DataTable({
             "columns": [
-                { 'data': 'docType.id' },
-                { 'data': 'id' },
-                { 'data': 'projectRegNum' },
-                { 'data': 'insertDateTime' },
-                { 'data': 'docType.name' },
+                { 'data': 'num' },
+                { 'data': 'docStatus' },
+                { 'data': 'regNum' },
+                { 'data': 'regDateTime' },
+                { 'data': 'docType' },
+                { 'data': 'currentAgreeFullName' },
+                { 'data': 'link' }
             ],
             "ajax": {
                 "url" : url,
                 "dataSrc" : function(data) {
                     $.each(data, function(i, item) {
-                        var key = parseInt(i)+1;
-                        item.docType.id = key;
-                        var number =  item.id;
-                        if (item.regNum && item.regNum !== '') {
-                            item.id = item.regNum;
-                            item.projectRegNum = formatDate(item.regDateTime, 0);
-                        } else {
-                            item.id = item.projectRegNum;
-                            item.projectRegNum = formatDate(item.insertDateTime, 0);
+                        item.num = parseInt(i)+1;
+
+                        switch(item.docStatus) {
+                            case 'IN_WORK':
+                                item.docStatus = 'На исполнении';
+                                break;
+                            case 'IN_AGREEMENT':
+                                item.docStatus = 'На согласовании';
+                                break;
+                            case 'AGREEMENT_REJECTED':
+                                item.docStatus = 'Согалсование отменено';
+                                break;
                         }
-                        item.insertDateTime = item.docType.name;
-                        item.docType.name = "<a href='agree-document?id=" + number + "'><i class='fas fa-edit text-primary'></i></a>";
+
+                        if (!item.regNum || item.regNum == '') {
+                            item.regNum = item.projectRegNum;
+                            item.regDateTime = formatDate(item.projectRegDateTime, 0);
+                        } else {
+                            item.regDateTime = formatDate(item.regDateTime, 0);
+                        }
+                        item.regNum = "<a href='agree-document?id=" + item.id + "'>" + item.projectRegNum + "</a>"
+                        if (!item.currentAgreeFullName || item.currentAgreeFullName == '') {
+                            item.currentAgreeFullName = 'Согласование завершено';
+                        }
+                        item.link = "<a href='agree-document?id=" + item.id + "'><i class='fas fa-edit text-primary'></i></a>";
                     });
                     return data;
                 }

@@ -17,28 +17,40 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("DELETE FROM Doc d WHERE d.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT d FROM Doc d JOIN d.agreementList a JOIN a.user WHERE " +
-            "lower(a.user.name)=lower(:userName) AND d.docStatus='IN_AGREEMENT'")
+    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+            " CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym), " +
+            "d.docType.name) FROM Doc d JOIN d.agreementList a JOIN a.user WHERE " +
+            "lower(a.user.name)=lower(:userName) AND a.currentUser=TRUE AND d.docStatus='IN_AGREEMENT'")
     List<Doc> getAllAgreementByUserName(@Param("userName") String userName);
 
-    @Query("SELECT d FROM Doc d JOIN d.agreementList a JOIN a.user WHERE " +
-            "lower(a.user.name)=lower(:userName) AND a.decisionType IS NOT NULL")
+    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+            "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
+            "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d JOIN d.agreementList c WHERE " +
+            "lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL")
     List<Doc> getAllAgreedByUserName(@Param("userName") String userName);
 
-    @Query("SELECT d FROM Doc d JOIN d.agreementList a JOIN a.user WHERE " +
-            "lower(a.user.name)=lower(:userName) AND a.decisionType IS NOT NULL AND d.docStatus<>'IN_AGREEMENT'")
+    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+            "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
+            "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d JOIN d.agreementList c WHERE " +
+            "lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL AND d.docStatus<>'IN_AGREEMENT'")
     List<Doc> getAllRegisteredByUserName(@Param("userName") String userName);
 
-    @Query("SELECT d FROM Doc d")
+    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+            "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
+            "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d")
     List<Doc> getAll();
 
     @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId")
     List<Doc> getAllByDocType(@Param("docTypeId") int docTypeId);
 
-    @Query("SELECT d FROM Doc d WHERE d.regNum IS NULL")
+    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+            "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
+            "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d WHERE d.docStatus='IN_AGREEMENT'")
     List<Doc> getAllAgreement();
 
-    @Query("SELECT d FROM Doc d WHERE d.regNum IS NOT NULL")
+    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+            "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
+            "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d WHERE d.docStatus<>'IN_AGREEMENT'")
     List<Doc> getAllRegistered();
 
     @Query("SELECT new ru.gbuac.to.DocNumberTo(d.id, d.regNum) FROM Doc d WHERE d.regNum IS NOT NULL ORDER BY d.regNum")
