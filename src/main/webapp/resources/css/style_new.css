@@ -48,3 +48,12 @@ sup {font-size: 6px;}
   margin: 0.8rem 0 0 0!important;
   padding: 0;
 }
+/* Кнопка раскрытия и сокрытия */
+.btnView, .btnClose, .btnViewNew, .btnCloseNew {
+  position: absolute;
+  right: 1rem;
+}
+.btnAnswer {
+  position: absolute;
+  left: 1rem;
+}
