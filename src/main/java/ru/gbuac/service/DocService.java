@@ -2,9 +2,11 @@ package ru.gbuac.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.model.Doc;
+import ru.gbuac.model.User;
 import ru.gbuac.to.DocNumberTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FileTo;
+import ru.gbuac.to.UserTo;
 import ru.gbuac.util.exception.FileUploadException;
 import ru.gbuac.util.exception.GenerateDocxException;
 import ru.gbuac.util.exception.GeneratePdfException;
@@ -40,6 +42,8 @@ public interface DocService {
     DocTo returnDocAgreement(int id, String targetUserName, String userName, String comment) throws NotFoundException;
 
     DocTo rejectDocAgreement(int id, String userName, String comment) throws NotFoundException;
+
+    List<User> saveExecutorUsersList(int id, List<User> executorUsers);
 
     FileTo uploadFile(MultipartFile inputFile, String rootPath) throws FileUploadException;
 

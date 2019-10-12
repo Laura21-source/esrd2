@@ -3,13 +3,21 @@ package ru.gbuac.controller.doc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Doc;
+import ru.gbuac.model.User;
 import ru.gbuac.service.DocService;
 import ru.gbuac.to.DocNumberTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FileTo;
+import ru.gbuac.to.UserTo;
+
+import javax.validation.Valid;
 import java.util.List;
 import static ru.gbuac.util.ValidationUtil.assureIdConsistent;
 import static ru.gbuac.util.ValidationUtil.checkNew;
@@ -85,7 +93,11 @@ public abstract class AbstractDocRestController {
         return docService.rejectDocAgreement(id, AuthorizedUser.getUserName(), comment);
     }
 
-    public FileTo fileUploadFile(MultipartFile inputFile, String rootPath) {
+    public List<User> saveExecutorUsersList(int id, List<User> executorUsers) {
+        return docService.saveExecutorUsersList(id, executorUsers);
+    }
+
+    public FileTo uploadFile(MultipartFile inputFile, String rootPath) {
         return docService.uploadFile(inputFile, rootPath);
     }
 

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.SafeHtml;
+import ru.gbuac.model.Department;
 import ru.gbuac.model.DocAgreement;
 import ru.gbuac.model.DocStatus;
 
@@ -42,12 +43,16 @@ public class DocTo extends BaseTo {
     @SafeHtml
     private String comment;
 
+    private List<Integer> executorDepartmentsIds;
+
+    private List<Integer> executorUsersIds;
+
     private List<DocFieldsTo> childFields;
 
     public DocTo(Integer id, @SafeHtml String regNum, LocalDateTime regDateTime, @SafeHtml String projectRegNum,
                  LocalDateTime projectRegDateTime, LocalDateTime insertDateTime, Integer docTypeId, DocStatus docStatus,
-                 Boolean finalStage, Boolean canAgree, @SafeHtml String urlPDF,
-                 @SafeHtml String comment, List<DocFieldsTo> childFields) {
+                 Boolean finalStage, Boolean canAgree, @SafeHtml String urlPDF, @SafeHtml String comment,
+                 List<Integer> executorDepartmentsIds, List<Integer> executorUsersIds, List<DocFieldsTo> childFields) {
         super(id);
         this.regNum = regNum;
         this.regDateTime = regDateTime;
@@ -60,6 +65,8 @@ public class DocTo extends BaseTo {
         this.canAgree = canAgree;
         this.UrlPDF = urlPDF;
         this.comment = comment;
+        this.executorDepartmentsIds = executorDepartmentsIds;
+        this.executorUsersIds = executorUsersIds;
         this.childFields = childFields;
     }
 }

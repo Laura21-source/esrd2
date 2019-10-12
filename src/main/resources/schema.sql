@@ -19,6 +19,8 @@ DROP TABLE IF EXISTS esrd.valuedfield CASCADE;
 DROP TABLE IF EXISTS esrd.catalogelem CASCADE;
 DROP TABLE IF EXISTS esrd.catalog CASCADE;
 DROP TABLE IF EXISTS esrd.organization CASCADE;
+DROP TABLE IF EXISTS esrd.doc_executor_departments CASCADE;
+DROP TABLE IF EXISTS esrd.doc_executor_users CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
@@ -253,6 +255,22 @@ CREATE TABLE esrd.organization
     fio_manager            VARCHAR                 NOT NULL,
     position_manager       VARCHAR                 NOT NULL,
     CONSTRAINT c_organization UNIQUE (inn)
+);
+
+CREATE TABLE esrd.doc_executor_departments
+(
+    doc_id                      INTEGER NOT NULL,
+    executor_departments_id     INTEGER NOT NULL,
+    FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
+    FOREIGN KEY (executor_departments_id) REFERENCES esrd.department (id) ON DELETE CASCADE
+);
+
+CREATE TABLE esrd.doc_executor_users
+(
+    doc_id                      INTEGER NOT NULL,
+    executor_users_id           INTEGER NOT NULL,
+    FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
+    FOREIGN KEY (executor_users_id) REFERENCES esrd.users (id) ON DELETE CASCADE
 );
 
 CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR, optional VARCHAR DEFAULT NULL)

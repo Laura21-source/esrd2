@@ -5,9 +5,12 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.model.Doc;
+import ru.gbuac.model.User;
 import ru.gbuac.to.DocNumberTo;
 import ru.gbuac.to.DocTo;
 import ru.gbuac.to.FileTo;
+import ru.gbuac.to.UserTo;
+
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.util.List;
@@ -56,21 +59,6 @@ public class DocRestController extends AbstractDocRestController {
         return super.getAll();
     }
 
-    @PostMapping(value = "/uploadfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public FileTo fileUploadFile(@RequestParam("inputFile") MultipartFile inputFile) {
-        return super.fileUploadFile(inputFile, context.getRealPath("/"));
-    }
-
-    @PostMapping(value = "/docx", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public FileTo createDocx(@Valid @RequestBody DocTo docTo) {
-        return super.createDocx(docTo, context.getRealPath("/"));
-    }
-
-    @PostMapping(value = "/pdf", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public FileTo createPDF(@Valid @RequestBody DocTo docTo) {
-        return super.createPDF(docTo, context.getRealPath("/"));
-    }
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public DocTo updateOrCreate(@Valid @RequestBody DocTo docTo) {
         if (docTo.isNew()) {
@@ -98,4 +86,26 @@ public class DocRestController extends AbstractDocRestController {
     public DocTo rejectDocAgreement(@PathVariable("id")int id, @RequestParam("comment") String comment) {
         return super.rejectDocAgreement(id, comment);
     }
+
+    @Override
+    @PostMapping(value = "/executorUsersList/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<User> saveExecutorUsersList(@PathVariable("id") int id, @Valid @RequestBody List<User> executorUsers) {
+        return super.saveExecutorUsersList(id, executorUsers);
+    }
+
+    @PostMapping(value = "/uploadfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public FileTo uploadFile(@RequestParam("inputFile") MultipartFile inputFile) {
+        return super.uploadFile(inputFile, context.getRealPath("/"));
+    }
+
+    @PostMapping(value = "/docx", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public FileTo createDocx(@Valid @RequestBody DocTo docTo) {
+        return super.createDocx(docTo, context.getRealPath("/"));
+    }
+
+    @PostMapping(value = "/pdf", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public FileTo createPDF(@Valid @RequestBody DocTo docTo) {
+        return super.createPDF(docTo, context.getRealPath("/"));
+    }
+
 }

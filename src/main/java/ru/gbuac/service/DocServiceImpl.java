@@ -65,6 +65,9 @@ public class DocServiceImpl implements DocService {
     private OrganizationRepository organizationRepository;
 
     @Autowired
+    private DepartmentRepository departmentRepository;
+
+    @Autowired
     private RoleRepository roleRepository;
 
     @Value("${pdf.final.dir}")
@@ -290,6 +293,15 @@ public class DocServiceImpl implements DocService {
         return null;
     }
 
+    @Override
+    public List<User> saveExecutorUsersList(int id, List<User> executorUsers) {
+        Doc doc = docRepository.findById(id).orElse(null);
+        List<User> ex = executorUsers.stream().map(u -> userRepository.findById(u.getId()).orElse(null))
+                .filter(Objects::nonNull).collect(Collectors.toList());
+        doc.setExecutorUsers(ex);
+        return docRepository.save(doc).getExecutorUsers();
+    }
+
     private void fillTags(FieldTo fieldTo, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables, Integer maxCellsCount) {
         String tag = fieldTo.getTag();
         if (TagUtil.getTableTag(tag) != null) {
@@ -478,10 +490,22 @@ public class DocServiceImpl implements DocService {
             isFinalAgreementStage = isFinalAgreementStage(doc.getId());
         }
 
+        List<Integer> executorDepartmentsIds = null;
+        if (doc.getExecutorDepartments() != null) {
+            executorDepartmentsIds = doc.getExecutorDepartments()
+                    .stream().map(Department::getId).collect(Collectors.toList());
+        }
+
+        List<Integer> executorUsersIds = null;
+        if (doc.getExecutorUsers() != null) {
+            executorUsersIds = doc.getExecutorUsers()
+                    .stream().map(User::getId).collect(Collectors.toList());
+        }
+
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
                 doc.getProjectRegDateTime(), doc.getInsertDateTime(), doc.getDocType().getId(),
                 doc.getDocStatus(), isFinalAgreementStage, false, doc.getUrlPDF(), null,
-                docFieldsTos);
+                executorDepartmentsIds, executorUsersIds, docFieldsTos);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {
@@ -506,9 +530,14 @@ public class DocServiceImpl implements DocService {
     private Doc createNewDocFromTo(DocTo docTo) {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
         Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDateTime(), docTo.getProjectRegNum(),
-                docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType,
+                docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null, null,
                 null, docTo.getUrlPDF());
 
+        List<Department> executorDepartments = docTo.getExecutorDepartmentsIds()
+                .stream().map(d -> departmentRepository.findById(d).orElse(null))
+                .filter(Objects::nonNull).collect(Collectors.toList());
+
+        doc.setExecutorDepartments(executorDepartments);
         doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields()));
         return doc;
     }
@@ -517,8 +546,8 @@ public class DocServiceImpl implements DocService {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
         Doc exDoc = checkNotFoundWithId(docRepository.findById(docTo.getId()).orElse(null), docTo.getId());
         Doc doc = new Doc(exDoc.getId(), exDoc.getRegNum(), exDoc.getRegDateTime(), exDoc.getProjectRegNum(),
-                exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType,
-                null, exDoc.getUrlPDF());
+                exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, exDoc.getExecutorDepartments(),
+                exDoc.getExecutorUsers(), null, exDoc.getUrlPDF());
 
         doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields()));
 
