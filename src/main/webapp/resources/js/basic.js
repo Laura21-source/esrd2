@@ -39,9 +39,9 @@ $(function() {
     var links1 = links + 1;
     var fieldUser = '#userList'+links1;
     var newField = createOptions ('rest/profile/users/', fieldUser, '', 'id', '', 'usersList');
-    $('#userListBlock').append('<div class="col-12 blockUser" id="blockUser'+links1+'"><div class="row d-flex align-items-center justify-content-center fontSmall userListBlock" data-user="1"><div class="col-md-1">'+links1+'.</div><div class="col-md-1"><i class="fas fa-user"></i></div><div class="col-md-8 selectUser select-outline"><select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="'+links1+'" id="userList'+links1+'" searchable=" Поиск" name="userList[]" required><option value="" selected>Выбрать</option></select><div class="fontSmall text-left" id="userListPost'+links1+'"></div></div><div class="col-md-2"><div id="delUser'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" data-toggle="tooltip" title="Удалить пользователя"><i class="fas fa-trash"></i></div></div></div></div>');
+    $('#userListBlock').append('<div class="col-12 blockUser" id="blockUser'+links1+'"><div class="row d-flex align-items-center justify-content-center fontSmall userListBlock" data-user="1"><div class="col-md-1">'+links1+'.</div><div class="col-md-1"><i class="fas fa-user"></i></div><div class="col-md-8 selectUser select-outline"><select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="'+links1+'" id="userList'+links1+'" searchable=" Поиск" name="userList[]" required><option value="" selected>Выбрать</option></select><div class="fontSmall text-left" id="userListPost'+links1+'"></div></div><div class="col-md-2"><div id="delUser'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" title="Удалить пользователя"><i class="fas fa-trash"></i></div></div></div></div>');
     $('#blockUser'+links1+' .mdb-select').materialSelect();
-    $('[data-toggle="tooltip"]').tooltip();
+    //$('[data-toggle="tooltip"]').tooltip();
     $('#userList'+links1).append(newField);
   });
 
@@ -184,4 +184,30 @@ $(function() {
     $('.alertBlock').addClass('d-none');
     $('.addElementForm input, .addElementForm textarea').val('');
   });
+
+  // Раскрытие и сокрытие полей основного документа
+  $(document).on('click', '.btnView', function() {
+    $(this).removeClass('btnView').addClass('btnClose');
+    $(this).html('<i class="fas fa-minus mr-2"></i>Свернуть');
+    $('.blockDocument').removeClass('d-none');
+  });
+  $(document).on('click', '.btnClose', function() {
+    $(this).removeClass('btnClose').addClass('btnView');
+    $(this).html('<i class="fas fa-plus mr-2"></i>Развернуть');
+    $('.blockDocument').addClass('d-none');
+  });
+
+  // Раскрытие и сокрытие полей вторичного документа
+  $(document).on('click', '.btnViewNew', function() {
+    $(this).removeClass('btnViewNew').addClass('btnCloseNew');
+    $(this).html('<i class="fas fa-minus mr-2"></i>Свернуть');
+    $('.newDocumentForm').removeClass('d-none');
+  });
+  $(document).on('click', '.btnCloseNew', function() {
+    $(this).removeClass('btnCloseNew').addClass('btnViewNew');
+    $(this).html('<i class="fas fa-plus mr-2"></i>Развернуть');
+    $('.newDocumentForm').addClass('d-none');
+  });
+
+
 });

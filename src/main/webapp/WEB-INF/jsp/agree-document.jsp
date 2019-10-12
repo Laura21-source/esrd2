@@ -50,7 +50,7 @@
                                             </div>
                                             <hr class="my-1">
                                             <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm addUser rounded px-3" data-toggle="tooltip" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
+                                                <div class="btn btn-primary btn-sm addUser rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                             </div>
                                         </div>
                                         <div class="invalid-tooltip">Выберите согласователя</div>
@@ -87,7 +87,9 @@
                             </div>
                         </div>
                         <div class="alert alert-secondary text-center mt-5 mb-3">
-                            <h5 class="mt-2">Поля формирования документа</h5>
+                            <div class="btn btn-primary btn-sm rounded px-3 btnView" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i>Развернуть</div>
+                            <div class="btn btn-default btn-sm rounded px-3 btnAnswer" title="Сформировать ответ">Сформировать ответ</div>
+                            <h5 class="mt-2 docName">Поля формирования документа</h5>
                         </div>
                         <div class="card blockDocument">
                             <div class="card-body">
@@ -126,7 +128,127 @@
                                 <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
                                 <button type="submit" id="btnReset" class="btn btn-danger mb-2 my-4 pt-3 rounded btnReset">Отменить согласование</button>
                                 <button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded btnSave">Сгенерировать служебную записку</button>
-                                <a href="" type="button" id="btnLoadS" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
+                                <a href="" type="button" id="btnLoad" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="alert alert-secondary text-center mb-3">
+                        <div class="btn btn-primary btn-sm rounded px-3 btnCloseNew"><i class="fas fa-plus mr-2"></i>Свернуть</div>
+                        <h5 class="mt-2">Формирование нового документа</h5>
+                    </div>
+                    <form class="newDocumentForm needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall userList">
+                                            <div class="col-md-1">№</div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-8">Согласователь</div>
+                                            <div class="col-md-2">Удалить</div>
+                                        </div>
+                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall d-none disableUserList">
+                                            <div class="col-md-1">№</div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-4">Согласователь</div>
+                                            <div class="col-md-3">Комментарий</div>
+                                            <div class="col-md-3">Дата/Время</div>
+                                        </div>
+                                        <div id="userListBlockDivNew"></div>
+                                        <div class="row" id="userListBlockNew">
+                                            <div class="col-12 mt-2 blockUser" id="blockUserNew1">
+                                                <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
+                                                    <div class="col-md-1">1.</div>
+                                                    <div class="col-md-1"><i class="fas fa-user"></i></div>
+                                                    <div class="col-md-8 selectUser select-outline">
+                                                        <select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="1" id="userListNew1" searchable=' Поиск' name="userList[]" required>
+                                                            <option value="" selected>Выбрать</option>
+                                                        </select>
+                                                        <div class="fontSmall text-left" id="userListPostNew1"></div>
+                                                    </div>
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                            </div>
+                                            <hr class="my-1">
+                                            <div class="col-12 text-right">
+                                                <div class="btn btn-primary btn-sm addUserNew rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
+                                            </div>
+                                        </div>
+                                        <div class="invalid-tooltip">Выберите согласователя</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="container-fluid mx-2">
+                                    <div class="sticky-content">
+                                        <div class="alert alert-primary mx-auto text-uppercase">Готовый документ</div>
+                                        <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3 d-flex align-items-center justify-content-center">
+                                            <!--Big blue Loader-->
+                                            <div class="preloader-wrapper active bigLoader d-none">
+                                                <div class="spinner-layer spinner-blue-only">
+                                                    <div class="circle-clipper left">
+                                                        <div class="circle"></div>
+                                                    </div>
+                                                    <div class="gap-patch">
+                                                        <div class="circle"></div>
+                                                    </div>
+                                                    <div class="circle-clipper right">
+                                                        <div class="circle"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pdfSign"><i class="far fa-file-pdf text-danger fa-10x"></i></div>
+                                            <iframe class="embed-responsive-item pdfSRC" src=""></iframe>
+                                        </div>
+                                        <a href="" id="btnSavePdfNew" class="btn btn-default btn-sm my-3 rounded pdfHREF px-3" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
+                                        <div id="btnReformatNew" class="btn btn-mdb-color btn-sm my-3 rounded px-3"><i class="fas fa-sync mr-2"></i>Переформировать</div>
+                                        <a class="btn btn-light-blue btn-sm my-3 pdfHREFNew px-3" href="" target="_blank">Открыть в новом окне</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-secondary text-center mt-5 mb-3">
+                            <h5 class="mt-2">Поля формирования документа</h5>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row ml-1 mb-3 d-flex align-items-center">
+                                    <div class="col-md-3 text-left mt-2">
+                                        <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
+                                    </div>
+                                    <div class="col-md-9 select-outline">
+                                        <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" disabled name="selectType" id="selectTypeNew" required>
+                                            <option value="">Выберите вид документа</option>
+                                        </select>
+                                        <div class="invalid-tooltip">Выберите тип документа</div>
+                                    </div>
+                                </div>
+                                <div id="blockUpNew"></div>
+                                <div id="blockDownNew" class="card p-3">
+                                    <h5 class="blockNameNew"></h5>
+                                    <div class="card-body">
+                                        <div id="newBlockGroupNew"></div>
+                                        <div class="marginBlock my-3"></div>
+                                        <div class="row">
+                                            <div class="col-12 text-right">
+                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить блок"><i class="fas fa-plus mr-2"></i> Добавить</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3" id="commentTextNew">
+                                    <div class="col-md-3">&nbsp;</div>
+                                    <div class="col-md-6 form-group text-left">
+                                        <label class="text-muted">Комментарий</label>
+                                        <textarea class="form-control" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-md-3">&nbsp;</div>
+                                </div>
+                                <button type="submit" id="btnSaveNew" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
+                                <button type="submit" id="btnResetNew" class="btn btn-danger mb-2 my-4 pt-3 rounded btnReset">Отменить согласование</button>
+                                <button type="button" id="btnWordFileNew" class="btn btn-warning mb-2 my-4 pt-3 rounded btnSave">Сгенерировать служебную записку</button>
+                                <a href="" type="button" id="btnLoadNew" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
                             </div>
                         </div>
                     </form>
@@ -192,7 +314,8 @@
             }
             // Если документ уже подписан
             if(data.docStatus === 'IN_WORK') {
-                $('.blockDocument').addClass('d-none');
+                $('.blockDocument, #btnWordFile').addClass('d-none');
+                $('.docName').html('Сведения о документе');
             }
             // Ссылки на документ PDF
             var documentPDF = data.UrlPDF;
@@ -425,6 +548,20 @@
                 toastr["error"]("Ошибка отправки файла PDF!");
             });
         });
+
+        // Формирование нового документа
+        createOptions ('rest/profile/users/', '#userListNew1', '', 'id', '', 'usersList');
+        // Добавление должности при изменении пользователя
+        $(document).on("change", ".userList", function() {
+            var userId = $(this).val();
+            var link = $(this).attr('data-spisok');
+            createUserList('rest/profile/users/'+userId, '#userListPostNew'+link);
+        });
+
+        // Список полей вида документов
+        createOptions('rest/profile/doctypes/', '#selectTypeNew', 'name', 'id', '', '');
+        $('#selectType.mdb-select').materialSelect();
+
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>
