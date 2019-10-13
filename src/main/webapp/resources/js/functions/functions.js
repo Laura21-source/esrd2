@@ -603,7 +603,7 @@
                         } else {
                             item.regDateTime = formatDate(item.regDateTime, 0);
                         }
-                        item.regNum = "<a href='agree-document?id=" + item.id + "'>" + item.projectRegNum + "</a>"
+                        item.regNum = "<a href='agree-document?id=" + item.id + "'>" + item.regNum + "</a>"
                         if (!item.currentAgreeFullName || item.currentAgreeFullName == '') {
                             item.currentAgreeFullName = 'Согласование завершено';
                         }
@@ -675,7 +675,7 @@
                         } else {
                             item.regDateTime = formatDate(item.regDateTime, 0);
                         }
-                        item.regNum = "<a href='agree-document?id=" + item.id + "'>" + item.projectRegNum + "</a>"
+                        item.regNum = "<a href='agree-document?id=" + item.id + "'>" + item.regNum + "</a>"
                         if (!item.currentAgreeFullName || item.currentAgreeFullName == '') {
                             item.currentAgreeFullName = 'Согласование завершено';
                         }
