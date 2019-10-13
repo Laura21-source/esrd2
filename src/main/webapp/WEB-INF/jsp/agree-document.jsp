@@ -138,11 +138,11 @@
                     <form class="newDocumentForm needs-validation blockDocumentNew d-none" novalidate>
                         <div class="card pb-5">
                             <div class="card-body pb-5">
-                                <div class="row ml-1 mb-3 d-flex align-items-center">
-                                    <div class="col-md-3 text-left mt-2">
+                                <div class="row ml-1 mb-1 d-flex align-items-center">
+                                    <div class="col-md-2 text-left mt-2">
                                         <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                     </div>
-                                    <div class="col-md-9 select-outline">
+                                    <div class="col-md-10 select-outline">
                                         <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" name="selectTypeNew" id="selectTypeNew" required>
                                             <option value="">Выберите вид документа</option>
                                         </select>
@@ -150,6 +150,16 @@
                                     </div>
                                 </div>
                                 <div id="blockFieldsNew" class="d-none">
+                                    <div class="row ml-1 mb-3 d-flex align-items-center">
+                                        <div class="col-2 text-left mt-2">
+                                            <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Кому</span>
+                                        </div>
+                                        <div class="col-10 select-outline">
+                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomListNew" multiple searchable=" Поиск" required>
+                                                <option value="" disabled>Выберите из справочника</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
@@ -538,14 +548,6 @@
         });
 
         // Формирование нового документа
-        createOptions ('rest/profile/users/', '#userListNew1', '', 'id', '', 'usersList');
-        // Добавление должности при изменении пользователя
-        $(document).on("change", ".userListNew", function() {
-            var userId = $(this).val();
-            var link = $(this).attr('data-spisok');
-            createUserList('rest/profile/users/'+userId, '#userListPostNew'+link);
-        });
-
         // Список полей вида документов
         createOptions('rest/profile/doctypes/', '#selectTypeNew', 'name', 'id', '', '');
         $('#selectTypeNew.mdb-select').materialSelect();
@@ -566,6 +568,25 @@
             } else {
                 $("#blockFieldsNew, #blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").addClass("d-none");
             }
+        });
+
+        // Список кому
+        createOptions ('rest/profile/departments/getAllTopLevel', '#whomListNew', 'name', 'id', '', '');
+        $('#whomList.mdb-select').materialSelect({
+            // Добавим русский язык к селектам
+            language: {
+                active: true,
+                ru: {active: true}
+            }
+        });
+
+        // Список согласования
+        createOptions ('rest/profile/users/', '#userListNew1', '', 'id', '', 'usersList');
+        // Добавление должности при изменении пользователя
+        $(document).on("change", ".userListNew", function() {
+            var userId = $(this).val();
+            var link = $(this).attr('data-spisok');
+            createUserList('rest/profile/users/'+userId, '#userListPostNew'+link);
         });
 
         // Сохранение - Отправка на сервер

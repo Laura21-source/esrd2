@@ -15,13 +15,13 @@
                         <h4 class="mt-2">Подготовка проекта документа</h4>
                     </div>
                     <form class="registrationForm needs-validation" novalidate>
-                        <div class="card pb-5">
-                            <div class="card-body pb-5">
-                                <div class="row ml-1 mb-3 d-flex align-items-center">
-                                    <div class="col-md-3 text-left mt-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row ml-1 mb-1 d-flex align-items-center">
+                                    <div class="col-md-2 text-left mt-2">
                                         <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
                                     </div>
-                                    <div class="col-md-9 select-outline">
+                                    <div class="col-md-10 select-outline">
                                         <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" name="selectType" id="selectType" required>
                                             <option value="">Выберите вид документа</option>
                                         </select>
@@ -29,22 +29,18 @@
                                     </div>
                                 </div>
                                 <div id="blockFields" class="d-none">
+                                    <div class="row ml-1 mb-3 d-flex align-items-center">
+                                        <div class="col-2 text-left mt-2">
+                                            <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Кому</span>
+                                        </div>
+                                        <div class="col-10 select-outline">
+                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomList" multiple searchable=" Поиск" required>
+                                                <option value="" disabled>Выберите из справочника</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="card mb-3">
-                                                <div class="card-body">
-                                                    <div class="row d-flex align-items-center">
-                                                        <div class="col-2">
-                                                            <span class="text-muted">Кому</span>
-                                                        </div>
-                                                        <div class="col-10">
-                                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomList" multiple searchable=" Поиск" required>
-                                                                <option value="" disabled>Выберите из справочника</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
                                             <div class="card mb-3">
                                                 <div class="card-body">
