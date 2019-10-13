@@ -56,8 +56,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       this.isSearchable = Boolean(this.$nativeSelect.attr('searchable'));
       this.isRequired = Boolean(this.$nativeSelect.attr('required'));
       this.isEditable = Boolean(this.$nativeSelect.attr('editable'));
-      this.selectAllLabel = Boolean(this.$nativeSelect.attr('selectAllLabel')) ? this.$nativeSelect.attr('selectAllLabel') : 'Select all';
-      this.optionsSelectedLabel = Boolean(this.$nativeSelect.attr('optionsSelectedLabel')) ? this.$nativeSelect.attr('optionsSelectedLabel') : 'options selected';
+      this.selectAllLabel = Boolean(this.$nativeSelect.attr('selectAllLabel')) ? this.$nativeSelect.attr('selectAllLabel') : 'Выбрать все';
+      this.optionsSelectedLabel = Boolean(this.$nativeSelect.attr('optionsSelectedLabel')) ? this.$nativeSelect.attr('optionsSelectedLabel') : 'пунктов выбрано';
       this.keyboardActiveClass = Boolean(this.$nativeSelect.attr('keyboardActiveClass')) ? this.$nativeSelect.attr('keyboardActiveClass') : 'heavy-rain-gradient';
       this.uuid = this.options.nativeID !== null && this.options.nativeID !== '' && this.options.nativeID !== undefined && typeof this.options.nativeID === 'string' ? this.options.nativeID : this._randomUUID();
       this.$selectWrapper = $('<div class="select-wrapper"></div>');
