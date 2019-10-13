@@ -561,15 +561,27 @@
     }
 
     // Формирование объекта JSON для отправки на сервер
-    function createJSON (id,dataType,dataField,dataBlock) {
+    function createJSON (id,dataType,dataField,dataBlock,block) {
         var id = parseInt(id);
         if(id === 0) {id = null;}
         var childFields = [];
+        var executorDepartmentsIds = [];
+        var whomList = '#whomList';
+        if(block && block === 1) {
+            whomList = '#whomListNew';
+        }
+        $(whomList + ' option').each(function() {
+            var element = $(this).val();
+            if(element !== '') {
+                whomList.push(element);
+            }
+        });
         if(dataField !== "") {for (var key in dataField) {childFields.push(dataField[key]);}}
         if(dataBlock !== "") {for (var key in dataBlock) {childFields.push(dataBlock[key]);}}
         var valueObj = {
             "id" : id,
             "docTypeId" : parseInt(dataType),
+            "executorDepartmentsIds" : executorDepartmentsIds,
             "childFields" : childFields
         }
         return valueObj;
