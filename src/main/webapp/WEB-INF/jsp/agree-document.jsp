@@ -18,6 +18,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
+                                <div class="row ml-1 mb-3 d-flex align-items-center">
+                                    <div class="col-2 text-left mt-2">
+                                        <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Кому</span>
+                                    </div>
+                                    <div class="col-10" id="whomList"></div>
+                                </div>
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall userList">
@@ -323,6 +329,8 @@
             createOptions(docAllURL, '#selectType', 'name', 'id', data.docTypeId,'');
             $('#selectType.mdb-select').materialSelect();
             // Получение основных полей
+            // Список кому
+            createWhomListDisabled (data.executorDepartmentsIds);
             // Верхний блок полей
             getUpFields(docURL, id);
             // Нижний блок полей

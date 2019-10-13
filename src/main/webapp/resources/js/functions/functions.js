@@ -576,12 +576,14 @@
                 executorDepartmentsIds.push(element);
             }
         });
+        var finalUserId = '';
         if(dataField !== "") {for (var key in dataField) {childFields.push(dataField[key]);}}
         if(dataBlock !== "") {for (var key in dataBlock) {childFields.push(dataBlock[key]);}}
         var valueObj = {
             "id" : id,
             "docTypeId" : parseInt(dataType),
             "executorDepartmentsIds" : executorDepartmentsIds,
+            "finalUserId" : finalUserId,
             "childFields" : childFields
         }
         return valueObj;
@@ -717,6 +719,24 @@
     }
 
     // Формирование списка согласователей без фозможности редактирования
+    function createWhomListDisabled (url) {
+        for(var i in url) {
+            var row = url[i];
+
+            $('#whomList').append('<span class="mr-2">' + row + '</span>');
+        }
+
+
+        /*return $.getJSON(url, function(data) {
+            for(var i in data) {
+                var row = data[i];
+                var element = row.executorDepartmentsIds[key];
+                $('#whomList').append('<span class="mr-2">' + element + '</span>');
+            }
+        });*/
+    }
+
+    // Формирование списка  без фозможности редактирования
     function createUserListDisabled (url) {
         return $.getJSON(url, function(data) {
             for(var i in data) {
@@ -731,13 +751,17 @@
                 }
                 if(row.comment) {comment = row.comment;}
                 if(row.position) {position = row.position;}
+                var currentUser = '';
+                if(row.finalUser === true) {
+                    currentUser = '<i class="fas fa-user-graduate mr-2 text-success" title="Финальный согласователь"></i>';
+                }
                 if(row.currentUser === true) {
-                    var currentUser = '<i class="fas fa-user-clock text-warning"></i>';
+                    currentUser = currentUser + '<i class="fas fa-user-clock text-warning" title="Текущий согласователь"></i>';
                 } else {
-                    currentUser = '<i class="fas fa-ellipsis-h text-muted"></i>';
+                    currentUser = currentUser + '<i class="fas fa-ellipsis-h text-muted" title="Согласователь"></i>';
                 }
                 if(row.decisionType && row.decisionType === 'ACCEPTED') {
-                    currentUser = '<i class="fas fa-check text-success"></i>';
+                    currentUser = currentUser + '<i class="fas fa-check text-success" title="Согласование завершено"></i>';
                 }
                 $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
             }
