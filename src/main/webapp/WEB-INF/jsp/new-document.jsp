@@ -31,8 +31,27 @@
                                 <div id="blockFields" class="d-none">
                                     <div class="row">
                                         <div class="col-md-6">
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <div class="row d-flex align-items-center">
+                                                        <div class="col-2">
+                                                            <span class="text-muted">Кому</span>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" multiple searchable=" Поиск" required>
+                                                                <option value="" disabled>Выберите из справочника</option>
+                                                                <option value="1">USA</option>
+                                                                <option value="2">Germany</option>
+                                                                <option value="3">France</option>
+                                                                <option value="3">Poland</option>
+                                                                <option value="3">Japan</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
-                                            <div class="card">
+                                            <div class="card mb-3">
                                                 <div class="card-body">
                                                     <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall">
                                                         <div class="col-md-1">№</div>
@@ -137,9 +156,6 @@
             var link = $(this).attr('data-spisok');
             createUserList('rest/profile/users/'+userId, '#userListPost'+link);
         });
-
-        // Убрать PDF файл
-        //$('.pdfSRC').attr('src', '');
 
         // Список полей вида документов
         createOptions('rest/profile/doctypes/', '#selectType', 'name', 'id', '', '');

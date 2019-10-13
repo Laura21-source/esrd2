@@ -24,7 +24,7 @@
                                             <div class="col-md-1">№</div>
                                             <div class="col-md-1"></div>
                                             <div class="col-md-8">Согласователь</div>
-                                            <div class="col-md-2">Удалить</div>
+                                            <div class="col-md-2"><%--Удалить--%></div>
                                         </div>
                                         <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall d-none disableUserList">
                                             <div class="col-md-1">№</div>
@@ -159,7 +159,7 @@
                                                         <div class="col-md-1">№</div>
                                                         <div class="col-md-1"></div>
                                                         <div class="col-md-8">Согласователь</div>
-                                                        <div class="col-md-2">Удалить</div>
+                                                        <div class="col-md-2"><%--Удалить--%></div>
                                                     </div>
                                                     <div class="row" id="userListBlockNew">
                                                         <div class="col-12 mt-2 blockUserNew" id="blockUserNew1">
@@ -303,7 +303,7 @@
                 $('.blockDocumentNew').removeClass('d-none');
                 $('.blockDocument, #btnWordFile').addClass('d-none');
                 $('.docName').html('Сведения о документе');
-                $('.registrationForm input, .registrationForm option').attr('disabled');
+                $('.registrationForm input, .registrationForm option').attr('disabled', 'disabled');
             }
             // Ссылки на документ PDF
             var documentPDF = data.UrlPDF;

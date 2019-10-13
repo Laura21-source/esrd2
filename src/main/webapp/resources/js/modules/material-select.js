@@ -44,6 +44,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           ar: {
             selectAll: 'اختر كل شيء',
             optionsSelected: 'الخيارات المحددة'
+          },
+          ru: {
+            selectAll: 'Выбрать все',
+            optionsSelected: 'пунктов выбрано'
           }
         }
       };
@@ -66,8 +70,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       this.$toggleAll = $("<li class=\"select-toggle-all\"><span><input type=\"checkbox\" class=\"form-check-input\"><label>".concat(this.selectAllLabel, "</label></span></li>"));
       this.$addOptionBtn = $('<i class="select-add-option fas fa-plus"></i>');
       this.mainLabel = this.$nativeSelect.next('.mdb-main-label');
-      this.$validFeedback = $("<div class=\"valid-feedback\">".concat(this.options.validFeedback || 'Good choice', "</div>"));
-      this.$invalidFeedback = $("<div class=\"invalid-feedback\">".concat(this.options.invalidFeedback || 'Bad choice', "</div>"));
+      this.$validFeedback = $("<div class=\"valid-feedback\">".concat(this.options.validFeedback || 'Правильно', "</div>"));
+      this.$invalidFeedback = $("<div class=\"invalid-feedback\">".concat(this.options.invalidFeedback || 'Ошибка!', "</div>"));
       this.valuesSelected = [];
       this.keyCodes = {
         tab: 9,
@@ -138,6 +142,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           if (this.options.language.in) {
             this.$toggleAll.find('label').text(this.options.language.in.selectAll ? this.options.language.in.selectAll : this.defaults.language.in.selectAll);
+          }
+
+          if (this.options.language.ru) {
+            this.$toggleAll.find('label').text(this.options.language.ru.selectAll ? this.options.language.ru.selectAll : this.defaults.language.ru.selectAll);
           }
         }
 
@@ -339,9 +347,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         var disabled = $nativeSelectChild.is(':disabled') ? 'disabled' : '';
         var optgroupClass = type === 'optgroup-option' ? 'optgroup-option' : '';
         var iconUrl = $nativeSelectChild.data('icon');
-        var fas = $nativeSelectChild.data('fas') ? "<i class=\"fa-pull-right m-2 fas fa-".concat($nativeSelectChild.data('fas'), " ").concat([...this.options.fasClasses].join(''), "\"></i> ") : '';
-        var far = $nativeSelectChild.data('far') ? "<i class=\"fa-pull-right m-2 far fa-".concat($nativeSelectChild.data('far'), " ").concat([...this.options.farClasses].join(''), "\"></i> ") : '';
-        var fab = $nativeSelectChild.data('fab') ? "<i class=\"fa-pull-right m-2 fab fa-".concat($nativeSelectChild.data('fab'), " ").concat([...this.options.fabClasses].join(''), "\"></i> ") : '';
+        var fas = $nativeSelectChild.data('fas') ? "<i class=\"fa-pull-right m-2 fas fa-".concat($nativeSelectChild.data('fas'), " ").concat([this.options.fasClasses].join(''), "\"></i> ") : '';
+        var far = $nativeSelectChild.data('far') ? "<i class=\"fa-pull-right m-2 far fa-".concat($nativeSelectChild.data('far'), " ").concat([this.options.farClasses].join(''), "\"></i> ") : '';
+        var fab = $nativeSelectChild.data('fab') ? "<i class=\"fa-pull-right m-2 fab fa-".concat($nativeSelectChild.data('fab'), " ").concat([this.options.fabClasses].join(''), "\"></i> ") : '';
         var classes = $nativeSelectChild.attr('class');
         var iconHtml = iconUrl ? "<img alt=\"\" src=\"".concat(iconUrl, "\" class=\"").concat(classes, "\">") : '';
         var checkboxHtml = this.isMultiple ? "<input type=\"checkbox\" class=\"form-check-input\" ".concat(disabled, "/><label></label>") : '';
@@ -943,6 +951,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             optionsSelected = this.options.language.ar.optionsSelected ? this.options.language.ar.optionsSelected : this.defaults.language.ar.optionsSelected;
           } else if (this.options.language.in) {
             optionsSelected = this.options.language.in.optionsSelected ? this.options.language.in.optionsSelected : this.defaults.language.in.optionsSelected;
+          } else if (this.options.language.ru) {
+            optionsSelected = this.options.language.ru.optionsSelected ? this.options.language.ru.optionsSelected : this.defaults.language.ru.optionsSelected;
           }
         }
 
