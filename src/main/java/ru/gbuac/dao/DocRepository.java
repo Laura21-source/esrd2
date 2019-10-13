@@ -18,6 +18,10 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("DELETE FROM Doc d WHERE d.id=:id")
     int delete(@Param("id") int id);
 
+    @Query("SELECT DISTINCT d FROM Doc d JOIN d.executorUsers eu LEFT JOIN d.executorDepartments ed " +
+            "WHERE eu.name=:userName AND d.docStatus='IN_WORK'")
+    List<Doc> getAllInWorkByUserName(@Param("userName") String userName);
+
     @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             " CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym), " +
             "d.docType.name) FROM Doc d JOIN d.agreementList a JOIN a.user WHERE " +

@@ -45,6 +45,13 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
+    @GetMapping(value = "/inwork")
+    public List<DocItemTo> getAllInWorkByUserName() {
+        return super.getAllInWorkByUserName();
+    }
+
+
+    @Override
     @GetMapping(value = "/distribution")
     public List<DocItemTo> getAllDistribution() {
         return super.getAllDistribution();

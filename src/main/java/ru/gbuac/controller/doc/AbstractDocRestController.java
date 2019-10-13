@@ -53,6 +53,11 @@ public abstract class AbstractDocRestController {
                 docService.getAllRegistered() : docService.getAllRegisteredByUsername(AuthorizedUser.getUserName());
     }
 
+    public List<DocItemTo> getAllInWorkByUserName() {
+        LOG.info("getAllAgreement");
+        return docService.getAllInWorkByUserName(AuthorizedUser.getUserName());
+    }
+
     public List<DocItemTo> getAllDistribution() {
         LOG.info("getAllDistribution");
         return docService.getAllDistribution(AuthorizedUser.getUserName());

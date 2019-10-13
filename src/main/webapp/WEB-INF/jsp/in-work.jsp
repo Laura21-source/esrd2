@@ -22,7 +22,8 @@
                             <th class="th-sm font-weight-bold alert-primary" width="20%">Рег. номер</th>
                             <th class="th-sm font-weight-bold alert-primary" width="20%">Дата регистрации</th>
                             <th class="th-sm font-weight-bold alert-primary" width="40%">Вид документа</th>
-                            <th class="th-sm font-weight-bold alert-primary" width="40%">Согласовант</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="40%">Подразделения-исполнители</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="40%">Исполнители</th>
                             <th class="th-sm font-weight-bold alert-primary" width="10%">Карточка документа</th>
                         </tr>
                         </thead>
@@ -38,7 +39,7 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        var dataTable = dataTableArray("#dataTable","rest/profile/docs/agreed");
+        var dataTable = dataTableArrayDistr("#dataTable","rest/profile/docs/inwork");
         console.log(dataTable);
     });
 </script>

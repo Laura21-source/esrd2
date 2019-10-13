@@ -28,6 +28,8 @@ public interface DocService {
 
     List<Doc> getAllRegistered();
 
+    List<DocItemTo> getAllInWorkByUserName(String userName);
+
     List<DocItemTo> getAllDistribution(String userName);
 
     List<DocItemTo> getAllDistributed(String userName);

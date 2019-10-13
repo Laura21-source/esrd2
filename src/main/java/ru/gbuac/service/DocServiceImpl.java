@@ -162,13 +162,7 @@ public class DocServiceImpl implements DocService {
         return docRepository.getAllRegistered();
     }
 
-    @Override
-    public List<DocItemTo> getAllDistribution(String userName) {
-        User curUser = userRepository.getByName(userName);
-        List<Department> departments = curUser.getDistributionDepartments();
-        List<Doc> docs = new ArrayList<>();
-        Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
-                .forEach(d -> docs.addAll(docRepository.getAllDistribution(d.getId())));
+    private List<DocItemTo> getWithUserDepsExecutors(List<Doc> docs) {
         List<DocItemTo> docItemsTo = new ArrayList<>();
         for (Doc d: docs) {
             StringBuilder deps = new StringBuilder();
@@ -190,30 +184,29 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
+    public List<DocItemTo> getAllInWorkByUserName(String userName) {
+        List<Doc> docs = docRepository.getAllInWorkByUserName(userName);
+        return getWithUserDepsExecutors(docs);
+    }
+
+    @Override
+    public List<DocItemTo> getAllDistribution(String userName) {
+        User curUser = userRepository.getByName(userName);
+        List<Department> departments = curUser.getDistributionDepartments();
+        List<Doc> docs = new ArrayList<>();
+        Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
+                .forEach(d -> docs.addAll(docRepository.getAllDistribution(d.getId())));
+        return getWithUserDepsExecutors(docs);
+    }
+
+    @Override
     public List<DocItemTo> getAllDistributed(String userName) {
         User curUser = userRepository.getByName(userName);
         List<Department> departments = curUser.getDistributionDepartments();
         List<Doc> docs = new ArrayList<>();
         Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
                 .forEach(d -> docs.addAll(docRepository.getAllDistributed(d.getId())));
-        List<DocItemTo> docItemsTo = new ArrayList<>();
-        for (Doc d: docs) {
-            StringBuilder deps = new StringBuilder();
-            for (Department department: d.getExecutorDepartments()) {
-                deps.append(department.getId());
-                deps.append(" ");
-            }
-            StringBuilder users = new StringBuilder();
-            for (User user: d.getExecutorUsers()) {
-                users.append(user.getId());
-                users.append(" ");
-            }
-
-            docItemsTo.add(new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
-                    d.getProjectRegNum(), d.getProjectRegDateTime(), deps.toString().trim().replace(" ",","),
-                    users.toString().trim().replace(" ",","), d.getDocType().getName()));
-        }
-        return docItemsTo;
+        return getWithUserDepsExecutors(docs);
     }
 
     @Override
