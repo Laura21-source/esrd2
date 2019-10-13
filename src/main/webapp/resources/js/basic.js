@@ -72,11 +72,23 @@ $(function() {
     $('#blockGroup' + id).remove();
   });
 
+  $(document).on("click", ".delGroupNew", function() {
+    var id = $(this).attr("id");
+    id = id.substr(8);
+    $('#blockGroupNew' + id).remove();
+  });
+
   // Удалить пользователя
   $(document).on("click", ".delUser", function() {
     var id = $(this).attr("id");
     id = id.substr(7);
     $('#blockUser' + id).remove();
+  });
+
+  $(document).on("click", ".delUserNew", function() {
+    var id = $(this).attr("id");
+    id = id.substr(9);
+    $('#blockUserNew' + id).remove();
   });
 
   // Отправка файла на сервер

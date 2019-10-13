@@ -386,7 +386,7 @@
                 var sumElem = countElem(dataField) + 1;
                 var dataBlock = createDataBlock(id, sumElem);
                 //console.log(JSON.stringify(dataBlock));
-                var serverStack = JSON.stringify(createJSON(id, dataType, dataField, dataBlock));
+                var serverStack = JSON.stringify(createJSON(id, dataType, dataField, dataBlock,2));
                 //console.log(serverStack);
                 var serverAjax = $.ajax({
                     type: "POST",
@@ -437,7 +437,7 @@
                 var dataField = createDataField(0);
                 var sumElem = countElem(dataField) + 1;
                 var dataBlock = createDataBlock(0, sumElem);
-                var repostWordFile = JSON.stringify(createJSON(0, dataType, dataField, dataBlock));
+                var repostWordFile = JSON.stringify(createJSON(0, dataType, dataField, dataBlock,2));
                 //console.log(repostWordFile);
                 var serverAjax = $.ajax({
                     type: "POST",
@@ -472,7 +472,7 @@
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(id, sumElem);
             //console.log(JSON.stringify(dataBlock));
-            var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
+            var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock,2));
             //console.log(serverStack);
             var comment = $('#commentText textarea').val();
             var serverAjax = $.ajax({
@@ -506,7 +506,7 @@
             var sumElem = countElem(dataField)+1;
             var dataBlock = createDataBlock(id, sumElem);
             //console.log(JSON.stringify(dataBlock));
-            var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
+            var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock,2));
             //console.log(serverStack);
             var comment = $('#commentText textarea').val();
             var serverAjax = $.ajax({
@@ -542,7 +542,7 @@
             var dataBlock = createDataBlock(id, sumElem);
             var tempPDF = createJSON(id,dataType,dataField,dataBlock);
             //console.log(tempPDF);
-            var reformatPDF = JSON.stringify(createJSON(id,dataType,dataField,dataBlock));
+            var reformatPDF = JSON.stringify(createJSON(id,dataType,dataField,dataBlock,2));
             //console.log(reformatPDF);
             var serverAjax = $.ajax({
                 type: "POST",
@@ -561,7 +561,7 @@
             });
         });
 
-        // Формирование нового документа
+        // ФОРМИРОВАНИЕ НОВОГО ДОКУМЕНТА
         // Список полей вида документов
         createOptions('rest/profile/doctypes/', '#selectTypeNew', 'name', 'id', '', '');
         $('#selectTypeNew.mdb-select').materialSelect();

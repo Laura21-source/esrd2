@@ -560,35 +560,6 @@
         return dataBlock;
     }
 
-    // Формирование объекта JSON для отправки на сервер
-    function createJSON (id,dataType,dataField,dataBlock,block) {
-        var id = parseInt(id);
-        if(id === 0) {id = null;}
-        var childFields = [];
-        var executorDepartmentsIds = [];
-        var whomList = '#whomList';
-        if(block && block === 1) {
-            whomList = '#whomListNew';
-        }
-        $(whomList + ' option:selected').each(function() {
-            var element = $(this).val();
-            if(element !== '') {
-                executorDepartmentsIds.push(element);
-            }
-        });
-        var finalUserId = '';
-        if(dataField !== "") {for (var key in dataField) {childFields.push(dataField[key]);}}
-        if(dataBlock !== "") {for (var key in dataBlock) {childFields.push(dataBlock[key]);}}
-        var valueObj = {
-            "id" : id,
-            "docTypeId" : parseInt(dataType),
-            "executorDepartmentsIds" : executorDepartmentsIds,
-            "finalUserId" : finalUserId,
-            "childFields" : childFields
-        }
-        return valueObj;
-    }
-
     // Формирование листа согласования
     function createAgreeList (data) {
         var agreeList = [];
@@ -615,6 +586,41 @@
         return agreeList;
     }
 
+    // Формирование объекта JSON для отправки на сервер
+    function createJSON (id,dataType,dataField,dataBlock,block) {
+        var id = parseInt(id);
+        if(id === 0) {id = null;}
+        var childFields = [];
+        var executorDepartmentsIds = [];
+        var whomList = '#whomList';
+        var userListBlock = '#userListBlock';
+        if(block && block === 1) {
+            whomList = '#whomListNew';
+            userListBlock = '#userListBlockNew';
+        }
+        var finalUserId =  $(userListBlock + ' select:last').val();
+        if(block && block === 2) {
+            userListBlock = '#userListBlockDiv';
+            var finalUserId =  $(userListBlock + ' .row:last').attr('data-value');
+        }
+        alert(finalUserId);
+        $(whomList + ' option:selected').each(function() {
+            var element = $(this).val();
+            if(element !== '') {
+                executorDepartmentsIds.push(element);
+            }
+        });
+        if(dataField !== "") {for (var key in dataField) {childFields.push(dataField[key]);}}
+        if(dataBlock !== "") {for (var key in dataBlock) {childFields.push(dataBlock[key]);}}
+        var valueObj = {
+            "id" : id,
+            "docTypeId" : parseInt(dataType),
+            "executorDepartmentsIds" : executorDepartmentsIds,
+            "finalUserId" : finalUserId,
+            "childFields" : childFields
+        }
+        return valueObj;
+    }
 
     // Функция получения записей в таблицу
     function dataTableArray (element, url, typeId) {
@@ -718,19 +724,18 @@
         $('.dataTables_length').addClass('bs-select');
     }
 
-    // Получение данных о управлении по id
+    // Получение данных об управлении по id
     function getDepartments (url) {
         return $.getJSON(url, function(data) {
-            $('#whomList').append('<div class="d-inline-block chip light-blue lighten-2 white-text my-0 mr-2">' + data.name + '</div>');
+            $('#whomList').append('<div class="d-inline-block chip light-blue lighten-2 white-text my-1 mr-2">' + data.name + '</div>');
         });
     }
 
-    // Формирование списка отделов без фозможности редактирования
+    // Формирование списка управлений без фозможности редактирования
     function createWhomListDisabled (url) {
         for(var i in url) {
             var row = url[i];
             getDepartments('rest/profile/departments/'+row);
-            //$('#whomList').append('<span class="mr-2">' + nameDepartment + '</span>');
         }
     }
 
@@ -761,7 +766,7 @@
                 if(row.decisionType && row.decisionType === 'ACCEPTED') {
                     currentUser = currentUser + '<i class="fas fa-check text-success" title="Согласование завершено"></i>';
                 }
-                $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
+                $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center" data-value="'+row.id+'"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
             }
         });
     }
