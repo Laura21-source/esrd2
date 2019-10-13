@@ -38,13 +38,8 @@
                                                             <span class="text-muted">Кому</span>
                                                         </div>
                                                         <div class="col-10">
-                                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" multiple searchable=" Поиск" required>
+                                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomList" multiple searchable=" Поиск" required>
                                                                 <option value="" disabled>Выберите из справочника</option>
-                                                                <option value="1">USA</option>
-                                                                <option value="2">Germany</option>
-                                                                <option value="3">France</option>
-                                                                <option value="3">Poland</option>
-                                                                <option value="3">Japan</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -148,6 +143,15 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
+        // Список кому
+        createOptions ('rest/profile/departments/getAllTopLevel', '#whomList', 'name', 'id', '', '');
+        $('#whomList.mdb-select').materialSelect({
+            // Добавим русский язык к селектам
+            language: {
+                active: true,
+                ru: {active: true}
+            }
+        });
         // Список согласования
         createOptions ('rest/profile/users/', '#userList1', '', 'id', '', 'usersList');
         // Добавление должности при изменении пользователя
