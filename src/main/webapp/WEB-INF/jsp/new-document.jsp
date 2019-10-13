@@ -44,7 +44,7 @@
                                         <div class="row" id="userListBlock">
                                             <div class="col-12 mt-2 blockUser" id="blockUser1">
                                                 <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
-                                                    <div class="col-md-1">1.</div>
+                                                    <div class="col-md-1">1</div>
                                                     <div class="col-md-1"><i class="fas fa-user"></i></div>
                                                     <div class="col-md-8 selectUser select-outline">
                                                         <select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="1" id="userList1" searchable=' Поиск' name="userList[]" required>
@@ -59,7 +59,7 @@
                                         <hr class="my-1">
                                         <div class="row">
                                             <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm addUser rounded px-3" data-toggle="tooltip" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
+                                                <div class="btn btn-primary btn-sm addUser rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                             </div>
                                         </div>
                                         <div class="invalid-tooltip">Выберите согласователя</div>

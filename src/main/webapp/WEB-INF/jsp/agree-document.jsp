@@ -37,7 +37,7 @@
                                         <div class="row" id="userListBlock">
                                             <div class="col-12 mt-2 blockUser" id="blockUser1">
                                                 <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
-                                                    <div class="col-md-1">1.</div>
+                                                    <div class="col-md-1">1</div>
                                                     <div class="col-md-1"><i class="fas fa-user"></i></div>
                                                     <div class="col-md-8 selectUser select-outline">
                                                         <select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="1" id="userList1" searchable=' Поиск' name="userList[]" required>
@@ -87,8 +87,7 @@
                             </div>
                         </div>
                         <div class="alert alert-secondary text-center mt-5 mb-3">
-                            <div class="btn btn-primary btn-sm rounded px-3 btnView" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i>Развернуть</div>
-                            <div class="btn btn-default btn-sm rounded px-3 btnAnswer" title="Сформировать ответ">Сформировать ответ</div>
+                            <div class="btn btn-primary btn-sm rounded px-3 btnView"><i class="fas fa-plus mr-2"></i>Развернуть</div>
                             <h5 class="mt-2 docName">Поля формирования документа</h5>
                         </div>
                         <div class="card blockDocument">
@@ -132,37 +131,29 @@
                             </div>
                         </div>
                     </form>
-                    <div class="alert alert-secondary text-center mb-3">
+                    <div class="alert alert-secondary text-center mb-3 blockDocumentNew d-none">
                         <div class="btn btn-primary btn-sm rounded px-3 btnCloseNew"><i class="fas fa-plus mr-2"></i>Свернуть</div>
                         <h5 class="mt-2">Формирование нового документа</h5>
                     </div>
-                    <form class="newDocumentForm needs-validation" novalidate>
+                    <form class="newDocumentForm needs-validation blockDocumentNew d-none" novalidate>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall userList">
+                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall">
                                             <div class="col-md-1">№</div>
                                             <div class="col-md-1"></div>
                                             <div class="col-md-8">Согласователь</div>
                                             <div class="col-md-2">Удалить</div>
                                         </div>
-                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall d-none disableUserList">
-                                            <div class="col-md-1">№</div>
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-4">Согласователь</div>
-                                            <div class="col-md-3">Комментарий</div>
-                                            <div class="col-md-3">Дата/Время</div>
-                                        </div>
-                                        <div id="userListBlockDivNew"></div>
                                         <div class="row" id="userListBlockNew">
-                                            <div class="col-12 mt-2 blockUser" id="blockUserNew1">
+                                            <div class="col-12 mt-2 blockUserNew" id="blockUserNew1">
                                                 <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
-                                                    <div class="col-md-1">1.</div>
+                                                    <div class="col-md-1">1</div>
                                                     <div class="col-md-1"><i class="fas fa-user"></i></div>
                                                     <div class="col-md-8 selectUser select-outline">
-                                                        <select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="1" id="userListNew1" searchable=' Поиск' name="userList[]" required>
+                                                        <select class="mdb-select md-form md-outline colorful-select dropdown-primary userListNew" data-spisok="1" id="userListNew1" searchable=' Поиск' name="userListNew[]" required>
                                                             <option value="" selected>Выбрать</option>
                                                         </select>
                                                         <div class="fontSmall text-left" id="userListPostNew1"></div>
@@ -170,7 +161,9 @@
                                                     <div class="col-md-2"></div>
                                                 </div>
                                             </div>
-                                            <hr class="my-1">
+                                        </div>
+                                        <hr class="my-1">
+                                        <div class="row">
                                             <div class="col-12 text-right">
                                                 <div class="btn btn-primary btn-sm addUserNew rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                             </div>
@@ -199,9 +192,9 @@
                                                 </div>
                                             </div>
                                             <div class="pdfSign"><i class="far fa-file-pdf text-danger fa-10x"></i></div>
-                                            <iframe class="embed-responsive-item pdfSRC" src=""></iframe>
+                                            <iframe class="embed-responsive-item pdfSRCNew" src=""></iframe>
                                         </div>
-                                        <a href="" id="btnSavePdfNew" class="btn btn-default btn-sm my-3 rounded pdfHREF px-3" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
+                                        <a href="" id="btnSavePdfNew" class="btn btn-default btn-sm my-3 rounded pdfHREFNew px-3" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
                                         <div id="btnReformatNew" class="btn btn-mdb-color btn-sm my-3 rounded px-3"><i class="fas fa-sync mr-2"></i>Переформировать</div>
                                         <a class="btn btn-light-blue btn-sm my-3 pdfHREFNew px-3" href="" target="_blank">Открыть в новом окне</a>
                                     </div>
@@ -211,43 +204,34 @@
                         <div class="alert alert-secondary text-center mt-5 mb-3">
                             <h5 class="mt-2">Поля формирования документа</h5>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
+                        <div class="card pb-5">
+                            <div class="card-body pb-5">
                                 <div class="row ml-1 mb-3 d-flex align-items-center">
                                     <div class="col-md-3 text-left mt-2">
                                         <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                     </div>
                                     <div class="col-md-9 select-outline">
-                                        <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" disabled name="selectType" id="selectTypeNew" required>
+                                        <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" name="selectTypeNew" id="selectTypeNew" required>
                                             <option value="">Выберите вид документа</option>
                                         </select>
                                         <div class="invalid-tooltip">Выберите тип документа</div>
                                     </div>
                                 </div>
-                                <div id="blockUpNew"></div>
-                                <div id="blockDownNew" class="card p-3">
+                                <div id="blockUpNew" class="d-none"></div>
+                                <div id="blockDownNew" class="d-none card p-3">
                                     <h5 class="blockNameNew"></h5>
                                     <div class="card-body">
                                         <div id="newBlockGroupNew"></div>
-                                        <div class="marginBlock my-3"></div>
+                                        <div class="marginBlockNew my-3"></div>
                                         <div class="row">
                                             <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить блок"><i class="fas fa-plus mr-2"></i> Добавить</div>
+                                                <div class="btn btn-primary btn-sm pointer addGroupNew mr-3 rounded" title="Добавить блок"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-3" id="commentTextNew">
-                                    <div class="col-md-3">&nbsp;</div>
-                                    <div class="col-md-6 form-group text-left">
-                                        <label class="text-muted">Комментарий</label>
-                                        <textarea class="form-control" rows="3"></textarea>
-                                    </div>
-                                    <div class="col-md-3">&nbsp;</div>
-                                </div>
-                                <button type="submit" id="btnSaveNew" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
-                                <button type="submit" id="btnResetNew" class="btn btn-danger mb-2 my-4 pt-3 rounded btnReset">Отменить согласование</button>
-                                <button type="button" id="btnWordFileNew" class="btn btn-warning mb-2 my-4 pt-3 rounded btnSave">Сгенерировать служебную записку</button>
+                                <button type="submit" id="btnSaveNew" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Отправить на согласование</button>
+                                <button type="button" id="btnWordFileNew" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>
                                 <a href="" type="button" id="btnLoadNew" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
                             </div>
                         </div>
@@ -314,8 +298,10 @@
             }
             // Если документ уже подписан
             if(data.docStatus === 'IN_WORK') {
+                $('.blockDocumentNew').removeClass('d-none');
                 $('.blockDocument, #btnWordFile').addClass('d-none');
                 $('.docName').html('Сведения о документе');
+                // Список согласования
             }
             // Ссылки на документ PDF
             var documentPDF = data.UrlPDF;
@@ -552,7 +538,7 @@
         // Формирование нового документа
         createOptions ('rest/profile/users/', '#userListNew1', '', 'id', '', 'usersList');
         // Добавление должности при изменении пользователя
-        $(document).on("change", ".userList", function() {
+        $(document).on("change", ".userListNew", function() {
             var userId = $(this).val();
             var link = $(this).attr('data-spisok');
             createUserList('rest/profile/users/'+userId, '#userListPostNew'+link);
@@ -560,7 +546,101 @@
 
         // Список полей вида документов
         createOptions('rest/profile/doctypes/', '#selectTypeNew', 'name', 'id', '', '');
-        $('#selectType.mdb-select').materialSelect();
+        $('#selectTypeNew.mdb-select').materialSelect();
+
+        // Выбор типа документа
+        $("#selectTypeNew").change(function() {
+            // Убрать с экрана все предыдущие поля
+            $('#blockUpNew, #newBlockGroupNew').empty();
+            $('.blockGroupNew').remove();
+            var asd = $("#selectTypeNew").val();
+            if(asd && asd !== '') {
+                // Добавить блоки отсюда в файл функций -getFieldsDocument
+                $("#blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").removeClass("d-none");
+                // Верхний блок полей
+                getUpFields("rest/profile/doctypes/" + asd + "/fields", 0, '', 1);
+                // Нижний блок полей
+                getDownFields("rest/profile/doctypes/" + asd + "/fields", 0, '', 1);
+            } else {
+                $("#blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").addClass("d-none");
+            }
+        });
+
+        // Сохранение - Отправка на сервер
+        $('#btnSaveNew').on("click", function(event) {
+            event.preventDefault();
+            var forms = $('.newDocumentForm');
+            var formsValue = $('.newDocumentForm input,.newDocumentForm textarea,.newDocumentForm select').filter('[required]');
+            var agreeFormsValue = $('.newDocumentForm #userListBlockNew select');
+            $(forms).addClass('was-validated');
+            event.preventDefault();
+            var checkField = checkValidation(formsValue);
+            if(checkField === false) {
+                toastr["error"]("Заполните обязательные поля!");
+                $(forms).addClass('was-validated');
+                event.stopPropagation();
+            } else {
+                $('#createSave').modal('show');
+                var trueName =  $(this).html();
+                $(this).attr('disabled', true).html('Отправка запроса');
+                var dataType = $("#selectTypeNew").val();
+                // Формируем поля JSON
+                var dataField = createDataField(0, 1);
+                var sumElem = countElem(dataField)+1;
+                var dataBlock = createDataBlock(0, sumElem, 1);
+                var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
+                var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
+                console.log(serverStack);
+                /*var serverAjax = $.ajax({
+                    type: "POST",
+                    url: 'rest/profile/docs',
+                    data: serverStack,
+                    contentType: 'application/json; charset=utf-8'
+                });
+                // Успешное сохранение документа
+                serverAjax.done(function(data) {
+                    $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
+                    $('.loaderSuccess').addClass('d-none');
+                    $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
+                    $('.registrationForm').removeClass('was-validated');
+                    var projectRegNum = data.projectRegNum;
+                    $('#createSave #regNumTemplate').html(projectRegNum);
+                    $('#createSave').on('hidden.bs.modal', function() {
+                        $('select').val('');
+                        $('#userListBlock .blockUser:not(:first)').remove();
+                        $("#blockUp, #blockDown, #btnSave, .pdfSRC").addClass("d-none");
+                        $("#btnSave").attr('disabled', false).html(trueName);
+                    });
+                    // Сохранение списка согласования
+                    var serverAgreeList = $.ajax({
+                        type: "POST",
+                        url: 'rest/profile/docs/'+data.id+'/agreement/list',
+                        data: agreeListStack,
+                        contentType: 'application/json; charset=utf-8',
+                    });
+                    serverAgreeList.fail(function () {
+                        toastr["error"]("Ошибка сохранения списка согласования!");
+                    });
+                    // Сохранение файла служебки
+                    var serverWord = $.ajax({
+                        type: "POST",
+                        url: 'rest/profile/docs/docx',
+                        data: serverStack,
+                        contentType: 'application/json; charset=utf-8',
+                    });
+                    serverWord.done(function(data) {
+                        $('#modalLoad').attr("href", data.fileUrl);
+                    });
+                    serverWord.fail(function () {
+                        toastr["error"]("Ошибка сохранения файла служебки!");
+                    });
+                });
+                // Ошибка сохранения документа
+                serverAjax.fail(function () {
+                    toastr["error"]("Ошибка сохранения документа!");
+                });*/
+            }
+        });
 
     });
 </script>
