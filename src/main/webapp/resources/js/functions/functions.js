@@ -601,9 +601,8 @@
         var finalUserId =  $(userListBlock + ' select:last').val();
         if(block && block === 2) {
             userListBlock = '#userListBlockDiv';
-            var finalUserId =  $(userListBlock + ' .row:last').attr('data-value');
+            finalUserId =  $(userListBlock + ' .row:last').attr('data-value');
         }
-        alert(finalUserId);
         $(whomList + ' option:selected').each(function() {
             var element = $(this).val();
             if(element !== '') {
