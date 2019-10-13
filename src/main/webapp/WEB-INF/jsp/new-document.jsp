@@ -149,7 +149,7 @@
             }
         });
         // Список согласования
-        createOptions ('rest/profile/users/', '#userList1', '', 'id', '', 'usersList');
+        createOptions ('rest/profile/users/', '#userList1', '', 'userId', '', 'usersList');
         // Добавление должности при изменении пользователя
         $(document).on("change", ".userList", function() {
             var userId = $(this).val();

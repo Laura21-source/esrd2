@@ -755,7 +755,7 @@
         }
     }
 
-    // Формирование списка  без фозможности редактирования
+    // Формирование списка пользователей без возможности редактирования
     function createUserListDisabled (url) {
         return $.getJSON(url, function(data) {
             for(var i in data) {
@@ -782,7 +782,7 @@
                         currentUser = '<i class="fas fa-check-circle text-success" title="Финальный согласователь"></i>';
                     }
                 }
-                $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center" data-value="'+row.id+'"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
+                $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center" data-value="'+row.userId+'"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
             }
         });
     }

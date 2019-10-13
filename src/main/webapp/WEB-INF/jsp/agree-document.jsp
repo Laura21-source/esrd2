@@ -174,7 +174,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
+                                            <div class="alert alert-primary mx-auto text-uppercase">Список согласования<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall">
