@@ -220,6 +220,7 @@ public class DocServiceImpl implements DocService {
 
         docTo.setProjectRegNum(docNumberPrefixesRepository.generateDocNumber("согл", ""));
         Doc docToSave = createNewDocFromTo(docTo);
+        docToSave.setInitialUser(userRepository.getByName(userName));
 
         Doc saved = docRepository.save(docToSave);
         DocTo savedTo = asDocTo(saved);
@@ -559,9 +560,17 @@ public class DocServiceImpl implements DocService {
                     .stream().map(User::getId).collect(Collectors.toList());
         }
 
+        User initialUser = doc.getInitialUser();
+        UserTo initialUserTo = null;
+        if (initialUser != null) {
+            initialUserTo = new UserTo(initialUser.getId(), initialUser.getLastname() + " "
+                    + initialUser.getFirstname() + " " + initialUser.getPatronym(), initialUser.getPhone(),
+                    initialUser.getPosition());
+        }
+
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
                 doc.getProjectRegDateTime(), doc.getInsertDateTime(), doc.getDocType().getId(),
-                doc.getDocStatus(), isFinalAgreementStage, false, doc.getUrlPDF(), null,
+                doc.getDocStatus(), isFinalAgreementStage, false, doc.getUrlPDF(), initialUserTo, null,
                 executorDepartmentsIds, executorUsersIds, docFieldsTos);
     }
 

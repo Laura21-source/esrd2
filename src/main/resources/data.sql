@@ -567,9 +567,6 @@ INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1007, null, 'Ответственный', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1008, 1001, 'Номер приказа', 0);
 
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2004, null, 'Соколов И.В., тел. 8 (495) 957-75-00, доб. 55-345', 1007, null);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2005, null, 'Петров А.А., тел. 8 (495) 957-75-00, доб. 44-345', 1007, null);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2006, null, 'Сидоров П.А., тел. 8 (495) 957-75-00, доб. 44-245', 1007, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2007, null, 'Регулирование цен (тарифов)', 1001, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2008, null, 'Изменение, отменена правовых актов', 1001, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2009, null, 'Утверждение инвестиционных программ', 1001, null);
