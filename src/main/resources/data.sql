@@ -712,7 +712,20 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (21,
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id)
 VALUES (2, 'Повестка заседания Правления', 3005, 'povestka.docx', 'povestka.docx', 24);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (5, 'Время заседания', 'TIME', null, null, null, null, 'MeetingTime');
-INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (100, 2, 5, true, 3005);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (101, 2, 4, true, 3006);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (102, 2, 5, true, 3005);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (103, 2, 7, true, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (104, 2, 8, true, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (105, 2, 9, false, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (106, 2, 10, false, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (107, 2, 11, false, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (108, 2, 12, false, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (109, 2, 13, false, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (110, 2, 14, false, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (111, 2, 15, true, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (112, 2, 16, true, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (113, 2, 17, false, 3002);
+
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (101, 2, 4, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (102, 2, 5, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (103, 2, 7, 3);
