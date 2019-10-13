@@ -48,14 +48,6 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
     @Override
     public List<DocFieldsTo> getAllFullByUserName(int docTypeId, String userName) {
         List<String> curUserRoles = AuthorizedUser.getRoles();
-        List<String> curUserChildRoles = new ArrayList<>();
-        for (String role: curUserRoles) {
-            List<Role> childRoles = roleRepository.getChildRoles(role);
-            for (Role childRole: childRoles) {
-                curUserChildRoles.add(childRole.getAuthority());
-            }
-        }
-        curUserRoles.addAll(curUserChildRoles);
 
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();

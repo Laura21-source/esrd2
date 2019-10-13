@@ -106,7 +106,7 @@ public class DocServiceImpl implements DocService {
         if (!docStatus.equals(DocStatus.IN_AGREEMENT))  {
             docTo.setCanAgree(false);
         } else {
-            boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName);
+            boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName).orElse(false);
             docTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));
         }
         boolean isFinalAgreementStage = isFinalAgreementStage(id);
@@ -280,7 +280,7 @@ public class DocServiceImpl implements DocService {
             updated.setDocStatus(DocStatus.IN_WORK);
         }
 
-        boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName);
+        boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName).orElse(false);
         if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
             throw new UnauthorizedUserException();
         }
@@ -513,14 +513,6 @@ public class DocServiceImpl implements DocService {
     private DocTo asDocTo(Doc doc) {
         Integer docTypeId = doc.getDocType().getId();
         List<String> curUserRoles = AuthorizedUser.getRoles();
-        List<String> curUserChildRoles = new ArrayList<>();
-        for (String role: curUserRoles) {
-            List<Role> childRoles = roleRepository.getChildRoles(role);
-            for (Role childRole: childRoles) {
-                curUserChildRoles.add(childRole.getAuthority());
-            }
-        }
-        curUserRoles.addAll(curUserChildRoles);
 
         List<DocValuedFields> docValuedFields = doc.getDocValuedFields();
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
@@ -529,7 +521,12 @@ public class DocServiceImpl implements DocService {
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
 
         boolean deny = false;
-        if (doc.getDocStatus() == DocStatus.IN_WORK) {
+        boolean canAgree = false;
+        if (doc.getId() != null) {
+            canAgree = docAgreementRepository.isTimeForAgreeForUser(doc.getId(), AuthorizedUser.getUserName())
+                    .orElse(false);
+        }
+        if (doc.getDocStatus() == DocStatus.IN_WORK || (!canAgree && !AuthorizedUser.hasRole("ADMIN"))) {
             deny = true;
         }
 

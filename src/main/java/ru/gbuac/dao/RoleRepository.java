@@ -19,6 +19,10 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Query("SELECT r FROM Role r JOIN r.users u WHERE lower(u.name)=:userName")
     List<Role> getRolesByUsername(@Param("userName") String userName);
 
-    @Query("SELECT c FROM Role r JOIN r.childRole c WHERE CONCAT('ROLE_',r.name)=:name")
-    List<Role> getChildRoles(@Param("name") String name);
+    @Query(value = "SELECT r.* FROM role r WHERE 'ROLE_'||=:name " +
+            "UNION "+
+            "SELECT r.* FROM role r WHERE r.id IN " +
+            "(SELECT c.child_role_id FROM role rr, role_child_role c WHERE rr.id = c.role_id AND 'ROLE_'||rr.name=:name)",
+            nativeQuery = true)
+    List<Role> getRoles(@Param("name") String name);
 }

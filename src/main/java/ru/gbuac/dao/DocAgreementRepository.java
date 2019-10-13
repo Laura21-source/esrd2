@@ -21,7 +21,7 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
 
     @Query("SELECT (CASE WHEN lower(a.user.name)=lower(:userName) THEN TRUE ELSE FALSE END) " +
             "FROM DocAgreement a WHERE a.doc.id=:docId AND a.currentUser = TRUE")
-    boolean isTimeForAgreeForUser(@Param("docId") int docId, @Param("userName") String userName);
+    Optional<Boolean> isTimeForAgreeForUser(@Param("docId") int docId, @Param("userName") String userName);
 
     /*
     @Query("SELECT max(a) FROM DocAgreement a WHERE a.doc.id=:docId AND a.currentUser = TRUE")

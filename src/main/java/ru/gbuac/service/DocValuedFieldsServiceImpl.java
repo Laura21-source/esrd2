@@ -36,6 +36,9 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public DocValuedFields get(int id, int docId) throws NotFoundException {
         DocValuedFields docValuedFields = docValuedFieldsRepository.findById(id).orElse(null);
@@ -50,14 +53,6 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     @Override
     public List<DocFieldsTo> getAllFull(int docId, String userName) {
         List<String> curUserRoles = AuthorizedUser.getRoles();
-        List<String> curUserChildRoles = new ArrayList<>();
-        for (String role: curUserRoles) {
-            List<Role> childRoles = roleRepository.getChildRoles(role);
-            for (Role childRole: childRoles) {
-                curUserChildRoles.add(childRole.getAuthority());
-            }
-        }
-        curUserRoles.addAll(curUserChildRoles);
 
         int docTypeId = docRepository.getDocTypeByDocId(docId);
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
@@ -83,14 +78,6 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     @Override
     public List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, String userName) {
         List<String> curUserRoles = AuthorizedUser.getRoles();
-        List<String> curUserChildRoles = new ArrayList<>();
-        for (String role: curUserRoles) {
-            List<Role> childRoles = roleRepository.getChildRoles(role);
-            for (Role childRole: childRoles) {
-                curUserChildRoles.add(childRole.getAuthority());
-            }
-        }
-        curUserRoles.addAll(curUserChildRoles);
 
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(targetDocTypeId);
@@ -99,20 +86,29 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
         Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
 
+        User thisUser = userRepository.getByName(userName);
+        Doc curDoc = docRepository.findById(docId).orElse(null);
+        boolean thisUserIsExecutor = curDoc.getExecutorUsers().stream()
+                .map(User::getId).collect(Collectors.toList()).contains(thisUser.getId());
+        boolean deny = false;
+        if (!thisUserIsExecutor && !AuthorizedUser.hasRole("ADMIN")) {
+            deny = true;
+        }
+
         for (DocTypeFields t:docTypeFields) {
             boolean hasField = false;
             for (DocValuedFields v:docValuedFields) {
-                if (t.getField().getId().equals(v.getValuedField().getId()))
+                if (t.getField().getId().equals(v.getValuedField().getField().getId()))
                 {
                     v.getValuedField().setId(null);
-                    docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(v.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, false),
+                    docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(v.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny),
                             v.getPosition()));
                     hasField = true;
                     break;
                 }
             }
             if (!hasField) {
-                docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(t.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, false),
+                docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(t.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny),
                         t.getPosition()));
             }
 
