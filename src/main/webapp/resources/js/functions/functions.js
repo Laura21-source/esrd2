@@ -718,22 +718,20 @@
         $('.dataTables_length').addClass('bs-select');
     }
 
-    // Формирование списка согласователей без фозможности редактирования
+    // Получение данных о управлении по id
+    function getDepartments (url) {
+        return $.getJSON(url, function(data) {
+            $('#whomList').append('<div class="d-inline-block chip light-blue lighten-2 white-text my-0 mr-2">' + data.name + '</div>');
+        });
+    }
+
+    // Формирование списка отделов без фозможности редактирования
     function createWhomListDisabled (url) {
         for(var i in url) {
             var row = url[i];
-
-            $('#whomList').append('<span class="mr-2">' + row + '</span>');
+            getDepartments('rest/profile/departments/'+row);
+            //$('#whomList').append('<span class="mr-2">' + nameDepartment + '</span>');
         }
-
-
-        /*return $.getJSON(url, function(data) {
-            for(var i in data) {
-                var row = data[i];
-                var element = row.executorDepartmentsIds[key];
-                $('#whomList').append('<span class="mr-2">' + element + '</span>');
-            }
-        });*/
     }
 
     // Формирование списка  без фозможности редактирования

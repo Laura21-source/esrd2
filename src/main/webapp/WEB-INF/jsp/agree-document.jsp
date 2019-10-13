@@ -15,15 +15,21 @@
                         <h4 class="mt-2 documentName"></h4>
                     </div>
                     <form class="registrationForm needs-validation" novalidate>
+                        <div class="row ml-1 mb-3 d-flex align-items-center justify-content-center">
+                            <div class="col-1 text-left mt-2">
+                                <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Кому</span>
+                            </div>
+                            <div class="col-11 text-left" id="whomList"></div>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
-                                <div class="row ml-1 mb-3 d-flex align-items-center">
+                                <%--<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center">
                                     <div class="col-2 text-left mt-2">
                                         <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Кому</span>
                                     </div>
-                                    <div class="col-10" id="whomList"></div>
-                                </div>
+                                    <div class="col-10 text-left" id="whomList"></div>
+                                </div>--%>
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall userList">
@@ -319,7 +325,7 @@
                 $('.blockDocumentNew').removeClass('d-none');
                 $('.blockDocument, #btnWordFile').addClass('d-none');
                 $('.docName').html('Сведения о документе');
-                $('.registrationForm input, .registrationForm option').attr('disabled', 'disabled');
+                //$('.registrationForm input, .registrationForm option').attr('disabled', 'disabled');
             }
             // Ссылки на документ PDF
             var documentPDF = data.UrlPDF;
