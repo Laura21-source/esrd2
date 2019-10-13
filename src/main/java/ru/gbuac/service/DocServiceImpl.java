@@ -491,6 +491,15 @@ public class DocServiceImpl implements DocService {
 
         Map<String, String> simpleTags = new HashMap<>();
         simpleTags.put("RegNum", Optional.ofNullable(docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum()).orElse(""));
+        if (docTo.getFinalUserId() != null) {
+            User finalUser = userRepository.findById(docTo.getFinalUserId()).orElse(null);
+            if (finalUser != null) {
+                simpleTags.put("SignerPosition", finalUser.getShortPosition());
+                simpleTags.put("SignerFullPosition", finalUser.getFullPosition());
+                simpleTags.put("Signer", finalUser.getFirstname().substring(0, 1) + "." + finalUser.getPatronym().substring(0, 1)
+                        + ". " + finalUser.getLastname());
+            }
+        }
         Map<String, TaggedTable> taggedTables = new HashMap<>();
 
         for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
@@ -558,10 +567,19 @@ public class DocServiceImpl implements DocService {
                     initialUser.getPosition());
         }
 
+
+        Integer finalUserId = null;
+        if (doc.getId() != null) {
+            User finalUser = docAgreementRepository.getFinalUser(doc.getId());
+            if (finalUser != null) {
+                finalUserId = finalUser.getId();
+            }
+        }
+
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
                 doc.getProjectRegDateTime(), doc.getInsertDateTime(), doc.getDocType().getId(),
                 doc.getDocStatus(), isFinalAgreementStage, false, false, false, doc.getUrlPDF(),
-                initialUserTo, null, executorDepartmentsIds, executorUsersIds, docFieldsTos);
+                initialUserTo, finalUserId, null, executorDepartmentsIds, executorUsersIds, docFieldsTos);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {

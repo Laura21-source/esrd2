@@ -35,8 +35,8 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
     @Query("SELECT new ru.gbuac.to.UserTo(u.id, CONCAT(u.lastname,' ',u.firstname,' ',u.patronym)) FROM DocAgreement a JOIN a.user u WHERE a.doc.id=:docId AND a.currentUser = TRUE")
     UserTo getCurrentUser(@Param("docId") int docId);
 
-    @Query("SELECT max(a) FROM DocAgreement a WHERE a.doc.id=:docId AND a.finalUser = TRUE")
-    DocAgreement getFinalAgreement(@Param("docId") int docId);
+    @Query("SELECT u FROM DocAgreement a JOIN a.user u WHERE a.doc.id=:docId AND a.finalUser = TRUE")
+    User getFinalUser(@Param("docId") int docId);
 
     @Query("SELECT a.finalUser FROM DocAgreement a WHERE a.doc.id=:docId AND a.decisionType is NULL ORDER BY a.ordering")
     List<Boolean> isFinalAgreementStage(@Param("docId") int docId, Pageable pageable);

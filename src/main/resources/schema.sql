@@ -65,9 +65,13 @@ CREATE TABLE esrd.users
     lastname    VARCHAR                         ,
     firstname   VARCHAR                         ,
     patronym    VARCHAR                         ,
+    position    VARCHAR                         ,
+    short_position   VARCHAR                    ,
+    full_position    VARCHAR                    ,
+    dative_fullname  VARCHAR                    ,
+    dative_position  VARCHAR                    ,
     email       VARCHAR                         ,
     phone       VARCHAR                         ,
-    position    VARCHAR                         ,
     department_id INTEGER                       ,
     FOREIGN KEY (department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
 );

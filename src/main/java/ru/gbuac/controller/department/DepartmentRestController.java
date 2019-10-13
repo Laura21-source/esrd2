@@ -18,6 +18,12 @@ public class DepartmentRestController extends AbstractDepartmentRestController{
     }
 
     @Override
+    @GetMapping(value = "/{id}")
+    public Department get(@PathVariable("id") int id) {
+        return super.get(id);
+    }
+
+    @Override
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);

@@ -28,6 +28,26 @@ public class User extends NamedEntity {
     @SafeHtml
     private String patronym;
 
+    @Column(name = "position")
+    @SafeHtml
+    private String position;
+
+    @Column(name = "short_position")
+    @SafeHtml
+    private String shortPosition;
+
+    @Column(name = "full_position")
+    @SafeHtml
+    private String fullPosition;
+
+    @Column(name = "dative_fullname")
+    @SafeHtml
+    private String dativeFullname;
+
+    @Column(name = "dative_position")
+    @SafeHtml
+    private String dativePosition;
+
     @Column(name = "email")
     @SafeHtml
     private String email;
@@ -35,10 +55,6 @@ public class User extends NamedEntity {
     @Column(name = "phone")
     @SafeHtml
     private String phone;
-
-    @Column(name = "position")
-    @SafeHtml
-    private String position;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
