@@ -18,7 +18,7 @@ public interface DocAgreementService {
 
     List<DocAgreementTo> saveList(List<DocAgreement> agreementList, int docId);
 
-    List<DocAgreementTo> redirect(int docId, int targetUserId, String comment, String userMame);
+    List<DocAgreementTo> redirect(int docId, int targetUserId, String comment, String userName);
 
     void delete(int id, int docId) throws NotFoundException;
 }

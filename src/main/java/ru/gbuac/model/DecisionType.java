@@ -2,6 +2,6 @@ package ru.gbuac.model;
 
 public enum DecisionType {
     ACCEPTED,
-    RETURNED,
+    REDIRECTED,
     REJECTED
 }

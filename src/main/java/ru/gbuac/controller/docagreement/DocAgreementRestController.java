@@ -31,7 +31,16 @@ public class DocAgreementRestController extends AbstractDocAgreementRestControll
     }
 
     @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<DocAgreementTo> saveList(@Valid @RequestBody List<DocAgreement> agreementList, @PathVariable("docId") int docId) {
+    public List<DocAgreementTo> saveList(@Valid @RequestBody List<DocAgreement> agreementList,
+                                         @PathVariable("docId") int docId) {
         return super.saveList(agreementList, docId);
+    }
+
+    @PostMapping(value = "/redirect", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    public List<DocAgreementTo> redirect(@PathVariable("docId") int docId,
+                                         @RequestParam(name = "targetUserId") int targetUserId,
+                                         @RequestParam(name = "comment", defaultValue = "")String comment) {
+        return super.redirect(docId, targetUserId, comment);
     }
 }

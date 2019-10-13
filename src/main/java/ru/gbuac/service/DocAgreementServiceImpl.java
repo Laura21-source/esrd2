@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 import ru.gbuac.dao.DocAgreementRepository;
 import ru.gbuac.dao.DocRepository;
 import ru.gbuac.dao.UserRepository;
+import ru.gbuac.model.DecisionType;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocAgreement;
 import ru.gbuac.model.User;
@@ -13,8 +14,11 @@ import ru.gbuac.to.DocAgreementTo;
 import ru.gbuac.util.DocAgreementUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -73,17 +77,42 @@ public class DocAgreementServiceImpl implements DocAgreementService {
     }
 
     @Override
-    public List<DocAgreementTo> redirect(int docId, int targetUserId, String comment, String userMame) {
+    public List<DocAgreementTo> redirect(int docId, int targetUserId, String comment, String userName) {
         List<DocAgreementTo> agreementList = docAgreementRepository.getAgreementList(docId);
+        agreementList.sort(Comparator.comparing(DocAgreementTo::getOrdering));
         User targetUser = userRepository.findById(targetUserId).orElse(null);
-        User curUser = userRepository.getByName(userMame);
-        int ordering = 0;
-        for (DocAgreementTo da: agreementList) {
-            ordering++;
-            
+        User curUser = userRepository.getByName(userName);
+
+        Integer curUserOrder = agreementList.stream().filter(DocAgreementTo::isCurrentUser)
+                .map(DocAgreementTo::getOrdering).findFirst().orElse(null);
+        DocAgreement curDa = docAgreementRepository.getByOrder(docId,curUserOrder);
+        boolean isFinalUser = curDa.isFinalUser();
+        curDa.setCurrentUser(false);
+        curDa.setDecisionType(DecisionType.REDIRECTED);
+        curDa.setAgreedDateTime(LocalDateTime.now());
+        curDa.setComment(comment);
+        curDa.setReturnedUser(targetUser);
+        docAgreementRepository.save(curDa);
+
+        Doc doc = docRepository.findById(docId).orElse(null);
+        DocAgreement redirectionDa = new DocAgreement(null, curUserOrder+1, doc, targetUser,
+                null, null, null, null,
+        false, true);
+        docAgreementRepository.save(redirectionDa);
+
+        DocAgreement continueCurUserDa = new DocAgreement(null, curUserOrder+2, doc, curUser,
+                null, null, null, null, isFinalUser, false);
+        docAgreementRepository.save(continueCurUserDa);
+
+        List<DocAgreementTo> lastPartDa = agreementList.stream()
+                .filter(a -> a.getOrdering() > curUserOrder).collect(Collectors.toList());
+        for (DocAgreementTo daTo: lastPartDa) {
+            DocAgreement da = docAgreementRepository.findById(daTo.getId()).orElse(null);
+            da.setOrdering(da.getOrdering()+2);
+            docAgreementRepository.save(da);
         }
 
-        return null;
+        return docAgreementRepository.getAgreementList(docId);
     }
 
     @Override

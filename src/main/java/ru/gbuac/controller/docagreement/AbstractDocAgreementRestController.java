@@ -51,6 +51,11 @@ public abstract class AbstractDocAgreementRestController {
         return docAgreementService.saveList(agreementList, docId);
     }
 
+    public List<DocAgreementTo> redirect(int docId, int targetUserId, String comment) {
+        LOG.info("redirect to targetUserId " + targetUserId);
+        return docAgreementService.redirect(docId, targetUserId, comment, AuthorizedUser.getUserName());
+    }
+
     public void delete(int id, int docId) {
         LOG.info("delete " + id);
         docAgreementService.delete(id, docId);
