@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
@@ -147,6 +148,26 @@ public class DocServiceImpl implements DocService {
     @Override
     public List<Doc> getAllRegistered() {
         return docRepository.getAllRegistered();
+    }
+
+    @Override
+    public List<Doc> getAllDistribution(String userName) {
+        User curUser = userRepository.getByName(userName);
+        List<Department> departments = curUser.getDistributionDepartments();
+        List<Doc> docs = new ArrayList<>();
+        Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
+                .forEach(d -> docs.addAll(docRepository.getAllDistribution(d.getId())));
+        return docs;
+    }
+
+    @Override
+    public List<Doc> getAllDistributed(String userName) {
+        User curUser = userRepository.getByName(userName);
+        List<Department> departments = curUser.getDistributionDepartments();
+        List<Doc> docs = new ArrayList<>();
+        Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
+                .forEach(d -> docs.addAll(docRepository.getAllDistributed(d.getId())));
+        return docs;
     }
 
     @Override
@@ -296,7 +317,9 @@ public class DocServiceImpl implements DocService {
     @Override
     public List<User> saveExecutorUsersList(int id, List<User> executorUsers) {
         Doc doc = docRepository.findById(id).orElse(null);
-        List<User> ex = executorUsers.stream().map(u -> userRepository.findById(u.getId()).orElse(null))
+        List<User> ex = Optional.ofNullable(executorUsers)
+                .map(Collection::stream).orElseGet(Stream::empty)
+                .map(u -> userRepository.findById(u.getId()).orElse(null))
                 .filter(Objects::nonNull).collect(Collectors.toList());
         doc.setExecutorUsers(ex);
         return docRepository.save(doc).getExecutorUsers();
@@ -533,8 +556,9 @@ public class DocServiceImpl implements DocService {
                 docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null, null,
                 null, docTo.getUrlPDF());
 
-        List<Department> executorDepartments = docTo.getExecutorDepartmentsIds()
-                .stream().map(d -> departmentRepository.findById(d).orElse(null))
+        List<Department> executorDepartments = Optional.ofNullable(docTo.getExecutorDepartmentsIds())
+                .map(Collection::stream).orElseGet(Stream::empty)
+                .map(d -> departmentRepository.findById(d).orElse(null))
                 .filter(Objects::nonNull).collect(Collectors.toList());
 
         doc.setExecutorDepartments(executorDepartments);

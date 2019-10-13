@@ -8,15 +8,12 @@ import org.hibernate.validator.constraints.SafeHtml;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class UserTo extends BaseTo {
+public class DepartmentTo extends BaseTo {
     @SafeHtml
-    private String fullName;
-    @SafeHtml
-    private String phone;
+    private String name;
 
-    public UserTo(Integer id, @SafeHtml String fullName, @SafeHtml String phone) {
+    public DepartmentTo(Integer id, @SafeHtml String name) {
         super(id);
-        this.fullName = fullName;
-        this.phone = phone;
+        this.name = name;
     }
 }

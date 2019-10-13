@@ -39,12 +39,14 @@
                             </ul>
                         </div>
                     </li>--%>
-                    <li><a class="collapsible-header waves-effect arrow-r" href="new-document"><i class="far fa-file-alt mr-2"></i>Подготовка документа</a></li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-file-signature mr-2"></i>Документы<i
+                    <li><a class="collapsible-header waves-effect arrow-r" href="new-document"><i class="fa fa-file-alt mr-2"></i>Подготовка документа</a></li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-signature mr-2"></i>Исполнение<i
                             class="fas fa-angle-down rotate-icon"></i></a>
                         <div class="collapsible-body">
                             <ul class="list-unstyled">
                                 <li><a href="all" class="waves-effect">Все документы</a>
+                                </li>
+                                <li><a href="in-work" class="waves-effect">На исполнении</a>
                                 </li>
                                 <li><a href="agreement" class="waves-effect">На согласовании/подписании</a>
                                 </li>
@@ -55,7 +57,19 @@
                             </ul>
                         </div>
                     </li>
-                </ul>            </li>
+                        <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-user-plus mr-2"></i>Распределение<i
+                                class="fas fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul class="list-unstyled">
+                                    <li><a href="distribution" class="waves-effect">Ожидают</a>
+                                    </li>
+                                    <li><a href="distributed" class="waves-effect">Исполнитель назначен</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                </ul>
+            </li>
         </ul>
         <div class="sidenav-bg mask-strong"></div>
     </div>

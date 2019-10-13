@@ -53,6 +53,14 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d WHERE d.docStatus<>'IN_AGREEMENT'")
     List<Doc> getAllRegistered();
 
+    @Query("SELECT d FROM Doc d JOIN d.executorDepartments ed JOIN d.executorUsers eu " +
+            "WHERE ed.id=:departmentId AND eu.id IS NULL AND d.docStatus='IN_WORK'")
+    List<Doc> getAllDistribution(int departmentId);
+
+    @Query("SELECT d FROM Doc d JOIN d.executorDepartments ed JOIN d.executorUsers eu " +
+            "WHERE ed.id=:departmentId AND eu.id IS NOT NULL AND d.docStatus='IN_WORK'")
+    List<Doc> getAllDistributed(int departmentId);
+
     @Query("SELECT new ru.gbuac.to.DocNumberTo(d.id, d.regNum) FROM Doc d WHERE d.regNum IS NOT NULL ORDER BY d.regNum")
     List<DocNumberTo> getRegNumbers();
 

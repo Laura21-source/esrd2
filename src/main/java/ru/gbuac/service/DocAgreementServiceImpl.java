@@ -7,10 +7,11 @@ import ru.gbuac.dao.DocAgreementRepository;
 import ru.gbuac.dao.DocRepository;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocAgreement;
-import ru.gbuac.model.User;
 import ru.gbuac.to.DocAgreementTo;
 import ru.gbuac.util.DocAgreementUtil;
 import ru.gbuac.util.exception.NotFoundException;
+
+import java.util.Comparator;
 import java.util.List;
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
@@ -54,10 +55,15 @@ public class DocAgreementServiceImpl implements DocAgreementService {
     @Override
     public List<DocAgreementTo> saveList(List<DocAgreement> agreementList, int docId) {
         Doc doc = docRepository.findById(docId).orElse(null);
+        agreementList.sort(Comparator.comparing(DocAgreement::getOrdering));
         for (DocAgreement da: agreementList) {
             da.setDoc(doc);
             docAgreementRepository.save(da);
+            if (da.getOrdering() == 0) {
+
+            }
         }
+
         return docAgreementRepository.getAgreementList(docId);
     }
 

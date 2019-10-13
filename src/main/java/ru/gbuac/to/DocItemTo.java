@@ -4,9 +4,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.SafeHtml;
+import ru.gbuac.model.Department;
 import ru.gbuac.model.DocStatus;
+import ru.gbuac.model.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -30,8 +33,9 @@ public class DocItemTo extends BaseTo {
     @SafeHtml
     private String docType;
 
-    public DocItemTo(Integer id, DocStatus docStatus, @SafeHtml String regNum, LocalDateTime regDateTime, @SafeHtml String projectRegNum,
-                     LocalDateTime projectRegDateTime, @SafeHtml String currentAgreeFullName, @SafeHtml String docType) {
+    public DocItemTo(Integer id, DocStatus docStatus, @SafeHtml String regNum, LocalDateTime regDateTime, @SafeHtml
+            String projectRegNum, LocalDateTime projectRegDateTime, @SafeHtml String currentAgreeFullName,
+                     @SafeHtml String docType) {
         super(id);
         this.docStatus = docStatus;
         this.regNum = regNum;

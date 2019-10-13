@@ -31,6 +31,10 @@ public interface DocService {
 
     List<Doc> getAllRegistered();
 
+    List<Doc> getAllDistribution(String userName);
+
+    List<Doc> getAllDistributed(String userName);
+
     List<DocNumberTo> getRegNumbers();
 
     DocTo save(DocTo doc, String userName, String rootPath);

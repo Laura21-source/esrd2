@@ -60,6 +60,9 @@ public class RootController {
     @GetMapping(value = "/all")
     public String all() { return "all"; }
 
+    @GetMapping(value = "/in-work")
+    public String inWork() { return "in-work"; }
+
     @GetMapping(value = "/agreement")
     public String agreement() { return "agreement"; }
 
@@ -68,4 +71,10 @@ public class RootController {
 
     @GetMapping(value = "/registered")
     public String registered() { return "registered"; }
+
+    @GetMapping(value = "/distribution")
+    public String distribution() { return "distribution"; }
+
+    @GetMapping(value = "/distributed")
+    public String distributed() { return "distributed"; }
 }

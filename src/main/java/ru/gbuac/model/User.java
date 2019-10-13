@@ -53,6 +53,10 @@ public class User extends NamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Department department;
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Department> distributionDepartments;
+
     public User(@NotBlank @SafeHtml String name, String lastname, String firstname, String patronym, String email,
                 String phone, String position) {
         super(name);

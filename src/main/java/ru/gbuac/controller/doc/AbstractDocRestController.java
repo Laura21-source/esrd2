@@ -38,22 +38,32 @@ public abstract class AbstractDocRestController {
         return docService.getFullByUserName(id, AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllAgreementByUsername() {
+    public List<Doc> getAllAgreement() {
         LOG.info("getAllAgreement");
         return AuthorizedUser.hasRole("ADMIN") ?
                 docService.getAllAgreement() : docService.getAllAgreementByUsername(AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllAgreedByUsername() {
+    public List<Doc> getAllAgreed() {
         LOG.info("getAllAgreed");
         return AuthorizedUser.hasRole("ADMIN") ?
                 docService.getAllRegistered() : docService.getAllAgreedByUsername(AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllRegisteredByUsername() {
+    public List<Doc> getAllRegistered() {
         LOG.info("getAllRegistered");
         return AuthorizedUser.hasRole("ADMIN") ?
                 docService.getAllRegistered() : docService.getAllRegisteredByUsername(AuthorizedUser.getUserName());
+    }
+
+    public List<Doc> getAllDistribution() {
+        LOG.info("getAllDistribution");
+        return docService.getAllDistribution(AuthorizedUser.getUserName());
+    }
+
+    public List<Doc> getAllDistributed() {
+        LOG.info("getAllDistributed");
+        return docService.getAllDistributed(AuthorizedUser.getUserName());
     }
 
     public List<DocNumberTo> getRegNumbers() {

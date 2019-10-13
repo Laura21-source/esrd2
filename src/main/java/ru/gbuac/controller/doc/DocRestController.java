@@ -31,20 +31,32 @@ public class DocRestController extends AbstractDocRestController {
 
     @Override
     @GetMapping(value = "/agreement")
-    public List<Doc> getAllAgreementByUsername() {
-        return super.getAllAgreementByUsername();
+    public List<Doc> getAllAgreement() {
+        return super.getAllAgreement();
     }
 
     @Override
     @GetMapping(value = "/agreed")
-    public List<Doc> getAllAgreedByUsername() {
-        return super.getAllAgreedByUsername();
+    public List<Doc> getAllAgreed() {
+        return super.getAllAgreed();
     }
 
     @Override
     @GetMapping(value = "/registered")
-    public List<Doc> getAllRegisteredByUsername() {
-        return super.getAllRegisteredByUsername();
+    public List<Doc> getAllRegistered() {
+        return super.getAllRegistered();
+    }
+
+    @Override
+    @GetMapping(value = "/distribution")
+    public List<Doc> getAllDistribution() {
+        return super.getAllDistribution();
+    }
+
+    @Override
+    @GetMapping(value = "/distributed")
+    public List<Doc> getAllDistributed() {
+        return super.getAllDistributed();
     }
 
     @Override
