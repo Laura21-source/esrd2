@@ -266,8 +266,8 @@
                 }
             }
         }).done(function(response) {
-            var filedBlock = '#blockUp, #blockDown, #btnSave, #btnWordFile';
-            if(block && block === 1) {filedBlock = '#blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew';}
+            var filedBlock = '#blockFields, #blockUp, #blockDown, #btnSave, #btnWordFile';
+            if(block && block === 1) {filedBlock = '#blockFieldsNew, #blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew';}
             if (response.length == 0) {$(filedBlock).addClass('d-none');}
         });
     }
@@ -424,8 +424,8 @@
                 }
             }
         }).done(function(response) {
-            var filedBlock = '#blockUp, #blockDown, #btnSave, #btnWordFile';
-            if(block && block === 1) {filedBlock = '#blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew';}
+            var filedBlock = '#blockFields, #blockUp, #blockDown, #btnSave, #btnWordFile';
+            if(block && block === 1) {filedBlock = '#blockFieldsNew, #blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew';}
             if (response.length == 0) {$(filedBlock).addClass("d-none");}
         });
     }
