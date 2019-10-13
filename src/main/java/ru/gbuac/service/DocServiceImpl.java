@@ -151,23 +151,29 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public List<Doc> getAllDistribution(String userName) {
+    public List<DocItemTo> getAllDistribution(String userName) {
         User curUser = userRepository.getByName(userName);
         List<Department> departments = curUser.getDistributionDepartments();
         List<Doc> docs = new ArrayList<>();
         Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
                 .forEach(d -> docs.addAll(docRepository.getAllDistribution(d.getId())));
-        return docs;
+        return docs.stream()
+                .map(d -> new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
+                        d.getProjectRegNum(), d.getProjectRegDateTime(), d.getExecutorDepartments(),
+                        d.getExecutorUsers(), d.getDocType().getName())).collect(Collectors.toList());
     }
 
     @Override
-    public List<Doc> getAllDistributed(String userName) {
+    public List<DocItemTo> getAllDistributed(String userName) {
         User curUser = userRepository.getByName(userName);
         List<Department> departments = curUser.getDistributionDepartments();
         List<Doc> docs = new ArrayList<>();
         Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
                 .forEach(d -> docs.addAll(docRepository.getAllDistributed(d.getId())));
-        return docs;
+        return docs.stream()
+                .map(d -> new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
+                        d.getProjectRegNum(), d.getProjectRegDateTime(), d.getExecutorDepartments(),
+                        d.getExecutorUsers(), d.getDocType().getName())).collect(Collectors.toList());
     }
 
     @Override

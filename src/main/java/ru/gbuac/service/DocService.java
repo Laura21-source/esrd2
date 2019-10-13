@@ -3,10 +3,7 @@ package ru.gbuac.service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.User;
-import ru.gbuac.to.DocNumberTo;
-import ru.gbuac.to.DocTo;
-import ru.gbuac.to.FileTo;
-import ru.gbuac.to.UserTo;
+import ru.gbuac.to.*;
 import ru.gbuac.util.exception.FileUploadException;
 import ru.gbuac.util.exception.GenerateDocxException;
 import ru.gbuac.util.exception.GeneratePdfException;
@@ -31,9 +28,9 @@ public interface DocService {
 
     List<Doc> getAllRegistered();
 
-    List<Doc> getAllDistribution(String userName);
+    List<DocItemTo> getAllDistribution(String userName);
 
-    List<Doc> getAllDistributed(String userName);
+    List<DocItemTo> getAllDistributed(String userName);
 
     List<DocNumberTo> getRegNumbers();
 

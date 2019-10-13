@@ -38,7 +38,7 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        var dataTable = dataTableArray("#dataTable","rest/profile/docs/distribution");
+        var dataTable = dataTableArrayDistr("#dataTable","rest/profile/docs/distribution");
         console.log(dataTable);
     });
 </script>

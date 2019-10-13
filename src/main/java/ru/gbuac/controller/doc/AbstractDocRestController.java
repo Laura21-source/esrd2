@@ -12,10 +12,7 @@ import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.User;
 import ru.gbuac.service.DocService;
-import ru.gbuac.to.DocNumberTo;
-import ru.gbuac.to.DocTo;
-import ru.gbuac.to.FileTo;
-import ru.gbuac.to.UserTo;
+import ru.gbuac.to.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -56,12 +53,12 @@ public abstract class AbstractDocRestController {
                 docService.getAllRegistered() : docService.getAllRegisteredByUsername(AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllDistribution() {
+    public List<DocItemTo> getAllDistribution() {
         LOG.info("getAllDistribution");
         return docService.getAllDistribution(AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllDistributed() {
+    public List<DocItemTo> getAllDistributed() {
         LOG.info("getAllDistributed");
         return docService.getAllDistributed(AuthorizedUser.getUserName());
     }

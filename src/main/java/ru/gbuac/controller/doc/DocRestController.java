@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.User;
-import ru.gbuac.to.DocNumberTo;
-import ru.gbuac.to.DocTo;
-import ru.gbuac.to.FileTo;
-import ru.gbuac.to.UserTo;
+import ru.gbuac.to.*;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
@@ -49,13 +46,13 @@ public class DocRestController extends AbstractDocRestController {
 
     @Override
     @GetMapping(value = "/distribution")
-    public List<Doc> getAllDistribution() {
+    public List<DocItemTo> getAllDistribution() {
         return super.getAllDistribution();
     }
 
     @Override
     @GetMapping(value = "/distributed")
-    public List<Doc> getAllDistributed() {
+    public List<DocItemTo> getAllDistributed() {
         return super.getAllDistributed();
     }
 
