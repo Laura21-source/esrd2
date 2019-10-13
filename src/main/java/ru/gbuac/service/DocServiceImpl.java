@@ -222,6 +222,7 @@ public class DocServiceImpl implements DocService {
     @Override
     public DocTo save(DocTo docTo, String userName, String rootPath) throws UnauthorizedUserException {
         Assert.notNull(docTo, "doc must not be null");
+        Integer finalUserId = docTo.getFinalUserId();
 
         boolean hasRights = AuthorizedUser.hasRole(docTypeRepository.findById(docTo.getDocTypeId()).orElse(null).getRole().getAuthority());
         if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
@@ -234,6 +235,7 @@ public class DocServiceImpl implements DocService {
 
         Doc saved = docRepository.save(docToSave);
         DocTo savedTo = asDocTo(saved);
+        savedTo.setFinalUserId(finalUserId);
         String urlPdf = createPDFOrDocx(savedTo, rootPath, false, true);
         docRepository.setUrlPDF(savedTo.getId(), urlPdf);
         savedTo.setUrlPDF(urlPdf);
@@ -466,12 +468,18 @@ public class DocServiceImpl implements DocService {
 
     @Override
     public FileTo createDOCX(DocTo docTo, String rootPath) {
-        return new FileTo(createPDFOrDocx(asDocTo(createNewDocFromTo(docTo)), rootPath,  true, false));
+        Integer finalUserId = docTo.getFinalUserId();
+        DocTo docToFull = asDocTo(createNewDocFromTo(docTo));
+        docToFull.setFinalUserId(finalUserId);
+        return new FileTo(createPDFOrDocx(docToFull, rootPath,  true, false));
     }
 
     @Override
     public FileTo createPDF(DocTo docTo, String rootPath) {
-        return new FileTo(createPDFOrDocx(asDocTo(createNewDocFromTo(docTo)), rootPath, true, true));
+        Integer finalUserId = docTo.getFinalUserId();
+        DocTo docToFull = asDocTo(createNewDocFromTo(docTo));
+        docToFull.setFinalUserId(finalUserId);
+        return new FileTo(createPDFOrDocx(docToFull, rootPath,  true, true));
     }
 
     private String createPDFOrDocx(DocTo docTo, String rootPath, Boolean saveToTempDir, Boolean isPDF) {
@@ -502,11 +510,11 @@ public class DocServiceImpl implements DocService {
         }
         StringBuilder to = new StringBuilder();
         if (docTo.getExecutorDepartmentsIds() != null) {
-            for (int i = docTo.getExecutorDepartmentsIds().size()-1; i >= 0 ; i--) {
+            for (int i = 0; i < docTo.getExecutorDepartmentsIds().size(); i++) {
                 Department exDep = departmentRepository.findById(docTo.getExecutorDepartmentsIds().get(i)).orElse(null);
                 to.append(exDep.getChiefUser().getDativePosition() + "\n");
                 to.append(exDep.getChiefUser().getDativeFullname() + "\n");
-                if (i - 1 >= 0) {
+                if (i + 1 < docTo.getExecutorDepartmentsIds().size()) {
                     to.append("+\n");
                 }
             }
