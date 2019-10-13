@@ -64,7 +64,7 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
 
         for (DocTypeFields d:docTypeFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap),
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, false),
                     d.getPosition()));
 
         }

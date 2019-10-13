@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gbuac.model.Doc;
+import ru.gbuac.model.DocStatus;
 import ru.gbuac.to.DocNumberTo;
 
 import java.util.List;
@@ -66,6 +67,9 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
 
     @Query("SELECT d.docType.id FROM Doc d WHERE d.id=:id")
     int getDocTypeByDocId(@Param("id") int id);
+
+    @Query("SELECT d.docStatus FROM Doc d WHERE d.id=:id")
+    DocStatus getDocStatusByDocId(@Param("id") int id);
 
     @Transactional
     @Modifying

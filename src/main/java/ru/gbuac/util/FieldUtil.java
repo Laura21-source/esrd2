@@ -11,14 +11,14 @@ public class FieldUtil {
     private FieldUtil() {
     }
 
-    public static FieldTo asTo(Field field, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap) {
+    public static FieldTo asTo(Field field, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap, boolean deny) {
         List<FieldTo> childFields = new ArrayList<>();
         for (Field childField : field.getChildField()) {
-            childFields.add(asTo(childField, curUserRoles, fMap));
+            childFields.add(asTo(childField, curUserRoles, fMap, deny));
         }
         FieldsRoles fieldsRoles = fMap.get(field.getId());
         boolean enabled = fieldsRoles != null && curUserRoles.contains(fieldsRoles.getRole().getAuthority());
-        enabled = enabled || curUserRoles.contains("ROLE_ADMIN");
+        enabled = (enabled || curUserRoles.contains("ROLE_ADMIN")) && !deny;
 
         Integer catalog_id = getCatalogId(field.getCatalog());
         Integer parentCatalog_id = getParentCatalogId(field.getCatalog());
@@ -36,15 +36,15 @@ public class FieldUtil {
         return catalog != null ? catalog.getParentCatalog() : null;
     }
 
-    public static FieldTo asTo(ValuedField valuedField, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap) {
+    public static FieldTo asTo(ValuedField valuedField, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap, boolean deny) {
         List<FieldTo> childFields = new ArrayList<>();
         for (ValuedField childField : valuedField.getChildValuedField()) {
-            childFields.add(asTo(childField, curUserRoles, fMap));
+            childFields.add(asTo(childField, curUserRoles, fMap, deny));
         }
         Field field = valuedField.getField();
         FieldsRoles fieldsRoles = fMap.get(field.getId());
         boolean enabled = fieldsRoles != null && curUserRoles.contains(fieldsRoles.getRole().getAuthority());
-        enabled = enabled || curUserRoles.contains("ROLE_ADMIN");
+        enabled = (enabled || curUserRoles.contains("ROLE_ADMIN")) && !deny;
         Integer catalog_id = getCatalogId(field.getCatalog());
         Integer parentCatalog_id = getParentCatalogId(field.getCatalog());
 

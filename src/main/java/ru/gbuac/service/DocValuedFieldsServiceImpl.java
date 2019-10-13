@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.*;
-import ru.gbuac.model.DocTypeFields;
-import ru.gbuac.model.DocValuedFields;
-import ru.gbuac.model.FieldsRoles;
-import ru.gbuac.model.Role;
+import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
 import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
@@ -69,8 +66,15 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
         Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
 
+        DocStatus docStatus = docRepository.getDocStatusByDocId(docId);
+        boolean deny = false;
+        if (docStatus == DocStatus.IN_WORK) {
+            deny = true;
+        }
+
         for (DocValuedFields d:docValuedFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap),
+            docFieldsTos.add(new DocFieldsTo(d.getId(),
+                    FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny),
                     d.getPosition()));
         }
         return docFieldsTos;
@@ -101,14 +105,14 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
                 if (t.getField().getId().equals(v.getValuedField().getId()))
                 {
                     v.getValuedField().setId(null);
-                    docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(v.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap),
+                    docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(v.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, false),
                             v.getPosition()));
                     hasField = true;
                     break;
                 }
             }
             if (!hasField) {
-                docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(t.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap),
+                docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(t.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, false),
                         t.getPosition()));
             }
 

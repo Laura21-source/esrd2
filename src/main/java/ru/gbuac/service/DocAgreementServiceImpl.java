@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.DocAgreementRepository;
 import ru.gbuac.dao.DocRepository;
+import ru.gbuac.dao.UserRepository;
 import ru.gbuac.model.Doc;
 import ru.gbuac.model.DocAgreement;
+import ru.gbuac.model.User;
 import ru.gbuac.to.DocAgreementTo;
 import ru.gbuac.util.DocAgreementUtil;
 import ru.gbuac.util.exception.NotFoundException;
@@ -23,6 +25,9 @@ public class DocAgreementServiceImpl implements DocAgreementService {
 
     @Autowired
     DocRepository docRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public DocAgreement get(int id, int docId) throws NotFoundException {
@@ -65,6 +70,20 @@ public class DocAgreementServiceImpl implements DocAgreementService {
         }
 
         return docAgreementRepository.getAgreementList(docId);
+    }
+
+    @Override
+    public List<DocAgreementTo> redirect(int docId, int targetUserId, String comment, String userMame) {
+        List<DocAgreementTo> agreementList = docAgreementRepository.getAgreementList(docId);
+        User targetUser = userRepository.findById(targetUserId).orElse(null);
+        User curUser = userRepository.getByName(userMame);
+        int ordering = 0;
+        for (DocAgreementTo da: agreementList) {
+            ordering++;
+            
+        }
+
+        return null;
     }
 
     @Override

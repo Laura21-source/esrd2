@@ -323,29 +323,6 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public DocTo returnDocAgreement(int id, String targetUserName, String userName, String comment) throws NotFoundException {
-        /*
-        Doc updated = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
-        int stage = docTypeRoutesRepository
-                .getStageByUserNameForDocType(targetUserName, updated.getDocType().getId(),
-                        updated.getCurrentAgreementStage());
-        updated.setCurrentAgreementStage(stage);
-        User user = userRepository.getByName(userName);
-        User targetUser = userRepository.getByName(targetUserName);
-        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(updated.getId(), userName);
-        docAgreement.setAgreedDateTime(LocalDateTime.now());
-        docAgreement.setComment(comment);
-        docAgreement.setReturnedUser(targetUser);
-        docAgreement.setDecisionType(DecisionType.RETURNED);
-        docAgreementRepository.save(docAgreement);
-        docAgreementRepository.save(new DocAgreement(null, updated, targetUser));
-        docAgreementRepository.save(new DocAgreement(null, updated, user));
-        return asDocTo(checkNotFoundWithId(docRepository.save(updated), id));
-        */
-        return null;
-    }
-
-    @Override
     public DocTo rejectDocAgreement(int id, String userName, String comment) throws NotFoundException {
         /*
         Doc updated = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
@@ -551,8 +528,14 @@ public class DocServiceImpl implements DocService {
         Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
 
+        boolean deny = false;
+        if (doc.getDocStatus() == DocStatus.IN_WORK) {
+            deny = true;
+        }
+
         for (DocValuedFields d:docValuedFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap), d.getPosition()));
+            docFieldsTos.add(new DocFieldsTo(d.getId(),
+                    FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny), d.getPosition()));
         }
 
         boolean isFinalAgreementStage = false;

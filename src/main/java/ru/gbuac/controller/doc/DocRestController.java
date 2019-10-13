@@ -84,13 +84,6 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
-    @PostMapping(value = "/returnDocAgreement/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DocTo returnDocAgreement(@PathVariable("id")int id, @RequestParam("targetUserName") String targetUserName,
-                                    @RequestParam("comment") String comment) {
-        return super.returnDocAgreement(id, targetUserName, comment);
-    }
-
-    @Override
     @PostMapping(value = "/rejectDocAgreement/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public DocTo rejectDocAgreement(@PathVariable("id")int id, @RequestParam("comment") String comment) {
         return super.rejectDocAgreement(id, comment);

@@ -90,11 +90,6 @@ public abstract class AbstractDocRestController {
         docService.delete(id);
     }
 
-    public DocTo returnDocAgreement(int id, String targetUserName, String comment) {
-        LOG.info("returnDocAgreement " + id);
-        return docService.returnDocAgreement(id, targetUserName, AuthorizedUser.getUserName(), comment);
-    }
-
     public DocTo rejectDocAgreement(int id,  String comment) {
         LOG.info("returnDocAgreement " + id);
         return docService.rejectDocAgreement(id, AuthorizedUser.getUserName(), comment);
