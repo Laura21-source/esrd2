@@ -648,7 +648,8 @@
                 { 'data': 'regNum' },
                 { 'data': 'regDateTime' },
                 { 'data': 'docType' },
-                { 'data': 'currentAgreeFullName' },
+                { 'data': 'executorDepartments' },
+                { 'data': 'executorUsers' },
                 { 'data': 'link' }
             ],
             "ajax": {
@@ -676,9 +677,6 @@
                             item.regDateTime = formatDate(item.regDateTime, 0);
                         }
                         item.regNum = "<a href='agree-document?id=" + item.id + "'>" + item.regNum + "</a>"
-                        if (!item.currentAgreeFullName || item.currentAgreeFullName == '') {
-                            item.currentAgreeFullName = 'Согласование завершено';
-                        }
                         item.link = "<a href='agree-document?id=" + item.id + "'><i class='fas fa-edit text-primary'></i></a>";
                     });
                     return data;

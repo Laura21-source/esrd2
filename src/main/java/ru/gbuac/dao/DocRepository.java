@@ -53,11 +53,11 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d WHERE d.docStatus<>'IN_AGREEMENT'")
     List<Doc> getAllRegistered();
 
-    @Query("SELECT d FROM Doc d JOIN d.executorDepartments ed JOIN d.executorUsers eu " +
+    @Query("SELECT DISTINCT d FROM Doc d JOIN d.executorDepartments ed JOIN d.executorUsers eu " +
             "WHERE ed.id=:departmentId AND eu.id IS NULL AND d.docStatus='IN_WORK'")
     List<Doc> getAllDistribution(int departmentId);
 
-    @Query("SELECT d FROM Doc d JOIN d.executorDepartments ed JOIN d.executorUsers eu " +
+    @Query("SELECT DISTINCT d FROM Doc d JOIN d.executorDepartments ed JOIN d.executorUsers eu " +
             "WHERE ed.id=:departmentId AND eu.id IS NOT NULL AND d.docStatus='IN_WORK'")
     List<Doc> getAllDistributed(int departmentId);
 

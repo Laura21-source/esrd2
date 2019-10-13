@@ -157,10 +157,24 @@ public class DocServiceImpl implements DocService {
         List<Doc> docs = new ArrayList<>();
         Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
                 .forEach(d -> docs.addAll(docRepository.getAllDistribution(d.getId())));
-        return docs.stream()
-                .map(d -> new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
-                        d.getProjectRegNum(), d.getProjectRegDateTime(), d.getExecutorDepartments(),
-                        d.getExecutorUsers(), d.getDocType().getName())).collect(Collectors.toList());
+        List<DocItemTo> docItemsTo = new ArrayList<>();
+        for (Doc d: docs) {
+            StringBuilder deps = new StringBuilder();
+            for (Department department: d.getExecutorDepartments()) {
+                deps.append(department.getId());
+                deps.append(" ");
+            }
+            StringBuilder users = new StringBuilder();
+            for (User user: d.getExecutorUsers()) {
+                users.append(user.getId());
+                users.append(" ");
+            }
+
+            docItemsTo.add(new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
+                    d.getProjectRegNum(), d.getProjectRegDateTime(), deps.toString().trim().replace(" ",","),
+                    users.toString().trim().replace(" ",","), d.getDocType().getName()));
+        }
+        return docItemsTo;
     }
 
     @Override
@@ -170,10 +184,24 @@ public class DocServiceImpl implements DocService {
         List<Doc> docs = new ArrayList<>();
         Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
                 .forEach(d -> docs.addAll(docRepository.getAllDistributed(d.getId())));
-        return docs.stream()
-                .map(d -> new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
-                        d.getProjectRegNum(), d.getProjectRegDateTime(), d.getExecutorDepartments(),
-                        d.getExecutorUsers(), d.getDocType().getName())).collect(Collectors.toList());
+        List<DocItemTo> docItemsTo = new ArrayList<>();
+        for (Doc d: docs) {
+            StringBuilder deps = new StringBuilder();
+            for (Department department: d.getExecutorDepartments()) {
+                deps.append(department.getId());
+                deps.append(" ");
+            }
+            StringBuilder users = new StringBuilder();
+            for (User user: d.getExecutorUsers()) {
+                users.append(user.getId());
+                users.append(" ");
+            }
+
+            docItemsTo.add(new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
+                    d.getProjectRegNum(), d.getProjectRegDateTime(), deps.toString().trim().replace(" ",","),
+                    users.toString().trim().replace(" ",","), d.getDocType().getName()));
+        }
+        return docItemsTo;
     }
 
     @Override

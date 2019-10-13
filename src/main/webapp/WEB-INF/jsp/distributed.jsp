@@ -23,6 +23,7 @@
                             <th class="th-sm font-weight-bold alert-primary" width="20%">Дата регистрации</th>
                             <th class="th-sm font-weight-bold alert-primary" width="40%">Вид документа</th>
                             <th class="th-sm font-weight-bold alert-primary" width="40%">Подразделения-исполнители</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="40%">Исполнители</th>
                             <th class="th-sm font-weight-bold alert-primary" width="10%">Карточка документа</th>
                         </tr>
                         </thead>

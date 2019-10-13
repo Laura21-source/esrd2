@@ -30,9 +30,9 @@ public class DocItemTo extends BaseTo {
     @SafeHtml
     private String currentAgreeFullName;
 
-    private List<Department> executorDepartments;
+    private String executorDepartments;
 
-    private List<User> executorUsers;
+    private String executorUsers;
 
     @SafeHtml
     private String docType;
@@ -51,8 +51,8 @@ public class DocItemTo extends BaseTo {
     }
 
     public DocItemTo(Integer id, DocStatus docStatus, @SafeHtml String regNum, LocalDateTime regDateTime,
-                     @SafeHtml String projectRegNum, LocalDateTime projectRegDateTime, List<Department>
-                             executorDepartments, List<User> executorUsers, @SafeHtml String docType) {
+                     @SafeHtml String projectRegNum, LocalDateTime projectRegDateTime,String
+                             executorDepartments, String executorUsers, @SafeHtml String docType) {
         super(id);
         this.docStatus = docStatus;
         this.regNum = regNum;
