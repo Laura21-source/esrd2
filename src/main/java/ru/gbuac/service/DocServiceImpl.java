@@ -105,8 +105,7 @@ public class DocServiceImpl implements DocService {
         DocStatus docStatus = docTo.getDocStatus();
         if (!docStatus.equals(DocStatus.IN_AGREEMENT))  {
             docTo.setCanAgree(false);
-        }
-        else {
+        } else {
             boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName);
             docTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));
         }
@@ -116,6 +115,19 @@ public class DocServiceImpl implements DocService {
         } else {
             docTo.setFinalStage(true);
         }
+        if (docStatus.equals(DocStatus.IN_WORK)) {
+            User thisUser = userRepository.getByName(userName);
+
+            boolean thisUserIsExecutor = docTo.getExecutorUsersIds().contains(thisUser.getId());
+            docTo.setCanWork(thisUserIsExecutor || AuthorizedUser.hasRole("ADMIN"));
+
+            boolean thisUserCanDistribute = thisUser.getDistributionDepartments().stream()
+                    .anyMatch(ud -> docTo.getExecutorDepartmentsIds().contains(ud.getId()));
+            docTo.setCanDistribute(thisUserCanDistribute || AuthorizedUser.hasRole("ADMIN"));
+        } else {
+            docTo.setCanWork(false);
+        }
+
 
         return docTo;
     }
@@ -570,8 +582,8 @@ public class DocServiceImpl implements DocService {
 
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
                 doc.getProjectRegDateTime(), doc.getInsertDateTime(), doc.getDocType().getId(),
-                doc.getDocStatus(), isFinalAgreementStage, false, doc.getUrlPDF(), initialUserTo, null,
-                executorDepartmentsIds, executorUsersIds, docFieldsTos);
+                doc.getDocStatus(), isFinalAgreementStage, false, false, false, doc.getUrlPDF(),
+                initialUserTo, null, executorDepartmentsIds, executorUsersIds, docFieldsTos);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {
