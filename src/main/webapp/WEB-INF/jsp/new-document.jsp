@@ -203,7 +203,7 @@
                 var dataBlock = createDataBlock(0, sumElem);
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
                 var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
-                //console.log(serverStack);
+                console.log(serverStack);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',

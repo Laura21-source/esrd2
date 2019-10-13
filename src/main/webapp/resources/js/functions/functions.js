@@ -570,10 +570,10 @@
         if(block && block === 1) {
             whomList = '#whomListNew';
         }
-        $(whomList + ' option').each(function() {
+        $(whomList + ' option:selected').each(function() {
             var element = $(this).val();
             if(element !== '') {
-                whomList.push(element);
+                executorDepartmentsIds.push(element);
             }
         });
         if(dataField !== "") {for (var key in dataField) {childFields.push(dataField[key]);}}
