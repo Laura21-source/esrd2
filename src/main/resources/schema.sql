@@ -51,7 +51,7 @@ CREATE TABLE esrd.users
     email       VARCHAR                         ,
     phone       VARCHAR                         ,
     position    VARCHAR,
-    department_id VARCHAR
+    department_id INTEGER
 );
 
 CREATE TABLE esrd.user_roles

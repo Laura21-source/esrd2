@@ -1,14 +1,31 @@
 package ru.gbuac;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import ru.gbuac.service.MailService;
 
 @SpringBootApplication
 public class Esrd2 extends SpringBootServletInitializer {
+
+    @Autowired
+    MailService mailService;
+
+    @Override
+    public void run(String...args) throws Exception {
+        try {
+            mailService.sendMailWithAttachment("dummy.newmailbox@gmail.com", "esrd.noreply@gmail.com", "Hello", "How are you");
+            System.out.println("Done");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
