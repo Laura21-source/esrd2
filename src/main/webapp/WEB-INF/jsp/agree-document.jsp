@@ -132,78 +132,10 @@
                         </div>
                     </form>
                     <div class="alert alert-secondary text-center mb-3 blockDocumentNew d-none">
-                        <div class="btn btn-primary btn-sm rounded px-3 btnCloseNew"><i class="fas fa-plus mr-2"></i>Свернуть</div>
+                        <div class="btn btn-primary btn-sm rounded px-3 btnCloseNew"><i class="fas fa-minus mr-2"></i>Свернуть</div>
                         <h5 class="mt-2">Формирование нового документа</h5>
                     </div>
                     <form class="newDocumentForm needs-validation blockDocumentNew d-none" novalidate>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall">
-                                            <div class="col-md-1">№</div>
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-8">Согласователь</div>
-                                            <div class="col-md-2">Удалить</div>
-                                        </div>
-                                        <div class="row" id="userListBlockNew">
-                                            <div class="col-12 mt-2 blockUserNew" id="blockUserNew1">
-                                                <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
-                                                    <div class="col-md-1">1</div>
-                                                    <div class="col-md-1"><i class="fas fa-user"></i></div>
-                                                    <div class="col-md-8 selectUser select-outline">
-                                                        <select class="mdb-select md-form md-outline colorful-select dropdown-primary userListNew" data-spisok="1" id="userListNew1" searchable=' Поиск' name="userListNew[]" required>
-                                                            <option value="" selected>Выбрать</option>
-                                                        </select>
-                                                        <div class="fontSmall text-left" id="userListPostNew1"></div>
-                                                    </div>
-                                                    <div class="col-md-2"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr class="my-1">
-                                        <div class="row">
-                                            <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm addUserNew rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
-                                            </div>
-                                        </div>
-                                        <div class="invalid-tooltip">Выберите согласователя</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="container-fluid mx-2">
-                                    <div class="sticky-content">
-                                        <div class="alert alert-primary mx-auto text-uppercase">Готовый документ</div>
-                                        <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3 d-flex align-items-center justify-content-center">
-                                            <!--Big blue Loader-->
-                                            <div class="preloader-wrapper active bigLoader d-none">
-                                                <div class="spinner-layer spinner-blue-only">
-                                                    <div class="circle-clipper left">
-                                                        <div class="circle"></div>
-                                                    </div>
-                                                    <div class="gap-patch">
-                                                        <div class="circle"></div>
-                                                    </div>
-                                                    <div class="circle-clipper right">
-                                                        <div class="circle"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="pdfSign"><i class="far fa-file-pdf text-danger fa-10x"></i></div>
-                                            <iframe class="embed-responsive-item pdfSRCNew" src=""></iframe>
-                                        </div>
-                                        <a href="" id="btnSavePdfNew" class="btn btn-default btn-sm my-3 rounded pdfHREFNew px-3" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
-                                        <div id="btnReformatNew" class="btn btn-mdb-color btn-sm my-3 rounded px-3"><i class="fas fa-sync mr-2"></i>Переформировать</div>
-                                        <a class="btn btn-light-blue btn-sm my-3 pdfHREFNew px-3" href="" target="_blank">Открыть в новом окне</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="alert alert-secondary text-center mt-5 mb-3">
-                            <h5 class="mt-2">Поля формирования документа</h5>
-                        </div>
                         <div class="card pb-5">
                             <div class="card-body pb-5">
                                 <div class="row ml-1 mb-3 d-flex align-items-center">
@@ -215,6 +147,76 @@
                                             <option value="">Выберите вид документа</option>
                                         </select>
                                         <div class="invalid-tooltip">Выберите тип документа</div>
+                                    </div>
+                                </div>
+                                <div id="blockFieldsNew" class="d-none">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall">
+                                                        <div class="col-md-1">№</div>
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-8">Согласователь</div>
+                                                        <div class="col-md-2">Удалить</div>
+                                                    </div>
+                                                    <div class="row" id="userListBlockNew">
+                                                        <div class="col-12 mt-2 blockUserNew" id="blockUserNew1">
+                                                            <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
+                                                                <div class="col-md-1">1</div>
+                                                                <div class="col-md-1"><i class="fas fa-user"></i></div>
+                                                                <div class="col-md-8 selectUser select-outline">
+                                                                    <select class="mdb-select md-form md-outline colorful-select dropdown-primary userListNew" data-spisok="1" id="userListNew1" searchable=' Поиск' name="userListNew[]" required>
+                                                                        <option value="" selected>Выбрать</option>
+                                                                    </select>
+                                                                    <div class="fontSmall text-left" id="userListPostNew1"></div>
+                                                                </div>
+                                                                <div class="col-md-2"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="my-1">
+                                                    <div class="row">
+                                                        <div class="col-12 text-right">
+                                                            <div class="btn btn-primary btn-sm addUserNew rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="invalid-tooltip">Выберите согласователя</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="container-fluid mx-2">
+                                                <div class="sticky-content">
+                                                    <div class="alert alert-primary mx-auto text-uppercase">Готовый документ</div>
+                                                    <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3 d-flex align-items-center justify-content-center">
+                                                        <!--Big blue Loader-->
+                                                        <div class="preloader-wrapper active bigLoaderNew d-none">
+                                                            <div class="spinner-layer spinner-blue-only">
+                                                                <div class="circle-clipper left">
+                                                                    <div class="circle"></div>
+                                                                </div>
+                                                                <div class="gap-patch">
+                                                                    <div class="circle"></div>
+                                                                </div>
+                                                                <div class="circle-clipper right">
+                                                                    <div class="circle"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pdfSignNew"><i class="far fa-file-pdf text-danger fa-10x"></i></div>
+                                                        <iframe class="embed-responsive-item pdfSRCNew" src=""></iframe>
+                                                    </div>
+                                                    <a href="" id="btnSavePdfNew" class="btn btn-default btn-sm my-3 rounded pdfHREFNew px-3" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
+                                                    <div id="btnReformatNew" class="btn btn-mdb-color btn-sm my-3 rounded px-3"><i class="fas fa-sync mr-2"></i>Переформировать</div>
+                                                    <a class="btn btn-light-blue btn-sm my-3 pdfHREFNew px-3" href="" target="_blank">Открыть в новом окне</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-secondary text-center mt-5 mb-3">
+                                        <h5 class="mt-2">Поля формирования документа</h5>
                                     </div>
                                 </div>
                                 <div id="blockUpNew" class="d-none"></div>
@@ -301,7 +303,7 @@
                 $('.blockDocumentNew').removeClass('d-none');
                 $('.blockDocument, #btnWordFile').addClass('d-none');
                 $('.docName').html('Сведения о документе');
-                // Список согласования
+                $('.registrationForm input, .registrationForm option').attr('disabled');
             }
             // Ссылки на документ PDF
             var documentPDF = data.UrlPDF;
@@ -556,13 +558,13 @@
             var asd = $("#selectTypeNew").val();
             if(asd && asd !== '') {
                 // Добавить блоки отсюда в файл функций -getFieldsDocument
-                $("#blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").removeClass("d-none");
+                $("#blockFieldsNew, #blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").removeClass("d-none");
                 // Верхний блок полей
-                getUpFields("rest/profile/doctypes/" + asd + "/fields", 0, '', 1);
+                getUpFields("rest/profile/docs/" + id + "/fields/merged?targetDocTypeId=" + asd, 0, '', 1);
                 // Нижний блок полей
-                getDownFields("rest/profile/doctypes/" + asd + "/fields", 0, '', 1);
+                getDownFields("rest/profile/docs/" + id + "/fields/merged?targetDocTypeId=" + asd, 0, '', 1);
             } else {
-                $("#blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").addClass("d-none");
+                $("#blockFieldsNew, #blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").addClass("d-none");
             }
         });
 
@@ -639,6 +641,47 @@
                 serverAjax.fail(function () {
                     toastr["error"]("Ошибка сохранения документа!");
                 });*/
+            }
+        });
+
+        $('#btnReformatNew').on("click", function(event) {
+            event.preventDefault();
+            var forms = $('.newDocumentForm');
+            var formsValue = $('.newDocumentForm input,.newDocumentForm textarea,.newDocumentForm select').filter('[required]');
+            event.preventDefault();
+            var checkField = checkValidation(formsValue);
+            if(checkField === false) {
+                toastr["error"]("Заполните обязательные поля!");
+                $(forms).addClass('was-validated');
+                event.stopPropagation();
+            } else {
+                var trueName =  $(this).html();
+                $(this).html('Отправка запроса').attr('disabled', true);
+                $(".pdfSRCNew, .pdfSignNew").addClass("d-none");
+                $(".bigLoaderNew").removeClass("d-none").fadeIn(500);
+                var dataType = $("#selectTypeNew").val();
+                // Формируем поля JSON
+                var dataField = createDataField(0, 1);
+                var sumElem = countElem(dataField)+1;
+                var dataBlock = createDataBlock(0, sumElem, 1);
+                var reformatPDF = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
+                console.log(reformatPDF);
+                var serverAjax = $.ajax({
+                    type: "POST",
+                    url: 'rest/profile/docs/pdf',
+                    data: reformatPDF,
+                    contentType: 'application/json; charset=utf-8'
+                });
+                serverAjax.done(function(data) {
+                    $(".bigLoaderNew").addClass("d-none").fadeOut(1000);
+                    $("#btnReformatNew").html(trueName).attr('disabled', false).removeClass('waves-effect');
+                    $(".pdfSRCNew").removeClass("d-none").attr("src", data.fileUrl);
+                    $(".pdfSignNew").removeClass("d-none");
+                    $(".pdfHREFNew").attr("href", data.fileUrl);
+                });
+                serverAjax.fail(function () {
+                    toastr["error"]("Ошибка формировки файла PDF!");
+                });
             }
         });
 
