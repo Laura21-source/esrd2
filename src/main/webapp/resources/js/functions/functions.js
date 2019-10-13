@@ -611,12 +611,24 @@
         });
         if(dataField !== "") {for (var key in dataField) {childFields.push(dataField[key]);}}
         if(dataBlock !== "") {for (var key in dataBlock) {childFields.push(dataBlock[key]);}}
-        var valueObj = {
-            "id" : id,
-            "docTypeId" : parseInt(dataType),
-            "executorDepartmentsIds" : executorDepartmentsIds,
-            "finalUserId" : finalUserId,
-            "childFields" : childFields
+        if(block && block === 2)  {
+            var comment = $('#commentText textarea').val();
+            var valueObj = {
+                "id" : id,
+                "docTypeId" : parseInt(dataType),
+                "executorDepartmentsIds" : executorDepartmentsIds,
+                "finalUser" : finalUserId,
+                "comment" : comment,
+                "childFields" : childFields
+            }
+        } else {
+            var valueObj = {
+                "id" : id,
+                "docTypeId" : parseInt(dataType),
+                "executorDepartmentsIds" : executorDepartmentsIds,
+                "finalUser" : finalUserId,
+                "childFields" : childFields
+            }
         }
         return valueObj;
     }
@@ -754,16 +766,16 @@
                 if(row.comment) {comment = row.comment;}
                 if(row.position) {position = row.position;}
                 var currentUser = '';
-                if(row.finalUser === true) {
-                    currentUser = '<i class="fas fa-user-graduate mr-2 text-success" title="Финальный согласователь"></i>';
-                }
                 if(row.currentUser === true) {
-                    currentUser = currentUser + '<i class="fas fa-user-clock text-warning" title="Текущий согласователь"></i>';
+                    currentUser = '<i class="fas fa-user-clock text-warning" title="Текущий согласователь"></i>';
                 } else {
-                    currentUser = currentUser + '<i class="fas fa-ellipsis-h text-muted" title="Согласователь"></i>';
+                    currentUser = '<i class="fas fa-ellipsis-h text-muted" title="Согласователь"></i>';
                 }
                 if(row.decisionType && row.decisionType === 'ACCEPTED') {
-                    currentUser = currentUser + '<i class="fas fa-check text-success" title="Согласование завершено"></i>';
+                    currentUser = '<i class="fas fa-check text-success" title="Согласование завершено"></i>';
+                    if(row.finalUser === true) {
+                        currentUser = '<i class="fas fa-check-circle text-success" title="Финальный согласователь"></i>';
+                    }
                 }
                 $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center" data-value="'+row.id+'"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
             }

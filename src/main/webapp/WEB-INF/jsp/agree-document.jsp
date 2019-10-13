@@ -17,7 +17,7 @@
                     <form class="registrationForm needs-validation" novalidate>
                         <div class="row ml-1 mb-3 d-flex align-items-center justify-content-center">
                             <div class="col-1 text-left mt-2">
-                                <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Кому</span>
+                                <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Куда</span>
                             </div>
                             <div class="col-11 text-left" id="whomList"></div>
                         </div>
@@ -164,7 +164,7 @@
                                 <div id="blockFieldsNew" class="d-none">
                                     <div class="row ml-1 mb-3 d-flex align-items-center">
                                         <div class="col-2 text-left mt-2">
-                                            <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Кому</span>
+                                            <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Куда</span>
                                         </div>
                                         <div class="col-10 select-outline">
                                             <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomListNew" multiple searchable=" Поиск" required>

@@ -19,7 +19,7 @@
                             <div class="card-body">
                                 <div class="row ml-1 mb-1 d-flex align-items-center">
                                     <div class="col-md-2 text-left mt-2">
-                                        <span class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа</span>
+                                        <span class="text-muted"><i class="fas fa-file-alt mr-2"></i>Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                                     </div>
                                     <div class="col-md-10 select-outline">
                                         <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" name="selectType" id="selectType" required>
@@ -31,7 +31,7 @@
                                 <div id="blockFields" class="d-none">
                                     <div class="row ml-1 mb-3 d-flex align-items-center">
                                         <div class="col-2 text-left mt-2">
-                                            <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Кому</span>
+                                            <span class="text-muted"><i class="fas fa-sitemap mr-2"></i>Куда<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                                         </div>
                                         <div class="col-10 select-outline">
                                             <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomList" multiple searchable=" Поиск" required>
@@ -41,7 +41,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
+                                            <div class="alert alert-primary mx-auto text-uppercase">Список согласования<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                             <div class="card mb-3">
                                                 <div class="card-body">
                                                     <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall">
