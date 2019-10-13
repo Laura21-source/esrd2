@@ -500,6 +500,18 @@ public class DocServiceImpl implements DocService {
                         + ". " + finalUser.getLastname());
             }
         }
+        StringBuilder to = new StringBuilder();
+        if (docTo.getExecutorDepartmentsIds() != null) {
+            for (int i = docTo.getExecutorDepartmentsIds().size()-1; i >= 0 ; i--) {
+                Department exDep = departmentRepository.findById(docTo.getExecutorDepartmentsIds().get(i)).orElse(null);
+                to.append(exDep.getChiefUser().getDativePosition() + "\n");
+                to.append(exDep.getChiefUser().getDativeFullname() + "\n");
+                if (i - 1 >= 0) {
+                    to.append("+\n");
+                }
+            }
+        }
+        simpleTags.put("To", to.toString());
         Map<String, TaggedTable> taggedTables = new HashMap<>();
 
         for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {

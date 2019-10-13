@@ -49,6 +49,7 @@ CREATE TABLE esrd.department
 (
     id                    INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
     top_level             BOOLEAN,
+    chief_user_id         INTEGER                          ,
     name                  VARCHAR
 );
 

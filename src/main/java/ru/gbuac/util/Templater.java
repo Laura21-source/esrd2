@@ -51,10 +51,10 @@ public class Templater {
         XWPFDocument doc = new XWPFDocument(OPCPackage.open(templatePath));
 
         // Замена тэгов щаблона значениями по словарю
-        for (XWPFParagraph p : doc.getParagraphs()) {
+        for (XWPFParagraph p: doc.getParagraphs()) {
             String text = p.getText();
             for (Map.Entry<String,String> entry : simpleTags.entrySet()) {
-                text = text.replace("<"+entry.getKey()+">", entry.getValue());
+                text = text.replace("<"+entry.getKey()+">", Optional.ofNullable(entry.getValue()).orElse(""));
             }
             changeText(p, text);
         }
@@ -85,7 +85,7 @@ public class Templater {
                             for (XWPFParagraph paragraph : cellObj.getParagraphs()) {
                                 String text = paragraph.getText();
                                 for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
-                                    text = text.replace("<" + entry.getKey() + ">", entry.getValue());
+                                    text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
                                 }
                                 text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
                                 changeText(paragraph, text);
@@ -97,6 +97,28 @@ public class Templater {
                 }
             }
         }
+
+        int numPages = doc.getProperties().getExtendedProperties().getUnderlyingProperties().getPages();
+        if (numPages > 1) {
+            simpleTags.put("SignerPosition",simpleTags.get("SignerFullPosition"));
+        }
+
+        for (int i = 0; i <doc.getTables().size(); i++) {
+            List<XWPFTableRow> rows = doc.getTableArray(i).getRows();
+            for (int row = 0; row < rows.size(); row++) {
+                List<XWPFTableCell> cells = rows.get(row).getTableCells();
+                for (int cell = 0; cell < cells.size(); cell++) {
+                    for (XWPFParagraph p: cells.get(cell).getParagraphs()) {
+                        String text = p.getText();
+                        for (Map.Entry<String,String> entry : simpleTags.entrySet()) {
+                            text = text.replace("<"+entry.getKey()+">", Optional.ofNullable(entry.getValue()).orElse(""));
+                        }
+                        changeText(p, text);
+                    }
+                }
+            }
+        }
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         doc.write(byteArrayOutputStream);
         if (isPDF) {
