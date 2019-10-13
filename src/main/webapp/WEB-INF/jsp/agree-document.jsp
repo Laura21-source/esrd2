@@ -625,8 +625,8 @@
                 var dataField = createDataField(0, 1);
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem, 1);
-                var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
                 var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
+                var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock,1));
                 console.log(serverStack);
                 /*var serverAjax = $.ajax({
                     type: "POST",
