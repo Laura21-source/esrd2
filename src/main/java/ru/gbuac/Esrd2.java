@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import ru.gbuac.service.MailService;
+
 
 @SpringBootApplication
 public class Esrd2 extends SpringBootServletInitializer {
@@ -19,7 +19,8 @@ public class Esrd2 extends SpringBootServletInitializer {
     @Override
     public void run(String...args) throws Exception {
         try {
-            mailService.sendMailWithAttachment("dummy.newmailbox@gmail.com", "esrd.noreply@gmail.com", "Hello", "How are you");
+            mailService.sendSimpleMail("dummy.newmailbox@gmail.com", "esrd.noreply@gmail.com", "Hello", "How are you");
+            mailService.sendHttpMail("dummy.newmailbox@gmail.com", "esrd.noreply@gmail.com", "Hello", "<b><i><u>How are you</u></i></b>");
             System.out.println("Done");
 
         } catch (Exception e) {

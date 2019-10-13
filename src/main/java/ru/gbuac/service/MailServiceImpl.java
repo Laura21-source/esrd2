@@ -33,6 +33,18 @@ public class MailServiceImpl implements MailService {
 
     }
 
+    @Override
+    public void sendHtmlEmail(String toAddress, String fromAddress, String subject, String content) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setFrom(fromAddress);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+        helper.setText(content, true);
+        helper.setSentDate(new Date());
+        javaMailSender.send(mimeMessage);
+    }
+
 
 //    public void sendEmail(User user) throws MailException {
 //

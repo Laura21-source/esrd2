@@ -10,4 +10,6 @@ public interface MailService {
 
 //    void setEmail(String s);
 
+    void sendHtmlEmail(String toAddress, String fromAddress, String subject, String content) throws MessagingException, javax.mail.MessagingException;
+
 }
