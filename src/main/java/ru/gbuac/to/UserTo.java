@@ -13,10 +13,18 @@ public class UserTo extends BaseTo {
     private String fullName;
     @SafeHtml
     private String phone;
+    @SafeHtml
+    private String position;
 
-    public UserTo(Integer id, @SafeHtml String fullName, @SafeHtml String phone) {
+    public UserTo(Integer id, @SafeHtml String fullName) {
+        super(id);
+        this.fullName = fullName;
+    }
+
+    public UserTo(Integer id, @SafeHtml String fullName, @SafeHtml String phone, @SafeHtml String position) {
         super(id);
         this.fullName = fullName;
         this.phone = phone;
+        this.position = position;
     }
 }

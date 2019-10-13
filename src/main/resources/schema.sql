@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS esrd.catalog CASCADE;
 DROP TABLE IF EXISTS esrd.organization CASCADE;
 DROP TABLE IF EXISTS esrd.doc_executor_departments CASCADE;
 DROP TABLE IF EXISTS esrd.doc_executor_users CASCADE;
+DROP TABLE IF EXISTS esrd.users_distribution_departments CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
@@ -93,10 +94,8 @@ CREATE TABLE esrd.doctype
     template_filename       VARCHAR                         ,
     role_id                 INTEGER                 NOT NULL,
     doc_number_prefix_id    INTEGER                 NOT NULL,
-    --default_exec_department_id INTEGER                      ,
     FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE,
     FOREIGN KEY (doc_number_prefix_id) REFERENCES esrd.doc_number_prefixes (id) ON DELETE CASCADE
-    --FOREIGN KEY (default_exec_department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doc
@@ -110,9 +109,9 @@ CREATE TABLE esrd.doc
     insert_datetime         TIMESTAMP DEFAULT now()      NOT NULL,
     docstatus               VARCHAR                      NOT NULL,
     url_pdf                 VARCHAR                              ,
-    --exec_department_id      INTEGER                      NOT NULL,
-    FOREIGN KEY (doctype_id) REFERENCES esrd.doctype (id) ON DELETE CASCADE
-    --FOREIGN KEY (exec_department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
+    initial_user_id         INTEGER                              ,
+    FOREIGN KEY (doctype_id) REFERENCES esrd.doctype (id) ON DELETE CASCADE,
+    FOREIGN KEY (initial_user_id) REFERENCES esrd.users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doctype_routes
@@ -271,6 +270,14 @@ CREATE TABLE esrd.doc_executor_users
     executor_users_id           INTEGER NOT NULL,
     FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
     FOREIGN KEY (executor_users_id) REFERENCES esrd.users (id) ON DELETE CASCADE
+);
+
+create table esrd.users_distribution_departments
+(
+    user_id                         INTEGER NOT NULL,
+    distribution_departments_id     INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE,
+    FOREIGN KEY (distribution_departments_id) REFERENCES esrd.department (id) ON DELETE CASCADE
 );
 
 CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR, optional VARCHAR DEFAULT NULL)

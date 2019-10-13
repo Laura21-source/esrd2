@@ -66,6 +66,11 @@ public class Doc extends BaseEntity {
     @Column(name = "url_pdf")
     private String urlPDF;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "initial_user_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User initialUser;
+
     public Doc(Integer id, String regNum, LocalDateTime regDateTime, @NotNull String projectRegNum,
                @NotNull LocalDateTime projectRegDateTime, @NotNull LocalDateTime insertDateTime,
                @NotNull DocType docType, List<Department> executorDepartments, List<User> executorUsers,
