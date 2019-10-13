@@ -38,7 +38,7 @@
                                             <div class="col-md-8">Согласователь</div>
                                             <div class="col-md-2"><%--Удалить--%></div>
                                         </div>
-                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall d-none disableUserList">
+                                        <div class="row text-center mb-3 font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall d-none disableUserList">
                                             <div class="col-md-1">№</div>
                                             <div class="col-md-1"></div>
                                             <div class="col-md-4">Согласователь</div>
@@ -164,7 +164,7 @@
                                 <div id="blockFieldsNew" class="d-none">
                                     <div class="row ml-1 mb-3 d-flex align-items-center">
                                         <div class="col-2 text-left mt-2">
-                                            <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Куда</span>
+                                            <span class="text-muted"><i class="fas fa-sitemap mr-2"></i>Куда<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                                         </div>
                                         <div class="col-10 select-outline">
                                             <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomListNew" multiple searchable=" Поиск" required>

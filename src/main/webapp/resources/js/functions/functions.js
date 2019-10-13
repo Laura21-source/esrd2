@@ -599,16 +599,21 @@
             userListBlock = '#userListBlockNew';
         }
         var finalUserId =  $(userListBlock + ' select:last').val();
-        if(block && block === 2) {
-            userListBlock = '#userListBlockDiv';
-            finalUserId =  $(userListBlock + ' .row:last').attr('data-value');
-        }
         $(whomList + ' option:selected').each(function() {
             var element = $(this).val();
             if(element !== '') {
                 executorDepartmentsIds.push(element);
             }
         });
+        if(block && block === 2) {
+            finalUserId =  $('#userListBlockDiv .row:last').attr('data-value');
+            $('#whomList div').each(function() {
+                var element = $(this).attr('data-value');
+                if(element !== '') {
+                    executorDepartmentsIds.push(element);
+                }
+            });
+        }
         if(dataField !== "") {for (var key in dataField) {childFields.push(dataField[key]);}}
         if(dataBlock !== "") {for (var key in dataBlock) {childFields.push(dataBlock[key]);}}
         if(block && block === 2)  {
@@ -617,7 +622,7 @@
                 "id" : id,
                 "docTypeId" : parseInt(dataType),
                 "executorDepartmentsIds" : executorDepartmentsIds,
-                "finalUser" : finalUserId,
+                "finalUserId" : finalUserId,
                 "comment" : comment,
                 "childFields" : childFields
             }
@@ -626,7 +631,7 @@
                 "id" : id,
                 "docTypeId" : parseInt(dataType),
                 "executorDepartmentsIds" : executorDepartmentsIds,
-                "finalUser" : finalUserId,
+                "finalUserId" : finalUserId,
                 "childFields" : childFields
             }
         }
@@ -738,7 +743,7 @@
     // Получение данных об управлении по id
     function getDepartments (url) {
         return $.getJSON(url, function(data) {
-            $('#whomList').append('<div class="d-inline-block chip light-blue lighten-2 white-text my-1 mr-2">' + data.name + '</div>');
+            $('#whomList').append('<div class="d-inline-block chip light-blue lighten-2 white-text my-1 mr-2" data-value="' + data.id + '">' + data.name + '</div>');
         });
     }
 
