@@ -22,7 +22,7 @@ public interface DocService {
 
     List<Doc> getAllRegisteredByUsername(String userName);
 
-    List<Doc> getAll();
+    List<DocItemTo> getAll();
 
     List<Doc> getAllAgreement();
 

@@ -12,7 +12,7 @@
             <div class="card-body">
                 <div class="container-fluid">
                     <div class="alert alert-secondary text-center mb-3">
-                        <h6 class="mt-2">Рапределение</h6>
+                        <h6 class="mt-2">Документы, ожидающие распределения на исполнителя</h6>
                     </div>
                     <table id="dataTable" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
                         <thead>
@@ -39,7 +39,7 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        var dataTable = dataTableArrayDistr("#dataTable","rest/profile/docs/distribution");
+        var dataTable = dataTableArray("#dataTable","rest/profile/docs/distribution", 1);
         console.log(dataTable);
     });
 </script>

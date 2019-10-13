@@ -73,7 +73,7 @@ public abstract class AbstractDocRestController {
         return docService.getRegNumbers();
     }
 
-    public List<Doc> getAll() {
+    public List<DocItemTo> getAll() {
         LOG.info("getAll");
         return docService.getAll();
     }

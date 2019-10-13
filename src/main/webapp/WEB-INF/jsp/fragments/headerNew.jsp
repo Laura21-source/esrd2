@@ -40,14 +40,12 @@
                         </div>
                     </li>--%>
                     <li><a class="collapsible-header waves-effect arrow-r" href="new-document"><i class="fa fa-file-alt mr-2"></i>Подготовка документа</a></li>
-                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-file-signature mr-2"></i>Исполнение<i
+                    <li><a class="collapsible-header waves-effect arrow-r" href="all"><i class="fa fa-list mr-2"></i>Все документы</a></li>
+                    <li><a class="collapsible-header waves-effect arrow-r" href="in-work"><i class="fa fa-briefcase mr-2"></i>На исполнении</a></li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-edit mr-2"></i>Согласование<i
                             class="fas fa-angle-down rotate-icon"></i></a>
                         <div class="collapsible-body">
                             <ul class="list-unstyled">
-                                <li><a href="all" class="waves-effect">Все документы</a>
-                                </li>
-                                <li><a href="in-work" class="waves-effect">На исполнении</a>
-                                </li>
                                 <li><a href="agreement" class="waves-effect">На согласовании/подписании</a>
                                 </li>
                                 <li><a href="agreed" class="waves-effect">Согласованные/подписанные</a>

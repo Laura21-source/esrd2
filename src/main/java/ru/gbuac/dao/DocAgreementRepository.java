@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gbuac.model.DocAgreement;
+import ru.gbuac.model.User;
 import ru.gbuac.to.DocAgreementTo;
+import ru.gbuac.to.UserTo;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +32,9 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
     @Query("SELECT max(a) FROM DocAgreement a WHERE a.doc.id=:docId AND a.ordering = (SELECT a.ordering+1 FROM DocAgreement a WHERE a.doc.id=:docId AND a.currentUser = TRUE)")
     DocAgreement getNextAgreement(@Param("docId") int docId);
     */
+    @Query("SELECT new ru.gbuac.to.UserTo(u.id, CONCAT(u.lastname,' ',u.firstname,' ',u.patronym)) FROM DocAgreement a JOIN a.user u WHERE a.doc.id=:docId AND a.currentUser = TRUE")
+    UserTo getCurrentUser(@Param("docId") int docId);
+
     @Query("SELECT max(a) FROM DocAgreement a WHERE a.doc.id=:docId AND a.finalUser = TRUE")
     DocAgreement getFinalAgreement(@Param("docId") int docId);
 

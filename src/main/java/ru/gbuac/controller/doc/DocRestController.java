@@ -71,7 +71,7 @@ public class DocRestController extends AbstractDocRestController {
 
     @Override
     @GetMapping
-    public List<Doc> getAll() {
+    public List<DocItemTo> getAll() {
         return super.getAll();
     }
 

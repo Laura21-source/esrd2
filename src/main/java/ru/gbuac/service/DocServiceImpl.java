@@ -148,8 +148,13 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public List<Doc> getAll() {
-        return docRepository.getAll();
+    public List<DocItemTo> getAll() {
+        List<DocItemTo> docItemsTo = getWithUserDepsExecutors(docRepository.getAll());
+        for (DocItemTo d: docItemsTo) {
+            UserTo current = docAgreementRepository.getCurrentUser(d.getId());
+            d.setCurrentAgreeFullName(current != null ? current.getFullName() : "");
+        }
+        return docItemsTo;
     }
 
     @Override

@@ -603,9 +603,10 @@
 
 
     // Функция получения записей в таблицу
-    function dataTableArray (element, url) {
-        $(element).DataTable({
-            "columns": [
+    function dataTableArray (element, url, typeId) {
+        var columns = [];
+        columns.push(
+            [
                 { 'data': 'num' },
                 { 'data': 'docStatus' },
                 { 'data': 'regNum' },
@@ -613,7 +614,36 @@
                 { 'data': 'docType' },
                 { 'data': 'currentAgreeFullName' },
                 { 'data': 'link' }
-            ],
+            ]
+        );
+        columns.push(
+            [
+                { 'data': 'num' },
+                { 'data': 'docStatus' },
+                { 'data': 'regNum' },
+                { 'data': 'regDateTime' },
+                { 'data': 'docType' },
+                { 'data': 'executorDepartments' },
+                { 'data': 'executorUsers' },
+                { 'data': 'link' }
+            ]
+        );
+        columns.push(
+            [
+                { 'data': 'num' },
+                { 'data': 'docStatus' },
+                { 'data': 'regNum' },
+                { 'data': 'regDateTime' },
+                { 'data': 'docType' },
+                { 'data': 'currentAgreeFullName' },
+                { 'data': 'executorDepartments' },
+                { 'data': 'executorUsers' },
+                { 'data': 'link' }
+            ]
+        );
+
+        $(element).DataTable({
+            "columns": columns[typeId],
             "ajax": {
                 "url" : url,
                 "dataSrc" : function(data) {
@@ -642,74 +672,6 @@
                         if (!item.currentAgreeFullName || item.currentAgreeFullName == '') {
                             item.currentAgreeFullName = 'Согласование завершено';
                         }
-                        item.link = "<a href='agree-document?id=" + item.id + "'><i class='fas fa-edit text-primary'></i></a>";
-                    });
-                    return data;
-                }
-            },
-            "iDisplayLength": 25,
-            "language": {
-                "processing": "Подождите...",
-                "search": "Поиск:",
-                "lengthMenu": "Показать _MENU_ записей",
-                "info": "Страница _PAGE_ из _PAGES_",
-                "infoEmpty": "",
-                "infoFiltered": "(отфильтровано из _MAX_ записей)",
-                "infoPostFix": "",
-                "loadingRecords": "Загрузка записей...",
-                "zeroRecords": "Записи отсутствуют.",
-                "emptyTable": "В таблице отсутствуют данные",
-                "paginate": {
-                    "first": "",
-                    "previous": "",
-                    "next": "",
-                    "last": ""
-                },
-                "aria": {
-                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
-                    "sortDescending": ": активировать для сортировки столбца по убыванию"
-                }
-            }
-        });
-        $('.dataTables_length').addClass('bs-select');
-    }
-
-    // Функция получения записей в таблицу
-    function dataTableArrayDistr (element, url) {
-        $(element).DataTable({
-            "columns": [
-                { 'data': 'num' },
-                { 'data': 'docStatus' },
-                { 'data': 'regNum' },
-                { 'data': 'regDateTime' },
-                { 'data': 'docType' },
-                { 'data': 'executorDepartments' },
-                { 'data': 'executorUsers' },
-                { 'data': 'link' }
-            ],
-            "ajax": {
-                "url" : url,
-                "dataSrc" : function(data) {
-                    $.each(data, function(i, item) {
-                        item.num = parseInt(i)+1;
-                        switch(item.docStatus) {
-                            case 'IN_WORK':
-                                item.docStatus = 'На исполнении';
-                                break;
-                            case 'IN_AGREEMENT':
-                                item.docStatus = 'На согласовании';
-                                break;
-                            case 'AGREEMENT_REJECTED':
-                                item.docStatus = 'Согласование отменено';
-                                break;
-                        }
-                        if (!item.regNum || item.regNum == '') {
-                            item.regNum = item.projectRegNum;
-                            item.regDateTime = formatDate(item.projectRegDateTime, 0);
-                        } else {
-                            item.regDateTime = formatDate(item.regDateTime, 0);
-                        }
-                        item.regNum = "<a href='agree-document?id=" + item.id + "'>" + item.regNum + "</a>"
                         item.link = "<a href='agree-document?id=" + item.id + "'><i class='fas fa-edit text-primary'></i></a>";
                     });
                     return data;
