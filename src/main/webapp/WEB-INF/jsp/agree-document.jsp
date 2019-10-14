@@ -273,6 +273,7 @@
 <jsp:include page="fragments/footerNew.jsp"/>
 <jsp:include page="fragments/modals/agreeDocumentModal.jsp"/>
 <jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
+<jsp:include page="fragments/modals/newDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
@@ -706,6 +707,7 @@
                         $('#userListBlockNew .blockUserNew:not(:first)').remove();
                         $("#blockUpNew, #blockDownNew, #btnSaveNew, .pdfSRCNew").addClass("d-none");
                         $("#btnSaveNew").attr('disabled', false).html(trueName);
+                        window.location.href="all";
                     });
                     // Сохранение списка согласования
                     var serverAgreeList = $.ajax({
@@ -758,7 +760,7 @@
                 var dataField = createDataField(0, 1);
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem, 1);
-                var reformatPDF = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
+                var reformatPDF = JSON.stringify(createJSON(0,dataType,dataField,dataBlock,1));
                 console.log(reformatPDF);
                 var serverAjax = $.ajax({
                     type: "POST",
