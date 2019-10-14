@@ -6,6 +6,8 @@ import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.gbuac.AuthorizedUser;
+import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.dao.UserRepository;
 import ru.gbuac.model.User;
 import ru.gbuac.to.UserTo;
@@ -30,6 +32,9 @@ public class UserServiceImpl implements UserService {
     @Autowired(required = true)
     @Qualifier(value = "ldapTemplate")
     private LdapTemplate ldapTemplate;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
 
     private List<User> fetchLdapUsers() {
@@ -70,7 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserTo> getAllFiltered() {
+    public List<UserTo> getAllFiltered(String userName) {
         return userRepository.getAll();
     }
 

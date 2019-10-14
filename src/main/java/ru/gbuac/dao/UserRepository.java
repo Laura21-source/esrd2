@@ -21,6 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User getByName(@Param("name") String name);
 
     @Query("SELECT new ru.gbuac.to.UserTo(u.id, CONCAT(u.lastname, ' ', u.firstname, ' ', u.patronym), u.phone, u.position) " +
-            "FROM User u WHERE u.id < 4058 ORDER BY u.lastname ASC")
+            "FROM User u WHERE u.id IN (4195, 4336, 4188, 4330, 4334, 4331, 4337, 4332, 4335, 4096, 4192, 4193, 4194, " +
+            "4189, 4187, 4196, 4190, 4289, 4291, 4294, 4293, 4084, 4373, 4329) ORDER BY u.lastname ASC")
     List<UserTo> getAll();
 }
