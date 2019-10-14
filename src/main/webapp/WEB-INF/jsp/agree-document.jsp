@@ -356,8 +356,8 @@
                         });
                     });
                 }
-                //$('.registrationForm input, .registrationForm option').attr('disabled', 'disabled');
             }
+
             // Список согласования
             $('#userListBlock, .userList').remove();
             $('.disableUserList').removeClass('d-none');
@@ -646,13 +646,7 @@
 
         // Список кому
         createOptions ('rest/profile/departments/getAllTopLevel', '#whomListNew', 'name', 'id', '', '');
-        $('#whomList.mdb-select').materialSelect({
-            // Добавим русский язык к селектам
-            language: {
-                active: true,
-                ru: {active: true}
-            }
-        });
+        $('#whomList.mdb-select').materialSelect();
 
         // Список согласования
         createOptions ('rest/profile/users/', '#userListNew1', '', 'id', '', 'usersList');

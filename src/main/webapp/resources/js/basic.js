@@ -240,6 +240,4 @@ $(function() {
     $(this).html('<i class="fas fa-plus mr-2"></i>Развернуть');
     $('.newDocumentForm').addClass('d-none');
   });
-
-
 });
