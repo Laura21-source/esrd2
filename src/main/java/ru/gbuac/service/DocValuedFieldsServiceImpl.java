@@ -100,7 +100,6 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
             for (DocValuedFields v:docValuedFields) {
                 if (t.getField().getId().equals(v.getValuedField().getField().getId()))
                 {
-                    v.getValuedField().setId(null);
                     docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(v.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny),
                             v.getPosition()));
                     hasField = true;

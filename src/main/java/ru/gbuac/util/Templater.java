@@ -99,9 +99,12 @@ public class Templater {
         }
 
 
-        int numPages = doc.getProperties().getExtendedProperties().getUnderlyingProperties().getPages();
-        if (numPages > 1) {
-            simpleTags.put("SignerPosition",simpleTags.get("SignerFullPosition"));
+        List<XWPFParagraph> paragraphs = doc.getParagraphs();
+        int pageCount = 1;
+        for (XWPFParagraph par :paragraphs) {
+            if (par.getText().indexOf("\f") >= 0) {
+                ++pageCount;
+            }
         }
 
         for (int i = 0; i <doc.getTables().size(); i++) {
