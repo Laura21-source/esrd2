@@ -69,7 +69,7 @@ INSERT INTO esrd.department (id, top_level, name, chief_user_id) VALUES (571, tr
 INSERT INTO esrd.department (id, top_level, name) VALUES (572, true, 'Административно-хозяйственное управление');
 INSERT INTO esrd.department (id, top_level, name, chief_user_id) VALUES (573, true, 'Управление ценовой и тарифной политики', 4022);
 INSERT INTO esrd.department (id, top_level, name, chief_user_id) VALUES (574, true, 'Управление стандартизации государственных закупок и тарифного регулирования в сфере ЖКХ', 4184);
-INSERT INTO esrd.department (id, top_level, name, chief_user_id) VALUES (575, true, 'Юридическое Управление', 4040);
+INSERT INTO esrd.department (id, top_level, name, chief_user_id) VALUES (575, true, 'Юридическое Управление', 4084);
 INSERT INTO esrd.department (id, top_level, name, chief_user_id) VALUES (576, true, 'Первый отдел', 4364);
 INSERT INTO esrd.department (id, top_level, name, chief_user_id) VALUES (577, true, 'Второй отдел', 4339);
 INSERT INTO esrd.department (id, top_level, name, chief_user_id) VALUES (578, true, 'Управление регулирования тарифов на услуги транспортных организаций', 4141);
