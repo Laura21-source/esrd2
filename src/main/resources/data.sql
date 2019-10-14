@@ -82,6 +82,7 @@ INSERT INTO esrd.department (id, top_level, name) VALUES (584, false, 'Руко�
 INSERT INTO esrd.department (id, top_level, name, chief_user_id) VALUES (585, true, 'Управление финансового контроля и аудита', 4311);
 INSERT INTO esrd.department (id, top_level, name) VALUES (586, false, 'Пресс-служба Департамента');
 INSERT INTO esrd.department (id, top_level, name) VALUES (587, false, 'Отдел экономики здравоохранения, физической культуры и спорта');
+INSERT INTO esrd.department (id, top_level, chief_user_id, name) VALUES (588, true, null, 'Без адресата');
 
 INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (561, 500);
 INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (561, 501);

@@ -8,7 +8,7 @@ import java.util.List;
 public interface DocTypeService {
     DocType get(int id) throws NotFoundException;
 
-    List<DocType> getAll();
+    List<DocType> getAll(String userName);
 
     DocType save(DocType docType);
 

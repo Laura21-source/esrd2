@@ -3,6 +3,7 @@ package ru.gbuac.controller.doctype;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.DocType;
 import ru.gbuac.service.DocTypeService;
 
@@ -24,7 +25,7 @@ public abstract class AbstractDocTypeRestController {
 
     public List<DocType> getAll() {
         LOG.info("getAll");
-        return docTypeService.getAll();
+        return docTypeService.getAll(AuthorizedUser.getUserName());
     }
 
     public DocType create(DocType docType) {

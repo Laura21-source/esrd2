@@ -33,6 +33,9 @@ public class DocAgreementServiceImpl implements DocAgreementService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    MailService mailService;
+
     @Override
     public DocAgreement get(int id, int docId) throws NotFoundException {
         DocAgreement docAgreement = docAgreementRepository.findById(id).orElse(null);
@@ -68,8 +71,9 @@ public class DocAgreementServiceImpl implements DocAgreementService {
         for (DocAgreement da: agreementList) {
             da.setDoc(doc);
             docAgreementRepository.save(da);
-            if (da.getOrdering() == 0) {
-
+            if (da.getOrdering() == 1 && da.isCurrentUser()) {
+                User user = userRepository.findById(da.getUser().getId()).orElse(null);
+                mailService.sendAgreementEmail(user.getEmail(), docId);
             }
         }
 
