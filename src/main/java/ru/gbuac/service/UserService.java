@@ -17,6 +17,8 @@ public interface UserService {
 
     List<UserTo> getAll();
 
+    List<UserTo> getAllFiltered();
+
     User save(User user);
 
     User update(User user, int id) throws NotFoundException;

@@ -39,6 +39,12 @@ public class UserRestController extends AbstractUserRestController {
     }
 
     @Override
+    @GetMapping(value = "/filtered")
+    List<UserTo> getAllFiltered() {
+        return super.getAll();
+    }
+
+    @Override
     @PostMapping(value = "/sinchronizeUsersByLdap", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void sinchronizeUsersByLdap() {
         super.sinchronizeUsersByLdap();

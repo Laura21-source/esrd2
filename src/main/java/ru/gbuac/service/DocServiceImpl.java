@@ -303,7 +303,7 @@ public class DocServiceImpl implements DocService {
                 daNext.setCurrentUser(true);
                 docAgreementRepository.save(daNext);
                 User user = userRepository.findById(daNext.getUser().getId()).orElse(null);
-                mailService.sendAgreementEmail(user.getEmail(), docTo.getId());
+                mailService.sendAgreementEmail(user.getEmail(), docTo.getId(), docTo.getProjectRegNum());
             }
         }
         updated = checkNotFoundWithId(docRepository.save(updated), id);

@@ -54,7 +54,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     @Override
     public User getByName(String name) throws NotFoundException {
         return userRepository.getByName(name);
@@ -67,6 +66,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserTo> getAll() {
+        return userRepository.getAll();
+    }
+
+    @Override
+    public List<UserTo> getAllFiltered() {
         return userRepository.getAll();
     }
 
