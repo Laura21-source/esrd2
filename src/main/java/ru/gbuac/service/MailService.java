@@ -54,4 +54,62 @@ public class MailService {
 
         }
     }
+
+    public void sendDistributionEmail(String email, int docId, String regNum) {
+        try {
+            MimeMessage message = emailSender.createMimeMessage();
+
+            boolean multipart = true;
+
+            MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
+
+            String htmlMsg = "На распределение в ЕСРД поступил документ №" + regNum +": " +
+                    "<a href='" + uri + "/agree-document?id=" + docId +
+                    "'>" + uri + "/agree-document?id=" + docId + "</a>";
+
+            message.setContent(htmlMsg, "text/html; charset=UTF-8");
+
+            if (SPRING_PROFILES_ACTIVE.contains("dev")) {
+                helper.setTo("MakhrovSS1@develop.mos.ru");
+            } else {
+                helper.setTo(email);
+            }
+
+            helper.setSubject("Единая система регистрации документов (ЕСРД)");
+
+            this.emailSender.send(message);
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    public void sendExecutionEmail(String email, int docId, String regNum) {
+        try {
+            MimeMessage message = emailSender.createMimeMessage();
+
+            boolean multipart = true;
+
+            MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
+
+            String htmlMsg = "На исполнение в ЕСРД поступил документ №" + regNum +": " +
+                    "<a href='" + uri + "/agree-document?id=" + docId +
+                    "'>" + uri + "/agree-document?id=" + docId + "</a>";
+
+            message.setContent(htmlMsg, "text/html; charset=UTF-8");
+
+            if (SPRING_PROFILES_ACTIVE.contains("dev")) {
+                helper.setTo("MakhrovSS1@develop.mos.ru");
+            } else {
+                helper.setTo(email);
+            }
+
+            helper.setSubject("Единая система регистрации документов (ЕСРД)");
+
+            this.emailSender.send(message);
+        }
+        catch (Exception e) {
+
+        }
+    }
 }
