@@ -34,7 +34,7 @@
                                             <span class="text-muted"><i class="fas fa-sitemap mr-2"></i>Куда<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                                         </div>
                                         <div class="col-10 select-outline">
-                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomList" multiple searchable=" Поиск" required>
+                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomList" multiple searchable=" Поиск" selectAllLabel="Выбрать все" optionsSelectedLabel="опций выбрано" required>
                                                 <option value="" disabled>Выберите из справочника</option>
                                             </select>
                                         </div>

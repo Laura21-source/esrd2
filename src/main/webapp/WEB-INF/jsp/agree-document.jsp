@@ -156,12 +156,22 @@
                                     </div>
                                 </div>
                                 <div id="blockFieldsNew" class="d-none">
-                                    <div class="row ml-1 mb-3 d-flex align-items-center">
+                                    <div class="row ml-1 mb-2 d-flex align-items-center">
                                         <div class="col-2 text-left mt-2">
                                             <span class="text-muted"><i class="fas fa-sitemap mr-2"></i>Куда<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                                         </div>
                                         <div class="col-10 select-outline">
-                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomListNew" multiple searchable=" Поиск" required>
+                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomListNew" searchable=" Поиск" multiple required selectAllLabel="Выбрать все" optionsSelectedLabel="опций выбрано">
+                                                <option value="" disabled>Выберите из справочника</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row ml-1 mb-3 d-flex align-items-center performerBlock d-none">
+                                        <div class="col-2 text-left mt-2">
+                                            <span class="text-muted"><i class="fas fa-users mr-2"></i>Исполнители</span>
+                                        </div>
+                                        <div class="col-10 select-outline">
+                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="performerList" searchable=" Поиск" multiple selectAllLabel="Выбрать все" optionsSelectedLabel="опций выбрано">
                                                 <option value="" disabled>Выберите из справочника</option>
                                             </select>
                                         </div>
@@ -317,6 +327,34 @@
                 $('.blockDocumentNew').removeClass('d-none');
                 $('.blockDocument, #btnWordFile').addClass('d-none');
                 $('.docName').html('Сведения о документе');
+                if(data.canDistribute === true) {
+                    $('.performerBlock').removeClass('d-none');
+                    // Добавим опций
+                    createOptions ('rest/profile/users/', '#performerList', '', 'id', '', 'usersList');
+                    // Добавление исполнителя
+                    $(document).on("change", "#performerList", function() {
+                        var performerList = [];
+                        var userId = $(this).val();
+                        var data = {
+                            "id" : userId
+                        }
+                        performerList.push(data);
+                        performerList = JSON.stringify(performerList);
+                        console.log(data);
+                        var serverAjax = $.ajax({
+                            type: "POST",
+                            url: 'rest/profile/docs/executorUsersList/'+id,
+                            data: (performerList),
+                            contentType: 'application/json; charset=utf-8'
+                        });
+                        serverAjax.done(function() {
+                            toastr["success"]("Исполнитель успешно добавлен!");
+                        });
+                        serverAjax.fail(function () {
+                            toastr["error"]("Исполнитель не добавлен!");
+                        });
+                    });
+                }
                 //$('.registrationForm input, .registrationForm option').attr('disabled', 'disabled');
             }
             // Список согласования
