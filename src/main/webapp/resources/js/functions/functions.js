@@ -205,9 +205,19 @@
     function getUpFields(url, id, short, block) {
         var filed = '#blockUp';
         var upElem = 'upElem';
+        var inputDate = 'inputDate';
+        var inputTime = 'inputTime';
+        var blockDate = 'blockDate';
+        var blockTime = 'blockTime';
+        var up = 1;
         if(block && block === 1) {
             filed = '#blockUpNew';
             upElem = 'upElemNew';
+            inputDate = 'inputDateNew';
+            inputTime = 'inputTimeNew';
+            blockDate = 'blockDateNew';
+            blockTime = 'blockTimeNew';
+            up = 2;
         }
         return $.getJSON (url, function(data) {
             var rowChild = data;
@@ -240,19 +250,19 @@
                         idField = row.field.id;
                         if(row.field.valueDate !== '') {valueDate = formatDate(row.field.valueDate, 1);}
                     }
-                    createInput (filed, "date", "blockDate",  "inputDate", "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
+                    createInput (filed, "date", blockDate,  inputDate, "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
                 }
                 if (row.field.fieldType === "TIME") {
                     if (id > 0) {
                         idField = row.field.id;
                         if(row.field.valueDate !== '') {valueDate = formatTime(row.field.valueDate);}
                     }
-                    createInput (filed, "time", "blockTime",  "inputTime", "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
+                    createInput (filed, "time", blockTime,  inputTime, "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
                 }
                 var textId = i+1;
                 if (row.field.fieldType === "TEXT") {
                     var nameText = "inputText" + textId;
-                    createInput(filed, "text", nameText, nameText, "Введите значение", short, '' + row.field.name, row.field.valueStr, row.field.fieldId, 1, idField, row.field.enabled, row.field.required, '', '');
+                    createInput(filed, "text", nameText, nameText, "Введите значение", short, '' + row.field.name, row.field.valueStr, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
                     textId = textId+1;
                 }
                 // Если вид поля справочник организаций
@@ -771,15 +781,11 @@
                 }
                 if(row.comment) {comment = row.comment;}
                 if(row.position) {position = row.position;}
-                var newColor = 'danger';
                 var currentUser = '';
                 if(row.currentUser === true) {
                     currentUser = '<i class="fas fa-user-clock text-warning" title="Текущий согласователь"></i>';
                     if(finalVersion !== 1) {
-                        if(row.decisionType && row.decisionType === 'REDIRECTED') {
-                            newColor = 'primary';
-                        }
-                        undoUser = '<button class="btn btn-'+newColor+' btn-sm px-2 py-1 mx-3 btnReturn" type="button" data-undo="'+row.userId+'" title="Отменить согласование"><i class="fas fa-undo-alt text-white"></i></button>';
+                        undoUser = '<button class="btn btn-danger btn-sm px-2 py-1 mx-3 btnReturn" type="button" data-undo="'+row.userId+'" title="Отменить согласование"><i class="fas fa-undo-alt text-white"></i></button>';
                     }
                 } else {
                     currentUser = '<i class="fas fa-ellipsis-h text-muted" title="Согласователь"></i>';
@@ -789,6 +795,9 @@
                     if(row.finalUser === true) {
                         currentUser = '<i class="fas fa-check-circle text-success" title="Финальный согласователь"></i>';
                     }
+                }
+                if(row.decisionType && row.decisionType === 'REDIRECTED') {
+                    currentUser = '<i class="fas fa-undo-alt text-primary" title="Перенаправление"></i>';
                 }
                 $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center" data-value="'+row.userId+'"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+undoUser+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
             }

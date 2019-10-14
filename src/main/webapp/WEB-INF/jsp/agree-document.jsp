@@ -273,6 +273,7 @@
 <jsp:include page="fragments/footerNew.jsp"/>
 <jsp:include page="fragments/modals/agreeDocumentModal.jsp"/>
 <jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
+<jsp:include page="fragments/modals/newDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
@@ -334,7 +335,7 @@
                     // Добавление исполнителя
                     $(document).on("change", "#performerList", function() {
                         var performerList = [];
-                        var userId = $(this).val();
+                        var userId = parseInt($(this).val());
                         var data = {
                             "id" : userId
                         }
@@ -355,8 +356,8 @@
                         });
                     });
                 }
-                //$('.registrationForm input, .registrationForm option').attr('disabled', 'disabled');
             }
+
             // Список согласования
             $('#userListBlock, .userList').remove();
             $('.disableUserList').removeClass('d-none');
@@ -645,13 +646,7 @@
 
         // Список кому
         createOptions ('rest/profile/departments/getAllTopLevel', '#whomListNew', 'name', 'id', '', '');
-        $('#whomList.mdb-select').materialSelect({
-            // Добавим русский язык к селектам
-            language: {
-                active: true,
-                ru: {active: true}
-            }
-        });
+        $('#whomList.mdb-select').materialSelect();
 
         // Список согласования
         createOptions ('rest/profile/users/', '#userListNew1', '', 'id', '', 'usersList');
@@ -706,6 +701,7 @@
                         $('#userListBlockNew .blockUserNew:not(:first)').remove();
                         $("#blockUpNew, #blockDownNew, #btnSaveNew, .pdfSRCNew").addClass("d-none");
                         $("#btnSaveNew").attr('disabled', false).html(trueName);
+                        window.location.href="all";
                     });
                     // Сохранение списка согласования
                     var serverAgreeList = $.ajax({
@@ -758,7 +754,7 @@
                 var dataField = createDataField(0, 1);
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem, 1);
-                var reformatPDF = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
+                var reformatPDF = JSON.stringify(createJSON(0,dataType,dataField,dataBlock,1));
                 console.log(reformatPDF);
                 var serverAjax = $.ajax({
                     type: "POST",
