@@ -26,7 +26,7 @@ public class MailService {
     @Value("${email.uri}")
     private String uri;
 
-    public void sendAgreementEmail(String email, int docId) {
+    public void sendAgreementEmail(String email, int docId, String projectRegNum) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
 
@@ -34,7 +34,7 @@ public class MailService {
 
             MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
 
-            String htmlMsg = "На согласование/подпись в ЕСРД поступил документ: " +
+            String htmlMsg = "На согласование/подпись в ЕСРД поступил документ №" + projectRegNum +": " +
                     "<a href='" + uri + "/agree-document?id=" + docId +
                     "'>" + uri + "/agree-document?id=" + docId + "</a>";
 

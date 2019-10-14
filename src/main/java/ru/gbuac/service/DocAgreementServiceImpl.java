@@ -73,7 +73,7 @@ public class DocAgreementServiceImpl implements DocAgreementService {
             docAgreementRepository.save(da);
             if (da.getOrdering() == 1 && da.isCurrentUser()) {
                 User user = userRepository.findById(da.getUser().getId()).orElse(null);
-                mailService.sendAgreementEmail(user.getEmail(), docId);
+                mailService.sendAgreementEmail(user.getEmail(), docId, doc.getProjectRegNum());
             }
         }
 
