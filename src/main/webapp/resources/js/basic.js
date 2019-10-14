@@ -20,6 +20,17 @@ $(function() {
     $(this).closest('.select-outline').find('.caret').toggleClass('active');
   });*/
 
+  // Валидация мультиселекта
+  /*function validateSelect(e) {
+    e.preventDefault();
+    $('.needs-validation').addClass('was-validated');
+    if ($('.needs-validation select').val() == '') {
+      $('.needs-validation').find('.select-dropdown').val('').prop('placeholder', 'Поле обязательно для выбора!')
+    }
+  }
+  $('.needs-validation select').on('change', e => validateSelect(e));
+  $('.needs-validation').on('submit', e => validateSelect(e));*/
+
   // Всплывающие подсказки
   //$('[data-toggle="tooltip"]').tooltip();
 

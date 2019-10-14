@@ -141,13 +141,7 @@
     $(function() {
         // Список кому
         createOptions ('rest/profile/departments/getAllTopLevel', '#whomList', 'name', 'id', '', '');
-        $('#whomList.mdb-select').materialSelect({
-            // Добавим русский язык к селектам
-            language: {
-                active: true,
-                ru: {active: true}
-            }
-        });
+        $('#whomList.mdb-select.validate').materialSelect({validate: true});
         // Список согласования
         createOptions ('rest/profile/users/', '#userList1', '', 'id', '', 'usersList');
         // Добавление должности при изменении пользователя
@@ -201,7 +195,6 @@
                 var dataField = createDataField(0);
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem);
-                var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
                 console.log(serverStack);
                 var serverAjax = $.ajax({
@@ -225,6 +218,7 @@
                         $("#btnSave").attr('disabled', false).html(trueName);
                     });
                     // Сохранение списка согласования
+                    var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
                     var serverAgreeList = $.ajax({
                         type: "POST",
                         url: 'rest/profile/docs/'+data.id+'/agreement/list',

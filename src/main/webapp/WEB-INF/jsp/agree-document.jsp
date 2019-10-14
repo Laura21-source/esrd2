@@ -325,9 +325,11 @@
             }
             // Если документ уже подписан
             if(data.docStatus === 'IN_WORK') {
-                $('.blockDocumentNew').removeClass('d-none');
-                $('.blockDocument, #btnWordFile').addClass('d-none');
-                $('.docName').html('Сведения о документе');
+                if(data.canWork === true) {
+                    $('.blockDocumentNew').removeClass('d-none');
+                    $('.blockDocument, #btnWordFile').addClass('d-none');
+                    $('.docName').html('Сведения о документе');
+                }
                 if(data.canDistribute === true) {
                     $('.performerBlock').removeClass('d-none');
                     // Добавим опций
@@ -648,7 +650,7 @@
 
         // Список кому
         createOptions ('rest/profile/departments/getAllTopLevel', '#whomListNew', 'name', 'id', '', '');
-        $('#whomList.mdb-select').materialSelect();
+        $('#whomList.mdb-select').materialSelect({validate: true});
 
         // Список согласования
         createOptions ('rest/profile/users/', '#userListNew1', '', 'id', '', 'usersList');
@@ -777,6 +779,47 @@
             }
         });
 
+        // Отправка на сервер файла служебки
+        $('#btnWordFileNew').on("click", function(event) {
+            event.preventDefault();
+            var forms = $('.newDocumentForm');
+            var formsValue = $('.newDocumentForm input,.newDocumentForm textarea,.newDocumentForm select').filter('[required]');
+            event.preventDefault();
+            var checkField = checkValidation(formsValue);
+            if(checkField === false) {
+                toastr["error"]("Заполните обязательные поля!");
+                $(forms).addClass('was-validated');
+                event.stopPropagation();
+            } else {
+                var trueName = $(this).html();
+                $(this).attr('disabled', true).html('Отправка запроса');
+                var dataType = $("#selectTypeNew").val();
+                // Формируем поля JSON
+                var dataField = createDataField(0, 1);
+                var sumElem = countElem(dataField) + 1;
+                var dataBlock = createDataBlock(0, sumElem, 1);
+                var repostWordFile = JSON.stringify(createJSON(0, dataType, dataField, dataBlock, 1));
+                //console.log(repostWordFile);
+                var serverAjax = $.ajax({
+                    type: "POST",
+                    url: 'rest/profile/docs/docx',
+                    data: repostWordFile,
+                    contentType: 'application/json; charset=utf-8'
+                });
+                serverAjax.done(function (data) {
+                    $("#btnWordFileNew").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html(trueName);
+                    $('#btnLoadNew').removeClass('d-none').attr("href", data.fileUrl);
+                    $('#btnLoadNew').click(function () {
+                        $("#btnWordFileNew").removeClass('d-none').removeClass('waves-effect');
+                        $('#btnLoadNew').addClass('d-none');
+                    });
+                });
+                serverAjax.fail(function () {
+                    toastr["error"]("Ошибка отправки файла служебки!");
+                    $("#btnWordFileNew").attr('disabled', false).removeClass('btn-warning').addClass('btn-danger').html('Ошибка! Отправить еще раз');
+                });
+            }
+        });
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>
