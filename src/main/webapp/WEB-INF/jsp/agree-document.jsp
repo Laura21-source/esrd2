@@ -339,7 +339,7 @@
                 });
             });
 
-            // Перенаправление согласования другому пользователю
+            // Перенаправление согласования другому пользователю отправка данных
             $('#undoSave').click(function(event) {
                 event.preventDefault();
                 var newUndo = $('#userList1001').val();
@@ -357,6 +357,9 @@
                 serverAjax.done(function(data) {
                     $('.loaderUndo').addClass('d-none');
                     $('.bodyUndo, .headerUndo').removeClass('d-none').fadeIn(500);
+                    // Обновление списка согласования
+                    $('#userListBlockDiv').empty();
+                    createUserListDisabled('rest/profile/docs/'+id+'/agreement/list', finalVersion);
                     setTimeout(function() {
                         $('#btnUndo').modal('hide');
                         $('.footerUndo').removeClass('d-none').fadeIn(2000);
