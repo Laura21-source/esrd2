@@ -98,6 +98,7 @@ public class Templater {
             }
         }
 
+
         int numPages = doc.getProperties().getExtendedProperties().getUnderlyingProperties().getPages();
         if (numPages > 1) {
             simpleTags.put("SignerPosition",simpleTags.get("SignerFullPosition"));
@@ -114,6 +115,47 @@ public class Templater {
                             text = text.replace("<"+entry.getKey()+">", Optional.ofNullable(entry.getValue()).orElse(""));
                         }
                         changeText(p, text);
+                    }
+                }
+            }
+        }
+
+        for (XWPFFooter footer : doc.getFooterList()) {
+            // Замена тэгов в таблицах
+            if (taggedTables.size() != 0 && footer.getTables().size() != 0) {
+                // Перебор всех таблиц в документе
+                for (int i = 0; i <footer.getTables().size(); i++)
+                {
+                    XWPFTable table = footer.getTableArray(i);
+                    // Ищем, имеет ли текущая таблица каике-либо тэги для замены
+                    XWPFTableRow lastRow = table.getRows().get(table.getNumberOfRows() - 1);
+                    String firstCellTag = lastRow.getTableCells().get(0).getText();
+
+                    if (taggedTables.containsKey(TagUtil.getTableTag(firstCellTag))) {
+                        // Получаем структуру с тэгами для замены в таблице
+                        TaggedTable taggedTable = taggedTables.get(TagUtil.getTableTag(firstCellTag));
+
+                        // Перебираем строки в структуре и в зависимости от количества в ней строк, генерим строки в таблице
+                        // в документе Word
+                        for (int row = 0; row < taggedTable.getRows().size(); row++) {
+                            lastRow = table.getRows().get(table.getNumberOfRows() - 1);
+                            CTRow ctrowTemplate = CTRow.Factory.parse(lastRow.getCtRow().newInputStream());
+                            XWPFTableRow newRow = new XWPFTableRow(ctrowTemplate, table);
+
+                            for (int cell = 0; cell < newRow.getTableCells().size(); cell++) {
+                                XWPFTableCell cellObj = newRow.getTableCells().get(cell);
+                                for (XWPFParagraph paragraph : cellObj.getParagraphs()) {
+                                    String text = paragraph.getText();
+                                    for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
+                                        text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+                                    }
+                                    text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
+                                    changeText(paragraph, text);
+                                }
+                            }
+                            table.addRow(newRow, table.getNumberOfRows() - 1);
+                        }
+                        table.removeRow(table.getNumberOfRows() - 1);
                     }
                 }
             }
