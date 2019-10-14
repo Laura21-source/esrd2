@@ -56,7 +56,7 @@
                                                                 <div class="col-md-1">1</div>
                                                                 <div class="col-md-1"><i class="fas fa-user"></i></div>
                                                                 <div class="col-md-8 selectUser select-outline">
-                                                                    <select class="mdb-select md-form md-outline colorful-select dropdown-primary userList" data-spisok="1" id="userList1" searchable=' Поиск' name="userList[]" required>
+                                                                    <select class="mdb-select md-form md-outline validateRequired colorful-select dropdown-primary userList" data-spisok="1" id="userList1" searchable=' Поиск' name="userList[]" required>
                                                                         <option value="" selected>Выбрать</option>
                                                                     </select>
                                                                     <div class="fontSmall text-left" id="userListPost1"></div>
@@ -141,7 +141,7 @@
     $(function() {
         // Список кому
         createOptions ('rest/profile/departments/getAllTopLevel', '#whomList', 'name', 'id', '', '');
-        $('#whomList.mdb-select.validate').materialSelect({validate: true});
+        $('#whomList.mdb-select').materialSelect();
         // Список согласования
         createOptions ('rest/profile/users/', '#userList1', '', 'id', '', 'usersList');
         // Добавление должности при изменении пользователя
@@ -179,7 +179,6 @@
             var forms = $('.registrationForm');
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
             var agreeFormsValue = $('.registrationForm #userListBlock select');
-            $(forms).addClass('was-validated');
             event.preventDefault();
             var checkField = checkValidation(formsValue);
             if(checkField === false) {

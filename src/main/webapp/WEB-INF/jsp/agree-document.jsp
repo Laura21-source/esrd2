@@ -16,10 +16,20 @@
                     </div>
                     <form class="registrationForm needs-validation" novalidate>
                         <div class="row ml-1 mb-3 d-flex align-items-center justify-content-center">
-                            <div class="col-1 text-left mt-2">
+                            <div class="col-2 text-left mt-2">
                                 <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Куда</span>
                             </div>
-                            <div class="col-11 text-left" id="whomList"></div>
+                            <div class="col-10 text-left" id="whomList"></div>
+                        </div>
+                        <div class="row ml-1 mb-3 d-flex align-items-center performerBlock d-none">
+                            <div class="col-2 text-left mt-2">
+                                <span class="text-muted"><i class="fas fa-users mr-2"></i>Исполнители</span>
+                            </div>
+                            <div class="col-10 select-outline">
+                                <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="performerList" searchable=" Поиск" multiple selectAllLabel="Выбрать все" optionsSelectedLabel="опций выбрано">
+                                    <option value="" disabled>Выберите из справочника</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -162,16 +172,6 @@
                                         </div>
                                         <div class="col-10 select-outline">
                                             <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomListNew" searchable=" Поиск" multiple required selectAllLabel="Выбрать все" optionsSelectedLabel="опций выбрано">
-                                                <option value="" disabled>Выберите из справочника</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row ml-1 mb-3 d-flex align-items-center performerBlock d-none">
-                                        <div class="col-2 text-left mt-2">
-                                            <span class="text-muted"><i class="fas fa-users mr-2"></i>Исполнители</span>
-                                        </div>
-                                        <div class="col-10 select-outline">
-                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="performerList" searchable=" Поиск" multiple selectAllLabel="Выбрать все" optionsSelectedLabel="опций выбрано">
                                                 <option value="" disabled>Выберите из справочника</option>
                                             </select>
                                         </div>

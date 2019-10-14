@@ -25,11 +25,23 @@ $(function() {
     e.preventDefault();
     $('.needs-validation').addClass('was-validated');
     if ($('.needs-validation select').val() == '') {
-      $('.needs-validation').find('.select-dropdown').val('').prop('placeholder', 'Поле обязательно для выбора!')
+      $('.needs-validation').find('.select-dropdown').val('').prop('placeholder', 'Поле обязательно для заполнения!')
     }
-  }
-  $('.needs-validation select').on('change', e => validateSelect(e));
-  $('.needs-validation').on('submit', e => validateSelect(e));*/
+  }*/
+  /*$('.needs-validation select').on('change', function(e) {
+    e.preventDefault();
+    $('.needs-validation').addClass('was-validated');
+    if ($('.needs-validation select').val() == '') {
+      $('.needs-validation').find('.select-dropdown').val('').prop('placeholder', 'Поле обязательно для заполнения!')
+    }
+  });
+  $('.needs-validation').on('submit', function(e) {
+    e.preventDefault();
+    $('.needs-validation').addClass('was-validated');
+    if ($('.needs-validation select').val() == '') {
+      $('.needs-validation').find('.select-dropdown').val('').prop('placeholder', 'Поле обязательно для заполнения!')
+    }
+  });*/
 
   // Всплывающие подсказки
   //$('[data-toggle="tooltip"]').tooltip();
