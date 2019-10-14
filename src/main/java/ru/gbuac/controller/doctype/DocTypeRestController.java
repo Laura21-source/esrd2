@@ -24,6 +24,12 @@ public class DocTypeRestController extends AbstractDocTypeRestController {
         return super.getAll();
     }
 
+    @Override
+    @GetMapping(value = "/filtered")
+    public List<DocType> getAllFiltered() {
+        return super.getAllFiltered();
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public DocType updateOrCreate(@Valid @RequestBody DocType docType) {
         if (docType.isNew()) {

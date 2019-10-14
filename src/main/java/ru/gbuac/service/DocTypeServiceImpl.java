@@ -29,14 +29,16 @@ public class DocTypeServiceImpl implements DocTypeService {
     }
 
     @Override
-    public List<DocType> getAll(String userName) {
-        /*
+    public List<DocType> getAll() {
+        return docTypeRepository.findAll();
+    }
+
+    @Override
+    public List<DocType> getAllFiltered(String userName) {
         if (!AuthorizedUser.hasRole("ADMIN")) {
-            List<String> roles = roleRepository.getRolesByUsername(userName)
-                    .stream().map(r -> r.getAuthority()).collect(Collectors.toList());
             return docTypeRepository.findAll().stream()
-                    .filter(d -> roles.contains(d.getRole().getAuthority())).collect(Collectors.toList());
-        }*/
+                    .filter(d -> AuthorizedUser.getRoles().contains(d.getRole().getAuthority())).collect(Collectors.toList());
+        }
         return docTypeRepository.findAll();
     }
 

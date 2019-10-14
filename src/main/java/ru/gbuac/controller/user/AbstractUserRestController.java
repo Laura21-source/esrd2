@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.User;
 import ru.gbuac.service.UserService;
 import ru.gbuac.to.UserTo;
@@ -49,7 +50,7 @@ public class AbstractUserRestController {
 
     List<UserTo> getAllFiltered() {
         LOG.info("getAllFiltered");
-        return userService.getAllFiltered();
+        return userService.getAllFiltered(AuthorizedUser.getUserName());
     }
 
     public User create(User user) {

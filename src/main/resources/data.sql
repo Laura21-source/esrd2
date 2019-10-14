@@ -718,3 +718,5 @@ INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUE
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (101, 2, 4, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (102, 2, 5, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (103, 2, 7, 3);
+
+INSERT INTO esrd.users_distribution_departments (user_id, distribution_departments_id) VALUES (4084, 575);

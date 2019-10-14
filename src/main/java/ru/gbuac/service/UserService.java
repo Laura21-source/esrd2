@@ -17,7 +17,7 @@ public interface UserService {
 
     List<UserTo> getAll();
 
-    List<UserTo> getAllFiltered();
+    List<UserTo> getAllFiltered(String userName);
 
     User save(User user);
 

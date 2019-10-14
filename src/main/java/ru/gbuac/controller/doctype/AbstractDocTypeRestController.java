@@ -25,7 +25,12 @@ public abstract class AbstractDocTypeRestController {
 
     public List<DocType> getAll() {
         LOG.info("getAll");
-        return docTypeService.getAll(AuthorizedUser.getUserName());
+        return docTypeService.getAll();
+    }
+
+    public List<DocType> getAllFiltered() {
+        LOG.info("getAll");
+        return docTypeService.getAllFiltered(AuthorizedUser.getUserName());
     }
 
     public DocType create(DocType docType) {
