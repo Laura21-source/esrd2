@@ -36,10 +36,11 @@ public class FieldUtil {
         return catalog != null ? catalog.getParentCatalog() : null;
     }
 
-    public static FieldTo asTo(ValuedField valuedField, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap, boolean deny) {
+    public static FieldTo asTo(ValuedField valuedField, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap, boolean deny,
+                               boolean clearIds) {
         List<FieldTo> childFields = new ArrayList<>();
         for (ValuedField childField : valuedField.getChildValuedField()) {
-            childFields.add(asTo(childField, curUserRoles, fMap, deny));
+            childFields.add(asTo(childField, curUserRoles, fMap, deny, clearIds));
         }
         Field field = valuedField.getField();
         FieldsRoles fieldsRoles = fMap.get(field.getId());
@@ -48,7 +49,7 @@ public class FieldUtil {
         Integer catalog_id = getCatalogId(field.getCatalog());
         Integer parentCatalog_id = getParentCatalogId(field.getCatalog());
 
-        FieldTo fieldTo = new FieldTo(valuedField.getId(), field.getName(), childFields,
+        FieldTo fieldTo = new FieldTo(clearIds ? null : valuedField.getId(), field.getName(), childFields,
                 field.getId(), field.getFieldType(), field.getPositionInGroup(), field.getMaxCount(), field.getLength(),
                 parentCatalog_id, catalog_id, enabled,
                 enabled && (fieldsRoles != null && fieldsRoles.getRequired()), field.getTag());

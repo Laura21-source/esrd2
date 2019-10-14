@@ -11,6 +11,7 @@ import ru.gbuac.model.DocTypeFields;
 import ru.gbuac.model.FieldsRoles;
 import ru.gbuac.model.Role;
 import ru.gbuac.to.DocFieldsTo;
+import ru.gbuac.util.DocTypeFieldsUtil;
 import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
@@ -50,17 +51,11 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
         List<String> curUserRoles = AuthorizedUser.getRoles();
 
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(docTypeId);
-        List<DocFieldsTo> docFieldsTos = new ArrayList<>();
         List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(docTypeId);
         Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
 
-        for (DocTypeFields d:docTypeFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, false),
-                    d.getPosition()));
-
-        }
-        return docFieldsTos;
+        return DocTypeFieldsUtil.asTo(docTypeFields, curUserRoles, fMap, false);
     }
 
     @Override

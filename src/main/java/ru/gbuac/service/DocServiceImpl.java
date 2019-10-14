@@ -567,7 +567,7 @@ public class DocServiceImpl implements DocService {
 
         for (DocValuedFields d:docValuedFields) {
             docFieldsTos.add(new DocFieldsTo(d.getId(),
-                    FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny), d.getPosition()));
+                    FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny, false), d.getPosition()));
         }
 
         boolean isFinalAgreementStage = false;

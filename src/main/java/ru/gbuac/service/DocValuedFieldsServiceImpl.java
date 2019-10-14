@@ -7,13 +7,12 @@ import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.*;
 import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
+import ru.gbuac.util.DocTypeFieldsUtil;
+import ru.gbuac.util.DocValuedFieldsUtil;
 import ru.gbuac.util.FieldUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
@@ -56,7 +55,6 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
 
         int docTypeId = docRepository.getDocTypeByDocId(docId);
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
-        List<DocFieldsTo> docFieldsTos = new ArrayList<>();
         List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(docTypeId);
         Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
@@ -67,12 +65,7 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
             deny = true;
         }
 
-        for (DocValuedFields d:docValuedFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(),
-                    FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny),
-                    d.getPosition()));
-        }
-        return docFieldsTos;
+        return DocValuedFieldsUtil.asTo(docValuedFields, curUserRoles, fMap, deny, false);
     }
 
     @Override
@@ -95,26 +88,15 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
             deny = true;
         }
 
-        for (DocTypeFields t:docTypeFields) {
-            boolean hasField = false;
-            for (DocValuedFields v:docValuedFields) {
-                if (t.getField().getId().equals(v.getValuedField().getField().getId()))
-                {
-                    v.getValuedField().setId(null);
-                    docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(v.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny),
-                            v.getPosition()));
-                    hasField = true;
-                    break;
-                }
-            }
-            if (!hasField) {
-                docFieldsTos.add(new DocFieldsTo(null, FieldUtil.asTo(t.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny),
-                        t.getPosition()));
-            }
-
+        List<DocFieldsTo> templateFields = DocTypeFieldsUtil.asTo(docTypeFields, curUserRoles, fMap, deny);
+        List<DocFieldsTo> valuedFields = DocValuedFieldsUtil.asTo(docValuedFields, curUserRoles, fMap, deny, true);
+        for (DocFieldsTo v: valuedFields) {
+            templateFields = templateFields.stream()
+                    .filter(f -> !v.getField().getFieldId().equals(f.getField().getFieldId())).collect(Collectors.toList());
         }
-
-        return docFieldsTos;
+        templateFields.addAll(valuedFields);
+        templateFields.sort(Comparator.comparing(DocFieldsTo::getPosition));
+        return templateFields;
     }
 
     @Override
