@@ -756,13 +756,14 @@
     }
 
     // Формирование списка пользователей без возможности редактирования
-    function createUserListDisabled (url) {
+    function createUserListDisabled (url, finalVersion) {
         return $.getJSON(url, function(data) {
             for(var i in data) {
                 var row = data[i];
                 var position = '';
                 var comment = '';
                 var agreedDateTime = '';
+                var undoUser = '';
                 if(row.agreedDateTime) {
                     var newDate = formatDate(row.agreedDateTime);
                     var newTime = formatTime(row.agreedDateTime);
@@ -773,6 +774,9 @@
                 var currentUser = '';
                 if(row.currentUser === true) {
                     currentUser = '<i class="fas fa-user-clock text-warning" title="Текущий согласователь"></i>';
+                    if(finalVersion !== 1) {
+                        undoUser = '<button class="btn btn-danger btn-sm px-2 py-1 mx-3 btnReturn" type="button" data-undo="'+row.userId+'" title="Отменить согласование"><i class="fas fa-undo-alt text-white"></i></button>';
+                    }
                 } else {
                     currentUser = '<i class="fas fa-ellipsis-h text-muted" title="Согласователь"></i>';
                 }
@@ -782,7 +786,7 @@
                         currentUser = '<i class="fas fa-check-circle text-success" title="Финальный согласователь"></i>';
                     }
                 }
-                $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center" data-value="'+row.userId+'"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
+                $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center" data-value="'+row.userId+'"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+undoUser+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
             }
         });
     }

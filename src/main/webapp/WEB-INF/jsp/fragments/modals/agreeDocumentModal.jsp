@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="modal fade right" id="listAgree" tabindex="-1" role="dialog" aria-labelledby="listAgree"
+<%--<div class="modal fade right" id="listAgree" tabindex="-1" role="dialog" aria-labelledby="listAgree"
      aria-hidden="true" data-backdrop="true">
     <div class="modal-dialog modal-size-lg modal-side modal-top-right modal-notify" role="document">
         <div class="modal-content">
@@ -19,10 +19,9 @@
             </div>
         </div>
     </div>
-</div>
+</div>--%>
 
-<div class="modal fade" id="btnSuccess" tabindex="-1" role="dialog" aria-labelledby="btnSuccess"
-     aria-hidden="true">
+<div class="modal fade" id="btnSuccess" tabindex="-1" role="dialog" aria-labelledby="btnSuccess" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-notify modal-success" role="document">
         <div class="modal-content btnSuccess">
             <div class="modal-header headerSuccess d-none">
@@ -92,8 +91,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="btnCancel" tabindex="-1" role="dialog" aria-labelledby="btnCancel"
-     aria-hidden="true">
+<div class="modal fade" id="btnCancel" tabindex="-1" role="dialog" aria-labelledby="btnCancel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-notify modal-danger" role="document">
         <div class="modal-content btnCancel">
             <div class="modal-header headerCancel d-none">
@@ -156,6 +154,85 @@
             </div>
             <div class="modal-footer justify-content-center footerCancel d-none">
                 <a type="button" class="btn btn-danger rounded" data-dismiss="modal">Продолжить работу</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="btnUndo" tabindex="-1" role="dialog" aria-labelledby="btnUndo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-notify modal-warning" role="document">
+        <div class="modal-content btnUndo">
+            <div class="modal-header headerUndo">
+                <p class="heading lead">Перенаправление документа на согласование</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body d-flex align-items-center justify-content-center">
+                <div class="row returnUser w-100">
+                    <div class="col-12">
+                        <select class="mdb-select md-form md-outline colorful-select dropdown-primary userList1001" id="userList1001" searchable=' Поиск' name="userList[]" required>
+                            <option value="" selected>Выбрать нового согласованта</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <div class="fontSmall text-left" id="userListPost1001"></div>
+                    </div>
+                </div>
+                <div class="preloader-wrapper active big active crazy loaderUndo d-none">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center bodyUndo d-none">
+                    <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
+                    <h6>Перенаправление документа выполнено!</h6>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center footerUndo">
+                <a type="button" id="undoSave" class="btn btn-success rounded">Перенаправить</a>
+                <a type="button" class="btn btn-danger rounded" data-dismiss="modal">Отмена</a>
             </div>
         </div>
     </div>

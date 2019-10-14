@@ -198,7 +198,7 @@ $(function() {
           $(number + ' option').remove();
           // Обновляем опции списка организаций
           createOptions ("rest/profile/organizations/", number, "shortNameLf", "id", numberField, 'organisations');
-          setTimeout(function(){
+          setTimeout(function() {
             $('#addElement').modal('hide');
           }, 1000);
         },

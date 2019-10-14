@@ -24,12 +24,6 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
-                                <%--<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center">
-                                    <div class="col-2 text-left mt-2">
-                                        <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Кому</span>
-                                    </div>
-                                    <div class="col-10 text-left" id="whomList"></div>
-                                </div>--%>
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall userList">
@@ -289,10 +283,7 @@
 
         // Подключение стека полей
         $.getJSON(docURL, function(data) {
-            // Список согласования
-            $('#userListBlock, .userList').remove();
-            $('.disableUserList').removeClass('d-none');
-            createUserListDisabled('rest/profile/docs/'+id+'/agreement/list');
+            var finalVersion = '';
             // Дата документа
             var newDate = '';
             if(data.projectRegDateTime) {
@@ -307,7 +298,7 @@
                 $('#btnSave').html('Подписать');
                 $('#blockLoadPDF').removeClass('d-none');
                 // Меняем названия в модальном окне
-                $('.heading').html('Подписание документа');
+                $('.headerSuccess .heading').html('Подписание документа');
                 $('.bodySuccess h6').html('Документ успешно подписан!');
             }
             if(data.regNum && data.regNum !== '') {
@@ -315,6 +306,7 @@
                 newDate = formatDate(new Date(data.regDateTime), 0);
                 $(".documentName").html('Документ №' + data.regNum + ' от ' + newDate);
                 $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
+                finalVersion = 1;
             }
             // Имеет ли право пользователь подписывать документ
             if(data.canAgree === false) {
@@ -327,6 +319,54 @@
                 $('.docName').html('Сведения о документе');
                 //$('.registrationForm input, .registrationForm option').attr('disabled', 'disabled');
             }
+            // Список согласования
+            $('#userListBlock, .userList').remove();
+            $('.disableUserList').removeClass('d-none');
+            createUserListDisabled('rest/profile/docs/'+id+'/agreement/list', finalVersion);
+
+            // Перенаправление согласования другому пользователю открытие модального окна
+            $(document).on("click", '.btnReturn',  function(event) {
+                event.preventDefault();
+                $('#userListPost1001').empty();
+                $('#btnUndo').modal('show');
+                var valueUndo = $(this).attr('data-undo');
+                $('#undoSave').attr('data-undo',valueUndo)
+                // Добавление согласованта
+                createOptions ('rest/profile/users/', '#userList1001', '', 'id', '', 'usersList');
+                $(document).on("change", ".userList1001", function() {
+                    var userId = $(this).val();
+                    createUserList('rest/profile/users/'+userId, '#userListPost1001');
+                });
+            });
+
+            // Перенаправление согласования другому пользователю
+            $('#undoSave').click(function(event) {
+                event.preventDefault();
+                var newUndo = $('#userList1001').val();
+                $('.loaderUndo').removeClass('d-none');
+                $('.headerUndo, .footerUndo').addClass('d-none').fadeIn(500);
+                var url = 'rest/profile/docs/'+id+'/agreement/redirect?targetUserId='+newUndo;
+                $('.returnUser').addClass('d-none');
+                $('#userListPost1001').empty();
+                console.log(url);
+                var serverAjax = $.ajax({
+                    type: "POST",
+                    url: url,
+                    contentType: 'application/json; charset=utf-8'
+                });
+                serverAjax.done(function(data) {
+                    $('.loaderUndo').addClass('d-none');
+                    $('.bodyUndo, .headerUndo').removeClass('d-none').fadeIn(500);
+                    setTimeout(function() {
+                        $('#btnUndo').modal('hide');
+                        $('.footerUndo').removeClass('d-none').fadeIn(2000);
+                    }, 1500);
+                });
+                serverAjax.fail(function () {
+                    toastr["error"]("Ошибка перенаправления согласования!");
+                });
+            });
+
             // Ссылки на документ PDF
             var documentPDF = data.UrlPDF;
             $('.pdfSRC').attr('src', documentPDF);
@@ -342,28 +382,6 @@
             // Нижний блок полей
             getDownFields(docURL, id, 0);
         });
-
-        // Список согласования документа
-        /*$.getJSON('rest/profile/docs/' + id + '/agreement/list/', function(data) {
-            for(var i in data) {
-                var row = data[i];
-                var returnButton = '';
-                var comment = '';
-                if(row.comment) {comment = row.comment;}
-                if(row.currentUser === true) {
-                    var currentUser = '<i class="fas fa-user-clock text-warning"></i>';
-                } else {
-                    currentUser = '<i class="fas fa-ellipsis-h text-muted"></i>';
-                }
-                if(row.decisionType && row.decisionType === 'ACCEPTED') {
-                    currentUser = '<i class="fas fa-check text-success"></i>';
-                    returnButton = '<button class="btn btn-danger btn-sm rounded btnReturn" data-user="'+row.name+'"><i class="fas fa-undo-alt mr-2"></i>Вернуть</button>';
-                }
-                var firstName = row.firstName.substr(0,1)+'.';
-                var patronym = row.patronym.substr(0,1)+'.';
-                $('#listAgree .modal-body').append('<div class="row mb-3 d-flex align-items-center"><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.lastName+' '+firstName+' '+patronym+'<br><small class="text-muted">'+row.position+'</small></div><div class="col-4"><small>'+comment+'</small></div><div class="col-3">'+returnButton+'</div></div>');
-            }
-        });*/
 
         // Отправка согласования на сервер
         $('#btnSave').on("click", function(event) {
@@ -628,7 +646,7 @@
                 var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock,1));
                 console.log(serverStack);
-                /*var serverAjax = $.ajax({
+                var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
                     data: serverStack,
@@ -636,17 +654,17 @@
                 });
                 // Успешное сохранение документа
                 serverAjax.done(function(data) {
-                    $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
+                    $("#btnWordFileNew").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
                     $('.loaderSuccess').addClass('d-none');
                     $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
-                    $('.registrationForm').removeClass('was-validated');
+                    $('.newDocumentForm').removeClass('was-validated');
                     var projectRegNum = data.projectRegNum;
                     $('#createSave #regNumTemplate').html(projectRegNum);
                     $('#createSave').on('hidden.bs.modal', function() {
                         $('select').val('');
-                        $('#userListBlock .blockUser:not(:first)').remove();
-                        $("#blockUp, #blockDown, #btnSave, .pdfSRC").addClass("d-none");
-                        $("#btnSave").attr('disabled', false).html(trueName);
+                        $('#userListBlockNew .blockUserNew:not(:first)').remove();
+                        $("#blockUpNew, #blockDownNew, #btnSaveNew, .pdfSRCNew").addClass("d-none");
+                        $("#btnSaveNew").attr('disabled', false).html(trueName);
                     });
                     // Сохранение списка согласования
                     var serverAgreeList = $.ajax({
@@ -675,7 +693,7 @@
                 // Ошибка сохранения документа
                 serverAjax.fail(function () {
                     toastr["error"]("Ошибка сохранения документа!");
-                });*/
+                });
             }
         });
 

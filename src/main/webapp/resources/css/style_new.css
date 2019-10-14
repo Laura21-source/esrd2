@@ -22,7 +22,7 @@ header, main, footer {padding-left: 240px;}
 /* Сортируемые таблицы */
 .bs-select, .dataTables_info {text-align: left!important;}
 /* Лоадер  окно */
-.btnSuccess, .btnCancel {
+.btnSuccess, .btnCancel, .btnUndo {
   max-width: 500px!important;
   height: 50vh;
   margin: 0 auto;
