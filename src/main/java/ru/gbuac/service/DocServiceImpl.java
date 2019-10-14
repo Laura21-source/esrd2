@@ -303,12 +303,17 @@ public class DocServiceImpl implements DocService {
                 daNext.setCurrentUser(true);
                 docAgreementRepository.save(daNext);
                 User user = userRepository.findById(daNext.getUser().getId()).orElse(null);
-                mailService.sendAgreementEmail(user.getEmail(), docTo.getId(), docTo.getProjectRegNum());
+                mailService.sendAgreementEmail(user.getEmail(), docTo.getId(), updated.getProjectRegNum());
             }
         }
         updated = checkNotFoundWithId(docRepository.save(updated), id);
         DocTo updatedTo = asDocTo(updated);
         updatedTo.setCanAgree(hasRights);
+        if (updated.getDocStatus() == DocStatus.IN_WORK) {
+            for (Department exDeps : updated.getExecutorDepartments()) {
+                mailService.sendDistributionEmail(exDeps.getChiefUser().getEmail(), updated.getId(), updated.getRegNum());
+            }
+        }
         return asDocTo(updated);
     }
 
@@ -345,6 +350,10 @@ public class DocServiceImpl implements DocService {
                 .map(u -> userRepository.findById(u.getId()).orElse(null))
                 .filter(Objects::nonNull).collect(Collectors.toList());
         doc.setExecutorUsers(ex);
+        executorUsers.stream().forEach(x -> {
+            User u = userRepository.findById(x.getId()).orElse(null);
+            mailService.sendExecutionEmail(u.getEmail(), doc.getId(), doc.getRegNum());
+        });
         return docRepository.save(doc).getExecutorUsers();
     }
 
