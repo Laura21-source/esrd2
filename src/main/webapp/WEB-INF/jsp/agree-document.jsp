@@ -640,9 +640,9 @@
                 // Добавить блоки отсюда в файл функций -getFieldsDocument
                 $("#blockFieldsNew, #blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").removeClass("d-none");
                 // Верхний блок полей
-                getUpFields("rest/profile/docs/" + id + "/fields/merged?targetDocTypeId=" + asd, 0, '', 1);
+                getUpFields("rest/profile/docs/" + id + "/fields/merged?targetDocTypeId=" + asd, id, '', 1);
                 // Нижний блок полей
-                getDownFields("rest/profile/docs/" + id + "/fields/merged?targetDocTypeId=" + asd, 0, '', 1);
+                getDownFields("rest/profile/docs/" + id + "/fields/merged?targetDocTypeId=" + asd, id, '', 1);
             } else {
                 $("#blockFieldsNew, #blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").addClass("d-none");
             }
@@ -650,7 +650,7 @@
 
         // Список кому
         createOptions ('rest/profile/departments/getAllTopLevel', '#whomListNew', 'name', 'id', '', '');
-        $('#whomList.mdb-select').materialSelect({validate: true});
+        $('#whomList.mdb-select').materialSelect();
 
         // Список согласования
         createOptions ('rest/profile/users/', '#userListNew1', '', 'id', '', 'usersList');

@@ -221,7 +221,7 @@
         }
         return $.getJSON (url, function(data) {
             var rowChild = data;
-            if(id > 0) {rowChild = data.childFields;}
+            if(id > 0 && block !== 1) {rowChild = data.childFields;}
             for(var i in rowChild) {
                 var row = rowChild[i];
                 // Переменная даты
@@ -304,7 +304,7 @@
         }
         return $.getJSON (url, function(data) {
             var rowChild = data;
-            if(id > 0) {
+            if(id > 0 && block !== 1) {
                 rowChild = data.childFields;
                 number = 1;
             }
