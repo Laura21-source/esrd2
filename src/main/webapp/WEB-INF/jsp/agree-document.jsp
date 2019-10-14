@@ -335,13 +335,15 @@
                     // Добавление исполнителя
                     $(document).on("change", "#performerList", function() {
                         var performerList = [];
-                        var userId = parseInt($(this).val());
-                        var data = {
-                            "id" : userId
-                        }
-                        performerList.push(data);
+                        $("#performerList option:selected").each(function() {
+                            var userId = parseInt($(this).val());
+                            var data = {
+                                "id" : userId
+                            }
+                            performerList.push(data);
+                        });
+                        console.log(performerList);
                         performerList = JSON.stringify(performerList);
-                        console.log(data);
                         var serverAjax = $.ajax({
                             type: "POST",
                             url: 'rest/profile/docs/executorUsersList/'+id,
