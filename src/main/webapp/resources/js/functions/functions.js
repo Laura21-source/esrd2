@@ -771,11 +771,15 @@
                 }
                 if(row.comment) {comment = row.comment;}
                 if(row.position) {position = row.position;}
+                var newColor = 'danger';
                 var currentUser = '';
                 if(row.currentUser === true) {
                     currentUser = '<i class="fas fa-user-clock text-warning" title="Текущий согласователь"></i>';
                     if(finalVersion !== 1) {
-                        undoUser = '<button class="btn btn-danger btn-sm px-2 py-1 mx-3 btnReturn" type="button" data-undo="'+row.userId+'" title="Отменить согласование"><i class="fas fa-undo-alt text-white"></i></button>';
+                        if(row.decisionType && row.decisionType === 'REDIRECTED') {
+                            newColor = 'primary';
+                        }
+                        undoUser = '<button class="btn btn-'+newColor+' btn-sm px-2 py-1 mx-3 btnReturn" type="button" data-undo="'+row.userId+'" title="Отменить согласование"><i class="fas fa-undo-alt text-white"></i></button>';
                     }
                 } else {
                     currentUser = '<i class="fas fa-ellipsis-h text-muted" title="Согласователь"></i>';
