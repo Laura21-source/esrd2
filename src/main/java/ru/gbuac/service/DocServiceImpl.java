@@ -69,7 +69,7 @@ public class DocServiceImpl implements DocService {
     private DepartmentRepository departmentRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    MailService mailService;
 
     @Value("${pdf.final.dir}")
     private String pdfDir;
@@ -302,6 +302,8 @@ public class DocServiceImpl implements DocService {
                 DocAgreement daNext = docAgreementRepository.getByOrder(docTo.getId(), daCurrent.getOrdering() + 1);
                 daNext.setCurrentUser(true);
                 docAgreementRepository.save(daNext);
+                User user = userRepository.findById(daNext.getUser().getId()).orElse(null);
+                mailService.sendAgreementEmail(user.getEmail(), docTo.getId());
             }
         }
         updated = checkNotFoundWithId(docRepository.save(updated), id);
