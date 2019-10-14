@@ -335,7 +335,7 @@
                     // Добавление исполнителя
                     $(document).on("change", "#performerList", function() {
                         var performerList = [];
-                        var userId = $(this).val();
+                        var userId = parseInt($(this).val());
                         var data = {
                             "id" : userId
                         }
