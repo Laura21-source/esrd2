@@ -326,18 +326,15 @@ public class DocServiceImpl implements DocService {
 
     @Override
     public DocTo rejectDocAgreement(int id, String userName, String comment) throws NotFoundException {
-        /*
         Doc updated = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
         updated.setDocStatus(DocStatus.AGREEMENT_REJECTED);
-        User user = userRepository.getByName(userName);
-        DocAgreement docAgreement = docAgreementRepository.getLastForAgreeByUserName(updated.getId(), userName);
-        docAgreement.setAgreedDateTime(LocalDateTime.now());
-        docAgreement.setComment(comment);
-        docAgreement.setDecisionType(DecisionType.REJECTED);
-        docAgreementRepository.save(docAgreement);
+        List<DocAgreement> docAgreementList = docAgreementRepository.getAll(id);
+        DocAgreement daCurrent = docAgreementList.stream().filter(DocAgreement::isCurrentUser).findFirst().orElse(null);
+        daCurrent.setAgreedDateTime(LocalDateTime.now());
+        daCurrent.setComment(comment);
+        daCurrent.setDecisionType(DecisionType.REJECTED);
+        docAgreementRepository.save(daCurrent);
         return asDocTo(checkNotFoundWithId(docRepository.save(updated), id));
-        */
-        return null;
     }
 
     @Override
