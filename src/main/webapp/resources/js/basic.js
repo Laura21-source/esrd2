@@ -58,9 +58,9 @@ $(function() {
   $(document).on("click", ".addGroupNew", function() {
       var links = $("[data-block='2']").length;
       var links1 = links + 1;
-      //var id = getId();
+      var id = getId();
       var asd = $("#selectTypeNew").val();
-      var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", '', links1, 1);
+      var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", id, links1, 1);
       $('#newBlockGroupNew').append(newField);
   });
 

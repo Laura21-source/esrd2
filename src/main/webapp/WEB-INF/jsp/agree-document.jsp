@@ -330,7 +330,7 @@
                     $('.blockDocument, #btnWordFile').addClass('d-none');
                     $('.docName').html('Сведения о документе');
                 }
-                if(data.canDistribute === true) {
+                if(data.canDistribute == true) {
                     $('.performerBlock').removeClass('d-none');
                     // Добавим опций
                     createOptions ('rest/profile/users/', '#performerList', '', 'id', '', 'usersList');
