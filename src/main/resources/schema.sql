@@ -263,10 +263,11 @@ CREATE TABLE esrd.organization
 
 CREATE TABLE esrd.doc_executor_departments
 (
+    id                          INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
     doc_id                      INTEGER NOT NULL,
-    executor_departments_id     INTEGER NOT NULL,
+    executor_department_id     INTEGER NOT NULL,
     FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
-    FOREIGN KEY (executor_departments_id) REFERENCES esrd.department (id) ON DELETE CASCADE
+    FOREIGN KEY (executor_department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doc_executor_users

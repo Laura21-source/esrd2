@@ -18,7 +18,8 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("DELETE FROM Doc d WHERE d.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT DISTINCT d FROM Doc d JOIN d.executorUsers eu LEFT JOIN d.executorDepartments ed " +
+    @Query("SELECT DISTINCT d FROM Doc d JOIN d.executorUsers eu LEFT JOIN d.docExecutorDepartments ded " +
+            "LEFT JOIN ded.executorDepartment ed " +
             "WHERE eu.name=:userName AND d.docStatus='IN_WORK' ORDER BY d.id")
     List<Doc> getAllInWorkByUserName(@Param("userName") String userName);
 
@@ -40,7 +41,8 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
             "lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL AND d.docStatus<>'IN_AGREEMENT' ORDER BY d.id")
     List<Doc> getAllRegisteredByUserName(@Param("userName") String userName);
 
-    @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.executorDepartments ed LEFT JOIN d.executorUsers eu ORDER BY d.id")
+    @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.docExecutorDepartments ded LEFT JOIN ded.executorDepartment " +
+            "LEFT JOIN d.executorUsers eu ORDER BY d.id")
     List<Doc> getAll();
 
     @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId")
@@ -56,11 +58,11 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d WHERE d.docStatus<>'IN_AGREEMENT' ORDER BY d.id")
     List<Doc> getAllRegistered();
 
-    @Query("SELECT DISTINCT d FROM Doc d JOIN d.executorDepartments ed JOIN d.executorUsers eu " +
+    @Query("SELECT DISTINCT d FROM Doc d JOIN d.docExecutorDepartments ded JOIN ded.executorDepartment ed JOIN d.executorUsers eu " +
             "WHERE ed.id=:departmentId AND eu.id IS NULL AND d.docStatus='IN_WORK' ORDER BY d.id")
     List<Doc> getAllDistribution(int departmentId);
 
-    @Query("SELECT DISTINCT d FROM Doc d JOIN d.executorDepartments ed JOIN d.executorUsers eu " +
+    @Query("SELECT DISTINCT d FROM Doc d JOIN d.docExecutorDepartments ded JOIN ded.executorDepartment ed JOIN d.executorUsers eu " +
             "WHERE ed.id=:departmentId AND eu.id IS NOT NULL AND d.docStatus='IN_WORK' ORDER BY d.id")
     List<Doc> getAllDistributed(int departmentId);
 

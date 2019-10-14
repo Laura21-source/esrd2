@@ -171,8 +171,8 @@ public class DocServiceImpl implements DocService {
         List<DocItemTo> docItemsTo = new ArrayList<>();
         for (Doc d: docs) {
             StringBuilder deps = new StringBuilder();
-            for (Department department: d.getExecutorDepartments()) {
-                deps.append(department.getId());
+            for (DocExecutorDepartment department: d.getDocExecutorDepartments()) {
+                deps.append(department.getExecutorDepartment().getId());
                 deps.append(" ");
             }
             StringBuilder users = new StringBuilder();
@@ -568,9 +568,10 @@ public class DocServiceImpl implements DocService {
         }
 
         List<Integer> executorDepartmentsIds = null;
-        if (doc.getExecutorDepartments() != null) {
-            executorDepartmentsIds = doc.getExecutorDepartments()
-                    .stream().map(Department::getId).collect(Collectors.toList());
+        if (doc.getDocExecutorDepartments() != null) {
+            executorDepartmentsIds = doc.getDocExecutorDepartments()
+                    .stream().map(DocExecutorDepartment::getExecutorDepartment)
+                    .map(Department::getId).collect(Collectors.toList());
         }
 
         List<Integer> executorUsersIds = null;
@@ -632,7 +633,11 @@ public class DocServiceImpl implements DocService {
                 .map(d -> departmentRepository.findById(d).orElse(null))
                 .filter(Objects::nonNull).collect(Collectors.toList());
 
-        doc.setExecutorDepartments(executorDepartments);
+        List<DocExecutorDepartment> docExecutorDepartments = new ArrayList<>();
+        for (Department exDep: executorDepartments) {
+            docExecutorDepartments.add(new DocExecutorDepartment(null, doc, exDep));
+        }
+        doc.setDocExecutorDepartments(docExecutorDepartments);
         doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields()));
         return doc;
     }
@@ -641,7 +646,7 @@ public class DocServiceImpl implements DocService {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
         Doc exDoc = checkNotFoundWithId(docRepository.findById(docTo.getId()).orElse(null), docTo.getId());
         Doc doc = new Doc(exDoc.getId(), exDoc.getRegNum(), exDoc.getRegDateTime(), exDoc.getProjectRegNum(),
-                exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, exDoc.getExecutorDepartments(),
+                exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, exDoc.getDocExecutorDepartments(),
                 exDoc.getExecutorUsers(), null, exDoc.getUrlPDF());
 
         doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields()));
