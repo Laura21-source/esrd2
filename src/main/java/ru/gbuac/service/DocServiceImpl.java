@@ -497,7 +497,7 @@ public class DocServiceImpl implements DocService {
 
         String genTemplatePath = isPDF ? templatePath : tmpTemplatePath;
 
-        String pdfTempPath = rootPath + pdfTempDir + docTo.getId() + ".pdf";
+        String pdfTempPath = rootPath + pdfTempDir + UUID.randomUUID().toString() + ".pdf";
         String pdfPath = rootPath + pdfDir + docTo.getId() + ".pdf";
 
         String pdfSavePath = saveToTempDir ? pdfTempPath : pdfPath;
