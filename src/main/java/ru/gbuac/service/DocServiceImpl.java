@@ -333,6 +333,7 @@ public class DocServiceImpl implements DocService {
     public DocTo rejectDocAgreement(int id, String userName, String comment) throws NotFoundException {
         Doc updated = checkNotFoundWithId(docRepository.findById(id).orElse(null), id);
         updated.setDocStatus(DocStatus.AGREEMENT_REJECTED);
+        docRepository.save(updated);
         List<DocAgreement> docAgreementList = docAgreementRepository.getAll(id);
         DocAgreement daCurrent = docAgreementList.stream().filter(DocAgreement::isCurrentUser).findFirst().orElse(null);
         daCurrent.setAgreedDateTime(LocalDateTime.now());
