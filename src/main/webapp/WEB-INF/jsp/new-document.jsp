@@ -21,9 +21,9 @@
                                     <div class="col-md-2 text-left mt-2">
                                         <span class="text-muted"><i class="fas fa-file-alt mr-2"></i>Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                                     </div>
-                                    <div class="col-md-10 select-outline">
-                                        <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" name="selectType" id="selectType" required>
-                                            <option value="">Выберите вид документа</option>
+                                    <div class="col-md-10">
+                                        <select data-placeholder="Выберите вид документа" class="chosen-select" name="selectType" id="selectType" required>
+                                            <option value="">Выберите из справочника</option>
                                         </select>
                                         <div class="invalid-tooltip">Выберите тип документа</div>
                                     </div>
@@ -33,9 +33,9 @@
                                         <div class="col-2 text-left mt-2">
                                             <span class="text-muted"><i class="fas fa-sitemap mr-2"></i>Куда<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                                         </div>
-                                        <div class="col-10 select-outline">
-                                            <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomList" multiple searchable=" Поиск" selectAllLabel="Выбрать все" optionsSelectedLabel="опций выбрано" required>
-                                                <option value="" disabled>Выберите из справочника</option>
+                                        <div class="col-10">
+                                            <select data-placeholder="Выберите из справочника" multiple class="chosen-select" id="whomList" required>
+                                                <option value="">Выберите из справочника</option>
                                             </select>
                                         </div>
                                     </div>
@@ -55,9 +55,9 @@
                                                             <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
                                                                 <div class="col-md-1">1</div>
                                                                 <div class="col-md-1"><i class="fas fa-user"></i></div>
-                                                                <div class="col-md-8 selectUser select-outline">
-                                                                    <select class="mdb-select md-form md-outline validate colorful-select dropdown-primary userList" data-spisok="1" id="userList1" searchable=' Поиск' name="userList[]" required>
-                                                                        <option value="" selected>Выбрать</option>
+                                                                <div class="col-md-8 selectUser">
+                                                                    <select data-placeholder="Выберите из справочника" class="chosen-select userList"  data-spisok="1" id="userList1" name="userList[]" required>
+                                                                        <option value="" selected>Выбрать </option>
                                                                     </select>
                                                                     <div class="fontSmall text-left" id="userListPost1"></div>
                                                                 </div>
@@ -139,21 +139,8 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        // Список кому
-        createOptions ('rest/profile/departments/getAllTopLevel', '#whomList', 'name', 'id', '', '');
-        $('#whomList.mdb-select').materialSelect();
-        // Список согласования
-        createOptions ('rest/profile/users/', '#userList1', '', 'id', '', 'usersList');
-        // Добавление должности при изменении пользователя
-        $(document).on("change", ".userList", function() {
-            var userId = $(this).val();
-            var link = $(this).attr('data-spisok');
-            createUserList('rest/profile/users/'+userId, '#userListPost'+link);
-        });
-
         // Список полей вида документов
         createOptions('rest/profile/doctypes/', '#selectType', 'name', 'id', '', '');
-        $('#selectType.mdb-select').materialSelect();
 
         // Выбор типа документа
         $("#selectType").change(function() {
@@ -171,6 +158,17 @@
             } else {
                 $("#blockFields, #blockUp, #blockDown, #btnSave, #btnWordFile").addClass("d-none");
             }
+        });
+
+        // Список кому
+        createOptions ('rest/profile/departments/getAllTopLevel', '#whomList', 'name', 'id', '', '');
+        // Список согласования
+        createOptions ('rest/profile/users/', '#userList1', '', 'id', '', 'usersList');
+        // Добавление должности при изменении пользователя
+        $(document).on("change", ".userList", function() {
+            var userId = $(this).val();
+            var link = $(this).attr('data-spisok');
+            createUserList('rest/profile/users/'+userId, '#userListPost'+link);
         });
 
         // Сохранение - Отправка на сервер
