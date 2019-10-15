@@ -459,7 +459,7 @@
                 serverAjax.done(function (data) {
                     $('.loaderSuccess').addClass('d-none');
                     $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
-                    //var regNum = data.regNum;
+                    var regNum = data.regNum;
                     //if (regNum) {
                         $('#btnSuccess #regName').html('Регистрационный номер:');
                         $('#btnSuccess #regNum').html(regNum);
