@@ -899,7 +899,7 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (16, 'Ответственный', 'CATALOG_USERS', null, null, null, 1007, '[Questions]AuthPerson');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (17, 'Дополнительная информация', 'TEXT', null, null, null, null, '[Questions]AdditionalInfo');
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (200, 1, 4, true, 3006);
-INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (201, 1, 6, true, 3002);
+INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (201, 1, 6, false, 3002);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (202, 1, 7, true, 3002);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (203, 1, 8, true, 3002);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (204, 1, 9, false, 3002);
