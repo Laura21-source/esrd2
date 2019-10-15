@@ -144,7 +144,7 @@
                                 </div>
                                 <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
                                 <button type="submit" id="btnReset" class="btn btn-danger mb-2 my-4 pt-3 rounded btnReset">Отменить согласование</button>
-                                <button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded btnSave">Сгенерировать служебную записку</button>
+                                <%--<button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded btnSave">Сгенерировать служебную записку</button>--%>
                                 <a href="" type="button" id="btnLoad" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
                             </div>
                         </div>
@@ -261,7 +261,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" id="btnSaveNew" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Отправить на согласование</button>
-                                <button type="button" id="btnWordFileNew" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>
+                                <%--<button type="button" id="btnWordFileNew" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>--%>
                                 <a href="" type="button" id="btnLoadNew" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
                             </div>
                         </div>
@@ -709,7 +709,7 @@
                         toastr["error"]("Ошибка сохранения списка согласования!");
                     });
                     // Сохранение файла служебки
-                    var serverWord = $.ajax({
+                   /* var serverWord = $.ajax({
                         type: "POST",
                         url: 'rest/profile/docs/docx',
                         data: serverStack,
@@ -720,7 +720,7 @@
                     });
                     serverWord.fail(function () {
                         toastr["error"]("Ошибка сохранения файла служебки!");
-                    });
+                    });*/
                 });
                 // Ошибка сохранения документа
                 serverAjax.fail(function () {

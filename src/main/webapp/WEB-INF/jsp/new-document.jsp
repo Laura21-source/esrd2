@@ -228,7 +228,7 @@
                         toastr["error"]("Ошибка сохранения списка согласования!");
                     });
                     // Сохранение файла служебки
-                    var serverWord = $.ajax({
+                    /*var serverWord = $.ajax({
                         type: "POST",
                         url: 'rest/profile/docs/docx',
                         data: serverStack,
@@ -239,7 +239,7 @@
                     });
                     serverWord.fail(function () {
                         toastr["error"]("Ошибка сохранения файла служебки!");
-                    });
+                    });*/
                 });
                 // Ошибка сохранения документа
                 serverAjax.fail(function () {

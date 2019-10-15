@@ -67,7 +67,7 @@
             </div>
             <div class="modal-footer justify-content-center footerSuccess d-none">
                 <a type="button" class="btn btn-success rounded" data-dismiss="modal">Продолжить работу</a>
-                <a id="modalLoad" href="" type="button" class="btn btn-primary rounded"><i class="fas fa-download mr-2"></i>Скачать</a>
+                <%--<a id="modalLoad" href="" type="button" class="btn btn-primary rounded"><i class="fas fa-download mr-2"></i>Скачать</a>--%>
             </div>
         </div>
     </div>
