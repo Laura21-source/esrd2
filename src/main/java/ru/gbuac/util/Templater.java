@@ -4,6 +4,7 @@ import com.documents4j.api.DocumentType;
 import com.documents4j.api.IConverter;
 import com.documents4j.job.LocalConverter;
 import com.google.common.io.Files;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
@@ -98,12 +99,15 @@ public class Templater {
             }
         }
 
+        ByteArrayOutputStream byteArrayOutputStreamTemp = new ByteArrayOutputStream();
+        doc.write(byteArrayOutputStreamTemp);
+        PDDocument pdfTemp = PDDocument.load(getPdfBytes(new ByteArrayInputStream(byteArrayOutputStreamTemp.toByteArray())).toByteArray());
+        int count = pdfTemp.getNumberOfPages();
 
-        int numPages = doc.getProperties().getExtendedProperties().getPages();
-        if (numPages > 1) {
-            simpleTags.put("SignerPosition",simpleTags.get("SignerFullPosition"));
+        if (count > 1) {
+            simpleTags.put("SignerPosition", simpleTags.get("SignerFullPosition"));
+            doc.getFooterList().get(0).removeTable(doc.getFooterList().get(0).getTables().get(0));
         }
-
         for (int i = 0; i <doc.getTables().size(); i++) {
             List<XWPFTableRow> rows = doc.getTableArray(i).getRows();
             for (int row = 0; row < rows.size(); row++) {
@@ -162,7 +166,7 @@ public class Templater {
                 }
             }
         }
-        Integer pageCount = doc.getProperties().getExtendedProperties().getPages();
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         doc.write(byteArrayOutputStream);
         if (isPDF) {
