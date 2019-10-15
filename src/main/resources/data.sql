@@ -733,6 +733,7 @@ INSERT INTO esrd.role (id, name) VALUES (3003, 'Руководство отра�
 INSERT INTO esrd.role (id, name) VALUES (3004, 'Руководство юридического управления');
 INSERT INTO esrd.role (id, name) VALUES (3005, 'Секретарь Правления');
 INSERT INTO esrd.role (id, name) VALUES (3006, 'Дата повестки');
+INSERT INTO esrd.role (id, name) VALUES (3007, 'Заместитель Руководителя Федоров П.Д.');
 
 INSERT INTO esrd.role_child_role (role_id, child_role_id) VALUES  (3002, 3006);
 INSERT INTO esrd.role_child_role (role_id, child_role_id) VALUES  (3005, 3006);
@@ -760,6 +761,8 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3004); -- Прав�
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3001); -- Право USER для Широковой Е.Ю.
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3005); -- Право Секретарь Правления для Сапрыкиной
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3001); -- Право USER для Сапрыкиной
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4115, 3007); -- Право Зам руководителя Федоров П.Д.
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4115, 3001); -- Право USER для Федорова П.Д.
 
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (23, 'ДПР');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (24, 'ДПР-П');

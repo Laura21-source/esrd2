@@ -79,8 +79,13 @@ public class SecurityConfigNoLDAP extends WebSecurityConfigurerAdapter {
                 .roles("USER", "Руководство юридического управления")
                 .and()
                 .withUser("SaprykinaAA").password("{noop}root")
-                .roles("USER", "Секретарь Правления", "Дата повестки");
+                .roles("USER", "Секретарь Правления", "Дата повестки")
+                .and()
+                .withUser("FedorovPD").password("{noop}root")
+                .roles("USER", "Заместитель Руководителя Федоров П.Д.");
     }
+
+
 
 
 }
