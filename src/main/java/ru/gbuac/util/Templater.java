@@ -162,7 +162,7 @@ public class Templater {
                 }
             }
         }
-
+        Integer pageCount = doc.getProperties().getExtendedProperties().getPages();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         doc.write(byteArrayOutputStream);
         if (isPDF) {
