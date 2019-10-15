@@ -270,7 +270,10 @@
                     // Добавляем строку
                     $(filed).append('<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select data-placeholder="Выберите вид документа" class="chosen-select ' + upElem + '" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                     var numberCatalog = ('#' + selectFieldName);
-                    $(numberCatalog +' select').chosen({width : "100%"});
+                    $(numberCatalog +' select').chosen({
+                        width: "100%",
+                        no_results_text: "Ничего не найдено!"
+                    });
                     // Добавляем опции
                     createOptions ("rest/profile/docs/regnumbers/", numberCatalog, "regNum", "id", numberField, '');
                 }
@@ -372,7 +375,10 @@
                             // Добавляем строку
                             $(blockGroup + dubKey + ' .blockGroupFields').append('<div class="row blockRow' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3 d-flex align-items-center"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3"><select data-placeholder="Выберите вид документа" class="chosen-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                             var numberCatalog = ('#' + selectFieldName);
-                            $(numberCatalog).chosen({width : "100%"});
+                            $(numberCatalog).chosen({
+                                width: "100%",
+                                no_results_text: "Ничего не найдено!"
+                            });
                             // Формирование правильных полей
                             createOptionsValue(numberCatalog, blockGroup + dubKey);
                             if(parentBlock == '') {
@@ -385,7 +391,10 @@
                             var numberCatalog = ('#' + selectFieldName);
                             // Добавляем строку
                             $(blockGroup + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-8 mt-3"><select data-placeholder="Выберите вид документа" class="chosen-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select></div><div class="col-md-1 mt-3 text-right"><button class="btn btn-primary btn-sm addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" title="Добавить организацию" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div>');
-                            $(numberCatalog).chosen({width : "100%"});
+                            $(numberCatalog).chosen({
+                                width: "100%",
+                                no_results_text: "Ничего не найдено!"
+                            });
                             // Добавляем опции при нажатии поля
                             createOptions ("rest/profile/organizations/", numberCatalog, "shortNameLf", "id", numberField, '');
                         }
@@ -394,7 +403,10 @@
                             var numberCatalog = ('#' + selectFieldName);
                             // Добавляем строку
                             $(blockGroup + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-9 mt-3"><select data-placeholder="Выберите вид документа" class="chosen-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
-                            $(numberCatalog).chosen({width : "100%"});
+                            $(numberCatalog).chosen({
+                                width: "100%",
+                                no_results_text: "Ничего не найдено!"
+                            });
                             // Добавляем опции
                             createOptions ("rest/profile/users/", numberCatalog, '', 'id', numberField, 'users');
                         }

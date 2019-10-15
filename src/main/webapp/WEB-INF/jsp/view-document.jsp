@@ -14,7 +14,7 @@
                     <div class="alert alert-secondary text-center mb-3">
                         <h4 class="mt-2">Подготовка проекта документа</h4>
                     </div>
-                    <form class="registrationForm needs-validation" novalidate>
+                    <form class="registrationForm" novalidate>
                         <div class="card">
                             <div class="card-body">
                                 <div class="row ml-1 mb-1 d-flex align-items-center">
@@ -25,10 +25,16 @@
                                         <select data-placeholder="Выберите вид документа" class="chosen-select" name="selectType" id="selectType" required>
                                             <option value="">Выберите из справочника</option>
                                         </select>
-                                        <%--<select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" name="selectType" id="selectType" required>
-                                            <option value="">Выберите вид документа</option>
-                                        </select>--%>
-                                        <div class="invalid-tooltip">Выберите тип документа</div>
+                                        <div class="invalid-tooltip">Поле обязательно для заполнения</div>
+                                    </div>
+                                </div>
+                                <div class="row ml-1 mb-1 d-flex align-items-center">
+                                    <div class="col-md-2 text-left mt-2">
+                                        <span class="text-muted"><i class="fas fa-file-alt mr-2"></i>Новое поле<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="firstname" name="firstname" required>
+                                        <label class="error">Поле обязательно для заполнения</label>
                                     </div>
                                 </div>
                                 <div id="blockFields" class="d-none">
@@ -40,9 +46,7 @@
                                             <select data-placeholder="Выберите из справочника" multiple class="chosen-select" id="whomList" required>
                                                 <option value="">Выберите из справочника</option>
                                             </select>
-                                            <%--<select class="mdb-select md-form md-outline validate colorful-select dropdown-primary" id="whomList" multiple searchable=" Поиск" selectAllLabel="Выбрать все" optionsSelectedLabel="опций выбрано" required>
-                                                <option value="" disabled>Выберите из справочника</option>
-                                            </select>--%>
+                                            <div class="invalid-tooltip">Поле обязательно для заполнения</div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -61,14 +65,12 @@
                                                             <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
                                                                 <div class="col-md-1">1</div>
                                                                 <div class="col-md-1"><i class="fas fa-user"></i></div>
-                                                                <div class="col-md-8 selectUser select-outline">
+                                                                <div class="col-md-8 selectUser">
                                                                     <select data-placeholder="Выберите из справочника" class="chosen-select userList"  data-spisok="1" id="userList1" name="userList[]" required>
                                                                         <option value="" selected>Выбрать </option>
                                                                     </select>
-                                                                    <%--<select class="mdb-select md-form md-outline validate colorful-select dropdown-primary userList" data-spisok="1" id="userList1" searchable=' Поиск' name="userList[]" required>
-                                                                        <option value="" selected>Выбрать</option>
-                                                                    </select>--%>
                                                                     <div class="fontSmall text-left" id="userListPost1"></div>
+                                                                    <div class="invalid-tooltip">Поле обязательно для заполнения</div>
                                                                 </div>
                                                                 <div class="col-md-2"></div>
                                                             </div>
@@ -80,7 +82,7 @@
                                                             <div class="btn btn-primary btn-sm addUser rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                                         </div>
                                                     </div>
-                                                    <div class="invalid-tooltip">Выберите согласователя</div>
+                                                    <div class="invalid-tooltip">Поле обязательно для заполнения</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -171,7 +173,6 @@
 
         // Список кому
         createOptions ('rest/profile/departments/getAllTopLevel', '#whomList', 'name', 'id', '', '');
-        //$('#whomList').chosen({width: "100%"});
         // Список согласования
         createOptions ('rest/profile/users/', '#userList1', '', 'id', '', 'usersList');
         // Добавление должности при изменении пользователя
@@ -184,14 +185,14 @@
         // Сохранение - Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
-            var forms = $('.registrationForm');
-            var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
-            var agreeFormsValue = $('.registrationForm #userListBlock select');
-            event.preventDefault();
-            var checkField = checkValidation(formsValue);
-            if(checkField === false) {
+           $('.registrationForm').validate({
+               rules : {
+
+               }
+           });
+            /*if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
-                $(forms).addClass('was-validated');
+                //$(forms).addClass('was-validated');
                 event.stopPropagation();
             } else {
                 $('#createSave').modal('show');
@@ -219,7 +220,7 @@
                     var projectRegNum = data.projectRegNum;
                     $('#createSave #regNumTemplate').html(projectRegNum);
                     $('#createSave').on('hidden.bs.modal', function() {
-                        $('select').val('');
+                        $('.chosen-select').trigger("chosen:updated").val('');
                         $('#userListBlock .blockUser:not(:first)').remove();
                         $("#blockFields, #blockUp, #blockDown, #btnSave, .pdfSRC").addClass("d-none");
                         $("#btnSave").attr('disabled', false).html(trueName);
@@ -253,7 +254,7 @@
                 serverAjax.fail(function () {
                     toastr["error"]("Ошибка сохранения документа!");
                 });
-            }
+            }*/
         });
 
         // Отправка на сервер файла служебки
