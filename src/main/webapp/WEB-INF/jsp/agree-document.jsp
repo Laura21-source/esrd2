@@ -27,7 +27,7 @@
                                     <span class="text-muted"><i class="fas fa-users mr-2"></i>Исполнители</span>
                                 </div>
                                 <div class="col-10">
-                                    <select data-placeholder="Выберите вид документа" class="chosen-select" id="performerList" required>
+                                    <select data-placeholder="Выберите из справочника" class="chosen-select" multiple id="performerList">
                                         <option value="">Выберите из справочника</option>
                                     </select>
                                 </div>
@@ -285,14 +285,6 @@
         var id = getId();
         // Поля определённого документа
         var docURL = "rest/profile/docs/" + id;
-        // Список согласования
-        //createOptions ('rest/profile/docs/'+id+'/agreement/list', '#userList1', '', 'id', '', 'usersList');
-        // Добавление должности при изменении пользователя
-        /*$(document).on("change", ".userList", function() {
-            var userId = $(this).val();
-            var link = $(this).attr('data-spisok');
-            createUserList('rest/profile/users/'+userId, '#userListPost'+link);
-        });*/
 
         // Подключение стека полей
         $.getJSON(docURL, function(data) {

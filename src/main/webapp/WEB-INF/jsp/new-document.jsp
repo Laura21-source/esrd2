@@ -25,7 +25,7 @@
                                         <select data-placeholder="Выберите вид документа" class="chosen-select" name="selectType" id="selectType" required>
                                             <option value="">Выберите из справочника</option>
                                         </select>
-                                        <div class="invalid-tooltip">Выберите тип документа</div>
+                                        <div class="invalid-tooltip">Поле обязательно для заполнения</div>
                                     </div>
                                 </div>
                                 <div id="blockFields" class="d-none">
@@ -37,6 +37,7 @@
                                             <select data-placeholder="Выберите из справочника" multiple class="chosen-select" id="whomList" required>
                                                 <option value="">Выберите из справочника</option>
                                             </select>
+                                            <div class="invalid-tooltip">Поле обязательно для заполнения</div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -60,6 +61,7 @@
                                                                         <option value="" selected>Выбрать </option>
                                                                     </select>
                                                                     <div class="fontSmall text-left" id="userListPost1"></div>
+                                                                    <div class="invalid-tooltip">Поле обязательно для заполнения</div>
                                                                 </div>
                                                                 <div class="col-md-2"></div>
                                                             </div>
@@ -71,7 +73,7 @@
                                                             <div class="btn btn-primary btn-sm addUser rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                                         </div>
                                                     </div>
-                                                    <div class="invalid-tooltip">Выберите согласователя</div>
+                                                    <div class="invalid-tooltip">Поле обязательно для заполнения</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,7 +211,7 @@
                     var projectRegNum = data.projectRegNum;
                     $('#createSave #regNumTemplate').html(projectRegNum);
                     $('#createSave').on('hidden.bs.modal', function() {
-                        $('select').val('');
+                        $('.chosen-select').trigger("chosen:updated").val('');
                         $('#userListBlock .blockUser:not(:first)').remove();
                         $("#blockFields, #blockUp, #blockDown, #btnSave, .pdfSRC").addClass("d-none");
                         $("#btnSave").attr('disabled', false).html(trueName);

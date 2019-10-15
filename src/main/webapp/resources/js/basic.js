@@ -14,37 +14,11 @@ $(function() {
   });*/
 
   // Крутой селект
-  $('.mdb-select').materialSelect();
+  //$('.mdb-select').materialSelect();
   $(".chosen-select").chosen({
     width: "100%",
     no_results_text: "Ничего не найдено!"
   });
-  //$('.mdb-select.select-wrapper .select-dropdown').removeAttr('readonly').prop('required', true).addClass('form-control').css('background-color', '#fff');
-  /*$('.select-wrapper.md-form.md-outline input.select-dropdown').bind('focus blur', function () {
-    $(this).closest('.select-outline').find('label').toggleClass('active');
-    $(this).closest('.select-outline').find('.caret').toggleClass('active');
-  });*/
-
-  // Валидация мультиселекта
-  /*$('.mdb-select.validate').materialSelect({
-    validate: true,
-    validFeedback: '',
-    invalidFeedback: ''
-  });
-  function validateSelect(e) {
-    e.preventDefault();
-    $('.needs-validation').addClass('was-validated');
-    if ($('.needs-validation select').val() == '') {
-      $('.needs-validation').find('.valid-feedback').hide();
-      $('.needs-validation').find('.invalid-feedback').show();
-      $('.needs-validation').find('.select-dropdown').val('').prop('placeholder', 'Поле обязательно для заполнения')
-    } else {
-      $('.needs-validation').find('.valid-feedback').show();
-      $('.needs-validation').find('.invalid-feedback').hide();
-    }
-  }
-  $('.needs-validation select').on('change', e => validateSelect(e))
-  $('.needs-validation').on('submit', e => validateSelect(e))*/
 
   // Всплывающие подсказки
   //$('[data-toggle="tooltip"]').tooltip();
