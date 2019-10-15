@@ -304,10 +304,8 @@
         }
         return $.getJSON (url, function(data) {
             var rowChild = data;
-            if(id > 0 && block !== 1) {
-                rowChild = data.childFields;
-                number = 1;
-            }
+            if(id > 0 && block !== 1) {rowChild = data.childFields;}
+            if(id > 0) {number = 1;}
             var idField = '';
             for(var key in rowChild) {
                 var row = rowChild[key];
