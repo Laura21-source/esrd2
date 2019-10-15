@@ -764,7 +764,7 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3001); -- Прав�
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4115, 3007); -- Право Зам руководителя Федоров П.Д.
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4115, 3001); -- Право USER для Федорова П.Д.
 
-INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (23, 'ДПР');
+INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (23, 'ДПР-СЗ');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (24, 'ДПР-П');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (25, 'ДПР-ПPО');
 

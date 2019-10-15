@@ -25,10 +25,10 @@ DROP TABLE IF EXISTS esrd.users_distribution_departments CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
-DROP SEQUENCE IF EXISTS esrd.agenda_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.memo_seq CASCADE;
 CREATE SEQUENCE esrd.global_seq START 100000;
 CREATE SEQUENCE esrd.agreement_seq START 1;
-CREATE SEQUENCE esrd.agenda_seq START 1;
+CREATE SEQUENCE esrd.memo_seq START 1;
 
 CREATE TABLE esrd.role
 (
@@ -263,10 +263,12 @@ CREATE TABLE esrd.organization
 
 CREATE TABLE esrd.doc_executor_departments
 (
-    doc_id                      INTEGER NOT NULL,
-    executor_departments_id     INTEGER NOT NULL,
+    id                         INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    ordering                   INTEGER NOT NULL,
+    doc_id                     INTEGER NOT NULL,
+    executor_department_id     INTEGER NOT NULL,
     FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
-    FOREIGN KEY (executor_departments_id) REFERENCES esrd.department (id) ON DELETE CASCADE
+    FOREIGN KEY (executor_department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doc_executor_users
@@ -295,8 +297,8 @@ BEGIN
         SELECT 'согл-'||nextval('esrd.agreement_seq')||'/'||yearPostfix INTO Result;
     ELSIF (mask='ДПР-П') THEN
         SELECT 'ДПР-П-'||optional||'/'||yearPostfix INTO Result;
-    ELSIF (mask='ДПР') THEN
-        SELECT 'ДПР-'||nextval('esrd.agenda_seq')||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-СЗ') THEN
+        SELECT 'ДПР-СЗ-'||nextval('esrd.memo_seq')||'/'||yearPostfix INTO Result;
     ELSE
         RAISE 'Incorrect mask for generating document number' USING ERRCODE = 'INCORRECT_DOCNUMBER_MASK';
     END IF;

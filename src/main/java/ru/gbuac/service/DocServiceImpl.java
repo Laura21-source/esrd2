@@ -171,8 +171,8 @@ public class DocServiceImpl implements DocService {
         List<DocItemTo> docItemsTo = new ArrayList<>();
         for (Doc d: docs) {
             StringBuilder deps = new StringBuilder();
-            for (Department department: d.getExecutorDepartments()) {
-                deps.append(department.getId());
+            for (DocExecutorDepartments docExecutorDepartments: d.getDocExecutorDepartments()) {
+                deps.append(docExecutorDepartments.getExecutorDepartment().getId());
                 deps.append(" ");
             }
             StringBuilder users = new StringBuilder();
@@ -310,8 +310,9 @@ public class DocServiceImpl implements DocService {
         DocTo updatedTo = asDocTo(updated);
         updatedTo.setCanAgree(hasRights);
         if (updated.getDocStatus() == DocStatus.IN_WORK) {
-            for (Department exDeps : updated.getExecutorDepartments()) {
-                mailService.sendDistributionEmail(exDeps.getChiefUser().getEmail(), updated.getId(), updated.getRegNum());
+            for (DocExecutorDepartments exDeps : updated.getDocExecutorDepartments()) {
+                mailService.sendDistributionEmail(exDeps.getExecutorDepartment().getChiefUser().getEmail(),
+                        updated.getId(), updated.getRegNum());
             }
         }
         return asDocTo(updated);
@@ -514,7 +515,7 @@ public class DocServiceImpl implements DocService {
                 simpleTags.put("SignerPosition", finalUser.getShortPosition());
                 simpleTags.put("SignerFullPosition", finalUser.getFullPosition());
                 simpleTags.put("Signer", finalUser.getFirstname().substring(0, 1) + "." + finalUser.getPatronym().substring(0, 1)
-                        + ". " + finalUser.getLastname());
+                        + "." + finalUser.getLastname());
             }
         }
         StringBuilder to = new StringBuilder();
@@ -577,9 +578,9 @@ public class DocServiceImpl implements DocService {
         }
 
         List<Integer> executorDepartmentsIds = null;
-        if (doc.getExecutorDepartments() != null) {
-            executorDepartmentsIds = doc.getExecutorDepartments()
-                    .stream().map(Department::getId).collect(Collectors.toList());
+        if (doc.getDocExecutorDepartments() != null) {
+            executorDepartmentsIds = doc.getDocExecutorDepartments().stream().map(DocExecutorDepartments::getExecutorDepartment)
+                    .map(Department::getId).collect(Collectors.toList());
         }
 
         List<Integer> executorUsersIds = null;
@@ -636,12 +637,18 @@ public class DocServiceImpl implements DocService {
         Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDateTime(), docTo.getProjectRegNum(),
                 docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null, null,
                 null, null, docTo.getUrlPDF());
+
         List<Department> executorDepartments = Optional.ofNullable(docTo.getExecutorDepartmentsIds())
                 .map(Collection::stream).orElseGet(Stream::empty)
                 .map(d -> departmentRepository.findById(d).orElse(null))
                 .filter(Objects::nonNull).collect(Collectors.toList());
 
-        doc.setExecutorDepartments(executorDepartments);
+        List<DocExecutorDepartments> docExecutorDepartments = new ArrayList<>();
+        for (int i = 0; i < executorDepartments.size(); i++) {
+            docExecutorDepartments.add(new DocExecutorDepartments(null, i+1, doc, executorDepartments.get(i)));
+        }
+
+        doc.setDocExecutorDepartments(docExecutorDepartments);
         doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields()));
         return doc;
     }
@@ -650,7 +657,7 @@ public class DocServiceImpl implements DocService {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
         Doc exDoc = checkNotFoundWithId(docRepository.findById(docTo.getId()).orElse(null), docTo.getId());
         Doc doc = new Doc(exDoc.getId(), exDoc.getRegNum(), exDoc.getRegDateTime(), exDoc.getProjectRegNum(),
-                exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, exDoc.getExecutorDepartments(),
+                exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, exDoc.getDocExecutorDepartments(),
                 exDoc.getExecutorUsers(), null, exDoc.getInitialUser(), exDoc.getUrlPDF());
 
         doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields()));

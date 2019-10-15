@@ -155,8 +155,6 @@ public class Templater {
                                     }
                                     text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
                                     changeText(paragraph, text);
-                                    int d = 3;
-                                    d++;
                                 }
                             }
                             table.addRow(newRow, table.getNumberOfRows() - 1);
