@@ -97,7 +97,7 @@
                                             <div class="pdfSign"><i class="far fa-file-pdf text-danger fa-10x"></i></div>
                                             <iframe class="embed-responsive-item pdfSRC" src=""></iframe>
                                         </div>
-                                        <!--btnLoad--><a href="" id="btnSavePdf" class="btn btn-default btn-sm my-3 rounded pdfHREF px-3" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
+                                        <a href="" id="btnSavePdf" class="btn btn-default btn-sm my-3 rounded pdfHREF px-3" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
                                         <div id="btnReformat" class="btn btn-mdb-color btn-sm my-3 rounded px-3"><i class="fas fa-sync mr-2"></i>Переформировать</div>
                                         <a class="btn btn-light-blue btn-sm my-3 pdfHREF px-3" href="" target="_blank">Открыть в новом окне</a>
                                     </div>
@@ -195,8 +195,8 @@
                                                                 <div class="col-md-1">1</div>
                                                                 <div class="col-md-1"><i class="fas fa-user"></i></div>
                                                                 <div class="col-md-8 selectUser">
-                                                                    <select data-placeholder="Выберите из справочника" class="chosen-select userList"  data-spisok="1" id="userListNew1" name="userListNew[]" required>
-                                                                        <option value="" selected>Выбрать </option>
+                                                                    <select data-placeholder="Выберите из справочника" class="chosen-select userListNew"  data-spisok="1" id="userListNew1" name="userListNew[]" required>
+                                                                        <option value="" selected>Выбрать</option>
                                                                     </select>
                                                                     <div class="fontSmall text-left" id="userListPostNew1"></div>
                                                                 </div>
@@ -311,10 +311,10 @@
                 newDate = formatDate(new Date(data.regDateTime), 0);
                 $(".documentName").html('Документ №' + data.regNum + ' от ' + newDate);
                 $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
-                finalVersion = 1;
             }
             // Имеет ли право пользователь подписывать документ
             if(data.canAgree === false) {
+                if(data.docStatus !== 'IN_AGREEMENT') {finalVersion = 1;}
                 $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
             }
             // Если документ уже подписан
@@ -338,7 +338,7 @@
                             }
                             performerList.push(data);
                         });
-                        console.log(performerList);
+                        //console.log(performerList);
                         performerList = JSON.stringify(performerList);
                         var serverAjax = $.ajax({
                             type: "POST",
@@ -385,7 +385,7 @@
                 var url = 'rest/profile/docs/'+id+'/agreement/redirect?targetUserId='+newUndo;
                 $('.returnUser').addClass('d-none');
                 $('#userListPost1001').empty();
-                console.log(url);
+                //console.log(url);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: url,
@@ -676,7 +676,7 @@
                 var dataBlock = createDataBlock(0, sumElem, 1);
                 var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock,1));
-                console.log(serverStack);
+                //console.log(serverStack);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
