@@ -361,7 +361,9 @@
             $('#userListBlock, .userList').remove();
             $('.disableUserList').removeClass('d-none');
             // Инициатор согласования
-            $('#initialUser').append('<div class="mb-3 d-flex align-items-center"><div class="text-muted mr-2"><i class="fas fa-user text-success mr-2" title="Инициатор согласования"></i>Инициатор согласования:</div><div>'+data.initialUser.fullName+'</div></div>');
+            if(data.initialUser) {
+                $('#initialUser').append('<div class="mb-3 d-flex align-items-center"><div class="text-muted mr-2"><i class="fas fa-user text-success mr-2" title="Инициатор согласования"></i>Инициатор согласования:</div><div>'+data.initialUser.fullName+'</div></div>');
+            }
             createUserListDisabled('rest/profile/docs/'+id+'/agreement/list', finalVersion);
 
             // Перенаправление согласования другому пользователю открытие модального окна
