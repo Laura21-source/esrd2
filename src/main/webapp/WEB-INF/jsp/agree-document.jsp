@@ -38,18 +38,19 @@
                                 <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall userList">
-                                            <div class="col-md-1">№</div>
+                                        <div id="initialUser"></div>
+                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 userList">
+                                            <div class="col-md-1"><small>№</small></div>
                                             <div class="col-md-1"></div>
-                                            <div class="col-md-8">Согласователь</div>
+                                            <div class="col-md-8"><small>Согласователь</small></div>
                                             <div class="col-md-2"><%--Удалить--%></div>
                                         </div>
-                                        <div class="row text-center mb-3 font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall d-none disableUserList">
+                                        <div class="row text-center mb-3 font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 d-none disableUserList">
                                             <div class="col-md-1">№</div>
                                             <div class="col-md-1"></div>
-                                            <div class="col-md-4">Согласователь</div>
-                                            <div class="col-md-3">Комментарий</div>
-                                            <div class="col-md-3">Дата/Время</div>
+                                            <div class="col-md-4"><small>Согласователь</small></div>
+                                            <div class="col-md-3"><small>Комментарий</small></div>
+                                            <div class="col-md-3"><small>Дата/Время</small></div>
                                         </div>
                                         <div id="userListBlockDiv"></div>
                                         <div class="row" id="userListBlock">
@@ -184,9 +185,9 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall">
-                                                        <div class="col-md-1">№</div>
+                                                        <div class="col-md-1"><small>№</small></div>
                                                         <div class="col-md-1"></div>
-                                                        <div class="col-md-8">Согласователь</div>
+                                                        <div class="col-md-8"><small>Согласователь</small></div>
                                                         <div class="col-md-2"><%--Удалить--%></div>
                                                     </div>
                                                     <div class="row" id="userListBlockNew">
@@ -359,6 +360,8 @@
             // Список согласования
             $('#userListBlock, .userList').remove();
             $('.disableUserList').removeClass('d-none');
+            // Инициатор согласования
+            $('#initialUser').append('<div class="mb-3 d-flex align-items-center"><div class="text-muted mr-2"><i class="fas fa-user text-success mr-2" title="Инициатор согласования"></i>Инициатор согласования:</div><div>'+data.initialUser.fullName+'</div></div>');
             createUserListDisabled('rest/profile/docs/'+id+'/agreement/list', finalVersion);
 
             // Перенаправление согласования другому пользователю открытие модального окна
@@ -367,7 +370,7 @@
                 $('#userListPost1001').empty();
                 $('#btnUndo').modal('show');
                 var valueUndo = $(this).attr('data-undo');
-                $('#undoSave').attr('data-undo',valueUndo)
+                $('#undoSave').attr('data-undo',valueUndo);
                 // Добавление согласованта
                 createOptions ('rest/profile/users/', '#userList1001', '', 'id', '', 'usersList');
                 $(document).on("change", ".userList1001", function() {
@@ -454,20 +457,20 @@
                 serverAjax.done(function (data) {
                     $('.loaderSuccess').addClass('d-none');
                     $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
-                    var regNum = data.regNum;
-                    if (regNum) {
+                    //var regNum = data.regNum;
+                    //if (regNum) {
                         $('#btnSuccess #regName').html('Регистрационный номер:');
                         $('#btnSuccess #regNum').html(regNum);
                         $('#btnSuccess').on('hidden.bs.modal', function () {
                             $("#btnSave").attr('disabled', false).html(trueName);
                             window.location.href = "agree-document?id=" + data.id;
                         });
-                    } else {
+                    /*} else {
                         $('#btnSuccess').on('hidden.bs.modal', function () {
                             $("#btnSave").attr('disabled', false).html(trueName);
                             window.location.href = "agreement";
                         });
-                    }
+                    }*/
                 });
                 serverAjax.fail(function () {
                     toastr["error"]("Ошибка сохранения файла!");

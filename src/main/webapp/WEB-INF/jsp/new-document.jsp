@@ -45,10 +45,10 @@
                                             <div class="alert alert-primary mx-auto text-uppercase">Список согласования<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                             <div class="card mb-3">
                                                 <div class="card-body">
-                                                    <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 fontSmall">
-                                                        <div class="col-md-1">№</div>
+                                                    <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2">
+                                                        <div class="col-md-1"><small>№</small></div>
                                                         <div class="col-md-1"></div>
-                                                        <div class="col-md-8">Согласователь</div>
+                                                        <div class="col-md-8"><small>Согласователь</small></div>
                                                         <div class="col-md-2"><%--Удалить--%></div>
                                                     </div>
                                                     <div class="row" id="userListBlock">
