@@ -48,7 +48,7 @@ public class MailService {
 
             helper.setSubject("Единая система регистрации документов (ЕСРД)");
 
-            this.emailSender.send(message);
+            //this.emailSender.send(message);
         }
         catch (Exception e) {
 
@@ -77,7 +77,7 @@ public class MailService {
 
             helper.setSubject("Единая система регистрации документов (ЕСРД)");
 
-            this.emailSender.send(message);
+            //this.emailSender.send(message);
         }
         catch (Exception e) {
 
@@ -106,7 +106,7 @@ public class MailService {
 
             helper.setSubject("Единая система регистрации документов (ЕСРД)");
 
-            this.emailSender.send(message);
+            //this.emailSender.send(message);
         }
         catch (Exception e) {
 
