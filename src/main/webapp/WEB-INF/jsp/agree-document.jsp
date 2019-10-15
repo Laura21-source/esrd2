@@ -27,7 +27,7 @@
                                     <span class="text-muted"><i class="fas fa-users mr-2"></i>Исполнители</span>
                                 </div>
                                 <div class="col-10">
-                                    <select data-placeholder="Выберите из справочника" class="chosen-select" multiple id="performerList">
+                                    <select data-placeholder="Выберите из справочника" class="chosen-select" multiple id="performerList" required>
                                         <option value="">Выберите из справочника</option>
                                     </select>
                                 </div>
