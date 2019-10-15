@@ -58,7 +58,7 @@
                                                                 <div class="col-md-1"><i class="fas fa-user"></i></div>
                                                                 <div class="col-md-8 selectUser">
                                                                     <select data-placeholder="Выберите из справочника" class="chosen-select userList"  data-spisok="1" id="userList1" name="userList[]" required>
-                                                                        <option value="" selected>Выбрать </option>
+                                                                        <option value="" selected>Выбрать</option>
                                                                     </select>
                                                                     <div class="fontSmall text-left" id="userListPost1"></div>
                                                                     <div class="invalid-tooltip">Поле обязательно для заполнения</div>
@@ -124,7 +124,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Отправить на согласование</button>
-                                <button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>
+                                <%--<button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>--%>
                                 <a href="" type="button" id="btnLoad" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
                             </div>
                         </div>
@@ -195,7 +195,7 @@
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem);
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-                console.log(serverStack);
+                //console.log(serverStack);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
@@ -228,7 +228,7 @@
                         toastr["error"]("Ошибка сохранения списка согласования!");
                     });
                     // Сохранение файла служебки
-                    var serverWord = $.ajax({
+                    /*var serverWord = $.ajax({
                         type: "POST",
                         url: 'rest/profile/docs/docx',
                         data: serverStack,
@@ -239,7 +239,7 @@
                     });
                     serverWord.fail(function () {
                         toastr["error"]("Ошибка сохранения файла служебки!");
-                    });
+                    });*/
                 });
                 // Ошибка сохранения документа
                 serverAjax.fail(function () {
@@ -312,7 +312,7 @@
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem);
                 var reformatPDF = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-                console.log(reformatPDF);
+                //console.log(reformatPDF);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs/pdf',

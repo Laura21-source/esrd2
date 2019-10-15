@@ -808,6 +808,9 @@
                 if(row.decisionType && row.decisionType === 'REDIRECTED') {
                     currentUser = '<i class="fas fa-undo-alt text-primary" title="Перенаправление"></i>';
                 }
+                if(row.decisionType && row.decisionType === 'REJECTED') {
+                    currentUser = '<i class="fas fa-times text-danger" title="Согалсование отменено"></i>';
+                }
                 $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center" data-value="'+row.userId+'"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+undoUser+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
             }
         });
