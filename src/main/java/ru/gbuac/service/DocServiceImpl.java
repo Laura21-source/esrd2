@@ -632,10 +632,10 @@ public class DocServiceImpl implements DocService {
 
     private Doc createNewDocFromTo(DocTo docTo) {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
+
         Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDateTime(), docTo.getProjectRegNum(),
                 docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null, null,
-                null, docTo.getUrlPDF());
-
+                null, null, docTo.getUrlPDF());
         List<Department> executorDepartments = Optional.ofNullable(docTo.getExecutorDepartmentsIds())
                 .map(Collection::stream).orElseGet(Stream::empty)
                 .map(d -> departmentRepository.findById(d).orElse(null))
@@ -651,7 +651,7 @@ public class DocServiceImpl implements DocService {
         Doc exDoc = checkNotFoundWithId(docRepository.findById(docTo.getId()).orElse(null), docTo.getId());
         Doc doc = new Doc(exDoc.getId(), exDoc.getRegNum(), exDoc.getRegDateTime(), exDoc.getProjectRegNum(),
                 exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, exDoc.getExecutorDepartments(),
-                exDoc.getExecutorUsers(), null, exDoc.getUrlPDF());
+                exDoc.getExecutorUsers(), null, exDoc.getInitialUser(), exDoc.getUrlPDF());
 
         doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields()));
 

@@ -74,7 +74,7 @@ public class Doc extends BaseEntity {
     public Doc(Integer id, String regNum, LocalDateTime regDateTime, @NotNull String projectRegNum,
                @NotNull LocalDateTime projectRegDateTime, @NotNull LocalDateTime insertDateTime,
                @NotNull DocType docType, List<Department> executorDepartments, List<User> executorUsers,
-               List<DocValuedFields> docValuedFields, String urlPDF) {
+               List<DocValuedFields> docValuedFields, User initialUser, String urlPDF) {
         super(id);
         this.regNum = regNum;
         this.regDateTime = regDateTime;
@@ -85,6 +85,7 @@ public class Doc extends BaseEntity {
         this.executorDepartments = executorDepartments;
         this.executorUsers = executorUsers;
         this.docValuedFields = docValuedFields;
+        this.initialUser = initialUser;
         this.urlPDF = urlPDF;
     }
 }
