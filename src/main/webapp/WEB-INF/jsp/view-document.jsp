@@ -33,8 +33,7 @@
                                         <span class="text-muted"><i class="fas fa-file-alt mr-2"></i>Новое поле<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" id="firstname" name="firstname" required>
-                                        <label class="error">Поле обязательно для заполнения</label>
+                                        <input type="text" class="form-control" id="firstName" name="firstName" required>
                                     </div>
                                 </div>
                                 <div id="blockFields" class="d-none">
@@ -187,7 +186,10 @@
             event.preventDefault();
            $('.registrationForm').validate({
                rules : {
-
+                   firstName: "required"
+               },
+               messages : {
+                   firstName: "Please enter your firstName"
                }
            });
             /*if(checkField === false) {

@@ -58,8 +58,7 @@ $(function() {
       var links1 = links + 1;
       var fieldUser = '#userListNew'+links1;
       $('#userListBlockNew').append('<div class="col-12 blockUserNew" id="blockUserNew'+links1+'"><div class="row d-flex align-items-center justify-content-center fontSmall userListBlockNew" data-user="1"><div class="col-md-1">'+links1+'</div><div class="col-md-1"><i class="fas fa-user"></i></div><div class="col-md-8 selectUser"><select data-placeholder="Выберите из справочника" class="chosen-select userListNew" data-spisok="'+links1+'" id="userListNew'+links1+'" name="userListNew[]" required><option value="">Выбрать</option></select><div class="fontSmall text-left" id="userListPostNew'+links1+'"></div></div><div class="col-md-2"><div id="delUserNew'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" title="Удалить пользователя"><i class="fas fa-trash"></i></div></div></div></div>');
-      //$('#blockUserNew'+links1+' .mdb-select').materialSelect();
-      $('#blockUser'+links1+' select').chosen({width : "100%"});
+      $('#blockUserNew'+links1+' select').chosen({width : "100%"});
       var newField = createOptions ('rest/profile/users/', fieldUser, '', 'id', '', 'usersList');
       $('#userListNew'+links1).append(newField);
   });
