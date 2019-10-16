@@ -36,4 +36,7 @@ public class DocType extends NamedEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "doc_number_prefix_id", nullable = false)
     private DocNumberPrefixes docNumberPrefixes;
+
+    @Column(name = "final_doc")
+    private boolean finalDoc;
 }
