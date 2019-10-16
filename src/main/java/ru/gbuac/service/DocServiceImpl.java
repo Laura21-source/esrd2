@@ -177,20 +177,24 @@ public class DocServiceImpl implements DocService {
                 deps.append("{\"id\":" + department.getId()+", \"name\":\""+ department.getName() + "\"},");
             }
 
-            if (deps.charAt(deps.length()-1) == ',') {
+            if (!d.getDocExecutorDepartments().isEmpty() && deps.charAt(deps.length()-1) == ',') {
                 deps.delete(deps.length()-1, deps.length());
             }
             deps.append("]");
 
             StringBuilder users = new StringBuilder();
+            users.append("[");
             for (User user: d.getExecutorUsers()) {
-                users.append(user.getId());
-                users.append(" ");
+                users.append("{\"id\":" + user.getId()+", \"name\":\""+ user.getName() + "\"},");
             }
+            if (!d.getExecutorUsers().isEmpty() && users.charAt(users.length()-1) == ',') {
+                users.delete(users.length()-1, users.length());
+            }
+            users.append("]");
 
             docItemsTo.add(new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
                     d.getProjectRegNum(), d.getProjectRegDateTime(), deps.toString(),
-                    users.toString().trim().replace(" ",","), d.getDocType().getName()));
+                    users.toString(), d.getDocType().getName()));
         }
         return docItemsTo;
     }
