@@ -289,7 +289,6 @@ INSERT INTO esrd.department (id, top_level, name) VALUES (584, false, 'Руко�
 INSERT INTO esrd.department (id, top_level, name, chief_user_id) VALUES (585, true, 'Управление финансового контроля и аудита', 4311);
 INSERT INTO esrd.department (id, top_level, name) VALUES (586, false, 'Пресс-служба Департамента');
 INSERT INTO esrd.department (id, top_level, name) VALUES (587, false, 'Отдел экономики здравоохранения, физической культуры и спорта');
-INSERT INTO esrd.department (id, top_level, chief_user_id, name) VALUES (588, true, 4000, 'Без адресата');
 
 INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (561, 500);
 INSERT INTO esrd.department_child_departments(department_id, child_departments_id) VALUES (561, 501);
@@ -889,7 +888,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catal
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2114, null, 'от 9 декабря 2016 года № 331-ТР', 1008, 2008);
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id, final_doc)
-VALUES (1, 'Включение вопросов в Повестку заседания Правления', 3002, 'zapiska.docx', 'zapiska.docx', 23, true);
+VALUES (1, 'Служебная записка о включении вопросов в Повестку заседания Правления', 3002, 'zapiska.docx', 'zapiska.docx', 23, true);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null, 'MeetingDate');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (6, 'Номер СЭДО', 'TEXT', null, null, null, null, '');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (7, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, '');
