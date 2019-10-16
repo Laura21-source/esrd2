@@ -185,7 +185,8 @@ public class DocServiceImpl implements DocService {
             StringBuilder users = new StringBuilder();
             users.append("[");
             for (User user: d.getExecutorUsers()) {
-                users.append("{\"id\":" + user.getId()+", \"name\":\""+ user.getName() + "\"},");
+                users.append("{\"id\":" + user.getId()+", \"fullName\":\""+ user.getLastname() + " "
+                        + user.getFirstname() + " " + user.getPatronym() + "\"},");
             }
             if (!d.getExecutorUsers().isEmpty() && users.charAt(users.length()-1) == ',') {
                 users.delete(users.length()-1, users.length());
