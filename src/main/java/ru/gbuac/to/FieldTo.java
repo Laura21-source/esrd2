@@ -64,6 +64,34 @@ public class FieldTo extends BaseTo {
         this.required = required;
         this.tag = tag;
     }
+
+    public FieldTo(List<FieldTo> childFields, FieldType fieldType, Integer valueInt, String tag) {
+        this.childFields = childFields;
+        this.fieldType = fieldType;
+        this.valueInt = valueInt;
+        this.tag = tag;
+    }
+
+    public FieldTo(List<FieldTo> childFields, FieldType fieldType, String valueStr, String tag) {
+        this.childFields = childFields;
+        this.fieldType = fieldType;
+        this.valueStr = valueStr;
+        this.tag = tag;
+    }
+
+    public FieldTo(List<FieldTo> childFields, FieldType fieldType, LocalDateTime valueDate, String tag) {
+        this.childFields = childFields;
+        this.fieldType = fieldType;
+        this.valueDate = valueDate;
+        this.tag = tag;
+    }
+
+    public FieldTo(List<FieldTo> childFields, FieldType fieldType, String tag) {
+        this.childFields = childFields;
+        this.fieldType = fieldType;
+        this.tag = tag;
+    }
+
     public String getValueByFieldType() {
         switch (fieldType) {
             case TEXT:

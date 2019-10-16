@@ -519,15 +519,14 @@ public class DocServiceImpl implements DocService {
             }
         }
 
-        StringBuilder to = new StringBuilder();
+
         if (docTo.getExecutorDepartmentsIds() != null) {
             for (int i = 0; i < docTo.getExecutorDepartmentsIds().size(); i++) {
                 Department exDep = departmentRepository.findById(docTo.getExecutorDepartmentsIds().get(i)).orElse(null);
-                to.append(exDep.getChiefUser().getDativePosition() + "\n");
-                to.append(exDep.getChiefUser().getDativeFullname() + "\n");
-                if (i + 1 < docTo.getExecutorDepartmentsIds().size()) {
-                    to.append("+\n");
-                }
+                List<FieldTo> exDepsFields = new ArrayList<>();
+                exDepsFields.add(new FieldTo(null, FieldType.TEXT, exDep.getChiefUser().getDativePosition(), "[To]Department"));
+                exDepsFields.add(new FieldTo(null, FieldType.TEXT, exDep.getChiefUser().getDativeFullname(), "[To]Chief"));
+                docTo.getChildFields().add(new DocFieldsTo(null, new FieldTo(exDepsFields, FieldType.GROUP_FIELDS, ""), null));
             }
         }
 
@@ -535,8 +534,6 @@ public class DocServiceImpl implements DocService {
         for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
             fillTags(docFieldsTo.getField(), simpleTags, taggedTables, docTo.getChildFields().size());
         }
-        //new FieldTo(null, null, null, null, FieldType.GROUP_FIELDS, null)
-
 
         try {
             ByteArrayOutputStream byteArrayOutputStream =
@@ -583,6 +580,7 @@ public class DocServiceImpl implements DocService {
         if (doc.getDocExecutorDepartments() != null) {
             executorDepartmentsIds = doc.getDocExecutorDepartments().stream().map(DocExecutorDepartments::getExecutorDepartment)
                     .map(Department::getId).collect(Collectors.toList());
+            executorDepartmentsIds.sort(Comparator.comparing(Integer::intValue));
         }
 
         List<Integer> executorUsersIds = null;
