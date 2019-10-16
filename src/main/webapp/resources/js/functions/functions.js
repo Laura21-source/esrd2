@@ -737,13 +737,20 @@
                             item.currentAgreeFullName = 'Согласование завершено';
                         }
                         var dataDepartments = JSON.parse(item.executorDepartments);
+                        item.executorDepartments = '';
                         for(var i in dataDepartments) {
-                            if (i == 0) {
-                                item.executorDepartments = '';
+                            if(dataDepartments[i].id > 0) {
+                                item.executorDepartments = item.executorDepartments + '<div class="d-inline-block amber lighten-4 rounded black-text my-1 mr-2 p-1" data-value="'+dataDepartments[i].id+'"><small>'+dataDepartments[i].name+'</small></div>';
                             }
-                            item.executorDepartments = item.executorDepartments + '<div class="d-inline-block light-blue lighten-2 rounded white-text my-1 mr-2 p-1" data-value="'+dataDepartments[i].id+'"><small>'+dataDepartments[i].name+'</small></div>';
                         }
                         //item.executorDepartments = '<form><select class="chosen-select" id="departmentList"><option value="'+item.executorDepartments+'">'+item.executorDepartments+'</option></select></form>';
+                        var dataUsers = JSON.parse(item.executorUsers);
+                        item.executorUsers = '';
+                        for(var i in dataUsers) {
+                            if(dataUsers[i].id > 0) {
+                                item.executorUsers = item.executorUsers + '<div class="d-inline-block green lighten-4 rounded black-text my-1 mr-2 p-1" data-value="'+dataUsers[i].id+'"><small>'+dataUsers[i].fullName+'</small></div>';
+                            }
+                        }
                         item.link = "<a href='agree-document?id=" + item.id + "'><i class='fas fa-edit text-primary'></i></a>";
                     });
                     return data;
