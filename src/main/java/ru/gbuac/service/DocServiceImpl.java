@@ -536,7 +536,7 @@ public class DocServiceImpl implements DocService {
         }
 
 
-        if (docTo.getExecutorDepartmentsIds() != null) {
+        if (docTo.getExecutorDepartmentsIds() != null && !docTo.getExecutorDepartmentsIds().isEmpty()) {
             for (int i = 0; i < docTo.getExecutorDepartmentsIds().size(); i++) {
                 Department exDep = departmentRepository.findById(docTo.getExecutorDepartmentsIds().get(i)).orElse(null);
                 List<FieldTo> exDepsFields = new ArrayList<>();
@@ -544,6 +544,11 @@ public class DocServiceImpl implements DocService {
                 exDepsFields.add(new FieldTo(null, FieldType.TEXT, exDep.getChiefUser().getDativeFullname(), "[To]Chief"));
                 docTo.getChildFields().add(new DocFieldsTo(null, new FieldTo(exDepsFields, FieldType.GROUP_FIELDS, ""), null));
             }
+        } else {
+            List<FieldTo> exDepsFields = new ArrayList<>();
+            exDepsFields.add(new FieldTo(null, FieldType.TEXT, "", "[To]Department"));
+            exDepsFields.add(new FieldTo(null, FieldType.TEXT, "", "[To]Chief"));
+            docTo.getChildFields().add(new DocFieldsTo(null, new FieldTo(exDepsFields, FieldType.GROUP_FIELDS, ""), null));
         }
 
         Map<String, TaggedTable> taggedTables = new HashMap<>();
