@@ -518,6 +518,7 @@ public class DocServiceImpl implements DocService {
                         + "." + finalUser.getLastname());
             }
         }
+
         StringBuilder to = new StringBuilder();
         if (docTo.getExecutorDepartmentsIds() != null) {
             for (int i = 0; i < docTo.getExecutorDepartmentsIds().size(); i++) {
@@ -529,12 +530,13 @@ public class DocServiceImpl implements DocService {
                 }
             }
         }
-        simpleTags.put("To", to.toString());
-        Map<String, TaggedTable> taggedTables = new HashMap<>();
 
+        Map<String, TaggedTable> taggedTables = new HashMap<>();
         for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
             fillTags(docFieldsTo.getField(), simpleTags, taggedTables, docTo.getChildFields().size());
         }
+        //new FieldTo(null, null, null, null, FieldType.GROUP_FIELDS, null)
+
 
         try {
             ByteArrayOutputStream byteArrayOutputStream =
