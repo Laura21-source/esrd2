@@ -172,8 +172,13 @@ public class DocServiceImpl implements DocService {
         for (Doc d: docs) {
             StringBuilder deps = new StringBuilder();
             for (DocExecutorDepartments docExecutorDepartments: d.getDocExecutorDepartments()) {
-                deps.append(docExecutorDepartments.getExecutorDepartment().getId());
-                deps.append(" ");
+                Department department = docExecutorDepartments.getExecutorDepartment();
+                deps.append(department.getId()+"["+ department.getName() + "]");
+                deps.append("^");
+            }
+            String depsStr = deps.toString().trim();
+            if (deps.charAt(deps.length()-1) == '^') {
+                depsStr = deps.substring(0, deps.length()-1);
             }
             StringBuilder users = new StringBuilder();
             for (User user: d.getExecutorUsers()) {
@@ -182,7 +187,7 @@ public class DocServiceImpl implements DocService {
             }
 
             docItemsTo.add(new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
-                    d.getProjectRegNum(), d.getProjectRegDateTime(), deps.toString().trim().replace(" ",","),
+                    d.getProjectRegNum(), d.getProjectRegDateTime(), depsStr.replace("^", ","),
                     users.toString().trim().replace(" ",","), d.getDocType().getName()));
         }
         return docItemsTo;
@@ -578,9 +583,11 @@ public class DocServiceImpl implements DocService {
 
         List<Integer> executorDepartmentsIds = null;
         if (doc.getDocExecutorDepartments() != null) {
-            executorDepartmentsIds = doc.getDocExecutorDepartments().stream().map(DocExecutorDepartments::getExecutorDepartment)
-                    .map(Department::getId).collect(Collectors.toList());
-            executorDepartmentsIds.sort(Comparator.comparing(Integer::intValue));
+            executorDepartmentsIds = doc.getDocExecutorDepartments().stream()
+                    .sorted(Comparator.comparing(DocExecutorDepartments::getOrdering))
+                    .map(DocExecutorDepartments::getExecutorDepartment)
+                    .map(Department::getId)
+                    .collect(Collectors.toList());
         }
 
         List<Integer> executorUsersIds = null;
