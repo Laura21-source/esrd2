@@ -2,7 +2,19 @@
     function countElem (array) {return array.length;}
 
     // Получение id документа из адресной строки
-    function getId () {return new URL(window.location.href).searchParams.get("id"); }
+    function getId () {return new URL(window.location.href).searchParams.get("id");}
+
+    // Получение текущего пользователя
+    function getName (url, element) {
+        return $.getJSON (url, function(data) {
+            var userName = data.lastname + ' ' + data.firstname + ' ' + data.patronym;
+            $(element).html(userName);
+        });
+    }
+
+    // Меняем имя пользователя на нормальное
+    var templateUser = $('#templateUser').html();
+    getName ('rest/profile/users/getByName?name=' + templateUser, '#templateUser');
 
     // Получаем данные для отображения слева в меню
     function getMenuPils (url, element) {
