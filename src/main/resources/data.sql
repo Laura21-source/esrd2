@@ -745,6 +745,8 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3002); -- Прав�
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3001); -- Право USER для Волковой user2
 
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4374, 3000); -- Право ADMIN для Махрова
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4083, 3002); -- Право Отраслевое управление для Евдокимомой О.Н.
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4083, 3001); -- Право USER для Евдокимомой О.Н.
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4194, 3002); -- Право Отраслевое управление для Хвасточенко О.Н.
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4194, 3001); -- Право USER для Хвасточенко О.Н.
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4192, 3002); -- Право Отраслевое управление для Волковой О.Н.
