@@ -42,13 +42,13 @@
                     <li><a class="collapsible-header waves-effect arrow-r" href="new-document"><i class="fa fa-file-alt mr-2"></i>Подготовка документа</a></li>
                     <li><a class="collapsible-header waves-effect arrow-r" href="all"><i class="fa fa-list mr-2"></i>Все документы</a></li>
                     <li><a class="collapsible-header waves-effect arrow-r" href="in-work"><i class="fa fa-briefcase mr-2"></i>
-                        На исполнении<span class="badge badge-pill badge-primary ml-2">...</span></a></li>
+                        На исполнении<span class="badge badge-pill badge-primary ml-2 inWorkSum"></span></a></li>
                     <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-edit mr-2"></i>
-                        Согласование<span class="badge badge-pill badge-primary ml-2">...</span><i class="fas fa-angle-down rotate-icon"></i></a>
+                        Согласование<span class="badge badge-pill badge-primary ml-2 agreementSum"></span><i class="fas fa-angle-down rotate-icon"></i></a>
                         <div class="collapsible-body">
                             <ul class="list-unstyled">
                                 <li><a href="agreement" class="waves-effect">На согл./подписании
-                                    <span class="badge badge-pill badge-primary ml-2">...</span></a>
+                                    <span class="badge badge-pill badge-primary ml-2 agreementSum"></span></a>
                                 </li>
                                 <li><a href="agreed" class="waves-effect">Согласованные/подписанные</a>
                                 </li>
@@ -58,11 +58,11 @@
                         </div>
                     </li>
                         <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-user-plus mr-2"></i>
-                            Распределение <span class="badge badge-pill badge-primary ml-2">...</span><i class="fas fa-angle-down rotate-icon"></i></a>
+                            Распределение <span class="badge badge-pill badge-primary ml-2 distributionSum"></span><i class="fas fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul class="list-unstyled">
                                     <li><a href="distribution" class="waves-effect">Ожидают
-                                        <span class="badge badge-pill badge-primary ml-2">...</span></a>
+                                        <span class="badge badge-pill badge-primary ml-2 distributionSum"></span></a>
                                     </li>
                                     <li><a href="distributed" class="waves-effect">Исполнитель назначен</a>
                                     </li>
