@@ -736,11 +736,14 @@
                         if (!item.currentAgreeFullName || item.currentAgreeFullName == '') {
                             item.currentAgreeFullName = 'Согласование завершено';
                         }
-                        item.executorDepartments = '<select multiple class="chosen-select" id="departmentList"><option value="'+item.executorDepartments+'">'+item.executorDepartments+'</option></select>';
-                        $('#departmentList').chosen({
-                            width: "100%",
-                            no_results_text: "Ничего не найдено!"
-                        });
+                        var dataDepartments = JSON.parse(item.executorDepartments);
+                        for(var i in dataDepartments) {
+                            if (i == 0) {
+                                item.executorDepartments = '';
+                            }
+                            item.executorDepartments = item.executorDepartments + '<div class="d-inline-block light-blue lighten-2 rounded white-text my-1 mr-2 p-1" data-value="'+dataDepartments[i].id+'"><small>'+dataDepartments[i].name+'</small></div>';
+                        }
+                        //item.executorDepartments = '<form><select class="chosen-select" id="departmentList"><option value="'+item.executorDepartments+'">'+item.executorDepartments+'</option></select></form>';
                         item.link = "<a href='agree-document?id=" + item.id + "'><i class='fas fa-edit text-primary'></i></a>";
                     });
                     return data;
@@ -771,6 +774,10 @@
             }
         });
         $('.dataTables_length').addClass('bs-select');
+        $('#departmentList').chosen({
+            width: "100%",
+            no_results_text: "Ничего не найдено!"
+        });
     }
 
     // Получение данных об управлении по id

@@ -35,7 +35,7 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        var dataTable = dataTableArray("#dataTable","rest/profile/docs/agreement");
+        dataTableArray("#dataTable","rest/profile/docs/agreement");
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>
