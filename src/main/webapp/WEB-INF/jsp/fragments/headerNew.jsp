@@ -21,13 +21,13 @@
 <header>
     <div id="slide-out" class="side-nav fixed">
         <ul class="custom-scrollbar">
-            <li>
+            <%--<li>
                 <form class="search-form" role="search">
                     <div class="md-form mt-0 pt-1 waves-light">
                         <input type="text" class="form-control" placeholder="Поиск по документам">
                     </div>
                 </form>
-            </li>
+            </li>--%>
             <li>
                 <ul class="collapsible collapsible-accordion">
                     <%--<li><a class="collapsible-header waves-effect arrow-r"><i class="far fa-file-alt mr-2"></i>Подготовка документа<i
