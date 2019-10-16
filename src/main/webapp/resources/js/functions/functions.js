@@ -748,6 +748,7 @@
                         if (!item.currentAgreeFullName || item.currentAgreeFullName == '') {
                             item.currentAgreeFullName = 'Согласование завершено';
                         }
+                        // Если поле не пустое отображаем поля
                         if(item.executorDepartments && item.executorDepartments != '') {
                             var dataDepartments = JSON.parse(item.executorDepartments);
                             item.executorDepartments = '';
@@ -757,6 +758,7 @@
                                 }
                             }
                         }
+                        // Если поле не пустое отображаем поля
                         if(item.executorUsers && item.executorUsers != '') {
                             var dataUsers = JSON.parse(item.executorUsers);
                             item.executorUsers = '';
