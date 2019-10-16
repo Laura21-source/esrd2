@@ -12,7 +12,7 @@
             <div class="card-body">
                 <div class="container-fluid">
                     <div class="alert alert-secondary text-center mb-3">
-                        <h6 class="mt-2">Все документы</h6>
+                        <h4 class="mt-2">Все документы</h4>
                     </div>
                     <table id="dataTable" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
                         <thead>
@@ -41,7 +41,6 @@
 <script>
     $(function() {
         var dataTable = dataTableArray("#dataTable","rest/profile/docs/", 2);
-        console.log(dataTable);
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>

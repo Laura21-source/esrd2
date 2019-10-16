@@ -13,6 +13,11 @@ $(function() {
     stopper: "#footer",
   });*/
 
+  // Получаем данные для отображения слева в меню
+  getMenuPils('rest/profile/docs/inwork', '.inWorkSum');
+  getMenuPils('rest/profile/docs/agreement', '.agreementSum');
+  getMenuPils('rest/profile/docs/distribution', '.distributionSum');
+
   // Крутой селект
   //$('.mdb-select').materialSelect();
   $(".chosen-select").chosen({

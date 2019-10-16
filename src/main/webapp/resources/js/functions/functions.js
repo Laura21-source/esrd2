@@ -4,6 +4,15 @@
     // Получение id документа из адресной строки
     function getId () {return new URL(window.location.href).searchParams.get("id"); }
 
+    // Получаем данные для отображения слева в меню
+    function getMenuPils (url, element) {
+        var sumPole = '';
+        return $.getJSON (url , function(data) {
+            sumPole = countElem(data);
+            $(element).html(sumPole);
+        });
+    }
+
     // Прооверка полей на заполняемость
     function checkValidation(value) {
         var validation = true;
@@ -723,10 +732,15 @@
                         } else {
                             item.regDateTime = formatDate(item.regDateTime, 0);
                         }
-                        item.regNum = "<a href='agree-document?id=" + item.id + "'>" + item.regNum + "</a>"
+                        item.regNum = "<a href='agree-document?id=" + item.id + "'>" + item.regNum + "</a>";
                         if (!item.currentAgreeFullName || item.currentAgreeFullName == '') {
                             item.currentAgreeFullName = 'Согласование завершено';
                         }
+                        item.executorDepartments = '<select multiple class="chosen-select" id="departmentList"><option value="'+item.executorDepartments+'">'+item.executorDepartments+'</option></select>';
+                        $('#departmentList').chosen({
+                            width: "100%",
+                            no_results_text: "Ничего не найдено!"
+                        });
                         item.link = "<a href='agree-document?id=" + item.id + "'><i class='fas fa-edit text-primary'></i></a>";
                     });
                     return data;
