@@ -48,6 +48,8 @@ public class DocTo extends BaseTo {
 
     private Integer finalUserId;
 
+    private Boolean finalDoc;
+
     @SafeHtml
     private String comment;
 
@@ -60,7 +62,7 @@ public class DocTo extends BaseTo {
     public DocTo(Integer id, @SafeHtml String regNum, LocalDateTime regDateTime, @SafeHtml String projectRegNum,
                  LocalDateTime projectRegDateTime, LocalDateTime insertDateTime, Integer docTypeId, DocStatus docStatus,
                  Boolean finalStage, Boolean canAgree, Boolean canWork, Boolean canDistribute, @SafeHtml String urlPDF, UserTo initialUser,
-                 Integer finalUserId, @SafeHtml String comment, List<Integer> executorDepartmentsIds,
+                 Integer finalUserId, Boolean finalDoc, @SafeHtml String comment, List<Integer> executorDepartmentsIds,
                  List<Integer> executorUsersIds, List<DocFieldsTo> childFields) {
         super(id);
         this.regNum = regNum;
@@ -77,6 +79,7 @@ public class DocTo extends BaseTo {
         this.UrlPDF = urlPDF;
         this.initialUser = initialUser;
         this.finalUserId = finalUserId;
+        this.finalDoc = finalDoc;
         this.comment = comment;
         this.executorDepartmentsIds = executorDepartmentsIds;
         this.executorUsersIds = executorUsersIds;

@@ -11,10 +11,7 @@ import ru.gbuac.dao.*;
 import ru.gbuac.model.*;
 import ru.gbuac.to.*;
 import ru.gbuac.util.*;
-import ru.gbuac.util.exception.FileUploadException;
-import ru.gbuac.util.exception.GeneratePdfException;
-import ru.gbuac.util.exception.NotFoundException;
-import ru.gbuac.util.exception.UnauthorizedUserException;
+import ru.gbuac.util.exception.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -234,9 +231,16 @@ public class DocServiceImpl implements DocService {
     @Override
     public DocTo save(DocTo docTo, String userName, String rootPath) throws UnauthorizedUserException {
         Assert.notNull(docTo, "doc must not be null");
-        Integer finalUserId = docTo.getFinalUserId();
 
-        boolean hasRights = AuthorizedUser.hasRole(docTypeRepository.findById(docTo.getDocTypeId()).orElse(null).getRole().getAuthority());
+        DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
+        if (docType.isFinalDoc()) {
+            if (docTo.getExecutorDepartmentsIds() == null || docTo.getExecutorDepartmentsIds().isEmpty()) {
+                throw new EmptyToException();
+            }
+        }
+
+        Integer finalUserId = docTo.getFinalUserId();
+        boolean hasRights = AuthorizedUser.hasRole(docType.getRole().getAuthority());
         if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
             throw new UnauthorizedUserException();
         }
@@ -532,7 +536,7 @@ public class DocServiceImpl implements DocService {
         }
 
 
-        if (docTo.getExecutorDepartmentsIds() != null) {
+        if (docTo.getExecutorDepartmentsIds() != null && !docTo.getExecutorDepartmentsIds().isEmpty()) {
             for (int i = 0; i < docTo.getExecutorDepartmentsIds().size(); i++) {
                 Department exDep = departmentRepository.findById(docTo.getExecutorDepartmentsIds().get(i)).orElse(null);
                 List<FieldTo> exDepsFields = new ArrayList<>();
@@ -540,6 +544,11 @@ public class DocServiceImpl implements DocService {
                 exDepsFields.add(new FieldTo(null, FieldType.TEXT, exDep.getChiefUser().getDativeFullname(), "[To]Chief"));
                 docTo.getChildFields().add(new DocFieldsTo(null, new FieldTo(exDepsFields, FieldType.GROUP_FIELDS, ""), null));
             }
+        } else {
+            List<FieldTo> exDepsFields = new ArrayList<>();
+            exDepsFields.add(new FieldTo(null, FieldType.TEXT, "", "[To]Department"));
+            exDepsFields.add(new FieldTo(null, FieldType.TEXT, "", "[To]Chief"));
+            docTo.getChildFields().add(new DocFieldsTo(null, new FieldTo(exDepsFields, FieldType.GROUP_FIELDS, ""), null));
         }
 
         Map<String, TaggedTable> taggedTables = new HashMap<>();
@@ -623,7 +632,8 @@ public class DocServiceImpl implements DocService {
         return new DocTo(doc.getId(), doc.getRegNum(), doc.getRegDateTime(), doc.getProjectRegNum(),
                 doc.getProjectRegDateTime(), doc.getInsertDateTime(), doc.getDocType().getId(),
                 doc.getDocStatus(), isFinalAgreementStage, false, false, false, doc.getUrlPDF(),
-                initialUserTo, finalUserId, null, executorDepartmentsIds, executorUsersIds, docFieldsTos);
+                initialUserTo, finalUserId, doc.getDocType().isFinalDoc(), null, executorDepartmentsIds,
+                executorUsersIds, docFieldsTos);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {

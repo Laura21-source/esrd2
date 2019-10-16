@@ -99,6 +99,7 @@ CREATE TABLE esrd.doctype
     template_filename       VARCHAR                         ,
     role_id                 INTEGER                 NOT NULL,
     doc_number_prefix_id    INTEGER                 NOT NULL,
+    final_doc               BOOLEAN                 NOT NULL,
     FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE,
     FOREIGN KEY (doc_number_prefix_id) REFERENCES esrd.doc_number_prefixes (id) ON DELETE CASCADE
 );
