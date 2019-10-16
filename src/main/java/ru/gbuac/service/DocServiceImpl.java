@@ -174,7 +174,7 @@ public class DocServiceImpl implements DocService {
             deps.append("[");
             for (DocExecutorDepartments docExecutorDepartments: d.getDocExecutorDepartments()) {
                 Department department = docExecutorDepartments.getExecutorDepartment();
-                deps.append("{id:" + department.getId()+", name:"+ department.getName() + "},");
+                deps.append("{\"id\":" + department.getId()+", \"name\":\""+ department.getName() + "\"},");
             }
 
             if (deps.charAt(deps.length()-1) == ',') {
