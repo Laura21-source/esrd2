@@ -31,13 +31,14 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d JOIN d.agreementList c WHERE " +
-            "lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL ORDER BY d.id")
+            "(lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL) OR lower(d.initialUser.name)=lower(:userName) ORDER BY d.id")
     List<Doc> getAllAgreedByUserName(@Param("userName") String userName);
 
     @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d JOIN d.agreementList c WHERE " +
-            "lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL AND d.docStatus<>'IN_AGREEMENT' ORDER BY d.id")
+            "((lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL) OR lower(d.initialUser.name)=lower(:userName)) " +
+            "AND d.docStatus<>'IN_AGREEMENT' ORDER BY d.id")
     List<Doc> getAllRegisteredByUserName(@Param("userName") String userName);
 
     @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.docExecutorDepartments ded LEFT JOIN ded.executorDepartment " +

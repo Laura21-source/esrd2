@@ -96,7 +96,7 @@ public class FieldTo extends BaseTo {
         switch (fieldType) {
             case TEXT:
             case TEXTAREA:
-                return getValueStr() != null ? getValueStr() : "";
+                return getValueStr() != null ? getValueStr().replace("  ", " ") : "";
             case NUMBER:
                 return getValueInt() != null ? getValueInt().toString() : "";
             case DATE:
