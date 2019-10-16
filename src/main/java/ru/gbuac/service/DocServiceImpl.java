@@ -171,15 +171,17 @@ public class DocServiceImpl implements DocService {
         List<DocItemTo> docItemsTo = new ArrayList<>();
         for (Doc d: docs) {
             StringBuilder deps = new StringBuilder();
+            deps.append("[");
             for (DocExecutorDepartments docExecutorDepartments: d.getDocExecutorDepartments()) {
                 Department department = docExecutorDepartments.getExecutorDepartment();
-                deps.append(department.getId()+"["+ department.getName() + "]");
-                deps.append("^");
+                deps.append("{id:" + department.getId()+", name:"+ department.getName() + "},");
             }
-            String depsStr = deps.toString().trim();
-            if (deps.charAt(deps.length()-1) == '^') {
-                depsStr = deps.substring(0, deps.length()-1);
+
+            if (deps.charAt(deps.length()-1) == ',') {
+                deps.delete(deps.length()-1, deps.length());
             }
+            deps.append("]");
+
             StringBuilder users = new StringBuilder();
             for (User user: d.getExecutorUsers()) {
                 users.append(user.getId());
@@ -187,7 +189,7 @@ public class DocServiceImpl implements DocService {
             }
 
             docItemsTo.add(new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
-                    d.getProjectRegNum(), d.getProjectRegDateTime(), depsStr.replace("^", ","),
+                    d.getProjectRegNum(), d.getProjectRegDateTime(), deps.toString(),
                     users.toString().trim().replace(" ",","), d.getDocType().getName()));
         }
         return docItemsTo;
