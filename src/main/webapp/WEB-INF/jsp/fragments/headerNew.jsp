@@ -21,13 +21,14 @@
 <header>
     <div id="slide-out" class="side-nav fixed">
         <ul class="custom-scrollbar">
-            <%--<li>
+            <li>
                 <form class="search-form" role="search">
                     <div class="md-form mt-0 pt-1 waves-light">
-                        <input type="text" class="form-control" placeholder="Поиск по документам">
+                        <%--<input type="text" class="form-control" placeholder="Поиск по документам">--%>
+                        <input type="text" class="form-control" disabled>
                     </div>
                 </form>
-            </li>--%>
+            </li>
             <li>
                 <ul class="collapsible collapsible-accordion">
                     <%--<li><a class="collapsible-header waves-effect arrow-r"><i class="far fa-file-alt mr-2"></i>Подготовка документа<i
@@ -57,18 +58,18 @@
                             </ul>
                         </div>
                     </li>
-                        <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-user-plus mr-2"></i>
-                            Распределение <span class="badge badge-pill badge-primary ml-2 distributionSum"></span><i class="fas fa-angle-down rotate-icon"></i></a>
-                            <div class="collapsible-body">
-                                <ul class="list-unstyled">
-                                    <li><a href="distribution" class="waves-effect">Ожидают
-                                        <span class="badge badge-pill badge-primary ml-2 distributionSum"></span></a>
-                                    </li>
-                                    <li><a href="distributed" class="waves-effect">Исполнитель назначен</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+                    <li><a class="collapsible-header waves-effect arrow-r"><i class="fa fa-user-plus mr-2"></i>
+                        Распределение <span class="badge badge-pill badge-primary ml-2 distributionSum"></span><i class="fas fa-angle-down rotate-icon"></i></a>
+                        <div class="collapsible-body">
+                            <ul class="list-unstyled">
+                                <li><a href="distribution" class="waves-effect">Ожидают
+                                    <span class="badge badge-pill badge-primary ml-2 distributionSum"></span></a>
+                                </li>
+                                <li><a href="distributed" class="waves-effect">Исполнитель назначен</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </li>
         </ul>

@@ -440,8 +440,8 @@
                 event.stopPropagation();
             } else {
                 $('#btnSuccess').modal('show');
-                var trueName = $(this).html();
-                $(this).attr('disabled', true).html('Отправка запроса');
+                //var trueName = $(this).html();
+                //$(this).attr('disabled', true).html('Отправка запроса');
                 var dataType = $("#selectType").val();
                 // Формируем поля JSON
                 var dataField = createDataField(id);
@@ -456,7 +456,7 @@
                     data: serverStack,
                     contentType: 'application/json; charset=utf-8'
                 });
-                serverAjax.done(function (data) {
+                serverAjax.done(function(data) {
                     $('.loaderSuccess').addClass('d-none');
                     $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
                     var regNum = data.regNum;
@@ -465,7 +465,7 @@
                         $('#btnSuccess #regNum').html(regNum);
                     }
                     $('#btnSuccess').on('hidden.bs.modal', function () {
-                        $("#btnSave").attr('disabled', false).html(trueName);
+                        //$("#btnSave").attr('disabled', false).html(trueName);
                         window.location.href = "agree-document?id=" + data.id;
                     });
                     /*} else {
@@ -475,7 +475,7 @@
                         });
                     }*/
                 });
-                serverAjax.fail(function () {
+                serverAjax.fail(function() {
                     toastr["error"]("Ошибка сохранения файла!");
                 });
             }
@@ -730,7 +730,7 @@
                 });
                 // Ошибка сохранения документа
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка сохранения документа!");
+                    toastr["error"]("Ошибка сохранения списка согласования!<br>Заполните обязательные поля!");
                 });
             }
         });

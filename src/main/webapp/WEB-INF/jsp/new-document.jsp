@@ -187,8 +187,8 @@
                 event.stopPropagation();
             } else {
                 $('#createSave').modal('show');
-                var trueName =  $(this).html();
-                $(this).attr('disabled', true).html('Отправка запроса');
+                //var trueName =  $(this).html();
+                //$(this).attr('disabled', true).html('Отправка запроса');
                 var dataType = $("#selectType").val();
                 // Формируем поля JSON
                 var dataField = createDataField(0);
@@ -214,7 +214,7 @@
                         $('.chosen-select').trigger("chosen:updated").val('');
                         $('#userListBlock .blockUser:not(:first)').remove();
                         $("#blockFields, #blockUp, #blockDown, #btnSave, .pdfSRC").addClass("d-none");
-                        $("#btnSave").attr('disabled', false).html(trueName);
+                        //$("#btnSave").attr('disabled', false).html(trueName);
                     });
                     // Сохранение списка согласования
                     var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
@@ -224,7 +224,7 @@
                         data: agreeListStack,
                         contentType: 'application/json; charset=utf-8',
                     });
-                    serverAgreeList.fail(function () {
+                    serverAgreeList.fail(function() {
                         toastr["error"]("Ошибка сохранения списка согласования!");
                     });
                     // Сохранение файла служебки
@@ -243,7 +243,7 @@
                 });
                 // Ошибка сохранения документа
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка сохранения документа!");
+                    toastr["error"]("Ошибка сохранения списка согласования!<br>Заполните обязательные поля!");
                 });
             }
         });
