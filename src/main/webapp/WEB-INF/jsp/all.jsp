@@ -40,7 +40,12 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        var dataTable = dataTableArray("#dataTable","rest/profile/docs/", 2);
+        dataTableArray("#dataTable","rest/profile/docs/", 2);
+        $('#departmentList').chosen({
+            width: "100%",
+            no_results_text: "Ничего не найдено!"
+        });
+        //$('#departmentList').trigger("chosen:updated");
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>
