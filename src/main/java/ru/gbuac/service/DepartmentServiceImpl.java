@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.DepartmentRepository;
 import ru.gbuac.model.Department;
+import ru.gbuac.to.DepartmentTo;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     DepartmentRepository departmentRepository;
 
     @Override
-    public Department get(int id) throws NotFoundException {
-        return checkNotFoundWithId(departmentRepository.findById(id).orElse(null), id);
+    public DepartmentTo get(int id) throws NotFoundException {
+        return checkNotFoundWithId(departmentRepository.get(id).orElse(null), id);
     }
 
     @Override

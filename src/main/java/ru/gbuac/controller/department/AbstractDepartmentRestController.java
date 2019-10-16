@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.gbuac.model.Department;
 import ru.gbuac.service.DepartmentService;
+import ru.gbuac.to.DepartmentTo;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public abstract class AbstractDepartmentRestController {
     @Autowired
     private DepartmentService departmentService;
 
-    public Department get(int id) {
+    public DepartmentTo get(int id) {
         LOG.info("get " + id);
         return departmentService.get(id);
     }

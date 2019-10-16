@@ -6,8 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gbuac.model.Department;
+import ru.gbuac.to.DepartmentTo;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface DepartmentRepository extends JpaRepository<Department, Integer> {
@@ -19,4 +21,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
 
     @Query("SELECT d FROM Department d WHERE d.topLevel=TRUE")
     List<Department> getAllTopLevelDepartment();
+
+    @Query("SELECT new ru.gbuac.to.DepartmentTo(d.id, d.name) FROM Department d WHERE d.id=:id")
+    Optional<DepartmentTo> get(@Param("id") int id);
 }

@@ -1,12 +1,13 @@
 package ru.gbuac.service;
 
 import ru.gbuac.model.Department;
+import ru.gbuac.to.DepartmentTo;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.List;
 
 public interface DepartmentService {
-    Department get(int id) throws NotFoundException;
+    DepartmentTo get(int id) throws NotFoundException;
 
     List<Department> getAll();
 

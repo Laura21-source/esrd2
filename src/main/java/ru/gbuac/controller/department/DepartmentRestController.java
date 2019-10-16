@@ -3,6 +3,8 @@ package ru.gbuac.controller.department;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.Department;
+import ru.gbuac.to.DepartmentTo;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class DepartmentRestController extends AbstractDepartmentRestController{
 
     @Override
     @GetMapping(value = "/{id}")
-    public Department get(@PathVariable("id") int id) {
+    public DepartmentTo get(@PathVariable("id") int id) {
         return super.get(id);
     }
 
