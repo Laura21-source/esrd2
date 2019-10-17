@@ -1,6 +1,5 @@
 package ru.gbuac.service;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.HttpResponse;
@@ -9,9 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -25,9 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ru.gbuac.util.ValidationUtil.checkNotFound;
@@ -58,13 +54,13 @@ public class OrganizationServiceImpl implements OrganizationService {
     public Organization getEGRULData(String INN) {
         JSONObject query = new JSONObject();
         query.put("query", INN);
-        query.put("branch_type", "MAIN");
+        //query.put("branch_type", "MAIN");
         String JSONString = query.toJSONString();
 
         Organization returned = new Organization();
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
         String uri = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";
-        if (INN.matches("[0-9]+") && INN.length() > 2) {
+        if (INN.matches("[0-9]+") && INN.length() > 2 || INN.startsWith("9909")) {
             uri = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party";
         }
         try {
@@ -83,19 +79,28 @@ public class OrganizationServiceImpl implements OrganizationService {
             JsonObject jsonObjectSuggestions = root.get("suggestions").getAsJsonArray().get(0).getAsJsonObject();
 
             JsonObject jsonObjectData = jsonObjectSuggestions.get("data").getAsJsonObject();
-            returned.setKpp(jsonObjectData.get("kpp").getAsString());
+
+          returned.setKpp(jsonObjectData.get("kpp").getAsString());
             returned.setOgrn(jsonObjectData.get("ogrn").getAsString());
             returned.setInn(jsonObjectData.get("inn").getAsString());
-            returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString()));
             returned.setFullNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString()));
             returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
             returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
-            returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
-        }   catch (Exception ex) {
+            if (INN.startsWith("9909")) {
+                returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString()));
+                returned.setPositionManager(jsonObjectData.get("managers").getAsJsonObject().get("type").getAsString());
+            } else {
+                returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString()));
+                returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
+            }
+
+
+
+        } catch (Exception ex) {
 
         }
         return returned;
-    };
+    }
 
     private String replaceQuotes(String text) {
         long quotesCount = text.chars().filter(ch -> ch == '"').count();

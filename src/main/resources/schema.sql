@@ -251,14 +251,15 @@ CREATE TABLE esrd.doc_valuedfields
 CREATE TABLE esrd.organization
 (
     id                     INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
-    short_name_lf          VARCHAR                 NOT NULL,
+    short_name_lf          VARCHAR                         ,
     full_name_lf           VARCHAR                 NOT NULL,
     ogrn                   VARCHAR                 NOT NULL,
     inn                    VARCHAR                 NOT NULL,
     kpp                    VARCHAR                 NOT NULL,
     address                VARCHAR                 NOT NULL,
-    fio_manager            VARCHAR                 NOT NULL,
-    position_manager       VARCHAR                 NOT NULL,
+    fio_manager            VARCHAR                         ,
+    position_manager       VARCHAR                         ,
+    is_foreign             BOOLEAN                         ,
     CONSTRAINT c_organization UNIQUE (inn)
 );
 
