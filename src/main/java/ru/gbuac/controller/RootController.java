@@ -46,9 +46,9 @@ public class RootController {
         return "new-document";
     }
 
-    @GetMapping(value = "/view-document")
+    @GetMapping(value = "/index")
     public String viewDocument() {
-        return "view-document";
+        return "index";
     }
 
     @GetMapping(value = "/agree-document")
