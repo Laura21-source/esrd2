@@ -75,3 +75,12 @@ sup {font-size: 6px;}
   margin-top: 7rem;
   padding-bottom: 2rem;
 }
+
+.chartLink {
+  width: 4.5rem;
+  height: 4.5rem;
+  position: absolute;
+  top: 8.5rem;
+  margin-left: -2.5rem;
+  z-index: 100;
+}

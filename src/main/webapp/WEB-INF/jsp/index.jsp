@@ -31,27 +31,29 @@
                                             </div>
                                             <div id="chartDiv1" class="chartDiv"></div>
                                         </div>
-                                        <a href="in-work" class=""></a>
+                                        <a href="in-work" class="chartLink"></a>
                                         <%--<canvas id="chart1"></canvas>--%>
                                     </div>
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown" data-wow-delay="0.3s">
                                         <h4 class="my-2">На согласовании</h4>
                                         <div class="blockChart">
                                             <div class="myImg">
-                                                <a href="agreement" title="Документы на согласовании"><i class="fas fa-edit white-text fa-4x"></i></a>
+                                                <i class="fas fa-edit white-text fa-4x"></i>
                                             </div>
                                             <div id="chartDiv2" class="chartDiv"></div>
                                         </div>
+                                        <a href="agreement" class="chartLink"></a>
                                         <%--<canvas id="chart2"></canvas>--%>
                                     </div>
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown" data-wow-delay="0.6s">
                                         <h4 class="my-2">На распределении</h4>
                                         <div class="blockChart">
                                             <div class="myImg">
-                                                <a href="distribution" title="Документы на распределении"><i class="fas fa-user-plus white-text fa-4x"></i></a>
+                                                <i class="fas fa-user-plus white-text fa-4x"></i>
                                             </div>
                                             <div id="chartDiv3" class="chartDiv"></div>
                                         </div>
+                                        <a href="distribution" class="chartLink"></a>
                                         <%--<canvas id="chart3"></canvas>--%>
                                     </div>
                                 </div>
@@ -109,33 +111,25 @@
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
                                         <h4 class="my-5">Моя дисциплина за месяц</h4>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
-                                            <div class="col-md-6 text-right">
-                                                Всего было на контроле
-                                            </div>
+                                            <div class="col-md-6 text-right">Всего было на контроле</div>
                                             <div class="col-md-6 text-left">
                                                 <button class="btn btn-sm btn-primary w-100 font-weight-bold">268</button>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
-                                            <div class="col-md-6 text-right">
-                                                Исполнено в срок
-                                            </div>
+                                            <div class="col-md-6 text-right">Исполнено в срок</div>
                                             <div class="col-md-6 text-left">
                                                 <button class="btn btn-sm btn-default w-75 font-weight-bold">250</button>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
-                                            <div class="col-md-6 text-right">
-                                                Исполнено с нарушением срока
-                                            </div>
+                                            <div class="col-md-6 text-right">Исполнено с нарушением срока</div>
                                             <div class="col-md-6 text-left">
                                                 <button class="btn btn-sm btn-warning w-50 font-weight-bold">14</button>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
-                                            <div class="col-md-6 text-right">
-                                                Не исполнено (срок вышел)
-                                            </div>
+                                            <div class="col-md-6 text-right">Не исполнено (срок вышел)</div>
                                             <div class="col-md-6 text-left">
                                                 <button class="btn btn-sm btn-danger w-25 font-weight-bold">4</button>
                                             </div>
