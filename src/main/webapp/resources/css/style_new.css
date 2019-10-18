@@ -57,6 +57,12 @@ sup {font-size: 6px;}
   position: absolute;
   left: 1rem;
 }
-.myCard {height: 480px!important;}
 #horizontalBar {height: 280px!important;}
-
+.myCard {height: 480px!important;}
+.myImg {
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 12.8rem;
+  top: 9.8rem;
+}

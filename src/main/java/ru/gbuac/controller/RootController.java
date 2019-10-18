@@ -47,8 +47,13 @@ public class RootController {
     }
 
     @GetMapping(value = "/index")
-    public String viewDocument() {
+    public String index() {
         return "index";
+    }
+
+    @GetMapping(value = "/template")
+    public String template() {
+        return "template";
     }
 
     @GetMapping(value = "/agree-document")

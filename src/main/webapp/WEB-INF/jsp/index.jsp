@@ -7,139 +7,49 @@
 <jsp:include page="fragments/headerNew.jsp"/>
 <c:set var = "main" />
 <main>
-    <div class="container-fluid text-center mb-4 pt-5">
-        <div class="row">
-            <div class="col-md-6">
-                <section class="my-5">
-                    <h2 class="alert alert-primary">Мои документы</h2>
+    <div class="container-fluid w-75 mb-4 pt-5">
+        <div class="card mt-5 white-text rgba-black-light">
+            <div class="card-body">
+                <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown">
-                            <div class="card-wrapper myCard">
-                                <div id="card-1" class="card card-rotating text-center">
-                                    <!-- Front Side -->
-                                    <div class="face front">
-                                        <div class="card-up">
-                                            <img class="card-img-top" src="resources/img/in-work.jpg" alt="На исполнении">
-                                        </div>
-                                        <div class="avatar mx-auto white rounded-circle">
-                                            <img class="p-2" src="resources/img/in-work.png" alt="Иконка">
-                                        </div>
-                                        <div class="card-body">
-                                            <h4 class="font-weight-bold mt-1 mb-3">На исполнении</h4>
-                                            <div class="text-center">
-                                                <a href="in-work" class="btn btn-primary rounded">Перейти</a>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <a class="rotate-btn grey-text" data-card="card-1"><i class="fas fa-redo-alt grey-text mr-2"></i> Подробная информация</a>
-                                        </div>
+                        <div class="col-12">
+                            <section class="mb-5">
+                                <div class="row mb-2">
+                                    <div class="col-5">
+                                        <h3><i class="fas fa-id-card white-text mr-2"></i>Мои документы</h3>
                                     </div>
-                                    <!-- Front Side -->
-                                    <!-- Back Side -->
-                                    <div class="face back h-100">
-                                        <div class="card-title mb-5">
-                                            <h4 class="font-weight-bold mt-4 mb-2">
-                                                <strong>Подробная информация</strong>
-                                            </h4>
-                                        </div>
-                                        <div class="card-body text-left py-5 my-5">
-                                            <h6 class="my-3">Всего документов <span class="badge badge-primary">17486</span></h6>
-                                            <h6 class="my-3">Срок контроля более 3-х дней <span class="badge badge-success">13486</span></h6>
-                                            <h6 class="my-3">Срок контроля 3 дня <span class="badge badge-danger">4000</span></h6>
-                                        </div>
-                                        <div>
-                                            <a class="rotate-btn grey-text" data-card="card-1"><i class="fas fa-redo-alt grey-text mr-2"></i> Вернуться</a>
-                                        </div>
+                                    <div class="col-7">
+                                        <h3>Тарифное регулирование</h3>
                                     </div>
-                                    <!-- Back Side -->
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown" data-wow-delay="0.3s">
-                            <div class="card-wrapper myCard">
-                                <div id="card-2" class="card card-rotating text-center">
-                                    <!-- Front Side -->
-                                    <div class="face front">
-                                        <div class="card-up">
-                                            <img class="card-img-top" src="resources/img/agreement.jpg" alt="Согласование">
-                                        </div>
-                                        <div class="avatar mx-auto white rounded-circle">
-                                            <img class="p-2" src="resources/img/agreement.png" alt="Иконка">
-                                        </div>
-                                        <div class="card-body">
-                                            <h4 class="font-weight-bold mt-1 mb-3">Согласование</h4>
-                                            <div class="text-center">
-                                                <button class="btn btn-primary btn-floating" title="Всего документов">24517</button>
-                                                <button class="btn btn-success btn-floating" title="Всего документов">24469</button>
-                                                <button class="btn btn-danger btn-floating" title="Всего документов">48</button>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer white">
-                                            <a class="rotate-btn grey-text" data-card="card-2"><i class="fas fa-redo-alt grey-text mr-2"></i> Подробная информация</a>
+                                <div class="row my-5 text-center">
+                                    <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown myCard">
+                                        <h4 class="my-4">На исполнении</h4>
+                                        <canvas id="chart1"></canvas>
+                                        <div class="myImg">
+                                            <i class="fas fa-briefcase white-text fa-4x"></i>
                                         </div>
                                     </div>
-                                    <!-- Front Side -->
-                                    <!-- Back Side -->
-                                    <div class="face back h-100">
-                                        <div class="card-title">
-                                            <h4 class="font-weight-bold mt-4 mb-2">
-                                                <strong>Подробная информация</strong>
-                                            </h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <canvas id="lineChart"></canvas>
-                                            <a class="rotate-btn grey-text" data-card="card-2"><i class="fas fa-redo-alt grey-text mr-2"></i> Вернуться</a>
+                                    <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown" data-wow-delay="0.3s">
+                                        <h4 class="my-4">На согласовании</h4>
+                                        <canvas id="chart2"></canvas>
+                                        <div class="myImg">
+                                            <i class="fas fa-edit white-text fa-4x"></i>
                                         </div>
                                     </div>
-                                    <!-- Back Side -->
+                                    <div class="col-lg-4 col-md-12 wow bounceInDown" data-wow-delay="0.6s">
+                                        <h4 class="my-4">На распределении</h4>
+                                        <canvas id="chart3"></canvas>
+                                        <div class="myImg">
+                                            <i class="fas fa-user-plus white-text fa-4x"></i>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12 wow bounceInDown" data-wow-delay="0.6s">
-                            <div class="card-wrapper myCard">
-                                <div id="card-3" class="card card-rotating text-center">
-                                    <!-- Front Side -->
-                                    <div class="face front">
-                                        <div class="card-up">
-                                            <img class="card-img-top" src="resources/img/distribution.jpg"
-                                                 alt="Распределение">
-                                        </div>
-                                        <div class="avatar mx-auto white rounded-circle">
-                                            <img class="p-2" src="resources/img/distribution.png" alt="Иконка">
-                                        </div>
-                                        <div class="card-body">
-                                            <h4 class="font-weight-bold mt-1 mb-3">Распределение</h4>
-                                            <div class="text-center">
-                                                <button class="btn btn-primary btn-floating" title="Всего документов">5849</button>
-                                                <button class="btn btn-success btn-floating" title="Всего документов">4286</button>
-                                                <button class="btn btn-danger btn-floating" title="Всего документов">1563</button>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer white">
-                                            <a class="rotate-btn grey-text" data-card="card-3"><i class="fas fa-redo-alt grey-text mr-2"></i> Подробная информация</a>
-                                        </div>
-                                    </div>
-                                    <!-- Front Side -->
-                                    <!-- Back Side -->
-                                    <div class="face back h-100">
-                                        <div class="card-title">
-                                            <h4 class="font-weight-bold mt-4 mb-2">
-                                                <strong>Подробная информация</strong>
-                                            </h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <canvas id="horizontalBar"></canvas>
-                                            <a class="rotate-btn grey-text" data-card="card-3"><i class="fas fa-redo-alt grey-text mr-2"></i> Вернуться</a>
-                                        </div>
-                                    </div>
-                                    <!-- Back Side -->
-                                </div>
-                            </div>
+                            </section>
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
-            <div class="col-md-6"></div>
         </div>
     </div>
 </main>
@@ -150,113 +60,79 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        $('body').css('background','none');
         $('#customSkin').removeClass('fixed-sn');
         $('#slide-out').hide();
         $('header, main, footer').css('padding-left',0);
         $('.float-left').addClass('d-none');
         // График 1
-        var ctxB = document.getElementById("barChart").getContext('2d');
-        var myBarChart = new Chart(ctxB, {
-            type: 'bar',
+        var ctxD = document.getElementById("chart1").getContext('2d');
+        var myLineChart = new Chart(ctxD, {
+            type: 'doughnut',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: ["Срок контроля более 3 дней", "Срок контроля 3 дня"],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
+                    data: [14, 3],
+                    backgroundColor: ["#2BBBAD", "#ff4444"],
+                    hoverBackgroundColor: ["#00695c", "#CC0000"]
                 }]
             },
             options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
+                responsive: true,
+                label: 'Какой-то текст',
+                legend: {
+                    display: false,
+                },
+                labels: {
+                    fontColor: '#ffffff'
                 }
             }
         });
         // График 2
-        var ctxL = document.getElementById("lineChart").getContext('2d');
-        var myLineChart = new Chart(ctxL, {
-            type: 'line',
+        var ctxD = document.getElementById("chart2").getContext('2d');
+        var myLineChart = new Chart(ctxD, {
+            type: 'doughnut',
             data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: ["Срок контроля более 3 дней", "Срок контроля 3 дня"],
                 datasets: [{
-                    label: "My First dataset",
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    backgroundColor: [
-                        'rgba(105, 0, 132, .2)',
-                    ],
-                    borderColor: [
-                        'rgba(200, 99, 132, .7)',
-                    ],
-                    borderWidth: 2
-                },
-                    {
-                        label: "My Second dataset",
-                        data: [28, 48, 40, 19, 86, 27, 90],
-                        backgroundColor: [
-                            'rgba(0, 137, 132, .2)',
-                        ],
-                        borderColor: [
-                            'rgba(0, 10, 130, .7)',
-                        ],
-                        borderWidth: 2
-                    }
-                ]
-            },
-            options: {
-                responsive: true
-            }
-        });
-        // График 3
-        new Chart(document.getElementById("horizontalBar"), {
-            "type": "horizontalBar",
-            "data": {
-                "labels": ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Grey"],
-                "datasets": [{
-                    "label": "My First Dataset",
-                    "data": [22, 33, 55, 12, 86, 23, 14],
-                    "fill": false,
-                    "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
-                        "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)",
-                        "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"
-                    ],
-                    "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)",
-                        "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"
-                    ],
-                    "borderWidth": 1
+                    data: [14, 3],
+                    backgroundColor: ["#2BBBAD", "#ff4444"],
+                    hoverBackgroundColor: ["#00695c", "#CC0000"]
                 }]
             },
-            "options": {
-                "scales": {
-                    "xAxes": [{
-                        "ticks": {
-                            "beginAtZero": true
-                        }
-                    }]
+            options: {
+                responsive: true,
+                label: 'Какой-то текст',
+                legend: {
+                    display: false,
+                },
+                labels: {
+                    fontColor: '#ffffff'
                 }
             }
         });
-
+        // График 3
+        var ctxD = document.getElementById("chart3").getContext('2d');
+        var myLineChart = new Chart(ctxD, {
+            type: 'doughnut',
+            data: {
+                labels: ["Срок контроля более 3 дней", "Срок контроля 3 дня"],
+                datasets: [{
+                    data: [14, 3],
+                    backgroundColor: ["#2BBBAD", "#ff4444"],
+                    hoverBackgroundColor: ["#00695c", "#CC0000"]
+                }]
+            },
+            options: {
+                responsive: true,
+                label: 'Какой-то текст',
+                legend: {
+                    display: false,
+                },
+                labels: {
+                    fontColor: '#ffffff'
+                }
+            }
+        });
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>

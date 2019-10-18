@@ -80,7 +80,7 @@
         <div class="float-left">
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="fas fa-bars"></i></a>
         </div>
-        <a class="navbar-brand ml-3" href="#">
+        <a class="navbar-brand ml-3" href="/">
             <img src="resources/img/Logo.png" height="30" alt="Логотип">
         </a>
         <span class="breadcrumb-dn mr-auto">
