@@ -1,6 +1,14 @@
     // Количество элементов в массиве
     function countElem (array) {return array.length;}
 
+    // Количество элементо в массиве JSON
+    function countElemJSON (url) {
+        //var jsonObject = JSON.stringify(url);
+        //var lenghtJSON = JSON.parse(jsonObject).length;
+        var lenghtJSON = Object.keys(url).length;
+        return lenghtJSON;
+    }
+
     // Получение id документа из адресной строки
     function getId () {return new URL(window.location.href).searchParams.get("id");}
 

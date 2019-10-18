@@ -23,37 +23,37 @@
                                     </div>
                                 </div>
                                 <div class="row my-2 text-center">
-                                    <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown">
+                                    <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown" >
                                         <h4 class="my-2">На исполнении</h4>
                                         <div class="blockChart">
                                             <div class="myImg">
-                                                <i class="fas fa-briefcase white-text fa-4x"></i>
+                                                <i class="fas fa-briefcase white-text fa-4x" id="iconMenu1"></i>
                                             </div>
                                             <div id="chartDiv1" class="chartDiv"></div>
                                         </div>
-                                        <a href="in-work" class="chartLink"></a>
+                                        <a href="in-work" class="chartLink" data-icon="1"></a>
                                         <%--<canvas id="chart1"></canvas>--%>
                                     </div>
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown" data-wow-delay="0.3s">
                                         <h4 class="my-2">На согласовании</h4>
                                         <div class="blockChart">
                                             <div class="myImg">
-                                                <i class="fas fa-edit white-text fa-4x"></i>
+                                                <i class="fas fa-edit white-text fa-4x" id="iconMenu2"></i>
                                             </div>
                                             <div id="chartDiv2" class="chartDiv"></div>
                                         </div>
-                                        <a href="agreement" class="chartLink"></a>
+                                        <a href="agreement" class="chartLink" data-icon="2"></a>
                                         <%--<canvas id="chart2"></canvas>--%>
                                     </div>
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown" data-wow-delay="0.6s">
                                         <h4 class="my-2">На распределении</h4>
                                         <div class="blockChart">
                                             <div class="myImg">
-                                                <i class="fas fa-user-plus white-text fa-4x"></i>
+                                                <i class="fas fa-user-plus white-text fa-4x" id="iconMenu3"></i>
                                             </div>
                                             <div id="chartDiv3" class="chartDiv"></div>
                                         </div>
-                                        <a href="distribution" class="chartLink"></a>
+                                        <a href="distribution" class="chartLink" data-icon="3"></a>
                                         <%--<canvas id="chart3"></canvas>--%>
                                     </div>
                                 </div>
@@ -113,25 +113,25 @@
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-6 text-right">Всего было на контроле</div>
                                             <div class="col-md-6 text-left">
-                                                <button class="btn btn-sm btn-primary w-100 font-weight-bold">268</button>
+                                                <div class="btn btn-sm btn-primary w-100 font-weight-bold" id="mySum"></div>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-6 text-right">Исполнено в срок</div>
                                             <div class="col-md-6 text-left">
-                                                <button class="btn btn-sm btn-default w-75 font-weight-bold">250</button>
+                                                <div class="btn btn-sm btn-default w-75 font-weight-bold" id="mySuccess"></div>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-6 text-right">Исполнено с нарушением срока</div>
                                             <div class="col-md-6 text-left">
-                                                <button class="btn btn-sm btn-warning w-50 font-weight-bold">14</button>
+                                                <div class="btn btn-sm btn-warning w-50 font-weight-bold" id="myWarning"></div>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-6 text-right">Не исполнено (срок вышел)</div>
                                             <div class="col-md-6 text-left">
-                                                <button class="btn btn-sm btn-danger w-25 font-weight-bold">4</button>
+                                                <div class="btn btn-sm btn-danger w-25 font-weight-bold" id="myDanger"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -156,6 +156,35 @@
         $('header, main, footer').css('padding-left',0);
         $('.float-left').addClass('d-none');
 
+        $('.chartLink').hover(
+            function() {
+                var id = $(this).attr('data-icon');
+                $('#iconMenu'+id).addClass('animated rotateIn');
+            },
+            function() {
+                var id = $(this).attr('data-icon');
+                $('#iconMenu'+id).removeClass('animated rotateIn');
+            });
+
+        $('.newDoc').hover(
+            function() {
+                $(this).addClass('animated heartBeat');
+            },
+            function() {
+                $(this).removeClass('animated heartBeat');
+            });
+
+        // Показ цифр дисциплина
+        getMenuPils('rest/profile/docs/registered','#mySum'); // Общее
+        getMenuPils('rest/profile/docs/registered','#mySuccess'); // Успешные
+        getMenuPils('rest/profile/docs/registered','#myWarning'); // С ошибками
+        getMenuPils('rest/profile/docs/registered','#myDanger'); // Незавершенные
+
+        // Данные для первого графика
+        var chartDiv1Success = $('#mySuccess').html();
+        var chartDiv1Danger = $('#myDanger').html();
+
+        // Графики
         am4core.ready(function() {
             am4core.useTheme(am4themes_dark);
             am4core.useTheme(am4themes_animated);
@@ -169,7 +198,7 @@
                 },
                 {
                     country: "Срок контроля более 3 дней",
-                    litres: 60,
+                    litres: 42,
                     color: am4core.color("#2BBBAD")
                 }
             ];
