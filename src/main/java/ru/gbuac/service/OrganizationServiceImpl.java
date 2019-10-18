@@ -88,13 +88,10 @@ public class OrganizationServiceImpl implements OrganizationService {
             returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
             if (INN.startsWith("9909")) {
                 returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString()));
-                returned.setPositionManager(jsonObjectData.get("managers").getAsJsonObject().get("type").getAsString());
             } else {
                 returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString()));
-                returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
             }
-
-
+            returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
 
         } catch (Exception ex) {
 
