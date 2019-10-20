@@ -18,8 +18,8 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("DELETE FROM Doc d WHERE d.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT DISTINCT d FROM Doc d JOIN d.executorUsers eu LEFT JOIN d.docExecutorDepartments ed " +
-            "WHERE eu.name=:userName AND d.docStatus='IN_WORK' ORDER BY d.id")
+    @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.resolutions r LEFT JOIN r.resolutionsUsers ru " +
+            "WHERE ru.user.name=:userName AND d.docStatus='IN_WORK' ORDER BY d.id")
     List<Doc> getAllInWorkByUserName(@Param("userName") String userName);
 
     @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
@@ -41,8 +41,8 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
             "AND d.docStatus<>'IN_AGREEMENT' ORDER BY d.id")
     List<Doc> getAllRegisteredByUserName(@Param("userName") String userName);
 
-    @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.docExecutorDepartments ded LEFT JOIN ded.executorDepartment " +
-            "LEFT JOIN d.executorUsers eu ORDER BY d.id")
+    @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.resolutions r LEFT JOIN r.department dep " +
+            "LEFT JOIN r.resolutionsUsers ru ORDER BY d.id")
     List<Doc> getAll();
 
     @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId")
@@ -58,12 +58,12 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d WHERE d.docStatus<>'IN_AGREEMENT' ORDER BY d.id")
     List<Doc> getAllRegistered();
 
-    @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.docExecutorDepartments ded LEFT JOIN ded.executorDepartment ed LEFT JOIN d.executorUsers eu " +
-            "WHERE ed.id=:departmentId AND eu.id IS NULL AND d.docStatus='IN_WORK' ORDER BY d.id")
+    @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.resolutions r LEFT JOIN r.department dep LEFT JOIN r.resolutionsUsers ru " +
+            "WHERE dep.id=:departmentId AND ru.id IS NULL AND d.docStatus='IN_WORK' ORDER BY d.id")
     List<Doc> getAllDistribution(int departmentId);
 
-    @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.docExecutorDepartments ded LEFT JOIN ded.executorDepartment ed LEFT JOIN d.executorUsers eu " +
-            "WHERE ed.id=:departmentId AND eu.id IS NOT NULL AND d.docStatus='IN_WORK' ORDER BY d.id")
+    @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.resolutions r LEFT JOIN r.department dep LEFT JOIN r.resolutionsUsers ru " +
+            "WHERE dep.id=:departmentId AND ru.id IS NOT NULL AND d.docStatus='IN_WORK' ORDER BY d.id")
     List<Doc> getAllDistributed(int departmentId);
 
     @Query("SELECT new ru.gbuac.to.DocNumberTo(d.id, d.regNum) FROM Doc d WHERE d.regNum IS NOT NULL ORDER BY d.regNum")

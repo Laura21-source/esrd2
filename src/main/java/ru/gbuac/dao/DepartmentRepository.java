@@ -20,7 +20,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
     int delete(@Param("id") int id);
 
     @Query("SELECT d FROM Department d WHERE d.topLevel=TRUE")
-    List<Department> getAllTopLevelDepartment();
+    List<Department> getAllTopLevel();
 
     @Query("SELECT new ru.gbuac.to.DepartmentTo(d.id, d.name) FROM Department d WHERE d.id=:id")
     Optional<DepartmentTo> get(@Param("id") int id);

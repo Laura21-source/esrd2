@@ -66,6 +66,9 @@ public class DocServiceImpl implements DocService {
     private DepartmentRepository departmentRepository;
 
     @Autowired
+    private ResolutionRepository resolutionRepository;
+
+    @Autowired
     MailService mailService;
 
     @Value("${pdf.final.dir}")
@@ -169,23 +172,24 @@ public class DocServiceImpl implements DocService {
         for (Doc d: docs) {
             StringBuilder deps = new StringBuilder();
             deps.append("[");
-            for (DocExecutorDepartments docExecutorDepartments: d.getDocExecutorDepartments()) {
-                Department department = docExecutorDepartments.getExecutorDepartment();
+            StringBuilder users = new StringBuilder();
+            users.append("[");
+            for (Resolution resolution : d.getResolutions()) {
+                Department department = resolution.getDepartment();
                 deps.append("{\"id\":" + department.getId()+", \"name\":\""+ department.getName() + "\"},");
+
+                for (ResolutionsUsers ru: resolution.getResolutionsUsers()) {
+                    users.append("{\"id\":" + ru.getUser().getId()+", \"fullName\":\""+ ru.getUser().getLastname() + " "
+                            + ru.getUser().getFirstname() + " " + ru.getUser().getPatronym() + "\"},");
+                }
             }
 
-            if (!d.getDocExecutorDepartments().isEmpty() && deps.charAt(deps.length()-1) == ',') {
+            if (!d.getResolutions().isEmpty() && deps.charAt(deps.length()-1) == ',') {
                 deps.delete(deps.length()-1, deps.length());
             }
             deps.append("]");
 
-            StringBuilder users = new StringBuilder();
-            users.append("[");
-            for (User user: d.getExecutorUsers()) {
-                users.append("{\"id\":" + user.getId()+", \"fullName\":\""+ user.getLastname() + " "
-                        + user.getFirstname() + " " + user.getPatronym() + "\"},");
-            }
-            if (!d.getExecutorUsers().isEmpty() && users.charAt(users.length()-1) == ',') {
+            if (users.length() > 1 && users.charAt(users.length()-1) == ',') {
                 users.delete(users.length()-1, users.length());
             }
             users.append("]");
@@ -294,6 +298,8 @@ public class DocServiceImpl implements DocService {
             updated.setRegNum(docNumber);
             updated.setRegDateTime(LocalDateTime.now());
             updated.setDocStatus(DocStatus.IN_WORK);
+            resolutionRepository
+                    .setControlDateForPrimaryResolution(updated.getId(), LocalDateTime.now().plusDays(2).toLocalDate());
         }
 
         boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName).orElse(false);
@@ -326,8 +332,8 @@ public class DocServiceImpl implements DocService {
         DocTo updatedTo = asDocTo(updated);
         updatedTo.setCanAgree(hasRights);
         if (updated.getDocStatus() == DocStatus.IN_WORK) {
-            for (DocExecutorDepartments exDeps : updated.getDocExecutorDepartments()) {
-                mailService.sendDistributionEmail(exDeps.getExecutorDepartment().getChiefUser().getEmail(),
+            for (Resolution resolution : updated.getResolutions()) {
+                mailService.sendDistributionEmail(resolution.getDepartment().getChiefUser().getEmail(),
                         updated.getId(), updated.getRegNum());
             }
         }
@@ -367,12 +373,45 @@ public class DocServiceImpl implements DocService {
                 .map(Collection::stream).orElseGet(Stream::empty)
                 .map(u -> userRepository.findById(u.getId()).orElse(null))
                 .filter(Objects::nonNull).collect(Collectors.toList());
-        doc.setExecutorUsers(ex);
+        List<Department> allResDeps = doc.getResolutions().stream().map(r -> r.getDepartment()).collect(Collectors.toList());
+        List<Integer> allResDepIds = allResDeps
+                .stream()
+                .flatMap(r -> Optional.ofNullable(r.getChildDepartments()).map(Collection::stream).orElseGet(Stream::empty))
+                .map(Department::getId).collect(Collectors.toList());
+        allResDeps.stream().forEach(d -> allResDepIds.add(d.getId()));
+        for (User user: ex) {
+            if (user.getDepartment() == null || !allResDepIds.contains(user.getDepartment().getId())) {
+                throw new IllegalResolutionUserException();
+            }
+        }
+        for (Resolution resolution: doc.getResolutions()) {
+            // получаем управления, на которое сделана резолюция
+            Department resDep = resolution.getDepartment();
+            // получаем id дочерних подразделений управления, на которое сделана резолюция
+            List<Integer> resDepIds = Optional.ofNullable(resDep.getChildDepartments())
+                    .map(Collection::stream)
+                    .orElseGet(Stream::empty)
+                    .map(d -> d.getId()).collect(Collectors.toList());
+            resDepIds.add(resDep.getId());
+            // фильтуем сохраняемых юзеров, чтобы они соответствовали текущему на данной итерации управлению
+            List<User> newUsers = ex.stream().filter(u -> resDepIds.contains(u.getDepartment().getId())).collect(Collectors.toList());
+            List<ResolutionsUsers> resolutionsUsers =
+                    resolution.getResolutionsUsers().stream()
+                            .filter(ru -> newUsers.contains(ru.getUser())).collect(Collectors.toList());
+            List<User> curResUsers = resolutionsUsers
+                    .stream().map(cru -> cru.getUser()).collect(Collectors.toList());
+            List<User> usersToAdd = newUsers.stream().filter(ru -> !curResUsers.contains(ru)).collect(Collectors.toList());
+            for (User user : usersToAdd) {
+                resolutionsUsers.add(new ResolutionsUsers(null, LocalDateTime.now(), user, resolution));
+            }
+            resolution.setResolutionsUsers(resolutionsUsers);
+        }
         executorUsers.stream().forEach(x -> {
             User u = userRepository.findById(x.getId()).orElse(null);
             mailService.sendExecutionEmail(u.getEmail(), doc.getId(), doc.getRegNum());
         });
-        return docRepository.save(doc).getExecutorUsers();
+        return docRepository.save(doc).getResolutions().stream().flatMap(r -> r.getResolutionsUsers().stream())
+                .map(ru -> ru.getUser()).collect(Collectors.toList());
     }
 
     private void fillTags(FieldTo fieldTo, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables, Integer maxCellsCount) {
@@ -598,18 +637,16 @@ public class DocServiceImpl implements DocService {
         }
 
         List<Integer> executorDepartmentsIds = null;
-        if (doc.getDocExecutorDepartments() != null) {
-            executorDepartmentsIds = doc.getDocExecutorDepartments().stream()
-                    .sorted(Comparator.comparing(DocExecutorDepartments::getOrdering))
-                    .map(DocExecutorDepartments::getExecutorDepartment)
+        List<Integer> executorUsersIds = null;
+        if (doc.getResolutions() != null) {
+            executorDepartmentsIds = doc.getResolutions().stream()
+                    .sorted(Comparator.comparing(Resolution::getOrdering))
+                    .map(Resolution::getDepartment)
                     .map(Department::getId)
                     .collect(Collectors.toList());
-        }
-
-        List<Integer> executorUsersIds = null;
-        if (doc.getExecutorUsers() != null) {
-            executorUsersIds = doc.getExecutorUsers()
-                    .stream().map(User::getId).collect(Collectors.toList());
+            executorUsersIds = doc.getResolutions()
+                    .stream().flatMap(r -> Optional.ofNullable(r.getResolutionsUsers()).map(Collection::stream).orElseGet(Stream::empty))
+                        .map(r -> r.getUser().getId()).collect(Collectors.toList());
         }
 
         User initialUser = doc.getInitialUser();
@@ -659,7 +696,7 @@ public class DocServiceImpl implements DocService {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
 
         Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDateTime(), docTo.getProjectRegNum(),
-                docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null, null,
+                docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null,
                 null, null, docTo.getUrlPDF());
 
         List<Department> executorDepartments = Optional.ofNullable(docTo.getExecutorDepartmentsIds())
@@ -667,12 +704,13 @@ public class DocServiceImpl implements DocService {
                 .map(d -> departmentRepository.findById(d).orElse(null))
                 .filter(Objects::nonNull).collect(Collectors.toList());
 
-        List<DocExecutorDepartments> docExecutorDepartments = new ArrayList<>();
+        List<Resolution> resolutions = new ArrayList<>();
         for (int i = 0; i < executorDepartments.size(); i++) {
-            docExecutorDepartments.add(new DocExecutorDepartments(null, i+1, doc, executorDepartments.get(i)));
+            resolutions
+                    .add(new Resolution(null, i+1, doc, i==0, executorDepartments.get(i)));
         }
 
-        doc.setDocExecutorDepartments(docExecutorDepartments);
+        doc.setResolutions(resolutions);
         doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields()));
         return doc;
     }
@@ -681,8 +719,8 @@ public class DocServiceImpl implements DocService {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
         Doc exDoc = checkNotFoundWithId(docRepository.findById(docTo.getId()).orElse(null), docTo.getId());
         Doc doc = new Doc(exDoc.getId(), exDoc.getRegNum(), exDoc.getRegDateTime(), exDoc.getProjectRegNum(),
-                exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, exDoc.getDocExecutorDepartments(),
-                exDoc.getExecutorUsers(), null, exDoc.getInitialUser(), exDoc.getUrlPDF());
+                exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, exDoc.getResolutions(),
+                null, exDoc.getInitialUser(), exDoc.getUrlPDF());
 
         doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields()));
 

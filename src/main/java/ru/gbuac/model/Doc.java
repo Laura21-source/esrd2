@@ -54,11 +54,7 @@ public class Doc extends BaseEntity {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc", cascade = CascadeType.ALL)
-    private List<DocExecutorDepartments> docExecutorDepartments;
-
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<User> executorUsers;
+    private List<Resolution> resolutions;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "doc", cascade = CascadeType.ALL)
     private List<DocValuedFields> docValuedFields;
@@ -73,7 +69,7 @@ public class Doc extends BaseEntity {
 
     public Doc(Integer id, String regNum, LocalDateTime regDateTime, @NotNull String projectRegNum,
                @NotNull LocalDateTime projectRegDateTime, @NotNull LocalDateTime insertDateTime,
-               @NotNull DocType docType, List<DocExecutorDepartments> docExecutorDepartments, List<User> executorUsers,
+               @NotNull DocType docType, List<Resolution> resolutions,
                List<DocValuedFields> docValuedFields, User initialUser, String urlPDF) {
         super(id);
         this.regNum = regNum;
@@ -82,8 +78,7 @@ public class Doc extends BaseEntity {
         this.projectRegDateTime = projectRegDateTime;
         this.insertDateTime = insertDateTime;
         this.docType = docType;
-        this.docExecutorDepartments = docExecutorDepartments;
-        this.executorUsers = executorUsers;
+        this.resolutions = resolutions;
         this.docValuedFields = docValuedFields;
         this.initialUser = initialUser;
         this.urlPDF = urlPDF;

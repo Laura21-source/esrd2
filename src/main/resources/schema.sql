@@ -19,8 +19,8 @@ DROP TABLE IF EXISTS esrd.valuedfield CASCADE;
 DROP TABLE IF EXISTS esrd.catalogelem CASCADE;
 DROP TABLE IF EXISTS esrd.catalog CASCADE;
 DROP TABLE IF EXISTS esrd.organization CASCADE;
-DROP TABLE IF EXISTS esrd.doc_executor_departments CASCADE;
-DROP TABLE IF EXISTS esrd.doc_executor_users CASCADE;
+DROP TABLE IF EXISTS esrd.resolution CASCADE;
+DROP TABLE IF EXISTS esrd.resolutions_users CASCADE;
 DROP TABLE IF EXISTS esrd.users_distribution_departments CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
@@ -262,22 +262,27 @@ CREATE TABLE esrd.organization
     CONSTRAINT c_organization UNIQUE (inn)
 );
 
-CREATE TABLE esrd.doc_executor_departments
+CREATE TABLE esrd.resolution
 (
     id                         INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
     ordering                   INTEGER NOT NULL,
     doc_id                     INTEGER NOT NULL,
-    executor_department_id     INTEGER NOT NULL,
+    primary_resolution         BOOLEAN,
+    control_date               DATE,
+    execution_datetime         TIMESTAMP,
+    department_id              INTEGER NOT NULL,
     FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
-    FOREIGN KEY (executor_department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
+    FOREIGN KEY (department_id) REFERENCES esrd.department (id) ON DELETE CASCADE
 );
 
-CREATE TABLE esrd.doc_executor_users
+CREATE TABLE esrd.resolutions_users
 (
-    doc_id                      INTEGER NOT NULL,
-    executor_users_id           INTEGER NOT NULL,
-    FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
-    FOREIGN KEY (executor_users_id) REFERENCES esrd.users (id) ON DELETE CASCADE
+    id                         INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    resolution_datetime        TIMESTAMP,
+    user_id                    INTEGER,
+    resolution_id              INTEGER,
+    FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE,
+    FOREIGN KEY (resolution_id) REFERENCES esrd.resolution (id) ON DELETE CASCADE
 );
 
 create table esrd.users_distribution_departments

@@ -81,8 +81,9 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
 
         User thisUser = userRepository.getByName(userName);
         Doc curDoc = docRepository.findById(docId).orElse(null);
-        boolean thisUserIsExecutor = curDoc.getExecutorUsers().stream()
-                .map(User::getId).collect(Collectors.toList()).contains(thisUser.getId());
+        boolean thisUserIsExecutor = curDoc.getResolutions().stream()
+                .flatMap(r -> r.getResolutionsUsers().stream())
+                .map(ru -> ru.getUser().getId()).collect(Collectors.toList()).contains(thisUser.getId());
         boolean deny = false;
         if (!thisUserIsExecutor && !AuthorizedUser.hasRole("ADMIN")) {
             deny = true;
