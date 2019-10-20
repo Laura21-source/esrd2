@@ -25,6 +25,27 @@ public abstract class AbstractDocRestController {
     @Autowired
     protected DocService docService;
 
+    public List<Doc> getAllAgreementMoreDeadlineByUserName() {
+        LOG.info("getAllAgreementMoreDeadlineByUserName");
+        return docService.getAllAgreementMoreDeadlineByUserName(AuthorizedUser.getUserName());
+    }
+
+    public List<Doc> getAllAgreementLessDeadlineByUserName() {
+        LOG.info("getAllAgreementLessDeadlineByUserName");
+        return docService.getAllAgreementLessDeadlineByUserName(AuthorizedUser.getUserName());
+    }
+
+    public List<Doc> getAllAgreementMoreDeadlineByDepartment() {
+        LOG.info("getAllAgreementMoreDeadlineByDepartment");
+        return docService.getAllAgreementMoreDeadlineByDepartment(AuthorizedUser.getUserName());
+    }
+
+    public List<Doc> getAllAgreementLessDeadlineByDepartment() {
+        LOG.info("getAllAgreementLessDeadlineByDepartment");
+        return docService.getAllAgreementLessDeadlineByDepartment(AuthorizedUser.getUserName());
+    }
+
+
     public Doc get(int id) {
         LOG.info("get " + id);
         return docService.get(id);
@@ -54,8 +75,28 @@ public abstract class AbstractDocRestController {
     }
 
     public List<DocItemTo> getAllInWorkByUserName() {
-        LOG.info("getAllAgreement");
+        LOG.info("getAllInWorkByUserName");
         return docService.getAllInWorkByUserName(AuthorizedUser.getUserName());
+    }
+
+    public List<DocItemTo> getAllInWorkMoreDeadlineByUserName() {
+        LOG.info("getAllInWorkMoreDeadlineByUserName");
+        return docService.getAllInWorkMoreDeadlineByUserName(AuthorizedUser.getUserName());
+    }
+
+    public List<DocItemTo> getAllInWorkLessDeadlineByUserName() {
+        LOG.info("getAllInWorkLessDeadlineByUserName");
+        return docService.getAllInWorkLessDeadlineByUserName(AuthorizedUser.getUserName());
+    }
+
+    public List<DocItemTo> getAllInWorkMoreDeadlineByDepartment() {
+        LOG.info("getAllInWorkMoreDeadlineByDepartment");
+        return docService.getAllInWorkMoreDeadlineByDepartment(AuthorizedUser.getUserName());
+    }
+
+    public List<DocItemTo> getAllInWorkLessDeadlineByDepartment() {
+        LOG.info("getAllInWorkLessDeadlineByDepartment");
+        return docService.getAllInWorkLessDeadlineByDepartment(AuthorizedUser.getUserName());
     }
 
     public List<DocItemTo> getAllDistribution() {
@@ -63,10 +104,51 @@ public abstract class AbstractDocRestController {
         return docService.getAllDistribution(AuthorizedUser.getUserName());
     }
 
+    public List<DocItemTo> getAllDistributionMoreDeadlineByChiefUserName() {
+        LOG.info("getAllDistributionMoreDeadlineByChiefUserName");
+        return docService.getAllDistributionMoreDeadlineByChiefUserName(AuthorizedUser.getUserName());
+    }
+
+    public List<DocItemTo> getAllDistributionLessDeadlineByChiefUserName() {
+        LOG.info("getAllDistributionLessDeadlineByChiefUserName");
+        return docService.getAllDistributionLessDeadlineByChiefUserName(AuthorizedUser.getUserName());
+    }
+
+    public List<DocItemTo> getAllDistributionMoreDeadlineByDepartment() {
+        LOG.info("getAllDistributionMoreDeadlineByDepartment");
+        return docService.getAllDistributionMoreDeadlineByDepartment(AuthorizedUser.getUserName());
+    }
+
+    public List<DocItemTo> getAllDistributionLessDeadlineByDepartment() {
+        LOG.info("getAllDistributionLessDeadlineByDepartment");
+        return docService.getAllDistributionLessDeadlineByDepartment(AuthorizedUser.getUserName());
+    }
+
     public List<DocItemTo> getAllDistributed() {
         LOG.info("getAllDistributed");
         return docService.getAllDistributed(AuthorizedUser.getUserName());
     }
+
+    public List<DocItemTo> getAllAtThisMounthOnControl() {
+        LOG.info("getAllAtThisMounthOnControl");
+        return docService.getAllAtThisMounthOnControl(AuthorizedUser.getUserName());
+    }
+
+    public List<DocItemTo> getAllAtThisMounthOnControlCompletedInTime() {
+        LOG.info("getAllAtThisMounthOnControlCompletedInTime");
+        return docService.getAllAtThisMounthOnControlCompletedInTime(AuthorizedUser.getUserName());
+    }
+
+    public List<DocItemTo> getAllAtThisMounthOnControlCompletedAfterTime() {
+        LOG.info("getAllAtThisMounthOnControlCompletedAfterTime");
+        return docService.getAllAtThisMounthOnControlCompletedAfterTime(AuthorizedUser.getUserName());
+    }
+
+    public List<DocItemTo> getAllAtThisMounthOnControlNotCompleted() {
+        LOG.info("getAllAtThisMounthOnControlNotCompleted");
+        return docService.getAllAtThisMounthOnControlNotCompleted(AuthorizedUser.getUserName());
+    }
+
 
     public List<DocNumberTo> getRegNumbers() {
         LOG.info("getRegNumbers");

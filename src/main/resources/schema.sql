@@ -116,6 +116,7 @@ CREATE TABLE esrd.doc
     docstatus               VARCHAR                      NOT NULL,
     url_pdf                 VARCHAR                              ,
     initial_user_id         INTEGER                              ,
+    parent_doc_id           INTEGER                              ,
     FOREIGN KEY (doctype_id) REFERENCES esrd.doctype (id) ON DELETE CASCADE,
     FOREIGN KEY (initial_user_id) REFERENCES esrd.users (id) ON DELETE CASCADE
 );

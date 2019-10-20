@@ -21,6 +21,7 @@
                             <th class="th-sm font-weight-bold alert-primary" width="5%">Статус</th>
                             <th class="th-sm font-weight-bold alert-primary" width="20%">Рег. номер</th>
                             <th class="th-sm font-weight-bold alert-primary" width="20%">Дата регистрации</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="20%">Дата контроля</th>
                             <th class="th-sm font-weight-bold alert-primary" width="40%">Вид документа</th>
                             <th class="th-sm font-weight-bold alert-primary" width="40%">Подразделения-исполнители</th>
                             <th class="th-sm font-weight-bold alert-primary" width="40%">Исполнители</th>

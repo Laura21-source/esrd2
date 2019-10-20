@@ -706,6 +706,7 @@
                 { 'data': 'docStatus' },
                 { 'data': 'regNum' },
                 { 'data': 'regDateTime' },
+                { 'data': 'controlDate' },
                 { 'data': 'docType' },
                 { 'data': 'executorDepartments' },
                 { 'data': 'executorUsers' },
@@ -718,6 +719,7 @@
                 { 'data': 'docStatus' },
                 { 'data': 'regNum' },
                 { 'data': 'regDateTime' },
+                { 'data': 'controlDate' },
                 { 'data': 'docType' },
                 { 'data': 'currentAgreeFullName' },
                 { 'data': 'executorDepartments' },
@@ -756,6 +758,16 @@
                         if (!item.currentAgreeFullName || item.currentAgreeFullName == '') {
                             item.currentAgreeFullName = 'Согласование завершено';
                         }
+
+                        if (item.controlDate && item.controlDate != '') {
+                            item.controlDate = formatDate(item.controlDate, 0);
+                            if (item.alarmControlDate) {
+                                item.controlDate = '<span style="color: #ff0000;">' + item.controlDate + '</span>';
+                            }
+                        } else {
+                            item.controlDate = '';
+                        }
+
                         // Если поле не пустое отображаем поля
                         if(item.executorDepartments && item.executorDepartments != '') {
                             var dataDepartments = JSON.parse(item.executorDepartments);

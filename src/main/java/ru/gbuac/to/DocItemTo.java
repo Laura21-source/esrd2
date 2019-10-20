@@ -8,6 +8,7 @@ import ru.gbuac.model.Department;
 import ru.gbuac.model.DocStatus;
 import ru.gbuac.model.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,8 +31,14 @@ public class DocItemTo extends BaseTo {
     @SafeHtml
     private String currentAgreeFullName;
 
+    private LocalDate controlDate;
+
+    private boolean alarmControlDate;
+
+    @SafeHtml
     private String executorDepartments;
 
+    @SafeHtml
     private String executorUsers;
 
     @SafeHtml
@@ -51,14 +58,16 @@ public class DocItemTo extends BaseTo {
     }
 
     public DocItemTo(Integer id, DocStatus docStatus, @SafeHtml String regNum, LocalDateTime regDateTime,
-                     @SafeHtml String projectRegNum, LocalDateTime projectRegDateTime,String
-                             executorDepartments, String executorUsers, @SafeHtml String docType) {
+                     @SafeHtml String projectRegNum, LocalDateTime projectRegDateTime, LocalDate controlDate, boolean alarmControlDate,
+                     @SafeHtml String executorDepartments, @SafeHtml String executorUsers, @SafeHtml String docType) {
         super(id);
         this.docStatus = docStatus;
         this.regNum = regNum;
         this.regDateTime = regDateTime;
         this.projectRegNum = projectRegNum;
         this.projectRegDateTime = projectRegDateTime;
+        this.controlDate = controlDate;
+        this.alarmControlDate = alarmControlDate;
         this.executorDepartments = executorDepartments;
         this.executorUsers = executorUsers;
         this.docType = docType;

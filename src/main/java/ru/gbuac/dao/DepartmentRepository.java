@@ -22,6 +22,9 @@ public interface DepartmentRepository extends JpaRepository<Department, Integer>
     @Query("SELECT d FROM Department d WHERE d.topLevel=TRUE")
     List<Department> getAllTopLevel();
 
+    @Query("SELECT d FROM Department d JOIN d.users u WHERE lower(u.name)=lower(:userName)")
+    Optional<Department> getByUserName(@Param("userName") String userName);
+
     @Query("SELECT new ru.gbuac.to.DepartmentTo(d.id, d.name) FROM Department d WHERE d.id=:id")
     Optional<DepartmentTo> get(@Param("id") int id);
 }

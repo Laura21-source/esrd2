@@ -33,6 +33,30 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
+    @GetMapping(value = "/agreementMoreDeadlineByUserName")
+    public List<Doc> getAllAgreementMoreDeadlineByUserName() {
+        return super.getAllAgreementMoreDeadlineByUserName();
+    }
+
+    @Override
+    @GetMapping(value = "/agreementLessDeadlineByUserName")
+    public List<Doc> getAllAgreementLessDeadlineByUserName() {
+        return super.getAllAgreementLessDeadlineByUserName();
+    }
+
+    @Override
+    @GetMapping(value = "/agreementMoreDeadlineByDepartment")
+    public List<Doc> getAllAgreementMoreDeadlineByDepartment() {
+        return super.getAllAgreementMoreDeadlineByDepartment();
+    }
+
+    @Override
+    @GetMapping(value = "/agreementLessDeadlineByDepartment")
+    public List<Doc> getAllAgreementLessDeadlineByDepartment() {
+        return super.getAllAgreementLessDeadlineByDepartment();
+    }
+
+    @Override
     @GetMapping(value = "/agreed")
     public List<Doc> getAllAgreed() {
         return super.getAllAgreed();
@@ -50,11 +74,58 @@ public class DocRestController extends AbstractDocRestController {
         return super.getAllInWorkByUserName();
     }
 
+    @Override
+    @GetMapping(value = "/inworkMoreDeadlineByUserName")
+    public List<DocItemTo> getAllInWorkMoreDeadlineByUserName() {
+        return super.getAllInWorkMoreDeadlineByUserName();
+    }
+
+    @Override
+    @GetMapping(value = "/inworkLessDeadlineByUserName")
+    public List<DocItemTo> getAllInWorkLessDeadlineByUserName() {
+        return super.getAllInWorkLessDeadlineByUserName();
+    }
+
+    @Override
+    @GetMapping(value = "/inworkMoreDeadlineByDepartment")
+    public List<DocItemTo> getAllInWorkMoreDeadlineByDepartment() {
+        return super.getAllInWorkMoreDeadlineByDepartment();
+    }
+
+    @Override
+    @GetMapping(value = "/inworkLessDeadlineByDepartment")
+    public List<DocItemTo> getAllInWorkLessDeadlineByDepartment() {
+        return super.getAllInWorkLessDeadlineByDepartment();
+    }
 
     @Override
     @GetMapping(value = "/distribution")
     public List<DocItemTo> getAllDistribution() {
         return super.getAllDistribution();
+    }
+
+    @Override
+    @GetMapping(value = "/distributionMoreDeadlineByChiefUserName")
+    public List<DocItemTo> getAllDistributionMoreDeadlineByChiefUserName() {
+        return super.getAllDistributionMoreDeadlineByChiefUserName();
+    }
+
+    @Override
+    @GetMapping(value = "/distributionLessDeadlineByChiefUserName")
+    public List<DocItemTo> getAllDistributionLessDeadlineByChiefUserName() {
+        return super.getAllDistributionLessDeadlineByChiefUserName();
+    }
+
+    @Override
+    @GetMapping(value = "/distributionMoreDeadlineByDepartment")
+    public List<DocItemTo> getAllDistributionMoreDeadlineByDepartment() {
+        return super.getAllDistributionMoreDeadlineByDepartment();
+    }
+
+    @Override
+    @GetMapping(value = "/distributionLessDeadlineByDepartment")
+    public List<DocItemTo> getAllDistributionLessDeadlineByDepartment() {
+        return super.getAllDistributionLessDeadlineByDepartment();
     }
 
     @Override
@@ -64,10 +135,35 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
+    @GetMapping(value = "/atThisMounthOnControl")
+    public List<DocItemTo> getAllAtThisMounthOnControl() {
+        return super.getAllAtThisMounthOnControl();
+    }
+
+    @Override
+    @GetMapping(value = "/atThisMounthOnControlCompletedInTime")
+    public List<DocItemTo> getAllAtThisMounthOnControlCompletedInTime() {
+        return super.getAllAtThisMounthOnControlCompletedInTime();
+    }
+
+    @Override
+    @GetMapping(value = "/atThisMounthOnControlCompletedAfterTime")
+    public List<DocItemTo> getAllAtThisMounthOnControlCompletedAfterTime() {
+        return super.getAllAtThisMounthOnControlCompletedAfterTime();
+    }
+
+    @Override
+    @GetMapping(value = "/atThisMounthOnControlNotCompleted")
+    public List<DocItemTo> getAllAtThisMounthOnControlNotCompleted() {
+        return super.getAllAtThisMounthOnControlNotCompleted();
+    }
+
+    @Override
     @GetMapping(value = "/regnumbers")
     public List<DocNumberTo> getRegNumbers() {
         return super.getRegNumbers();
     }
+
 
     @Override
     @GetMapping

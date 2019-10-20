@@ -18,6 +18,14 @@ public interface DocService {
 
     List<Doc> getAllAgreementByUsername(String userName);
 
+    List<Doc> getAllAgreementMoreDeadlineByUserName(String userName);
+
+    List<Doc> getAllAgreementLessDeadlineByUserName(String userName);
+
+    List<Doc> getAllAgreementMoreDeadlineByDepartment(String userName);
+
+    List<Doc> getAllAgreementLessDeadlineByDepartment(String userName);
+
     List<Doc> getAllAgreedByUsername(String userName);
 
     List<Doc> getAllRegisteredByUsername(String userName);
@@ -30,9 +38,33 @@ public interface DocService {
 
     List<DocItemTo> getAllInWorkByUserName(String userName);
 
+    List<DocItemTo> getAllInWorkMoreDeadlineByUserName(String userName);
+
+    List<DocItemTo> getAllInWorkLessDeadlineByUserName(String userName);
+
+    List<DocItemTo> getAllInWorkMoreDeadlineByDepartment(String userName);
+
+    List<DocItemTo> getAllInWorkLessDeadlineByDepartment(String userName);
+
     List<DocItemTo> getAllDistribution(String userName);
 
+    List<DocItemTo> getAllDistributionMoreDeadlineByChiefUserName(String userName);
+
+    List<DocItemTo> getAllDistributionLessDeadlineByChiefUserName(String userName);
+
+    List<DocItemTo> getAllDistributionMoreDeadlineByDepartment(String userName);
+
+    List<DocItemTo> getAllDistributionLessDeadlineByDepartment(String userName);
+
     List<DocItemTo> getAllDistributed(String userName);
+
+    List<DocItemTo> getAllAtThisMounthOnControl(String userName);
+
+    List<DocItemTo> getAllAtThisMounthOnControlCompletedInTime(String userName);
+
+    List<DocItemTo> getAllAtThisMounthOnControlCompletedAfterTime(String userName);
+
+    List<DocItemTo> getAllAtThisMounthOnControlNotCompleted(String userName);
 
     List<DocNumberTo> getRegNumbers();
 

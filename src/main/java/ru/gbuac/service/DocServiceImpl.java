@@ -89,6 +89,8 @@ public class DocServiceImpl implements DocService {
     @Value("${uploads.dir}")
     private String uploadsDir;
 
+    private final int DEADLINE_DAYS = 3;
+
     private boolean isFinalAgreementStage(int docId) {
         List<Boolean> stages = docAgreementRepository.isFinalAgreementStage(docId, PageRequest.of(0,1));
         return stages.isEmpty() ? false : stages.get(0);
@@ -135,6 +137,40 @@ public class DocServiceImpl implements DocService {
     @Override
     public List<Doc> getAllAgreementByUsername(String userName) {
         return docRepository.getAllAgreementByUserName(userName);
+    }
+
+    @Override
+    public List<Doc> getAllAgreementMoreDeadlineByUserName(String userName) {
+        return docRepository.getAllAgreementMoreDeadline(userName, -1, LocalDate.now().plusDays(DEADLINE_DAYS));
+    }
+
+    @Override
+    public List<Doc> getAllAgreementLessDeadlineByUserName(String userName) {
+        return docRepository.getAllAgreementLessDeadline(userName, -1, LocalDate.now().plusDays(DEADLINE_DAYS));
+    }
+
+    @Override
+    public List<Doc> getAllAgreementMoreDeadlineByDepartment(String userName) {
+        Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null) {
+            List<Doc> docs =
+                    docRepository.getAllAgreementMoreDeadline("", department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
+            return docs;
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Doc> getAllAgreementLessDeadlineByDepartment(String userName) {
+        Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null) {
+            List<Doc> docs =
+                    docRepository.getAllAgreementLessDeadline("", department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
+            return docs;
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override
@@ -194,8 +230,14 @@ public class DocServiceImpl implements DocService {
             }
             users.append("]");
 
+            LocalDate controlDate = d.getResolutions().stream().filter(r -> r.isPrimaryResolution())
+                    .map(r -> Optional.ofNullable(r.getControlDate())).findFirst().orElse(null).orElse(null);
+            boolean isAlarmControlDate = false;
+            if (controlDate != null) {
+                isAlarmControlDate = controlDate.isBefore(LocalDate.now().plusDays(DEADLINE_DAYS+1));
+            }
             docItemsTo.add(new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
-                    d.getProjectRegNum(), d.getProjectRegDateTime(), deps.toString(),
+                    d.getProjectRegNum(), d.getProjectRegDateTime(), controlDate, isAlarmControlDate, deps.toString(),
                     users.toString(), d.getDocType().getName()));
         }
         return docItemsTo;
@@ -208,22 +250,122 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public List<DocItemTo> getAllDistribution(String userName) {
+    public List<DocItemTo> getAllInWorkMoreDeadlineByUserName(String userName) {
+        departmentRepository.getByUserName(userName);
+        List<Doc> docs = docRepository.getAllInWorkMoreDeadline(userName, -1, LocalDate.now().plusDays(DEADLINE_DAYS));
+        return getWithUserDepsExecutors(docs);
+    }
+
+    @Override
+    public List<DocItemTo> getAllInWorkLessDeadlineByUserName(String userName) {
+        List<Doc> docs = docRepository.getAllInWorkLessDeadline(userName, -1, LocalDate.now().plusDays(DEADLINE_DAYS));
+        return getWithUserDepsExecutors(docs);
+    }
+
+    @Override
+    public List<DocItemTo> getAllInWorkMoreDeadlineByDepartment(String userName) {
+        Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null) {
+            List<Doc> docs =
+                    docRepository.getAllInWorkMoreDeadline("", department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
+            return getWithUserDepsExecutors(docs);
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<DocItemTo> getAllInWorkLessDeadlineByDepartment(String userName) {
+        Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null) {
+            List<Doc> docs =
+                    docRepository.getAllInWorkLessDeadline("", department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
+            return getWithUserDepsExecutors(docs);
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    private List<Department> getUserDistributionDepartments(String userName) {
         User curUser = userRepository.getByName(userName);
-        List<Department> departments = curUser.getDistributionDepartments();
+        return curUser.getDistributionDepartments();
+    }
+
+    @Override
+    public List<DocItemTo> getAllDistribution(String userName) {
         List<Doc> docs = new ArrayList<>();
-        Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
+        Optional.ofNullable(getUserDistributionDepartments(userName)).map(Collection::stream).orElseGet(Stream::empty)
                 .forEach(d -> docs.addAll(docRepository.getAllDistribution(d.getId())));
         return getWithUserDepsExecutors(docs);
     }
 
     @Override
-    public List<DocItemTo> getAllDistributed(String userName) {
-        User curUser = userRepository.getByName(userName);
-        List<Department> departments = curUser.getDistributionDepartments();
+    public List<DocItemTo> getAllDistributionMoreDeadlineByChiefUserName(String userName) {
         List<Doc> docs = new ArrayList<>();
-        Optional.ofNullable(departments).map(Collection::stream).orElseGet(Stream::empty)
+        Optional.ofNullable(getUserDistributionDepartments(userName)).map(Collection::stream).orElseGet(Stream::empty)
+                .forEach(d -> docs.addAll(docRepository.getAllDistributionMoreDeadline(d.getId(), LocalDate.now().plusDays(DEADLINE_DAYS))));
+        return getWithUserDepsExecutors(docs);
+    }
+
+    @Override
+    public List<DocItemTo> getAllDistributionLessDeadlineByChiefUserName(String userName) {
+        List<Doc> docs = new ArrayList<>();
+        Optional.ofNullable(getUserDistributionDepartments(userName)).map(Collection::stream).orElseGet(Stream::empty)
+                .forEach(d -> docs.addAll(docRepository.getAllDistributionLessDeadline(d.getId(), LocalDate.now().plusDays(DEADLINE_DAYS))));
+        return getWithUserDepsExecutors(docs);
+    }
+
+    @Override
+    public List<DocItemTo> getAllDistributionMoreDeadlineByDepartment(String userName) {
+        Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null) {
+            List<Doc> docs = docRepository.getAllDistributionMoreDeadline(department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
+            return getWithUserDepsExecutors(docs);
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<DocItemTo> getAllDistributionLessDeadlineByDepartment(String userName) {
+        Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null) {
+            List<Doc> docs = docRepository.getAllDistributionLessDeadline(department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
+            return getWithUserDepsExecutors(docs);
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<DocItemTo> getAllDistributed(String userName) {
+        List<Doc> docs = new ArrayList<>();
+        Optional.ofNullable(getUserDistributionDepartments(userName)).map(Collection::stream).orElseGet(Stream::empty)
                 .forEach(d -> docs.addAll(docRepository.getAllDistributed(d.getId())));
+        return getWithUserDepsExecutors(docs);
+    }
+
+    @Override
+    public List<DocItemTo> getAllAtThisMounthOnControl(String userName) {
+        List<Doc> docs = docRepository.getAllAtThisMounthOnControl(userName, LocalDate.now(), LocalDate.now().minusMonths(1));
+        return getWithUserDepsExecutors(docs);
+    }
+
+    @Override
+    public List<DocItemTo> getAllAtThisMounthOnControlCompletedInTime(String userName) {
+        List<Doc> docs =  docRepository.getAllAtThisMounthOnControlCompletedInTime(userName, LocalDate.now(), LocalDate.now().minusMonths(1));
+        return getWithUserDepsExecutors(docs);
+    }
+
+    @Override
+    public List<DocItemTo> getAllAtThisMounthOnControlCompletedAfterTime(String userName) {
+        List<Doc> docs =  docRepository.getAllAtThisMounthOnControlCompletedAfterTime(userName, LocalDate.now(), LocalDate.now().minusMonths(1));
+        return getWithUserDepsExecutors(docs);
+    }
+
+    @Override
+    public List<DocItemTo> getAllAtThisMounthOnControlNotCompleted(String userName) {
+        List<Doc> docs =  docRepository.getAllAtThisMounthOnControlNotCompleted(userName, LocalDate.now());
         return getWithUserDepsExecutors(docs);
     }
 
@@ -640,7 +782,7 @@ public class DocServiceImpl implements DocService {
         List<Integer> executorUsersIds = null;
         if (doc.getResolutions() != null) {
             executorDepartmentsIds = doc.getResolutions().stream()
-                    .sorted(Comparator.comparing(Resolution::getOrdering))
+                    .sorted(Comparator.comparing(Resolution::isPrimaryResolution))
                     .map(Resolution::getDepartment)
                     .map(Department::getId)
                     .collect(Collectors.toList());
@@ -670,7 +812,7 @@ public class DocServiceImpl implements DocService {
                 doc.getProjectRegDateTime(), doc.getInsertDateTime(), doc.getDocType().getId(),
                 doc.getDocStatus(), isFinalAgreementStage, false, false, false, doc.getUrlPDF(),
                 initialUserTo, finalUserId, doc.getDocType().isFinalDoc(), null, executorDepartmentsIds,
-                executorUsersIds, docFieldsTos);
+                executorUsersIds, docFieldsTos, doc.getParentDoc() != null ? doc.getParentDoc().getId(): null);
     }
 
     public ValuedField createNewValueFieldFromTo(FieldTo newField) {
@@ -697,7 +839,7 @@ public class DocServiceImpl implements DocService {
 
         Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDateTime(), docTo.getProjectRegNum(),
                 docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null,
-                null, null, docTo.getUrlPDF());
+                null, null, docTo.getUrlPDF(), null);
 
         List<Department> executorDepartments = Optional.ofNullable(docTo.getExecutorDepartmentsIds())
                 .map(Collection::stream).orElseGet(Stream::empty)
@@ -720,7 +862,7 @@ public class DocServiceImpl implements DocService {
         Doc exDoc = checkNotFoundWithId(docRepository.findById(docTo.getId()).orElse(null), docTo.getId());
         Doc doc = new Doc(exDoc.getId(), exDoc.getRegNum(), exDoc.getRegDateTime(), exDoc.getProjectRegNum(),
                 exDoc.getProjectRegDateTime(), exDoc.getInsertDateTime(), docType, exDoc.getResolutions(),
-                null, exDoc.getInitialUser(), exDoc.getUrlPDF());
+                null, exDoc.getInitialUser(), exDoc.getUrlPDF(), exDoc.getParentDoc());
 
         doc.setDocValuedFields(createNewValuedFieldsByDoc(doc, docTo.getChildFields()));
 

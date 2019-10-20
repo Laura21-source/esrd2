@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("DELETE FROM User u WHERE u.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT u FROM User u WHERE u.name=:name")
+    @Query("SELECT u FROM User u WHERE lower(u.name)=lower(:name)")
     User getByName(@Param("name") String name);
 
     @Query("SELECT new ru.gbuac.to.UserTo(u.id, CONCAT(u.lastname, ' ', u.firstname, ' ', u.patronym), u.phone, u.position) " +

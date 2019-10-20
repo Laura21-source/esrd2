@@ -67,10 +67,14 @@ public class Doc extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User initialUser;
 
+    @ManyToOne
+    @JoinColumn(name="parent_doc_id")
+    private Doc parentDoc;
+
     public Doc(Integer id, String regNum, LocalDateTime regDateTime, @NotNull String projectRegNum,
                @NotNull LocalDateTime projectRegDateTime, @NotNull LocalDateTime insertDateTime,
                @NotNull DocType docType, List<Resolution> resolutions,
-               List<DocValuedFields> docValuedFields, User initialUser, String urlPDF) {
+               List<DocValuedFields> docValuedFields, User initialUser, String urlPDF, Doc parentDoc) {
         super(id);
         this.regNum = regNum;
         this.regDateTime = regDateTime;
@@ -82,5 +86,6 @@ public class Doc extends BaseEntity {
         this.docValuedFields = docValuedFields;
         this.initialUser = initialUser;
         this.urlPDF = urlPDF;
+        this.parentDoc = parentDoc;
     }
 }
