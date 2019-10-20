@@ -76,7 +76,7 @@ public abstract class AbstractDocRestController {
 
     public List<DocItemTo> getAllInWorkByUserName() {
         LOG.info("getAllInWorkByUserName");
-        return docService.getAllInWorkByUserName(AuthorizedUser.getUserName());
+         return docService.getAllInWorkByUserName(AuthorizedUser.getUserName());
     }
 
     public List<DocItemTo> getAllInWorkMoreDeadlineByUserName() {
