@@ -3,11 +3,12 @@
 
     // Отображение размера плашек от значений показателей
     function statisticBlock (array) {
-        var countMax = array[0]['value'];
+        var countMax = /*Math.max.apply(null, array);*/ array[0]['value'];
         //var sum75 = parseInt(countMax*0.75);
-        var sum50 = parseInt(countMax*0.5);
-        var sum25 = parseInt(countMax*0.25);
-        var sumClass = ''
+        var sum50 = countMax*0.5;
+        var sum25 = countMax*0.25;
+        console.log(countMax + ' - ' + sum50 + ' - ' + sum25);
+        var sumClass = 'w-25';
         for(var i in array) {
             var value = array[i]['value'];
             var pole = array[i]['pole'];
@@ -38,7 +39,6 @@
                 // Для бубликов
                 var inWorkSuccessUser = data.inworkMoreDeadlineByUserName;
                 var inWorkDangerUser = data.inworkLessDeadlineByUserName;
-                console.log(inWorkSuccessUser);
                 am4core.ready(function () {
                     am4core.useTheme(am4themes_dark);
                     am4core.useTheme(am4themes_animated);
@@ -48,12 +48,12 @@
                     chart.data = [
                         {
                             country: "Срок контроля 3 дня",
-                            litres: inWorkSuccessUser,
+                            litres: inWorkDangerUser,
                             color: am4core.color("#ff4444")
                         },
                         {
                             country: "Срок контроля более 3 дней",
-                            litres: inWorkDangerUser,
+                            litres: inWorkSuccessUser,
                             color: am4core.color("#2BBBAD")
                         }
                     ];
@@ -82,12 +82,12 @@
                     chart.data = [
                         {
                             country: "Срок контроля 3 дня",
-                            litres: agreeSuccessUser,
+                            litres: agreeDangerUser,
                             color: am4core.color("#ff4444")
                         },
                         {
                             country: "Срок контроля более 3 дней",
-                            litres: agreeDangerUser,
+                            litres: agreeSuccessUser,
                             color: am4core.color("#2BBBAD")
                         }
                     ];
@@ -115,12 +115,12 @@
                     chart.data = [
                         {
                             country: "Срок контроля 3 дня",
-                            litres: distSuccessUser,
+                            litres: distDangerUser,
                             color: am4core.color("#ff4444")
                         },
                         {
                             country: "Срок контроля более 3 дней",
-                            litres: distDangerUser,
+                            litres: distSuccessUser,
                             color: am4core.color("#2BBBAD")
                         }
                     ];
@@ -302,6 +302,19 @@
             }
         })
     }
+
+    // Параметр финальности документа для отображени или скрытия блока Адресат
+    function getFinalStage(url, field) {
+        return $.getJSON (url, function(data) {
+            if(data.finalDoc === true) {
+                $(field).addClass('d-none');
+            }
+            if(data.finalDoc === false) {
+                $(field).removeClass('d-none');
+            }
+        });
+    }
+
 
     // Добавление должности при изменении пользователя
     function createUserList (url, field) {

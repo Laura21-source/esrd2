@@ -15,11 +15,13 @@
                         <h4 class="mt-2 documentName"></h4>
                     </div>
                     <form class="registrationForm needs-validation" novalidate>
-                        <div class="row ml-1 mb-3 d-flex align-items-center justify-content-center">
-                            <div class="col-2 text-left mt-2">
-                                <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Куда</span>
+                        <div class="whomList">
+                            <div class="row ml-1 mb-3 d-flex align-items-center justify-content-center">
+                                <div class="col-2 text-left mt-2">
+                                    <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Адресат</span>
+                                </div>
+                                <div class="col-10 text-left" id="whomList"></div>
                             </div>
-                            <div class="col-10 text-left" id="whomList"></div>
                         </div>
                         <div class="performerBlock d-none">
                             <div class="row ml-1 mb-3 d-flex align-items-center">
@@ -169,14 +171,16 @@
                                     </div>
                                 </div>
                                 <div id="blockFieldsNew" class="d-none">
-                                    <div class="row ml-1 mb-2 d-flex align-items-center">
-                                        <div class="col-2 text-left mt-2">
-                                            <span class="text-muted"><i class="fas fa-sitemap mr-2"></i>Куда<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
-                                        </div>
-                                        <div class="col-10">
-                                            <select data-placeholder="Выберите из справочника" multiple class="chosen-select" id="whomListNew" required>
-                                                <option value="">Выберите из справочника</option>
-                                            </select>
+                                    <div class="whomListNew">
+                                        <div class="row ml-1 mb-2 d-flex align-items-center">
+                                            <div class="col-2 text-left mt-2">
+                                                <span class="text-muted"><i class="fas fa-sitemap mr-2"></i>Адресат<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
+                                            </div>
+                                            <div class="col-10">
+                                                <select data-placeholder="Выберите из справочника" multiple class="chosen-select" id="whomListNew" required>
+                                                    <option value="">Выберите из справочника</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -290,11 +294,11 @@
         // Подключение стека полей
         $.getJSON(docURL, function(data) {
             var finalVersion = '';
+            // Скрываем поле Адресат если finalDoc = true
+            if(data.finalDoc === true) {$('.whomList').addClass('d-none');}
             // Дата документа
             var newDate = '';
-            if(data.projectRegDateTime) {
-                newDate = formatDate(new Date(data.projectRegDateTime), 0);
-            }
+            if(data.projectRegDateTime) {newDate = formatDate(new Date(data.projectRegDateTime), 0);}
             $(".documentName").html('Согласование документа №' + data.projectRegNum + ' от ' + newDate);
             // Меняем кнопку согласования на подписания
             if (data.finalStage === true) {
@@ -635,6 +639,8 @@
             $('.blockGroupNew').remove();
             var asd = $("#selectTypeNew").val();
             if(asd && asd !== '') {
+                // Показать или скрыть поле Адресат по параметру finalDoc
+                getFinalStage('rest/profile/doctypes/'+ asd, '.whomListNew');
                 // Добавить блоки отсюда в файл функций -getFieldsDocument
                 $("#blockFieldsNew, #blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").removeClass("d-none");
                 // Верхний блок полей
@@ -730,7 +736,7 @@
                 });
                 // Ошибка сохранения документа
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка сохранения списка согласования!<br>Заполните обязательное поле - Куда!");
+                    toastr["error"]("Ошибка сохранения списка согласования!<br>Заполните обязательное поле - Адресат!");
                 });
             }
         });

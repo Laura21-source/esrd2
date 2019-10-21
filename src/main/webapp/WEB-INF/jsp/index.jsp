@@ -186,7 +186,6 @@
         countElemJSON('rest/profile/docs/counters', 2); // Список документов на исполнении
         countElemJSON('rest/profile/docs/counters', 3); // Список документов на согласовании
         countElemJSON('rest/profile/docs/counters', 4); // Список документов на регистрации
-
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>
