@@ -215,6 +215,7 @@
                         $('#userListBlock .blockUser:not(:first)').remove();
                         $("#blockFields, #blockUp, #blockDown, #btnSave, .pdfSRC").addClass("d-none");
                         //$("#btnSave").attr('disabled', false).html(trueName);
+                        window.location.href = "new-document";
                     });
                     // Сохранение списка согласования
                     var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));

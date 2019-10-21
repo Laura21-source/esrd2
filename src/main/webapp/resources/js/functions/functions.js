@@ -1,12 +1,38 @@
     // Количество элементов в массиве
     function countElem (array) {return array.length;}
 
+    // Отображение размера плашек от значений показателей
+    function statisticBlock (array) {
+        var countMax = array[0]['value'];
+        //var sum75 = parseInt(countMax*0.75);
+        var sum50 = parseInt(countMax*0.5);
+        var sum25 = parseInt(countMax*0.25);
+        var sumClass = ''
+        for(var i in array) {
+            var value = array[i]['value'];
+            var pole = array[i]['pole'];
+            if(value == countMax) {sumClass = 'w-100';}
+            if(value < countMax && value > sum50) {sumClass = 'w-75';}
+            if(value < sum50 && value > sum25) {sumClass = 'w-50';}
+            if(value < sum25) {sumClass = 'w-25';}
+            $(pole).addClass(sumClass).html(value);
+        }
+    }
+
     // Количество элементо в массиве JSON
-    function countElemJSON (url) {
-        //var jsonObject = JSON.stringify(url);
-        //var lenghtJSON = JSON.parse(jsonObject).length;
-        var lenghtJSON = Object.keys(url).length;
-        return lenghtJSON;
+    function countElemJSON (url, element) {
+        var array = [];
+        $.getJSON (url, function(data) {
+            var sumArray = JSON.stringify(data);
+            var newArray = JSON.parse(sumArray);
+            var countArray = newArray.length;
+            $(element).attr('data-value',countArray);
+            console.log(newArray);
+            /*for(var i in data) {
+                array.push(data[i].id);
+            }*/
+        });
+        return(array);
     }
 
     // Получение id документа из адресной строки
@@ -205,7 +231,6 @@
                     });
                 });
             }
-
         });
     }
 

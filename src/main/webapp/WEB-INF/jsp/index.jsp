@@ -4,10 +4,10 @@
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<jsp:include page="fragments/headerNew.jsp"/>
+<jsp:include page="fragments/headerIndex.jsp"/>
 <c:set var = "main" />
 <main>
-    <div class="container-fluid w-75 mb-4 pt-5">
+    <div class="container-fluid mb-4 pt-4">
         <div class="card mt-5 white-text rgba-black-light">
             <div class="card-body">
                 <div class="container-fluid">
@@ -19,12 +19,12 @@
                                         <h3><i class="fas fa-id-card white-text mr-2"></i>Мои документы</h3>
                                     </div>
                                     <div class="col-7">
-                                        <h3>Тарифное регулирование</h3>
+                                        <h3 class="ml-n5">Тарифное регулирование</h3>
                                     </div>
                                 </div>
                                 <div class="row my-2 text-center">
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown" >
-                                        <h4 class="my-2">На исполнении</h4>
+                                        <h4 class="my-2">На исполнении (<span class="inWorkSum"></span>)</h4>
                                         <div class="blockChart">
                                             <div class="myImg">
                                                 <i class="fas fa-briefcase white-text fa-4x" id="iconMenu1"></i>
@@ -35,7 +35,7 @@
                                         <%--<canvas id="chart1"></canvas>--%>
                                     </div>
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown" data-wow-delay="0.3s">
-                                        <h4 class="my-2">На согласовании</h4>
+                                        <h4 class="my-2">На согласовании (<span class="agreementSum"></span>)</h4>
                                         <div class="blockChart">
                                             <div class="myImg">
                                                 <i class="fas fa-edit white-text fa-4x" id="iconMenu2"></i>
@@ -46,7 +46,7 @@
                                         <%--<canvas id="chart2"></canvas>--%>
                                     </div>
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow bounceInDown" data-wow-delay="0.6s">
-                                        <h4 class="my-2">На распределении</h4>
+                                        <h4 class="my-2">На распределении (<span class="distributionSum"></span>)</h4>
                                         <div class="blockChart">
                                             <div class="myImg">
                                                 <i class="fas fa-user-plus white-text fa-4x" id="iconMenu3"></i>
@@ -58,80 +58,92 @@
                                     </div>
                                 </div>
                             </section>
-                            <section class="mb-5">
+                            <section>
                                 <div class="row my-2 text-center">
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
-                                        <h4 class="my-5">Документы управления</h4>
-                                        <h6 class="my-2">На исполнении</h6>
+                                        <h4 class="my-3">Документы управления</h4>
+                                        <h6>На исполнении</h6>
                                         <div class="row d-flex align-items-center white-text">
-                                            <div class="col-md-6">
-                                                <div class="text-right">
-                                                    <p>срок более 3 дней</p>
-                                                    <p>срок 3 дня</p>
-                                                </div>
+                                            <div class="col-md-6 text-right">
+                                                срок более 3 дней
                                             </div>
                                             <div class="col-md-6 text-left">
-                                                <button class="btn btn-sm btn-default w-100 font-weight-bold">268</button>
-                                                <button class="btn btn-sm btn-danger w-75 font-weight-bold">120</button>
+                                                <div class="btn btn-sm btn-default font-weight-bold px-1" id="inWorkSuccess"></div>
                                             </div>
                                         </div>
-                                        <h6 class="my-2">На согласовании</h6>
                                         <div class="row d-flex align-items-center white-text">
-                                            <div class="col-md-6">
-                                                <div class="text-right">
-                                                    <p>срок более 3 дней</p>
-                                                    <p>срок 3 дня</p>
-                                                </div>
+                                            <div class="col-md-6 text-right">
+                                                срок 3 дня
                                             </div>
                                             <div class="col-md-6 text-left">
-                                                <button class="btn btn-sm btn-default w-100 font-weight-bold">120</button>
-                                                <button class="btn btn-sm btn-danger w-50 font-weight-bold">12</button>
+                                                <div class="btn btn-sm btn-danger font-weight-bold px-1" id="inWorkDanger"></div>
                                             </div>
                                         </div>
-                                        <h6 class="my-2">На распределении</h6>
+                                        <h6>На согласовании</h6>
                                         <div class="row d-flex align-items-center white-text">
-                                            <div class="col-md-6">
-                                                <div class="text-right">
-                                                    <p>срок более 3 дней</p>
-                                                    <p>срок 3 дня</p>
-                                                </div>
+                                            <div class="col-md-6 text-right">
+                                                срок более 3 дней
                                             </div>
                                             <div class="col-md-6 text-left">
-                                                <button class="btn btn-sm btn-default w-100 font-weight-bold">120</button>
-                                                <button class="btn btn-sm btn-danger w-50 font-weight-bold">12</button>
+                                                <div class="btn btn-sm btn-default font-weight-bold px-1" id="agreeSuccess"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-flex align-items-center white-text">
+                                            <div class="col-md-6 text-right">
+                                                срок 3 дня
+                                            </div>
+                                            <div class="col-md-6 text-left">
+                                                <div class="btn btn-sm btn-danger font-weight-bold px-1" id="agreeDanger"></div>
+                                            </div>
+                                        </div>
+                                        <h6>На распределении</h6>
+                                        <div class="row d-flex align-items-center white-text">
+                                            <div class="col-md-6 text-right">
+                                                срок более 3 дней
+                                            </div>
+                                            <div class="col-md-6 text-left">
+                                                <div class="btn btn-sm btn-default font-weight-bold px-1" id="distSuccess"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-flex align-items-center white-text">
+                                            <div class="col-md-6 text-right">
+                                                срок 3 дня
+                                            </div>
+                                            <div class="col-md-6 text-left">
+                                                <div class="btn btn-sm btn-danger font-weight-bold px-1" id="distDanger"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
-                                        <h4 class="my-5">Регистрация документа</h4>
+                                        <h4 class="my-3">Регистрация документа</h4>
                                         <a href="new-document" title="Создать новый документ">
                                             <i class="fas fa-file-alt fa-6x white-text newDoc"></i>
                                         </a>
                                     </div>
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
-                                        <h4 class="my-5">Моя дисциплина за месяц</h4>
+                                        <h4 class="my-3">Моя дисциплина за месяц</h4>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-6 text-right">Всего было на контроле</div>
                                             <div class="col-md-6 text-left">
-                                                <div class="btn btn-sm btn-primary w-100 font-weight-bold" id="mySum"></div>
+                                                <div class="btn btn-sm btn-primary font-weight-bold px-1" id="mySum" data-value="0"></div>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-6 text-right">Исполнено в срок</div>
                                             <div class="col-md-6 text-left">
-                                                <div class="btn btn-sm btn-default w-75 font-weight-bold" id="mySuccess"></div>
+                                                <div class="btn btn-sm btn-default font-weight-bold px-1" id="mySuccess"></div>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-6 text-right">Исполнено с нарушением срока</div>
                                             <div class="col-md-6 text-left">
-                                                <div class="btn btn-sm btn-warning w-50 font-weight-bold" id="myWarning"></div>
+                                                <div class="btn btn-sm btn-warning font-weight-bold px-1" id="myWarning"></div>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-6 text-right">Не исполнено (срок вышел)</div>
                                             <div class="col-md-6 text-left">
-                                                <div class="btn btn-sm btn-danger w-25 font-weight-bold" id="myDanger"></div>
+                                                <div class="btn btn-sm btn-danger font-weight-bold px-1" id="myDanger"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -151,10 +163,7 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        $('#customSkin').removeClass('fixed-sn');
-        $('#slide-out').hide();
         $('header, main, footer').css('padding-left',0);
-        $('.float-left').addClass('d-none');
 
         $('.chartLink').hover(
             function() {
@@ -175,14 +184,48 @@
             });
 
         // Показ цифр дисциплина
-        getMenuPils('rest/profile/docs/registered','#mySum'); // Общее
-        getMenuPils('rest/profile/docs/registered','#mySuccess'); // Успешные
-        getMenuPils('rest/profile/docs/registered','#myWarning'); // С ошибками
-        getMenuPils('rest/profile/docs/registered','#myDanger'); // Незавершенные
+        countElemJSON('rest/profile/docs/agreement', '#mySum'); // Общее rest/profile/docs/atThisMounthOnControl
+        var mySum = $('#mySum').attr('data-value');
+        console.log(mySum);
+        //var mySuccess = countElemJSON('rest/profile/docs/atThisMounthOnControlCompletedInTime'); // Успешные
+        //var myWarning = countElemJSON('rest/profile/docs/atThisMounthOnControlCompletedAfterTime'); // С ошибками
+        //var myDanger = countElemJSON('rest/profile/docs/atThisMounthOnControlNotCompleted'); // Незавершенные
 
-        // Данные для первого графика
-        var chartDiv1Success = $('#mySuccess').html();
-        var chartDiv1Danger = $('#myDanger').html();
+        /*var mySum = 39;*/ var mySuccess = 28; var myWarning = 8; var myDanger = 3;
+        // Отображение размера плашек от значений показателей
+        var myDis = [{'pole':'#mySum','value':mySum},{'pole':'#mySuccess','value':mySuccess},{'pole':'#myWarning','value':myWarning},{'pole':'#myDanger','value':myDanger}];
+        statisticBlock(myDis);
+
+        // Данные для показа общей статистики на исполнении
+        // inWorkSuccess = countElemJSON('rest/profile/docs/inworkMoreDeadlineByUserName'); // Более 3 дней
+        // inWorkDanger = countElemJSON('rest/profile/docs/inworkLessDeadlineByUserName'); // 3 дня
+        var inWorkSuccess = 268; var inWorkDanger = 36;
+        var allInWork = [{'pole':'#inWorkSuccess','value':inWorkSuccess},{'pole':'#inWorkDanger','value':inWorkDanger}];
+        statisticBlock(allInWork);
+
+        // Данные для показа общей статистики на согласовании
+        // agreeSuccess = countElemJSON('rest/profile/docs/agreementMoreDeadlineByUserName'); // Более 3 дней
+        // agreeDanger = countElemJSON('rest/profile/docs/agreementLessDeadlineByUserName'); // 3 дня
+        var agreeSuccess = 120; var agreeDanger = 12;
+        var allAgrre = [{'pole':'#agreeSuccess','value':agreeSuccess},{'pole':'#agreeDanger','value':agreeDanger}];
+        statisticBlock(allAgrre);
+
+        // Данные для показа общей статистики на респределении
+        // distSuccess = countElemJSON('rest/profile/docs/distributionMoreDeadlineByChiefUserName'); // Более 3 дней
+        // distDanger = countElemJSON('rest/profile/docs/distributionLessDeadlineByChiefUserName'); // 3 дня
+        var distSuccess = 86; var distDanger = 11;
+        var allDist = [{'pole':'#distSuccess','value':distSuccess},{'pole':'#distDanger','value':distDanger}];
+        statisticBlock(allDist);
+
+        // Данные для графика на исполнении
+        var chartDiv1Success = inWorkSuccess;
+        var chartDiv1Danger = inWorkDanger;
+        // Данные для графика на согласовании
+        var chartDiv2Success = agreeSuccess;
+        var chartDiv2Danger = agreeDanger;
+        // Данные для графика на распределении
+        var chartDiv3Success = distSuccess;
+        var chartDiv3Danger = distDanger;
 
         // Графики
         am4core.ready(function() {
@@ -193,12 +236,12 @@
             chart.data = [
                 {
                     country: "Срок контроля 3 дня",
-                    litres: 10,
+                    litres: chartDiv1Danger,
                     color: am4core.color("#ff4444")
                 },
                 {
                     country: "Срок контроля более 3 дней",
-                    litres: 42,
+                    litres: chartDiv1Success,
                     color: am4core.color("#2BBBAD")
                 }
             ];
@@ -221,12 +264,12 @@
             chart.data = [
                 {
                     country: "Срок контроля 3 дня",
-                    litres: 36,
+                    litres: chartDiv2Danger,
                     color: am4core.color("#ff4444")
                 },
                 {
                     country: "Срок контроля более 3 дней",
-                    litres: 18,
+                    litres: chartDiv2Success,
                     color: am4core.color("#2BBBAD")
                 }
             ];
@@ -247,12 +290,12 @@
             chart.data = [
                 {
                     country: "Срок контроля 3 дня",
-                    litres: 3,
+                    litres: chartDiv3Danger,
                     color: am4core.color("#ff4444")
                 },
                 {
                     country: "Срок контроля более 3 дней",
-                    litres: 8,
+                    litres: chartDiv3Success,
                     color: am4core.color("#2BBBAD")
                 }
             ];
