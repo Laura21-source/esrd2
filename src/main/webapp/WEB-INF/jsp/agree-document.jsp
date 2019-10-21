@@ -332,7 +332,9 @@
                 if(data.canDistribute == true) {
                     $('.performerBlock').removeClass('d-none');
                     // Добавим опций
-                    createOptions ('rest/profile/users/', '#performerList', '', 'id', '', 'usersList');
+                    for(var i in data.executorUsersIds) {
+                        createOptions ('rest/profile/users/', '#performerList', '', 'id', data.executorUsersIds[i], 'usersList');
+                    }
                     // Добавление исполнителя
                     $(document).on("change", "#performerList", function() {
                         var performerList = [];
