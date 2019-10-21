@@ -12,18 +12,21 @@
             <div class="card-body">
                 <div class="container-fluid">
                     <div class="alert alert-secondary text-center mb-3">
-                        <h6 class="mt-2">Документы на исполнении</h6>
+                        <h4 class="mt-2">Список документов</h4>
                     </div>
                     <table id="dataTable" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th class="th-sm font-weight-bold alert-primary" width="10%">№ п/п</th>
-                            <th class="th-sm font-weight-bold alert-primary" width="20%">Номер</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="5%">Статус</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="20%">Рег. номер</th>
                             <th class="th-sm font-weight-bold alert-primary" width="20%">Дата регистрации</th>
-                            <th class="th-sm font-weight-bold alert-primary" width="40%">Название</th>
-                            <th class="th-sm font-weight-bold alert-primary" width="10%">Согласовать</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="40%">Вид документа</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="40%">Согласовант</th>
+                            <th class="th-sm font-weight-bold alert-primary" width="10%">Карточка документа</th>
                         </tr>
                         </thead>
+                        <tbody id="rowContent"></tbody>
                     </table>
                 </div>
             </div>
@@ -35,7 +38,9 @@
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
     $(function() {
-        dataTableArray("#dataTable","rest/profile/docs/agreement");
+        var page = getPage();
+        var url = "rest/profile/docs/"+page;
+        dataTableArray("#dataTable",url, 0);
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>

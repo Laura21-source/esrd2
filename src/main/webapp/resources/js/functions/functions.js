@@ -1,21 +1,6 @@
     // Количество элементов в массиве
     function countElem (array) {return array.length;}
 
-    function callbackFuncWithData (data) {
-        //var sumArray = JSON.stringify(data);
-        //var newArray = JSON.parse(sumArray);
-        var countArray = countElem(data);
-        console.log(countArray);
-        return countArray;
-    }
-
-    // Количество элементо в массиве JSON
-    function countElemJSON (url) {
-        $.getJSON(url, function(data) {
-            callbackFuncWithData (data);
-        })
-    }
-
     // Отображение размера плашек от значений показателей
     function statisticBlock (array) {
         var countMax = array[0]['value'];
@@ -34,8 +19,126 @@
         }
     }
 
+    // Массив JSON со всеми значениями сумм элементов
+    function countElemJSON (url, value) {
+        $.getJSON(url, function(data) {
+            if(value == 1) {
+                var mySum = data.atThisMounthOnControl;
+                var mySuccess = data.atThisMounthOnControlCompletedInTime;
+                var myWarning = data.atThisMounthOnControlCompletedAfterTime;
+                var myDanger = data.atThisMounthOnControlNotCompleted;
+                var myDis = [{'pole':'#mySum','value':mySum},{'pole':'#mySuccess','value':mySuccess},{'pole':'#myWarning','value':myWarning},{'pole':'#myDanger','value':myDanger}];
+                statisticBlock(myDis);
+            }
+            if(value == 2) {
+                var inWorkSuccess = data.inworkMoreDeadlineByDepartment;
+                var inWorkDanger = data.inworkLessDeadlineByDepartment;
+                var allInWork = [{'pole':'#inWorkSuccess','value':inWorkSuccess},{'pole':'#inWorkDanger','value':inWorkDanger}];
+                statisticBlock(allInWork);
+                // Для бубликов
+                var inWorkSuccessUser = data.inworkMoreDeadlineByUserName;
+                var inWorkDangerUser = data.inworkLessDeadlineByUserName;
+                console.log(inWorkSuccessUser);
+                am4core.ready(function () {
+                    am4core.useTheme(am4themes_dark);
+                    am4core.useTheme(am4themes_animated);
+                    var chart = am4core.create("chartDiv1", am4charts.PieChart3D);
+                    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+                    chart.data = [
+                        {
+                            country: "Срок контроля 3 дня",
+                            litres: inWorkSuccessUser,
+                            color: am4core.color("#ff4444")
+                        },
+                        {
+                            country: "Срок контроля более 3 дней",
+                            litres: inWorkDangerUser,
+                            color: am4core.color("#2BBBAD")
+                        }
+                    ];
+                    var pieSeries = chart.series.push(new am4charts.PieSeries3D());
+                    pieSeries.dataFields.value = "litres";
+                    pieSeries.dataFields.category = "country";
+                    pieSeries.slices.template.propertyFields.fill = "color";
+                    chart.innerRadius = am4core.percent(63);
+                    pieSeries.labels.template.disabled = true;
+                    pieSeries.ticks.template.disabled = true;
+                });
+            }
+            if(value == 3) {
+                var agreeSuccess = data.agreementMoreDeadlineByDepartment;
+                var agreeDanger = data.agreementLessDeadlineByDepartment;
+                var allAgrre = [{'pole':'#agreeSuccess','value':agreeSuccess},{'pole':'#agreeDanger','value':agreeDanger}];
+                statisticBlock(allAgrre);
+                // Для бубликов
+                var agreeSuccessUser = data.agreementLessDeadlineByUserName;
+                var agreeDangerUser = data.agreementMoreDeadlineByUserName;
+                am4core.ready(function() {
+                    am4core.useTheme(am4themes_dark);
+                    am4core.useTheme(am4themes_animated);
+                    var chart = am4core.create("chartDiv2", am4charts.PieChart3D);
+                    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+                    chart.data = [
+                        {
+                            country: "Срок контроля 3 дня",
+                            litres: agreeSuccessUser,
+                            color: am4core.color("#ff4444")
+                        },
+                        {
+                            country: "Срок контроля более 3 дней",
+                            litres: agreeDangerUser,
+                            color: am4core.color("#2BBBAD")
+                        }
+                    ];
+                    var pieSeries = chart.series.push(new am4charts.PieSeries3D());
+                    pieSeries.dataFields.value = "litres";
+                    pieSeries.dataFields.category = "country";
+                    pieSeries.slices.template.propertyFields.fill = "color";
+                    chart.innerRadius = am4core.percent(63);
+                    pieSeries.labels.template.disabled = true;
+                    pieSeries.ticks.template.disabled = true;
+                });
+            }
+            if(value == 4) {
+                var distSuccess = data.distributionMoreDeadlineByDepartment;
+                var distDanger = data.distributionLessDeadlineByDepartment;
+                var allDist = [{'pole':'#distSuccess','value':distSuccess},{'pole':'#distDanger','value':distDanger}];
+                statisticBlock(allDist);
+                var distSuccessUser = data.distributionMoreDeadlineByChiefUserName;
+                var distDangerUser = data.distributionLessDeadlineByChiefUserName;
+                am4core.ready(function() {
+                    am4core.useTheme(am4themes_dark);
+                    am4core.useTheme(am4themes_animated);
+                    var chart = am4core.create("chartDiv3", am4charts.PieChart3D);
+                    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+                    chart.data = [
+                        {
+                            country: "Срок контроля 3 дня",
+                            litres: distSuccessUser,
+                            color: am4core.color("#ff4444")
+                        },
+                        {
+                            country: "Срок контроля более 3 дней",
+                            litres: distDangerUser,
+                            color: am4core.color("#2BBBAD")
+                        }
+                    ];
+                    var pieSeries = chart.series.push(new am4charts.PieSeries3D());
+                    pieSeries.dataFields.value = "litres";
+                    pieSeries.dataFields.category = "country";
+                    pieSeries.slices.template.propertyFields.fill = "color";
+                    chart.innerRadius = am4core.percent(63);
+                    pieSeries.labels.template.disabled = true;
+                    pieSeries.ticks.template.disabled = true;
+                });
+            }
+        })
+    }
+
     // Получение id документа из адресной строки
-    function getId () {return new URL(window.location.href).searchParams.get("id");}
+    function getId() {return new URL(window.location.href).searchParams.get("id");}
+    function getPage() {return new URL(window.location.href).searchParams.get("page");}
 
     // Получение текущего пользователя
     function getName (url, element) {
