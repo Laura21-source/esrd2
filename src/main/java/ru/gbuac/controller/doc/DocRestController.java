@@ -11,6 +11,7 @@ import ru.gbuac.to.*;
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = DocRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -19,6 +20,12 @@ public class DocRestController extends AbstractDocRestController {
 
     @Autowired
     ServletContext context;
+
+    @Override
+    @GetMapping(value = "/counters")
+    public Map<String, Integer> getCounters() {
+        return super.getCounters();
+    }
 
     @Override
     @GetMapping(value = "/{id}")
@@ -39,21 +46,9 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
-    @GetMapping(value = "/agreementMoreDeadlineByUserName/count")
-    public Integer getCountAgreementMoreDeadlineByUserName() {
-        return super.getCountAgreementMoreDeadlineByUserName();
-    }
-
-    @Override
     @GetMapping(value = "/agreementLessDeadlineByUserName")
     public List<Doc> getAllAgreementLessDeadlineByUserName() {
         return super.getAllAgreementLessDeadlineByUserName();
-    }
-
-    @Override
-    @GetMapping(value = "/agreementLessDeadlineByUserName/count")
-    public Integer getCountAgreementLessDeadlineByUserName() {
-        return super.getCountAgreementLessDeadlineByUserName();
     }
 
     @Override
@@ -63,21 +58,9 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
-    @GetMapping(value = "/agreementMoreDeadlineByDepartment/count")
-    public Integer getCountAgreementMoreDeadlineByDepartment() {
-        return super.getCountAgreementMoreDeadlineByDepartment();
-    }
-
-    @Override
     @GetMapping(value = "/agreementLessDeadlineByDepartment")
     public List<Doc> getAllAgreementLessDeadlineByDepartment() {
         return super.getAllAgreementLessDeadlineByDepartment();
-    }
-
-    @Override
-    @GetMapping(value = "/agreementLessDeadlineByDepartment/count")
-    public Integer getCountAgreementLessDeadlineByDepartment() {
-        return super.getCountAgreementLessDeadlineByDepartment();
     }
 
     @Override
@@ -99,21 +82,9 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
-    @GetMapping(value = "/inwork/count")
-    public Integer getCountInWorkByUserName() {
-        return super.getCountInWorkByUserName();
-    }
-
-    @Override
     @GetMapping(value = "/inworkMoreDeadlineByUserName")
     public List<DocItemTo> getAllInWorkMoreDeadlineByUserName() {
         return super.getAllInWorkMoreDeadlineByUserName();
-    }
-
-    @Override
-    @GetMapping(value = "/inworkMoreDeadlineByUserName/count")
-    public Integer getCountInWorkMoreDeadlineByUserName() {
-        return super.getCountInWorkMoreDeadlineByUserName();
     }
 
     @Override
@@ -123,21 +94,9 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
-    @GetMapping(value = "/inworkLessDeadlineByUserName/count")
-    public Integer geCountInWorkLessDeadlineByUserName() {
-        return super.geCountInWorkLessDeadlineByUserName();
-    }
-
-    @Override
     @GetMapping(value = "/inworkMoreDeadlineByDepartment")
     public List<DocItemTo> getAllInWorkMoreDeadlineByDepartment() {
         return super.getAllInWorkMoreDeadlineByDepartment();
-    }
-
-    @Override
-    @GetMapping(value = "/inworkMoreDeadlineByDepartment/count")
-    public Integer getCountInWorkMoreDeadlineByDepartment() {
-        return super.getCountInWorkMoreDeadlineByDepartment();
     }
 
     @Override
@@ -147,21 +106,9 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
-    @GetMapping(value = "/inworkLessDeadlineByDepartment/count")
-    public Integer getCountInWorkLessDeadlineByDepartment() {
-        return super.getCountInWorkLessDeadlineByDepartment();
-    }
-
-    @Override
     @GetMapping(value = "/distribution")
     public List<DocItemTo> getAllDistribution() {
         return super.getAllDistribution();
-    }
-
-    @Override
-    @GetMapping(value = "/distribution/count")
-    public Integer getCountDistribution() {
-        return super.getCountDistribution();
     }
 
     @Override
@@ -171,21 +118,9 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
-    @GetMapping(value = "/distributionMoreDeadlineByChiefUserName/count")
-    public Integer getCountDistributionMoreDeadlineByChiefUserName() {
-        return super.getCountDistributionMoreDeadlineByChiefUserName();
-    }
-
-    @Override
     @GetMapping(value = "/distributionLessDeadlineByChiefUserName")
     public List<DocItemTo> getAllDistributionLessDeadlineByChiefUserName() {
         return super.getAllDistributionLessDeadlineByChiefUserName();
-    }
-
-    @Override
-    @GetMapping(value = "/distributionLessDeadlineByChiefUserName/count")
-    public Integer getCountDistributionLessDeadlineByChiefUserName() {
-        return super.getCountDistributionLessDeadlineByChiefUserName();
     }
 
     @Override
@@ -195,21 +130,9 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
-    @GetMapping(value = "/distributionMoreDeadlineByDepartment/count")
-    public Integer getCountDistributionMoreDeadlineByDepartment() {
-        return super.getCountDistributionMoreDeadlineByDepartment();
-    }
-
-    @Override
     @GetMapping(value = "/distributionLessDeadlineByDepartment")
     public List<DocItemTo> getAllDistributionLessDeadlineByDepartment() {
         return super.getAllDistributionLessDeadlineByDepartment();
-    }
-
-    @Override
-    @GetMapping(value = "/distributionLessDeadlineByDepartment/count")
-    public Integer getCountDistributionLessDeadlineByDepartment() {
-        return super.getCountDistributionLessDeadlineByDepartment();
     }
 
     @Override
@@ -225,20 +148,9 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
-    public Integer getCountAtThisMounthOnControl() {
-        return super.getCountAtThisMounthOnControl();
-    }
-
-    @Override
     @GetMapping(value = "/atThisMounthOnControlCompletedInTime")
     public List<DocItemTo> getAllAtThisMounthOnControlCompletedInTime() {
         return super.getAllAtThisMounthOnControlCompletedInTime();
-    }
-
-    @Override
-    @GetMapping(value = "/atThisMounthOnControlCompletedInTime/count")
-    public Integer getCountAtThisMounthOnControlCompletedInTime() {
-        return super.getCountAtThisMounthOnControlCompletedInTime();
     }
 
     @Override
@@ -248,21 +160,9 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @Override
-    @GetMapping(value = "/atThisMounthOnControlCompletedAfterTime/count")
-    public Integer getCountAtThisMounthOnControlCompletedAfterTime() {
-        return super.getCountAtThisMounthOnControlCompletedAfterTime();
-    }
-
-    @Override
     @GetMapping(value = "/atThisMounthOnControlNotCompleted")
     public List<DocItemTo> getAllAtThisMounthOnControlNotCompleted() {
         return super.getAllAtThisMounthOnControlNotCompleted();
-    }
-
-    @Override
-    @GetMapping(value = "/atThisMounthOnControlNotCompleted/count")
-    public Integer getCountAtThisMounthOnControlNotCompleted() {
-        return super.getCountAtThisMounthOnControlNotCompleted();
     }
 
     @Override
