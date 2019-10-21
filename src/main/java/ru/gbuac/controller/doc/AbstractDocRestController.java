@@ -39,9 +39,9 @@ public abstract class AbstractDocRestController {
                 { "agreementMoreDeadlineByUserName", docService.getAllAgreementMoreDeadlineByUserName(userName).size() },
                 { "agreementLessDeadlineByUserName", docService.getAllAgreementLessDeadlineByUserName(userName).size() },
 
-                { "inWorkByUserName", docService.getAllInWorkByUserName(AuthorizedUser.getUserName()).size() },
-                { "inWorkMoreDeadlineByUserName", docService.getAllInWorkMoreDeadlineByUserName(userName).size() },
-                { "inWorkLessDeadlineByUserName", docService.getAllInWorkLessDeadlineByUserName(userName).size() },
+                { "inwork", docService.getAllInWorkByUserName(AuthorizedUser.getUserName()).size() },
+                { "inworkMoreDeadlineByUserName", docService.getAllInWorkMoreDeadlineByUserName(userName).size() },
+                { "inworkLessDeadlineByUserName", docService.getAllInWorkLessDeadlineByUserName(userName).size() },
 
                 { "distribution", docService.getAllDistribution(userName).size() },
                 { "distributionMoreDeadlineByChiefUserName", docService.getAllDistributionMoreDeadlineByChiefUserName(userName).size() },
@@ -52,10 +52,10 @@ public abstract class AbstractDocRestController {
                 { "atThisMounthOnControlCompletedAfterTime", docService.getAllAtThisMounthOnControlCompletedAfterTime(userName).size() },
                 { "atThisMounthOnControlNotCompleted", docService.getAllAtThisMounthOnControlNotCompleted(userName).size() },
 
-                { "agreementMoreDeadlineByDepartment", docService.getAllAgreementLessDeadlineByUserName(userName).size() },
-                { "agreementLessDeadlineByDepartment", docService.getAllAgreementLessDeadlineByUserName(userName).size() },
-                { "inWorkMoreDeadlineByDepartment", docService.getAllInWorkMoreDeadlineByDepartment(userName).size() },
-                { "inWorkLessDeadlineByDepartment", docService.getAllInWorkLessDeadlineByDepartment(userName).size() },
+                { "agreementMoreDeadlineByDepartment", docService.getAllAgreementMoreDeadlineByDepartment(userName).size() },
+                { "agreementLessDeadlineByDepartment", docService.getAllAgreementLessDeadlineByDepartment(userName).size() },
+                { "inworkMoreDeadlineByDepartment", docService.getAllInWorkMoreDeadlineByDepartment(userName).size() },
+                { "inworkLessDeadlineByDepartment", docService.getAllInWorkLessDeadlineByDepartment(userName).size() },
                 { "distributionMoreDeadlineByDepartment", docService.getAllDistributionMoreDeadlineByDepartment(userName).size() },
                 { "distributionLessDeadlineByDepartment", docService.getAllDistributionLessDeadlineByDepartment(userName).size() },
         }).collect(Collectors.toMap(data -> (String) data[0], data -> (Integer) data[1]));
