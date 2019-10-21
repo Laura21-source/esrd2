@@ -152,6 +152,9 @@ public class DocServiceImpl implements DocService {
     @Override
     public List<Doc> getAllAgreementMoreDeadlineByDepartment(String userName) {
         Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null && !department.isTopLevel()) {
+            department = departmentRepository.getTopLevelForDepartment(department.getId()).orElse(null);
+        }
         if (department != null) {
             List<Doc> docs =
                     docRepository.getAllAgreementMoreDeadline("", department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
@@ -164,6 +167,9 @@ public class DocServiceImpl implements DocService {
     @Override
     public List<Doc> getAllAgreementLessDeadlineByDepartment(String userName) {
         Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null && !department.isTopLevel()) {
+            department = departmentRepository.getTopLevelForDepartment(department.getId()).orElse(null);
+        }
         if (department != null) {
             List<Doc> docs =
                     docRepository.getAllAgreementLessDeadline("", department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
@@ -266,6 +272,9 @@ public class DocServiceImpl implements DocService {
     @Override
     public List<DocItemTo> getAllInWorkMoreDeadlineByDepartment(String userName) {
         Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null && !department.isTopLevel()) {
+            department = departmentRepository.getTopLevelForDepartment(department.getId()).orElse(null);
+        }
         if (department != null) {
             List<Doc> docs =
                     docRepository.getAllInWorkMoreDeadline("", department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
@@ -278,6 +287,9 @@ public class DocServiceImpl implements DocService {
     @Override
     public List<DocItemTo> getAllInWorkLessDeadlineByDepartment(String userName) {
         Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null && !department.isTopLevel()) {
+            department = departmentRepository.getTopLevelForDepartment(department.getId()).orElse(null);
+        }
         if (department != null) {
             List<Doc> docs =
                     docRepository.getAllInWorkLessDeadline("", department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
@@ -319,6 +331,9 @@ public class DocServiceImpl implements DocService {
     @Override
     public List<DocItemTo> getAllDistributionMoreDeadlineByDepartment(String userName) {
         Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null && !department.isTopLevel()) {
+            department = departmentRepository.getTopLevelForDepartment(department.getId()).orElse(null);
+        }
         if (department != null) {
             List<Doc> docs = docRepository.getAllDistributionMoreDeadline(department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
             return getWithUserDepsExecutors(docs);
@@ -330,6 +345,9 @@ public class DocServiceImpl implements DocService {
     @Override
     public List<DocItemTo> getAllDistributionLessDeadlineByDepartment(String userName) {
         Department department = departmentRepository.getByUserName(userName).orElse(null);
+        if (department != null && !department.isTopLevel()) {
+            department = departmentRepository.getTopLevelForDepartment(department.getId()).orElse(null);
+        }
         if (department != null) {
             List<Doc> docs = docRepository.getAllDistributionLessDeadline(department.getId(), LocalDate.now().plusDays(DEADLINE_DAYS));
             return getWithUserDepsExecutors(docs);
