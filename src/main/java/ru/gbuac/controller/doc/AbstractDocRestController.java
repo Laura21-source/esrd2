@@ -30,9 +30,19 @@ public abstract class AbstractDocRestController {
         return docService.getAllAgreementMoreDeadlineByUserName(AuthorizedUser.getUserName());
     }
 
+    public Integer getCountAgreementMoreDeadlineByUserName() {
+        LOG.info("getCountAgreementMoreDeadlineByUserName");
+        return docService.getAllAgreementMoreDeadlineByUserName(AuthorizedUser.getUserName()).size();
+    }
+
     public List<Doc> getAllAgreementLessDeadlineByUserName() {
         LOG.info("getAllAgreementLessDeadlineByUserName");
         return docService.getAllAgreementLessDeadlineByUserName(AuthorizedUser.getUserName());
+    }
+
+    public Integer getCountAgreementLessDeadlineByUserName() {
+        LOG.info("getCountAgreementLessDeadlineByUserName");
+        return docService.getAllAgreementLessDeadlineByUserName(AuthorizedUser.getUserName()).size();
     }
 
     public List<Doc> getAllAgreementMoreDeadlineByDepartment() {
@@ -40,9 +50,19 @@ public abstract class AbstractDocRestController {
         return docService.getAllAgreementMoreDeadlineByDepartment(AuthorizedUser.getUserName());
     }
 
+    public Integer getCountAgreementMoreDeadlineByDepartment() {
+        LOG.info("getCountAgreementMoreDeadlineByDepartment");
+        return docService.getAllAgreementMoreDeadlineByDepartment(AuthorizedUser.getUserName()).size();
+    }
+
     public List<Doc> getAllAgreementLessDeadlineByDepartment() {
         LOG.info("getAllAgreementLessDeadlineByDepartment");
         return docService.getAllAgreementLessDeadlineByDepartment(AuthorizedUser.getUserName());
+    }
+
+    public Integer getCountAgreementLessDeadlineByDepartment() {
+        LOG.info("getCountAgreementLessDeadlineByDepartment");
+        return docService.getAllAgreementLessDeadlineByDepartment(AuthorizedUser.getUserName()).size();
     }
 
 
@@ -79,9 +99,19 @@ public abstract class AbstractDocRestController {
          return docService.getAllInWorkByUserName(AuthorizedUser.getUserName());
     }
 
+    public Integer getCountInWorkByUserName() {
+        LOG.info("getCountInWorkByUserName");
+        return docService.getAllInWorkByUserName(AuthorizedUser.getUserName()).size();
+    }
+
     public List<DocItemTo> getAllInWorkMoreDeadlineByUserName() {
         LOG.info("getAllInWorkMoreDeadlineByUserName");
         return docService.getAllInWorkMoreDeadlineByUserName(AuthorizedUser.getUserName());
+    }
+
+    public Integer getCountInWorkMoreDeadlineByUserName() {
+        LOG.info("getCountInWorkMoreDeadlineByUserName");
+        return docService.getAllInWorkMoreDeadlineByUserName(AuthorizedUser.getUserName()).size();
     }
 
     public List<DocItemTo> getAllInWorkLessDeadlineByUserName() {
@@ -89,9 +119,19 @@ public abstract class AbstractDocRestController {
         return docService.getAllInWorkLessDeadlineByUserName(AuthorizedUser.getUserName());
     }
 
+    public Integer geCountInWorkLessDeadlineByUserName() {
+        LOG.info("getCountInWorkLessDeadlineByUserName");
+        return docService.getAllInWorkLessDeadlineByUserName(AuthorizedUser.getUserName()).size();
+    }
+
     public List<DocItemTo> getAllInWorkMoreDeadlineByDepartment() {
         LOG.info("getAllInWorkMoreDeadlineByDepartment");
         return docService.getAllInWorkMoreDeadlineByDepartment(AuthorizedUser.getUserName());
+    }
+
+    public Integer getCountInWorkMoreDeadlineByDepartment() {
+        LOG.info("getAllInWorkMoreDeadlineByDepartment");
+        return docService.getAllInWorkMoreDeadlineByDepartment(AuthorizedUser.getUserName()).size();
     }
 
     public List<DocItemTo> getAllInWorkLessDeadlineByDepartment() {
@@ -99,9 +139,19 @@ public abstract class AbstractDocRestController {
         return docService.getAllInWorkLessDeadlineByDepartment(AuthorizedUser.getUserName());
     }
 
+    public Integer getCountInWorkLessDeadlineByDepartment() {
+        LOG.info("getCountInWorkLessDeadlineByDepartment");
+        return docService.getAllInWorkLessDeadlineByDepartment(AuthorizedUser.getUserName()).size();
+    }
+
     public List<DocItemTo> getAllDistribution() {
         LOG.info("getAllDistribution");
         return docService.getAllDistribution(AuthorizedUser.getUserName());
+    }
+
+    public Integer getCountDistribution() {
+        LOG.info("getCountDistribution");
+        return docService.getAllDistribution(AuthorizedUser.getUserName()).size();
     }
 
     public List<DocItemTo> getAllDistributionMoreDeadlineByChiefUserName() {
@@ -109,9 +159,19 @@ public abstract class AbstractDocRestController {
         return docService.getAllDistributionMoreDeadlineByChiefUserName(AuthorizedUser.getUserName());
     }
 
+    public Integer getCountDistributionMoreDeadlineByChiefUserName() {
+        LOG.info("getCountDistributionMoreDeadlineByChiefUserName");
+        return docService.getAllDistributionMoreDeadlineByChiefUserName(AuthorizedUser.getUserName()).size();
+    }
+
     public List<DocItemTo> getAllDistributionLessDeadlineByChiefUserName() {
         LOG.info("getAllDistributionLessDeadlineByChiefUserName");
         return docService.getAllDistributionLessDeadlineByChiefUserName(AuthorizedUser.getUserName());
+    }
+
+    public Integer getCountDistributionLessDeadlineByChiefUserName() {
+        LOG.info("getCountDistributionLessDeadlineByChiefUserName");
+        return docService.getAllDistributionLessDeadlineByChiefUserName(AuthorizedUser.getUserName()).size();
     }
 
     public List<DocItemTo> getAllDistributionMoreDeadlineByDepartment() {
@@ -119,9 +179,19 @@ public abstract class AbstractDocRestController {
         return docService.getAllDistributionMoreDeadlineByDepartment(AuthorizedUser.getUserName());
     }
 
+    public Integer getCountDistributionMoreDeadlineByDepartment() {
+        LOG.info("getCountDistributionMoreDeadlineByDepartment");
+        return docService.getAllDistributionMoreDeadlineByDepartment(AuthorizedUser.getUserName()).size();
+    }
+
     public List<DocItemTo> getAllDistributionLessDeadlineByDepartment() {
         LOG.info("getAllDistributionLessDeadlineByDepartment");
         return docService.getAllDistributionLessDeadlineByDepartment(AuthorizedUser.getUserName());
+    }
+
+    public Integer getCountDistributionLessDeadlineByDepartment() {
+        LOG.info("getCountDistributionLessDeadlineByDepartment");
+        return docService.getAllDistributionLessDeadlineByDepartment(AuthorizedUser.getUserName()).size();
     }
 
     public List<DocItemTo> getAllDistributed() {
@@ -134,9 +204,19 @@ public abstract class AbstractDocRestController {
         return docService.getAllAtThisMounthOnControl(AuthorizedUser.getUserName());
     }
 
+    public Integer getCountAtThisMounthOnControl() {
+        LOG.info("getCountAtThisMounthOnControl");
+        return docService.getAllAtThisMounthOnControl(AuthorizedUser.getUserName()).size();
+    }
+
     public List<DocItemTo> getAllAtThisMounthOnControlCompletedInTime() {
         LOG.info("getAllAtThisMounthOnControlCompletedInTime");
         return docService.getAllAtThisMounthOnControlCompletedInTime(AuthorizedUser.getUserName());
+    }
+
+    public Integer getCountAtThisMounthOnControlCompletedInTime() {
+        LOG.info("getCountAtThisMounthOnControlCompletedInTime");
+        return docService.getAllAtThisMounthOnControlCompletedInTime(AuthorizedUser.getUserName()).size();
     }
 
     public List<DocItemTo> getAllAtThisMounthOnControlCompletedAfterTime() {
@@ -144,9 +224,19 @@ public abstract class AbstractDocRestController {
         return docService.getAllAtThisMounthOnControlCompletedAfterTime(AuthorizedUser.getUserName());
     }
 
+    public Integer getCountAtThisMounthOnControlCompletedAfterTime() {
+        LOG.info("getCountAtThisMounthOnControlCompletedAfterTime");
+        return docService.getAllAtThisMounthOnControlCompletedAfterTime(AuthorizedUser.getUserName()).size();
+    }
+
     public List<DocItemTo> getAllAtThisMounthOnControlNotCompleted() {
         LOG.info("getAllAtThisMounthOnControlNotCompleted");
         return docService.getAllAtThisMounthOnControlNotCompleted(AuthorizedUser.getUserName());
+    }
+
+    public Integer getCountAtThisMounthOnControlNotCompleted() {
+        LOG.info("getCountAtThisMounthOnControlNotCompleted");
+        return docService.getAllAtThisMounthOnControlNotCompleted(AuthorizedUser.getUserName()).size();
     }
 
 
