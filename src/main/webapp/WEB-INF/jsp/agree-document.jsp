@@ -332,31 +332,48 @@
                 if(data.canDistribute == true) {
                     $('.performerBlock').removeClass('d-none');
                     // Добавим опций
-                    createOptions ('rest/profile/users/', '#performerList', '', 'id', '', 'usersList');
+                    if (data.executorUsersIds.length == 0) {
+                        createOptions ('rest/profile/users/', '#performerList', '', 'id', '', 'usersList');
+                    }
+                    for(var i in data.executorUsersIds) {
+                        createOptions ('rest/profile/users/', '#performerList', '', 'id', data.executorUsersIds[i], 'usersList');
+                    }
                     // Добавление исполнителя
-                    $(document).on("change", "#performerList", function() {
-                        var performerList = [];
-                        $("#performerList option:selected").each(function() {
-                            var userId = parseInt($(this).val());
-                            var data = {
-                                "id" : userId
-                            }
-                            performerList.push(data);
-                        });
-                        //console.log(performerList);
-                        performerList = JSON.stringify(performerList);
-                        var serverAjax = $.ajax({
-                            type: "POST",
-                            url: 'rest/profile/docs/executorUsersList/'+id,
-                            data: (performerList),
-                            contentType: 'application/json; charset=utf-8'
-                        });
-                        serverAjax.done(function() {
-                            toastr["success"]("Исполнитель успешно добавлен!");
-                        });
-                        serverAjax.fail(function () {
-                            toastr["error"]("Исполнитель не добавлен!");
-                        });
+                    $(document).on("change", "#performerList", function(evt, params) {
+                        if (params.selected) {
+                            var userId = parseInt(params.selected);
+                            var serverAjax = $.ajax({
+                                type: "POST",
+                                url: 'rest/profile/docs/'+id+'/addExecutorUser/'+userId,
+                                contentType: 'application/json; charset=utf-8'
+                            });
+                            serverAjax.done(function() {
+                                toastr["success"]("Исполнителю назначен  на документ!");
+                            });
+                            serverAjax.fail(function () {
+                                toastr["error"]("Не удалось назначить исполнителя!");
+                                //$("#performerList").empty();
+                                $("#performerList option[value='"+userId+"']").prop("selected", false);
+                                $("#performerList").trigger("chosen:updated");
+                            });
+                        }
+                        if (params.deselected) {
+                            var userId = parseInt(params.deselected);
+                            var serverAjax = $.ajax({
+                                type: "DELETE",
+                                url: 'rest/profile/docs/'+id+'/removeExecutorUser/'+userId,
+                                contentType: 'application/json; charset=utf-8'
+                            });
+                            serverAjax.done(function() {
+                                toastr["success"]("Исполнитель снят с документа!");
+                            });
+                            serverAjax.fail(function () {
+                                toastr["error"]("Исполнитель не снят с документа!");
+                                //$("#performerList").empty();
+                                $("#performerList option[value='"+userId+"']").prop("selected", false);
+                                $("#performerList").trigger("chosen:updated");
+                            });
+                        }
                     });
                 }
             }

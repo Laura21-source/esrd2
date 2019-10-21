@@ -118,7 +118,7 @@
             </div>
             <div class="btnBlock">
                 <div class="d-flex align-items-center justify-content-center pb-2">
-                    <a href=#" type="button" class="btn btn-md btn-primary rounded btnAddElement">Добавить</a>
+                    <a href="#" type="button" class="btn btn-md btn-primary rounded btnAddElement">Добавить</a>
                     <a href="#" type="button" class="btn btn-md btn-danger rounded" data-dismiss="modal">Отмена</a>
                 </div>
             </div>
