@@ -1,6 +1,21 @@
     // Количество элементов в массиве
     function countElem (array) {return array.length;}
 
+    function callbackFuncWithData (data) {
+        //var sumArray = JSON.stringify(data);
+        //var newArray = JSON.parse(sumArray);
+        var countArray = countElem(data);
+        console.log(countArray);
+        return countArray;
+    }
+
+    // Количество элементо в массиве JSON
+    function countElemJSON (url) {
+        $.getJSON(url, function(data) {
+            callbackFuncWithData (data);
+        })
+    }
+
     // Отображение размера плашек от значений показателей
     function statisticBlock (array) {
         var countMax = array[0]['value'];
@@ -17,22 +32,6 @@
             if(value < sum25) {sumClass = 'w-25';}
             $(pole).addClass(sumClass).html(value);
         }
-    }
-
-    // Количество элементо в массиве JSON
-    function countElemJSON (url, element) {
-        var array = [];
-        $.getJSON (url, function(data) {
-            var sumArray = JSON.stringify(data);
-            var newArray = JSON.parse(sumArray);
-            var countArray = newArray.length;
-            $(element).attr('data-value',countArray);
-            console.log(newArray);
-            /*for(var i in data) {
-                array.push(data[i].id);
-            }*/
-        });
-        return(array);
     }
 
     // Получение id документа из адресной строки

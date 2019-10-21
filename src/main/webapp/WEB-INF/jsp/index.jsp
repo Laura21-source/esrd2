@@ -184,14 +184,13 @@
             });
 
         // Показ цифр дисциплина
-        countElemJSON('rest/profile/docs/agreement', '#mySum'); // Общее rest/profile/docs/atThisMounthOnControl
-        var mySum = $('#mySum').attr('data-value');
-        console.log(mySum);
+        //var mySum = countElemJSON('rest/profile/docs/agreement'); // Общее rest/profile/docs/atThisMounthOnControl
+        //console.log(mySum);
         //var mySuccess = countElemJSON('rest/profile/docs/atThisMounthOnControlCompletedInTime'); // Успешные
         //var myWarning = countElemJSON('rest/profile/docs/atThisMounthOnControlCompletedAfterTime'); // С ошибками
         //var myDanger = countElemJSON('rest/profile/docs/atThisMounthOnControlNotCompleted'); // Незавершенные
 
-        /*var mySum = 39;*/ var mySuccess = 28; var myWarning = 8; var myDanger = 3;
+        var mySum = 39; var mySuccess = 28; var myWarning = 8; var myDanger = 3;
         // Отображение размера плашек от значений показателей
         var myDis = [{'pole':'#mySum','value':mySum},{'pole':'#mySuccess','value':mySuccess},{'pole':'#myWarning','value':myWarning},{'pole':'#myDanger','value':myDanger}];
         statisticBlock(myDis);
