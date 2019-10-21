@@ -49,7 +49,7 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
             "LEFT JOIN pd.resolutions r WHERE " +
             "(r.controlDate>:deadline OR r.controlDate IS NULL) " +
             "AND (lower(a.user.name)=lower(:userName) OR r.department.id=:departmentId) " +
-            "AND a.currentUser=TRUE AND d.docStatus='IN_WORK' ORDER BY d.id")
+            "AND a.currentUser=TRUE AND d.docStatus='IN_AGREEMENT' ORDER BY d.id")
     List<Doc> getAllAgreementMoreDeadline(@Param("userName") String userName,
                                           @Param("departmentId") int departmentId, @Param("deadline") LocalDate deadline);
 
@@ -59,7 +59,7 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
             "LEFT JOIN pd.resolutions r WHERE " +
             "r.controlDate<=:deadline " +
             "AND (lower(a.user.name)=lower(:userName) OR r.department.id=:departmentId) " +
-            "AND a.currentUser=TRUE AND d.docStatus='IN_WORK' ORDER BY d.id")
+            "AND a.currentUser=TRUE AND d.docStatus='IN_AGREEMENT' ORDER BY d.id")
     List<Doc> getAllAgreementLessDeadline(@Param("userName") String userName, @Param("departmentId") int departmentId,
                                           @Param("deadline") LocalDate deadline);
 
