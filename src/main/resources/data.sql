@@ -888,7 +888,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catal
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2114, null, 'от 9 декабря 2016 года № 331-ТР', 1008, 2008);
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id, final_doc)
-VALUES (1, 'Служебная записка о включении вопросов в Повестку заседания Правления', 3002, 'zapiska.docx', 'zapiska.docx', 23, true);
+VALUES (1, 'Служебная записка о включении вопросов в Повестку заседания Правления', 3002, 'zapiska.docx', 'zapiska.docx', 23, false);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null, 'MeetingDate');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (6, 'Номер СЭДО', 'TEXT', null, null, null, null, '');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (7, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, '');
@@ -930,7 +930,7 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20,
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (21, 1, 7, 3);
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id, final_doc)
-VALUES (2, 'Повестка заседания Правления', 3005, 'povestka.docx', 'povestka.docx', 24, false);
+VALUES (2, 'Повестка заседания Правления', 3005, 'povestka.docx', 'povestka.docx', 24, true);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (5, 'Время заседания', 'TIME', null, null, null, null, 'MeetingTime');
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (101, 2, 4, true, 3006);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (102, 2, 5, true, 3005);
