@@ -61,7 +61,7 @@
                                         <h4 class="my-3">Документы управления</h4>
                                         <h6>На исполнении</h6>
                                         <div class="row d-flex align-items-center white-text">
-                                            <div class="col-md-6 text-right">
+                                            <div class="col-md-4 text-right">
                                                 срок более 3 дней
                                             </div>
                                             <div class="col-md-6 text-left">
@@ -69,8 +69,8 @@
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center white-text">
-                                            <div class="col-md-6 text-right">
-                                                срок 3 дня
+                                            <div class="col-md-4 text-right">
+                                                срок 3 дня и меньше
                                             </div>
                                             <div class="col-md-6 text-left">
                                                 <a href="temp-list?page=inworkLessDeadlineByDepartment" class="btn btn-sm btn-danger font-weight-bold px-1" id="inWorkDanger"></a>
@@ -78,7 +78,7 @@
                                         </div>
                                         <h6>На согласовании</h6>
                                         <div class="row d-flex align-items-center white-text">
-                                            <div class="col-md-6 text-right">
+                                            <div class="col-md-4 text-right">
                                                 срок более 3 дней
                                             </div>
                                             <div class="col-md-6 text-left">
@@ -86,8 +86,8 @@
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center white-text">
-                                            <div class="col-md-6 text-right">
-                                                срок 3 дня
+                                            <div class="col-md-4 text-right">
+                                                срок 3 дня и меньше
                                             </div>
                                             <div class="col-md-6 text-left">
                                                 <a href="temp-list?page=agreementLessDeadlineByDepartment" class="btn btn-sm btn-danger font-weight-bold px-1" id="agreeDanger"></a>
@@ -95,7 +95,7 @@
                                         </div>
                                         <h6>На распределении</h6>
                                         <div class="row d-flex align-items-center white-text">
-                                            <div class="col-md-6 text-right">
+                                            <div class="col-md-4 text-right">
                                                 срок более 3 дней
                                             </div>
                                             <div class="col-md-6 text-left">
@@ -103,8 +103,8 @@
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center white-text">
-                                            <div class="col-md-6 text-right">
-                                                срок 3 дня
+                                            <div class="col-md-4 text-right">
+                                                срок 3 дня и меньше
                                             </div>
                                             <div class="col-md-6 text-left">
                                                 <a href="temp-list?page=distributionLessDeadlineByDepartment" class="btn btn-sm btn-danger font-weight-bold px-1" id="distDanger"></a>
@@ -120,25 +120,25 @@
                                     <div class="col-lg-4 col-md-12 mb-lg-0 mb-4 wow fadeInRight">
                                         <h4 class="my-3">Моя дисциплина за месяц</h4>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
-                                            <div class="col-md-6 text-right">Всего было на контроле</div>
+                                            <div class="col-md-4 text-right">Всего было на контроле</div>
                                             <div class="col-md-6 text-left">
                                                 <a href="temp-list?page=atThisMounthOnControl" class="btn btn-sm btn-indigo font-weight-bold px-1" id="mySum" data-value="0"></a>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
-                                            <div class="col-md-6 text-right">Исполнено в срок</div>
+                                            <div class="col-md-4 text-right">Исполнено в срок</div>
                                             <div class="col-md-6 text-left">
                                                 <a href="temp-list?page=atThisMounthOnControlCompletedInTime" class="btn btn-sm btn-default font-weight-bold px-1" id="mySuccess"></a>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
-                                            <div class="col-md-6 text-right">Исполнено с нарушением срока</div>
+                                            <div class="col-md-4 text-right">Исполнено с нарушением срока</div>
                                             <div class="col-md-6 text-left">
                                                 <a href="temp-list?page=atThisMounthOnControlCompletedAfterTime" class="btn btn-sm btn-warning font-weight-bold px-1" id="myWarning"></a>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
-                                            <div class="col-md-6 text-right">Не исполнено (срок вышел)</div>
+                                            <div class="col-md-4 text-right">Не исполнено (срок вышел)</div>
                                             <div class="col-md-6 text-left">
                                                 <a href="temp-list?page=atThisMounthOnControlNotCompleted" class="btn btn-sm btn-danger font-weight-bold px-1" id="myDanger"></a>
                                             </div>

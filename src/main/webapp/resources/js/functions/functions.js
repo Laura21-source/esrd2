@@ -47,7 +47,7 @@
 
                     chart.data = [
                         {
-                            country: "Срок контроля 3 дня",
+                            country: "Срок контроля 3 дня и меньше",
                             litres: inWorkDangerUser,
                             color: am4core.color("#ff4444")
                         },
@@ -81,7 +81,7 @@
                     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
                     chart.data = [
                         {
-                            country: "Срок контроля 3 дня",
+                            country: "Срок контроля 3 дня и меньше",
                             litres: agreeDangerUser,
                             color: am4core.color("#ff4444")
                         },
@@ -114,7 +114,7 @@
                     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
                     chart.data = [
                         {
-                            country: "Срок контроля 3 дня",
+                            country: "Срок контроля 3 дня и меньше",
                             litres: distDangerUser,
                             color: am4core.color("#ff4444")
                         },

@@ -236,9 +236,12 @@ public class DocServiceImpl implements DocService {
             }
             users.append("]");
 
-            LocalDate controlDate = Optional.ofNullable(d.getResolutions())
-                    .map(Collection::stream).orElseGet(Stream::empty).filter(r -> r.isPrimaryResolution())
-                    .map(r -> Optional.ofNullable(r.getControlDate())).findFirst().orElse(null).orElse(null);
+            LocalDate controlDate = null;
+            if (!d.getResolutions().isEmpty()) {
+                controlDate = Optional.ofNullable(d.getResolutions())
+                        .map(Collection::stream).orElseGet(Stream::empty).filter(r -> r.isPrimaryResolution())
+                        .map(r -> Optional.ofNullable(r.getControlDate())).findFirst().orElse(null).orElse(null);
+            }
             boolean isAlarmControlDate = false;
             if (controlDate != null) {
                 isAlarmControlDate = controlDate.isBefore(LocalDate.now().plusDays(DEADLINE_DAYS+1));
