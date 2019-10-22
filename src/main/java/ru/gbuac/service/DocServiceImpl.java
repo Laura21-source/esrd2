@@ -398,7 +398,7 @@ public class DocServiceImpl implements DocService {
         Assert.notNull(docTo, "doc must not be null");
 
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
-        if (docType.isFinalDoc()) {
+        if (!docType.isFinalDoc()) {
             if (docTo.getExecutorDepartmentsIds() == null || docTo.getExecutorDepartmentsIds().isEmpty()) {
                 throw new EmptyToException();
             }
