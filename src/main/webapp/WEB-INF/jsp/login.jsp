@@ -15,8 +15,9 @@
 <div class="logo-container">
     <img class="logo" src="resources/images/logo.png" alt="">
     <ul class="dgi-name">
-        <li>ЕДИНАЯ СИСТЕМА РЕГИСТРАЦИИ ДОКУМЕНТОВ</li>
-        <li>ПРАВИТЕЛЬСТВА МОСКВЫ</li>
+        <li>ПРОТОТИП СИСТЕМЫ ДОКУМЕНТООБОРОТА</li>
+        <li>ДЕПАРТАЕНТА ЭКОНОМИЧЕСКОЙ ПОЛИТИКИ И</li>
+        <li>РАЗВИТИЯ ГОРОДА МОСКВЫ</li>
     </ul>
 </div>
 <div class="body-container">

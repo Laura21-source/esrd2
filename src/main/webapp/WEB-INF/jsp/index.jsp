@@ -8,7 +8,7 @@
 <c:set var = "main" />
 <main>
     <div class="container-fluid mb-4 pt-4">
-        <div class="card mt-5 white-text rgba-black-light">
+        <div class="card mt-5 white-text rgba-black-strong">
             <div class="card-body">
                 <div class="container-fluid">
                     <div class="row">
@@ -65,7 +65,7 @@
                                                 срок более 3 дней
                                             </div>
                                             <div class="col-md-6 text-left">
-                                                <a href="temp-list?page=inworkMoreDeadlineByDepartment" class="btn btn-sm btn-default font-weight-bold px-1" id="inWorkSuccess"></a>
+                                                <a href="temp-list?page=inworkMoreDeadlineByDepartment" class="fontBig btn btn-sm btn-default font-weight-bold px-1" id="inWorkSuccess"></a>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center white-text">
@@ -73,7 +73,7 @@
                                                 срок 3 дня и меньше
                                             </div>
                                             <div class="col-md-6 text-left">
-                                                <a href="temp-list?page=inworkLessDeadlineByDepartment" class="btn btn-sm btn-danger font-weight-bold px-1" id="inWorkDanger"></a>
+                                                <a href="temp-list?page=inworkLessDeadlineByDepartment" class="fontBig btn btn-sm btn-danger font-weight-bold px-1" id="inWorkDanger"></a>
                                             </div>
                                         </div>
                                         <h6>На согласовании</h6>
@@ -82,7 +82,7 @@
                                                 срок более 3 дней
                                             </div>
                                             <div class="col-md-6 text-left">
-                                                <a href="temp-list?page=agreementMoreDeadlineByDepartment" class="btn btn-sm btn-default font-weight-bold px-1" id="agreeSuccess"></a>
+                                                <a href="temp-list?page=agreementMoreDeadlineByDepartment" class="fontBig btn btn-sm btn-default font-weight-bold px-1" id="agreeSuccess"></a>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center white-text">
@@ -90,7 +90,7 @@
                                                 срок 3 дня и меньше
                                             </div>
                                             <div class="col-md-6 text-left">
-                                                <a href="temp-list?page=agreementLessDeadlineByDepartment" class="btn btn-sm btn-danger font-weight-bold px-1" id="agreeDanger"></a>
+                                                <a href="temp-list?page=agreementLessDeadlineByDepartment" class="fontBig btn btn-sm btn-danger font-weight-bold px-1" id="agreeDanger"></a>
                                             </div>
                                         </div>
                                         <h6>На распределении</h6>
@@ -99,7 +99,7 @@
                                                 срок более 3 дней
                                             </div>
                                             <div class="col-md-6 text-left">
-                                                <a href="temp-list?page=distributionMoreDeadlineByDepartment" class="btn btn-sm btn-default font-weight-bold px-1" id="distSuccess"></a>
+                                                <a href="temp-list?page=distributionMoreDeadlineByDepartment" class="fontBig btn btn-sm btn-default font-weight-bold px-1" id="distSuccess"></a>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center white-text">
@@ -107,7 +107,7 @@
                                                 срок 3 дня и меньше
                                             </div>
                                             <div class="col-md-6 text-left">
-                                                <a href="temp-list?page=distributionLessDeadlineByDepartment" class="btn btn-sm btn-danger font-weight-bold px-1" id="distDanger"></a>
+                                                <a href="temp-list?page=distributionLessDeadlineByDepartment" class="fontBig btn btn-sm btn-danger font-weight-bold px-1" id="distDanger"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -122,25 +122,25 @@
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-4 text-right">Всего было на контроле</div>
                                             <div class="col-md-6 text-left">
-                                                <a href="temp-list?page=atThisMounthOnControl" class="btn btn-sm btn-indigo font-weight-bold px-1" id="mySum" data-value="0"></a>
+                                                <a href="temp-list?page=atThisMounthOnControl" class="fontBig btn btn-sm btn-indigo font-weight-bold px-1" id="mySum" data-value="0"></a>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-4 text-right">Исполнено в срок</div>
                                             <div class="col-md-6 text-left">
-                                                <a href="temp-list?page=atThisMounthOnControlCompletedInTime" class="btn btn-sm btn-default font-weight-bold px-1" id="mySuccess"></a>
+                                                <a href="temp-list?page=atThisMounthOnControlCompletedInTime" class="fontBig btn btn-sm btn-default font-weight-bold px-1" id="mySuccess"></a>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-4 text-right">Исполнено с нарушением срока</div>
                                             <div class="col-md-6 text-left">
-                                                <a href="temp-list?page=atThisMounthOnControlCompletedAfterTime" class="btn btn-sm btn-warning font-weight-bold px-1" id="myWarning"></a>
+                                                <a href="temp-list?page=atThisMounthOnControlCompletedAfterTime" class="fontBig btn btn-sm btn-warning font-weight-bold px-1" id="myWarning"></a>
                                             </div>
                                         </div>
                                         <div class="row d-flex align-items-center justify-content-center white-text">
                                             <div class="col-md-4 text-right">Не исполнено (срок вышел)</div>
                                             <div class="col-md-6 text-left">
-                                                <a href="temp-list?page=atThisMounthOnControlNotCompleted" class="btn btn-sm btn-danger font-weight-bold px-1" id="myDanger"></a>
+                                                <a href="temp-list?page=atThisMounthOnControlNotCompleted" class="fontBig btn btn-sm btn-danger font-weight-bold px-1" id="myDanger"></a>
                                             </div>
                                         </div>
                                     </div>

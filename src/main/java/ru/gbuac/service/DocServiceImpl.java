@@ -69,6 +69,9 @@ public class DocServiceImpl implements DocService {
     private ResolutionRepository resolutionRepository;
 
     @Autowired
+    private ValuedFieldRepository valuedFieldRepository;
+
+    @Autowired
     MailService mailService;
 
     @Value("${pdf.final.dir}")
@@ -474,6 +477,10 @@ public class DocServiceImpl implements DocService {
         // Генерация проектного PDF с добавлением ссылки в сущность, либо если isFinalStage, то
         // перемещаем файл из временного хранилища temp_uploads в хранилище pdf
         updated.setUrlPDF(createPDFOrDocx(asDocTo(updated), rootPath, false, true));
+        List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(id);
+        for (DocValuedFields df: docValuedFields) {
+            valuedFieldRepository.delete(df.getId());
+        }
         docValuedFieldsRepository.deleteAll(id);
 
         List<DocAgreement> docAgreementList = docAgreementRepository.getAll(updated.getId());
