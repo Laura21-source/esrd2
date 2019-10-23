@@ -30,6 +30,9 @@ public class ResolutionsUsersServiceImpl implements ResolutionsUsersService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MailService mailService;
+
     @Override
     public ResolutionsUsers save(int userId, int docId) {
         User user = userRepository.findById(userId).orElse(null);
@@ -41,7 +44,9 @@ public class ResolutionsUsersServiceImpl implements ResolutionsUsersService {
             depIds.add(resolution.getDepartment().getId());
             if (depIds.contains(user.getDepartment().getId())) {
                 ResolutionsUsers toSave = new ResolutionsUsers(null, LocalDateTime.now(), user, resolution);
-                return resolutionsUsersRepository.save(toSave);
+                ResolutionsUsers saved = resolutionsUsersRepository.save(toSave);
+                mailService.sendExecutionEmail(user.getEmail(), doc.getId(), doc.getRegNum());
+                return saved;
             }
         }
         throw new IllegalResolutionUserException();

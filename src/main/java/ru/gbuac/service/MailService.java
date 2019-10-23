@@ -34,9 +34,9 @@ public class MailService {
 
             MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
 
-            String htmlMsg = "На согласование/подпись в ЕСРД поступил документ №" + projectRegNum +": " +
+            String htmlMsg = "На согласование/подпись в АИС 'Тариф' поступил документ №" +
                     "<a href='" + uri + "/agree-document?id=" + docId +
-                    "'>" + uri + "/agree-document?id=" + docId + "</a>";
+                    "'>" + projectRegNum + "</a>";
 
             message.setContent(htmlMsg, "text/html; charset=UTF-8");
 
@@ -46,9 +46,9 @@ public class MailService {
                 helper.setTo(email);
             }
 
-            helper.setSubject("Единая система регистрации документов (ЕСРД)");
+            helper.setSubject("Система документооборота АИС 'Тариф'");
 
-            //this.emailSender.send(message);
+            this.emailSender.send(message);
         }
         catch (Exception e) {
 
@@ -63,9 +63,9 @@ public class MailService {
 
             MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
 
-            String htmlMsg = "На распределение в ЕСРД поступил документ №" + regNum +": " +
+            String htmlMsg = "На распределение в АИС 'Тариф' поступил документ №" +
                     "<a href='" + uri + "/agree-document?id=" + docId +
-                    "'>" + uri + "/agree-document?id=" + docId + "</a>";
+                    "'>" + regNum + "</a>";
 
             message.setContent(htmlMsg, "text/html; charset=UTF-8");
 
@@ -75,9 +75,9 @@ public class MailService {
                 helper.setTo(email);
             }
 
-            helper.setSubject("Единая система регистрации документов (ЕСРД)");
+            helper.setSubject("Система документооборота АИС 'Тариф'");
 
-            //this.emailSender.send(message);
+            this.emailSender.send(message);
         }
         catch (Exception e) {
 
@@ -92,9 +92,9 @@ public class MailService {
 
             MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
 
-            String htmlMsg = "На исполнение в ЕСРД поступил документ №" + regNum +": " +
+            String htmlMsg = "На исполнение в АИС 'Тариф' поступил документ №" +
                     "<a href='" + uri + "/agree-document?id=" + docId +
-                    "'>" + uri + "/agree-document?id=" + docId + "</a>";
+                    "'>" + regNum + "</a>";
 
             message.setContent(htmlMsg, "text/html; charset=UTF-8");
 
@@ -104,9 +104,9 @@ public class MailService {
                 helper.setTo(email);
             }
 
-            helper.setSubject("Единая система регистрации документов (ЕСРД)");
+            helper.setSubject("Система документооборота АИС 'Тариф'");
 
-            //this.emailSender.send(message);
+            this.emailSender.send(message);
         }
         catch (Exception e) {
 
