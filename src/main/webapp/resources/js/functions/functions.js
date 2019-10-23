@@ -814,6 +814,15 @@
                 "comment" : comment,
                 "childFields" : childFields
             }
+        } else if(block && block === 1)  {
+            var valueObj = {
+                "id" : null,
+                "docTypeId" : parseInt(dataType),
+                "executorDepartmentsIds" : executorDepartmentsIds,
+                "finalUserId" : finalUserId,
+                "parentDocId" : id,
+                "childFields" : childFields
+            }
         } else {
             var valueObj = {
                 "id" : id,
