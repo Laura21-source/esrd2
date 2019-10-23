@@ -36,9 +36,6 @@ public class DocServiceImpl implements DocService {
     private DocValuedFieldsRepository docValuedFieldsRepository;
 
     @Autowired
-    private DocTypeFieldsRepository docTypeFieldsRepository;
-
-    @Autowired
     private DocTypeRepository docTypeRepository;
 
     @Autowired
@@ -543,54 +540,6 @@ public class DocServiceImpl implements DocService {
         daCurrent.setDecisionType(DecisionType.REJECTED);
         docAgreementRepository.save(daCurrent);
         return asDocTo(checkNotFoundWithId(docRepository.save(updated), id));
-    }
-
-    @Override
-    public List<User> saveExecutorUsersList(int id, List<User> executorUsers) {
-        Doc doc = docRepository.findById(id).orElse(null);
-        List<User> ex = Optional.ofNullable(executorUsers)
-                .map(Collection::stream).orElseGet(Stream::empty)
-                .map(u -> userRepository.findById(u.getId()).orElse(null))
-                .filter(Objects::nonNull).collect(Collectors.toList());
-        List<Department> allResDeps = doc.getResolutions().stream().map(r -> r.getDepartment()).collect(Collectors.toList());
-        List<Integer> allResDepIds = allResDeps
-                .stream()
-                .flatMap(r -> Optional.ofNullable(r.getChildDepartments()).map(Collection::stream).orElseGet(Stream::empty))
-                .map(Department::getId).collect(Collectors.toList());
-        allResDeps.stream().forEach(d -> allResDepIds.add(d.getId()));
-        for (User user: ex) {
-            if (user.getDepartment() == null || !allResDepIds.contains(user.getDepartment().getId())) {
-                throw new IllegalResolutionUserException();
-            }
-        }
-        for (Resolution resolution: doc.getResolutions()) {
-            // получаем управления, на которое сделана резолюция
-            Department resDep = resolution.getDepartment();
-            // получаем id дочерних подразделений управления, на которое сделана резолюция
-            List<Integer> resDepIds = Optional.ofNullable(resDep.getChildDepartments())
-                    .map(Collection::stream)
-                    .orElseGet(Stream::empty)
-                    .map(d -> d.getId()).collect(Collectors.toList());
-            resDepIds.add(resDep.getId());
-            // фильтуем сохраняемых юзеров, чтобы они соответствовали текущему на данной итерации управлению
-            List<User> newUsers = ex.stream().filter(u -> resDepIds.contains(u.getDepartment().getId())).collect(Collectors.toList());
-            List<ResolutionsUsers> resolutionsUsers =
-                    resolution.getResolutionsUsers().stream()
-                            .filter(ru -> newUsers.contains(ru.getUser())).collect(Collectors.toList());
-            List<User> curResUsers = resolutionsUsers
-                    .stream().map(cru -> cru.getUser()).collect(Collectors.toList());
-            List<User> usersToAdd = newUsers.stream().filter(ru -> !curResUsers.contains(ru)).collect(Collectors.toList());
-            for (User user : usersToAdd) {
-                resolutionsUsers.add(new ResolutionsUsers(null, LocalDateTime.now(), user, resolution));
-            }
-            resolution.setResolutionsUsers(resolutionsUsers);
-        }
-        executorUsers.stream().forEach(x -> {
-            User u = userRepository.findById(x.getId()).orElse(null);
-            mailService.sendExecutionEmail(u.getEmail(), doc.getId(), doc.getRegNum());
-        });
-        return docRepository.save(doc).getResolutions().stream().flatMap(r -> r.getResolutionsUsers().stream())
-                .map(ru -> ru.getUser()).collect(Collectors.toList());
     }
 
     private void fillTags(FieldTo fieldTo, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables, Integer maxCellsCount) {

@@ -76,8 +76,6 @@ public interface DocService {
 
     DocTo rejectDocAgreement(int id, String userName, String comment) throws NotFoundException;
 
-    List<User> saveExecutorUsersList(int id, List<User> executorUsers);
-
     FileTo uploadFile(MultipartFile inputFile, String rootPath) throws FileUploadException;
 
     FileTo createDOCX(DocTo docTo, String rootPath) throws GenerateDocxException;
