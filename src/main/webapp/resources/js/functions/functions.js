@@ -538,7 +538,7 @@
                             requiredSup = '<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup>';
                             requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
                         }
-                        var selectFieldName = 'selectField' + dubKey + dataBlock + rowSelectField.catalogId;
+                        var selectFieldName = 'selectField' + dubKey + dataBlock + /*rowSelectField.catalogId*/ y;
                         // Если вид поля SELECT
                         if (rowSelectField.fieldType === "CATALOG") {
                             // Добавляем строку
