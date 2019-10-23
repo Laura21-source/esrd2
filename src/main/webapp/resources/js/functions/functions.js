@@ -976,9 +976,18 @@
 
     // Получение данных об управлении по id
     function getDepartments (url) {
-        return $.getJSON(url, function(data) {
-            $('#whomList').append('<div class="d-inline-block chip light-blue lighten-2 white-text my-1 mr-2" data-value="' + data.id + '">' + data.name + '</div>');
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            async: false,
+            //data: myData,
+            success: function(data) {
+                $('#whomList').append('<div class="d-inline-block chip light-blue lighten-2 white-text my-1 mr-2" data-value="' + data.id + '">' + data.name + '</div>');
+            }
         });
+        /*return $.getJSON(url, function(data) {
+            $('#whomList').append('<div class="d-inline-block chip light-blue lighten-2 white-text my-1 mr-2" data-value="' + data.id + '">' + data.name + '</div>');
+        });*/
     }
 
     // Формирование списка управлений без фозможности редактирования
