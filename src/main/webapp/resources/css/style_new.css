@@ -40,6 +40,7 @@ header, main, footer {padding-left: 240px;}
 /* Ширина модального окна */
 .modal-size-lg {width: 700px!important;}
 .modal-size-md {width: 500px!important;}
+.modal-size-sm {width: 400px!important;}
 .modal-dialog {max-width: 100%!important;}
 .selectUser .fontSmall {
   font-size: 0.6rem;
