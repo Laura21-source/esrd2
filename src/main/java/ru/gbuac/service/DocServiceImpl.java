@@ -900,10 +900,14 @@ public class DocServiceImpl implements DocService {
 
     private Doc createNewDocFromTo(DocTo docTo) {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
+        Doc parentDoc = null;
+        if (docTo.getParentDocId() != null) {
+            parentDoc = docRepository.findById(docTo.getParentDocId()).orElse(null);
+        }
 
         Doc doc = new Doc(null, docTo.getRegNum(), docTo.getRegDateTime(), docTo.getProjectRegNum(),
                 docTo.getProjectRegDateTime(), docTo.getInsertDateTime(), docType, null,
-                null, null, docTo.getUrlPDF(), null);
+                null, null, docTo.getUrlPDF(), parentDoc);
 
         List<Department> executorDepartments = Optional.ofNullable(docTo.getExecutorDepartmentsIds())
                 .map(Collection::stream).orElseGet(Stream::empty)
