@@ -24,15 +24,15 @@ public class Organization extends BaseEntity {
 
     @SafeHtml
     @Column(name = "full_name_lf")
-    public String fullNameLf;
+    private String fullNameLf;
 
     @SafeHtml
     @Column(name = "ogrn")
-    public String ogrn;
+    private String ogrn;
 
     @SafeHtml
     @Column(name = "inn")
-    public String inn;
+    private String inn;
 
     @SafeHtml
     @Column(name = "kpp")

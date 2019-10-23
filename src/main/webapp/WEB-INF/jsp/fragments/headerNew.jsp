@@ -84,7 +84,7 @@
             <img src="resources/img/Logo.png" height="30" alt="Логотип">
         </a>
         <span class="breadcrumb-dn mr-auto">
-        <h6 class="mt-2">Единая систуема регистрации документов (ЕСРД)</h6>
+        <h6 class="mt-2">Система документооборота АИС "Тариф"</h6>
       </span>
         <ul class="nav navbar-nav nav-flex-icons ml-auto">
             <%--<li class="nav-item">

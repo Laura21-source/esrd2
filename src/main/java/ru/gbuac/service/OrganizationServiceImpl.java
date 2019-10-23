@@ -86,8 +86,8 @@ public class OrganizationServiceImpl implements OrganizationService {
             returned.setKpp(jsonObjectData.get("kpp").getAsString());
             returned.setOgrn(jsonObjectData.get("ogrn").getAsString());
             returned.setInn(jsonObjectData.get("inn").getAsString());
-            returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString()));
-            returned.setFullNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString()));
+            returned.setShortNameLf(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString());
+            returned.setFullNameLf(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString());
             returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
             returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
             returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
@@ -119,6 +119,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Organization save(Organization organization) {
         Assert.notNull(organization, "organization must not be null");
+        Organization existedOrganization = organizationRepository.getByInn(organization.getInn());
+        if (existedOrganization != null) {
+            organization.setId(existedOrganization.getId());
+        }
+
         return organizationRepository.save(organization);
     }
 

@@ -896,6 +896,9 @@
                             case 'AGREEMENT_REJECTED':
                                 item.docStatus = 'Согласование отменено';
                                 break;
+                            case 'COMPLETED':
+                                item.docStatus = 'Исполнен';
+                                break;
                         }
 
                         if (!item.regNum || item.regNum == '') {

@@ -244,7 +244,8 @@ public class DocServiceImpl implements DocService {
             }
             boolean isAlarmControlDate = false;
             if (controlDate != null) {
-                isAlarmControlDate = controlDate.isBefore(LocalDate.now().plusDays(DEADLINE_DAYS+1));
+                isAlarmControlDate = controlDate.isBefore(LocalDate.now().plusDays(DEADLINE_DAYS+1)) &&
+                        d.getDocStatus() != DocStatus.COMPLETED;
             }
             docItemsTo.add(new DocItemTo(d.getId(), d.getDocStatus(), d.getRegNum(), d.getRegDateTime(),
                     d.getProjectRegNum(), d.getProjectRegDateTime(), controlDate, isAlarmControlDate, deps.toString(),
@@ -462,8 +463,8 @@ public class DocServiceImpl implements DocService {
             updated.setRegNum(docNumber);
             updated.setRegDateTime(LocalDateTime.now());
             updated.setDocStatus(DocStatus.IN_WORK);
-            resolutionRepository
-                    .setControlDateForPrimaryResolution(updated.getId(), LocalDateTime.now().plusDays(2).toLocalDate());
+            //resolutionRepository
+            //        .setControlDateForPrimaryResolution(updated.getId(), LocalDateTime.now().plusDays(2).toLocalDate());
         }
 
         boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName).orElse(false);
