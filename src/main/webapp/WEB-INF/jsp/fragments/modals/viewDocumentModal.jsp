@@ -131,7 +131,7 @@
     <div class="modal-dialog modal-notify modal-danger modal-size-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <p class="heading">Вы желаете удалить блок?</p>
+                <p class="heading">Вы уверены что хотите удалить блок?</p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="white-text">&times;</span>
                 </button>
