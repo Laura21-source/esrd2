@@ -220,10 +220,6 @@ public abstract class AbstractDocRestController {
         return docService.rejectDocAgreement(id, AuthorizedUser.getUserName(), comment);
     }
 
-    public List<User> saveExecutorUsersList(int id, List<User> executorUsers) {
-        return docService.saveExecutorUsersList(id, executorUsers);
-    }
-
     public FileTo uploadFile(MultipartFile inputFile, String rootPath) {
         return docService.uploadFile(inputFile, rootPath);
     }

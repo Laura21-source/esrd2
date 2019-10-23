@@ -199,12 +199,6 @@ public class DocRestController extends AbstractDocRestController {
         return super.rejectDocAgreement(id, comment);
     }
 
-    @Override
-    @PostMapping(value = "/executorUsersList/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> saveExecutorUsersList(@PathVariable("id") int id, @Valid @RequestBody List<User> executorUsers) {
-        return super.saveExecutorUsersList(id, executorUsers);
-    }
-
     @PostMapping(value = "/uploadfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public FileTo uploadFile(@RequestParam("inputFile") MultipartFile inputFile) {
         return super.uploadFile(inputFile, context.getRealPath("/"));
