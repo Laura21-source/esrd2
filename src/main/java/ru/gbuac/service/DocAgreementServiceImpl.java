@@ -91,6 +91,7 @@ public class DocAgreementServiceImpl implements DocAgreementService {
                 .map(DocAgreementTo::getOrdering).findFirst().orElse(null);
         DocAgreement curDa = docAgreementRepository.getByOrder(docId,curUserOrder);
         boolean isFinalUser = curDa.isFinalUser();
+        curDa.setFinalUser(false);
         curDa.setCurrentUser(false);
         curDa.setDecisionType(DecisionType.REDIRECTED);
         curDa.setAgreedDateTime(LocalDateTime.now());
