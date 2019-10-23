@@ -171,8 +171,8 @@
             <div class="modal-body d-flex align-items-center justify-content-center">
                 <div class="row returnUser w-100">
                     <div class="col-12">
-                        <select class="mdb-select md-form md-outline colorful-select dropdown-primary userList1001" id="userList1001" searchable=' Поиск' name="userList[]" required>
-                            <option value="" selected>Выбрать нового согласованта</option>
+                        <select data-placeholder="Выберите из справочника" class="chosen-select userList1001" id="userList1001" name="userList[]" required>
+                            <option value="">Выберите из справочника</option>
                         </select>
                     </div>
                     <div class="col-12">

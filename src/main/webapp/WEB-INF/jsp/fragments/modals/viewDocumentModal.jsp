@@ -125,3 +125,26 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteBlock" tabindex="-1" role="dialog" aria-labelledby="deleteBlock"
+     aria-hidden="t`rue">
+    <div class="modal-dialog modal-notify modal-danger modal-size-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading">Вы желаете удалить блок?</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center my-4">
+                    <i class="fas fa-times fa-4x animated rotateIn"></i>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a type="button" class="btn btn-danger" data-delete="" id="btnDeleteBlock">Удалить</a>
+                <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">Отменить</a>
+            </div>
+        </div>
+    </div>
+</div>

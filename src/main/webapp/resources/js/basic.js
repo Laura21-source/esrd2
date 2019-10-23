@@ -30,7 +30,9 @@ $(function() {
 
   // Добавить блок
   $(document).on("click", ".addGroup", function() {
-    var links = $("[data-block='1']").length;
+    //var links = $("[data-block='1']").length;
+    var links = $(".blockGroup:last").attr('id');
+    links = parseInt(links.substr(10));
     var links1 = links + 1;
     //var id = getId();
     var asd = $("#selectType").val();
@@ -39,17 +41,21 @@ $(function() {
   });
 
   $(document).on("click", ".addGroupNew", function() {
-      var links = $("[data-block='2']").length;
+      //var links = $("[data-block='2']").length;
+      var links = $(".blockGroupNew:last").attr('id');
+      links = parseInt(links.substr(13));
       var links1 = links + 1;
-      var id = getId();
+      //var id = getId();
       var asd = $("#selectTypeNew").val();
-      var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", id, links1, 1);
+      var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", /*id*/'', links1, 1);
       $('#newBlockGroupNew').append(newField);
   });
 
   // Добавить пользователя
   $(document).on("click", ".addUser", function() {
-    var links = $('[data-user="1"]').length;
+    //var links = $('[data-user="1"]').length;
+    var links = $(".blockUser:last").attr('id');
+    links = links.substr(9);
     var links1 = links + 1;
     var fieldUser = '#userList'+links1;
     $('#userListBlock').append('<div class="col-12 blockUser" id="blockUser'+links1+'"><div class="row d-flex align-items-center justify-content-center fontSmall userListBlock" data-user="1"><div class="col-md-1">'+links1+'</div><div class="col-md-1"><i class="fas fa-user"></i></div><div class="col-md-8 selectUser"><select data-placeholder="Выберите из справочника" class="chosen-select userList" data-spisok="'+links1+'" id="userList'+links1+'" name="userList[]" required><option value="">Выбрать</option></select><div class="fontSmall text-left" id="userListPost'+links1+'"></div></div><div class="col-md-2"><div id="delUser'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" title="Удалить пользователя"><i class="fas fa-trash"></i></div></div></div></div>');
@@ -62,7 +68,9 @@ $(function() {
   });
 
   $(document).on("click", ".addUserNew", function() {
-      var links = $('[data-user="1"]').length;
+      //var links = $('[data-user="1"]').length;
+      var links = $(".blockUserNew:last").attr('id');
+      links = links.substr(11);
       var links1 = links + 1;
       var fieldUser = '#userListNew'+links1;
       $('#userListBlockNew').append('<div class="col-12 blockUserNew" id="blockUserNew'+links1+'"><div class="row d-flex align-items-center justify-content-center fontSmall userListBlockNew" data-user="1"><div class="col-md-1">'+links1+'</div><div class="col-md-1"><i class="fas fa-user"></i></div><div class="col-md-8 selectUser"><select data-placeholder="Выберите из справочника" class="chosen-select userListNew" data-spisok="'+links1+'" id="userListNew'+links1+'" name="userListNew[]" required><option value="">Выбрать</option></select><div class="fontSmall text-left" id="userListPostNew'+links1+'"></div></div><div class="col-md-2"><div id="delUserNew'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" title="Удалить пользователя"><i class="fas fa-trash"></i></div></div></div></div>');
@@ -78,13 +86,22 @@ $(function() {
   $(document).on("click", ".delGroup", function() {
     var id = $(this).attr("id");
     id = id.substr(8);
-    $('#blockGroup' + id).remove();
+    $('#btnDeleteBlock').attr('data-delete','blockGroup' + id);
+    //$('#blockGroup' + id).remove();
   });
 
   $(document).on("click", ".delGroupNew", function() {
     var id = $(this).attr("id");
     id = id.substr(8);
-    $('#blockGroupNew' + id).remove();
+    $('#btnDeleteBlock').attr('data-delete','blockGroupNew' + id);
+    //$('#blockGroupNew' + id).remove();
+  });
+
+  // Удаление блока при нажатии ок в модальном окне
+  $(document).on('click', '#btnDeleteBlock', function(){
+    var id = $(this).attr('data-delete');
+    $('#deleteBlock').modal('hide')
+    $('#' + id).remove();
   });
 
   // Удалить пользователя
