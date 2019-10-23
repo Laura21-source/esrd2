@@ -777,7 +777,6 @@ INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1006, null, 'Организация', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1007, null, 'Ответственный', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1008, 1001, 'Номер приказа', 0);
-INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1009, null, 'Система техприсоединения', 0);
 
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2007, null, 'Регулирование цен (тарифов)', 1001, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2008, null, 'Изменение, отменена правовых актов', 1001, null);
@@ -923,7 +922,7 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (7, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, '');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (8, 'Предмет вопроса', 'CATALOG', null, null, null, 1001, '[Questions]Subject');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (9, 'Вопрос', 'CATALOG', null, null, null, 1002, '[Questions]Question');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (301, 'Система техприсоединения', 'CATALOG_ORGANIZATIONS', null, null, null, 1009, '[Questions]OrganizationSystem');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (301, 'Система техприсоединения', 'CATALOG_ORGANIZATIONS', null, null, null, 1006, '[Questions]OrganizationSystem');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (10, 'Период', 'TEXT', null, null, null, null, '[Questions]Period');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (11, 'Сфера деятельности', 'CATALOG', null, null, null, 1003, '[Questions]Direction');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (12, 'Реквизиты приказа', 'CATALOG', null, null, null, 1008, '[Questions]OrderNumber');
