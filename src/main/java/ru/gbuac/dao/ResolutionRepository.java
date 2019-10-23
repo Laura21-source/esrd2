@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.gbuac.model.Resolution;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Transactional(readOnly = true)
 public interface ResolutionRepository extends JpaRepository<Resolution, Integer> {
@@ -20,4 +21,9 @@ public interface ResolutionRepository extends JpaRepository<Resolution, Integer>
     @Modifying
     @Query("UPDATE Resolution r SET r.controlDate=:controlDate WHERE r.primaryResolution=TRUE AND r.doc.id=:docId")
     void setControlDateForPrimaryResolution(@Param("docId") int docId, @Param("controlDate") LocalDate controlDate);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Resolution r SET r.executionDateTime=:executionDateTime WHERE r.doc.id=:docId")
+    void setExecutionDateTimeForDoc(@Param("docId") int docId, @Param("executionDateTime") LocalDateTime executionDateTime);
 }

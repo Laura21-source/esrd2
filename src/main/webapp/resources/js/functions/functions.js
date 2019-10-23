@@ -787,12 +787,13 @@
             userListBlock = '#userListBlockNew';
         }
         var finalUserId =  $(userListBlock + ' select:last').val();
-        $(whomList + ' option:selected').each(function() {
-            var element = $(this).val();
+        var whomList = ChosenOrder.getSelectionOrder($(whomList).get(0));
+        for (var i = 0; i < whomList.length; i++) {
+            var element = whomList[i];
             if(element !== '') {
                 executorDepartmentsIds.push(element);
             }
-        });
+        }
         if(block && block === 2) {
             finalUserId =  $('#userListBlockDiv .row:last').attr('data-value');
             $('#whomList div').each(function() {

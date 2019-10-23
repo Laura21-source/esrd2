@@ -144,6 +144,11 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
 
     @Transactional
     @Modifying
+    @Query("UPDATE Doc d SET d.docStatus=:docStatus WHERE d.id=:id")
+    void setDocStatusByDocId(@Param("id") int id, @Param("docStatus") DocStatus docStatus);
+
+    @Transactional
+    @Modifying
     @Query("UPDATE Doc d SET d.urlPDF=:urlPdf WHERE d.id=:id")
     void setUrlPDF(@Param("id") int id, @Param("urlPdf") String urlPdf);
 }

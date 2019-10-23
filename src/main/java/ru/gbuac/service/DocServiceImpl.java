@@ -497,6 +497,12 @@ public class DocServiceImpl implements DocService {
             }
         }
         updated = checkNotFoundWithId(docRepository.save(updated), id);
+        if (isFinalAgreementStage) {
+            if (updated.getParentDoc() != null) {
+                resolutionRepository.setExecutionDateTimeForDoc(updated.getParentDoc().getId(), LocalDateTime.now());
+                docRepository.setDocStatusByDocId(updated.getParentDoc().getId(), DocStatus.COMPLETED);
+            }
+        }
         DocTo updatedTo = asDocTo(updated);
         updatedTo.setCanAgree(hasRights);
         if (updated.getDocStatus() == DocStatus.IN_WORK) {
@@ -795,7 +801,7 @@ public class DocServiceImpl implements DocService {
         List<Integer> executorUsersIds = null;
         if (doc.getResolutions() != null) {
             executorDepartmentsIds = doc.getResolutions().stream()
-                    .sorted(Comparator.comparing(Resolution::isPrimaryResolution))
+                    .sorted(Comparator.comparing(Resolution::getOrdering))
                     .map(Resolution::getDepartment)
                     .map(Department::getId)
                     .collect(Collectors.toList());
