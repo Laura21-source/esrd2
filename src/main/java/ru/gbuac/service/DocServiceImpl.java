@@ -479,7 +479,7 @@ public class DocServiceImpl implements DocService {
         updated.setUrlPDF(createPDFOrDocx(asDocTo(updated), rootPath, false, true));
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(id);
         for (DocValuedFields df: docValuedFields) {
-            valuedFieldRepository.delete(df.getId());
+            valuedFieldRepository.delete(df.getValuedField().getId());
         }
         docValuedFieldsRepository.deleteAll(id);
 
@@ -612,9 +612,11 @@ public class DocServiceImpl implements DocService {
                     }
                     break;
                 case CATALOG:
-                    CatalogElem catalogElemChild = null;
-                    if (fieldTo.getValueInt() != null) {
-                        catalogElemChild = catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
+                    if (fieldTo.getValueInt() == null) {
+                        cellsTags.put(tag, "");
+                        break;
+                    }
+                    CatalogElem catalogElemChild = catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
                         switch (catalogElemChild.getCatalog().getCatalogType()) {
                             case TEXT:
                                 cellsTags.put(tag, catalogElemChild.getValueStr());
@@ -623,21 +625,29 @@ public class DocServiceImpl implements DocService {
                                 cellsTags.put(tag, catalogElemChild.getValueInt());
                                 break;
                         }
-                    }
-                    else {
-                        cellsTags.put(tag, "");
-                    }
                     break;
                 case CATALOG_USERS:
+                    if (fieldTo.getValueInt() == null) {
+                        cellsTags.put(tag, "");
+                        break;
+                    }
                     User user = userRepository.findById(fieldTo.getValueInt()).orElse(null);
                     cellsTags.put(tag, user.getFirstname().substring(0,1) + "." + user.getPatronym().substring(0,1) + ". " + user.getLastname() +
                             " " + "8(495)620-20-00, доб. " + user.getPhone());
                     break;
                 case CATALOG_ORGANIZATIONS:
+                    if (fieldTo.getValueInt() == null) {
+                        cellsTags.put(tag, "");
+                        break;
+                    }
                     Organization organization = organizationRepository.findById(fieldTo.getValueInt()).orElse(null);
                     cellsTags.put(tag, organization.getShortNameLf());
                     break;
                 case CATALOG_REGNUMBERS:
+                    if (fieldTo.getValueInt() == null) {
+                        cellsTags.put(tag, "");
+                        break;
+                    }
                     String regNum = docRepository.findById(fieldTo.getValueInt()).orElse(null).getRegNum();
                     cellsTags.put(tag, regNum);
                     break;
@@ -657,7 +667,12 @@ public class DocServiceImpl implements DocService {
                         fillTags(childField, simpleTags, taggedTables, childMaxCellsCount);
                     }
                     break;
+
                 case CATALOG:
+                    if (fieldTo.getValueInt() == null) {
+                        simpleTags.put(tag, "");
+                        break;
+                    }
                     CatalogElem catalogElemChild =
                             catalogElemRepository.findById(fieldTo.getValueInt()).orElse(null);
                     switch (catalogElemChild.getCatalog().getCatalogType()) {
@@ -669,15 +684,27 @@ public class DocServiceImpl implements DocService {
                             break;
                     }
                 case CATALOG_USERS:
+                    if (fieldTo.getValueInt() == null) {
+                        simpleTags.put(tag, "");
+                        break;
+                    }
                     User user = userRepository.findById(fieldTo.getValueInt()).orElse(null);
                     simpleTags.put(tag, user.getFirstname().substring(0,1) + "." + user.getPatronym().substring(0,1) + ". " + user.getLastname() +
                             " " + "8(495)620-20-00, доб. " + user.getPhone());
                     break;
                 case CATALOG_ORGANIZATIONS:
+                    if (fieldTo.getValueInt() == null) {
+                        simpleTags.put(tag, "");
+                        break;
+                    }
                     Organization organization = organizationRepository.findById(fieldTo.getValueInt()).orElse(null);
                     simpleTags.put(tag, organization.getShortNameLf());
                     break;
                 case CATALOG_REGNUMBERS:
+                    if (fieldTo.getValueInt() == null) {
+                        simpleTags.put(tag, "");
+                        break;
+                    }
                     String regNum = docRepository.findById(fieldTo.getValueInt()).orElse(null).getRegNum();
                     simpleTags.put(tag, regNum);
                     break;
