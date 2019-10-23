@@ -479,7 +479,7 @@ public class DocServiceImpl implements DocService {
         updated.setUrlPDF(createPDFOrDocx(asDocTo(updated), rootPath, false, true));
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(id);
         for (DocValuedFields df: docValuedFields) {
-            valuedFieldRepository.delete(df.getValuedField().getId());
+            recursiveDeleteFields(df.getValuedField());
         }
         docValuedFieldsRepository.deleteAll(id);
 
@@ -509,6 +509,14 @@ public class DocServiceImpl implements DocService {
             }
         }
         return asDocTo(updated);
+    }
+
+    private void recursiveDeleteFields(ValuedField valuedField) {
+        for (ValuedField child: valuedField.getChildValuedField()) {
+            recursiveDeleteFields(child);
+            valuedFieldRepository.delete(child.getId());
+        }
+        valuedFieldRepository.delete(valuedField.getId());
     }
 
     public static void moveFile(String oldPath, String newPath) {
