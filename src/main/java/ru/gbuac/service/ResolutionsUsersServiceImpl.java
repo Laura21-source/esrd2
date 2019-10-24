@@ -13,6 +13,7 @@ import ru.gbuac.util.exception.ResolutionUserNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,11 +39,11 @@ public class ResolutionsUsersServiceImpl implements ResolutionsUsersService {
         User user = userRepository.findById(userId).orElse(null);
         Doc doc = docRepository.findById(docId).orElse(null);
 
-        for (Resolution resolution: doc.getResolutions()) {
+        for (Resolution resolution: Objects.requireNonNull(doc).getResolutions()) {
             List<Integer> depIds = resolution.getDepartment()
-                    .getChildDepartments().stream().map(d -> d.getId()).collect(Collectors.toList());
+                    .getChildDepartments().stream().map(BaseEntity::getId).collect(Collectors.toList());
             depIds.add(resolution.getDepartment().getId());
-            if (depIds.contains(user.getDepartment().getId())) {
+            if (depIds.contains(Objects.requireNonNull(user).getDepartment().getId())) {
                 ResolutionsUsers toSave = new ResolutionsUsers(null, LocalDateTime.now(), user, resolution);
                 ResolutionsUsers saved = resolutionsUsersRepository.save(toSave);
                 mailService.sendExecutionEmail(user.getEmail(), doc.getId(), doc.getRegNum());
@@ -58,11 +59,11 @@ public class ResolutionsUsersServiceImpl implements ResolutionsUsersService {
         Doc doc = docRepository.findById(docId).orElse(null);
         boolean found = false;
 
-        for (Resolution resolution: doc.getResolutions()) {
+        for (Resolution resolution: Objects.requireNonNull(doc).getResolutions()) {
             List<Integer> depIds = resolution.getDepartment()
-                    .getChildDepartments().stream().map(d -> d.getId()).collect(Collectors.toList());
+                    .getChildDepartments().stream().map(BaseEntity::getId).collect(Collectors.toList());
             depIds.add(resolution.getDepartment().getId());
-            if (depIds.contains(user.getDepartment().getId())) {
+            if (depIds.contains(Objects.requireNonNull(user).getDepartment().getId())) {
                 ResolutionsUsers resolutionsUsers =
                         resolution.getResolutionsUsers()
                                 .stream().filter(ru -> ru.getUser().getId() == userId).findFirst().orElse(null);
