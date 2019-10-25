@@ -37,13 +37,13 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     List<Doc> getAllInWorkLessDeadline(@Param("userName") String userName,
                                        @Param("departmentId") int departmentId, @Param("deadline") LocalDate deadline);
 
-    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+    @Query("SELECT DISTINCT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             " CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym), " +
             "d.docType.name) FROM Doc d JOIN d.agreementList a JOIN a.user WHERE " +
             "lower(a.user.name)=lower(:userName) AND a.currentUser=TRUE AND d.docStatus='IN_AGREEMENT' ORDER BY d.id")
     List<Doc> getAllAgreementByUserName(@Param("userName") String userName);
 
-    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+    @Query("SELECT DISTINCT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             " CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym), " +
             "d.docType.name) FROM Doc d JOIN d.agreementList a JOIN a.user LEFT JOIN d.parentDoc pd " +
             "LEFT JOIN pd.resolutions r WHERE " +
@@ -53,7 +53,7 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     List<Doc> getAllAgreementMoreDeadline(@Param("userName") String userName,
                                           @Param("departmentId") int departmentId, @Param("deadline") LocalDate deadline);
 
-    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+    @Query("SELECT DISTINCT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             " CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym), " +
             "d.docType.name) FROM Doc d JOIN d.agreementList a JOIN a.user LEFT JOIN d.parentDoc pd " +
             "LEFT JOIN pd.resolutions r WHERE " +
@@ -63,13 +63,13 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     List<Doc> getAllAgreementLessDeadline(@Param("userName") String userName, @Param("departmentId") int departmentId,
                                           @Param("deadline") LocalDate deadline);
 
-    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+    @Query("SELECT DISTINCT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d JOIN d.agreementList c WHERE " +
             "(lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL) OR lower(d.initialUser.name)=lower(:userName) ORDER BY d.id")
     List<Doc> getAllAgreedByUserName(@Param("userName") String userName);
 
-    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+    @Query("SELECT DISTINCT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d JOIN d.agreementList c WHERE " +
             "((lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL) OR lower(d.initialUser.name)=lower(:userName)) " +
@@ -83,12 +83,12 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId")
     List<Doc> getAllByDocType(@Param("docTypeId") int docTypeId);
 
-    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+    @Query("SELECT DISTINCT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d WHERE d.docStatus='IN_AGREEMENT' ORDER BY d.id")
     List<Doc> getAllAgreement();
 
-    @Query("SELECT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
+    @Query("SELECT DISTINCT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d WHERE d.docStatus<>'IN_AGREEMENT' ORDER BY d.id")
     List<Doc> getAllRegistered();
