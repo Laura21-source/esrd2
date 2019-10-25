@@ -75,6 +75,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             JsonParser parser = new JsonParser();
             JsonObject root = parser.parse(data).getAsJsonObject();
 
+
             JsonObject jsonObjectSuggestions = root.get("suggestions").getAsJsonArray().get(0).getAsJsonObject();
 
             JsonObject jsonObjectData = jsonObjectSuggestions.get("data").getAsJsonObject();
@@ -86,7 +87,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
             returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
             if (INN.startsWith("9909")) {
-                returned.getIsForeign();
+                returned.setIsForeign(true);
                 returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString()));
             } else {
                 returned.setShortNameLf(replaceQuotes(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString()));
