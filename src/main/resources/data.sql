@@ -790,7 +790,7 @@ INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1
 
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2007, null, 'Регулирование цен (тарифов)', 1001, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2008, null, 'Изменение, отменена правовых актов', 1001, null);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2009, null, 'Утверждение инвестиционных программ', 1001, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2009, null, 'Утверждение программ', 1001, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2010, null, 'Иные вопросы', 1001, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2011, null, 'Об установлении', 1002, 2007);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2012, null, 'Об утверждении', 1002, 2007);
@@ -906,11 +906,11 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catal
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2122, null, 'цен (тарифов) на электрическую энергию (мощность), поставляемую населению и приравненным к нему категориям потребителей', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2123, null, 'индивидуальных тарифов на услуги по передаче электрической энергии для взаиморасчетов между двумя сетевыми организациями', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2124, null, 'единых (котловых) тарифов на услуги по передаче электрической энергии, поставляемой прочим потребителям', 1004, 2027);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2125, null, 'сбытовых надбавок гарантирующего поставщика электрической энергии', 1004, 2027);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2125, null, 'сбытовых надбавок гарантирующих поставщиков электрической энергии', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2126, null, 'долгосрочных цен (тарифов) на электрическую энергию (мощность), поставляемую населению и приравненным к нему категориям потребителей', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2127, null, 'индивидуальных долгосрочных тарифов на услуги по передаче электрической энергии для взаиморасчетов между двумя сетевыми организациями', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2128, null, 'единых (котловых) долгосрочных тарифов на услуги по передаче электрической энергии, поставляемой прочим потребителям', 1004, 2027);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2129, null, 'долгосрочных сбытовых надбавок гарантирующего поставщика электрической энергии', 1004, 2027);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2129, null, 'долгосрочных сбытовых надбавок гарантирующих поставщиков электрической энергии', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2130, null, 'платы за технологическое присоединение к электрическим сетям территориальных сетевых организаций для заявителей, подающих заявку на технологическое присоединение энергопринимающих устройств максимальной мощностью, не превышающей 15 кВт включительно (с учетом ранее присоединенных в данной точке присоединения энергопринимающих устройств)', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2131, null, 'стандартизированных тарифных ставок, определяющих величину платы за технологическое присоединение к электрическим сетям территориальных сетевых организаций', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2132, null, 'формулы платы за технологическое присоединение', 1004, 2027);
@@ -941,6 +941,11 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catal
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2158, null, 'долгосрочного тарифа на обезвреживание твердых коммунальных отходов', 1004, 2032);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2159, null, 'долгосрочного тарифа на захоронение твердых коммунальных отходов', 1004, 2032);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2160, null, 'долгосрочных тарифов на транспортные услуги, оказываемые на подъездных железнодорожных путях', 1004, 2033);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2161, null, 'сбытовых надбавок гарантирующего поставщика электрической энергии', 1004, 2027);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2162, null, 'долгосрочных сбытовых надбавок гарантирующего поставщика электрической энергии', 1004, 2027);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2163, null, 'единых котловых тарифов на услуги по передаче энергетической энергии для взаиморасчетов между сетевыми организациями', 1004, 2027);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2164, null, 'Производственные программы', 1003, 2009);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2165, null, 'производственной программы', 1004, 2164);
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id, final_doc)
 VALUES (1, 'Служебная записка о включении вопросов в Повестку заседания Правления', 3002, 'zapiska.docx', 'zapiska.docx', 23, false);
