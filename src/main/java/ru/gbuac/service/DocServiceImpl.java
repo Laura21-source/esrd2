@@ -733,7 +733,7 @@ public class DocServiceImpl implements DocService {
                 simpleTags.put("SignerFullPosition", finalUser.getFullPosition());
                 simpleTags.put("Signer", finalUser.getFirstname().substring(0, 1) + "." + finalUser.getPatronym().substring(0, 1)
                         + "." + finalUser.getLastname());
-                simpleTags.put("Department", finalUser.getDepartment().getName());
+                simpleTags.put("Department", finalUser.getDepartment() != null ? finalUser.getDepartment().getName() : "");
             }
         }
 
