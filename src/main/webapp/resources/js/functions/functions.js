@@ -340,9 +340,10 @@
                         // Количество опций по запросу, тут же в функции прячем ненужные
                         //console.log("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " - " + nameCatalogField);
                         sumOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField);
-                        // Открываем опции
+                        // Открываем опции и закрываем
+                        $(this).find('option.active').remove();
                         createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "", "");
-                        $(this).find("option.activeStat").remove();
+                        //$(this).find("option.activeStat").remove();
                     });
                 });
             }
