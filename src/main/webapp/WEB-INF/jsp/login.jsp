@@ -15,8 +15,8 @@
 <div class="logo-container">
     <img class="logo" src="resources/images/logo.png" alt="">
     <ul class="dgi-name">
-        <li>ПРОТОТИП СИСТЕМЫ ДОКУМЕНТООБОРОТА</li>
-        <li>ДЕПАРТАЕНТА ЭКОНОМИЧЕСКОЙ ПОЛИТИКИ И</li>
+        <li>ДОКУМЕНТООБОРОТ АИС "ТАРИФ"</li>
+        <li>ДЕПАРТАМЕНТА ЭКОНОМИЧЕСКОЙ ПОЛИТИКИ И</li>
         <li>РАЗВИТИЯ ГОРОДА МОСКВЫ</li>
     </ul>
 </div>
