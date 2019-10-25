@@ -943,7 +943,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catal
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2160, null, 'долгосрочных тарифов на транспортные услуги, оказываемые на подъездных железнодорожных путях', 1004, 2033);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2161, null, 'сбытовых надбавок гарантирующего поставщика электрической энергии', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2162, null, 'долгосрочных сбытовых надбавок гарантирующего поставщика электрической энергии', 1004, 2027);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2163, null, 'единых котловых тарифов на услуги по передаче энергетической энергии для взаиморасчетов между сетевыми организациями', 1004, 2027);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2163, null, 'индивидуальных тарифов на услуги по передаче электрической энергии для взаиморасчетов между сетевыми организациями', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2164, null, 'Производственные программы', 1003, 2009);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2165, null, 'производственной программы', 1004, 2164);
 
