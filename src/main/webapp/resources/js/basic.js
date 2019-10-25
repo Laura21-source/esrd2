@@ -98,10 +98,17 @@ $(function() {
   });
 
   // Удаление блока при нажатии ок в модальном окне
-  $(document).on('click', '#btnDeleteBlock', function(){
+  $(document).on('click', '#btnDeleteBlock', function() {
     var id = $(this).attr('data-delete');
-    $('#deleteBlock').modal('hide')
+    $('#deleteBlock').modal('hide');
+    // Удаляем нужный блок
     $('#' + id).remove();
+    // Переименовываем название блоков
+   /* $('.blockGroup').each(function() {
+      var i = 1;
+      $(this).children('.nameGroup').html('Блок '+i);
+      i++;
+    });*/
   });
 
   // Удалить пользователя

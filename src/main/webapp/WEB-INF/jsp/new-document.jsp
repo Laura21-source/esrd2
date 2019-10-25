@@ -35,10 +35,10 @@
                                                 <span class="text-muted"><i class="fas fa-sitemap mr-2"></i>Адресат<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                                             </div>
                                             <div class="col-10">
-                                                <select data-placeholder="Выберите из справочника" multiple class="chosen-select" id="whomList" required>
+                                                <select data-placeholder="Выберите из справочника" multiple class="chosen-select is-invalid" id="whomList" required>
                                                     <option value="">Выберите из справочника</option>
                                                 </select>
-                                                <div class="invalid-tooltip">Поле обязательно для заполнения</div>
+                                                <div class="invalid-feedback">Поле обязательно для заполнения</div>
                                             </div>
                                         </div>
                                     </div>
@@ -184,7 +184,16 @@
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
             var agreeFormsValue = $('.registrationForm #userListBlock select');
             event.preventDefault();
+            // Валидация chosen
             var checkField = checkValidation(formsValue);
+            $.validator.setDefaults({ignore: ":hidden:not(select)"});
+            //var checkField = $(forms).validate();
+            $(forms).validate({
+                errorClass: "invalid",
+                validClass: "success",
+                error: function(){alert('Ошибка!')},
+                success: function() {alert('Успех!')}
+            });
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
                 $(forms).addClass('was-validated');
@@ -305,6 +314,7 @@
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
                 $(forms).addClass('was-validated');
+                $('.chosen-single').addClass('error');
                 event.stopPropagation();
             } else {
                 var trueName =  $(this).html();

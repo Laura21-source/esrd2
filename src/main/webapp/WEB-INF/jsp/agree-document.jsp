@@ -319,7 +319,8 @@
             }
             // Имеет ли право пользователь подписывать документ
             if(data.canAgree === false) {
-                if(data.docStatus !== 'IN_AGREEMENT') {finalVersion = 1;}
+                //if(data.docStatus !== 'IN_AGREEMENT') {finalVersion = 1;}
+                finalVersion = 1;
                 $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
             }
             // Если документ уже подписан
