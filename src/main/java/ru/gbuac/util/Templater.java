@@ -89,6 +89,7 @@ public class Templater {
                                     text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
                                 }
                                 text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
+                                text = text.replace("  ", " ").replace(" ,", ",");
                                 changeText(paragraph, text);
                             }
                         }
@@ -118,6 +119,7 @@ public class Templater {
                         for (Map.Entry<String,String> entry : simpleTags.entrySet()) {
                             text = text.replace("<"+entry.getKey()+">", Optional.ofNullable(entry.getValue()).orElse(""));
                         }
+                        text = text.replace("  ", " ").replace(" ,", ",");
                         changeText(p, text);
                     }
                 }
@@ -154,6 +156,7 @@ public class Templater {
                                         text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
                                     }
                                     text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
+                                    text = text.replace("  ", " ").replace(" ,", ",");
                                     changeText(paragraph, text);
                                 }
                             }
