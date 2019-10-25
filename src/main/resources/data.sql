@@ -743,27 +743,37 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4001, 3001); -- Прав�
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3002); -- Право Отраслевое управление user2
 INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4002, 3001); -- Право USER для Волковой user2
 
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4374, 3000); -- Право ADMIN для Махрова
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4083, 3002); -- Право Отраслевое управление для Евдокимомой О.Н.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4083, 3001); -- Право USER для Евдокимомой О.Н.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4194, 3002); -- Право Отраслевое управление для Хвасточенко О.Н.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4194, 3001); -- Право USER для Хвасточенко О.Н.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4192, 3002); -- Право Отраслевое управление для Волковой О.Н.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4192, 3001); -- Право USER для Волковой О.Н.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4096, 3002); -- Право Отраслевое управление для Жегалиной Л.И.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4096, 3001); -- Право USER для Жегалиной Л.И.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4193, 3002); -- Право Отраслевое управление для Лебедевой И.А.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4193, 3001); -- Право USER для Лебедевой И.А.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4336, 3003); -- Право Руководство отраслевого управления для Носик М.В.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4336, 3001); -- Право USER для Носик М.В.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4329, 3003); -- Право Руководство отраслевого управления для Гладких М.В.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4329, 3001); -- Право USER для Гладких М.В.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3004); -- Право Руководство юридического управления для Широковой Е.Ю.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3001); -- Право USER для Широковой Е.Ю.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3005); -- Право Секретарь Правления для Сапрыкиной
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3001); -- Право USER для Сапрыкиной
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4115, 3007); -- Право Зам руководителя Федоров П.Д.
-INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4115, 3001); -- Право USER для Федорова П.Д.
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4083, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4083, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4084, 3004);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4096, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4096, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4115, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4115, 3007);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4192, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4192, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4193, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4193, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4194, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4194, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4209, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4209, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4209, 3003);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4235, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4235, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4239, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4239, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4240, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4240, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4329, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4329, 3003);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4336, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4336, 3003);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3001);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3002);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4373, 3005);
+INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4374, 3000);
 
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (23, 'ДПР-СЗ');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (24, 'ДПР-П');
