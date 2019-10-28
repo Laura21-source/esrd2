@@ -184,16 +184,15 @@
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
             var agreeFormsValue = $('.registrationForm #userListBlock select');
             event.preventDefault();
-            // Валидация chosen
             var checkField = checkValidation(formsValue);
-            $.validator.setDefaults({ignore: ":hidden:not(select)"});
+            //$.validator.setDefaults({ignore: ":hidden:not(select)"});
             //var checkField = $(forms).validate();
-            $(forms).validate({
+            $/*(forms).validate({
                 errorClass: "invalid",
                 validClass: "success",
                 error: function(){alert('Ошибка!')},
                 success: function() {alert('Успех!')}
-            });
+            });*/
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
                 $(forms).addClass('was-validated');
