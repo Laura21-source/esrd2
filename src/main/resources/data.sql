@@ -901,7 +901,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catal
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2117, null, 'розничных цен на природный газ, реализуемый населению', 1004, 2031);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2118, null, 'платы за технологическое присоединение', 1004, 2031);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2119, null, 'необходимой валовой выручки для территориальных сетевых организаций', 1004, 2027);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2120, null, 'единых котловых тарифов на услуги по передаче энергетической энергии по сетям', 1004, 2027);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2120, null, 'единых (котловых) тарифов на услуги по передаче энергетической энергии по сетям города Москвы', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2121, null, 'показателей надежности и качества поставляемых товаров и оказываемых услуг', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2122, null, 'цен (тарифов) на электрическую энергию (мощность), поставляемую населению и приравненным к нему категориям потребителей', 1004, 2027);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2123, null, 'индивидуальных тарифов на услуги по передаче электрической энергии для взаиморасчетов между двумя сетевыми организациями', 1004, 2027);
