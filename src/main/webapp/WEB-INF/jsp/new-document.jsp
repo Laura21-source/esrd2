@@ -63,19 +63,20 @@
                                                                         <option value="" selected>Выбрать</option>
                                                                     </select>
                                                                     <div class="fontSmall text-left" id="userListPost1"></div>
-                                                                    <div class="invalid-feedback">Поле обязательно для заполнения</div>
+                                                                    <%--<div class="invalid-feedback">Поле обязательно для заполнения</div>--%>
                                                                 </div>
                                                                 <div class="col-md-2"></div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="invalid-feedback">Поле обязательно для заполнения</div>
                                                     <hr class="my-1">
                                                     <div class="row">
                                                         <div class="col-12 text-right">
                                                             <div class="btn btn-primary btn-sm addUser rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                                         </div>
                                                     </div>
-                                                    <div class="invalid-feedback">Поле обязательно для заполнения</div>
+                                                    <%--<div class="invalid-feedback">Поле обязательно для заполнения</div>--%>
                                                 </div>
                                             </div>
                                         </div>

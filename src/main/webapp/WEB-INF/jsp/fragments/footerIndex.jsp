@@ -3,4 +3,3 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <footer id="footer"></footer>
-<%--<i class="far fa-question-circle text-white fa-4x animated swing slower infinite help pointer"></i>--%>

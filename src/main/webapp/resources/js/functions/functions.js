@@ -140,11 +140,17 @@
     function getId() {return new URL(window.location.href).searchParams.get("id");}
     function getPage() {return new URL(window.location.href).searchParams.get("page");}
 
-    // Получение текущего пользователя
+    // Получение IP адреса клиента
+    $.getJSON('https://api.ipify.org/?format=json', function(e) {
+        $('#hiddenUserBlock1').html('<input type="hidden" id="helpIPAddress" value="'+e.ip+'">');
+    });
+
+    // Получение данных текущего пользователя
     function getName (url, element) {
         return $.getJSON (url, function(data) {
             var userName = data.lastname + ' ' + data.firstname + ' ' + data.patronym;
             $(element).html(userName);
+            $('#hiddenUserBlock2').html('<input type="hidden" id="helpLogin" value="'+data.name+'"><input type="hidden" id="helpFIO" value="'+userName+'"><input type="hidden" id="helpPhone" value="'+data.phone+'"><input type="hidden" id="helpEmail" value="'+data.email+'">');
         });
     }
 
@@ -261,7 +267,6 @@
         } else {
             $(element).append('<div class="row ml-1 mb-3" id="' + id + '">' + col + '<div class="row">' + '<div class="col-md-3 text-left">' + '<div for="' + name + '" class="text-muted">' + iconName + requiredSup + '</div>' + '</div>' + '<div class="col-md-9">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '>' + requiredValidate + '</div>' + '</div>' + '</div>' + colShort + '</div>');
         }
-        //$('[data-toggle="tooltip"]').tooltip();
     }
 
     // Подсчёт OPTION в поле SELECT
@@ -559,7 +564,7 @@
                         if (rowSelectField.fieldType === "CATALOG_ORGANIZATIONS") {
                             var numberCatalog = ('#' + selectFieldName);
                             // Добавляем строку
-                            $(blockGroup + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-8 mt-3"><select data-placeholder="Выберите вид документа" class="chosen-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select></div><div class="col-md-1 mt-3 text-right"><button class="btn btn-primary btn-sm addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" title="Добавить организацию" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div>' + requiredValidate + '</div>');
+                            $(blockGroup + dubKey + ' .blockGroupFields').append('<div class="row blockRow d-flex align-items-center' + parentBlock + parentCatalog + '" data-row="' + y + '"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + rowSelectField.name + requiredSup + '</div></div><div class="col-md-8 mt-3"><select data-placeholder="Выберите вид документа" class="chosen-select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + rowSelectField.catalogId + '" data-field="' + rowSelectField.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select></div><div class="col-md-1 mt-3 text-right"><button class="btn btn-primary btn-sm addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" title="Добавить организацию" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div><div class="col-md-3"></div><div class="col-9">' + requiredValidate + '</div></div>');
                             $(numberCatalog).chosen({
                                 width: "100%",
                                 no_results_text: "Ничего не найдено!"

@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>--%>
-
+<%--Согласование документа--%>
 <div class="modal fade" id="btnSuccess" tabindex="-1" role="dialog" aria-labelledby="btnSuccess" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-notify modal-success" role="document">
         <div class="modal-content btnSuccess">
@@ -90,7 +90,7 @@
         </div>
     </div>
 </div>
-
+<%--Отмена согласования документа--%>
 <div class="modal fade" id="btnCancel" tabindex="-1" role="dialog" aria-labelledby="btnCancel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-notify modal-danger" role="document">
         <div class="modal-content btnCancel">
@@ -158,9 +158,9 @@
         </div>
     </div>
 </div>
-
+<%--Перенаправление документа на согласование--%>
 <div class="modal fade" id="btnUndo" tabindex="-1" role="dialog" aria-labelledby="btnUndo" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-notify modal-warning" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-notify modal-primary" role="document">
         <div class="modal-content btnUndo">
             <div class="modal-header headerUndo">
                 <p class="heading lead">Перенаправление документа на согласование</p>
@@ -231,8 +231,8 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-center footerUndo">
-                <a type="button" id="undoSave" class="btn btn-success rounded">Перенаправить</a>
-                <a type="button" class="btn btn-danger rounded" data-dismiss="modal">Отмена</a>
+                <a type="button" id="undoSave" class="btn btn-primary rounded">Перенаправить</a>
+                <a type="button" class="btn btn-outline-primary rounded" data-dismiss="modal">Отмена</a>
             </div>
         </div>
     </div>

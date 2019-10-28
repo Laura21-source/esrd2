@@ -86,5 +86,11 @@ sup {font-size: 6px;}
   margin-left: -2.5rem;
 }
 
-invalid {border: 1px solid #f00;!important;}
-.invalid-feedback {text-align: left!important;}
+.help {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.chosen-container.invalid {border: 1px solid #f00;!important;}
+.invalid-feedback {text-align: left!important; margin-top: 0!important; padding-top: 0!important;}
