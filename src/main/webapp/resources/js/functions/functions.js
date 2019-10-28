@@ -343,7 +343,6 @@
                         // Открываем опции и закрываем
                         $(this).find('option.active').remove();
                         createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "", "");
-                        //$(this).find("option.activeStat").remove();
                     });
                 });
             }

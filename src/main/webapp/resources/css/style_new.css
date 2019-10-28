@@ -7,9 +7,7 @@ body {
   -webkit-background-size: cover;
 }
 
-.fontBig {
-  font-size: 1.0rem !important;
-}
+.fontBig {font-size: 1.0rem !important;}
 
 .pointer {cursor: pointer;}
 h1 {font-size: 2.3rem;}
@@ -65,9 +63,7 @@ sup {font-size: 6px;}
 }
 #horizontalBar {height: 280px!important;}
 .myCard {height: 480px!important;}
-.chartDiv .myImg {
-  position: absolute;
-}
+.chartDiv .myImg {position: absolute;}
 
 .chartDiv {
   width: 100%;
@@ -89,3 +85,6 @@ sup {font-size: 6px;}
   top: 8.5rem;
   margin-left: -2.5rem;
 }
+
+invalid {border: 1px solid #f00;!important;}
+.invalid-feedback {text-align: left!important;}

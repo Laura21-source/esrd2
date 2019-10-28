@@ -25,7 +25,7 @@
                                         <select data-placeholder="Выберите вид документа" class="chosen-select" name="selectType" id="selectType" required>
                                             <option value="">Выберите из справочника</option>
                                         </select>
-                                        <div class="invalid-tooltip">Поле обязательно для заполнения</div>
+                                        <div class="invalid-feedback">Поле обязательно для заполнения</div>
                                     </div>
                                 </div>
                                 <div id="blockFields" class="d-none">
@@ -63,7 +63,7 @@
                                                                         <option value="" selected>Выбрать</option>
                                                                     </select>
                                                                     <div class="fontSmall text-left" id="userListPost1"></div>
-                                                                    <div class="invalid-tooltip">Поле обязательно для заполнения</div>
+                                                                    <div class="invalid-feedback">Поле обязательно для заполнения</div>
                                                                 </div>
                                                                 <div class="col-md-2"></div>
                                                             </div>
@@ -75,7 +75,7 @@
                                                             <div class="btn btn-primary btn-sm addUser rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
                                                         </div>
                                                     </div>
-                                                    <div class="invalid-tooltip">Поле обязательно для заполнения</div>
+                                                    <div class="invalid-feedback">Поле обязательно для заполнения</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -184,18 +184,13 @@
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
             var agreeFormsValue = $('.registrationForm #userListBlock select');
             event.preventDefault();
+            // Валидация chosen
             var checkField = checkValidation(formsValue);
-            //$.validator.setDefaults({ignore: ":hidden:not(select)"});
-            //var checkField = $(forms).validate();
-            $/*(forms).validate({
-                errorClass: "invalid",
-                validClass: "success",
-                error: function(){alert('Ошибка!')},
-                success: function() {alert('Успех!')}
-            });*/
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
-                $(forms).addClass('was-validated');
+                $(formsValue).addClass('invalid');
+                $('.invalid-feedback').show();
+                //$(forms + '.chosen-container').addClass('is-invalid');
                 event.stopPropagation();
             } else {
                 $('#createSave').modal('show');
