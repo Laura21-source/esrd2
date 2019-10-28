@@ -171,7 +171,23 @@
     function checkValidation(value) {
         var validation = true;
         $(value).each(function() {
-            if($(this).val() === '') {validation = false;}
+            //alert($(this).val());
+            if($(this).val() === '') {
+                var attrValue = $(this).attr('id');
+                $('#' + attrValue).addClass('chosen-invalid');
+                var newAttrValue = '#' + attrValue + '_chosen';
+                //var newErrorValue = '#' + attrValue + '_invalid';
+                $(newAttrValue + ' .chosen-single').addClass('chosen-invalid');
+                $(newAttrValue + ' .chosen-choices').addClass('chosen-invalid');
+                //$(newErrorValue).show();
+                validation = false;
+            } else {
+                var attrValue = $(this).attr('id');
+                $('#' + attrValue).removeClass('chosen-invalid');
+                var newAttrValue = '#' + attrValue + '_chosen';
+                $(newAttrValue + ' .chosen-single').removeClass('chosen-invalid');
+                $(newAttrValue + ' .chosen-choices').removeClass('chosen-invalid');
+            }
         });
         return validation;
     }

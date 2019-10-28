@@ -92,5 +92,6 @@ sup {font-size: 6px;}
   right: 1rem;
 }
 
-.chosen-container.invalid {border: 1px solid #f00;!important;}
-.invalid-feedback {text-align: left!important; margin-top: 0!important; padding-top: 0!important;}
+
+.chosen-invalid, .invalid {border: 1px solid #f00!important;}
+/*.invalid-feedback {text-align: left!important; margin-top: 0!important; padding-top: 0!important;}*/
