@@ -178,10 +178,15 @@
             createUserList('rest/profile/users/'+userId, '#userListPost'+link);
         });
 
+        /*var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
+        $(formsValue).each(function() {
+            changeValidationField($(this));
+        });*/
+
         // Сохранение - Отправка на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
-            var forms = $('.registrationForm');
+            //var forms = $('.registrationForm');
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
             var agreeFormsValue = $('.registrationForm #userListBlock select');
             event.preventDefault();
@@ -197,7 +202,7 @@
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem);
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-                //console.log(serverStack);
+                console.log(serverStack);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
@@ -254,7 +259,7 @@
         // Отправка на сервер файла служебки
         $('#btnWordFile').on("click", function(event) {
             event.preventDefault();
-            var forms = $('.registrationForm');
+            //var forms = $('.registrationForm');
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
             event.preventDefault();
             var checkField = checkValidation(formsValue);
@@ -295,7 +300,7 @@
         // Переформирование файла PDF
         $('#btnReformat').on("click", function(event) {
             event.preventDefault();
-            var forms = $('.registrationForm');
+            //var forms = $('.registrationForm');
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
             event.preventDefault();
             var checkField = checkValidation(formsValue);

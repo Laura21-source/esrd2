@@ -168,7 +168,7 @@
     }
 
     // Прооверка полей на заполняемость
-    function checkValidation(value) {
+    function checkValidation (value) {
         var validation = true;
         $(value).each(function() {
             var attrValue = $(this).attr('id');
@@ -187,6 +187,18 @@
             //$(newErrorValue).show();
         });
         return validation;
+    }
+
+    // Убираем красное обрамление вокруг валидированного поля
+    function changeValidationField (element) {
+        $(element).change(function() {
+            if($(this).val() != '') {
+                $(this).removeClass('chosen-invalid');
+                /*$('#' + attrValue).removeClass('chosen-invalid');
+                $(newAttrValue + ' .chosen-single').removeClass('chosen-invalid');
+                $(newAttrValue + ' .chosen-choices').removeClass('chosen-invalid');*/
+            }
+        });
     }
 
     // Конфигурация сообщения об ошибках

@@ -21,8 +21,8 @@ $(function() {
   // Крутой селект
   //$('.mdb-select').materialSelect();
   $(".chosen-select").chosen({
-    width: "100%",
-    no_results_text: "Ничего не найдено!"
+      width: "100%",
+      no_results_text: "Ничего не найдено!"
   });
 
   // Всплывающие подсказки
