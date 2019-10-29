@@ -917,6 +917,9 @@
                             case 'COMPLETED':
                                 item.docStatus = 'Исполнен';
                                 break;
+                            case 'DELETED':
+                                item.docStatus = 'Удален';
+                                break;
                         }
 
                         if (!item.regNum || item.regNum == '') {

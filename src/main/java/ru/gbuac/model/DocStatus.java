@@ -4,5 +4,6 @@ public enum DocStatus {
     IN_WORK,
     COMPLETED,
     IN_AGREEMENT,
-    AGREEMENT_REJECTED
+    AGREEMENT_REJECTED,
+    DELETED
 }
