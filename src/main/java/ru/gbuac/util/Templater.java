@@ -6,6 +6,7 @@ import com.documents4j.job.LocalConverter;
 import com.google.common.io.Files;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.wp.usermodel.Paragraph;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
 
@@ -45,6 +46,12 @@ public class Templater {
 
     }
 
+    private static int getPageCount(XWPFDocument doc) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStreamTemp = new ByteArrayOutputStream();
+        doc.write(byteArrayOutputStreamTemp);
+        PDDocument pdfTemp = PDDocument.load(getPdfBytes(new ByteArrayInputStream(byteArrayOutputStreamTemp.toByteArray())).toByteArray());
+        return pdfTemp.getNumberOfPages();
+    }
 
     public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags,
                                                              Map<String, TaggedTable> taggedTables,
@@ -100,10 +107,8 @@ public class Templater {
             }
         }
 
-        ByteArrayOutputStream byteArrayOutputStreamTemp = new ByteArrayOutputStream();
-        doc.write(byteArrayOutputStreamTemp);
-        PDDocument pdfTemp = PDDocument.load(getPdfBytes(new ByteArrayInputStream(byteArrayOutputStreamTemp.toByteArray())).toByteArray());
-        int count = pdfTemp.getNumberOfPages();
+
+        int count = getPageCount(doc);
 
         if (count > 1) {
             simpleTags.put("SignerPosition", simpleTags.get("SignerFullPosition"));
@@ -126,47 +131,27 @@ public class Templater {
             }
         }
 
-        for (XWPFFooter footer : doc.getFooterList()) {
-            // Замена тэгов в таблицах
-            if (taggedTables.size() != 0 && footer.getTables().size() != 0) {
-                // Перебор всех таблиц в документе
-                for (int i = 0; i <footer.getTables().size(); i++)
-                {
-                    XWPFTable table = footer.getTableArray(i);
-                    // Ищем, имеет ли текущая таблица каике-либо тэги для замены
-                    XWPFTableRow lastRow = table.getRows().get(table.getNumberOfRows() - 1);
-                    String firstCellTag = lastRow.getTableCells().get(0).getText();
-
-                    if (taggedTables.containsKey(TagUtil.getTableTag(firstCellTag))) {
-                        // Получаем структуру с тэгами для замены в таблице
-                        TaggedTable taggedTable = taggedTables.get(TagUtil.getTableTag(firstCellTag));
-
-                        // Перебираем строки в структуре и в зависимости от количества в ней строк, генерим строки в таблице
-                        // в документе Word
-                        for (int row = 0; row < taggedTable.getRows().size(); row++) {
-                            lastRow = table.getRows().get(table.getNumberOfRows() - 1);
-                            CTRow ctrowTemplate = CTRow.Factory.parse(lastRow.getCtRow().newInputStream());
-                            XWPFTableRow newRow = new XWPFTableRow(ctrowTemplate, table);
-
-                            for (int cell = 0; cell < newRow.getTableCells().size(); cell++) {
-                                XWPFTableCell cellObj = newRow.getTableCells().get(cell);
-                                for (XWPFParagraph paragraph : cellObj.getParagraphs()) {
-                                    String text = paragraph.getText();
-                                    for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
-                                        text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
-                                    }
-                                    text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
-                                    text = text.replace("  ", " ").replace(" ,", ",");
-                                    changeText(paragraph, text);
-                                }
-                            }
-                            table.addRow(newRow, table.getNumberOfRows() - 1);
-                        }
-                        table.removeRow(table.getNumberOfRows() - 1);
+        for (XWPFParagraph p: doc.getParagraphs()) {
+            if (p.getText().contains("<Sizer>")) {
+                changeText(p, "");
+                int line = 0;
+                int pageCount = getPageCount(doc);
+                while (true) {
+                    p.insertNewRun(line).addCarriageReturn();
+                    p.insertNewRun(++line).addCarriageReturn();
+                    p.insertNewRun(++line).addCarriageReturn();
+                    int newPageCount = getPageCount(doc);
+                    if (newPageCount > pageCount) {
+                        p.removeRun(line);
+                        p.removeRun(--line);
+                        p.removeRun(--line);
+                        break;
                     }
                 }
+
             }
         }
+
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         doc.write(byteArrayOutputStream);
