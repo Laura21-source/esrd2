@@ -107,7 +107,7 @@ public class Templater {
 
         if (count > 1) {
             simpleTags.put("SignerPosition", simpleTags.get("SignerFullPosition"));
-            doc.getFooterList().get(0).removeTable(doc.getFooterList().get(0).getTables().get(0));
+            //doc.getFooterList().get(0).removeTable(doc.getFooterList().get(0).getTables().get(0));
         }
         for (int i = 0; i <doc.getTables().size(); i++) {
             List<XWPFTableRow> rows = doc.getTableArray(i).getRows();
@@ -170,6 +170,7 @@ public class Templater {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         doc.write(byteArrayOutputStream);
+        doc.write(new FileOutputStream(new File("C:/dsd.docx")));
         if (isPDF) {
             byteArrayOutputStream = getPdfBytes(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
         }
