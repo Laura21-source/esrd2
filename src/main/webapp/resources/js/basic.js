@@ -193,7 +193,6 @@ $(function() {
     var checkField = checkValidation(formsValue);
     if(checkField === false) {
       toastr["error"]("Заполните обязательные поля!");
-      $(forms).addClass('was-validated');
       event.stopPropagation();
     } else {
       $('.bigFormLoader').removeClass("d-none").fadeIn();
@@ -257,7 +256,6 @@ $(function() {
         var checkField = checkValidation(formsValue);
         if(checkField === false) {
             toastr["error"]("Заполните обязательные поля!");
-            $(forms).addClass('was-validated');
             event.stopPropagation();
         } else {
             $('.bigFormLoader').removeClass("d-none").fadeIn();

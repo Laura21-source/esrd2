@@ -458,7 +458,6 @@
             var checkField = checkValidation(formsValue);
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
-                $(forms).addClass('was-validated');
                 event.stopPropagation();
             } else {
                 $('#btnSuccess').modal('show');
@@ -512,7 +511,6 @@
             var checkField = checkValidation(formsValue);
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
-                $(forms).addClass('was-validated');
                 event.stopPropagation();
             } else {
                 var trueName = $(this).html();
@@ -693,7 +691,6 @@
             var checkField = checkValidation(formsValue);
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
-                $(forms).addClass('was-validated');
                 event.stopPropagation();
             } else {
                 $('#createSave').modal('show');
@@ -767,7 +764,6 @@
             var checkField = checkValidation(formsValue);
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
-                $(forms).addClass('was-validated');
                 event.stopPropagation();
             } else {
                 var trueName =  $(this).html();
@@ -809,7 +805,6 @@
             var checkField = checkValidation(formsValue);
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
-                $(forms).addClass('was-validated');
                 event.stopPropagation();
             } else {
                 var trueName = $(this).html();
