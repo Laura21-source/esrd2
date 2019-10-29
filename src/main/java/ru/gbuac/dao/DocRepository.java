@@ -66,7 +66,8 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     @Query("SELECT DISTINCT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
             "(SELECT CONCAT(a.user.lastname, ' ', a.user.firstname, ' ', a.user.patronym) FROM d.agreementList a " +
             "WHERE a.currentUser=TRUE), d.docType.name) FROM Doc d JOIN d.agreementList c WHERE " +
-            "(lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL) OR lower(d.initialUser.name)=lower(:userName) ORDER BY d.id")
+            "(lower(c.user.name)=lower(:userName) AND c.decisionType IS NOT NULL) OR lower(d.initialUser.name)=lower(:userName) AND " +
+            "d.docStatus<>'DELETED' ORDER BY d.id")
     List<Doc> getAllAgreedByUserName(@Param("userName") String userName);
 
     @Query("SELECT DISTINCT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
@@ -77,10 +78,10 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     List<Doc> getAllRegisteredByUserName(@Param("userName") String userName);
 
     @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.resolutions r LEFT JOIN r.department dep " +
-            "LEFT JOIN r.resolutionsUsers ru ORDER BY d.id")
+            "LEFT JOIN r.resolutionsUsers ru WHERE d.docStatus<>'DELETED' ORDER BY d.id")
     List<Doc> getAll();
 
-    @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId")
+    @Query("SELECT d FROM Doc d WHERE d.docType.id=:docTypeId AND d.docStatus<>'DELETED'")
     List<Doc> getAllByDocType(@Param("docTypeId") int docTypeId);
 
     @Query("SELECT DISTINCT new ru.gbuac.to.DocItemTo(d.id, d.docStatus, d.regNum, d.regDateTime, d.projectRegNum, d.projectRegDateTime, " +
@@ -112,28 +113,29 @@ public interface DocRepository extends JpaRepository<Doc, Integer> {
     List<Doc> getAllDistributed(@Param("departmentId") int departmentId);
 
     @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.resolutions r LEFT JOIN r.department dep LEFT JOIN r.resolutionsUsers ru " +
-            "WHERE ru.user.name=:userName AND r.controlDate>=:mounthAgo AND r.controlDate<=:today ORDER BY d.id")
+            "WHERE ru.user.name=:userName AND r.controlDate>=:mounthAgo AND r.controlDate<=:today AND d.docStatus<>'DELETED' ORDER BY d.id")
     List<Doc> getAllAtThisMounthOnControl(@Param("userName") String userName, @Param("today") LocalDate today,
                                           @Param("mounthAgo") LocalDate mounthAgo);
 
     @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.resolutions r LEFT JOIN r.department dep LEFT JOIN r.resolutionsUsers ru " +
             "WHERE ru.user.name=:userName AND r.controlDate>=:mounthAgo AND r.controlDate<:today " +
-            "AND r.executionDateTime <= r.controlDate ORDER BY d.id")
+            "AND r.executionDateTime <= r.controlDate AND d.docStatus<>'DELETED' ORDER BY d.id")
     List<Doc> getAllAtThisMounthOnControlCompletedInTime(@Param("userName") String userName, @Param("today") LocalDate today,
                                           @Param("mounthAgo") LocalDate mounthAgo);
 
     @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.resolutions r LEFT JOIN r.department dep LEFT JOIN r.resolutionsUsers ru " +
             "WHERE ru.user.name=:userName AND r.controlDate>=:mounthAgo AND r.controlDate<:today " +
-            "AND r.executionDateTime > r.controlDate ORDER BY d.id")
+            "AND r.executionDateTime > r.controlDate AND d.docStatus<>'DELETED' ORDER BY d.id")
     List<Doc> getAllAtThisMounthOnControlCompletedAfterTime(@Param("userName") String userName, @Param("today") LocalDate today,
                                                    @Param("mounthAgo") LocalDate mounthAgo);
 
     @Query("SELECT DISTINCT d FROM Doc d LEFT JOIN d.resolutions r LEFT JOIN r.department dep LEFT JOIN r.resolutionsUsers ru " +
             "WHERE ru.user.name=:userName AND r.controlDate<:today " +
-            "AND r.executionDateTime is NULL ORDER BY d.id")
+            "AND r.executionDateTime is NULL AND d.docStatus<>'DELETED' ORDER BY d.id")
     List<Doc> getAllAtThisMounthOnControlNotCompleted(@Param("userName") String userName, @Param("today") LocalDate today);
 
-    @Query("SELECT new ru.gbuac.to.DocNumberTo(d.id, d.regNum) FROM Doc d WHERE d.regNum IS NOT NULL ORDER BY d.regNum")
+    @Query("SELECT new ru.gbuac.to.DocNumberTo(d.id, d.regNum) FROM Doc d WHERE d.regNum IS NOT NULL AND " +
+            "d.docStatus<>'DELETED' ORDER BY d.regNum")
     List<DocNumberTo> getRegNumbers();
 
     @Query("SELECT d.docType.id FROM Doc d WHERE d.id=:id")
