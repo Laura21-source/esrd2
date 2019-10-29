@@ -800,9 +800,11 @@ public class DocServiceImpl implements DocService {
             List<DocAgreement> docAgreementList = docAgreementRepository.getAll(doc.getId());
             if (!docAgreementList.isEmpty()) {
                 DocAgreement daCurrent = docAgreementList.stream().filter(DocAgreement::isCurrentUser).findFirst().orElse(null);
-                DocAgreement daNext = docAgreementRepository.getByOrder(doc.getId(), daCurrent.getOrdering() + 1);
-                if (daNext.getUser().getPosition().contains("Управления")) {
-                    blockSEDO = true;
+                if (daCurrent != null) {
+                    DocAgreement daNext = docAgreementRepository.getByOrder(doc.getId(), daCurrent.getOrdering() + 1);
+                    if (daNext.getUser().getPosition().contains("Управления")) {
+                        blockSEDO = true;
+                    }
                 }
             }
         }
