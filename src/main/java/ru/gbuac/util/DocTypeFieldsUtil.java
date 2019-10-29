@@ -15,10 +15,10 @@ public class DocTypeFieldsUtil {
     public DocTypeFieldsUtil() {
     }
 
-    public static List<DocFieldsTo> asTo(List<DocTypeFields> docTypeFields, List<String> curUserRoles, Map<Integer, FieldsRoles> fMap, boolean deny) {
+    public static List<DocFieldsTo> asTo(List<DocTypeFields> docTypeFields, List<String> curUserRoles, Map<Integer, FieldsRoles> fMap, boolean deny, boolean blockSEDO) {
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
         for (DocTypeFields d:docTypeFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, false),
+            docFieldsTos.add(new DocFieldsTo(d.getId(), FieldUtil.asTo(d.getField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, false, blockSEDO),
                     d.getPosition()));
 
         }

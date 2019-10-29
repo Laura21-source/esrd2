@@ -424,7 +424,7 @@ public class DocServiceImpl implements DocService {
         String urlPdf = createPDFOrDocx(savedTo, rootPath, false, true);
         docRepository.setUrlPDF(savedTo.getId(), urlPdf);
         savedTo.setUrlPDF(urlPdf);
-        savedTo.setCanAgree(hasRights);
+        savedTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));
         return savedTo;
     }
 
@@ -505,7 +505,7 @@ public class DocServiceImpl implements DocService {
             }
         }
         DocTo updatedTo = asDocTo(updated);
-        updatedTo.setCanAgree(hasRights);
+        updatedTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));
         if (updated.getDocStatus() == DocStatus.IN_WORK) {
             for (Resolution resolution : updated.getResolutions()) {
                 mailService.sendDistributionEmail(resolution.getDepartment().getChiefUser().getEmail(),
@@ -789,15 +789,30 @@ public class DocServiceImpl implements DocService {
             deny = true;
         }
 
-        for (DocValuedFields d:docValuedFields) {
-            docFieldsTos.add(new DocFieldsTo(d.getId(),
-                    FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny, false), d.getPosition()));
-        }
 
         boolean isFinalAgreementStage = false;
         if (doc.getId() != null) {
             isFinalAgreementStage = isFinalAgreementStage(doc.getId());
         }
+
+        boolean blockSEDO = false;
+        if (doc.getId() != null && !isFinalAgreementStage) {
+            List<DocAgreement> docAgreementList = docAgreementRepository.getAll(doc.getId());
+            if (!docAgreementList.isEmpty()) {
+                DocAgreement daCurrent = docAgreementList.stream().filter(DocAgreement::isCurrentUser).findFirst().orElse(null);
+                DocAgreement daNext = docAgreementRepository.getByOrder(doc.getId(), daCurrent.getOrdering() + 1);
+                if (daNext.getUser().getPosition().contains("Управления")) {
+                    blockSEDO = true;
+                }
+            }
+        }
+
+        for (DocValuedFields d:docValuedFields) {
+            docFieldsTos.add(new DocFieldsTo(d.getId(),
+                    FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny, false, blockSEDO), d.getPosition()));
+        }
+
+
 
         List<Integer> executorDepartmentsIds = null;
         List<Integer> executorUsersIds = null;

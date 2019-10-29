@@ -65,7 +65,7 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
             deny = true;
         }
 
-        return DocValuedFieldsUtil.asTo(docValuedFields, curUserRoles, fMap, deny, false);
+        return DocValuedFieldsUtil.asTo(docValuedFields, curUserRoles, fMap, deny, false, false);
     }
 
     @Override
@@ -89,8 +89,8 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
             deny = true;
         }
 
-        List<DocFieldsTo> templateFields = DocTypeFieldsUtil.asTo(docTypeFields, curUserRoles, fMap, deny);
-        List<DocFieldsTo> valuedFields = DocValuedFieldsUtil.asTo(docValuedFields, curUserRoles, fMap, deny, true);
+        List<DocFieldsTo> templateFields = DocTypeFieldsUtil.asTo(docTypeFields, curUserRoles, fMap, deny, false);
+        List<DocFieldsTo> valuedFields = DocValuedFieldsUtil.asTo(docValuedFields, curUserRoles, fMap, deny, true, false);
         for (DocFieldsTo v: valuedFields) {
             templateFields = templateFields.stream()
                     .filter(f -> !v.getField().getFieldId().equals(f.getField().getFieldId())).collect(Collectors.toList());

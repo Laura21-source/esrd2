@@ -55,7 +55,7 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
         Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
 
-        return DocTypeFieldsUtil.asTo(docTypeFields, curUserRoles, fMap, false);
+        return DocTypeFieldsUtil.asTo(docTypeFields, curUserRoles, fMap, false, false);
     }
 
     @Override
