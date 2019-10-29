@@ -35,7 +35,7 @@
                                                 <span class="text-muted"><i class="fas fa-sitemap mr-2"></i>Адресат<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></span>
                                             </div>
                                             <div class="col-10">
-                                                <select data-placeholder="Выберите из справочника" multiple class="chosen-select is-invalid" id="whomList" required>
+                                                <select data-placeholder="Выберите из справочника" multiple class="chosen-select" id="whomList" required>
                                                     <option value="">Выберите из справочника</option>
                                                 </select>
                                                 <div id="whomList_invalid" class="d-none">Поле обязательно для заполнения</div>
