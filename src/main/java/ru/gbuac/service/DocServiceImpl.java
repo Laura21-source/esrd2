@@ -902,8 +902,8 @@ public class DocServiceImpl implements DocService {
         }
         return docValuedFields;
     }
-    @Override
-    public List<Doc> getAllChildDocs(int parentDocId) {
-        return docRepository.getAllChildDocs(parentDocId);
-    }
+//    @Override
+//    public List<Doc> getAllChildDocs(int parentDocId) {
+//        return docRepository.getAllChildDocs(parentDocId);
+//    }
 }

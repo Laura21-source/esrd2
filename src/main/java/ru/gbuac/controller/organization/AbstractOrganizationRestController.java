@@ -38,7 +38,7 @@ public abstract class AbstractOrganizationRestController {
         return organizationService.getAll();
     }
 
-    public Organization getEGRULData(String INN) {
+    public List<Organization> getEGRULData(String INN) {
         LOG.info("getEGRULData");
         return organizationService.getEGRULData(INN);
     }

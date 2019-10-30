@@ -74,25 +74,27 @@ public class OrganizationServiceImpl implements OrganizationService {
             HttpResponse response = httpClient.execute(request);
             String data = EntityUtils.toString(response.getEntity());
             JsonParser parser = new JsonParser();
-            JsonObject root = parser.parse(data).getAsJsonObject();
 
+            JsonObject root = parser.parse(data).getAsJsonObject();
 
             JsonObject jsonObjectSuggestions = root.get("suggestions").getAsJsonArray().get(0).getAsJsonObject();
 
             JsonObject jsonObjectData = jsonObjectSuggestions.get("data").getAsJsonObject();
+            for(Organization org : returned) {
 
-            Organization returnedOrg = new Organization();
+                Organization returnedOrg = new Organization();
 
-            returnedOrg.setKpp(jsonObjectData.get("kpp").getAsString());
-            returnedOrg.setOgrn(jsonObjectData.get("ogrn").getAsString());
-            returnedOrg.setInn(jsonObjectData.get("inn").getAsString());
-            returnedOrg.setFullNameLf(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString());
-            returnedOrg.setShortNameLf(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString());
-            returnedOrg.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
-            returnedOrg.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
-            returnedOrg.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
+                returnedOrg.setKpp(jsonObjectData.get("kpp").getAsString());
+                returnedOrg.setOgrn(jsonObjectData.get("ogrn").getAsString());
+                returnedOrg.setInn(jsonObjectData.get("inn").getAsString());
+                returnedOrg.setFullNameLf(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString());
+                returnedOrg.setShortNameLf(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString());
+                returnedOrg.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
+                returnedOrg.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
+                returnedOrg.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
 
-            returned.add(returnedOrg);
+                returned.add(org.setKpp(jsonObjectData.get("kpp").getAsString()));
+            }
 
         }   catch (Exception ex) {
 

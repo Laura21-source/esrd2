@@ -82,5 +82,5 @@ public interface DocService {
 
     FileTo createPDF(DocTo docTo, String rootPath) throws GeneratePdfException;
 
-    List<Doc> getAllChildDocs(int parentDocId);
+//    List<Doc> getAllChildDocs(int parentDocId);
 }

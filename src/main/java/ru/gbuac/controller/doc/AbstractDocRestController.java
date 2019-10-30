@@ -225,8 +225,8 @@ public abstract class AbstractDocRestController {
         return docService.createPDF(docTo, rootPath);
     }
 
-    public List<Doc> getAllChildDocs(int parentDocId) {
-        LOG.info("getAllChildDocs" + parentDocId);
-        return docService.getAllChildDocs(parentDocId);
-    }
+//    public List<Doc> getAllChildDocs(int parentDocId) {
+//        LOG.info("getAllChildDocs" + parentDocId);
+//        return docService.getAllChildDocs(parentDocId);
+//    }
 }

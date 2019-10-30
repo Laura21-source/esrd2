@@ -214,10 +214,10 @@ public class DocRestController extends AbstractDocRestController {
         return super.createPDF(docTo, context.getRealPath("/"));
     }
 
-    @Override
-    @GetMapping(value = "/childDocs/{parentDocId}")
-    public List<Doc> getAllChildDocs(@PathVariable int parentDocId) {
-        return super.getAllChildDocs(parentDocId);
-    }
+//    @Override
+//    @GetMapping(value = "/childDocs/{parentDocId}")
+//    public List<Doc> getAllChildDocs(@PathVariable int parentDocId) {
+//        return super.getAllChildDocs(parentDocId);
+//    }
 
 }
