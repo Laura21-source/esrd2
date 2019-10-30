@@ -39,6 +39,7 @@
 
 <jsp:include page="fragments/footerNew.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
+<jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
 <script>
     $(function() {
         dataTableArray("#dataTable","rest/profile/docs/", 2);
