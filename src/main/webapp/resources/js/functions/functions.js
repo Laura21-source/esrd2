@@ -260,7 +260,8 @@
         var idVal = "";
         if (idField) {idVal = ' data-id="' + idField + '"';}
         var inputVal = '';
-        if (value) {inputVal = ' value="' + value + '"';}
+        //if (value) {inputVal = ' value="' + value + '"';}
+        if (value) {inputVal = " value='" + value + "'";}
         var col = '<div class="col-md-12">';
         var colShort = '';
         if (short == 1) {
