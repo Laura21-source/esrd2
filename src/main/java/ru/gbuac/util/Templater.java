@@ -155,7 +155,6 @@ public class Templater {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         doc.write(byteArrayOutputStream);
-        doc.write(new FileOutputStream(new File("C:/dsd.docx")));
         if (isPDF) {
             byteArrayOutputStream = getPdfBytes(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
         }
