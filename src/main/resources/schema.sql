@@ -29,6 +29,8 @@ DROP SEQUENCE IF EXISTS esrd.memo_seq CASCADE;
 CREATE SEQUENCE esrd.global_seq START 100000;
 CREATE SEQUENCE esrd.agreement_seq START 1;
 CREATE SEQUENCE esrd.memo_seq START 1;
+CREATE SEQUENCE esrd.protocol_seq START 1;
+CREATE SEQUENCE esrd.decree_seq START 1;
 
 CREATE TABLE esrd.role
 (
@@ -306,6 +308,10 @@ BEGIN
         SELECT 'ДПР-П-'||optional||'/'||yearPostfix INTO Result;
     ELSIF (mask='ДПР-СЗ') THEN
         SELECT 'ДПР-СЗ-'||nextval('esrd.memo_seq')||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-ПРО') THEN
+        SELECT 'ДПР-ПРО-'||nextval('esrd.protocol_seq')||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-ПР') THEN
+        SELECT 'ДПР-ПР-'||nextval('esrd.decree_seq')||'/'||yearPostfix INTO Result;
     ELSE
         RAISE 'Incorrect mask for generating document number' USING ERRCODE = 'INCORRECT_DOCNUMBER_MASK';
     END IF;
