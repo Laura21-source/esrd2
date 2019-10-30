@@ -3,16 +3,10 @@ package ru.gbuac.controller.organization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Organization;
 import ru.gbuac.service.OrganizationService;
-import ru.gbuac.to.DocTo;
 import ru.gbuac.to.OrganizationTo;
 
-import javax.validation.Valid;
 import java.util.List;
 
 import static ru.gbuac.util.ValidationUtil.assureIdConsistent;
@@ -38,7 +32,7 @@ public abstract class AbstractOrganizationRestController {
         return organizationService.getAll();
     }
 
-    public Organization getEGRULData(String INN) {
+    public List<Organization> getEGRULData(String INN) {
         LOG.info("getEGRULData");
         return organizationService.getEGRULData(INN);
     }

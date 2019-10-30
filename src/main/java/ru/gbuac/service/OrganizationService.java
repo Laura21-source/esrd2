@@ -13,7 +13,7 @@ public interface OrganizationService {
 
     List<OrganizationTo> getAll();
 
-    Organization getEGRULData(String INN);
+    List<Organization> getEGRULData(String INN);
 
     Organization save(Organization organization);
 

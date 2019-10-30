@@ -1,13 +1,10 @@
 package ru.gbuac.controller.organization;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.Organization;
-import ru.gbuac.service.OrganizationService;
 import ru.gbuac.to.OrganizationTo;
 
-import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -36,7 +33,7 @@ public class OrganizationRestController extends AbstractOrganizationRestControll
 
     @Override
     @GetMapping(value = "/getEGRULData")
-    public Organization getEGRULData(@RequestParam String INN) {
+    public List<Organization> getEGRULData(@RequestParam String INN) {
         return super.getEGRULData(INN);
     }
 

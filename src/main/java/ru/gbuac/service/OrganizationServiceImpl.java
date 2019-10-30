@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,18 +56,18 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public Organization getEGRULData(String INN) {
+    public List<Organization> getEGRULData(String INN) {
         JSONObject query = new JSONObject();
         query.put("query", INN);
-        query.put("branch_type", "MAIN");
         String JSONString = query.toJSONString();
 
-        Organization returned = new Organization();
+
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
         String uri = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";
         if (INN.matches("[0-9]+") && INN.length() > 2) {
             uri = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party";
         }
+        List<Organization> organizations = new ArrayList<>();
         try {
             HttpPost request = new HttpPost(uri);
             StringEntity params = new StringEntity(JSONString, "UTF-8");
@@ -79,22 +80,25 @@ public class OrganizationServiceImpl implements OrganizationService {
             JsonParser parser = new JsonParser();
             JsonObject root = parser.parse(data).getAsJsonObject();
 
+            for(int i = 0; i < root.get("suggestions").getAsJsonArray().size(); i++) {
+                Organization returned = new Organization();
+                JsonObject jsonObjectSuggestions = root.get("suggestions").getAsJsonArray().get(i).getAsJsonObject();
 
-            JsonObject jsonObjectSuggestions = root.get("suggestions").getAsJsonArray().get(0).getAsJsonObject();
-
-            JsonObject jsonObjectData = jsonObjectSuggestions.get("data").getAsJsonObject();
-            returned.setKpp(jsonObjectData.get("kpp").getAsString());
-            returned.setOgrn(jsonObjectData.get("ogrn").getAsString());
-            returned.setInn(jsonObjectData.get("inn").getAsString());
-            returned.setShortNameLf(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString());
-            returned.setFullNameLf(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString());
-            returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
-            returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
-            returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
+                JsonObject jsonObjectData = jsonObjectSuggestions.get("data").getAsJsonObject();
+                returned.setKpp(jsonObjectData.get("kpp").getAsString());
+                returned.setOgrn(jsonObjectData.get("ogrn").getAsString());
+                returned.setInn(jsonObjectData.get("inn").getAsString());
+                returned.setFullNameLf(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString());
+                returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
+                returned.setShortNameLf(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString());
+                returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
+                returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
+                organizations.add(returned);
+            }
         }   catch (Exception ex) {
 
         }
-        return returned;
+        return organizations;
     };
 
     private String replaceQuotes(String text) {
