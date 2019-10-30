@@ -3,19 +3,12 @@ package ru.gbuac.controller.doc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.Doc;
-import ru.gbuac.model.User;
 import ru.gbuac.service.DocService;
 import ru.gbuac.to.*;
 
-import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,10 +40,10 @@ public abstract class AbstractDocRestController {
                 { "distributionMoreDeadlineByChiefUserName", docService.getAllDistributionMoreDeadlineByChiefUserName(userName).size() },
                 { "distributionLessDeadlineByChiefUserName", docService.getAllDistributionLessDeadlineByChiefUserName(userName).size() },
 
-                { "atThisMounthOnControl", docService.getAllAtThisMounthOnControl(userName).size() },
-                { "atThisMounthOnControlCompletedInTime", docService.getAllAtThisMounthOnControlCompletedInTime(userName).size() },
-                { "atThisMounthOnControlCompletedAfterTime", docService.getAllAtThisMounthOnControlCompletedAfterTime(userName).size() },
-                { "atThisMounthOnControlNotCompleted", docService.getAllAtThisMounthOnControlNotCompleted(userName).size() },
+                { "atThisMounthOnControl", docService.getAllAtThisMonthOnControl(userName).size() },
+                { "atThisMounthOnControlCompletedInTime", docService.getAllAtThisMonthOnControlCompletedInTime(userName).size() },
+                { "atThisMounthOnControlCompletedAfterTime", docService.getAllAtThisMonthOnControlCompletedAfterTime(userName).size() },
+                { "atThisMounthOnControlNotCompleted", docService.getAllAtThisMonthOnControlNotCompleted(userName).size() },
 
                 { "agreementMoreDeadlineByDepartment", docService.getAllAgreementMoreDeadlineByDepartment(userName).size() },
                 { "agreementLessDeadlineByDepartment", docService.getAllAgreementLessDeadlineByDepartment(userName).size() },
@@ -169,22 +162,22 @@ public abstract class AbstractDocRestController {
 
     public List<DocItemTo> getAllAtThisMounthOnControl() {
         LOG.info("getAllAtThisMounthOnControl");
-        return docService.getAllAtThisMounthOnControl(AuthorizedUser.getUserName());
+        return docService.getAllAtThisMonthOnControl(AuthorizedUser.getUserName());
     }
 
     public List<DocItemTo> getAllAtThisMounthOnControlCompletedInTime() {
         LOG.info("getAllAtThisMounthOnControlCompletedInTime");
-        return docService.getAllAtThisMounthOnControlCompletedInTime(AuthorizedUser.getUserName());
+        return docService.getAllAtThisMonthOnControlCompletedInTime(AuthorizedUser.getUserName());
     }
 
     public List<DocItemTo> getAllAtThisMounthOnControlCompletedAfterTime() {
         LOG.info("getAllAtThisMounthOnControlCompletedAfterTime");
-        return docService.getAllAtThisMounthOnControlCompletedAfterTime(AuthorizedUser.getUserName());
+        return docService.getAllAtThisMonthOnControlCompletedAfterTime(AuthorizedUser.getUserName());
     }
 
     public List<DocItemTo> getAllAtThisMounthOnControlNotCompleted() {
         LOG.info("getAllAtThisMounthOnControlNotCompleted");
-        return docService.getAllAtThisMounthOnControlNotCompleted(AuthorizedUser.getUserName());
+        return docService.getAllAtThisMonthOnControlNotCompleted(AuthorizedUser.getUserName());
     }
 
 
@@ -230,5 +223,10 @@ public abstract class AbstractDocRestController {
 
     public FileTo createPDF(DocTo docTo, String rootPath) {
         return docService.createPDF(docTo, rootPath);
+    }
+
+    public List<Doc> getAllChildDocs(int parentDocId) {
+        LOG.info("getAllChildDocs" + parentDocId);
+        return docService.getAllChildDocs(parentDocId);
     }
 }

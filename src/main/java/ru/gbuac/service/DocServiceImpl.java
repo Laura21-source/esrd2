@@ -369,25 +369,25 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public List<DocItemTo> getAllAtThisMounthOnControl(String userName) {
+    public List<DocItemTo> getAllAtThisMonthOnControl(String userName) {
         List<Doc> docs = docRepository.getAllAtThisMounthOnControl(userName, LocalDate.now(), LocalDate.now().minusMonths(1));
         return getWithUserDepsExecutors(docs);
     }
 
     @Override
-    public List<DocItemTo> getAllAtThisMounthOnControlCompletedInTime(String userName) {
+    public List<DocItemTo> getAllAtThisMonthOnControlCompletedInTime(String userName) {
         List<Doc> docs =  docRepository.getAllAtThisMounthOnControlCompletedInTime(userName, LocalDate.now(), LocalDate.now().minusMonths(1));
         return getWithUserDepsExecutors(docs);
     }
 
     @Override
-    public List<DocItemTo> getAllAtThisMounthOnControlCompletedAfterTime(String userName) {
+    public List<DocItemTo> getAllAtThisMonthOnControlCompletedAfterTime(String userName) {
         List<Doc> docs =  docRepository.getAllAtThisMounthOnControlCompletedAfterTime(userName, LocalDate.now(), LocalDate.now().minusMonths(1));
         return getWithUserDepsExecutors(docs);
     }
 
     @Override
-    public List<DocItemTo> getAllAtThisMounthOnControlNotCompleted(String userName) {
+    public List<DocItemTo> getAllAtThisMonthOnControlNotCompleted(String userName) {
         List<Doc> docs =  docRepository.getAllAtThisMounthOnControlNotCompleted(userName, LocalDate.now());
         return getWithUserDepsExecutors(docs);
     }
@@ -901,5 +901,9 @@ public class DocServiceImpl implements DocService {
                     createNewValueFieldFromTo(d.getField()), d.getPosition()));
         }
         return docValuedFields;
+    }
+    @Override
+    public List<Doc> getAllChildDocs(int parentDocId) {
+        return docRepository.getAllChildDocs(parentDocId);
     }
 }

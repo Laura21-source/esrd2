@@ -58,13 +58,13 @@ public interface DocService {
 
     List<DocItemTo> getAllDistributed(String userName);
 
-    List<DocItemTo> getAllAtThisMounthOnControl(String userName);
+    List<DocItemTo> getAllAtThisMonthOnControl(String userName);
 
-    List<DocItemTo> getAllAtThisMounthOnControlCompletedInTime(String userName);
+    List<DocItemTo> getAllAtThisMonthOnControlCompletedInTime(String userName);
 
-    List<DocItemTo> getAllAtThisMounthOnControlCompletedAfterTime(String userName);
+    List<DocItemTo> getAllAtThisMonthOnControlCompletedAfterTime(String userName);
 
-    List<DocItemTo> getAllAtThisMounthOnControlNotCompleted(String userName);
+    List<DocItemTo> getAllAtThisMonthOnControlNotCompleted(String userName);
 
     List<DocNumberTo> getRegNumbers();
 
@@ -81,4 +81,6 @@ public interface DocService {
     FileTo createDOCX(DocTo docTo, String rootPath) throws GenerateDocxException;
 
     FileTo createPDF(DocTo docTo, String rootPath) throws GeneratePdfException;
+
+    List<Doc> getAllChildDocs(int parentDocId);
 }
