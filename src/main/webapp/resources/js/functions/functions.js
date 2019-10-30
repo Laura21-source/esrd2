@@ -173,7 +173,7 @@
         $(value).each(function() {
             var attrValue = $(this).attr('id');
             var newAttrValue = '#' + attrValue + '_chosen';
-            if($(this).val() == '' && $(this).is(':visible')) {
+            if($(this).val() == ''/* && $(this).is(':visible')*/) {
                 $('#' + attrValue).addClass('chosen-invalid');
                 $(newAttrValue + ' .chosen-single').addClass('chosen-invalid');
                 $(newAttrValue + ' .chosen-choices').addClass('chosen-invalid');
@@ -344,7 +344,6 @@
             }
         });
     }
-
 
     // Добавление должности при изменении пользователя
     function createUserList (url, field) {

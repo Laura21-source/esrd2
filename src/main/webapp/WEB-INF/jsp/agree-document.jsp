@@ -29,7 +29,7 @@
                                     <span class="text-muted"><i class="fas fa-users mr-2"></i>Исполнители</span>
                                 </div>
                                 <div class="col-10">
-                                    <select data-placeholder="Выберите из справочника" class="chosen-select" multiple id="performerList" required>
+                                    <select data-placeholder="Выберите из справочника" class="chosen-select" multiple id="performerList">
                                         <option value="">Выберите из справочника</option>
                                     </select>
                                 </div>
@@ -332,6 +332,7 @@
                 }
                 if(data.canDistribute == true) {
                     $('.performerBlock').removeClass('d-none');
+                    $('#performerList').prop('required',true);
                     // Добавим опций
                     if (data.executorUsersIds.length == 0) {
                         createOptions ('rest/profile/users/', '#performerList', '', 'id', '', 'usersList');
@@ -349,10 +350,12 @@
                                 contentType: 'application/json; charset=utf-8'
                             });
                             serverAjax.done(function() {
-                                toastr["success"]("Исполнителю назначен  на документ!");
+                                toastr["success"]("Исполнителю назначен на документ!");
                             });
-                            serverAjax.fail(function () {
-                                toastr["error"]("Не удалось назначить исполнителя!");
+                            serverAjax.fail(function() {
+                                //toastr["error"]("Не удалось назначить исполнителя!");
+                                var errorInfo = JSON.parse(serverAjax.responseText);
+                                toastr["error"]("Не удалось назначить исполнителя! " + errorInfo.details);
                                 //$("#performerList").empty();
                                 $("#performerList option[value='"+userId+"']").prop("selected", false);
                                 $("#performerList").trigger("chosen:updated");
@@ -452,7 +455,7 @@
         // Отправка согласования на сервер
         $('#btnSave').on("click", function(event) {
             event.preventDefault();
-            var forms = $('.registrationForm');
+            //var forms = $('.registrationForm');
             var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
             event.preventDefault();
             var checkField = checkValidation(formsValue);
@@ -686,7 +689,6 @@
             var forms = $('.newDocumentForm');
             var formsValue = $('.newDocumentForm input,.newDocumentForm textarea,.newDocumentForm select').filter('[required]');
             var agreeFormsValue = $('.newDocumentForm #userListBlockNew select');
-            $(forms).addClass('was-validated');
             event.preventDefault();
             var checkField = checkValidation(formsValue);
             if(checkField === false) {
@@ -715,7 +717,6 @@
                     $("#btnWordFileNew").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
                     $('.loaderSuccess').addClass('d-none');
                     $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
-                    $('.newDocumentForm').removeClass('was-validated');
                     var projectRegNum = data.projectRegNum;
                     $('#createSave #regNumTemplate').html(projectRegNum);
                     $('#createSave').on('hidden.bs.modal', function() {
