@@ -20,6 +20,26 @@ import java.util.stream.Stream;
 public class Templater {
 
     public static void main(String[]args) throws Exception {
+        String d = "IF{mgffgr}THEN{sds}ELSE{SDS}dsd23232 IF{myvar}THEN{sds}\n\n"
+                + "myVar\n\n"
+                + "erwrwerw IF{вавав}THEN{dвавffdf}ELSE{Установить тариф}wrwrwr\n\n"
+                + "myVar1IF{myvar}THEN{sd\n\n"
+                + "s}ELSE{sds}dqd\n\n"
+                + "myVar_1\n\n"
+                + "1var\n\n"
+                + "IF{не утратил=утратил}THEN{3. Приз\n"
+                + "нать утратившим су с 1 январ\n\n"
+                + "я 2019 г. пункт 2 приказа Департамента ономич\n"
+                + "рода Моквы от 21 ноября 2017 г. №\n\n\n"
+                + " 283-ТР «Об установлении олгосроч\n"
+                + "ых арифовна трартировку\n"
+                + " воды и транспортировку сточных вод Международный аэропорт «Внуково на 2018-2020 годы».}\n\n"
+                + " \n\n"
+                + " \n\n"
+                + "2var{myvar}THEN{sds}\n\n"
+                + "COOL_VAR{myvar}THEN{sds}IABLE";
+        List<IfStatement> ifStatements = getIfStatements(d);
+        int df = 0;
 
 
     }
@@ -35,26 +55,27 @@ public class Templater {
         if (text == null) {
             return null;
         }
-        final String regex = "(IF\\{.*.}+THEN\\{(.*.|.*[\\n\\r].*)}+ELSE\\{(.*.|.*[\\n\\r].*)})|(IF\\{.*.}+THEN\\{(.*.|.*[\\n\\r].*)})";
-        final Pattern pattern;
-        pattern = Pattern.compile(regex);
+        final String regex = "(IF\\{(.*?|.*[\\s\\S]*?)\\}THEN\\{(.*?|.*[\\s\\S]*?)\\}(ELSE\\{(.*?|.*[\\s\\S]*?)\\})?)";
+        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(text);
         List<IfStatement> ifStatements = new ArrayList<>();
         while (matcher.find()) {
-            ifStatements.add(parseIfStatements(matcher.group()));
+//            System.out.println("Full match: " + matcher.group(0));
+//            for (int i = 1; i <= matcher.groupCount(); i++) {
+//                System.out.println("Group " + i + ": " + matcher.group(i));
+//            }
+            ifStatements.add(new IfStatement(matcher.group(2) != null ? matcher.group(2) : "",
+                    matcher.group(3) != null ? matcher.group(3) : "",
+                    matcher.group(5) != null ? matcher.group(5) : "",
+                    matcher.group(1)));
         }
         return ifStatements;
     }
 
-    private static IfStatement parseIfStatements(String text) {
-        if (text == null) {
-            return null;
-        }
-        final String regex = "\\{(.*?)\\}";
-        final Pattern pattern;
-        pattern = Pattern.compile(regex);
-        final Matcher matcher = pattern.matcher(text);
-        return new IfStatement(matcher.find() ? matcher.group(1) : "", matcher.find() ? matcher.group(1) : "", matcher.find() ? matcher.group(1) : "", text);
+    public static void deleteParagraph(XWPFParagraph p) {
+        XWPFDocument doc = p.getDocument();
+        int pPos = doc.getPosOfParagraph(p);
+        doc.removeBodyElement(pPos);
     }
 
     public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags,
@@ -112,8 +133,10 @@ public class Templater {
         }
 
         // Замена тэгов щаблона значениями по словарю
+        List<XWPFParagraph> paragraphsToDelete = new ArrayList<>();
         for (XWPFParagraph p: doc.getParagraphs()) {
             String text = p.getText();
+            int startLength = text.length();
             for (IfStatement ifStatement : getIfStatements(text)) {
                 String[] cmpValues = ifStatement.condition.split("=");
                 if (cmpValues.length == 0) {
@@ -129,7 +152,18 @@ public class Templater {
                     text = text.replace(ifStatement.fullText, ifStatement.getElseVal());
                 }
             }
-            changeText(p, text);
+            // Если размер параграфа стал равен нулю, и при этом изначально он таким не был,
+            // то значит его нужно добавить в список удаления
+            if (startLength > text.length() && text.length() == 0) {
+                paragraphsToDelete.add(p);
+            } else {
+                changeText(p, text);
+            }
+        }
+
+        // Удаление пустых параграфов
+        for (int i = 0; i < paragraphsToDelete.size(); i++) {
+            deleteParagraph(paragraphsToDelete.get(i));
         }
 
         // Если количество страниц больше одной, то делаем полную подпись
