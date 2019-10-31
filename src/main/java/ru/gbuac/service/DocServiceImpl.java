@@ -572,6 +572,7 @@ public class DocServiceImpl implements DocService {
             switch (fieldTo.getFieldType()) {
                 case GROUP_FIELDS:
                     for (FieldTo childField : fieldTo.getChildFields()) {
+                        childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
                         fillTags(childField, simpleTags, taggedTables, fieldTo.getChildFields().size());
                     }
                     break;
@@ -626,6 +627,7 @@ public class DocServiceImpl implements DocService {
             switch (fieldTo.getFieldType()) {
                 case GROUP_FIELDS:
                     for (FieldTo childField : fieldTo.getChildFields()) {
+                        childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
                         int childMaxCellsCount = (int) fieldTo.getChildFields().stream()
                                 .filter(c -> !c.getTag().equals("")).count();
                         fillTags(childField, simpleTags, taggedTables, childMaxCellsCount);
@@ -742,15 +744,15 @@ public class DocServiceImpl implements DocService {
             for (int i = 0; i < docTo.getExecutorDepartmentsIds().size(); i++) {
                 Department exDep = departmentRepository.findById(docTo.getExecutorDepartmentsIds().get(i)).orElse(null);
                 List<FieldTo> exDepsFields = new ArrayList<>();
-                exDepsFields.add(new FieldTo(null, FieldType.TEXT, exDep.getChiefUser().getDativePosition(), "[To]Department"));
-                exDepsFields.add(new FieldTo(null, FieldType.TEXT, exDep.getChiefUser().getDativeFullname(), "[To]Chief"));
-                docTo.getChildFields().add(new DocFieldsTo(null, new FieldTo(exDepsFields, FieldType.GROUP_FIELDS, ""), null));
+                exDepsFields.add(new FieldTo(null, FieldType.TEXT, exDep.getChiefUser().getDativePosition(), "Department"));
+                exDepsFields.add(new FieldTo(null, FieldType.TEXT, exDep.getChiefUser().getDativeFullname(), "Chief"));
+                docTo.getChildFields().add(new DocFieldsTo(null, new FieldTo(exDepsFields, FieldType.GROUP_FIELDS, "To"), null));
             }
         } else {
             List<FieldTo> exDepsFields = new ArrayList<>();
-            exDepsFields.add(new FieldTo(null, FieldType.TEXT, "", "[To]Department"));
-            exDepsFields.add(new FieldTo(null, FieldType.TEXT, "", "[To]Chief"));
-            docTo.getChildFields().add(new DocFieldsTo(null, new FieldTo(exDepsFields, FieldType.GROUP_FIELDS, ""), null));
+            exDepsFields.add(new FieldTo(null, FieldType.TEXT, "", "Department"));
+            exDepsFields.add(new FieldTo(null, FieldType.TEXT, "", "Chief"));
+            docTo.getChildFields().add(new DocFieldsTo(null, new FieldTo(exDepsFields, FieldType.GROUP_FIELDS, "To"), null));
         }
 
         Map<String, TaggedTable> taggedTables = new HashMap<>();

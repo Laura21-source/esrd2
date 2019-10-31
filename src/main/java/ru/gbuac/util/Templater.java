@@ -12,37 +12,15 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Templater {
 
     public static void main(String[]args) throws Exception {
-        Map<String, String> simpleTags = Stream.of(new String[][] {
-                { "MeetingDate", "3 сентября 2019" },
-                { "MeetingTime", "10:00" },
-        }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
-        Map<String, String> rowCells1 = Stream.of(new String[][] {
-                { "NumTheme", "1" },
-                { "Theme", "О подключении....." },
-                { "AuthPerson", "Петров А.В." },
-        }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
-        TableRow tableRow1 = new TableRow(rowCells1);
-
-        Map<String, String> rowCells2 = Stream.of(new String[][] {
-                { "NumTheme", "2" },
-                { "Theme", "Об установлении тарифа....." },
-                { "AuthPerson", "Смирнов А.Г." },
-        }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
-        TableRow tableRow2 = new TableRow(rowCells2);
-
-        TaggedTable taggedTable = new TaggedTable("Table1", Arrays.asList(tableRow1, tableRow2));
-
-
-        //Templater templater = new Templater();
-        //templater.fillTagsByDictionary("C:\\DocTemplates\\povestka.docx", simpleTags, Arrays.asList(taggedTable),
-        //        "C:\\TempPDF\\PDFResult.pdf", true);
 
     }
 
@@ -51,6 +29,32 @@ public class Templater {
         doc.write(byteArrayOutputStreamTemp);
         PDDocument pdfTemp = PDDocument.load(getPdfBytes(new ByteArrayInputStream(byteArrayOutputStreamTemp.toByteArray())).toByteArray());
         return pdfTemp.getNumberOfPages();
+    }
+
+    private static List<IfStatement> getIfStatements(String text) {
+        if (text == null) {
+            return null;
+        }
+        final String regex = "(IF\\{.*.}+THEN\\{.*.}+ELSE\\{.*.})|(IF\\{.*.}+THEN\\{.*.})";
+        final Pattern pattern;
+        pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(text);
+        List<IfStatement> ifStatements = new ArrayList<>();
+        while (matcher.find()) {
+            ifStatements.add(parseIfStatements(matcher.group()));
+        }
+        return ifStatements;
+    }
+
+    private static IfStatement parseIfStatements(String text) {
+        if (text == null) {
+            return null;
+        }
+        final String regex = "\\{(.*?)\\}";
+        final Pattern pattern;
+        pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(text);
+        return new IfStatement(matcher.find() ? matcher.group(1) : "", matcher.find() ? matcher.group(1) : "", matcher.find() ? matcher.group(1) : "", text);
     }
 
     public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags,
@@ -67,7 +71,7 @@ public class Templater {
             changeText(p, text);
         }
 
-        // Замена тэгов в таблицах
+        // Замена тэгов в таблицах, которые есть в taggedTables
         if (taggedTables.size() != 0 && doc.getTables().size() != 0) {
             // Перебор всех таблиц в документе
             for (int i = 0; i <doc.getTables().size(); i++)
@@ -107,13 +111,34 @@ public class Templater {
             }
         }
 
+        // Замена тэгов щаблона значениями по словарю
+        for (XWPFParagraph p: doc.getParagraphs()) {
+            String text = p.getText();
+            for (IfStatement ifStatement : getIfStatements(text)) {
+                String[] cmpValues = ifStatement.condition.split("=");
+                if (cmpValues.length == 0) {
+                    cmpValues = ifStatement.condition.split("~");
+                }
+                if (cmpValues.length == 0) {
+                    continue;
+                }
+                if ((ifStatement.condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
+                        (ifStatement.condition.contains("~") && cmpValues[0].contains(cmpValues[1]))) {
+                    text = text.replace(ifStatement.fullText, ifStatement.getThenVal());
+                } else {
+                    text = text.replace(ifStatement.fullText, ifStatement.getElseVal());
+                }
+            }
+            changeText(p, text);
+        }
 
-        int count = getPageCount(doc);
-
-        if (count > 1) {
+        // Если количество страниц больше одной, то делаем полную подпись
+        if (getPageCount(doc) > 1) {
             simpleTags.put("SignerPosition", simpleTags.get("SignerFullPosition"));
             //doc.getFooterList().get(0).removeTable(doc.getFooterList().get(0).getTables().get(0));
         }
+
+        // Замена тэгов в таблицах
         for (int i = 0; i <doc.getTables().size(); i++) {
             List<XWPFTableRow> rows = doc.getTableArray(i).getRows();
             for (int row = 0; row < rows.size(); row++) {
