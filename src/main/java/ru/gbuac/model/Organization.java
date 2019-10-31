@@ -49,4 +49,7 @@ public class Organization extends BaseEntity {
     @SafeHtml
     @Column(name = "position_manager")
     private String positionManager;
+
+    @Column(name = "is_foreign")
+    private Boolean isForeign;
 }
