@@ -778,6 +778,7 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4374, 3000);
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (23, 'ДПР-СЗ');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (24, 'ДПР-П');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (25, 'ДПР-ПPО');
+INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (300, 'ДПР-ПР');
 
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1001, null, 'Предмет вопроса', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1002, 1001, 'Вопрос', 0);
@@ -1013,5 +1014,29 @@ INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUE
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (115, 2, 4, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (116, 2, 5, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (117, 2, 7, 3);
+
+INSERT INTO esrd.doctype (id, name, tmp_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (301, 'Приказ (тарифное регулирование)', null, 'prikaz.docx', 3002, 300, false);
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (304, 'Дата протокола', 'DATE', null, null, null, null, 'ProtocolDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (305, 'Номер протокола', 'TEXT', null, null, null, null, 'ProtocolRegNum');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (306, 'Дата начала действия тарифа', 'DATE', null, null, null, null, 'TarifStartDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (307, 'Дата окончания дейстия тарифа', 'DATE', null, null, null, null, 'TarifEndDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (302, 'Признать приказ утратившим силу', 'TEXT', null, null, null, null, 'CancelDecree');
+
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (310, 301, 306, 13);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (303, 301, 302, 15);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (308, 301, 304, 11);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (309, 301, 305, 12);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (311, 301, 307, 14);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (312, 301, 8, 1);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (313, 301, 9, 2);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (314, 301, 10, 3);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (315, 301, 11, 4);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (316, 301, 12, 5);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (317, 301, 13, 6);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (318, 301, 301, 7);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (319, 301, 14, 8);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (320, 301, 15, 9);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (321, 301, 17, 10);
+
 
 INSERT INTO esrd.users_distribution_departments (user_id, distribution_departments_id) VALUES (4084, 575);
