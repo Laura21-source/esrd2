@@ -30,14 +30,16 @@ $(function() {
 
   // Добавить блок
   $(document).on("click", ".addGroup", function() {
-    //var links = $("[data-block='1']").length;
+    var linksOld = parseInt($("#newBlockGroup [data-block='1']").length);
+    linksOld = linksOld + 1;
     var links = $(".blockGroup:last").attr('id');
     links = parseInt(links.substr(10));
     var links1 = links + 1;
-    //var id = getId();
     var asd = $("#selectType").val();
-    var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", '', links1);
+    var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", '', links1, '', linksOld);
     $('#newBlockGroup').append(newField);
+      window.location.hash = 'blockGroup'+links1;
+      window.location.href;
   });
 
   $(document).on("click", ".addGroupNew", function() {
@@ -82,33 +84,85 @@ $(function() {
       $('#userListNew'+links1).append(newField);
   });
 
+    // Дублировать блок
+    $(document).on("click", ".cloneGroup", function() {
+        var linksOld = parseInt($("[data-block='1']").length);
+        linksOld = linksOld + 1;
+        var id = $(this).attr("id");
+        id = id.substr(10);
+        var links = $(".blockGroup:last").attr('id');
+        links = parseInt(links.substr(10));
+        var links1 = links + 1;
+        var newField = $('#blockGroup'+id).clone(true);
+        //var asd = $("#selectType").val();
+        //var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", '', links1);
+        $('#newBlockGroup').append(newField);
+        $(".blockGroup:last").attr('id','blockGroup'+links1);
+        $('#blockGroup'+links1+' .nameGroup').html('Блок '+linksOld);
+        $('#blockGroup'+links1+' .cloneGroup').attr('id', 'cloneGroup'+links1);
+        $('#blockGroup'+links1+' .delGroup').attr('id', 'delGroup'+links1);
+        $('#blockGroup'+links1).attr('data-field',links1);
+        window.location.hash = 'blockGroup'+links1;
+        window.location.href;
+        // Переписываем INPUTS
+        var newInput = $('#blockGroup'+links1).find('input.form-control');
+        newInput.each(function() {
+            var oldId = $(this).attr('id');
+            var oldIdNumber = oldId.substr(10).split( "_", 1);
+            var newId = oldId.replace("_"+oldIdNumber+"_","_"+links1+"_");
+            $(this).attr({
+                'id': newId,
+                'name': newId
+            });
+        });
+        // Переписываем поля SELECT
+        var newSelect = $('#blockGroup'+links1).find('select');
+        newSelect.each(function() {
+            var oldId = $(this).attr('id');
+            var oldIdNumber = oldId.substr(12).split( "_", 1);
+            var newId = oldId.replace("selectField_"+oldIdNumber+"_","selectField_"+links1+"_");
+            $(this).attr({
+                'id': newId,
+                'name': newId
+            });
+            $(newId + ' select').trigger("chosen:updated");
+        });
+        // Переписываем поля CHOSEN
+        var newChosen = $('#blockGroup'+links1).find('div.chosen-container');
+        newChosen.each(function() {
+            var oldId = $(this).attr('id');
+            var oldIdNumber = oldId.substr(12).split( "_", 1);
+            var newId = oldId.replace("selectField_"+oldIdNumber+"_","selectField_"+links1+"_");
+            $(this).attr('id', newId);
+            $(newId + ' select').trigger("chosen:updated");
+        });
+    });
+
   // Удалить блок
   $(document).on("click", ".delGroup", function() {
     var id = $(this).attr("id");
     id = id.substr(8);
     $('#btnDeleteBlock').attr('data-delete','blockGroup' + id);
-    //$('#blockGroup' + id).remove();
   });
 
   $(document).on("click", ".delGroupNew", function() {
     var id = $(this).attr("id");
     id = id.substr(8);
     $('#btnDeleteBlock').attr('data-delete','blockGroupNew' + id);
-    //$('#blockGroupNew' + id).remove();
   });
 
-  // Удаление блока при нажатии ок в модальном окне
+  // Удаление блока при нажатии OK в модальном окне
   $(document).on('click', '#btnDeleteBlock', function() {
     var id = $(this).attr('data-delete');
     $('#deleteBlock').modal('hide');
     // Удаляем нужный блок
     $('#' + id).remove();
     // Переименовываем название блоков
-   /* $('.blockGroup').each(function() {
-      var i = 1;
-      $(this).children('.nameGroup').html('Блок '+i);
-      i++;
-    });*/
+    var i = 1;
+    $('.blockGroup').each(function() {
+      $('.nameGroup', this).html('Блок '+i);
+      i = i+1;
+    });
   });
 
   // Удалить пользователя
