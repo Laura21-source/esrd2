@@ -35,7 +35,7 @@ public class Templater {
         if (text == null) {
             return null;
         }
-        final String regex = "(IF\\{.*.}+THEN\\{.*.}+ELSE\\{.*.})|(IF\\{.*.}+THEN\\{.*.})";
+        final String regex = "(IF\\{.*.}+THEN\\{(.*.|.*[\\n\\r].*)}+ELSE\\{(.*.|.*[\\n\\r].*)})|(IF\\{.*.}+THEN\\{(.*.|.*[\\n\\r].*)})";
         final Pattern pattern;
         pattern = Pattern.compile(regex);
         final Matcher matcher = pattern.matcher(text);
