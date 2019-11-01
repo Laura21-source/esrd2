@@ -339,9 +339,11 @@
         return $.getJSON (url, function(data) {
             if(data.finalDoc === true) {
                 $(field).addClass('d-none');
+                $(field + ' select').removeAttr('required');
             }
             if(data.finalDoc === false) {
                 $(field).removeClass('d-none');
+                $(field + ' select').attr('required', true);
             }
         });
     }
@@ -488,10 +490,10 @@
                 }
                 if (row.field.fieldType === "CATALOG") {
                     if(id > 0) {idField = ' data-id="' + row.field.id + '"';}
-                    // Добавляем строку
-                    $(filed).append('<div class="row blockRowUp' + parentBlock + parentCatalog + ' ml-1 mb-3"><div class="col-md-3 text-left"><div' +
-                        ' class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select data-placeholder="Выберите вид документа" class="chosen-select" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + row.field.catalogId + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                     var numberCatalog = ('#' + selectFieldName);
+                    // Добавляем строку
+                    $(filed).append('<div class="row blockRowUp ' + upElem + parentBlock + parentCatalog + ' ml-1 mb-3"><div class="col-md-3 text-left mt-3"><div' +
+                        ' class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select data-placeholder="Выберите вид документа" class="chosen-select" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + row.field.catalogId + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                     $(numberCatalog).chosen({
                         width: "100%",
                         no_results_text: "Ничего не найдено!"
@@ -504,10 +506,24 @@
                     }
                 }
                 // Если вид поля справочник организаций
+                if (row.field.fieldType === "CATALOG_ORGANIZATIONS") {
+                    var numberCatalog = ('#' + selectFieldName);
+                    // Добавляем строку
+                    $(filed).append('<div class="row blockRowUp '+ upElem + parentBlock + parentCatalog + ' ml-1 mb-3 d-flex align-items-center"><div class="col-md-3 text-left mt-3"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-8 mt-3"><select data-placeholder="Выберите вид документа" class="chosen-select" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + row.field.catalogId + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select></div><div class="col-md-1 mt-3 text-right"><button class="btn btn-primary btn-sm addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="' + numberCatalog + '" type="button" title="Добавить организацию" ' + enaOpiton + '><i class="fas fa-plus white-text"></i></button></div><div class="col-md-3"></div><div class="col-9">' + requiredValidate + '</div></div>');
+                    $(numberCatalog).chosen({
+                        width: "100%",
+                        no_results_text: "Ничего не найдено!"
+                    });
+                    // Добавляем опции при нажатии поля
+                    createOptions ("rest/profile/organizations/", numberCatalog, "shortNameLf", "id", numberField, '');
+                }
+                // Если вид поля справочник организаций
                 if (row.field.fieldType === "CATALOG_REGNUMBERS") {
                     if(id > 0) {idField = ' data-id="' + row.field.id + '"';}
                     // Добавляем строку
-                    $(filed).append('<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select data-placeholder="Выберите вид документа" class="chosen-select" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
+                    $(filed).append('<div class="row ' + upElem + ' ml-1 mb-3' +
+                        ' d-flex align-items-center justify-content-center"><div' +
+                        ' class="col-md-3 text-left mt-3"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select data-placeholder="Выберите вид документа" class="chosen-select" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                     var numberCatalog = ('#' + selectFieldName);
                     $(numberCatalog).chosen({
                         width: "100%",
@@ -727,24 +743,28 @@
             var attrElem = $(this).attr("type");
             var attrVal = $(this).val();
             var attrId = parseInt($(this).attr("data-field"));
+            var attrSelect = $('.chosen-select', this).attr("type");
+            var attrSelectId = parseInt($('.chosen-select', this).attr("data-field"));
+            var attrSelectVal = parseInt($('.chosen-select', this).val());
+            var value = null;
             if (attrElem === "date") {
                 valueData = 1;
                 if (attrVal != '') {
-                    var value = attrVal + "T00:00:00";
+                    value = attrVal + "T00:00:00";
                     dataDate = attrVal;
-                } else {var value = null;}
+                }
             }
             if (attrElem === "time") {
                 valueData = 1;
-                if (attrVal != '') {var value = "1900-01-01" + "T" + attrVal + ":00";} else {var value = null;}
+                if (attrVal != '') {value = "1900-01-01" + "T" + attrVal + ":00";}
             }
             if (attrElem === "text") {
                 valueData = 2;
-                value = attrVal;
+                if (attrVal != '') {value = attrVal;}
             }
-            if (attrElem === "select") {
+            if (attrSelect === "select") {
                 valueData = 3;
-                value = attrVal;
+                if (attrSelectVal > 0) {value = attrSelectVal;}
             }
             if (id > 0) {idField = parseInt($(this).attr("data-id"));}
             if (valueData === 1) {
@@ -772,7 +792,7 @@
                     "field": {
                         "id" : idField,
                         "childFields": [],
-                        "fieldId": attrId,
+                        "fieldId": attrSelectId,
                         "valueInt" : value
                     },
                     "position": key,
