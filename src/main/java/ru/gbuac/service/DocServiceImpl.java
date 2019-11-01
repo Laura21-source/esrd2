@@ -649,6 +649,7 @@ public class DocServiceImpl implements DocService {
                             simpleTags.put(tag, catalogElemChild.getValueInt());
                             break;
                     }
+                    break;
                 case CATALOG_USERS:
                     if (fieldTo.getValueInt() == null) {
                         simpleTags.put(tag, "");
