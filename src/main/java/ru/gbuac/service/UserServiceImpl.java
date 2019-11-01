@@ -17,6 +17,7 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+
 
 
     private List<User> fetchLdapUsers() {
@@ -140,5 +142,14 @@ public class UserServiceImpl implements UserService {
             return cn.toString();
         }
     }
+
+    @Override
+    public List<User> getUserByDelegationUserId(int id) {
+        User user = new User();
+        List<User> returned = new ArrayList<>();
+        return returned;
+    }
+
+
 }
 

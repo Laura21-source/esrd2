@@ -89,6 +89,15 @@ CREATE TABLE esrd.user_roles
     FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
 );
 
+CREATE TABLE esrd.user_delegation_users
+
+(
+    user_id               INTEGER                 NOT NULL,
+    delegation_user_id    INTEGER                         ,
+    FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE,
+    FOREIGN KEY (delegation_user_id) REFERENCES esrd.users (id) ON DELETE CASCADE
+);
+
 CREATE TABLE esrd.doc_number_prefixes
 (
     id         INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
