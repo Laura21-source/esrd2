@@ -26,6 +26,8 @@ DROP TABLE IF EXISTS esrd.users_distribution_departments CASCADE;
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.memo_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.protocol_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.decree_seq CASCADE;
 CREATE SEQUENCE esrd.global_seq START 100000;
 CREATE SEQUENCE esrd.agreement_seq START 1;
 CREATE SEQUENCE esrd.memo_seq START 1;
