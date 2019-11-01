@@ -1021,7 +1021,10 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (305, 'Номер протокола', 'TEXT', null, null, null, null, 'ProtocolRegNum');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (306, 'Дата начала действия тарифа', 'DATE', null, null, null, null, 'TarifStartDate');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (307, 'Дата окончания дейстия тарифа', 'DATE', null, null, null, null, 'TarifEndDate');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (302, 'Признать приказ утратившим силу', 'TEXT', null, null, null, null, 'CancelDecree');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (302, 'Признать приказ утратившим силу', 'GROUP_CHECKBOX', null, null, null, null, 'CancelDecree');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (322, 'Наименование приказа', 'TEXT', null, null, null, null, 'CancelDecree');
+
+INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (302, 322);
 
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (310, 301, 306, 13);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (303, 301, 302, 15);
@@ -1038,6 +1041,6 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (318
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (319, 301, 14, 8);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (320, 301, 15, 9);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (321, 301, 17, 10);
-
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (323, 301, 322, 16);
 
 INSERT INTO esrd.users_distribution_departments (user_id, distribution_departments_id) VALUES (4084, 575);

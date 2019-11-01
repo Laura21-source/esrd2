@@ -9,6 +9,7 @@ public enum FieldType {
     DATETIME,
     CATALOG,
     GROUP_FIELDS,
+    GROUP_CHECKBOX,
     CHECKBOX,
     ATTACHMENT,
     CATALOG_USERS,
