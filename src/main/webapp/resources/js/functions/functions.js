@@ -7,7 +7,7 @@
         //var sum75 = parseInt(countMax*0.75);
         var sum50 = countMax*0.5;
         var sum25 = countMax*0.25;
-        console.log(countMax + ' - ' + sum50 + ' - ' + sum25);
+        console.log(countMax+' - '+sum50+' - '+sum25);
         var sumClass = 'w-25';
         for(var i in array) {
             var value = array[i]['value'];
@@ -148,7 +148,7 @@
     // Получение данных текущего пользователя
     function getName (url, element) {
         return $.getJSON (url, function(data) {
-            var userName = data.lastname + ' ' + data.firstname + ' ' + data.patronym;
+            var userName = data.lastname+' '+data.firstname+' '+data.patronym;
             $(element).html(userName);
             $('#hiddenUserBlock2').html('<input type="hidden" id="helpLogin" value="'+data.name+'"><input type="hidden" id="helpFIO" value="'+userName+'"><input type="hidden" id="helpPhone" value="'+data.phone+'"><input type="hidden" id="helpEmail" value="'+data.email+'">');
         });
@@ -156,7 +156,7 @@
 
     // Меняем имя пользователя на нормальное
     var templateUser = $('#templateUser').html();
-    getName ('rest/profile/users/getByName?name=' + templateUser, '#templateUser');
+    getName ('rest/profile/users/getByName?name='+templateUser, '#templateUser');
 
     // Получаем данные для отображения слева в меню
     function getMenuPils (url, element) {
@@ -172,18 +172,18 @@
         var validation = true;
         $(value).each(function() {
             var attrValue = $(this).attr('id');
-            var newAttrValue = '#' + attrValue + '_chosen';
+            var newAttrValue = '#'+attrValue+'_chosen';
             if($(this).val() == ''/* && $(this).is(':visible')*/) {
-                $('#' + attrValue).addClass('chosen-invalid');
-                $(newAttrValue + ' .chosen-single').addClass('chosen-invalid');
-                $(newAttrValue + ' .chosen-choices').addClass('chosen-invalid');
+                $('#'+attrValue).addClass('chosen-invalid');
+                $(newAttrValue+' .chosen-single').addClass('chosen-invalid');
+                $(newAttrValue+' .chosen-choices').addClass('chosen-invalid');
                 validation = false;
             } else {
-                $('#' + attrValue).removeClass('chosen-invalid');
-                $(newAttrValue + ' .chosen-single').removeClass('chosen-invalid');
-                $(newAttrValue + ' .chosen-choices').removeClass('chosen-invalid');
+                $('#'+attrValue).removeClass('chosen-invalid');
+                $(newAttrValue+' .chosen-single').removeClass('chosen-invalid');
+                $(newAttrValue+' .chosen-choices').removeClass('chosen-invalid');
             }
-            //var newErrorValue = '#' + attrValue + '_invalid';
+            //var newErrorValue = '#'+attrValue+'_invalid';
             //$(newErrorValue).show();
         });
         return validation;
@@ -194,9 +194,9 @@
         $(element).change(function() {
             if($(this).val() != '') {
                 $(this).removeClass('chosen-invalid');
-                /*$('#' + attrValue).removeClass('chosen-invalid');
-                $(newAttrValue + ' .chosen-single').removeClass('chosen-invalid');
-                $(newAttrValue + ' .chosen-choices').removeClass('chosen-invalid');*/
+                /*$('#'+attrValue).removeClass('chosen-invalid');
+                $(newAttrValue+' .chosen-single').removeClass('chosen-invalid');
+                $(newAttrValue+' .chosen-choices').removeClass('chosen-invalid');*/
             }
         });
     }
@@ -223,18 +223,18 @@
     // Заполнение данных организации
     function getValueOrganisation (url, element) {
         return $.getJSON (url, function(data) {
-            $(element + ' #shortNameLf').val(data.shortNameLf);
-            $(element + ' #fullNameLf').val(data.fullNameLf);
-            $(element + ' #inn').val(data.inn);
-            $(element + ' #ogrn').val(data.ogrn);
-            $(element + ' #kpp').val(data.kpp);
-            $(element + ' #address').val(data.address);
-            $(element + ' #fioManager').val(data.fioManager);
-            $(element + ' #positionManager').val(data.positionManager);
-            $(element + ' #shortName').val(data.shortName);
-            $(element + ' #shortLegalForm').val(data.shortLegalForm);
-            $(element + ' #fullLegalForm').val(data.fullLegalForm);
-            $(element + ' #normalizedName').val(data.normalizedName);
+            $(element+' #shortNameLf').val(data.shortNameLf);
+            $(element+' #fullNameLf').val(data.fullNameLf);
+            $(element+' #inn').val(data.inn);
+            $(element+' #ogrn').val(data.ogrn);
+            $(element+' #kpp').val(data.kpp);
+            $(element+' #address').val(data.address);
+            $(element+' #fioManager').val(data.fioManager);
+            $(element+' #positionManager').val(data.positionManager);
+            $(element+' #shortName').val(data.shortName);
+            $(element+' #shortLegalForm').val(data.shortLegalForm);
+            $(element+' #fullLegalForm').val(data.fullLegalForm);
+            $(element+' #normalizedName').val(data.normalizedName);
         });
     }
 
@@ -258,10 +258,10 @@
     */
     function createInput (element, type, id, name, title, short, iconName, value, field, up, idField, enabled, required, attachment, text) {
         var idVal = "";
-        if (idField) {idVal = ' data-id="' + idField + '"';}
+        if (idField) {idVal = ' data-id="'+idField+'"';}
         var inputVal = '';
-        //if (value) {inputVal = ' value="' + value + '"';}
-        if (value) {inputVal = " value='" + value + "'";}
+        //if (value) {inputVal = ' value="'+value+'"';}
+        if (value) {inputVal = " value='"+value+"'";}
         var col = '<div class="col-md-12">';
         var colShort = '';
         if (short == 1) {
@@ -274,7 +274,7 @@
         var enaBled = '';
         if (enabled == false) {
             enaBled = ' disabled';
-            upClass = upClass + ' disableElem';
+            upClass = upClass+' disableElem';
         }
         var reqUired = '';
         var requiredSup = '';
@@ -285,15 +285,44 @@
             requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
         }
         if (attachment == 1) {
-            $(element).append('<div class="md-form file-field mb-2"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл">' + requiredValidate + '</div></div>');
+            $(element).append('<div class="md-form file-field mb-2">' +
+                '<div class="btn btn-primary btn-sm float-left"><span>Обзор</span>' +
+                '<input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'" data-field="'+field+'" '+idVal+enaBled+reqUired+' class="inputFile'+upClass+'"'+inputVal+'>' +
+                '</div>' +
+                '<div class="file-path-wrapper btnLoad">' +
+                '<input class="file-path validate" type="text" placeholder="Выберите файл">'+requiredValidate+'</div></div>');
         } else if (attachment == 2) {
-            $(element).append('<div class="row d-flex align-items-center"><div class="col-md-9"><div class="md-form file-field"><div class="btn btn-primary btn-sm float-left"><span>Обзор</span><input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="inputFile'+ upClass + '"' + inputVal + '></div><div class="file-path-wrapper btnLoad"><input class="file-path validate" type="text" placeholder="Выберите файл">' + requiredValidate + '</div></div></div><div class="col-md-3"><a href="#" id="btnLoad" class="btn btn-default btn-sm rounded" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download"></i></a></div></div>');
+            $(element).append('<div class="row d-flex align-items-center">' +
+                '<div class="col-md-9">' +
+                '<div class="md-form file-field">' +
+                '<div class="btn btn-primary btn-sm float-left"><span>Обзор</span>' +
+                '<input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'" data-field="'+field+'" '+idVal+enaBled+reqUired+' class="inputFile'+upClass+'"'+inputVal+'>' +
+                '</div>' +
+                '<div class="file-path-wrapper btnLoad">' +
+                '<input class="file-path validate" type="text" placeholder="Выберите файл">'+requiredValidate+'</div></div></div>' +
+                '<div class="col-md-3"><a href="#" id="btnLoad" class="btn btn-default btn-sm rounded" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download"></i></a></div></div>');
         } else if (text == 1) {
-            $(element).append('<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '>' + requiredValidate);
+            $(element).append('<input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'" data-field="'+field+'" '+idVal+enaBled+reqUired+' class="white form-control'+upClass+'"'+inputVal+'>'+requiredValidate);
         } else {
-            $(element).append('<div class="row ml-1 mb-3">' + col + '<div class="row">' + '<div class="col-md-3 text-left">' + '<div for="' + name + '" class="text-muted">' + iconName + requiredSup + '</div>' + '</div>' + '<div class="col-md-9">' + '<input title="' + title + '" type="' + type + '" id="' + name + '" name="' + name + '" data-field="' + field + '" ' + idVal + enaBled + reqUired + ' class="white form-control' + upClass + '"' + inputVal + '>' + requiredValidate + '</div>' + '</div>' + '</div>' + colShort + '</div>');
+            $(element).append('<div class="row ml-1 mb-3">'+col+'<div class="row">' +
+                '<div class="col-md-3 text-left">' +
+                '<div for="'+name+'" class="text-muted">'+iconName+requiredSup+'</div>' +
+                '</div><div class="col-md-9">' +
+                '<input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'" data-field="'+field+'" '+idVal+enaBled+reqUired+' class="white form-control'+upClass+'"'+inputVal+'>'+requiredValidate+'</div></div></div>'+colShort+'</div>');
         }
     }
+
+    // Добавить блок по чеку на чекбокс
+    function checkedFields (element, block) {
+        $(element).click(function() {
+            if ($(this).is(':checked')){
+                $(block).removeClass('d-none');
+            } else {
+                $(block).addClass('d-none');
+            }
+        });
+    }
+
 
     // Подсчёт OPTION в поле SELECT
     function sumOptions (url, field, parent) {
@@ -325,10 +354,10 @@
                 if(spisok === 'users') {
                     var userName = data[i]['fullName'];
                     var phone = '';
-                    if(data[i]['phone'] && data[i]['phone'] != '') {phone = ' , тел. ' + data[i]['phone'];}
+                    if(data[i]['phone'] && data[i]['phone'] != '') {phone = ' , тел. '+data[i]['phone'];}
                     nameField = userName + phone;
                 } else if(spisok === 'usersList') {nameField = data[i]['fullName'];}
-                $(field).append('<option class="active" value="' + data[i][id] + '"' + selectedField + '>' +  nameField + '</option>');
+                $(field).append('<option class="active" value="'+data[i][id]+'"'+selectedField+'>'+nameField+'</option>');
                 $(field).trigger("chosen:updated");
             }
         })
@@ -339,11 +368,11 @@
         return $.getJSON (url, function(data) {
             if(data.finalDoc === true) {
                 $(field).addClass('d-none');
-                $(field + ' select').removeAttr('required');
+                $(field+' select').removeAttr('required');
             }
             if(data.finalDoc === false) {
                 $(field).removeClass('d-none');
-                $(field + ' select').attr('required', true);
+                $(field+' select').attr('required', true);
             }
         });
     }
@@ -368,13 +397,13 @@
                     $(this).find("select").each(function () {
                         var tempCatalogField = $(this).attr("id");
                         var numberCatalogField = $(this).attr("data-catalog");
-                        var nameCatalogField = '#' + tempCatalogField;
+                        var nameCatalogField = '#'+tempCatalogField;
                         // Количество опций по запросу, тут же в функции прячем ненужные
-                        //console.log("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " - " + nameCatalogField);
-                        sumOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, parent);
+                        //console.log("rest/profile/catalogs/"+numberCatalogField+"/elems/parent/"+numberSelectField+" - "+nameCatalogField);
+                        sumOptions ("rest/profile/catalogs/"+numberCatalogField+"/elems/parent/"+numberSelectField, nameCatalogField, parent);
                         // Открываем опции и закрываем
                         $(this).find('option.active').remove();
-                        createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "", "");
+                        createOptions ("rest/profile/catalogs/"+numberCatalogField+"/elems/parent/"+numberSelectField, nameCatalogField, "valueStr", "id", "", "");
                     });
                 });
             }
@@ -385,21 +414,21 @@
     function formatDate (date, reverse) {
         var date = new Date(date);
         var day = date.getDate();
-        if (day < 10) {day = '0' + day;}
+        if (day < 10) {day = '0'+day;}
         var month = date.getMonth()+1;
-        if (month < 10) {month = '0' + month;}
+        if (month < 10) {month = '0'+month;}
         var year = date.getFullYear();
-        if (reverse == 1) {return year + '-' + month + '-' + day;} else {return day + '-' + month + '-' + year;}
+        if (reverse == 1) {return year+'-'+month+'-'+day;} else {return day+'-'+month+'-'+year;}
     }
 
     // Получение правильного и обратного формата времени
     function formatTime (date) {
         var date = new Date(date);
         var hours = date.getHours();
-        if (hours < 10) {hours = '0' + hours;}
+        if (hours < 10) {hours = '0'+hours;}
         var minutes = date.getMinutes();
-        if (minutes < 10) {minutes = '0' + minutes;}
-        return hours + ':' + minutes;
+        if (minutes < 10) {minutes = '0'+minutes;}
+        return hours+':'+minutes;
     }
 
     // Получение верхнего стека полей
@@ -451,14 +480,44 @@
                         idField = row.field.id;
                         if(row.field.valueDate !== '') {valueDate = formatDate(row.field.valueDate, 1);}
                     }
-                    createInput (filed, "date", blockDate,  inputDate, "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
+                    createInput (filed, "date", blockDate,  inputDate, "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>'+row.field.name, valueDate, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
                 }
                 if (row.field.fieldType === "TIME") {
                     if (id > 0) {
                         idField = row.field.id;
                         if(row.field.valueDate !== '') {valueDate = formatTime(row.field.valueDate);}
                     }
-                    createInput (filed, "time", blockTime,  inputTime, "Введите время", short, '<i class="fas fa-clock mr-2"></i>' + row.field.name, valueDate, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
+                    createInput (filed, "time", blockTime,  inputTime, "Введите время", short, '<i class="fas fa-clock mr-2"></i>'+row.field.name, valueDate, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
+                }
+                if (row.field.fieldType === "GROUP_CHECKBOX") {
+                    var valueInt = 'value="0"';
+                    if (id > 0) {
+                        idField = row.field.id;
+                        valueInt = 'value="'+row.field.ValueInt+'"';
+                    }
+                    /*id="'+row.field.tag+'Block"*/
+                    $(filed).append('<div class="row ' + upElem + ' my-3">' +
+                        '<div class="col-md-12 text-left"><div class="form-check">' +
+                        '<input type="checkbox" class="form-check-input"' +
+                        ' id="'+row.field.tag+'" data-field="'+idField+'" name="'+row.field.tag+'" '+valueInt+'>' +
+                        '<label class="form-check-label text-muted text-left"' +
+                        ' for="'+row.field.tag+'">'+row.field.name+'</label>' +
+                        '</div></div></div>'
+                    );
+                    if(row.field.childFields.length > 0) {
+                        $(filed).append('<div id="'+row.field.tag+'BlockDiv" class="d-none"></div>');
+                        for(var y in row.field.childFields) {
+                            var checkField = row.field.childFields[y];
+                            var textId = y+1;
+                            if (checkField.fieldType === "TEXT") {
+                                if (id > 0) {idField = checkField.id;}
+                                var nameText = "checkText_"+textId;
+                                createInput('#'+row.field.tag+'BlockDiv', "text", nameText, nameText, "Введите значение", short, checkField.name, checkField.valueStr, checkField.fieldId, up, idField, checkField.enabled, checkField.required, '', '');
+                                textId = textId+1;
+                            }
+                        }
+                    }
+                    checkedFields ('#'+row.field.tag, '#'+row.field.tag+'BlockDiv');
                 }
                 var textId = i+1;
                 if (row.field.fieldType === "TEXT") {
@@ -468,7 +527,7 @@
                         textName = row.field.id + '_';
                     }
                     var nameText = "inputText_" + textName + textId;
-                    createInput(filed, "text", nameText, nameText, "Введите значение", short, '' + row.field.name, row.field.valueStr, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
+                    createInput(filed, "text", nameText, nameText, "Введите значение", short, row.field.name, row.field.valueStr, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
                     textId = textId+1;
                 }
                 // Если вид поля выборка
