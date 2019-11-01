@@ -1015,7 +1015,7 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (115
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (116, 2, 5, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (117, 2, 7, 3);
 
-INSERT INTO esrd.doctype (id, name, tmp_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (301, 'Приказ (тарифное регулирование)', null, 'prikaz.docx', 3002, 300, false);
+INSERT INTO esrd.doctype (id, name, tmp_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (301, 'Приказ (тарифное регулирование)', null, 'prikaz.docx', 3002, 300, true);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (304, 'Дата протокола', 'DATE', null, null, null, null, 'ProtocolDate');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (305, 'Номер протокола', 'TEXT', null, null, null, null, 'ProtocolRegNum');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (306, 'Дата начала действия тарифа', 'DATE', null, null, null, null, 'TarifStartDate');
