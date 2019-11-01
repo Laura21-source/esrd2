@@ -296,13 +296,13 @@
     }
 
     // Подсчёт OPTION в поле SELECT
-    function sumOptions (url, field) {
+    function sumOptions (url, field, parent) {
         return $.getJSON (url, function(data) {
             var jsonZapros = data.length;
             if(jsonZapros > 0) {
-                $(field).parents(".blockRow").attr("data-option",jsonZapros)/*.removeClass('d-none')*/;
+                $(field).parents(parent).attr("data-option",jsonZapros)/*.removeClass('d-none')*/;
             } else {
-                $(field).parents(".blockRow").attr("data-option",jsonZapros).addClass('d-none');
+                $(field).parents(parent).attr("data-option",jsonZapros).addClass('d-none');
             }
         })
     }
@@ -354,7 +354,7 @@
     }
 
     // Иерархические справочники (изменение элемента, к какому применить)
-    function createOptionsValue (element, block) {
+    function createOptionsValue (element, block, parent) {
         //console.log(element);
         $(element).on('change', function () {
             var numberSelectField = $(this).val();
@@ -369,7 +369,7 @@
                         var nameCatalogField = '#' + tempCatalogField;
                         // Количество опций по запросу, тут же в функции прячем ненужные
                         //console.log("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField + " - " + nameCatalogField);
-                        sumOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField);
+                        sumOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, parent);
                         // Открываем опции и закрываем
                         $(this).find('option.active').remove();
                         createOptions ("rest/profile/catalogs/" + numberCatalogField + "/elems/parent/" + numberSelectField, nameCatalogField, "valueStr", "id", "", "");
@@ -469,26 +469,47 @@
                     createInput(filed, "text", nameText, nameText, "Введите значение", short, '' + row.field.name, row.field.valueStr, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
                     textId = textId+1;
                 }
-                // Если вид поля справочник организаций
+                // Если вид поля выборка
+                var parentBlock = '';
+                var parentCatalog = '';
+                if(row.field.parentCatalogId > 0) {
+                    parentCatalog = ' p' + row.field.parentCatalogId;
+                    parentBlock = ' d-none';
+                }
+                if(id > 0) {
+                    if(row.field.parentCatalogId > 0) {
+                        parentCatalog = ' p' + row.field.parentCatalogId;
+                        if(row.field.valueInt && row.field.valueInt > 0) {
+                            parentBlock = '';
+                        } else {
+                            parentBlock = ' d-none';
+                        }
+                    }
+                }
                 if (row.field.fieldType === "CATALOG") {
                     if(id > 0) {idField = ' data-id="' + row.field.id + '"';}
                     // Добавляем строку
-                    $(filed).append('<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select data-placeholder="Выберите вид документа" class="chosen-select ' + upElem + '" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
+                    $(filed).append('<div class="row blockRowUp' + parentBlock + parentCatalog + ' ml-1 mb-3"><div class="col-md-3 text-left"><div' +
+                        ' class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select data-placeholder="Выберите вид документа" class="chosen-select" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-catalog="' + row.field.catalogId + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                     var numberCatalog = ('#' + selectFieldName);
-                    $(numberCatalog +' select').chosen({
+                    $(numberCatalog).chosen({
                         width: "100%",
                         no_results_text: "Ничего не найдено!"
                     });
-                    // Добавляем опции
-                    createOptions("rest/profile/catalogs/" + row.field.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField, '');
+                    // Формирование правильных полей
+                    createOptionsValue(numberCatalog, '#blockUp', '.blockRowUp');
+                    if(parentBlock == '') {
+                        // Добавляем опции
+                        createOptions("rest/profile/catalogs/" + row.field.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField, '');
+                    }
                 }
                 // Если вид поля справочник организаций
                 if (row.field.fieldType === "CATALOG_REGNUMBERS") {
                     if(id > 0) {idField = ' data-id="' + row.field.id + '"';}
                     // Добавляем строку
-                    $(filed).append('<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select data-placeholder="Выберите вид документа" class="chosen-select ' + upElem + '" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
+                    $(filed).append('<div class="row ml-1 mb-3 d-flex align-items-center justify-content-center"><div class="col-md-3 text-left"><div class="text-muted">' + row.field.name + requiredSup + '</div></div><div class="col-md-9"><select data-placeholder="Выберите вид документа" class="chosen-select" searchable=" Поиск" type="select" id="' + selectFieldName + '" name="' + selectFieldName + '" data-field="' + row.field.fieldId + '"' + idField + enaOpiton + required + '><option value="">Выберите значение справочника</option></select>' + requiredValidate + '</div></div>');
                     var numberCatalog = ('#' + selectFieldName);
-                    $(numberCatalog +' select').chosen({
+                    $(numberCatalog).chosen({
                         width: "100%",
                         no_results_text: "Ничего не найдено!"
                     });
@@ -534,6 +555,7 @@
             for(var key in rowChild) {
                 var row = rowChild[key];
                 if (row.field.fieldType === "GROUP_FIELDS") {
+                    $('#blockDown').removeClass('d-none');
                     key = parseInt(key);
                     var rowFields = data[key];
                     if(id > 0) {rowFields = row;}
@@ -615,7 +637,7 @@
                                 no_results_text: "Ничего не найдено!"
                             });
                             // Формирование правильных полей
-                            createOptionsValue(numberCatalog, blockGroup + dubKey);
+                            createOptionsValue(numberCatalog, blockGroup + dubKey, '.blockRow');
                             if(parentBlock == '') {
                                 // Добавляем опции
                                 createOptions("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField, "");
@@ -677,6 +699,8 @@
                     if(id > 0) {
                         number = number+1;
                     }
+                } else {
+                    $('#blockDown').addClass('d-none');
                 }
             }
         }).done(function(response) {

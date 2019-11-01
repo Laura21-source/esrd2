@@ -125,7 +125,7 @@ $(function() {
                 'id': newId,
                 'name': newId
             });
-            $(newId + ' select').trigger("chosen:updated");
+            $('#'+newId).trigger("chosen:updated");
         });
         // Переписываем поля CHOSEN
         var newChosen = $('#blockGroup'+links1).find('div.chosen-container');
@@ -134,7 +134,7 @@ $(function() {
             var oldIdNumber = oldId.substr(12).split( "_", 1);
             var newId = oldId.replace("selectField_"+oldIdNumber+"_","selectField_"+links1+"_");
             $(this).attr('id', newId);
-            $(newId + ' select').trigger("chosen:updated");
+            $('#'+newId).trigger("chosen:updated");
         });
     });
 

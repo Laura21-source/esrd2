@@ -157,7 +157,7 @@
                 // Показать или скрыть поле Адресат по параметру finalDoc
                 getFinalStage('rest/profile/doctypes/'+ asd, '.whomList');
                 // Добавить блоки отсюда в файл функций -getFieldsDocument
-                $("#blockFields, #blockUp, #blockDown, #btnSave, #btnWordFile").removeClass("d-none");
+                $("#blockFields, #blockUp, #btnSave, #btnWordFile").removeClass("d-none");
                 // Верхний блок полей
                 getUpFields("rest/profile/doctypes/" + asd + "/fields", 0);
                 // Нижний блок полей
