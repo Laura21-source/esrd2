@@ -23,10 +23,6 @@ public class AuthorizedUser {
 
     private static List<String> SPRING_PROFILES_ACTIVE;
 
-    @Autowired
-    public AuthorizedUser(@Value("${spring.profiles.active}") String[] actProfiles) {
-        SPRING_PROFILES_ACTIVE = Arrays.asList(actProfiles);
-    }
 
     private static LdapUserDetailsImpl safeGet() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -54,18 +50,10 @@ public class AuthorizedUser {
     }
 
     public static String getUserName() {
-        if (SPRING_PROFILES_ACTIVE.contains("dev"))
-        {
-            return ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-        }
         return get().getUsername();
     }
 
     public static String getFullName() {
-        if (SPRING_PROFILES_ACTIVE.contains("dev"))
-        {
-            return "None";
-        }
 
         String fullName = null;
         try {

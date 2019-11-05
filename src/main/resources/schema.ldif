@@ -1,0 +1,37 @@
+dn: dc=econ,dc=mos,dc=ru
+objectclass: top
+objectclass: domain
+objectclass: extensibleObject
+dc: econ
+
+# Organizational Units
+dn: ou=groups,dc=econ,dc=mos,dc=ru
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: ou=people,dc=econ,dc=mos,dc=ru
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+# Create People
+dn: uid=HvastochenkoON,ou=people,dc=econ,dc=mos,dc=ru
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Оксана Хвостаченко
+sn: Оксана
+uid: HvastochenkoON
+userPassword: root
+
+dn: uid=VolkovaON,ou=people,dc=econ,dc=mos,dc=ru
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Ольга Волкова
+sn: Ольга
+uid: VolkovaON
+userPassword: root

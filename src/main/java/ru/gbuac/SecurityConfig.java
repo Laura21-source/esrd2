@@ -20,7 +20,6 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@Profile("prod")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
