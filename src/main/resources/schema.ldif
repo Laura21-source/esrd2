@@ -5,18 +5,28 @@ objectclass: extensibleObject
 dc: econ
 
 # Organizational Units
-dn: ou=groups,dc=econ,dc=mos,dc=ru
+dn: ou=groups,dc=econ
 objectclass: top
 objectclass: organizationalUnit
 ou: groups
 
-dn: ou=people,dc=econ,dc=mos,dc=ru
+dn: ou=people,dc=econ
 objectclass: top
 objectclass: organizationalUnit
 ou: people
 
 # Create People
-dn: uid=HvastochenkoON,ou=people,dc=econ,dc=mos,dc=ru
+dn: uid=MakhrovSS,ou=people,dc=econ
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Станислав Махров
+sn: Станислав
+uid: MakhrovSS
+userPassword: root
+
+dn: uid=HvastochenkoON,ou=people,dc=econ
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
@@ -26,7 +36,7 @@ sn: Оксана
 uid: HvastochenkoON
 userPassword: root
 
-dn: uid=VolkovaON,ou=people,dc=econ,dc=mos,dc=ru
+dn: uid=VolkovaON,ou=people,dc=econ
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
