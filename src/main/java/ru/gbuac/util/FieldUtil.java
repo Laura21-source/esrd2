@@ -78,6 +78,7 @@ public class FieldUtil {
             case CATALOG_ORGANIZATIONS:
             case CATALOG_USERS:
             case CATALOG_REGNUMBERS:
+            case GROUP_CHECKBOX:
                 if (valuedField.getValueInt() != null)
                     fieldTo.setValueInt(valuedField.getValueInt());
                 break;

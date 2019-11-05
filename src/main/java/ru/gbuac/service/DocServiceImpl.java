@@ -572,6 +572,13 @@ public class DocServiceImpl implements DocService {
             switch (fieldTo.getFieldType()) {
                 case GROUP_FIELDS:
                     for (FieldTo childField : fieldTo.getChildFields()) {
+                        cellsTags.put(tag, fieldTo.getValueByFieldType());
+                        childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
+                        fillTags(childField, simpleTags, taggedTables, fieldTo.getChildFields().size());
+                    }
+                    break;
+                case GROUP_CHECKBOX:
+                    for (FieldTo childField : fieldTo.getChildFields()) {
                         childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
                         fillTags(childField, simpleTags, taggedTables, fieldTo.getChildFields().size());
                     }
@@ -625,6 +632,13 @@ public class DocServiceImpl implements DocService {
         } else
         if (TagUtil.getSimpleTag(tag) != null) {
             switch (fieldTo.getFieldType()) {
+                case GROUP_CHECKBOX:
+                    for (FieldTo childField : fieldTo.getChildFields()) {
+                        int childMaxCellsCount = (int) fieldTo.getChildFields().stream()
+                                .filter(c -> !c.getTag().equals("")).count();
+                        fillTags(childField, simpleTags, taggedTables, childMaxCellsCount);
+                    }
+                    break;
                 case GROUP_FIELDS:
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
@@ -633,7 +647,6 @@ public class DocServiceImpl implements DocService {
                         fillTags(childField, simpleTags, taggedTables, childMaxCellsCount);
                     }
                     break;
-
                 case CATALOG:
                     if (fieldTo.getValueInt() == null) {
                         simpleTags.put(tag, "");
