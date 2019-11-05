@@ -32,4 +32,8 @@ public interface UserService {
     List<User> getDelegationUsers(String userName);
 
     User getDelegationUser(String userName);
+
+    List<User> getAcceptCredentialUsers(String userName);
+
+    User getOriginUser(String userName);
 }

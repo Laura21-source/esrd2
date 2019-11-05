@@ -69,4 +69,7 @@ public class DocAgreement extends BaseEntity {
         this.finalUser = finalUser;
         this.currentUser = currentUser;
     }
+
+    @Column(name = "accept_credential_user_id")
+    private int acceptCredentialUserId;
 }

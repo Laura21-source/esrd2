@@ -90,7 +90,6 @@ CREATE TABLE esrd.user_roles
 );
 
 CREATE TABLE esrd.user_delegation_users
-
 (
     user_id               INTEGER                 NOT NULL,
     delegation_user_id    INTEGER                         ,
@@ -156,6 +155,7 @@ CREATE TABLE esrd.doc_agreement
     decision_type    VARCHAR                         ,
     final_user       BOOLEAN                         ,
     cur_user         BOOLEAN                         ,
+    accept_credential_user_id INTEGER                ,
     FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE
 );

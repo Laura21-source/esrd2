@@ -152,4 +152,14 @@ public class UserServiceImpl implements UserService {
     public User getDelegationUser(String userName) {
         return userRepository.getDelegationUser(userName);
     }
+
+    @Override
+    public List<User> getAcceptCredentialUsers(String userName) {
+        return userRepository.getALLAcceptCredential(userName);
+    }
+
+    @Override
+    public User getOriginUser(String username) {
+        return userRepository.getOriginUser(username);
+    }
 }
