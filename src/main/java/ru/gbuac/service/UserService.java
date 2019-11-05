@@ -29,5 +29,7 @@ public interface UserService {
 
     void sinchronizeUsersByLdap();
 
-    List<User> getUserByDelegationUserId(int id);
+    List<User> getDelegationUsers(String userName);
+
+    User getDelegationUser(String userName);
 }

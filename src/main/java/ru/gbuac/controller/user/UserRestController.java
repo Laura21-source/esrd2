@@ -72,8 +72,14 @@ public class UserRestController extends AbstractUserRestController {
     }
 
     @Override
-    @GetMapping(value = "/getUserByDelegationUserId")
-    public List<User> getUserByDelegationUserId(int id) {
-        return super.getUserByDelegationUserId(id);
+    @GetMapping(value = "/getDelegationUsers")
+    public List<User> getDelegationUsers() {
+        return super.getDelegationUsers();
+    }
+
+    @Override
+    @GetMapping(value = "/getDelegationUser")
+    public User getDelegationUser(int id) {
+        return super.getDelegationUser(id);
     }
 }

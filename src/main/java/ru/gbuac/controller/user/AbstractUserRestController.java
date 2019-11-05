@@ -75,9 +75,14 @@ public class AbstractUserRestController {
        userService.deleteByName(name);
     }
 
-    public List<User> getUserByDelegationUserId(int id) {
-        LOG.info("getUserByDelegationUserId");
-        return userService.getUserByDelegationUserId(id);
+    public List<User> getDelegationUsers() {
+        LOG.info("getDelegationUsers");
+        return userService.getDelegationUsers(AuthorizedUser.getUserName());
+    }
+
+    public User getDelegationUser(int id) {
+        LOG.info("getDelegationUser");
+        return userService.getByName(AuthorizedUser.getUserName());
     }
 }
 

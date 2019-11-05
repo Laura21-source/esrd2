@@ -144,12 +144,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUserByDelegationUserId(int id) {
-        User user = new User();
-        List<User> returned = new ArrayList<>();
-        return returned;
+    public List<User> getDelegationUsers(String userName) {
+        return userRepository.getDelegationUsers(userName);
     }
 
-
+    @Override
+    public User getDelegationUser(String userName) {
+        return userRepository.getDelegationUser(userName);
+    }
 }
-
