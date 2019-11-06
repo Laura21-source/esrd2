@@ -14,6 +14,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.model.Role;
+import ru.gbuac.model.User;
 
 import javax.naming.AuthenticationException;
 import javax.naming.NamingException;
@@ -42,6 +43,8 @@ public final class AuthProvider extends AbstractLdapAuthenticationProvider {
     private final String url;
     private boolean convertSubErrorCodesToExceptions;
     private String searchFilter = "(&(objectClass=user)(userPrincipalName={0}))";
+
+    private static User originUser;
 
     private RoleRepository roleRepository;
 
@@ -278,5 +281,13 @@ public final class AuthProvider extends AbstractLdapAuthenticationProvider {
         DirContext createContext(Hashtable<?, ?> env) throws NamingException {
             return new InitialLdapContext(env, (Control[])null);
         }
+    }
+
+    User reverseUser(int id) {
+       // int originUserId = 0;
+
+        //здесь должен быть код
+
+        return originUser  ;
     }
 }
