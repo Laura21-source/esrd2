@@ -1041,6 +1041,5 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (318
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (319, 301, 14, 8);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (320, 301, 15, 9);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (321, 301, 17, 10);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (323, 301, 322, 16);
 
 INSERT INTO esrd.users_distribution_departments (user_id, distribution_departments_id) VALUES (4084, 575);
