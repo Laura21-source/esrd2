@@ -22,7 +22,16 @@ public class AuthorizedUser {
     private static final long serialVersionUID = 1L;
 
     private static List<String> SPRING_PROFILES_ACTIVE;
+
     private static User originUser;
+
+    public static User getOriginUser() {
+        return originUser;
+    }
+
+    public static void setOriginUser(User originUser) {
+        AuthorizedUser.originUser = originUser;
+    }
 
     @Autowired
     public AuthorizedUser(@Value("${spring.profiles.active}") String[] actProfiles) {

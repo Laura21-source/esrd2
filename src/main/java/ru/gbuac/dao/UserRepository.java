@@ -30,10 +30,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE lower(u.name)=lower(:name)")
     User getDelegationUser(@Param("name") String userName);
 
-    @Query("SELECT u FROM User u JOIN u.acceptCredentialUsers au WHERE lower(u.name) = lower(:name)")
-    List<User> getALLAcceptCredential(@Param("name") String name);
-
     @Query("SELECT u FROM User u WHERE lower(u.name)=lower(:name)")
-    User getOriginUser(@Param("name") String name);
-
+    User getOriginUser(@Param("userName") String userName);
 }

@@ -44,8 +44,6 @@ public final class AuthProvider extends AbstractLdapAuthenticationProvider {
     private boolean convertSubErrorCodesToExceptions;
     private String searchFilter = "(&(objectClass=user)(userPrincipalName={0}))";
 
-    private static User originUser;
-
     private RoleRepository roleRepository;
 
     public void setRoleRepository(RoleRepository roleRepository) {
@@ -281,13 +279,5 @@ public final class AuthProvider extends AbstractLdapAuthenticationProvider {
         DirContext createContext(Hashtable<?, ?> env) throws NamingException {
             return new InitialLdapContext(env, (Control[])null);
         }
-    }
-
-    User reverseUser(int id) {
-       // int originUserId = 0;
-
-        //здесь должен быть код
-
-        return originUser  ;
     }
 }

@@ -84,13 +84,7 @@ public class UserRestController extends AbstractUserRestController {
     }
 
     @Override
-    @GetMapping(value = "getAcceptCredentialUsers")
-    public List<User> getAcceptCredentialUsers() {
-        return super.getAcceptCredentialUsers();
-    }
-
-    @Override
-    @GetMapping(value = "getOriginUser")
+    @GetMapping(value = "/getOriginUser")
     public User getOriginUser(String userName) {
         return super.getOriginUser(userName);
     }
