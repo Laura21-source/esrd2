@@ -139,11 +139,8 @@ public class Templater {
             int startLength = text.length();
             for (IfStatement ifStatement : getIfStatements(text)) {
                 String[] cmpValues = ifStatement.condition.split("=");
-                if (cmpValues.length == 0) {
+                if (cmpValues.length == 1) {
                     cmpValues = ifStatement.condition.split("~");
-                }
-                if (cmpValues.length == 0) {
-                    continue;
                 }
                 if ((ifStatement.condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
                         (cmpValues.length == 1 && cmpValues[0].length() > 0) ||
