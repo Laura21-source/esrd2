@@ -48,7 +48,6 @@ CREATE TABLE esrd.role_child_role
     FOREIGN KEY (child_role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
 );
 
-
 CREATE TABLE esrd.department
 (
     id                    INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
@@ -155,7 +154,7 @@ CREATE TABLE esrd.doc_agreement
     decision_type    VARCHAR                         ,
     final_user       BOOLEAN                         ,
     cur_user         BOOLEAN                         ,
-    accept_credential_user_id INTEGER                ,
+    origin_user_id   INTEGER                           ,
     FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE
 );

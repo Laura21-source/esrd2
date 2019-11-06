@@ -28,8 +28,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> getDelegationUsers(@Param("name") String name);
 
     @Query("SELECT u FROM User u WHERE lower(u.name)=lower(:name)")
-    User getDelegationUser(@Param("name") String userName);
-
-    @Query("SELECT u FROM User u WHERE lower(u.name)=lower(:name)")
     User getOriginUser(@Param("userName") String userName);
 }

@@ -79,15 +79,5 @@ public class AbstractUserRestController {
         LOG.info("getDelegationUsers");
         return userService.getDelegationUsers(AuthorizedUser.getUserName());
     }
-
-    public User getDelegationUser(int id) {
-        LOG.info("getDelegationUser");
-        return userService.getByName(AuthorizedUser.getUserName());
-    }
-
-    public User getOriginUser(String userName) {
-        LOG.info("getOriginUser");
-        return userService.getOriginUser(userName);
-    }
 }
 

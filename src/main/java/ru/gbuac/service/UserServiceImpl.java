@@ -103,6 +103,17 @@ public class UserServiceImpl implements UserService {
      }
 
 
+    @Override
+    public List<User> getDelegationUsers(String userName) {
+        return userRepository.getDelegationUsers(userName);
+    }
+
+    @Override
+    public User getOriginUser(String username) {
+        return userRepository.getOriginUser(username);
+    }
+
+
     private class UserAttributesMapper implements AttributesMapper<User> {
 
         @Override
@@ -141,15 +152,5 @@ public class UserServiceImpl implements UserService {
             Attribute cn = attrs.get("cn");
             return cn.toString();
         }
-    }
-
-    @Override
-    public List<User> getDelegationUsers(String userName) {
-        return userRepository.getDelegationUsers(userName);
-    }
-
-    @Override
-    public User getOriginUser(String username) {
-        return userRepository.getOriginUser(username);
     }
 }
