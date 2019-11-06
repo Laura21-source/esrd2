@@ -497,13 +497,17 @@
                 }
                 if (row.field.fieldType === "GROUP_CHECKBOX") {
                     var valueInt = 'value="0"';
+                    var checekCheckBox = '';
                     idField = row.field.fieldId;
-                    if (id > 0) {valueInt = 'value="'+row.field.ValueInt+'"';}
+                    if (row.field.valueInt > 0) {
+                        valueInt = 'value="'+row.field.valueInt+'"';
+                        checekCheckBox = ' checked';
+                    }
                     /*id="'+row.field.tag+'Block"*/
                     $(filed).append('<div class="row my-3">' +
                         '<div class="col-md-12 text-left"><div class="form-check">' +
                         '<input type="checkbox" class="form-check-input ' + upElem + '"' +
-                        ' id="'+row.field.tag+'" data-field="'+idField+'" name="'+row.field.tag+'" '+valueInt+'>' +
+                        ' id="'+row.field.tag+'" data-field="'+idField+'" name="'+row.field.tag+'" '+valueInt+checekCheckBox+'>' +
                         '<label class="form-check-label text-muted text-left"' +
                         ' for="'+row.field.tag+'">'+row.field.name+'</label>' +
                         '</div></div></div>'
@@ -513,16 +517,29 @@
                         for(var y in row.field.childFields) {
                             var checkField = row.field.childFields[y];
                             idField = null;
+                            if (id > 0) {idField = checkField.id;}
+                            var elementField = filed+' #'+row.field.tag+'BlockDiv';
                             var textId = y+1;
                             if (checkField.fieldType === "TEXT") {
-                                if (id > 0) {idField = checkField.id;}
                                 var nameText = "checkText_"+textId;
-                                createInput('#'+row.field.tag+'BlockDiv', "text", nameText, nameText, "Введите значение", short, checkField.name, checkField.valueStr, checkField.fieldId, '', idField, checkField.enabled, checkField.required, '', '', 'checkClass');
-                                textId = textId+1;
+                                createInput(elementField, "text", nameText, nameText, "Введите значение", short, checkField.name, checkField.valueStr, checkField.fieldId, '', idField, checkField.enabled, checkField.required, '', '', 'checkClass');
                             }
+                            if (checkField.fieldType === "TEXTAREA") {
+                                var nameTextarea = "textarea_"+textId;
+                                var textareaId = '';
+                                if(checkField.id > 0) {textareaId = ' data-id="'+checkField.id+'"'}
+                                $(elementField).append('<div class="row ml-1 mb-3">' +
+                                    '<div class="col-md-3 text-left mt-3">' +
+                                    '<div class="text-muted">'+checkField.name+requiredSup+'</div></div>' +
+                                    '<div class="col-md-9 mt-3">' +
+                                    '<textarea type="text" id="'+nameTextarea+'" class="checkClass form-control" data-field="'+checkField.fieldId+'"'+textareaId+'>'+checkField.valueStr+'</textarea>'
+                                    +requiredValidate+'</div></div>');
+                            }
+                            textId = textId+1;
                         }
                     }
                     checkedFields ('#'+row.field.tag, '#'+row.field.tag+'BlockDiv');
+                    if (row.field.valueInt > 0) {$('.childBox').removeClass('d-none');}
                 }
                 var textId = i+1;
                 if (row.field.fieldType === "TEXT") {
@@ -563,7 +580,7 @@
                         no_results_text: "Ничего не найдено!"
                     });
                     // Формирование правильных полей
-                    createOptionsValue(numberCatalog, '#blockUp', '.blockRowUp');
+                    createOptionsValue(numberCatalog, filed, '.blockRowUp');
                     if(parentBlock == '') {
                         // Добавляем опции
                         createOptions("rest/profile/catalogs/" + row.field.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField, '');
