@@ -1021,9 +1021,9 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (305, 'Номер протокола', 'TEXT', null, null, null, null, 'ProtocolRegNum');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (306, 'Дата начала действия тарифа', 'DATE', null, null, null, null, 'TarifStartDate');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (307, 'Дата окончания дейстия тарифа', 'DATE', null, null, null, null, 'TarifEndDate');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (302, 'Признать утратившим силу', 'GROUP_CHECKBOX', null, null, null, null, 'CancelDecree');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (322, 'Наименование постановления', 'TEXTAREA', null, null, null, null, 'CancelDecree');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (323, 'Наименование приказа', 'TEXTAREA', null, null, null, null, 'CancelDecree');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (302, 'Признать утратившим силу', 'GROUP_CHECKBOX', null, null, null, null, 'CancelDocs');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (322, 'Наименование постановления', 'TEXTAREA', null, null, null, null, 'LawName');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (323, 'Наименование приказа', 'TEXTAREA', null, null, null, null, 'DecreeName');
 
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (302, 322);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (302, 323);

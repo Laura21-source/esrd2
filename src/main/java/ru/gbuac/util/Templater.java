@@ -146,6 +146,7 @@ public class Templater {
                     continue;
                 }
                 if ((ifStatement.condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
+                        (cmpValues.length == 1 && cmpValues[0].length() > 0) ||
                         (ifStatement.condition.contains("~") && cmpValues[0].contains(cmpValues[1]))) {
                     text = text.replace(ifStatement.fullText, ifStatement.getThenVal());
                 } else {
