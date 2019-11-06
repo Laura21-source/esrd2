@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS esrd.organization CASCADE;
 DROP TABLE IF EXISTS esrd.resolution CASCADE;
 DROP TABLE IF EXISTS esrd.resolutions_users CASCADE;
 DROP TABLE IF EXISTS esrd.users_distribution_departments CASCADE;
+DROP TABLE IF EXISTS esrd.user_delegation_users CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
@@ -154,7 +155,7 @@ CREATE TABLE esrd.doc_agreement
     decision_type    VARCHAR                         ,
     final_user       BOOLEAN                         ,
     cur_user         BOOLEAN                         ,
-    origin_user_id   INTEGER                           ,
+    origin_user_id   INTEGER                         ,
     FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE
 );

@@ -77,4 +77,9 @@ public class UserRestController extends AbstractUserRestController {
         return super.getDelegationUsers();
     }
 
+    @Override
+    @PostMapping(value = "/setDelegatedUser", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void setDelegatedUser(@RequestParam("name") String userName) {
+        super.setDelegatedUser(userName);
+    }
 }

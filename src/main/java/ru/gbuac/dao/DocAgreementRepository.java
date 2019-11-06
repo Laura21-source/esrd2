@@ -51,7 +51,4 @@ public interface DocAgreementRepository extends JpaRepository<DocAgreement, Inte
             "a.agreedDateTime, a.comment, a.decisionType, a.returnedUser.id, a.finalUser, a.currentUser) " +
             "FROM DocAgreement a JOIN a.user u WHERE a.doc.id=:docId ORDER BY a.ordering")
     List<DocAgreementTo> getAgreementList(@Param("docId") int docId);
-
-    @Query("SELECT a FROM DocAgreement a WHERE a.acceptCredentialUserId =:id")
-    int getAcceptCredentialUserId(@Param("id") int id);
 }

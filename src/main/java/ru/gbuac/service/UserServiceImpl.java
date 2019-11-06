@@ -17,7 +17,6 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +35,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
-
-
 
     private List<User> fetchLdapUsers() {
         SearchControls controls = new SearchControls();
@@ -109,10 +106,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getOriginUser(String username) {
-        return userRepository.getOriginUser(username);
+    public void setDelegatedUser(String userName) {
+        AuthorizedUser.setDelegatedUser(userRepository.getByName(userName));
     }
-
 
     private class UserAttributesMapper implements AttributesMapper<User> {
 

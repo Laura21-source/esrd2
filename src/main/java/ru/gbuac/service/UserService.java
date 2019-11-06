@@ -31,5 +31,5 @@ public interface UserService {
 
     List<User> getDelegationUsers(String userName);
 
-    User getOriginUser(String userName);
+    void setDelegatedUser(String userName);
 }
