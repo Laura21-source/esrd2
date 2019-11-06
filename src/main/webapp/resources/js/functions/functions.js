@@ -255,8 +255,9 @@
     13. required - Значение атрибута required (true - да)
     14. attachment - Поле инпут для ввода данных
     15. text - Поле инпут для ввода текста
+    16. selfClass - Название собственного класса
     */
-    function createInput (element, type, id, name, title, short, iconName, value, field, up, idField, enabled, required, attachment, text) {
+    function createInput (element, type, id, name, title, short, iconName, value, field, up, idField, enabled, required, attachment, text, selfClass) {
         var idVal = "";
         if (idField) {idVal = ' data-id="'+idField+'"';}
         var inputVal = '';
@@ -275,6 +276,9 @@
         if (enabled == false) {
             enaBled = ' disabled';
             upClass = upClass+' disableElem';
+        }
+        if(selfClass !='') {
+            upClass = upClass+' '+selfClass;
         }
         var reqUired = '';
         var requiredSup = '';
@@ -317,8 +321,10 @@
         $(element).click(function() {
             if ($(this).is(':checked')){
                 $(block).removeClass('d-none');
+                $(this).val(1);
             } else {
                 $(block).addClass('d-none');
+                $(this).val(0);
             }
         });
     }
@@ -491,28 +497,27 @@
                 }
                 if (row.field.fieldType === "GROUP_CHECKBOX") {
                     var valueInt = 'value="0"';
-                    if (id > 0) {
-                        idField = row.field.id;
-                        valueInt = 'value="'+row.field.ValueInt+'"';
-                    }
+                    idField = row.field.fieldId;
+                    if (id > 0) {valueInt = 'value="'+row.field.ValueInt+'"';}
                     /*id="'+row.field.tag+'Block"*/
-                    $(filed).append('<div class="row ' + upElem + ' my-3">' +
+                    $(filed).append('<div class="row my-3">' +
                         '<div class="col-md-12 text-left"><div class="form-check">' +
-                        '<input type="checkbox" class="form-check-input"' +
+                        '<input type="checkbox" class="form-check-input ' + upElem + '"' +
                         ' id="'+row.field.tag+'" data-field="'+idField+'" name="'+row.field.tag+'" '+valueInt+'>' +
                         '<label class="form-check-label text-muted text-left"' +
                         ' for="'+row.field.tag+'">'+row.field.name+'</label>' +
                         '</div></div></div>'
                     );
                     if(row.field.childFields.length > 0) {
-                        $(filed).append('<div id="'+row.field.tag+'BlockDiv" class="d-none"></div>');
+                        $(filed).append('<div id="'+row.field.tag+'BlockDiv" class="childBox d-none"></div>');
                         for(var y in row.field.childFields) {
                             var checkField = row.field.childFields[y];
+                            idField = null;
                             var textId = y+1;
                             if (checkField.fieldType === "TEXT") {
                                 if (id > 0) {idField = checkField.id;}
                                 var nameText = "checkText_"+textId;
-                                createInput('#'+row.field.tag+'BlockDiv', "text", nameText, nameText, "Введите значение", short, checkField.name, checkField.valueStr, checkField.fieldId, up, idField, checkField.enabled, checkField.required, '', '');
+                                createInput('#'+row.field.tag+'BlockDiv', "text", nameText, nameText, "Введите значение", short, checkField.name, checkField.valueStr, checkField.fieldId, '', idField, checkField.enabled, checkField.required, '', '', 'checkClass');
                                 textId = textId+1;
                             }
                         }
@@ -825,6 +830,10 @@
                 valueData = 3;
                 if (attrSelectVal > 0) {value = attrSelectVal;}
             }
+            if (attrElem === "checkbox") {
+                valueData = 4;
+                if (attrVal > 0) {value = attrVal;}
+            }
             if (id > 0) {idField = parseInt($(this).attr("data-id"));}
             if (valueData === 1) {
                 field = {
@@ -834,7 +843,7 @@
                         "fieldId": attrId,
                         "valueDate" : value
                     },
-                    "position": key,
+                    "position": key
                 }
             } else if (valueData === 2) {
                 field = {
@@ -844,7 +853,7 @@
                         "fieldId": attrId,
                         "valueStr" : value
                     },
-                    "position": key,
+                    "position": key
                 }
             } else if (valueData === 3) {
                 field = {
@@ -854,7 +863,32 @@
                         "fieldId": attrSelectId,
                         "valueInt" : value
                     },
-                    "position": key,
+                    "position": key
+                }
+            } else if (valueData === 4) {
+                var childBox = [];
+                var childField = '';
+                $('.childBox .checkClass').each(function() {
+                    var childFieldId = null;
+                    var childFieldVal = $(this).val();
+                    var childFieldField = parseInt($(this).attr("data-field"));
+                    if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
+                    childField = {
+                        "id" : childFieldId,
+                        "childFields" : [],
+                        "fieldId" : childFieldField,
+                        "valueStr" : childFieldVal
+                    }
+                    childBox.push(childField);
+                });
+                field = {
+                    "field": {
+                        "id" : idField,
+                        "childFields": childBox,
+                        "fieldId": attrId,
+                        "valueInt" : value
+                    },
+                    "position": key
                 }
             }
             dataField.push(field);
