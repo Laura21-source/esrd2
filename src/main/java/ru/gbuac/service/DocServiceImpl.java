@@ -636,6 +636,7 @@ public class DocServiceImpl implements DocService {
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         int childMaxCellsCount = (int) fieldTo.getChildFields().stream()
                                 .filter(c -> !c.getTag().equals("")).count();
+                        simpleTags.put(tag, fieldTo.getValueByFieldType());
                         fillTags(childField, simpleTags, taggedTables, childMaxCellsCount);
                     }
                     break;

@@ -1,5 +1,6 @@
 package ru.gbuac.to;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -102,9 +103,11 @@ public class FieldTo extends BaseTo {
             case DATE:
                 return getValueDate() != null ? DateTimeUtil.toStringPrint(getValueDate().toLocalDate()) : "";
             case TIME:
-                return getValueDate() != null ?DateTimeUtil.toString(getValueDate().toLocalTime()) : "";
+                return getValueDate() != null ? DateTimeUtil.toString(getValueDate().toLocalTime()) : "";
             case DATETIME:
-                return getValueDate() != null ?DateTimeUtil.toStringPrint(getValueDate()) : "";
+                return getValueDate() != null ? DateTimeUtil.toStringPrint(getValueDate()) : "";
+            case GROUP_CHECKBOX:
+                return getValueInt() != null ? (String.valueOf(getValueInt() == 1)).toUpperCase() : "FALSE";
             case CATALOG_USERS:
             case CATALOG_ORGANIZATIONS:
             case CATALOG_REGNUMBERS:
