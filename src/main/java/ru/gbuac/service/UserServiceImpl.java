@@ -149,17 +149,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getDelegationUser(String userName) {
-        return userRepository.getDelegationUser(userName);
-    }
-
-    @Override
-    public List<User> getAcceptCredentialUsers(String userName) {
-        return userRepository.getALLAcceptCredential(userName);
-    }
-
-    @Override
-    public User getOriginUser(String username) {
-        return userRepository.getOriginUser(username);
+    public void setDelegationUser(String userName) {
+        //TODO AuthorizedUser.setDelegatedUser; нужно реализовать метод, который будет сеттить делегированного юзера текущему
     }
 }

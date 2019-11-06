@@ -24,16 +24,16 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "FROM User u ORDER BY u.lastname ASC")
     List<UserTo> getAll();
 
+    // Этот метод покажет на фронтенде список юзеров, права которых текущий юзер может принять
     @Query("SELECT du FROM User u JOIN u.delegationUsers du WHERE lower(u.name)=lower(:name)")
     List<User> getDelegationUsers(@Param("name") String name);
 
-    @Query("SELECT u FROM User u WHERE lower(u.name)=lower(:name)")
-    User getDelegationUser(@Param("name") String userName);
+    // Затем будет вызван контроллер, который запишет в AuthProvider юзера, права которого нужно принять.
+    // В дао юзеров больше ничего происходить не будет
 
-    @Query("SELECT u FROM User u JOIN u.acceptCredentialUsers au WHERE lower(u.name) = lower(:name)")
-    List<User> getALLAcceptCredential(@Param("name") String name);
+    // Этот метод тоже не нужен, так как ты будешь получать с фронтентда юзера, права которого принимаешь
+    //@Query("SELECT u FROM User u WHERE lower(u.name)=lower(:name)")
+    //User getDelegationUser(@Param("name") String userName);
 
-    @Query("SELECT u FROM User u WHERE lower(u.name)=lower(:name)")
-    User getOriginUser(@Param("name") String name);
-
+    // Удалил лишние методы
 }

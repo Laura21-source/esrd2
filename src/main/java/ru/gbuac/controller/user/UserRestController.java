@@ -35,7 +35,7 @@ public class UserRestController extends AbstractUserRestController {
     @Override
     @GetMapping
     List<UserTo> getAll() {
-       return super.getAll();
+        return super.getAll();
     }
 
     @Override
@@ -78,20 +78,8 @@ public class UserRestController extends AbstractUserRestController {
     }
 
     @Override
-    @GetMapping(value = "/getDelegationUser")
-    public User getDelegationUser(int id) {
-        return super.getDelegationUser(id);
-    }
-
-    @Override
-    @GetMapping(value = "getAcceptCredentialUsers")
-    public List<User> getAcceptCredentialUsers() {
-        return super.getAcceptCredentialUsers();
-    }
-
-    @Override
-    @GetMapping(value = "getOriginUser")
-    public User getOriginUser(String userName) {
-        return super.getOriginUser(userName);
+    @GetMapping(value = "/setDelegationUser")
+    public void setDelegationUser(String userName) {
+        super.setDelegationUser(userName);
     }
 }
