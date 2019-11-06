@@ -80,19 +80,13 @@ public class AbstractUserRestController {
         return userService.getDelegationUsers(AuthorizedUser.getUserName());
     }
 
-    public User getDelegationUser(int id) {
-        LOG.info("getDelegationUser");
-        return userService.getByName(AuthorizedUser.getUserName());
+    // с фронтенда будет приходить имя юзера, права которго будут делегированы текущему юзеру
+    // юзер предварительно был выбра из списка, который вернул getDelegationUsers
+    public void setDelegationUser(String userName) {
+        LOG.info("setDelegationUser");
+        userService.setDelegationUser(userName);
     }
 
-    public List<User> getAcceptCredentialUsers() {
-        LOG.info("getAcceptCredentialUsers");
-        return userService.getAcceptCredentialUsers(AuthorizedUser.getUserName());
-    }
-
-    public User getOriginUser(String userName) {
-        LOG.info("getOriginUser");
-        return userService.getOriginUser(userName);
-    }
+    // Удалил лишние контроллеры
 }
 
