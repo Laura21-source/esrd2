@@ -35,29 +35,29 @@ public abstract class AbstractDocRestController {
         String userName = AuthorizedUser.getUserName();
         Map<String, Integer> map = Stream.of(new Object[][] {
                 { "agreement", AuthorizedUser.hasRole("ADMIN") ?
-                        docService.getAllAgreement().size() : docService.getAllAgreementByUsername(userName).size() },
-                { "agreementMoreDeadlineByUserName", docService.getAllAgreementMoreDeadlineByUserName(userName).size() },
-                { "agreementLessDeadlineByUserName", docService.getAllAgreementLessDeadlineByUserName(userName).size() },
+                        docService.getAllAgreement().size() : docService.getAllAgreementByUsername(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "agreementMoreDeadlineByUserName", docService.getAllAgreementMoreDeadlineByUserName(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "agreementLessDeadlineByUserName", docService.getAllAgreementLessDeadlineByUserName(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
 
                 { "inwork", docService.getAllInWorkByUserName(AuthorizedUser.getUserName()).size() },
-                { "inworkMoreDeadlineByUserName", docService.getAllInWorkMoreDeadlineByUserName(userName).size() },
-                { "inworkLessDeadlineByUserName", docService.getAllInWorkLessDeadlineByUserName(userName).size() },
+                { "inworkMoreDeadlineByUserName", docService.getAllInWorkMoreDeadlineByUserName(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "inworkLessDeadlineByUserName", docService.getAllInWorkLessDeadlineByUserName(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
 
-                { "distribution", docService.getAllDistribution(userName).size() },
-                { "distributionMoreDeadlineByChiefUserName", docService.getAllDistributionMoreDeadlineByChiefUserName(userName).size() },
-                { "distributionLessDeadlineByChiefUserName", docService.getAllDistributionLessDeadlineByChiefUserName(userName).size() },
+                { "distribution", docService.getAllDistribution(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "distributionMoreDeadlineByChiefUserName", docService.getAllDistributionMoreDeadlineByChiefUserName(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "distributionLessDeadlineByChiefUserName", docService.getAllDistributionLessDeadlineByChiefUserName(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
 
-                { "atThisMounthOnControl", docService.getAllAtThisMounthOnControl(userName).size() },
-                { "atThisMounthOnControlCompletedInTime", docService.getAllAtThisMounthOnControlCompletedInTime(userName).size() },
-                { "atThisMounthOnControlCompletedAfterTime", docService.getAllAtThisMounthOnControlCompletedAfterTime(userName).size() },
-                { "atThisMounthOnControlNotCompleted", docService.getAllAtThisMounthOnControlNotCompleted(userName).size() },
+                { "atThisMounthOnControl", docService.getAllAtThisMounthOnControl(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "atThisMounthOnControlCompletedInTime", docService.getAllAtThisMounthOnControlCompletedInTime(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "atThisMounthOnControlCompletedAfterTime", docService.getAllAtThisMounthOnControlCompletedAfterTime(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "atThisMounthOnControlNotCompleted", docService.getAllAtThisMounthOnControlNotCompleted(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
 
-                { "agreementMoreDeadlineByDepartment", docService.getAllAgreementMoreDeadlineByDepartment(userName).size() },
-                { "agreementLessDeadlineByDepartment", docService.getAllAgreementLessDeadlineByDepartment(userName).size() },
-                { "inworkMoreDeadlineByDepartment", docService.getAllInWorkMoreDeadlineByDepartment(userName).size() },
-                { "inworkLessDeadlineByDepartment", docService.getAllInWorkLessDeadlineByDepartment(userName).size() },
-                { "distributionMoreDeadlineByDepartment", docService.getAllDistributionMoreDeadlineByDepartment(userName).size() },
-                { "distributionLessDeadlineByDepartment", docService.getAllDistributionLessDeadlineByDepartment(userName).size() },
+                { "agreementMoreDeadlineByDepartment", docService.getAllAgreementMoreDeadlineByDepartment(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "agreementLessDeadlineByDepartment", docService.getAllAgreementLessDeadlineByDepartment(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "inworkMoreDeadlineByDepartment", docService.getAllInWorkMoreDeadlineByDepartment(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "inworkLessDeadlineByDepartment", docService.getAllInWorkLessDeadlineByDepartment(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "distributionMoreDeadlineByDepartment", docService.getAllDistributionMoreDeadlineByDepartment(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
+                { "distributionLessDeadlineByDepartment", docService.getAllDistributionLessDeadlineByDepartment(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName()).size() },
         }).collect(Collectors.toMap(data -> (String) data[0], data -> (Integer) data[1]));
 
         return map;
@@ -130,8 +130,8 @@ public abstract class AbstractDocRestController {
 
     public List<DocItemTo> getAllInWorkByUserName() {
         LOG.info("getAllInWorkByUserName");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            docService.getAllInWorkByUserName(AuthorizedUser.getDelegatedUser().getName());
+        if (AuthorizedUser.getDelegatedUser() != null) {
+            return docService.getAllInWorkByUserName(AuthorizedUser.getDelegatedUser().getName());
         }
         return docService.getAllInWorkByUserName(AuthorizedUser.getUserName());
     }
