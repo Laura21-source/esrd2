@@ -788,7 +788,9 @@ INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1006, null, 'Организация', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1007, null, 'Ответственный', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1008, 1001, 'Номер приказа', 0);
-INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1009, null, '', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1009, null, 'Федеральные законы', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1010, null, 'Методические указания', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1011, null, 'Регламенты', 0);
 
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2007, null, 'Регулирование цен (тарифов)', 1001, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2008, null, 'Изменение, отменена правовых актов', 1001, null);
@@ -949,6 +951,17 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catal
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2164, null, 'Производственные программы', 1003, 2009);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2165, null, 'производственной программы', 1004, 2164);
 
+
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2300, null, 'Федеральным законом от 7 декабря 2011 г. № 416-ФЗ «О водоснабжении и водоотведении», постановлением Правительства Российской Федерации от 13 мая 2013 г. № 406 «О государственном регулировании тарифов в сфере водоснабжения и водоотведения»', 1009, null);
+
+
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2500, null, 'Методическими указаниями по расчету регулируемых тарифов в сфере водоснабжения и водоотведения, утвержденными приказом Федеральной службы по тарифам от 27 декабря 2013 г. № 1746-э (зарегистрирован Минюстом России 25 февраля 2014 г., регистрационный № 31412)', 1010, null);
+
+
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2600, null, 'Регламентом установления регулируемых тарифов в сфере водоснабжения и водоотведения, утвержденным приказом Федеральной службы по тарифам от 16 июля 2014 г. № 1154-э (зарегистрирован Минюстом России 19 августа 2014 г., регистрационный № 33655)', 1011, null);
+
+
+
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id, final_doc)
 VALUES (1, 'Служебная записка о включении вопросов в Повестку заседания Правления', 3002, 'zapiska.docx', 'zapiska.docx', 23, false);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null, 'MeetingDate');
@@ -1024,15 +1037,13 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (302, 'Признать утратившим силу', 'GROUP_CHECKBOX', null, null, null, null, 'CancelDocs');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (322, 'Наименование постановления', 'TEXTAREA', null, null, null, null, 'LawName');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (323, 'Наименование приказа', 'TEXTAREA', null, null, null, null, 'DecreeName');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (324, 'В соответствии с Федеральным законом', 'CATALOG', null, null, null, 1009, 'FederalLaw');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (325, 'В соответствии с Методическими указаниями', 'CATALOG', null, null, null, 1010, 'TarifMethod');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (326, 'В соответствии с Регламентом', 'CATALOG', null, null, null, 1011, 'TarifReglament');
 
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (302, 322);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (302, 323);
 
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (310, 301, 306, 13);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (303, 301, 302, 15);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (308, 301, 304, 11);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (309, 301, 305, 12);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (311, 301, 307, 14);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (312, 301, 8, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (313, 301, 9, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (314, 301, 10, 3);
@@ -1043,5 +1054,13 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (318
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (319, 301, 14, 8);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (320, 301, 15, 9);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (321, 301, 17, 10);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (327, 301, 324, 11);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (328, 301, 325, 12);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (329, 301, 326, 13);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (308, 301, 304, 14);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (309, 301, 305, 15);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (310, 301, 306, 16);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (311, 301, 307, 17);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (303, 301, 302, 18);
 
 INSERT INTO esrd.users_distribution_departments (user_id, distribution_departments_id) VALUES (4084, 575);
