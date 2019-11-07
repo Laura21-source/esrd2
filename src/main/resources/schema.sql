@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS esrd.organization CASCADE;
 DROP TABLE IF EXISTS esrd.resolution CASCADE;
 DROP TABLE IF EXISTS esrd.resolutions_users CASCADE;
 DROP TABLE IF EXISTS esrd.users_distribution_departments CASCADE;
-DROP TABLE IF EXISTS esrd.user_delegation_users CASCADE;
+DROP TABLE IF EXISTS esrd.users_delegation_users CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
@@ -89,7 +89,7 @@ CREATE TABLE esrd.user_roles
     FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE
 );
 
-CREATE TABLE esrd.user_delegation_users
+CREATE TABLE esrd.users_delegation_users
 (
     user_id               INTEGER                 NOT NULL,
     delegation_user_id    INTEGER                         ,
