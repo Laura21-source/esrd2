@@ -82,4 +82,10 @@ public class UserRestController extends AbstractUserRestController {
     public void setDelegatedUser(@RequestParam("name") String userName) {
         super.setDelegatedUser(userName);
     }
+
+    @Override
+    @GetMapping(value = "/getDelegatedUser")
+    public User getDelegatedUser() {
+        return super.getDelegatedUser();
+    }
 }

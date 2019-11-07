@@ -84,5 +84,10 @@ public class AbstractUserRestController {
         LOG.info("setDelegatedUser");
         userService.setDelegatedUser(userName);
     }
+
+    public User getDelegatedUser() {
+        LOG.info("getDelegatedUser");
+        return AuthorizedUser.getDelegatedUser();
+    }
 }
 
