@@ -982,7 +982,6 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (16, 'Ответственный', 'CATALOG_USERS', null, null, null, 1007, 'AuthPerson');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (17, 'Дополнительная информация', 'TEXT', null, null, null, null, 'AdditionalInfo');
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (200, 1, 4, true, 3006);
-INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (201, 1, 6, false, 3002);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (202, 1, 7, true, 3002);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (203, 1, 8, true, 3002);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (204, 1, 9, false, 3002);
@@ -1006,8 +1005,7 @@ INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 14);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 15);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 16);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 17);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 4, 1);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (20, 1, 6, 2);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 4, 1)
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (21, 1, 7, 3);
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id, final_doc)
