@@ -66,7 +66,7 @@ public abstract class AbstractDocRestController {
     public List<Doc> getAllAgreementMoreDeadlineByUserName() {
         LOG.info("getAllAgreementMoreDeadlineByUserName");
         if(AuthorizedUser.getDelegatedUser() != null) {
-            docService.getAllAgreementMoreDeadlineByUserName(AuthorizedUser.getDelegatedUser().getName());
+            return docService.getAllAgreementMoreDeadlineByUserName(AuthorizedUser.getDelegatedUser().getName());
         }
         return docService.getAllAgreementMoreDeadlineByUserName(AuthorizedUser.getUserName());
     }
@@ -131,7 +131,7 @@ public abstract class AbstractDocRestController {
     public List<DocItemTo> getAllInWorkByUserName() {
         LOG.info("getAllInWorkByUserName");
         if(AuthorizedUser.getDelegatedUser() != null) {
-            docService.getAllInWorkByUserName(AuthorizedUser.getDelegatedUser().getName());
+            return docService.getAllInWorkByUserName(AuthorizedUser.getDelegatedUser().getName());
         }
         return docService.getAllInWorkByUserName(AuthorizedUser.getUserName());
     }
@@ -140,7 +140,8 @@ public abstract class AbstractDocRestController {
         LOG.info("getAllInWorkMoreDeadlineByUserName");
         if(AuthorizedUser.getDelegatedUser() != null) {
             return docService.getAllInWorkMoreDeadlineByUserName(AuthorizedUser.getDelegatedUser().getName());
-        } return docService.getAllInWorkMoreDeadlineByUserName(AuthorizedUser.getUserName());
+        }
+        return docService.getAllInWorkMoreDeadlineByUserName(AuthorizedUser.getUserName());
     }
 
     public List<DocItemTo> getAllInWorkLessDeadlineByUserName() {
@@ -260,7 +261,7 @@ public abstract class AbstractDocRestController {
         LOG.info("createFinal " + docTo);
         checkNew(docTo);
         if(AuthorizedUser.getDelegatedUser() != null) {
-            docService.save(docTo, AuthorizedUser.getDelegatedUser().getName(), rootPath);
+            return docService.save(docTo, AuthorizedUser.getDelegatedUser().getName(), rootPath);
         }
         return docService.save(docTo, AuthorizedUser.getUserName(), rootPath);
     }
