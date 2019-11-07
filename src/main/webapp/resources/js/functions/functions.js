@@ -527,12 +527,16 @@
                             if (checkField.fieldType === "TEXTAREA") {
                                 var nameTextarea = "textarea_"+textId;
                                 var textareaId = '';
-                                if(checkField.id > 0) {textareaId = ' data-id="'+checkField.id+'"'}
+                                var textValue = '';
+                                if(checkField.id > 0) {
+                                    textareaId = ' data-id="'+checkField.id+'"';
+                                    textValue = checkField.valueStr;
+                                }
                                 $(elementField).append('<div class="row ml-1 mb-3">' +
                                     '<div class="col-md-3 text-left mt-3">' +
                                     '<div class="text-muted">'+checkField.name+requiredSup+'</div></div>' +
                                     '<div class="col-md-9 mt-3">' +
-                                    '<textarea type="text" id="'+nameTextarea+'" class="checkClass form-control" data-field="'+checkField.fieldId+'"'+textareaId+'>'+checkField.valueStr+'</textarea>'
+                                    '<textarea type="text" id="'+nameTextarea+'" class="checkClass form-control" data-field="'+checkField.fieldId+'"'+textareaId+'>'+textValue+'</textarea>'
                                     +requiredValidate+'</div></div>');
                             }
                             textId = textId+1;
@@ -887,9 +891,12 @@
                 var childField = '';
                 $('.childBox .checkClass').each(function() {
                     var childFieldId = null;
-                    var childFieldVal = $(this).val();
+                    var childFieldVal = null;
                     var childFieldField = parseInt($(this).attr("data-field"));
-                    if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
+                    if (id > 0) {
+                        childFieldVal = $(this).val();
+                        childFieldId = parseInt($(this).attr("data-id"));
+                    }
                     childField = {
                         "id" : childFieldId,
                         "childFields" : [],

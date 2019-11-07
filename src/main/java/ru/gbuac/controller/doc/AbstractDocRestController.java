@@ -131,7 +131,7 @@ public abstract class AbstractDocRestController {
     public List<DocItemTo> getAllInWorkByUserName() {
         LOG.info("getAllInWorkByUserName");
         if(AuthorizedUser.getDelegatedUser() != null) {
-            docService.getAllInWorkByUserName(AuthorizedUser.getDelegatedUser().getName());
+            return docService.getAllInWorkByUserName(AuthorizedUser.getDelegatedUser().getName());
         }
         return docService.getAllInWorkByUserName(AuthorizedUser.getUserName());
     }

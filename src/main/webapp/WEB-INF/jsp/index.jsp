@@ -218,8 +218,9 @@
             event.preventDefault();
             var userId = $('.choiseUserName.active').attr('data-value');
             var serverGetUserName = $.ajax({
-                type: "POST",
+                type: 'POST',
                 url: 'rest/profile/users/setDelegatedUser?name='+userId,
+                contentType: 'application/json; charset=utf-8'
             });
             serverGetUserName.done(function() {
                 toastr["success"]("Успешно!");
@@ -227,7 +228,7 @@
                     $('#choiseUser').modal('hide');
                     $('.choiseUserName').removeClass('alert alert-info mb-0 active');
                     $('#btnChoiseUser').attr('disabled', true);
-                }, 1500);
+                }, 1000);
             });
             serverGetUserName.fail(function() {
                 toastr["error"]("Ошибка отправки запроса!");
