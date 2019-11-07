@@ -963,6 +963,16 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catal
 
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2600, null, 'Регламентом установления регулируемых тарифов в сфере водоснабжения и водоотведения, утвержденным приказом Федеральной службы по тарифам от 16 июля 2014 г. № 1154-э (зарегистрирован Минюстом России 19 августа 2014 г., регистрационный № 33655)', 1011, null);
 
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2501, null, 'Методическими указаниями по расчету регулируемых тарифов и цен на электрическую (тепловую) энергию на розничном (потребительском) рынке', 1010, null);
+
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2502, null, 'Методическими указаниями по расчету тарифов на услуги по передаче электрической энергии, устанавливаемых с применением метода долгосрочной индексации необходимой валовой выручки', 1010, null);
+
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2503, null, 'Методическими указаниями по регулированию тарифов с применением метода доходности инвестированного капитала', 1010, null);
+
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2504, null, 'Методическими указаниями по определению размера платы за технологическое присоединение к электрическим сетям', 1010, null);
+
+
+
 
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id, final_doc)
