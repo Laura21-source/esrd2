@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Arrays;
 import java.util.List;
@@ -26,15 +27,24 @@ public class MailService {
     @Value("${email.uri}")
     private String uri;
 
+    @Value("${email.sender}")
+    private String sender;
+
+
+    @Value("${email.login}")
+    private String login;
+
+
     public void sendAgreementEmail(String email, int docId, String projectRegNum) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
+            message.setFrom(new InternetAddress(sender + "<" + login + ">"));
 
             boolean multipart = true;
 
             MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
 
-            String htmlMsg = "На согласование/подпись в АИС 'Тариф' поступил документ №" +
+            String htmlMsg = "На согласование/подпись в ИАС 'Тариф' поступил документ №" +
                     "<a href='" + uri + "/agree-document?id=" + docId +
                     "'>" + projectRegNum + "</a>";
 
@@ -46,7 +56,7 @@ public class MailService {
                 helper.setTo(email);
             }
 
-            helper.setSubject("Система документооборота АИС 'Тариф'");
+            helper.setSubject("Уведомление");
 
             this.emailSender.send(message);
         }
@@ -58,12 +68,13 @@ public class MailService {
     public void sendDistributionEmail(String email, int docId, String regNum) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
+            message.setFrom(new InternetAddress(sender + "<" + login + ">"));
 
             boolean multipart = true;
 
             MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
 
-            String htmlMsg = "На распределение в АИС 'Тариф' поступил документ №" +
+            String htmlMsg = "На распределение в ИАС 'Тариф' поступил документ №" +
                     "<a href='" + uri + "/agree-document?id=" + docId +
                     "'>" + regNum + "</a>";
 
@@ -75,7 +86,7 @@ public class MailService {
                 helper.setTo(email);
             }
 
-            helper.setSubject("Система документооборота АИС 'Тариф'");
+            helper.setSubject("Уведомление");
 
             this.emailSender.send(message);
         }
@@ -87,12 +98,13 @@ public class MailService {
     public void sendExecutionEmail(String email, int docId, String regNum) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
+            message.setFrom(new InternetAddress(sender + "<" + login + ">"));
 
             boolean multipart = true;
 
             MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
 
-            String htmlMsg = "На исполнение в АИС 'Тариф' поступил документ №" +
+            String htmlMsg = "На исполнение в ИАС 'Тариф' поступил документ №" +
                     "<a href='" + uri + "/agree-document?id=" + docId +
                     "'>" + regNum + "</a>";
 
@@ -104,7 +116,7 @@ public class MailService {
                 helper.setTo(email);
             }
 
-            helper.setSubject("Система документооборота АИС 'Тариф'");
+            helper.setSubject("Уведомлеие");
 
             this.emailSender.send(message);
         }
