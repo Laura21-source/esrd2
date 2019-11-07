@@ -126,6 +126,7 @@
         </div>
     </div>
 </div>
+
 <%--Подтверждение удаления--%>
 <div class="modal fade" id="deleteBlock" tabindex="-1" role="dialog" aria-labelledby="deleteBlock"
      aria-hidden="t`rue">
@@ -149,6 +150,7 @@
         </div>
     </div>
 </div>
+
 <%--Запрос в поддержку--%>
 <div class="modal fade" id="helpBlock" tabindex="-1" role="dialog" aria-labelledby="deleteBlock"
      aria-hidden="t`rue">
@@ -192,6 +194,43 @@
             </div>
             <div class="modal-footer justify-content-center btnBlock">
                 <a type="button" class="btn btn-info" data-delete="" id="btnHelpBlock">Отправить</a>
+                <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Отменить</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--Выбор пользователя секретарём--%>
+<div class="modal fade" id="choiseUser" tabindex="-1" role="dialog" aria-labelledby="choiseUser"
+     aria-hidden="t`rue">
+    <div class="modal-dialog modal-notify modal-info modal-size-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading">Делегирование полномочий</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4 bigIcon">
+                    <i class="fas fa-users fa-4x animated flash"></i>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 text-center mb-3">
+                        <h5>Выберите пользователя, за которого вы будете работать с документами:</h5>
+                    </div>
+                </div>
+                <form class="choiseUser" method="post" action="#">
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <div class="row mb-2 d-flex align-items-center" id="choiseUserBlock"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center btnBlock">
+                <button type="submit" class="btn btn-info" id="btnChoiseUser" disabled>OK
+                </button>
                 <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Отменить</a>
             </div>
         </div>

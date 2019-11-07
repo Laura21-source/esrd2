@@ -186,6 +186,54 @@
         countElemJSON('rest/profile/docs/counters', 2); // Список документов на исполнении
         countElemJSON('rest/profile/docs/counters', 3); // Список документов на согласовании
         countElemJSON('rest/profile/docs/counters', 4); // Список документов на регистрации
+
+        // Показ модального окна для секретаря - данные
+        $.getJSON('rest/profile/users/getDelegationUsers', function(data) {
+            if(data.length !== 0) {
+                setTimeout(function() {
+                    $('#choiseUser').modal('show');
+                    $('.choiseUserName').removeClass('alert alert-info mb-0 active');
+                    $('#btnChoiseUser').attr('disabled', true);
+                }, 1500);
+                for(var i in data) {
+                    var fulName = data[i].lastname+' '+data[i].firstname+' '+data[i].patronym;
+                    $('#choiseUserBlock').append('<div class="col-12 border border-info rounded py-2 px-4 pointer choiseUserName mb-2" data-value="'+data[i].name+'">'+fulName+'<small class="text-muted ml-2">'+data[i].position+'</small></div>');
+                }
+            }
+        });
+
+        // Показ модального окна для секретаря - выбрать пользователя
+        $(document).on('click', '.choiseUserName', function() {
+            $('.choiseUserName').removeClass('alert alert-info mb-0 active');
+            $('#btnChoiseUser').attr('disabled', false);
+            $(this).toggleClass('alert alert-info mb-0 active');
+        });
+        $('#choiseUser').on('hidden.bs.modal', function() {
+            $('.choiseUserName').removeClass('alert alert-info mb-0 active');
+            $('#btnChoiseUser').attr('disabled', true);
+        });
+
+        // Показ модального окна для секретаря - отправка запроса
+        $('#btnChoiseUser').click(function(event) {
+            event.preventDefault();
+            var userId = $('.choiseUserName.active').attr('data-value');
+            var serverGetUserName = $.ajax({
+                type: "POST",
+                url: 'rest/profile/users/setDelegatedUser?name='+userId,
+            });
+            serverGetUserName.done(function() {
+                toastr["success"]("Успешно!");
+                setTimeout(function() {
+                    $('#choiseUser').modal('hide');
+                    $('.choiseUserName').removeClass('alert alert-info mb-0 active');
+                    $('#btnChoiseUser').attr('disabled', true);
+                }, 1500);
+            });
+            serverGetUserName.fail(function() {
+                toastr["error"]("Ошибка отправки запроса!");
+            });
+        });
+
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>
