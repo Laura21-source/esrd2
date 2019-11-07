@@ -92,9 +92,9 @@ CREATE TABLE esrd.user_roles
 CREATE TABLE esrd.users_delegation_users
 (
     user_id               INTEGER                 NOT NULL,
-    delegation_user_id    INTEGER                         ,
+    delegation_users_id    INTEGER                         ,
     FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE,
-    FOREIGN KEY (delegation_user_id) REFERENCES esrd.users (id) ON DELETE CASCADE
+    FOREIGN KEY (delegation_users_id) REFERENCES esrd.users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE esrd.doc_number_prefixes

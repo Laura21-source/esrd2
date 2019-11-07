@@ -725,8 +725,8 @@ INSERT INTO esrd.users (id, name, lastname, firstname, patronym, position, short
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, position, short_position, full_position, dative_fullname, dative_position, phone, department_id, email) VALUES (4373, 'SaprykinaAA', 'Сапрыкина', 'Анна', 'Андреевна', 'Заведующий сектором', 'Секретарь Правления', 'Секретарь Правления', 'А.А.Сопрыкиной', 'Секретарю Правления', '17227', 541, 'SaprykinaAA@mos.ru');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, position, short_position, full_position, dative_fullname, dative_position, phone, department_id, email) VALUES (4374, 'MakhrovSS', 'Махров', 'Станислав', 'Станиславович', 'Начальник отдела', null, null, null, null, '15451', null, 'MakhrovSS1@mos.ru');
 
-INSERT INTO esrd.users_delegation_users(user_id, delegation_user_id) VALUES (4297, 4251);
-INSERT INTO esrd.users_delegation_users(user_id, delegation_user_id) VALUES (4297, 4115);
+INSERT INTO esrd.users_delegation_users(user_id, delegation_users_id) VALUES (4297, 4251);
+INSERT INTO esrd.users_delegation_users(user_id, delegation_users_id) VALUES (4297, 4115);
 
 INSERT INTO esrd.role (id, name) VALUES (3000, 'ADMIN');
 INSERT INTO esrd.role (id, name) VALUES (3001, 'USER');
@@ -1005,7 +1005,7 @@ INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 14);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 15);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 16);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 17);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 4, 1)
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 4, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (21, 1, 7, 3);
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id, final_doc)

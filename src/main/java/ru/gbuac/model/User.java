@@ -73,6 +73,10 @@ public class User extends NamedEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Department> distributionDepartments;
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<User> delegationUsers;
+
     public User(@NotBlank @SafeHtml String name, String lastname, String firstname, String patronym, String email,
                 String phone, String position) {
         super(name);
@@ -83,8 +87,4 @@ public class User extends NamedEntity {
         this.phone = phone;
         this.position = position;
     }
-
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<User> delegationUsers;
 }
