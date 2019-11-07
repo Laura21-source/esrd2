@@ -11,10 +11,10 @@ public class FieldUtil {
     private FieldUtil() {
     }
 
-    public static FieldTo asTo(Field field, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap, boolean deny, boolean blockSEDO) {
+    public static FieldTo asTo(Field field, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap, boolean deny) {
         List<FieldTo> childFields = new ArrayList<>();
         for (Field childField : field.getChildField()) {
-            childFields.add(asTo(childField, curUserRoles, fMap, deny, blockSEDO));
+            childFields.add(asTo(childField, curUserRoles, fMap, deny));
         }
         FieldsRoles fieldsRoles = fMap.get(field.getId());
         boolean enabled = fieldsRoles != null && curUserRoles.contains(fieldsRoles.getRole().getAuthority());
@@ -25,7 +25,7 @@ public class FieldUtil {
 
         return new FieldTo(null, field.getName(), childFields, field.getId(), field.getFieldType(),
                 field.getPositionInGroup(), field.getMaxCount(), field.getLength(), parentCatalog_id, catalog_id,
-                enabled, enabled && ((fieldsRoles != null && fieldsRoles.getRequired()) || (field.getId() == 6 && blockSEDO)), field.getTag());
+                enabled, enabled && (fieldsRoles != null && fieldsRoles.getRequired()), field.getTag());
     }
 
     private static Integer getCatalogId(Catalog catalog) {
@@ -37,10 +37,10 @@ public class FieldUtil {
     }
 
     public static FieldTo asTo(ValuedField valuedField, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap, boolean deny,
-                               boolean clearIds, boolean blockSEDO) {
+                               boolean clearIds) {
         List<FieldTo> childFields = new ArrayList<>();
         for (ValuedField childField : valuedField.getChildValuedField()) {
-            childFields.add(asTo(childField, curUserRoles, fMap, deny, clearIds, blockSEDO));
+            childFields.add(asTo(childField, curUserRoles, fMap, deny, clearIds));
         }
         Field field = valuedField.getField();
         FieldsRoles fieldsRoles = fMap.get(field.getId());
@@ -52,7 +52,7 @@ public class FieldUtil {
         FieldTo fieldTo = new FieldTo(clearIds ? null : valuedField.getId(), field.getName(), childFields,
                 field.getId(), field.getFieldType(), field.getPositionInGroup(), field.getMaxCount(), field.getLength(),
                 parentCatalog_id, catalog_id, enabled,
-                enabled && ((fieldsRoles != null && fieldsRoles.getRequired()) || (field.getId() == 6 && blockSEDO)), field.getTag());
+                enabled && (fieldsRoles != null && fieldsRoles.getRequired()), field.getTag());
 
         switch (field.getFieldType()) {
             case TEXT:

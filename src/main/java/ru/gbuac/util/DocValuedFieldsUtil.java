@@ -15,11 +15,11 @@ public class DocValuedFieldsUtil {
     }
 
     public static List<DocFieldsTo> asTo(List<DocValuedFields> docValuedFields,
-                           List<String> curUserRoles, Map<Integer, FieldsRoles> fMap, boolean deny, boolean clearIds, boolean blockSEDO) {
+                                         List<String> curUserRoles, Map<Integer, FieldsRoles> fMap, boolean deny, boolean clearIds) {
         List<DocFieldsTo> docFieldsTos = new ArrayList<>();
         for (DocValuedFields d:docValuedFields) {
             docFieldsTos.add(new DocFieldsTo(d.getId(),
-                    FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny, clearIds, blockSEDO),
+                    FieldUtil.asTo(d.getValuedField(), curUserRoles, (HashMap<Integer, FieldsRoles>) fMap, deny, clearIds),
                     d.getPosition()));
         }
         return docFieldsTos;
