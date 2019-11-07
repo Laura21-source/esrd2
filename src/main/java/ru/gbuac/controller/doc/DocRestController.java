@@ -5,7 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gbuac.model.Doc;
-import ru.gbuac.model.User;
 import ru.gbuac.to.*;
 
 import javax.servlet.ServletContext;
@@ -143,26 +142,26 @@ public class DocRestController extends AbstractDocRestController {
 
     @Override
     @GetMapping(value = "/atThisMounthOnControl")
-    public List<DocItemTo> getAllAtThisMounthOnControl() {
-        return super.getAllAtThisMounthOnControl();
+    public List<DocItemTo> getAllAtThisMonthOnControl() {
+        return super.getAllAtThisMonthOnControl();
     }
 
     @Override
     @GetMapping(value = "/atThisMounthOnControlCompletedInTime")
-    public List<DocItemTo> getAllAtThisMounthOnControlCompletedInTime() {
-        return super.getAllAtThisMounthOnControlCompletedInTime();
+    public List<DocItemTo> getAllAtThisMonthOnControlCompletedInTime() {
+        return super.getAllAtThisMonthOnControlCompletedInTime();
     }
 
     @Override
     @GetMapping(value = "/atThisMounthOnControlCompletedAfterTime")
-    public List<DocItemTo> getAllAtThisMounthOnControlCompletedAfterTime() {
-        return super.getAllAtThisMounthOnControlCompletedAfterTime();
+    public List<DocItemTo> getAllAtThisMonthOnControlCompletedAfterTime() {
+        return super.getAllAtThisMonthOnControlCompletedAfterTime();
     }
 
     @Override
     @GetMapping(value = "/atThisMounthOnControlNotCompleted")
-    public List<DocItemTo> getAllAtThisMounthOnControlNotCompleted() {
-        return super.getAllAtThisMounthOnControlNotCompleted();
+    public List<DocItemTo> getAllAtThisMonthOnControlNotCompleted() {
+        return super.getAllAtThisMonthOnControlNotCompleted();
     }
 
     @Override

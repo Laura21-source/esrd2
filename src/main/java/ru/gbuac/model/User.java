@@ -83,4 +83,8 @@ public class User extends NamedEntity {
         this.phone = phone;
         this.position = position;
     }
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<User> delegationUsers;
 }

@@ -70,4 +70,16 @@ public class UserRestController extends AbstractUserRestController {
     void deleteByName(@RequestParam("name") String name) {
         super.deleteByName(name);
     }
+
+    @Override
+    @GetMapping(value = "/getDelegationUsers")
+    public List<User> getDelegationUsers() {
+        return super.getDelegationUsers();
+    }
+
+    @Override
+    @PostMapping(value = "/setDelegatedUser", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void setDelegatedUser(@RequestParam("name") String userName) {
+        super.setDelegatedUser(userName);
+    }
 }

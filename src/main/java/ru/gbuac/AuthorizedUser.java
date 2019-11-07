@@ -6,8 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+
 import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
+import ru.gbuac.model.User;
 import ru.gbuac.util.exception.NotFoundException;
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
@@ -23,9 +24,19 @@ public class AuthorizedUser {
 
     private static List<String> SPRING_PROFILES_ACTIVE;
 
+    private static User delegatedUser;
+
     @Autowired
     public AuthorizedUser(@Value("${spring.profiles.active}") String[] actProfiles) {
         SPRING_PROFILES_ACTIVE = Arrays.asList(actProfiles);
+    }
+
+    public static User getDelegatedUser() {
+        return delegatedUser;
+    }
+
+    public static void setDelegatedUser(User delegatedUser) {
+        AuthorizedUser.delegatedUser = delegatedUser;
     }
 
     private static LdapUserDetailsImpl safeGet() {
@@ -56,7 +67,7 @@ public class AuthorizedUser {
     public static String getUserName() {
         if (SPRING_PROFILES_ACTIVE.contains("dev"))
         {
-            return ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+            return ((org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         }
         return get().getUsername();
     }

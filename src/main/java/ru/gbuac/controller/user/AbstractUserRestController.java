@@ -70,9 +70,19 @@ public class AbstractUserRestController {
         userService.delete(id);
     }
 
-    void deleteByName( String name) {
+    void deleteByName(String name) {
        LOG.info("deleteByName");
        userService.deleteByName(name);
+    }
+
+    public List<User> getDelegationUsers() {
+        LOG.info("getDelegationUsers");
+        return userService.getDelegationUsers(AuthorizedUser.getUserName());
+    }
+
+    public void setDelegatedUser(String userName) {
+        LOG.info("setDelegatedUser");
+        userService.setDelegatedUser(userName);
     }
 }
 

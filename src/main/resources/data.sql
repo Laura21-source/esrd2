@@ -725,6 +725,9 @@ INSERT INTO esrd.users (id, name, lastname, firstname, patronym, position, short
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, position, short_position, full_position, dative_fullname, dative_position, phone, department_id, email) VALUES (4373, 'SaprykinaAA', 'Сапрыкина', 'Анна', 'Андреевна', 'Заведующий сектором', 'Секретарь Правления', 'Секретарь Правления', 'А.А.Сопрыкиной', 'Секретарю Правления', '17227', 541, 'SaprykinaAA@mos.ru');
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, position, short_position, full_position, dative_fullname, dative_position, phone, department_id, email) VALUES (4374, 'MakhrovSS', 'Махров', 'Станислав', 'Станиславович', 'Начальник отдела', null, null, null, null, '15451', null, 'MakhrovSS1@mos.ru');
 
+INSERT INTO esrd.user_delegation_users(user_id, delegation_user_id) VALUES (4297, 4251);
+INSERT INTO esrd.user_delegation_users(user_id, delegation_user_id) VALUES (4297, 4115);
+
 INSERT INTO esrd.role (id, name) VALUES (3000, 'ADMIN');
 INSERT INTO esrd.role (id, name) VALUES (3001, 'USER');
 INSERT INTO esrd.role (id, name) VALUES (3002, 'Отраслевое управление');

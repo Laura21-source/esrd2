@@ -467,7 +467,8 @@ public class DocServiceImpl implements DocService {
             //        .setControlDateForPrimaryResolution(updated.getId(), LocalDateTime.now().plusDays(2).toLocalDate());
         }
 
-        boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName).orElse(false);
+        boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : userName).orElse(false);
+
         if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
             throw new UnauthorizedUserException();
         }
@@ -488,6 +489,9 @@ public class DocServiceImpl implements DocService {
             daCurrent.setDecisionType(DecisionType.ACCEPTED);
             daCurrent.setAgreedDateTime(LocalDateTime.now());
             daCurrent.setCurrentUser(false);
+            if(AuthorizedUser.getDelegatedUser() != null) {
+                daCurrent.setOriginUser(userRepository.getByName(userName));
+            }
             docAgreementRepository.save(daCurrent);
             if (!isFinalAgreementStage) {
                 DocAgreement daNext = docAgreementRepository.getByOrder(docTo.getId(), daCurrent.getOrdering() + 1);

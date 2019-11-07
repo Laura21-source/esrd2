@@ -56,6 +56,11 @@ public class DocAgreement extends BaseEntity {
     @Column(name = "cur_user")
     private boolean currentUser;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "origin_user_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User originUser;
+
     public DocAgreement(Integer id, int ordering, Doc doc, User user, User returnedUser, LocalDateTime agreedDateTime,
                         @SafeHtml String comment, DecisionType decisionType, boolean finalUser, boolean currentUser) {
         super(id);

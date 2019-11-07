@@ -17,6 +17,7 @@ import ru.gbuac.util.exception.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
@@ -73,7 +74,7 @@ public class DocAgreementServiceImpl implements DocAgreementService {
             docAgreementRepository.save(da);
             if (da.getOrdering() == 1 && da.isCurrentUser()) {
                 User user = userRepository.findById(da.getUser().getId()).orElse(null);
-                mailService.sendAgreementEmail(user.getEmail(), docId, doc.getProjectRegNum());
+                mailService.sendAgreementEmail(Objects.requireNonNull(user).getEmail(), docId, Objects.requireNonNull(doc).getProjectRegNum());
             }
         }
 
@@ -89,7 +90,7 @@ public class DocAgreementServiceImpl implements DocAgreementService {
 
         Integer curUserOrder = agreementList.stream().filter(DocAgreementTo::isCurrentUser)
                 .map(DocAgreementTo::getOrdering).findFirst().orElse(null);
-        DocAgreement curDa = docAgreementRepository.getByOrder(docId,curUserOrder);
+        DocAgreement curDa = docAgreementRepository.getByOrder(docId, curUserOrder);
         boolean isFinalUser = curDa.isFinalUser();
         curDa.setFinalUser(false);
         curDa.setCurrentUser(false);
@@ -113,7 +114,7 @@ public class DocAgreementServiceImpl implements DocAgreementService {
                 .filter(a -> a.getOrdering() > curUserOrder).collect(Collectors.toList());
         for (DocAgreementTo daTo: lastPartDa) {
             DocAgreement da = docAgreementRepository.findById(daTo.getId()).orElse(null);
-            da.setOrdering(da.getOrdering()+2);
+            da.setOrdering(Objects.requireNonNull(da).getOrdering()+2);
             docAgreementRepository.save(da);
         }
 

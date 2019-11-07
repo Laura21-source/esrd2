@@ -28,4 +28,8 @@ public interface UserService {
     void deleteByName(String name) throws NotFoundException;
 
     void sinchronizeUsersByLdap();
+
+    List<User> getDelegationUsers(String userName);
+
+    void setDelegatedUser(String userName);
 }
