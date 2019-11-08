@@ -891,12 +891,9 @@
                 var childField = '';
                 $('.childBox .checkClass').each(function() {
                     var childFieldId = null;
-                    var childFieldVal = null;
+                    var childFieldVal = $(this).val();
                     var childFieldField = parseInt($(this).attr("data-field"));
-                    if (id > 0) {
-                        childFieldVal = $(this).val();
-                        childFieldId = parseInt($(this).attr("data-id"));
-                    }
+                    if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
                     childField = {
                         "id" : childFieldId,
                         "childFields" : [],
