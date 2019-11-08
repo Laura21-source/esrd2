@@ -1,6 +1,16 @@
     // Количество элементов в массиве
     function countElem (array) {return array.length;}
 
+    // Отображаем пользователя для секретаря за кем работаем
+    $.getJSON('rest/profile/users/getDelegatedUser', function(data) {
+        if(data.length !== 0) {
+            var newFirstname = data.firstname.substr(0,1)+'.';
+            var newPatronym = data.patronym.substr(0,1)+'.';
+            var currentName = data.lastname+' '+newFirstname+' '+newPatronym;
+            $('#currentUser').html('полномочия пользователя: '+currentName);
+        }
+    });
+
     // Отображение размера плашек от значений показателей
     function statisticBlock (array) {
         var countMax = /*Math.max.apply(null, array);*/ array[0]['value'];
@@ -891,12 +901,9 @@
                 var childField = '';
                 $('.childBox .checkClass').each(function() {
                     var childFieldId = null;
-                    var childFieldVal = null;
+                    var childFieldVal = $(this).val();
                     var childFieldField = parseInt($(this).attr("data-field"));
-                    if (id > 0) {
-                        childFieldVal = $(this).val();
-                        childFieldId = parseInt($(this).attr("data-id"));
-                    }
+                    if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
                     childField = {
                         "id" : childFieldId,
                         "childFields" : [],
