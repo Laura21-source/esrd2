@@ -70,7 +70,7 @@ public interface DocService {
 
     DocTo save(DocTo doc, String userName, String rootPath);
 
-    DocTo update(DocTo docTo, int id, String userName, String rootPath) throws NotFoundException;
+    DocTo update(DocTo docTo, int id, String userName, String rootPath, boolean delegatedRights) throws NotFoundException;
 
     void delete(int id) throws NotFoundException;
 

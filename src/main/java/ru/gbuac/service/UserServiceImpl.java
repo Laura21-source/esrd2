@@ -105,11 +105,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.getDelegationUsers(userName);
     }
 
-    @Override
-    public void setDelegatedUser(String userName) {
-        AuthorizedUser.setDelegatedUser(userRepository.getByName(userName));
-    }
-
     private class UserAttributesMapper implements AttributesMapper<User> {
 
         @Override

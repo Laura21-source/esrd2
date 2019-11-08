@@ -30,6 +30,4 @@ public interface UserService {
     void sinchronizeUsersByLdap();
 
     List<User> getDelegationUsers(String userName);
-
-    void setDelegatedUser(String userName);
 }

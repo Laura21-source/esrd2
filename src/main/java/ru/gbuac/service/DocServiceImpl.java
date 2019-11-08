@@ -429,7 +429,7 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public DocTo update(DocTo docTo, int id, String userName, String rootPath) throws NotFoundException, UnauthorizedUserException {
+    public DocTo update(DocTo docTo, int id, String userName, String rootPath, boolean delegatedRights) throws NotFoundException, UnauthorizedUserException {
         String comment = docTo.getComment();
         Assert.notNull(docTo, "docTo must not be null");
 
@@ -467,7 +467,7 @@ public class DocServiceImpl implements DocService {
             //        .setControlDateForPrimaryResolution(updated.getId(), LocalDateTime.now().plusDays(2).toLocalDate());
         }
 
-        boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : userName).orElse(false);
+        boolean hasRights = docAgreementRepository.isTimeForAgreeForUser(docTo.getId(), userName).orElse(false);
 
         if (!hasRights && !AuthorizedUser.hasRole("ADMIN")) {
             throw new UnauthorizedUserException();
@@ -489,8 +489,8 @@ public class DocServiceImpl implements DocService {
             daCurrent.setDecisionType(DecisionType.ACCEPTED);
             daCurrent.setAgreedDateTime(LocalDateTime.now());
             daCurrent.setCurrentUser(false);
-            if(AuthorizedUser.getDelegatedUser() != null) {
-                daCurrent.setOriginUser(userRepository.getByName(userName));
+            if(delegatedRights) {
+                daCurrent.setOriginUser(userRepository.getByName(AuthorizedUser.getUserName()));
             }
             docAgreementRepository.save(daCurrent);
             if (!isFinalAgreementStage) {

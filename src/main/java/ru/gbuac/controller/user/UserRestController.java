@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.gbuac.model.User;
 import ru.gbuac.to.UserTo;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -79,13 +80,13 @@ public class UserRestController extends AbstractUserRestController {
 
     @Override
     @PostMapping(value = "/setDelegatedUser", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void setDelegatedUser(@RequestParam("name") String userName) {
-        super.setDelegatedUser(userName);
+    public void setDelegatedUser(@RequestParam("name") String userName, HttpSession session) {
+        super.setDelegatedUser(userName, session);
     }
 
     @Override
     @GetMapping(value = "/getDelegatedUser")
-    public User getDelegatedUser() {
-        return super.getDelegatedUser();
+    public User getDelegatedUser(HttpSession session) {
+        return super.getDelegatedUser(session);
     }
 }

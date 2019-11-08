@@ -53,9 +53,6 @@ public abstract class AbstractDocAgreementRestController {
 
     public List<DocAgreementTo> redirect(int docId, int targetUserId, String comment) {
         LOG.info("redirect to targetUserId " + targetUserId);
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docAgreementService.redirect(docId, targetUserId, comment, AuthorizedUser.getDelegatedUser().getName());
-        }
         return docAgreementService.redirect(docId, targetUserId, comment, AuthorizedUser.getUserName());
     }
 

@@ -8,6 +8,7 @@ import ru.gbuac.model.Doc;
 import ru.gbuac.to.*;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -28,140 +29,140 @@ public class DocRestController extends AbstractDocRestController {
 
     @Override
     @GetMapping(value = "/{id}")
-    public DocTo getFull(@PathVariable("id") int id) {
-        return super.getFull(id);
+    public DocTo getFull(@PathVariable("id") int id, HttpSession session) {
+        return super.getFull(id, session);
     }
 
     @Override
     @GetMapping(value = "/agreement")
-    public List<Doc> getAllAgreement() {
-        return super.getAllAgreement();
+    public List<Doc> getAllAgreement(HttpSession session) {
+        return super.getAllAgreement(session);
     }
 
     @Override
     @GetMapping(value = "/agreementMoreDeadlineByUserName")
-    public List<Doc> getAllAgreementMoreDeadlineByUserName() {
-        return super.getAllAgreementMoreDeadlineByUserName();
+    public List<Doc> getAllAgreementMoreDeadlineByUserName(HttpSession session) {
+        return super.getAllAgreementMoreDeadlineByUserName(session);
     }
 
     @Override
     @GetMapping(value = "/agreementLessDeadlineByUserName")
-    public List<Doc> getAllAgreementLessDeadlineByUserName() {
-        return super.getAllAgreementLessDeadlineByUserName();
+    public List<Doc> getAllAgreementLessDeadlineByUserName(HttpSession session) {
+        return super.getAllAgreementLessDeadlineByUserName(session);
     }
 
     @Override
     @GetMapping(value = "/agreementMoreDeadlineByDepartment")
-    public List<Doc> getAllAgreementMoreDeadlineByDepartment() {
-        return super.getAllAgreementMoreDeadlineByDepartment();
+    public List<Doc> getAllAgreementMoreDeadlineByDepartment(HttpSession session) {
+        return super.getAllAgreementMoreDeadlineByDepartment(session);
     }
 
     @Override
     @GetMapping(value = "/agreementLessDeadlineByDepartment")
-    public List<Doc> getAllAgreementLessDeadlineByDepartment() {
-        return super.getAllAgreementLessDeadlineByDepartment();
+    public List<Doc> getAllAgreementLessDeadlineByDepartment(HttpSession session) {
+        return super.getAllAgreementLessDeadlineByDepartment(session);
     }
 
     @Override
     @GetMapping(value = "/agreed")
-    public List<Doc> getAllAgreed() {
-        return super.getAllAgreed();
+    public List<Doc> getAllAgreed(HttpSession session) {
+        return super.getAllAgreed(session);
     }
 
     @Override
     @GetMapping(value = "/registered")
-    public List<Doc> getAllRegistered() {
-        return super.getAllRegistered();
+    public List<Doc> getAllRegistered(HttpSession session) {
+        return super.getAllRegistered(session);
     }
 
     @Override
     @GetMapping(value = "/inwork")
-    public List<DocItemTo> getAllInWorkByUserName() {
-        return super.getAllInWorkByUserName();
+    public List<DocItemTo> getAllInWorkByUserName(HttpSession session) {
+        return super.getAllInWorkByUserName(session);
     }
 
     @Override
     @GetMapping(value = "/inworkMoreDeadlineByUserName")
-    public List<DocItemTo> getAllInWorkMoreDeadlineByUserName() {
-        return super.getAllInWorkMoreDeadlineByUserName();
+    public List<DocItemTo> getAllInWorkMoreDeadlineByUserName(HttpSession session) {
+        return super.getAllInWorkMoreDeadlineByUserName(session);
     }
 
     @Override
     @GetMapping(value = "/inworkLessDeadlineByUserName")
-    public List<DocItemTo> getAllInWorkLessDeadlineByUserName() {
-        return super.getAllInWorkLessDeadlineByUserName();
+    public List<DocItemTo> getAllInWorkLessDeadlineByUserName(HttpSession session) {
+        return super.getAllInWorkLessDeadlineByUserName(session);
     }
 
     @Override
     @GetMapping(value = "/inworkMoreDeadlineByDepartment")
-    public List<DocItemTo> getAllInWorkMoreDeadlineByDepartment() {
-        return super.getAllInWorkMoreDeadlineByDepartment();
+    public List<DocItemTo> getAllInWorkMoreDeadlineByDepartment(HttpSession session) {
+        return super.getAllInWorkMoreDeadlineByDepartment(session);
     }
 
     @Override
     @GetMapping(value = "/inworkLessDeadlineByDepartment")
-    public List<DocItemTo> getAllInWorkLessDeadlineByDepartment() {
-        return super.getAllInWorkLessDeadlineByDepartment();
+    public List<DocItemTo> getAllInWorkLessDeadlineByDepartment(HttpSession session) {
+        return super.getAllInWorkLessDeadlineByDepartment(session);
     }
 
     @Override
     @GetMapping(value = "/distribution")
-    public List<DocItemTo> getAllDistribution() {
-        return super.getAllDistribution();
+    public List<DocItemTo> getAllDistribution(HttpSession session) {
+        return super.getAllDistribution(session);
     }
 
     @Override
     @GetMapping(value = "/distributionMoreDeadlineByChiefUserName")
-    public List<DocItemTo> getAllDistributionMoreDeadlineByChiefUserName() {
-        return super.getAllDistributionMoreDeadlineByChiefUserName();
+    public List<DocItemTo> getAllDistributionMoreDeadlineByChiefUserName(HttpSession session) {
+        return super.getAllDistributionMoreDeadlineByChiefUserName(session);
     }
 
     @Override
     @GetMapping(value = "/distributionLessDeadlineByChiefUserName")
-    public List<DocItemTo> getAllDistributionLessDeadlineByChiefUserName() {
-        return super.getAllDistributionLessDeadlineByChiefUserName();
+    public List<DocItemTo> getAllDistributionLessDeadlineByChiefUserName(HttpSession session) {
+        return super.getAllDistributionLessDeadlineByChiefUserName(session);
     }
 
     @Override
     @GetMapping(value = "/distributionMoreDeadlineByDepartment")
-    public List<DocItemTo> getAllDistributionMoreDeadlineByDepartment() {
-        return super.getAllDistributionMoreDeadlineByDepartment();
+    public List<DocItemTo> getAllDistributionMoreDeadlineByDepartment(HttpSession session) {
+        return super.getAllDistributionMoreDeadlineByDepartment(session);
     }
 
     @Override
     @GetMapping(value = "/distributionLessDeadlineByDepartment")
-    public List<DocItemTo> getAllDistributionLessDeadlineByDepartment() {
-        return super.getAllDistributionLessDeadlineByDepartment();
+    public List<DocItemTo> getAllDistributionLessDeadlineByDepartment(HttpSession session) {
+        return super.getAllDistributionLessDeadlineByDepartment(session);
     }
 
     @Override
     @GetMapping(value = "/distributed")
-    public List<DocItemTo> getAllDistributed() {
-        return super.getAllDistributed();
+    public List<DocItemTo> getAllDistributed(HttpSession session) {
+        return super.getAllDistributed(session);
     }
 
     @Override
     @GetMapping(value = "/atThisMounthOnControl")
-    public List<DocItemTo> getAllAtThisMonthOnControl() {
-        return super.getAllAtThisMonthOnControl();
+    public List<DocItemTo> getAllAtThisMonthOnControl(HttpSession session) {
+        return super.getAllAtThisMonthOnControl(session);
     }
 
     @Override
     @GetMapping(value = "/atThisMounthOnControlCompletedInTime")
-    public List<DocItemTo> getAllAtThisMonthOnControlCompletedInTime() {
-        return super.getAllAtThisMonthOnControlCompletedInTime();
+    public List<DocItemTo> getAllAtThisMonthOnControlCompletedInTime(HttpSession session) {
+        return super.getAllAtThisMonthOnControlCompletedInTime(session);
     }
 
     @Override
     @GetMapping(value = "/atThisMounthOnControlCompletedAfterTime")
-    public List<DocItemTo> getAllAtThisMonthOnControlCompletedAfterTime() {
-        return super.getAllAtThisMonthOnControlCompletedAfterTime();
+    public List<DocItemTo> getAllAtThisMonthOnControlCompletedAfterTime(HttpSession session) {
+        return super.getAllAtThisMonthOnControlCompletedAfterTime(session);
     }
 
     @Override
     @GetMapping(value = "/atThisMounthOnControlNotCompleted")
-    public List<DocItemTo> getAllAtThisMonthOnControlNotCompleted() {
-        return super.getAllAtThisMonthOnControlNotCompleted();
+    public List<DocItemTo> getAllAtThisMonthOnControlNotCompleted(HttpSession session) {
+        return super.getAllAtThisMonthOnControlNotCompleted(session);
     }
 
     @Override
@@ -178,11 +179,11 @@ public class DocRestController extends AbstractDocRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DocTo updateOrCreate(@Valid @RequestBody DocTo docTo) {
+    public DocTo updateOrCreate(@Valid @RequestBody DocTo docTo, HttpSession session) {
         if (docTo.isNew()) {
-            return super.create(docTo, context.getRealPath("/"));
+            return super.create(docTo, context.getRealPath("/"), session);
         } else {
-            return super.update(docTo, docTo.getId(), context.getRealPath("/"));
+            return super.update(docTo, docTo.getId(), context.getRealPath("/"), session);
         }
     }
 
@@ -194,8 +195,8 @@ public class DocRestController extends AbstractDocRestController {
 
     @Override
     @PostMapping(value = "/rejectDocAgreement/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public DocTo rejectDocAgreement(@PathVariable("id")int id, @RequestParam("comment") String comment) {
-        return super.rejectDocAgreement(id, comment);
+    public DocTo rejectDocAgreement(@PathVariable("id")int id, @RequestParam("comment") String comment, HttpSession session) {
+        return super.rejectDocAgreement(id, comment, session);
     }
 
     @PostMapping(value = "/uploadfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

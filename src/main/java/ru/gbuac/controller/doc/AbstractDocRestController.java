@@ -14,6 +14,7 @@ import ru.gbuac.model.User;
 import ru.gbuac.service.DocService;
 import ru.gbuac.to.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -63,34 +64,38 @@ public abstract class AbstractDocRestController {
         return map;
     }
 
-    public List<Doc> getAllAgreementMoreDeadlineByUserName() {
+    public List<Doc> getAllAgreementMoreDeadlineByUserName(HttpSession session) {
         LOG.info("getAllAgreementMoreDeadlineByUserName");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllAgreementMoreDeadlineByUserName(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllAgreementMoreDeadlineByUserName(delegatedUser.getName());
         }
         return docService.getAllAgreementMoreDeadlineByUserName(AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllAgreementLessDeadlineByUserName() {
+    public List<Doc> getAllAgreementLessDeadlineByUserName(HttpSession session) {
         LOG.info("getAllAgreementLessDeadlineByUserName");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllAgreementLessDeadlineByUserName(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllAgreementLessDeadlineByUserName(delegatedUser.getName());
         }
         return docService.getAllAgreementLessDeadlineByUserName(AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllAgreementMoreDeadlineByDepartment() {
+    public List<Doc> getAllAgreementMoreDeadlineByDepartment(HttpSession session) {
         LOG.info("getAllAgreementMoreDeadlineByDepartment");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllAgreementMoreDeadlineByDepartment(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllAgreementMoreDeadlineByDepartment(delegatedUser.getName());
         }
         return docService.getAllAgreementMoreDeadlineByDepartment(AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllAgreementLessDeadlineByDepartment() {
+    public List<Doc> getAllAgreementLessDeadlineByDepartment(HttpSession session) {
         LOG.info("getAllAgreementLessDeadlineByDepartment");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllAgreementLessDeadlineByDepartment(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllAgreementLessDeadlineByDepartment(delegatedUser.getName());
         }
         return docService.getAllAgreementLessDeadlineByDepartment(AuthorizedUser.getUserName());
     }
@@ -100,149 +105,169 @@ public abstract class AbstractDocRestController {
         return docService.get(id);
     }
 
-    public DocTo getFull(int id) {
+    public DocTo getFull(int id, HttpSession session) {
         LOG.info("get " + id);
-        if (AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getFullByUserName(id, AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if (delegatedUser != null) {
+            return docService.getFullByUserName(id, delegatedUser.getName());
         }
         return docService.getFullByUserName(id, AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllAgreement() {
+    public List<Doc> getAllAgreement(HttpSession session) {
         LOG.info("getAllAgreement");
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
         return AuthorizedUser.hasRole("ADMIN") ?
                 docService.getAllAgreement() : docService.getAllAgreementByUsername(
-        AuthorizedUser.getDelegatedUser() == null ?
-            AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName());
+                delegatedUser != null ? delegatedUser.getName() : AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllAgreed() {
+    public List<Doc> getAllAgreed(HttpSession session) {
         LOG.info("getAllAgreed");
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
         return AuthorizedUser.hasRole("ADMIN") ?
-                docService.getAllRegistered() : docService.getAllAgreedByUsername(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName());
+                docService.getAllRegistered() : docService.getAllAgreedByUsername(
+                        delegatedUser!= null ? delegatedUser.getName() : AuthorizedUser.getUserName());
     }
 
-    public List<Doc> getAllRegistered() {
+    public List<Doc> getAllRegistered(HttpSession session) {
         LOG.info("getAllRegistered");
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
         return AuthorizedUser.hasRole("ADMIN") ?
-                docService.getAllRegistered() : docService.getAllRegisteredByUsername(AuthorizedUser.getDelegatedUser() != null ? AuthorizedUser.getDelegatedUser().getName() : AuthorizedUser.getUserName());
+                docService.getAllRegistered() : docService.getAllRegisteredByUsername(
+                        delegatedUser != null ? delegatedUser.getName() : AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllInWorkByUserName() {
+    public List<DocItemTo> getAllInWorkByUserName(HttpSession session) {
         LOG.info("getAllInWorkByUserName");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllInWorkByUserName(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllInWorkByUserName(delegatedUser.getName());
         }
         return docService.getAllInWorkByUserName(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllInWorkMoreDeadlineByUserName() {
+    public List<DocItemTo> getAllInWorkMoreDeadlineByUserName(HttpSession session) {
         LOG.info("getAllInWorkMoreDeadlineByUserName");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllInWorkMoreDeadlineByUserName(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllInWorkMoreDeadlineByUserName(delegatedUser.getName());
         }
         return docService.getAllInWorkMoreDeadlineByUserName(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllInWorkLessDeadlineByUserName() {
+    public List<DocItemTo> getAllInWorkLessDeadlineByUserName(HttpSession session) {
         LOG.info("getAllInWorkLessDeadlineByUserName");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllInWorkLessDeadlineByUserName(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllInWorkLessDeadlineByUserName(delegatedUser.getName());
         } return docService.getAllInWorkLessDeadlineByUserName(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllInWorkMoreDeadlineByDepartment() {
+    public List<DocItemTo> getAllInWorkMoreDeadlineByDepartment(HttpSession session) {
         LOG.info("getAllInWorkMoreDeadlineByDepartment");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllInWorkMoreDeadlineByDepartment(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllInWorkMoreDeadlineByDepartment(delegatedUser.getName());
         }
         return docService.getAllInWorkMoreDeadlineByDepartment(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllInWorkLessDeadlineByDepartment() {
+    public List<DocItemTo> getAllInWorkLessDeadlineByDepartment(HttpSession session) {
         LOG.info("getAllInWorkLessDeadlineByDepartment");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-           return docService.getAllInWorkLessDeadlineByDepartment(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+           return docService.getAllInWorkLessDeadlineByDepartment(delegatedUser.getName());
         }
         return docService.getAllInWorkLessDeadlineByDepartment(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllDistribution() {
+    public List<DocItemTo> getAllDistribution(HttpSession session) {
         LOG.info("getAllDistribution");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllDistribution(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllDistribution(delegatedUser.getName());
         }
         return docService.getAllDistribution(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllDistributionMoreDeadlineByChiefUserName() {
+    public List<DocItemTo> getAllDistributionMoreDeadlineByChiefUserName(HttpSession session) {
         LOG.info("getAllDistributionMoreDeadlineByChiefUserName");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllDistributionMoreDeadlineByChiefUserName(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllDistributionMoreDeadlineByChiefUserName(delegatedUser.getName());
         }
         return docService.getAllDistributionMoreDeadlineByChiefUserName(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllDistributionLessDeadlineByChiefUserName() {
+    public List<DocItemTo> getAllDistributionLessDeadlineByChiefUserName(HttpSession session) {
         LOG.info("getAllDistributionLessDeadlineByChiefUserName");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllDistributionLessDeadlineByChiefUserName(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllDistributionLessDeadlineByChiefUserName(delegatedUser.getName());
         }
         return docService.getAllDistributionLessDeadlineByChiefUserName(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllDistributionMoreDeadlineByDepartment() {
+    public List<DocItemTo> getAllDistributionMoreDeadlineByDepartment(HttpSession session) {
         LOG.info("getAllDistributionMoreDeadlineByDepartment");
-        if (AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllDistributionMoreDeadlineByDepartment(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if (delegatedUser != null) {
+            return docService.getAllDistributionMoreDeadlineByDepartment(delegatedUser.getName());
         }
         return docService.getAllDistributionMoreDeadlineByDepartment(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllDistributionLessDeadlineByDepartment() {
+    public List<DocItemTo> getAllDistributionLessDeadlineByDepartment(HttpSession session) {
         LOG.info("getAllDistributionLessDeadlineByDepartment");
-        if (AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllDistributionLessDeadlineByDepartment(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if (delegatedUser != null) {
+            return docService.getAllDistributionLessDeadlineByDepartment(delegatedUser.getName());
         }
         return docService.getAllDistributionLessDeadlineByDepartment(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllDistributed() {
+    public List<DocItemTo> getAllDistributed(HttpSession session) {
         LOG.info("getAllDistributed");
-        if (AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllDistributed(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if (delegatedUser != null) {
+            return docService.getAllDistributed(delegatedUser.getName());
         }
         return docService.getAllDistributed(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllAtThisMonthOnControl() {
+    public List<DocItemTo> getAllAtThisMonthOnControl(HttpSession session) {
         LOG.info("getAllAtThisMonthOnControl");
-        if (AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllAtThisMounthOnControl(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if (delegatedUser != null) {
+            return docService.getAllAtThisMounthOnControl(delegatedUser.getName());
         }
         return docService.getAllAtThisMounthOnControl(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllAtThisMonthOnControlCompletedInTime() {
+    public List<DocItemTo> getAllAtThisMonthOnControlCompletedInTime(HttpSession session) {
         LOG.info("getAllAtThisMonthOnControlCompletedInTime");
-        if (AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllAtThisMounthOnControlCompletedInTime(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if (delegatedUser != null) {
+            return docService.getAllAtThisMounthOnControlCompletedInTime(delegatedUser.getName());
         }
         return docService.getAllAtThisMounthOnControlCompletedInTime(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllAtThisMonthOnControlCompletedAfterTime() {
+    public List<DocItemTo> getAllAtThisMonthOnControlCompletedAfterTime(HttpSession session) {
         LOG.info("getAllAtThisMonthOnControlCompletedAfterTime");
-        if (AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllAtThisMounthOnControlCompletedAfterTime(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if (delegatedUser != null) {
+            return docService.getAllAtThisMounthOnControlCompletedAfterTime(delegatedUser.getName());
         }
         return docService.getAllAtThisMounthOnControlCompletedAfterTime(AuthorizedUser.getUserName());
     }
 
-    public List<DocItemTo> getAllAtThisMonthOnControlNotCompleted() {
+    public List<DocItemTo> getAllAtThisMonthOnControlNotCompleted(HttpSession session) {
         LOG.info("getAllAtThisMonthOnControlNotCompleted");
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.getAllAtThisMounthOnControlNotCompleted(AuthorizedUser.getDelegatedUser().getName());
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.getAllAtThisMounthOnControlNotCompleted(delegatedUser.getName());
         } return docService.getAllAtThisMounthOnControlNotCompleted(AuthorizedUser.getUserName());
     }
 
@@ -257,22 +282,24 @@ public abstract class AbstractDocRestController {
         return docService.getAll();
     }
 
-    public DocTo create(DocTo docTo, String rootPath) {
+    public DocTo create(DocTo docTo, String rootPath, HttpSession session) {
         LOG.info("createFinal " + docTo);
         checkNew(docTo);
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.save(docTo, AuthorizedUser.getDelegatedUser().getName(), rootPath);
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser!= null) {
+            return docService.save(docTo, delegatedUser.getName(), rootPath);
         }
         return docService.save(docTo, AuthorizedUser.getUserName(), rootPath);
     }
 
-    public DocTo update(DocTo docTo, int id, String rootPath) {
+    public DocTo update(DocTo docTo, int id, String rootPath, HttpSession session) {
         LOG.info("update " + docTo);
         assureIdConsistent(docTo, id);
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.update(docTo, id, AuthorizedUser.getDelegatedUser().getName(), rootPath);
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.update(docTo, id, delegatedUser.getName(), rootPath, true);
         }
-        return docService.update(docTo, id, AuthorizedUser.getUserName(), rootPath);
+        return docService.update(docTo, id, AuthorizedUser.getUserName(), rootPath, false);
     }
 
     public void delete(int id) {
@@ -280,10 +307,11 @@ public abstract class AbstractDocRestController {
         docService.delete(id);
     }
 
-    public DocTo rejectDocAgreement(int id,  String comment) {
+    public DocTo rejectDocAgreement(int id,  String comment, HttpSession session) {
         LOG.info("returnDocAgreement " + id);
-        if(AuthorizedUser.getDelegatedUser() != null) {
-            return docService.rejectDocAgreement(id, AuthorizedUser.getDelegatedUser().getName(), comment);
+        User delegatedUser = (User)session.getAttribute("delegatedUser");
+        if(delegatedUser != null) {
+            return docService.rejectDocAgreement(id, delegatedUser.getName(), comment);
         }
         return docService.rejectDocAgreement(id, AuthorizedUser.getUserName(), comment);
     }

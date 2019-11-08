@@ -5,12 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.gbuac.AuthorizedUser;
 import ru.gbuac.model.User;
 import ru.gbuac.service.UserService;
 import ru.gbuac.to.UserTo;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static ru.gbuac.util.ValidationUtil.assureIdConsistent;
@@ -80,14 +82,15 @@ public class AbstractUserRestController {
         return userService.getDelegationUsers(AuthorizedUser.getUserName());
     }
 
-    public void setDelegatedUser(String userName) {
+    public void setDelegatedUser(String userName, HttpSession session) {
         LOG.info("setDelegatedUser");
-        userService.setDelegatedUser(userName);
+        User delegatedUser = userService.getByName(userName);
+        session.setAttribute("delegatedUser", delegatedUser);
     }
 
-    public User getDelegatedUser() {
+    public User getDelegatedUser(HttpSession session) {
         LOG.info("getDelegatedUser");
-        return AuthorizedUser.getDelegatedUser();
+        return (User)session.getAttribute("delegatedUser");
     }
 }
 

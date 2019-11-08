@@ -24,20 +24,9 @@ public class AuthorizedUser {
 
     private static List<String> SPRING_PROFILES_ACTIVE;
 
-    private User delegatedUser;
-
     @Autowired
     public AuthorizedUser(@Value("${spring.profiles.active}") String[] actProfiles) {
         SPRING_PROFILES_ACTIVE = Arrays.asList(actProfiles);
-        delegatedUser = null;
-    }
-
-    public User getDelegatedUser() {
-        return delegatedUser;
-    }
-
-    public void setDelegatedUser(User delegatedUser) {
-        this.delegatedUser = delegatedUser;
     }
 
     private static LdapUserDetailsImpl safeGet() {
