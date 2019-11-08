@@ -24,7 +24,7 @@ public class AuthorizedUser {
 
     private static List<String> SPRING_PROFILES_ACTIVE;
 
-    private static User delegatedUser;
+    private User delegatedUser;
 
     @Autowired
     public AuthorizedUser(@Value("${spring.profiles.active}") String[] actProfiles) {
@@ -32,12 +32,12 @@ public class AuthorizedUser {
         delegatedUser = null;
     }
 
-    public static User getDelegatedUser() {
+    public User getDelegatedUser() {
         return delegatedUser;
     }
 
-    public static void setDelegatedUser(User delegatedUser) {
-        AuthorizedUser.delegatedUser = delegatedUser;
+    public void setDelegatedUser(User delegatedUser) {
+        this.delegatedUser = delegatedUser;
     }
 
     private static LdapUserDetailsImpl safeGet() {
