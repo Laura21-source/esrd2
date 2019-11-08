@@ -29,6 +29,7 @@ public class AuthorizedUser {
     @Autowired
     public AuthorizedUser(@Value("${spring.profiles.active}") String[] actProfiles) {
         SPRING_PROFILES_ACTIVE = Arrays.asList(actProfiles);
+        delegatedUser = null;
     }
 
     public static User getDelegatedUser() {

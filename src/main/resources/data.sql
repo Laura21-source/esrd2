@@ -954,16 +954,49 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catal
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2164, null, 'Производственные программы', 1003, 2009);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2165, null, 'производственной программы', 1004, 2164);
 
-
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2300, null, 'Федеральным законом от 7 декабря 2011 г. № 416-ФЗ «О водоснабжении и водоотведении», постановлением Правительства Российской Федерации от 13 мая 2013 г. № 406 «О государственном регулировании тарифов в сфере водоснабжения и водоотведения»', 1009, null);
-
-
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2301, null, 'Федеральным законом «Об электроэнергетике» и отдельными законодательными акты Российской Федерации, связанных с лицензированием энергосбытовой деятельности', 1009, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2302, null, 'Федеральным законом «Об отходах производства и потребления» и отдельными законодательными акты Российской Федерации', 1009, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2304, null, 'Федеральным законом от 26 марта 2003 г. № 36-ФЗ «Об особенностях функционирования электроэнергетики и о внесении изменений в некоторые законодательные акты Российской Федерации и признании утратившими силу некоторых законодательных актов Российской Федерации в связи с принятием Федерального закона «Об электроэнергетике» ', 1009, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2305, null, 'Федеральным законом от 27 июля 2010 г. № 190-ФЗ «О теплоснабжении» ', 1009, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2303, null, 'Федеральным законом от 26 марта 2003 г. № 35-ФЗ «Об электроэнергетике» ', 1009, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2306, null, 'Федеральным законом от 29 июля 2017 г. № 279-ФЗ «О внесении изменений в Федеральный закон «О теплоснабжении» и отдельные законодательные акты Российской Федерации по вопросам совершенствования системы отношений в сфере теплоснабжения»', 1009, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2307, null, 'Федеральным законом от 07 декабря 2011 г. № 416-ФЗ «О водоснабжении и водоотведении»', 1009, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2308, null, 'Федеральным законом от 29 июля 2017 г. № 225-ФЗ «О внесении изменений в Федеральный закон «О водоснабжении и водоотведении» и отдельные законодательные акты Российской Федерации» ', 1009, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2309, null, 'Федеральным законом от 31 марта 1999 г.№ 69-ФЗ «О газоснабжении в Российской Федерации» ', 1009, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2310, null, 'Федеральным законом от 18 июля 2006 г. № 117-ФЗ «Об экспорте газа» ', 1009, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2311, null, 'Федеральным законом от 24 июня 1998 г. № 89-ФЗ «Об отходах производства и потребления', 1009, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2500, null, 'Методическими указаниями по расчету регулируемых тарифов в сфере водоснабжения и водоотведения, утвержденными приказом Федеральной службы по тарифам от 27 декабря 2013 г. № 1746-э (зарегистрирован Минюстом России 25 февраля 2014 г., регистрационный № 31412)', 1010, null);
-
-
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2600, null, 'Регламентом установления регулируемых тарифов в сфере водоснабжения и водоотведения, утвержденным приказом Федеральной службы по тарифам от 16 июля 2014 г. № 1154-э (зарегистрирован Минюстом России 19 августа 2014 г., регистрационный № 33655)', 1011, null);
-
-
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2501, null, 'Методическими указаниями по расчету регулируемых тарифов и цен на электрическую (тепловую) энергию на розничном (потребительском) рынке', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2502, null, 'Методическими указаниями по расчету тарифов на услуги по передаче электрической энергии, устанавливаемых с применением метода долгосрочной индексации необходимой валовой выручки', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2503, null, 'Методическими указаниями по регулированию тарифов с применением метода доходности инвестированного капитала', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2504, null, 'Методическими указаниями по определению размера платы за технологическое присоединение к электрическим сетям', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2505, null, 'Методическими указаниями по определению выпадающих доходов, связанных с осуществлением технологического присоединения к электрическим сетям', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2506, null, 'Методическими указаниями по определению базового уровня операционных, подконтрольных расходов территориальных сетевых организаций, необходимых для осуществления регулируемой деятельности, и индекса эффективности операционных, подконтрольных расходов с применением метода сравнения аналогов и внесении изменений в приказы ФСТ России от 17.02.2012 № 98-э и от 30.03.2012 № 228-э', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2507, null, 'Методическими указаниями по расчету тарифов на электрическую энергию (мощность) для населения и приравненных к нему категорий потребителей, тарифов на услуги по передаче электрической энергии, поставляемой населению и приравненным к нему категориям потребителей', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2508, null, 'Методическими указаниями по расчету уровня надежности и качества поставляемых товаров и оказываемых услуг для организации по управлению единой национальной (общероссийской) электрической сетью и территориальных сетевых организаций, утвержденные приказом Министерства энергетики Российской Федерации от 29 ноября 2016 г. № 1256', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2509, null, 'Методическими указаниями по расчету и применению понижающих (повышающих) коэффициентов, позволяющих обеспечить соответствие уровня тарифов, установленных для организаций, осуществляющих регулируемую деятельность, уровню надежности и качества поставляемых товаров и оказываемых услуг', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2510, null, 'Методическими указаниями по учету степени загрузки объектов электросетевого хозяйства при формировании тарифов и (или) их предельных минимальных и (или) максимальных уровней на услуги по передаче электрической энергии', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2511, null, 'Методическими указаниями по расчету количественных показателей инвестиционных программ сетевых организаций', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2512, null, 'Методическими указаниями по расчету уровня надежности и качества поставляемых товаров и оказываемых услуг для организации по управлению единой национальной (общероссийской) электрической сетью и территориальных сетевых организаций', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2513, null, 'Методическими указаниями по распределению удельного расхода условного топлива при производстве электрической и тепловой энергии в режиме комбинированной выработки электрической и тепловой энергии, применяемых в целях тарифного регулирования в сфере теплоснабжения', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2514, null, 'Методическими указаниями по расчету сбытовых надбавок гарантирующих поставщиков с использованием метода сравнения аналогов', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2516, null, 'Методическими указаниями по расчету регулируемых тарифов в сфере водоснабжения и водоотведения, утвержденными приказом ФСТ России от 27.12.2013 № 1746-э', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2515, null, 'Методическими указаниями по расчету регулируемых цен (тарифов) в сфере теплоснабжения, утвержденными приказом ФСТ России от 13.06.2013 № 760-э', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2517, null, 'Методическими указаниями по распределению удельного расхода условного топлива при производстве электрической и тепловой энергии в режиме комбинированной выработки электрической и тепловой энергии, применяемых в целях тарифного регулирования в сфере теплоснабжения', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2518, null, 'Методическими указаниями по расчету потерь горячей, питьевой, технической воды в централизованных системах водоснабжения при ее производстве и транспортировке', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2519, null, 'Методическими указаниями по регулированию розничных цен на газ, реализуемый населению', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2520, null, 'Методическими указаниями по регулированию розничных цен на сжиженный газ, реализуемый населению для бытовых нужд', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2521, null, 'Методическими указаниями по расчету размера платы за технологическое присоединение газоиспользующего оборудования к газораспределительным сетям и (или) размеров стандартизированных тарифных ставок, определяющих ее величину', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2522, null, 'Методики определения размера специальных надбавок к тарифам на транспортировку газа газораспределительными организациями для финансирования программ газификации', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2523, null, 'Методическими указаниями по регулированию размера платы за снабженческо-сбытовые услуги, оказываемые конечным потребителям поставщиками газа', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2524, null, 'Методическими указаниями по регулированию тарифов на услуги по транспортировке газа по газораспределительным сетям', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2525, null, 'Методическими указаниями по расчету регулируемых тарифов в области обращения с твердыми коммунальными отходами', 1010, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2601, null, 'Регламентом установления цен (тарифов) и (или) их предельных уровней, предусматривающего порядок регистрации, принятия к рассмотрению и выдачи отказов в рассмотрении заявлений об установлении цен (тарифов) и (или) их предельных уровней, и формы решения органа исполнительной власти субъекта Российской Федерации в области государственного регулирования тарифов» ', 1011, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2602, null, 'Регламентом открытия дел об установлении регулируемых цен (тарифов) и отмене регулирования тарифов в сфере теплоснабжения» ', 1011, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2603, null, 'Регламентом установления регулируемых тарифов в сфере водоснабжения и водоотведения» ', 1011, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2604, null, 'Регламентом раскрытия информации путем ее опубликования в сети «Интернет» и взаимодействия органов исполнительной власти субъекта Российской Федерации в области государственного регулирования тарифов (органов местного самоуправления поселения или городского округа в случае передачи законом субъекта Российской Федерации полномочий по утверждению тарифов в сфере водоснабжения и водоотведения органам местного самоуправления) с регулируемыми организациями при раскрытии информации путем ее опубликования в сети "Интернет» ', 1011, null);
 
 INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id, final_doc)
 VALUES (1, 'Служебная записка о включении вопросов в Повестку заседания Правления', 3002, 'zapiska.docx', 'zapiska.docx', 23, false);
@@ -1030,6 +1063,8 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (115
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (116, 2, 5, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (117, 2, 7, 3);
 
+INSERT INTO esrd.users_distribution_departments (user_id, distribution_departments_id) VALUES (4084, 575);
+
 INSERT INTO esrd.doctype (id, name, tmp_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (301, 'Приказ (тарифное регулирование)', null, 'prikaz.docx', 3002, 300, true);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (304, 'Дата протокола', 'DATE', null, null, null, null, 'ProtocolDate');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (305, 'Номер протокола', 'TEXT', null, null, null, null, 'ProtocolRegNum');
@@ -1064,4 +1099,24 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (310
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (311, 301, 307, 17);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (303, 301, 302, 18);
 
-INSERT INTO esrd.users_distribution_departments (user_id, distribution_departments_id) VALUES (4084, 575);
+INSERT INTO esrd.doctype (id, name, tmp_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (350, 'Протокол заседания Правления', null, 'protocol.docx', 3002, 25, true);
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (351, 'Члены Правления', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsRulers');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (352, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, 'FIO');
+INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (351, 352);
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (353, 'От Департамента экономической политики и развития города Москвы', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsRulers');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (354, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, 'FIO2');
+INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (353, 354);
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (355, 'Присутствовали участники других организаций', 'GROUP_CHECKBOX', null, null, null, null, 'OtherOrganizationsParticipants');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (356, 'От других организаций', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsOther');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (357, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, 'FIO3');
+INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (356, 357);
+
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (370, 350, 4, 1);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (371, 350, 351, 2);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (372, 350, 353, 3);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (373, 350, 355, 4);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (374, 350, 356, 5);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (375, 350, 7, 6);
+
+
+
