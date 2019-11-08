@@ -94,6 +94,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false"><i class="fas fa-user mr-2"></i><span id="templateUser"><sec:authentication property="principal.username"/></span>
                 </a>
+                <div id="currentUser" class="fontSmall"></div>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <%--<a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Настройки</a>--%>
                     <form:form id="form-logout" class="dropdown-item" action="logout" method="post">
