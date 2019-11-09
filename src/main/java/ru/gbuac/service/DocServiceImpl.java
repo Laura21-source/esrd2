@@ -781,7 +781,7 @@ public class DocServiceImpl implements DocService {
 
         try {
             ByteArrayOutputStream byteArrayOutputStream =
-                    Templater.fillTagsByDictionary(genTemplatePath, simpleTags, taggedTables, isPDF);
+                    Templater.fillTagsByDictionary(genTemplatePath, simpleTags, taggedTables, new HashMap<>(), isPDF);
             byteArrayOutputStream.writeTo(new FileOutputStream(savePath));
         } catch (Exception e) {
             throw new GeneratePdfException();
