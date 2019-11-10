@@ -28,7 +28,7 @@ public class Templater {
 
     public static void main(String[]args) throws Exception {
         HashMap<String, String> htmlMap = new HashMap<>();
-        String html = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"662\">" +
+        String html = "<table style=\"border-collapse: collapse;\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" width=\"662\">" +
                 "    <tbody>" +
                 "        <tr>" +
                 "            <td width=\"38\">" +
@@ -393,8 +393,8 @@ public class Templater {
         htmlMap.put("Table.DrinkWater", html);
         HashMap<String, String> map = new HashMap<>();
         map.put("Question", "Вопрос");
-        ByteArrayOutputStream baos = fillTagsByDictionary("C:\\test\\prikaz.docx", map, new HashMap<>(), htmlMap, false);
-        baos.writeTo(new FileOutputStream("C:\\test\\saved.docx"));
+        ByteArrayOutputStream baos = fillTagsByDictionary("C:\\test\\prikaz.docx", map, new HashMap<>(), htmlMap, true);
+        baos.writeTo(new FileOutputStream("C:\\test\\saved.pdf"));
     }
 
     private static int getPageCount(XWPFDocument doc) throws IOException {
