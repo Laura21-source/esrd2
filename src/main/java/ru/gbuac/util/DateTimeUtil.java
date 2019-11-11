@@ -10,9 +10,9 @@ import java.time.format.DateTimeFormatter;
 public class DateTimeUtil {
     public static final String DATE_PRINT_PATTERN = "dd MMMM yyyy";
     public static final String DATE_TIME_PRINT_PATTERN = "dd MMMM HH:mm";
-    public static final String DATE_PATTERN = "yyyy-MM-dd";
+    public static final String DATE_PATTERN = "dd.MM.yyyy";
     public static final String TIME_PATTERN = "HH:mm";
-    public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
+    public static final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm";
     public static final DateTimeFormatter DATE_PRINT_FORMATTER = DateTimeFormatter.ofPattern(DATE_PRINT_PATTERN);
     public static final DateTimeFormatter DATE_TIME_PRINT_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_PRINT_PATTERN);
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);

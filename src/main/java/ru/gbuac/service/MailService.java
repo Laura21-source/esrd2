@@ -34,7 +34,6 @@ public class MailService {
     @Value("${email.login}")
     private String login;
 
-
     public void sendAgreementEmail(String email, int docId, String projectRegNum) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
@@ -116,7 +115,7 @@ public class MailService {
                 helper.setTo(email);
             }
 
-            helper.setSubject("Уведомлеие");
+            helper.setSubject("Уведомление");
 
             this.emailSender.send(message);
         }

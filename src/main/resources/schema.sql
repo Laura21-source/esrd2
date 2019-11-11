@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS esrd.resolution CASCADE;
 DROP TABLE IF EXISTS esrd.resolutions_users CASCADE;
 DROP TABLE IF EXISTS esrd.users_distribution_departments CASCADE;
 DROP TABLE IF EXISTS esrd.users_delegation_users CASCADE;
+DROP TABLE IF EXISTS esrd.html_tables CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
@@ -112,6 +113,8 @@ CREATE TABLE esrd.doctype
     role_id                 INTEGER                 NOT NULL,
     doc_number_prefix_id    INTEGER                 NOT NULL,
     final_doc               BOOLEAN                 NOT NULL,
+    publish_name_mask       VARCHAR                         ,
+    publish_classifier_params   VARCHAR                     ,
     FOREIGN KEY (role_id) REFERENCES esrd.role (id) ON DELETE CASCADE,
     FOREIGN KEY (doc_number_prefix_id) REFERENCES esrd.doc_number_prefixes (id) ON DELETE CASCADE
 );
@@ -297,6 +300,13 @@ CREATE TABLE esrd.resolutions_users
     resolution_id              INTEGER,
     FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE,
     FOREIGN KEY (resolution_id) REFERENCES esrd.resolution (id) ON DELETE CASCADE
+);
+
+CREATE TABLE esrd.html_tables
+(
+    id                         INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    name                       VARCHAR,
+    html_content               VARCHAR
 );
 
 create table esrd.users_distribution_departments

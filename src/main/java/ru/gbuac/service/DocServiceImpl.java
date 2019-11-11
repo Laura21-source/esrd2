@@ -69,7 +69,10 @@ public class DocServiceImpl implements DocService {
     private ValuedFieldRepository valuedFieldRepository;
 
     @Autowired
-    MailService mailService;
+    private MailService mailService;
+
+    @Autowired
+    private PublishDataService publishDataService;
 
     @Value("${pdf.final.dir}")
     private String pdfDir;
@@ -507,6 +510,8 @@ public class DocServiceImpl implements DocService {
                 resolutionRepository.setExecutionDateTimeForDoc(updated.getParentDoc().getId(), LocalDateTime.now());
                 docRepository.setDocStatusByDocId(updated.getParentDoc().getId(), DocStatus.COMPLETED);
             }
+            publishDataService.publish(updated.getRegNum(), DateTimeUtil.toString(updated.getRegDateTime().toLocalDate()),
+                    updated.getDocType().getPublishNameMask(), updated.getDocType().getPublishClassifierParams());
         }
         DocTo updatedTo = asDocTo(updated);
         updatedTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));

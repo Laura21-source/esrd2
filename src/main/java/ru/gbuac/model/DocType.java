@@ -39,4 +39,12 @@ public class DocType extends NamedEntity {
 
     @Column(name = "final_doc")
     private boolean finalDoc;
+
+    @JsonIgnore
+    @Column(name = "publish_name_mask")
+    private String publishNameMask;
+
+    @JsonIgnore
+    @Column(name = "publish_classifier_params")
+    private String publishClassifierParams;
 }
