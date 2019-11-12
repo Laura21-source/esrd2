@@ -7,6 +7,8 @@
 
 package ru.gbuac.jaxws.basereg;
 
+import java.util.Calendar;
+
 public class Service1TestCase extends junit.framework.TestCase {
     public Service1TestCase(java.lang.String name) {
         super(name);
@@ -147,8 +149,9 @@ public class Service1TestCase extends junit.framework.TestCase {
 
         // Test operation
         ru.gbuac.jaxws.basereg.CreateDocumentResponse value = null;
-        value = binding.createDocument(new ru.gbuac.jaxws.basereg.CreateDocumentRequest());
-        System.out.println("dd" + value.getMessage());
+        value = binding.createDocument(new ru.gbuac.jaxws.basereg.CreateDocumentRequest(Calendar.getInstance(), "135d2a0b-dd6c-4d56-be6d-dc9e399c9621",
+                "Test", 3565));
+        System.out.println(value.getMessage());
         // TBD - validate results
     }
 
