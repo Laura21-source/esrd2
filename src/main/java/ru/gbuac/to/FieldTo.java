@@ -1,6 +1,5 @@
 package ru.gbuac.to;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -91,6 +90,10 @@ public class FieldTo extends BaseTo {
         this.childFields = childFields;
         this.fieldType = fieldType;
         this.tag = tag;
+    }
+
+    public LocalDateTime getValueDate() {
+        return valueDate;
     }
 
     public String getValueByFieldType() {

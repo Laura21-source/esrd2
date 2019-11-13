@@ -613,8 +613,13 @@ public class DocServiceImpl implements DocService {
                         break;
                     }
                     User user = userRepository.findById(fieldTo.getValueInt()).orElse(null);
-                    cellsTags.put(tag, user.getFirstname().substring(0,1) + "." + user.getPatronym().substring(0,1) + ". " + user.getLastname() +
-                            " " + "8(495)620-20-00, доб. " + user.getPhone());
+
+                    cellsTags.put(tag, user.getFirstname().substring(0,1) + "." + user.getPatronym().substring(0,1) + ". " + user.getLastname());
+                    cellsTags.put(tag + ".Firstname", user.getFirstname());
+                    cellsTags.put(tag + ".Patronym", user.getPatronym());
+                    cellsTags.put(tag + ".Lastname", user.getLastname());
+                    cellsTags.put(tag + ".Fullname", user.getFirstname() + " " + user.getPatronym() + " " + user.getLastname());
+                    cellsTags.put(tag + ".Phone", user.getPhone());
                     break;
                 case CATALOG_ORGANIZATIONS:
                     if (fieldTo.getValueInt() == null) {
@@ -631,6 +636,12 @@ public class DocServiceImpl implements DocService {
                     }
                     String regNum = docRepository.findById(fieldTo.getValueInt()).orElse(null).getRegNum();
                     cellsTags.put(tag, regNum);
+                    break;
+                case DATE:
+                    if (!tag.equals("")) {
+                        cellsTags.put(tag + ".dd.MM.yyyy", DateTimeUtil.toString(fieldTo.getValueDate().toLocalDate()));
+                        cellsTags.put(tag + ".dd MMMM yyyy", DateTimeUtil.toStringPrint(fieldTo.getValueDate().toLocalDate()));
+                    }
                     break;
                 default:
                     if (!tag.equals("")) {
@@ -679,8 +690,12 @@ public class DocServiceImpl implements DocService {
                         break;
                     }
                     User user = userRepository.findById(fieldTo.getValueInt()).orElse(null);
-                    simpleTags.put(tag, user.getFirstname().substring(0,1) + "." + user.getPatronym().substring(0,1) + ". " + user.getLastname() +
-                            " " + "8(495)620-20-00, доб. " + user.getPhone());
+                    simpleTags.put(tag, user.getFirstname().substring(0,1) + "." + user.getPatronym().substring(0,1) + ". " + user.getLastname());
+                    simpleTags.put(tag + ".Firstname", user.getFirstname());
+                    simpleTags.put(tag + ".Patronym", user.getPatronym());
+                    simpleTags.put(tag + ".Lastname", user.getLastname());
+                    simpleTags.put(tag + ".Fullname", user.getFirstname() + " " + user.getPatronym() + " " + user.getLastname());
+                    simpleTags.put(tag + ".Phone", user.getPhone());
                     break;
                 case CATALOG_ORGANIZATIONS:
                     if (fieldTo.getValueInt() == null) {
@@ -697,6 +712,12 @@ public class DocServiceImpl implements DocService {
                     }
                     String regNum = docRepository.findById(fieldTo.getValueInt()).orElse(null).getRegNum();
                     simpleTags.put(tag, regNum);
+                    break;
+                case DATE:
+                    if (!tag.equals("")) {
+                        simpleTags.put(tag + ".dd.MM.yyyy", DateTimeUtil.toString(fieldTo.getValueDate().toLocalDate()));
+                        simpleTags.put(tag + ".dd MMMM yyyy", DateTimeUtil.toStringPrint(fieldTo.getValueDate().toLocalDate()));
+                    }
                     break;
                 default:
                     if (!tag.equals("")) {
