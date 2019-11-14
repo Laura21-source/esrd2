@@ -510,11 +510,11 @@ public class DocServiceImpl implements DocService {
             }
             try {
                 User finalUser = userRepository.findById(docTo.getFinalUserId()).orElse(null);
+                byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(rootPath + updated.getUrlPDF()));
                 publishDataService.publish(updated.getRegNum(), DateTimeUtil.toString(updated.getRegDateTime().toLocalDate()),
                         updated.getDocType().getPublishNameMask(), updated.getDocType().getPublishClassifierParams(),
-                        updated.getId().toString(), IOUtils.toByteArray(new FileInputStream(updated.getUrlPDF())),
-                        finalUser.getFirstname() + " " + finalUser.getPatronym() + " " + finalUser.getLastname(),
-                        finalUser.getPosition());
+                        updated.getId().toString() + ".pdf", fileBytes,finalUser.getFirstname() + " " +
+                                finalUser.getPatronym() + " " + finalUser.getLastname(), finalUser.getPosition());
             }
             catch (Exception ignored) {
 

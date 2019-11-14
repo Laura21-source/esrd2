@@ -2,6 +2,8 @@ package ru.gbuac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -47,12 +49,16 @@ public class PublishDataService {
             String docName = String.format(publishNameMask, regNum, regDate);
             String[] topLevelClassifierParams = publishClassifierParams.split("\\|");
 
-            String[] mosRuClassifierParams = topLevelClassifierParams[0].split(";");
-            publishMosRu(docName, DateTimeUtil.toString(LocalDate.now()), mosRuClassifierParams[0], mosRuClassifierParams[1]);
 
+            String[] mosRuClassifierParams = topLevelClassifierParams[0].split(";");
+            publishMosRu(docName, DateTimeUtil.toString(LocalDate.now()), mosRuClassifierParams[0], mosRuClassifierParams[1],
+                    fileName, fileBytes);
+            /*
             String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
             String uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
                     signer, signerPosition);
+
+             */
 
             //String[] openDataClassifierParams = topLevelClassifierParams[2].split(";");
             //publishOpenData(uri);
@@ -98,7 +104,8 @@ public class PublishDataService {
     }
 
 
-    private void publishMosRu(String docName, String publishDate, String rubrname, String uri) {
+    private void publishMosRu(String docName, String publishDate, String rubrname, String uri, String fileName,
+                              byte[] fileBytes) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
             message.setFrom(new InternetAddress(sender + "<" + login + ">"));
@@ -177,12 +184,16 @@ public class PublishDataService {
                     "    </tbody>\n" +
                     "</table>\n";
 
-            message.setContent(htmlMsg, "text/html; charset=UTF-8");
+            //message.setContent(htmlMsg, "text/html; charset=UTF-8");
+
+            helper.setText(htmlMsg, true);
 
 
             helper.setTo(publishRecipient);
 
             helper.setSubject("Заявка на размещение информации на Интернет-сайте Департамента экономической политики и развития города Москвы");
+
+            helper.addAttachment(fileName, new ByteArrayResource(fileBytes));
 
             this.emailSender.send(message);
         }
