@@ -40,8 +40,8 @@ public class PublishDataService {
     @Value("${email.login}")
     private String login;
 
-    @Value("${email.publish.recipient}")
-    private String publishRecipient;
+    @Value("${email.publish.recipients}")
+    private String publishRecipients;
 
     public void publish(String regNum, String regDate, String publishNameMask, String publishClassifierParams,
                         String fileName, byte[] fileBytes, String signer, String signerPosition) {
@@ -188,7 +188,7 @@ public class PublishDataService {
 
             helper.setText(htmlMsg, true);
 
-            helper.setTo(publishRecipient);
+            helper.setTo(InternetAddress.parse(publishRecipients));
 
             helper.setSubject("Заявка на размещение информации на Интернет-сайте Департамента экономической политики и развития города Москвы");
 
