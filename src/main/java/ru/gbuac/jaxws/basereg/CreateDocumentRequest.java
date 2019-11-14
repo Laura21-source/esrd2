@@ -45,11 +45,13 @@ public class CreateDocumentRequest  implements java.io.Serializable {
             java.util.Calendar DATA_REGIS,
             java.lang.String ORG_GUID,
             java.lang.String REGISTR_N,
-            java.lang.Integer TYPE_DOCUMENT) {
+            java.lang.Integer TYPE_DOCUMENT,
+            ru.gbuac.jaxws.basereg.CreateDocumentFile[] DOCUMENT_FILES) {
         this.DATA_REGIS = DATA_REGIS;
         this.ORG_GUID = ORG_GUID;
         this.REGISTR_N = REGISTR_N;
         this.TYPE_DOCUMENT = TYPE_DOCUMENT;
+        this.DOCUMENT_FILES = DOCUMENT_FILES;
     }
 
     public CreateDocumentRequest(

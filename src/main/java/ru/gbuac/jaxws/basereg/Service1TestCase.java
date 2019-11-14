@@ -149,9 +149,15 @@ public class Service1TestCase extends junit.framework.TestCase {
 
         // Test operation
         ru.gbuac.jaxws.basereg.CreateDocumentResponse value = null;
-        value = binding.createDocument(new ru.gbuac.jaxws.basereg.CreateDocumentRequest(Calendar.getInstance(), "135d2a0b-dd6c-4d56-be6d-dc9e399c9621",
-                "Test", 3565));
-        System.out.println(value.getMessage());
+        CreateDocumentFile[] files = {
+                new CreateDocumentFile("Тестовая повестка № от ...", new byte[1], "test.pdf", null)
+        };
+        value = binding.createDocument(new ru.gbuac.jaxws.basereg.
+                CreateDocumentRequest(Calendar.getInstance(), null, files, null, null,
+                null, "Заместитель руководителя", "Федоров П.Д.",
+                "Департамент экономической политики и развития города Москвы", "135d2a0b-dd6c-4d56-be6d-dc9e399c9621",
+                null, null, null, "Test", 2881));
+        System.out.println(value.getStatus());
         // TBD - validate results
     }
 

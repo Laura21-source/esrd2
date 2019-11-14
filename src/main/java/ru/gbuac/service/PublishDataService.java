@@ -5,12 +5,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import ru.gbuac.jaxws.basereg.CreateDocumentFile;
+import ru.gbuac.jaxws.basereg.DocStatus;
 import ru.gbuac.util.DateTimeUtil;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.rmi.RemoteException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -32,7 +39,8 @@ public class PublishDataService {
     @Value("${email.login}")
     private String login;
 
-    public void publish(String regNum, String regDate, String publishNameMask, String publishClassifierParams) {
+    public void publish(String regNum, String regDate, String publishNameMask, String publishClassifierParams,
+                        String fileName, byte[] fileBytes, String signer, String signerPosition) {
         if (publishClassifierParams != null) {
             String docName = String.format(publishNameMask, regNum, regDate);
             String[] topLevelClassifierParams = publishClassifierParams.split("\\|");
@@ -40,13 +48,53 @@ public class PublishDataService {
             String[] mosRuClassifierParams = topLevelClassifierParams[0].split(";");
             publishMosRu(docName, DateTimeUtil.toString(LocalDate.now()), mosRuClassifierParams[0], mosRuClassifierParams[1]);
 
-            //String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
-            //String uri = publishBaseReg();
+            String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
+            String uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
+                    signer, signerPosition);
 
             //String[] openDataClassifierParams = topLevelClassifierParams[2].split(";");
             //publishOpenData(uri);
         }
     }
+
+    private String publishBaseReg(String docName, String docType, String fileName, byte[] fileBytes,
+                                  String regNum, String regDate, String signer, String signerPosition) {
+        ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub binding;
+        try {
+            binding = (ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub)
+                    new ru.gbuac.jaxws.basereg.Service1Locator().getBasicHttpBinding_IService1();
+        }
+        catch (javax.xml.rpc.ServiceException jre) {
+            if(jre.getLinkedCause()!=null)
+                jre.getLinkedCause().printStackTrace();
+            throw new junit.framework.AssertionFailedError("JAX-RPC ServiceException caught: " + jre);
+        }
+
+        // Time out after a minute
+        binding.setTimeout(60000);
+        try {
+            CreateDocumentFile[] files = {
+                    new CreateDocumentFile(docName, fileBytes, fileName, null)
+            };
+
+
+
+            DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+            Calendar calendar  = Calendar.getInstance();
+            calendar.setTime(df.parse(regDate));
+
+            ru.gbuac.jaxws.basereg.CreateDocumentResponse response = binding.createDocument(new ru.gbuac.jaxws.basereg.
+                    CreateDocumentRequest(calendar, null, files, null, null,
+                    new DocStatus("Действует"), signerPosition, signer,
+                    "Департамент экономической политики и развития города Москвы", "135d2a0b-dd6c-4d56-be6d-dc9e399c9621",
+                    null, null, null, regNum, Integer.parseInt(docType)));
+        }
+        catch (RemoteException | ParseException re) {
+
+        }
+        return null;
+    }
+
 
     private void publishMosRu(String docName, String publishDate, String rubrname, String uri) {
         String email = "MakhrovSS1@develop.mos.ru";
@@ -143,10 +191,6 @@ public class PublishDataService {
         catch (Exception e) {
 
         }
-    }
-
-    private String publishBaseReg() {
-        return null;
     }
 
     private void publishOpenData(String uri) {
