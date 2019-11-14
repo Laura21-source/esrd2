@@ -1,5 +1,6 @@
 package ru.gbuac.service;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -13,10 +14,7 @@ import ru.gbuac.to.*;
 import ru.gbuac.util.*;
 import ru.gbuac.util.exception.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -510,8 +508,17 @@ public class DocServiceImpl implements DocService {
                 resolutionRepository.setExecutionDateTimeForDoc(updated.getParentDoc().getId(), LocalDateTime.now());
                 docRepository.setDocStatusByDocId(updated.getParentDoc().getId(), DocStatus.COMPLETED);
             }
-            //publishDataService.publish(updated.getRegNum(), DateTimeUtil.toString(updated.getRegDateTime().toLocalDate()),
-            //        updated.getDocType().getPublishNameMask(), updated.getDocType().getPublishClassifierParams());
+            try {
+                User finalUser = userRepository.findById(docTo.getFinalUserId()).orElse(null);
+                publishDataService.publish(updated.getRegNum(), DateTimeUtil.toString(updated.getRegDateTime().toLocalDate()),
+                        updated.getDocType().getPublishNameMask(), updated.getDocType().getPublishClassifierParams(),
+                        updated.getId().toString(), IOUtils.toByteArray(new FileInputStream(updated.getUrlPDF())),
+                        finalUser.getFirstname() + " " + finalUser.getPatronym() + " " + finalUser.getLastname(),
+                        finalUser.getPosition());
+            }
+            catch (Exception ignored) {
+
+            }
         }
         DocTo updatedTo = asDocTo(updated);
         updatedTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));

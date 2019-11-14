@@ -35,9 +35,11 @@ public class PublishDataService {
     @Value("${email.sender}")
     private String sender;
 
-
     @Value("${email.login}")
     private String login;
+
+    @Value("${email.publish.recipient}")
+    private String publishRecipient;
 
     public void publish(String regNum, String regDate, String publishNameMask, String publishClassifierParams,
                         String fileName, byte[] fileBytes, String signer, String signerPosition) {
@@ -97,7 +99,6 @@ public class PublishDataService {
 
 
     private void publishMosRu(String docName, String publishDate, String rubrname, String uri) {
-        String email = "MakhrovSS1@develop.mos.ru";
         try {
             MimeMessage message = emailSender.createMimeMessage();
             message.setFrom(new InternetAddress(sender + "<" + login + ">"));
@@ -178,11 +179,8 @@ public class PublishDataService {
 
             message.setContent(htmlMsg, "text/html; charset=UTF-8");
 
-            if (SPRING_PROFILES_ACTIVE.contains("dev")) {
-                helper.setTo("MakhrovSS1@develop.mos.ru");
-            } else {
-                helper.setTo(email);
-            }
+
+            helper.setTo(publishRecipient);
 
             helper.setSubject("Заявка на размещение информации на Интернет-сайте Департамента экономической политики и развития города Москвы");
 
