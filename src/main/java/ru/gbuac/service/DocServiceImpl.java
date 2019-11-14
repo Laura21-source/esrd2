@@ -508,6 +508,9 @@ public class DocServiceImpl implements DocService {
                 resolutionRepository.setExecutionDateTimeForDoc(updated.getParentDoc().getId(), LocalDateTime.now());
                 docRepository.setDocStatusByDocId(updated.getParentDoc().getId(), DocStatus.COMPLETED);
             }
+            User initialUser = updated.getInitialUser();
+            mailService.sendRegisteredEmail(initialUser.getEmail(), updated.getId(), updated.getProjectRegNum(),
+                    updated.getRegNum());
             try {
                 User finalUser = userRepository.findById(docTo.getFinalUserId()).orElse(null);
                 byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(rootPath + updated.getUrlPDF()));

@@ -123,4 +123,36 @@ public class MailService {
 
         }
     }
+
+    public void sendRegisteredEmail(String email, int docId, String projRegNum, String regNum) {
+        try {
+            MimeMessage message = emailSender.createMimeMessage();
+            message.setFrom(new InternetAddress(sender + "<" + login + ">"));
+
+            boolean multipart = true;
+
+            MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
+
+            String htmlMsg = "Инициированный Вами в ИАС 'Тариф' документ №" +
+                    "<a href='" + uri + "/agree-document?id=" + docId +
+                    "'>" + projRegNum + "</a> подписан и зарегистрирован под номером №" +
+                    "<a href='" + uri + "/agree-document?id=" + docId +
+                    "'>" + regNum + "</a>";
+
+            message.setContent(htmlMsg, "text/html; charset=UTF-8");
+
+            if (SPRING_PROFILES_ACTIVE.contains("dev")) {
+                helper.setTo("MakhrovSS1@develop.mos.ru");
+            } else {
+                helper.setTo(email);
+            }
+
+            helper.setSubject("Уведомление");
+
+            this.emailSender.send(message);
+        }
+        catch (Exception e) {
+
+        }
+    }
 }
