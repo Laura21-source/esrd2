@@ -188,7 +188,6 @@ public class PublishDataService {
 
             helper.setText(htmlMsg, true);
 
-
             helper.setTo(publishRecipient);
 
             helper.setSubject("Заявка на размещение информации на Интернет-сайте Департамента экономической политики и развития города Москвы");
