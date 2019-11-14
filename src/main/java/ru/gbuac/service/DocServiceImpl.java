@@ -510,8 +510,8 @@ public class DocServiceImpl implements DocService {
                 resolutionRepository.setExecutionDateTimeForDoc(updated.getParentDoc().getId(), LocalDateTime.now());
                 docRepository.setDocStatusByDocId(updated.getParentDoc().getId(), DocStatus.COMPLETED);
             }
-            publishDataService.publish(updated.getRegNum(), DateTimeUtil.toString(updated.getRegDateTime().toLocalDate()),
-                    updated.getDocType().getPublishNameMask(), updated.getDocType().getPublishClassifierParams());
+            //publishDataService.publish(updated.getRegNum(), DateTimeUtil.toString(updated.getRegDateTime().toLocalDate()),
+            //        updated.getDocType().getPublishNameMask(), updated.getDocType().getPublishClassifierParams());
         }
         DocTo updatedTo = asDocTo(updated);
         updatedTo.setCanAgree(hasRights || AuthorizedUser.hasRole("ADMIN"));
