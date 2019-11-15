@@ -1084,51 +1084,51 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11000, 'Цена (
 в электрических сетях (тарифы указываются без НДС)', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
 <thead>
 <tr>
-<th style="text-align: center;" rowspan="2" width="9.421487603305785%">
+<th rowspan="2" width="9.421487603305785%">
 N п/п
 </th>
-<th style="text-align: center;" rowspan="2" width="50.578512396694215%">
+<th rowspan="2" width="50.578512396694215%">
 Показатель
 </th>
-<th style="text-align: center;" rowspan="2" width="14.380165289256198%">
+<th rowspan="2" width="14.380165289256198%">
 Единица измерения
 </th>
-<th style="text-align: center;" width="12.561983471074381%">
+<th width="12.561983471074381%">
 I полугодие
 </th>
-<th style="text-align: center;" width="13.057851239669422%">
+<th width="13.057851239669422%">
 II полугодие
 </th>
 </tr>
 <tr>
-<th style="text-align: center;" width="49.03225806451613%">
+<th width="49.03225806451613%">
 Цена (тариф)
 </th>
-<th style="text-align: center;" width="50.96774193548387%">
+<th width="50.96774193548387%">
 Цена (тариф)
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center"; width="9.421487603305785%">
+<td width="9.421487603305785%">
 1
 </td>
-<td style="text-align: center"; width="50.578512396694215%">
+<td width="50.578512396694215%">
 2
 </td>
-<td style="text-align: center"; width="14.380165289256198%">
+<td width="14.380165289256198%">
 3
 </td>
-<td style="text-align: center"; width="12.561983471074381%">
+<td width="12.561983471074381%">
 4
 </td>
-<td style="text-align: center"; width="13.057851239669422%">
+<td width="13.057851239669422%">
 5
 </td>
 </tr>
 <tr>
-<td style="text-align: center"; width="9.421487603305785%">
+<td width="9.421487603305785%">
 1
 </td>
 <td width="50.578512396694215%">
@@ -1141,7 +1141,7 @@ II полугодие
 <td width="13.057851239669422%">&nbsp;</td>
 </tr>
 <tr>
-<td style="text-align: center"; width="9.421487603305785%">
+<td width="9.421487603305785%">
 2
 </td>
 <td width="50.578512396694215%">
@@ -1152,7 +1152,7 @@ II полугодие
 <td width="13.057851239669422%">&nbsp;</td>
 </tr>
 <tr>
-<td style="text-align: center"; width="9.421487603305785%">
+<td width="9.421487603305785%">
 2.1
 </td>
 <td width="50.578512396694215%">
@@ -1165,7 +1165,7 @@ II полугодие
 <td width="13.057851239669422%">&nbsp;</td>
 </tr>
 <tr>
-<td style="text-align: center"; width="9.421487603305785%">
+<td width="9.421487603305785%">
 2.2
 </td>
 <td width="50.578512396694215%">
