@@ -568,6 +568,17 @@ public class DocServiceImpl implements DocService {
         return asDocTo(checkNotFoundWithId(docRepository.save(updated), id));
     }
 
+
+    private int countUniqueCellTags(Map<String, String> cellTags) {
+        int count = 0;
+        for (Map.Entry<String, String> entry : cellTags.entrySet()) {
+            if (!entry.getKey().contains(".")) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     private void fillTags(FieldTo fieldTo, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables, Integer maxCellsCount) {
         String tag = fieldTo.getTag();
         if (TagUtil.getTableTag(tag) != null) {
@@ -579,7 +590,7 @@ public class DocServiceImpl implements DocService {
                     add(new TableRow(cellsTags));}}));
             } else {
                 List<TableRow> rows = taggedTables.get(tableTag).getRows();
-                if (rows.get(rows.size()-1).getCellsTags().size() == maxCellsCount) {
+                if (countUniqueCellTags(rows.get(rows.size()-1).getCellsTags()) == maxCellsCount) {
                     cellsTags = new HashMap<>();
                     rows.add((new TableRow(cellsTags)));
                 }
