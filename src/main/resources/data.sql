@@ -1082,32 +1082,34 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11000, 'Цена (
 источников энергии или торфа квалифицированных генерирующих
 объектах и приобретаемую в целях компенсации потерь
 в электрических сетях (тарифы указываются без НДС)', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-<tbody>
+<thead>
 <tr>
-<td style="text-align: center;" rowspan="2" width="9.421487603305785%">
+<th style="text-align: center;" rowspan="2" width="9.421487603305785%">
 N п/п
-</td>
-<td style="text-align: center;" rowspan="2" width="50.578512396694215%">
+</th>
+<th style="text-align: center;" rowspan="2" width="50.578512396694215%">
 Показатель
-</td>
-<td style="text-align: center;" rowspan="2" width="14.380165289256198%">
+</th>
+<th style="text-align: center;" rowspan="2" width="14.380165289256198%">
 Единица измерения
-</td>
-<td style="text-align: center;" width="12.561983471074381%">
+</th>
+<th style="text-align: center;" width="12.561983471074381%">
 I полугодие
-</td>
-<td style="text-align: center;" width="13.057851239669422%">
+</th>
+<th style="text-align: center;" width="13.057851239669422%">
 II полугодие
-</td>
+</th>
 </tr>
 <tr>
-<td style="text-align: center;" width="49.03225806451613%">
+<th style="text-align: center;" width="49.03225806451613%">
 Цена (тариф)
-</td>
-<td style="text-align: center;" width="50.96774193548387%">
+</th>
+<th style="text-align: center;" width="50.96774193548387%">
 Цена (тариф)
-</td>
+</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td style="text-align: center"; width="9.421487603305785%">
 1
@@ -1135,8 +1137,8 @@ II полугодие
 <td width="14.380165289256198%">
 руб./кВт
 </td>
-<td width="12.561983471074381%"></td>
-<td width="13.057851239669422%"></td>
+<td width="12.561983471074381%">&nbsp;</td>
+<td width="13.057851239669422%">&nbsp;</td>
 </tr>
 <tr>
 <td style="text-align: center"; width="9.421487603305785%">
@@ -1145,9 +1147,9 @@ II полугодие
 <td width="50.578512396694215%">
 Двухставочная цена (тариф) на электрическую энергию (мощность)
 </td>
-<td width="14.380165289256198%"></td>
-<td width="12.561983471074381%"></td>
-<td width="13.057851239669422%"></td>
+<td width="14.380165289256198%">&nbsp;</td>
+<td width="12.561983471074381%">&nbsp;</td>
+<td width="13.057851239669422%">&nbsp;</td>
 </tr>
 <tr>
 <td style="text-align: center"; width="9.421487603305785%">
@@ -1159,8 +1161,8 @@ II полугодие
 <td width="14.380165289256198%">
 руб./кВт мес.
 </td>
-<td width="12.561983471074381%"></td>
-<td width="13.057851239669422%"></td>
+<td width="12.561983471074381%">&nbsp;</td>
+<td width="13.057851239669422%">&nbsp;</td>
 </tr>
 <tr>
 <td style="text-align: center"; width="9.421487603305785%">
