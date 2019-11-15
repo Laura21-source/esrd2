@@ -3,8 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--Добавление организации--%>
-<div class="modal fade" id="addElement" tabindex="-1" role="dialog" aria-labelledby="addElement"
-     aria-hidden="true">
+<div class="modal fade" id="addElement" tabindex="-1" role="dialog" aria-labelledby="addElement" aria-hidden="true">
     <div class="modal-dialog modal-primary modal-dialog-centered modal-size-lg modal-notify" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -128,8 +127,7 @@
 </div>
 
 <%--Подтверждение удаления--%>
-<div class="modal fade" id="deleteBlock" tabindex="-1" role="dialog" aria-labelledby="deleteBlock"
-     aria-hidden="t`rue">
+<div class="modal fade" id="deleteBlock" tabindex="-1" role="dialog" aria-labelledby="deleteBlock" aria-hidden="t`rue">
     <div class="modal-dialog modal-notify modal-danger modal-size-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -152,8 +150,7 @@
 </div>
 
 <%--Запрос в поддержку--%>
-<div class="modal fade" id="helpBlock" tabindex="-1" role="dialog" aria-labelledby="deleteBlock"
-     aria-hidden="t`rue">
+<div class="modal fade" id="helpBlock" tabindex="-1" role="dialog" aria-labelledby="deleteBlock" aria-hidden="t`rue">
     <div class="modal-dialog modal-notify modal-info modal-size-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -201,8 +198,7 @@
 </div>
 
 <%--Выбор пользователя секретарём--%>
-<div class="modal fade" id="choiseUser" tabindex="-1" role="dialog" aria-labelledby="choiseUser"
-     aria-hidden="t`rue">
+<div class="modal fade" id="choiseUser" tabindex="-1" role="dialog" aria-labelledby="choiseUser" aria-hidden="t`rue">
     <div class="modal-dialog modal-notify modal-info modal-size-md modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -232,6 +228,84 @@
                 <button type="submit" class="btn btn-info" id="btnChoiseUser" disabled>OK
                 </button>
                 <a type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Отменить</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--Выбор макета таблицы--%>
+<div class="modal fade" id="btnAddTable" tabindex="-1" role="dialog" aria-labelledby="btnAddTable" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-notify modal-primary modal-size-big" role="document">
+        <div class="modal-content btnAddTable">
+            <div class="modal-header headerAddTable">
+                <p class="heading lead">Выберите макет таблицы</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row addTableVal w-100">
+                    <div class="col-12">
+                        <select data-placeholder="Выберите из справочника" class="chosen-select addTable1001" id="addTable1001" name="addTable1001" required>
+                            <option value="">Выберите из справочника</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="tableTemplateView"></div>
+                <%--<div class="preloader-wrapper active big active crazy loaderUndo d-none">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center bodyAddTable d-none">
+                    <i class="fas fa-check fa-4x mb-3 animated rotateIn"></i>
+                    <h6>Перенаправление документа выполнено!</h6>
+                </div>--%>
+            </div>
+            <div class="modal-footer justify-content-center footerAddTable">
+                <a type="button" id="addTableSave" class="btn btn-primary rounded">Создать</a>
+                <a type="button" class="btn btn-outline-primary rounded" data-dismiss="modal">Отмена</a>
             </div>
         </div>
     </div>

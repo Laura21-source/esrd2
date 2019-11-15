@@ -28,19 +28,36 @@ $(function() {
   // Всплывающие подсказки
   //$('[data-toggle="tooltip"]').tooltip();
 
-  // Добавить блок
-  $(document).on("click", ".addGroup", function() {
-    var linksOld = parseInt($("#newBlockGroup [data-block='1']").length);
-    linksOld = linksOld + 1;
-    var links = $(".blockGroup:last").attr('id');
-    links = parseInt(links.substr(10));
-    var links1 = links + 1;
-    var asd = $("#selectType").val();
-    var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", '', links1, '', linksOld);
-    $('#newBlockGroup').append(newField);
-      window.location.hash = 'blockGroup'+links1;
-      window.location.href;
-  });
+    // Добавить блок
+    $(document).on("click", ".addGroup", function() {
+        var linksOld = parseInt($("#newBlockGroup [data-block='1']").length);
+        linksOld = linksOld + 1;
+        var links = $(".blockGroup:last").attr('id');
+        links = parseInt(links.substr(10));
+        var links1 = links + 1;
+        var asd = $("#selectType").val();
+        var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", '', links1, '', linksOld);
+        $('#newBlockGroup').append(newField);
+        window.location.hash = 'blockGroup'+links1;
+        window.location.href;
+    });
+
+    /*$(document).on("click", ".addGroup", function() {
+        var id = $(this).attr('data-block');
+        var idBlock = '#blockDiv'+id+' .blockField';
+        var linksOld = parseInt($(idBlock+" .blockGroup [data-block='1']").length);
+        //alert(idBlock+" .blockGroup");
+        linksOld = linksOld + 1;
+        var links = $(idBlock+" .blockGroup:last").attr('data-field');
+        //links = parseInt(links.substr(10));
+        links = parseInt(links);
+        var links1 = links + 1;
+        //groupNewFields (idBlock, id, linksOld, '', links1, '');
+        var asd = $("#selectType").val();
+        getNewFields ("rest/profile/doctypes/" + asd + "/fields", 0, linksOld, '', '', '', 1);
+        //window.location.hash = 'blockGroup'+links1;
+        //window.location.href;
+    });*/
 
   $(document).on("click", ".addGroupNew", function() {
       //var links = $("[data-block='2']").length;
@@ -60,7 +77,24 @@ $(function() {
     links = parseInt(links.substr(9));
     var links1 = links + 1;
     var fieldUser = '#userList'+links1;
-    $('#userListBlock').append('<div class="col-12 blockUser" id="blockUser'+links1+'"><div class="row d-flex align-items-center justify-content-center fontSmall userListBlock" data-user="1"><div class="col-md-1">'+links1+'</div><div class="col-md-1"><i class="fas fa-user"></i></div><div class="col-md-8 selectUser"><select data-placeholder="Выберите из справочника" class="chosen-select userList" data-spisok="'+links1+'" id="userList'+links1+'" name="userList[]" required><option value="">Выбрать</option></select><div class="fontSmall text-left" id="userListPost'+links1+'"></div></div><div class="col-md-2"><div id="delUser'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" title="Удалить пользователя"><i class="fas fa-trash"></i></div></div></div></div>');
+    $('#userListBlock').append('' +
+        '<div class="col-12 blockUser" id="blockUser'+links1+'">' +
+        '   <div class="row d-flex align-items-center justify-content-center fontSmall userListBlock" data-user="1">' +
+        '       <div class="col-md-1">'+links1+'</div>' +
+        '       <div class="col-md-1"><i class="fas fa-user"></i></div>' +
+        '       <div class="col-md-8 selectUser">' +
+        '           <select data-placeholder="Выберите из справочника" class="chosen-select userList" data-spisok="'+links1+'" id="userList'+links1+'" name="userList[]" required>' +
+        '               <option value="">Выбрать</option>' +
+        '           </select>' +
+        '           <div class="fontSmall text-left" id="userListPost'+links1+'"></div>' +
+        '       </div>' +
+        '       <div class="col-md-2">' +
+        '           <div id="delUser'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" title="Удалить пользователя">' +
+        '               <i class="fas fa-trash"></i>' +
+        '           </div>' +
+        '       </div>' +
+        '    </div>' +
+        '</div>');
     $('#blockUser'+links1+' select').chosen({
         width: "100%",
         no_results_text: "Ничего не найдено!"
@@ -75,7 +109,24 @@ $(function() {
       links = parseInt(links.substr(12));
       var links1 = links + 1;
       var fieldUser = '#userListNew'+links1;
-      $('#userListBlockNew').append('<div class="col-12 blockUserNew" id="blockUserNew'+links1+'"><div class="row d-flex align-items-center justify-content-center fontSmall userListBlockNew" data-user="1"><div class="col-md-1">'+links1+'</div><div class="col-md-1"><i class="fas fa-user"></i></div><div class="col-md-8 selectUser"><select data-placeholder="Выберите из справочника" class="chosen-select userListNew" data-spisok="'+links1+'" id="userListNew'+links1+'" name="userListNew[]" required><option value="">Выбрать</option></select><div class="fontSmall text-left" id="userListPostNew'+links1+'"></div></div><div class="col-md-2"><div id="delUserNew'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" title="Удалить пользователя"><i class="fas fa-trash"></i></div></div></div></div>');
+      $('#userListBlockNew').append('' +
+          '<div class="col-12 blockUserNew" id="blockUserNew'+links1+'">' +
+          '   <div class="row d-flex align-items-center justify-content-center fontSmall userListBlockNew" data-user="1">' +
+          '     <div class="col-md-1">'+links1+'</div>' +
+          '     <div class="col-md-1"><i class="fas fa-user"></i></div>' +
+          '     <div class="col-md-8 selectUser">' +
+          '         <select data-placeholder="Выберите из справочника" class="chosen-select userListNew" data-spisok="'+links1+'" id="userListNew'+links1+'" name="userListNew[]" required>' +
+          '             <option value="">Выбрать</option>' +
+          '         </select>' +
+          '         <div class="fontSmall text-left" id="userListPostNew'+links1+'"></div>' +
+          '     </div>' +
+          '     <div class="col-md-2">' +
+          '         <div id="delUserNew'+links1+'" class="btn btn-danger btn-sm pointer delUser rounded px-3" title="Удалить пользователя">' +
+          '             <i class="fas fa-trash"></i>' +
+          '         </div>' +
+          '     </div>' +
+          '   </div>' +
+          '</div>');
       $('#blockUserNew'+links1+' select').chosen({
           width: "100%",
           no_results_text: "Ничего не найдено!"
@@ -399,5 +450,118 @@ $(function() {
     $(this).html('<i class="fas fa-plus mr-2"></i>Развернуть');
     $('.newDocumentForm').addClass('d-none');
   });
+
+    // Список макетов таблиц
+    $(document).on("click", '#tableTemplates',  function(event) {
+        event.preventDefault();
+        var newEdit = $(this).attr('data-click');
+        if(newEdit && newEdit == 1) {
+            $('.addTableVal').append('' +
+                '<div class="col-12 mt-2">' +
+                '   <div class="alert alert-danger">' +
+                '       Внимание! При изменении макета таблицы все введенные данные будут удалены' +
+                '   </div>' +
+                '</div>');
+        }
+        $('#btnAddTable').modal('show');
+        createOptions ('rest/profile/htmltables/', '#addTable1001', 'name', 'id', '', '');
+    });
+
+    // Превью таблиц по выбору опции
+    $('#addTable1001').change(function() {
+        $('#tableTemplateView').empty();
+        var tableId = $('#addTable1001').val();
+        if(tableId > 0) {
+            getTablesFields('rest/profile/htmltables/'+tableId, '#tableTemplateView');
+            $('#tableTemplateView table').addClass('table table-sm table-bordered').attr('width', '100%');
+            $('#tableTemplateView table th').each(function() {
+                $(this).css({
+                    'text-center': 'center',
+                    'vertical-align': 'middle',
+                    'font-weight': 'bold'
+                });
+            });
+        }
+    });
+
+    // Убираем превью макета таблицы при закрытии модального окна
+    $('#btnAddTable').on('hidden.bs.modal', function () {
+        $('#tableTemplateView').empty();
+        $('#addTable1001').val('').empty().html('' +
+            '<div class="col-12 mb-3">' +
+            '   <select data-placeholder="Выберите из справочника" class="chosen-select addTable1001" id="addTable1001" name="addTable1001" required>' +
+            '       <option value="">Выберите из справочника</option>' +
+            '   </select>' +
+            '</div>');
+    });
+
+    // Добавляем таблицу
+    $('#addTableSave').click(function(event) {
+        event.preventDefault();
+        $('#tableTemplateView').empty();
+        $('.newTable .editTable').remove();
+        var tableId = $('#addTable1001').val();
+        $('#catalogTables').attr('data-value', tableId);
+        $('#addTable1001').empty().html('' +
+            '<div class="col-12 mb-3">' +
+            '   <select data-placeholder="Выберите из справочника" class="chosen-select addTable1001" id="addTable1001" name="addTable1001" required>' +
+            '       <option value="">Выберите из справочника</option>' +
+            '   </select>' +
+            '</div>');
+        $('#btnAddTable').modal('hide');
+        $('#tableTemplates').html('Изменить макет таблицы').attr('data-click', 1);
+        if(tableId > 0) {
+            $('#catalogTables .col-md-3').remove();
+            $('#catalogTables .newTable').removeClass('col-md-9').addClass('col-md-12');
+            getTablesFields('rest/profile/htmltables/' + tableId, '.newTable');
+            $('.newTable table').addClass('table table-sm table-bordered table-editable table-hover').attr('width', '100%');
+            var sumTop = parseInt($('.newTable table tbody tr:first td:last').html());
+            sumTop = sumTop+1;
+            $('.newTable table thead tr:first').append('<th' +
+                ' class="text-center deleteElem" rowspan="2">Удалить</th>');
+            $('.newTable table tbody tr:first').append('<td' +
+                ' class="text-center deleteElem">'+sumTop+'</td>');
+            $('.newTable table tbody tr:not(:first)').append('' +
+                '<td class="deleteElem">' +
+                '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
+                '       <i class="fas fa-trash"></i>' +
+                '   </div>' +
+                '</td>');
+            $('.newTable').append('' +
+                '<div class="row">' +
+                '   <div class="col-12 text-right">' +
+                '       <div class="btn btn-primary btn-sm rounded" id="addTableRow">' +
+                '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
+                '       </div>' +
+                '   </div>' +
+                '</div>');
+        }
+        // Делаем столбцы редактируемыми
+        $('.newTable table th').each(function() {
+            $(this)/*.attr({
+                'contenteditable': true,
+                'scope': 'col'
+            })*/.css({
+                'text-center': 'center',
+                'vertical-align': 'middle',
+                'font-weight': 'bold'
+            });
+        });
+        $('.newTable table td').each(function() {
+            $(this).attr('contenteditable', true).css({
+                'text-center': 'center'
+            });
+        });
+    });
+
+    // Добавляем строку
+    $(document).on('click', '#addTableRow', function() {
+        $('.newTable table').find('tbody tr:last').clone().appendTo('.newTable table').find('td:not(:last)').html('&nbsp;');
+    });
+
+    // Удалаем строку
+    $(document).on('click', '.table-remove', function() {
+        $(this).parents('tr').detach();
+    });
 
 });

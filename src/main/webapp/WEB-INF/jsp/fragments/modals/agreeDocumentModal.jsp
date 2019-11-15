@@ -90,6 +90,7 @@
         </div>
     </div>
 </div>
+
 <%--Отмена согласования документа--%>
 <div class="modal fade" id="btnCancel" tabindex="-1" role="dialog" aria-labelledby="btnCancel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-notify modal-danger" role="document">
@@ -158,6 +159,7 @@
         </div>
     </div>
 </div>
+
 <%--Перенаправление документа на согласование--%>
 <div class="modal fade" id="btnUndo" tabindex="-1" role="dialog" aria-labelledby="btnUndo" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-notify modal-primary" role="document">
