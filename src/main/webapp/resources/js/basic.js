@@ -457,7 +457,7 @@ $(function() {
         var newEdit = $(this).attr('data-click');
         if(newEdit && newEdit == 1) {
             $('.addTableVal').append('' +
-                '<div class="col-12 mt-2">' +
+                '<div class="col-12 mt-2 dangerVoid">' +
                 '   <div class="alert alert-danger">' +
                 '       Внимание! При изменении макета таблицы все введенные данные будут удалены' +
                 '   </div>' +
@@ -486,7 +486,7 @@ $(function() {
 
     // Убираем превью макета таблицы при закрытии модального окна
     $('#btnAddTable').on('hidden.bs.modal', function () {
-        $('#tableTemplateView').empty();
+        $('#tableTemplateView, .dangerVoid').empty();
         $('#addTable1001').val('').empty().html('' +
             '<div class="col-12 mb-3">' +
             '   <select data-placeholder="Выберите из справочника" class="chosen-select addTable1001" id="addTable1001" name="addTable1001" required>' +
@@ -498,7 +498,7 @@ $(function() {
     // Добавляем таблицу
     $('#addTableSave').click(function(event) {
         event.preventDefault();
-        $('#tableTemplateView').empty();
+        $('#tableTemplateView, .dangerVoid').empty();
         $('.newTable .editTable').remove();
         var tableId = $('#addTable1001').val();
         $('#catalogTables').attr('data-value', tableId);
