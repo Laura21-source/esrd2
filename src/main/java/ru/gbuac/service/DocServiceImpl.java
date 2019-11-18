@@ -660,8 +660,8 @@ public class DocServiceImpl implements DocService {
                     break;
                 case DATE:
                     if (!tag.equals("")) {
-                        cellsTags.put(tag + ".dd.MM.yyyy", DateTimeUtil.toString(fieldTo.getValueDate().toLocalDate()));
-                        cellsTags.put(tag + ".dd MMMM yyyy", DateTimeUtil.toStringPrint(fieldTo.getValueDate().toLocalDate()));
+                        cellsTags.put(tag + ".dd.MM.yyyy", fieldTo.getValueDate() != null ? DateTimeUtil.toString(fieldTo.getValueDate().toLocalDate()) : "");
+                        cellsTags.put(tag + ".dd MMMM yyyy", fieldTo.getValueDate() != null ? DateTimeUtil.toStringPrint(fieldTo.getValueDate().toLocalDate()) : "");
                     }
                     break;
                 default:
@@ -736,8 +736,8 @@ public class DocServiceImpl implements DocService {
                     break;
                 case DATE:
                     if (!tag.equals("")) {
-                        simpleTags.put(tag + ".dd.MM.yyyy", DateTimeUtil.toString(fieldTo.getValueDate().toLocalDate()));
-                        simpleTags.put(tag + ".dd MMMM yyyy", DateTimeUtil.toStringPrint(fieldTo.getValueDate().toLocalDate()));
+                        simpleTags.put(tag + ".dd.MM.yyyy", fieldTo.getValueDate() != null ? DateTimeUtil.toString(fieldTo.getValueDate().toLocalDate()) : "");
+                        simpleTags.put(tag + ".dd MMMM yyyy", fieldTo.getValueDate() != null ? DateTimeUtil.toStringPrint(fieldTo.getValueDate().toLocalDate()) : "");
                     }
                     break;
                 default:
