@@ -189,7 +189,8 @@
 
         // Показ модального окна для секретаря - данные
         $.getJSON('rest/profile/users/getDelegationUsers', function(data) {
-            if(data.length !== 0) {
+            var currentUser = $('#currentUser').attr('data-current');
+            if(data.length !== 0 && currentUser == 1) {
                 setTimeout(function() {
                     $('#choiseUser').modal('show');
                     $('.choiseUserName').removeClass('alert alert-info mb-0 active');
@@ -222,12 +223,21 @@
                 url: 'rest/profile/users/setDelegatedUser?name='+userId,
                 contentType: 'application/json; charset=utf-8'
             });
-            serverGetUserName.done(function() {
+            serverGetUserName.done(function(data) {
                 toastr["success"]("Успешно!");
                 setTimeout(function() {
                     $('#choiseUser').modal('hide');
                     $('.choiseUserName').removeClass('alert alert-info mb-0 active');
                     $('#btnChoiseUser').attr('disabled', true);
+                    $('#currentUser').attr('data-current', 0);
+                    //console.log(data);
+                    if(data.length !== 0) {
+                        var newFirstname = data.firstname.substr(0,1)+'.';
+                        var newPatronym = data.patronym.substr(0,1)+'.';
+                        var currentName = data.lastname+' '+newFirstname+' '+newPatronym;
+                        $('#currentUser').html('полномочия пользователя: '+currentName);
+                    }
+                    //window.location.reload();
                 }, 1000);
             });
             serverGetUserName.fail(function() {

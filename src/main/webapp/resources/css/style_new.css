@@ -36,6 +36,7 @@ header, main, footer {padding-left: 240px;}
   color: #666666!important;
 }
 /* Ширина модального окна */
+.modal-size-big {width: 1100px!important;}
 .modal-size-lg {width: 700px!important;}
 .modal-size-md {width: 500px!important;}
 .modal-size-sm {width: 400px!important;}
@@ -93,9 +94,9 @@ sup {font-size: 6px;}
 }
 
 /* Смена при выборе пользователя в модальном окне секретаря */
-.choiseUserName:active {
+/*.choiseUserName:active {
 
-}
+}*/
 
 .chosen-invalid, .invalid {border: 1px solid #f00!important;}
 /*.invalid-feedback {text-align: left!important; margin-top: 0!important; padding-top: 0!important;}*/

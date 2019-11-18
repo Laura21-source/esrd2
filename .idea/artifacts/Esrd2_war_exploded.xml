@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="Esrd2:war exploded">
-    <output-path>$PROJECT_DIR$/target/Esrd2-2.0.1.RELEASE</output-path>
+    <output-path>$PROJECT_DIR$/target/Esrd2-2.0.3.RELEASE</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
@@ -107,9 +107,10 @@
           <element id="library" level="project" name="Maven: org.apache.commons:commons-collections4:4.3" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-math3:3.6.1" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml-schemas:4.1.0" />
-          <element id="library" level="project" name="Maven: org.apache.xmlbeans:xmlbeans:3.1.0" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-compress:1.18" />
           <element id="library" level="project" name="Maven: com.github.virtuald:curvesapi:1.06" />
+          <element id="library" level="project" name="Maven: org.apache.poi:ooxml-schemas:1.4" />
+          <element id="library" level="project" name="Maven: org.apache.xmlbeans:xmlbeans:3.0.1" />
           <element id="library" level="project" name="Maven: com.documents4j:documents4j-api:1.0.3" />
           <element id="library" level="project" name="Maven: com.documents4j:documents4j-util-conversion:1.0.3" />
           <element id="library" level="project" name="Maven: com.google.guava:guava:18.0" />
@@ -128,10 +129,12 @@
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.10" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.9" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.11" />
+          <element id="library" level="project" name="Maven: org.apache.axis:axis:1.4" />
+          <element id="library" level="project" name="Maven: javax.xml:jaxrpc-api:1.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/Esrd2-2.0.1.RELEASE/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/Esrd2-2.0.3.RELEASE/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="Esrd2/web/Web" />
     </root>
