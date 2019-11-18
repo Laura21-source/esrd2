@@ -1259,10 +1259,12 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (378, 'В соответствии с Постановлением Правительства РФ', 'CATALOG', null, null, null, 1012, 'GovDecree');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (325, 'В соответствии с Методическими указаниями', 'CATALOG', null, null, null, 1010, 'TarifMethod');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (326, 'В соответствии с Регламентом', 'CATALOG', null, null, null, 1011, 'TarifReglament');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (376, 'Таблица', 'CATALOG_HTML_TABLES', null, null, null, 1013, null);
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (376, 'Приложения', 'GROUP_FIELDS', null, null, null, null, null);
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (377, 'Таблица', 'CATALOG_HTML_TABLES', null, null, null, 1013, null);
 
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (302, 322);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (302, 323);
+INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (376, 377);
 
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (312, 301, 8, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (313, 301, 9, 2);
@@ -1283,7 +1285,7 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (309
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (310, 301, 306, 17);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (311, 301, 307, 18);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (303, 301, 302, 19);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (377, 301, 376, 20);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (378, 301, 376, 20);
 
 
 INSERT INTO esrd.doctype (id, name, tmp_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (350, 'Протокол заседания Правления', null, 'protocol.docx', 3002, 25, true);
