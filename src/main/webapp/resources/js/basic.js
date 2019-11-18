@@ -474,12 +474,14 @@ $(function() {
         if(tableId > 0) {
             getTablesFields('rest/profile/htmltables/'+tableId, '#tableTemplateView');
             $('#tableTemplateView table').addClass('table table-sm table-bordered').attr('width', '100%');
-            $('#tableTemplateView table th').each(function() {
-                $(this).css({
-                    'text-center': 'center',
-                    'vertical-align': 'middle',
-                    'font-weight': 'bold'
-                });
+            $('#tableTemplateView table th').css({
+                'text-align': 'center',
+                'vertical-align': 'middle',
+                'font-weight': 'bold'
+            });
+            $('#tableTemplateView table tbody tr:first td').css('text-align', 'center');
+            $('#tableTemplateView table tbody tr').each(function() {
+                $('td:first', this).css('text-align', 'center');
             });
         }
     });
@@ -537,21 +539,18 @@ $(function() {
                 '</div>');
         }
         // Делаем столбцы редактируемыми
-        $('.newTable table th').each(function() {
-            $(this)/*.attr({
-                'contenteditable': true,
-                'scope': 'col'
-            })*/.css({
-                'text-center': 'center',
-                'vertical-align': 'middle',
-                'font-weight': 'bold'
-            });
+        $('.newTable table th').css({
+            'text-align': 'center',
+            'vertical-align': 'middle',
+            'font-weight': 'bold'
         });
-        $('.newTable table td').each(function() {
-            $(this).attr('contenteditable', true).css({
-                'text-center': 'center'
-            });
-        });
+        $('.newTable table td').attr('contenteditable', true);
+    });
+
+    // Столбцы по центру
+    $('.newTable table th, .newTable table tbody tr:first td').css('text-align', 'center');
+    $('.newTable table tbody tr').each(function() {
+        $('td:first', this).css('text-align', 'center');
     });
 
     // Добавляем строку
@@ -559,7 +558,7 @@ $(function() {
         $('.newTable table').find('tbody tr:last').clone().appendTo('.newTable table').find('td:not(:last)').html('&nbsp;');
     });
 
-    // Удалаем строку
+    // Удаляем строку
     $(document).on('click', '.table-remove', function() {
         $(this).parents('tr').detach();
     });

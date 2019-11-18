@@ -630,12 +630,54 @@
                 // Если вид поля HTML таблицы
                 if (row.field.fieldType === "CATALOG_HTML_TABLES") {
                     if(id > 0) {
-                        idField = ' data-id="'+row.field.id+'"';
+                        $(filed).append('' +
+                            '<div class="row '+upElem+' ml-1 mb-3 d-flex' +
+                            ' align-items-center justify-content-center"' +
+                            ' id="catalogTables" data-id="'+row.field.id+'" type="tableHtml"' +
+                            ' data-field="'+row.field.fieldId+'" data-value="'+row.field.valueInt+'">' +
+                            '   <div class="col-md-12 text-left newTable">' +
+                            '       <div class="btn btn-primary btn-sm rounded" id="tableTemplates" data-click="">Изменить макет таблицы</div>' +
+                            '       <div class="editTable">' +
+                            '           <h6 class="my-3 text-center"></h6>' +
+                            '           ' + row.field.valueStr +
+                            '       </div>' +
+                            '   </div>' +
+                            '</div>');
+                        var sumTop = parseInt($('.newTable table tbody tr:first td:last').html());
+                        sumTop = sumTop+1;
+                        $('.newTable table thead tr:first').append('<th' +
+                            ' class="text-center deleteElem" rowspan="2">Удалить</th>');
+                        $('.newTable table tbody tr:first').append('<td' +
+                            ' class="text-center deleteElem">'+sumTop+'</td>');
+                        $('.newTable table tbody tr:not(:first)').append('' +
+                            '<td class="deleteElem">' +
+                            '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
+                            '       <i class="fas fa-trash"></i>' +
+                            '   </div>' +
+                            '</td>');
+                        $('.newTable').append('' +
+                            '<div class="row">' +
+                            '   <div class="col-12 text-right">' +
+                            '       <div class="btn btn-primary btn-sm rounded" id="addTableRow">' +
+                            '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
+                            '       </div>' +
+                            '   </div>' +
+                            '</div>');
+                        $('.newTable table th').css({
+                            'text-align': 'center',
+                            'vertical-align': 'middle',
+                            'font-weight': 'bold'
+                        });
+                        $('.newTable table td').css('text-align', 'left');
+                        $('.newTable table tbody tr:first td').css('text-align', 'center');
+                        $('.newTable table tbody tr').each(function() {
+                           $('td:first', this).css('text-align', 'center');
+                        });
                     } else {
                         $(filed).append('' +
                             '<div class="row '+upElem+' ml-1 mb-3 d-flex' +
                             ' align-items-center justify-content-center"' +
-                            ' id="catalogTables"'+idField+' type="tableHtml"' +
+                            ' id="catalogTables" type="tableHtml"' +
                             ' data-field="'+row.field.fieldId+' data-value="">' +
                             '   <div class="col-md-3 text-left mt-3">' +
                             '       <div class="text-muted">'+row.field.name+requiredSup+'</div>' +
