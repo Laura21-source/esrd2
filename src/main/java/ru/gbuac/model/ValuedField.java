@@ -30,7 +30,6 @@ public class ValuedField extends BaseEntity{
     private Integer valueInt;
 
     @Column(name = "value_str")
-    @SafeHtml
     private String valueStr;
 
     @Column(name = "value_date")
