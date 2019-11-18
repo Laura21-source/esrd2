@@ -82,6 +82,11 @@ public class FieldUtil {
                 if (valuedField.getValueInt() != null)
                     fieldTo.setValueInt(valuedField.getValueInt());
                 break;
+            case CATALOG_HTML_TABLES:
+                if (valuedField.getValueInt() != null && valuedField.getValueStr() != null) {
+                    fieldTo.setValueInt(valuedField.getValueInt());
+                    fieldTo.setValueStr(valuedField.getValueStr());
+                }
         }
         return fieldTo;
     }
