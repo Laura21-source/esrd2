@@ -631,7 +631,7 @@
                 if (row.field.fieldType === "CATALOG_HTML_TABLES") {
                     if(id > 0) {
                         $(filed).append('' +
-                            '<div class="row '+upElem+' ml-1 mb-3 d-flex' +
+                            '<div class="row ml-1 mb-3 d-flex' +
                             ' align-items-center justify-content-center"' +
                             ' id="catalogTables" data-id="'+row.field.id+'" type="tableHtml"' +
                             ' data-field="'+row.field.fieldId+'" data-value="'+row.field.valueInt+'">' +
@@ -675,7 +675,7 @@
                         });
                     } else {
                         $(filed).append('' +
-                            '<div class="row '+upElem+' ml-1 mb-3 d-flex' +
+                            '<div class="row ml-1 mb-3 d-flex' +
                             ' align-items-center justify-content-center"' +
                             ' id="catalogTables" type="tableHtml"' +
                             ' data-field="'+row.field.fieldId+' data-value="">' +
