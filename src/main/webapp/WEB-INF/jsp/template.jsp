@@ -146,10 +146,8 @@
                 getFinalStage('rest/profile/doctypes/'+ asd, '.whomList');
                 // Добавить блоки отсюда в файл функций -getFieldsDocument
                 $("#blockFields, #btnSave, #btnWordFile, #blockBlock").removeClass("d-none");
-                // Верхний блок полей
+                // Получение блока полей
                 getNewFields("rest/profile/doctypes/" + asd + "/fields", 0, '');
-                // Нижний блок полей
-                //getDownFields("rest/profile/doctypes/" + asd + "/fields", 0, '');
             } else {
                 $("#blockFields, #btnSave, #btnWordFile, #blockBlock").addClass("d-none");
             }

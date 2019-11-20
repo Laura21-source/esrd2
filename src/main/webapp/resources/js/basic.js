@@ -29,7 +29,7 @@ $(function() {
   //$('[data-toggle="tooltip"]').tooltip();
 
     // Добавить блок
-    $(document).on("click", ".addGroup", function() {
+    /*$(document).on("click", ".addGroup", function() {
         var linksOld = parseInt($("#newBlockGroup [data-block='1']").length);
         linksOld = linksOld + 1;
         var links = $(".blockGroup:last").attr('id');
@@ -38,26 +38,28 @@ $(function() {
         var asd = $("#selectType").val();
         var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", '', links1, '', linksOld);
         $('#newBlockGroup').append(newField);
-        window.location.hash = 'blockGroup'+links1;
-        window.location.href;
-    });
-
-    /*$(document).on("click", ".addGroup", function() {
-        var id = $(this).attr('data-block');
-        var idBlock = '#blockDiv'+id+' .blockField';
-        var linksOld = parseInt($(idBlock+" .blockGroup [data-block='1']").length);
-        //alert(idBlock+" .blockGroup");
-        linksOld = linksOld + 1;
-        var links = $(idBlock+" .blockGroup:last").attr('data-field');
-        //links = parseInt(links.substr(10));
-        links = parseInt(links);
-        var links1 = links + 1;
-        //groupNewFields (idBlock, id, linksOld, '', links1, '');
-        var asd = $("#selectType").val();
-        getNewFields ("rest/profile/doctypes/" + asd + "/fields", 0, linksOld, '', '', '', 1);
         //window.location.hash = 'blockGroup'+links1;
         //window.location.href;
     });*/
+
+    $(document).on("click", ".addGroup", function() {
+        var id = $(this).attr('data-block');
+        var idBlock = '#blockDiv'+id+' .blockField';
+        //alert(idBlock);
+        var linksOld = parseInt($(idBlock+" .blockGroup [data-block='1']").length);
+        var pole = $(this).attr('data-value');
+        linksOld = linksOld + 1;
+        var links = $(idBlock+" .blockGroup:last").attr('data-field');
+        links = parseInt(links);
+        //var links1 = links + 1;
+        var asd = $("#selectType").val();
+        var stack = getStack ("rest/profile/doctypes/" + asd + "/fields", pole);
+        console.log(stack);
+        groupNewFields(idBlock, links, linksOld, '', linksOld, '');
+        //groupNewFieldsValue (stack, '', '#blockGroup', linksOld, 1);
+        //window.location.hash = 'blockGroup'+links1;
+        //window.location.href;
+    });
 
   $(document).on("click", ".addGroupNew", function() {
       //var links = $("[data-block='2']").length;

@@ -1,8 +1,19 @@
+    // Получение стека из строки
+    function getStack (url, pole) {
+        $.getJSON (url, function(data) {
+            var rowChild = data;
+            if(pole && pole > 0) {rowChild = data[pole];}
+            return rowChild;
+        });
+    }
+
     // Получение полей блока GROUP_FIELDS
     function groupNewFieldsValue (data, id, blockGroup, dubKey, dataBlock) {
         var idField = ''; var idFiledInput = '';
         for (var y in data) {
             var rowSelectField = data[y];
+            // Получение полей
+
             // Есть ли родитель у блока
             var parentBlock = '';
             var parentCatalog = '';
@@ -38,6 +49,67 @@
                 requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
             }
             var selectFieldName = 'selectField_'+dubKey+'_'+dataBlock +y;
+            // Если вид поля HTML таблицы
+            if (rowSelectField.fieldType === "CATALOG_HTML_TABLES") {
+                if(id > 0) {
+                    $(blockGroup+dubKey+' .blockGroupFields').append('' +
+                        '<div class="row ml-1 mb-3 d-flex' +
+                        ' align-items-center justify-content-center"' +
+                        ' id="catalogTables" data-id="'+rowSelectField.id+'" type="tableHtml"' +
+                        ' data-field="'+rowSelectField.fieldId+'" data-value="'+rowSelectField.valueInt+'">' +
+                        '   <div class="col-md-12 text-left newTable">' +
+                        '       <div class="btn btn-primary btn-sm rounded" id="tableTemplates" data-click="">Изменить макет таблицы</div>' +
+                        '       <div class="editTable">' +
+                        '           <h6 class="my-3 text-center"></h6>' +
+                        '           ' + rowSelectField.valueStr +
+                        '       </div>' +
+                        '   </div>' +
+                        '</div>');
+                    var sumTop = parseInt($('.newTable table tbody tr:first td:last').html());
+                    sumTop = sumTop+1;
+                    $('.newTable table thead tr:first').append('' +
+                        '<th class="text-center deleteElem" rowspan="2">Удалить</th>');
+                    $('.newTable table tbody tr:first').append('' +
+                        '<td class="text-center deleteElem">'+sumTop+'</td>');
+                    $('.newTable table tbody tr:not(:first)').append('' +
+                        '<td class="deleteElem">' +
+                        '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
+                        '       <i class="fas fa-trash"></i>' +
+                        '   </div>' +
+                        '</td>');
+                    $('.newTable').append('' +
+                        '<div class="row">' +
+                        '   <div class="col-12 text-right">' +
+                        '       <div class="btn btn-primary btn-sm rounded" id="addTableRow">' +
+                        '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
+                        '       </div>' +
+                        '   </div>' +
+                        '</div>');
+                    $('.newTable table th').css({
+                        'text-align': 'center',
+                        'vertical-align': 'middle',
+                        'font-weight': 'bold'
+                    });
+                    $('.newTable table td').css('text-align', 'left');
+                    $('.newTable table tbody tr:first td').css('text-align', 'center');
+                    $('.newTable table tbody tr').each(function() {
+                        $('td:first', this).css('text-align', 'center');
+                    });
+                } else {
+                    $(blockGroup+dubKey+' .blockGroupFields').append('' +
+                        '<div class="row ml-1 mb-3 d-flex' +
+                        ' align-items-center justify-content-center"' +
+                        ' id="catalogTables" type="tableHtml"' +
+                        ' data-field="'+rowSelectField.fieldId+' data-value="">' +
+                        '   <div class="col-md-3 text-left mt-3">' +
+                        '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
+                        '   </div>' +
+                        '   <div class="col-md-9 text-left newTable">' +
+                        '       <div class="btn btn-primary btn-sm rounded" id="tableTemplates" data-click="">Создать таблицу</div>' +
+                        '   </div>' +
+                        '</div>');
+                }
+            }
             // Если вид поля SELECT
             if (rowSelectField.fieldType === "CATALOG") {
                 // Добавляем строку
@@ -170,17 +242,7 @@
     }
 
     // Подключение блока GROUP_FIELDS
-    function groupNewFields (field, fieldId, dubKey, name, newKey, block, id) {
-        var valueDate = '';
-        // Переменная поля
-        var idField = '';
-        var enaOpiton = '';
-        var numberField = '';
-        /*if(id > 0) {
-            //idField = ' data-id="'+row.field.id+'"';
-            // Номер поля для отметки в селектах если нужно
-            numberField = row.field.valueInt;
-        }*/
+    function groupNewFields (field, fieldId, dubKey, name, newKey, block) {
         var delGroup = 'delGroup';
         var cloneGroup = 'cloneGroup';
         var dataBlock = 1;
@@ -193,22 +255,13 @@
             nameGroup = 'nameGroupNew';
             blockGroup = '#blockGroupNew';
         }
+        // Кнопка удаления полей
         var delButton = ' d-none';
         var cloneButton = ' d-none';
-        // Кнопка удаления полей
-        /*if (id > 0) {
-            idField = ' data-id="'+fieldId+'"';
-            idFiledInput = fieldId;
-            if (number > 1) {
-                delButton = '';
-                //cloneButton = '';
-            }
-        } else {
-            if (number != '') {
-                delButton = '';
-                //cloneButton = '';
-            }
-        }*/
+        if (dubKey > 1) {
+            delButton = '';
+            //cloneButton = '';
+        }
         var blockNameVal = 'Блок '+newKey;
         if(name) {blockNameVal = 'Блок '+name;}
         $(field).append('' +
@@ -223,7 +276,6 @@
             '               </div>' +
             '           </div>' +
             '           <hr>' +
-/*            '           <div class="newBlockGroup"></div>' +*/
             '           <div class="row">' +
             '               <div class="col-12 blockGroupFields" data-block="'+dataBlock+'"></div>' +
             '           </div>' +
@@ -274,7 +326,7 @@
             var rowChild = data;
             if(id > 0 && block !== 1) {rowChild = data.childFields;}
             if(pole && pole > 0) {rowChild = data[pole];}
-            console.log(rowChild);
+            console.log(data[pole]);
             for(var i in rowChild) {
                 var row = rowChild[i];
                 if(pole && pole > 0) {row = rowChild;}
@@ -474,12 +526,54 @@
                 // Если вид поля HTML таблицы
                 if (row.field.fieldType === "CATALOG_HTML_TABLES") {
                     if(id > 0) {
-                        idField = ' data-id="'+row.field.id+'"';
-                    } else {
-                        $(filed).append('' +
+                        $(field).append('' +
                             '<div class="row '+upElem+' ml-1 mb-3 d-flex' +
                             ' align-items-center justify-content-center"' +
-                            ' id="catalogTables"'+idField+' type="tableHtml"' +
+                            ' id="catalogTables" data-id="'+row.field.id+'" type="tableHtml"' +
+                            ' data-field="'+row.field.fieldId+'" data-value="'+row.field.valueInt+'">' +
+                            '   <div class="col-md-12 text-left newTable">' +
+                            '       <div class="btn btn-primary btn-sm rounded" id="tableTemplates" data-click="">Изменить макет таблицы</div>' +
+                            '       <div class="editTable">' +
+                            '           <h6 class="my-3 text-center"></h6>' +
+                            '           ' + row.field.valueStr +
+                            '       </div>' +
+                            '   </div>' +
+                            '</div>');
+                        var sumTop = parseInt($('.newTable table tbody tr:first td:last').html());
+                        sumTop = sumTop+1;
+                        $('.newTable table thead tr:first').append('<th' +
+                            ' class="text-center deleteElem" rowspan="2">Удалить</th>');
+                        $('.newTable table tbody tr:first').append('<td' +
+                            ' class="text-center deleteElem">'+sumTop+'</td>');
+                        $('.newTable table tbody tr:not(:first)').append('' +
+                            '<td class="deleteElem">' +
+                            '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
+                            '       <i class="fas fa-trash"></i>' +
+                            '   </div>' +
+                            '</td>');
+                        $('.newTable').append('' +
+                            '<div class="row">' +
+                            '   <div class="col-12 text-right">' +
+                            '       <div class="btn btn-primary btn-sm rounded" id="addTableRow">' +
+                            '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
+                            '       </div>' +
+                            '   </div>' +
+                            '</div>');
+                        $('.newTable table th').css({
+                            'text-align': 'center',
+                            'vertical-align': 'middle',
+                            'font-weight': 'bold'
+                        });
+                        $('.newTable table td').css('text-align', 'left');
+                        $('.newTable table tbody tr:first td').css('text-align', 'center');
+                        $('.newTable table tbody tr').each(function() {
+                            $('td:first', this).css('text-align', 'center');
+                        });
+                    } else {
+                        $(field).append('' +
+                            '<div class="row '+upElem+' ml-1 mb-3 d-flex' +
+                            ' align-items-center justify-content-center"' +
+                            ' id="catalogTables" type="tableHtml"' +
                             ' data-field="'+row.field.fieldId+' data-value="">' +
                             '   <div class="col-md-3 text-left mt-3">' +
                             '       <div class="text-muted">'+row.field.name+requiredSup+'</div>' +
@@ -495,12 +589,13 @@
                     var newKey = 1;
                     var dubKey = row.field.fieldId+'_'+i;
                     var dataField = 0;
+                    var fieldId = row.field.fieldId;
+                    var blockDivId = 'blockDiv'+fieldId;
                     if (number != '') {
                         newKey = number;
                         dataField = number;
+                        blockDivId = 'blockDiv'+fieldId+'_'+number;
                     }
-                    var fieldId = row.field.fieldId;
-                    var blockDivId = 'blockDiv'+fieldId;
                     $('#blockBlock').append('' +
                         '<div id="'+blockDivId+'" class="'+blockDiv+' card p-3 mb-3">' +
                         '   <h5 class="blockName" data-block="'+fieldId+'">'+row.field.name+'</h5>' +
@@ -508,7 +603,7 @@
                         '       <div class="blockField"></div>' +
                         '       <div class="row">' +
                         '           <div class="col-12 text-right">' +
-                        '               <div class="btn btn-primary btn-sm pointer '+addGroup+' mr-3 rounded" title="Добавить блок" data-block="'+fieldId+'">' +
+                        '               <div class="btn btn-primary btn-sm pointer '+addGroup+' mr-3 rounded" title="Добавить блок" data-value="'+i+'" data-block="'+fieldId+'">' +
                         '                   <i class="fas fa-plus mr-2"></i>Добавить' +
                         '               </div>' +
                         '           </div>' +
