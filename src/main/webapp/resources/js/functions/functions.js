@@ -1026,17 +1026,32 @@
             //console.log(i);
             if($(this).attr("data-field") == i) {
                 var elementBlock = blockGroupId;
-                if(i !== 0) {elementBlock = elementBlock + i;}
+                if(i !== 0) {elementBlock = elementBlock+i;}
                 var elementArray = [];
-                $(elementBlock + ' [data-field]').each(function() {
+                $(elementBlock+' [data-field]').each(function() {
                     if(id > 0) {idField = parseInt($(this).attr("data-id"));}
                     var typeAttr = $(this).attr("type");
                     if (typeAttr && typeAttr !== '') {
-                        var elementBlockElem = {
-                            "id" : idField,
-                            "childFields" : [],
-                            "fieldId" : parseInt($(this).attr("data-field")),
-                            "valueStr" : $(this).val()
+                        if (typeAttr === "tableHtml") {
+                            var valueInt = $(this).attr('data-value');
+                            var tabId = '#'+$(this).attr('id');
+                            $(tabId+' .editTable .deleteElem, '+tabId+' .tableHtml .editTable h6').remove();
+                            var valueStr = $(tabId+' .editTable').html();
+                            alert(valueStr);
+                            var elementBlockElem = {
+                                "id" : idField,
+                                "childFields" : [],
+                                "fieldId" : parseInt($(this).attr("data-field")),
+                                "valueInt": valueInt,
+                                "valueStr" : valueStr
+                            }
+                        } else {
+                            var elementBlockElem = {
+                                "id" : idField,
+                                "childFields" : [],
+                                "fieldId" : parseInt($(this).attr("data-field")),
+                                "valueStr" : $(this).val()
+                            }
                         }
                     } else {
                         var elementBlockElem = {

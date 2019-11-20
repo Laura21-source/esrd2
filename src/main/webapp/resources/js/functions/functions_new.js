@@ -1,19 +1,11 @@
-    // Получение стека из строки
-    function getStack (url, pole) {
-        $.getJSON (url, function(data) {
-            var rowChild = data;
-            if(pole && pole > 0) {rowChild = data[pole];}
-            return rowChild;
-        });
-    }
-
     // Получение полей блока GROUP_FIELDS
-    function groupNewFieldsValue (data, id, blockGroup, dubKey, dataBlock) {
-        var idField = ''; var idFiledInput = '';
+    function groupNewFieldsValue (data, id, blockId, dubKey, dataBlock) {
+        var idField = '';
+        var idFiledInput = '';
+        var blockGroup = '#blockDiv'+blockId+' #blockGroup';
         for (var y in data) {
+            //alert(blockGroup+dubKey+' .blockGroupFields');
             var rowSelectField = data[y];
-            // Получение полей
-
             // Есть ли родитель у блока
             var parentBlock = '';
             var parentCatalog = '';
@@ -48,39 +40,39 @@
                 requiredSup = '<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup>';
                 requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
             }
-            var selectFieldName = 'selectField_'+dubKey+'_'+dataBlock +y;
+            var selectFieldName = 'selectField_'+blockId+'_'+dubKey+'_'+dataBlock +y;
             // Если вид поля HTML таблицы
             if (rowSelectField.fieldType === "CATALOG_HTML_TABLES") {
                 if(id > 0) {
                     $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                        '<div class="row ml-1 mb-3 d-flex' +
-                        ' align-items-center justify-content-center"' +
-                        ' id="catalogTables" data-id="'+rowSelectField.id+'" type="tableHtml"' +
-                        ' data-field="'+rowSelectField.fieldId+'" data-value="'+rowSelectField.valueInt+'">' +
+                        '<div class="row ml-1 mb-3 d-flex align-items-center' +
+                        ' justify-content-center tableHtml"' +
+                        ' id="catalogTables'+dubKey+'" data-id="'+rowSelectField.id+'" type="tableHtml" data-field="'+rowSelectField.fieldId+'" data-value="'+rowSelectField.valueInt+'">' +
                         '   <div class="col-md-12 text-left newTable">' +
-                        '       <div class="btn btn-primary btn-sm rounded" id="tableTemplates" data-click="">Изменить макет таблицы</div>' +
+                        '       <div class="btn btn-primary btn-sm rounded tableTemplates" data-table="'+dubKey+'" data-click="">Изменить макет таблицы</div>' +
                         '       <div class="editTable">' +
                         '           <h6 class="my-3 text-center"></h6>' +
                         '           ' + rowSelectField.valueStr +
                         '       </div>' +
                         '   </div>' +
                         '</div>');
-                    var sumTop = parseInt($('.newTable table tbody tr:first td:last').html());
+                    var tableId = '#catalogTables'+dubKey+' .newTable';
+                    var sumTop = parseInt($(tableId+' table tbody tr:first td:last').html());
                     sumTop = sumTop+1;
-                    $('.newTable table thead tr:first').append('' +
+                    $(tableId+' table thead tr:first').append('' +
                         '<th class="text-center deleteElem" rowspan="2">Удалить</th>');
-                    $('.newTable table tbody tr:first').append('' +
+                    $(tableId+' table tbody tr:first').append('' +
                         '<td class="text-center deleteElem">'+sumTop+'</td>');
-                    $('.newTable table tbody tr:not(:first)').append('' +
+                    $(tableId+' table tbody tr:not(:first)').append('' +
                         '<td class="deleteElem">' +
                         '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
                         '       <i class="fas fa-trash"></i>' +
                         '   </div>' +
                         '</td>');
-                    $('.newTable').append('' +
+                    $(tableId).append('' +
                         '<div class="row">' +
                         '   <div class="col-12 text-right">' +
-                        '       <div class="btn btn-primary btn-sm rounded" id="addTableRow">' +
+                        '       <div class="btn btn-primary btn-sm rounded addTableRow" data-table="'+dubKey+'">' +
                         '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
                         '       </div>' +
                         '   </div>' +
@@ -97,15 +89,13 @@
                     });
                 } else {
                     $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                        '<div class="row ml-1 mb-3 d-flex' +
-                        ' align-items-center justify-content-center"' +
-                        ' id="catalogTables" type="tableHtml"' +
-                        ' data-field="'+rowSelectField.fieldId+' data-value="">' +
+                        '<div class="row tableHtml ml-1 mb-3 d-flex' +
+                        ' align-items-center justify-content-center" id="catalogTables'+dubKey+'" type="tableHtml" data-field="'+rowSelectField.fieldId+'">' +
                         '   <div class="col-md-3 text-left mt-3">' +
                         '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
                         '   </div>' +
                         '   <div class="col-md-9 text-left newTable">' +
-                        '       <div class="btn btn-primary btn-sm rounded" id="tableTemplates" data-click="">Создать таблицу</div>' +
+                        '       <div class="btn btn-primary btn-sm rounded tableTemplates" data-table="'+dubKey+'" data-click="">Создать таблицу</div>' +
                         '   </div>' +
                         '</div>');
                 }
@@ -247,13 +237,13 @@
         var cloneGroup = 'cloneGroup';
         var dataBlock = 1;
         var nameGroup = 'nameGroup';
-        var blockGroup = '#blockGroup';
+        var blockGroup = 'blockGroup';
         if(block && block === 1) {
             delGroup = 'delGroupNew';
             cloneGroup = 'cloneGroupNew';
             dataBlock = 2;
             nameGroup = 'nameGroupNew';
-            blockGroup = '#blockGroupNew';
+            blockGroup = 'blockGroupNew';
         }
         // Кнопка удаления полей
         var delButton = ' d-none';
@@ -265,14 +255,14 @@
         var blockNameVal = 'Блок '+newKey;
         if(name) {blockNameVal = 'Блок '+name;}
         $(field).append('' +
-            '<div class="row card mb-3 blockGroup" id="blockGroup'+dubKey+'" data-field="'+newKey+'" data-block="'+dataBlock+'">' +
+            '<div class="row card mb-3 '+blockGroup+'" id="blockGroup'+dubKey+'" data-field="'+newKey+'" data-block="'+dataBlock+'">' +
             '   <div class="col-12">' +
             '       <div class="card-body">' +
             '           <div class="row">' +
             '               <div class="col-md-9 text-left"><h5 class="'+nameGroup+'">'+blockNameVal+'</h5></div>' +
             '               <div class="col-md-3 text-right">' +
-            '                   <div id="'+cloneGroup+dubKey+'" class="btn btn-mdb-color btn-sm cloneGroup rounded'+cloneButton+'" title="Дублировать блок"><i class="fas fa-copy"></i></div>' +
-            '                   <div id="'+delGroup+dubKey+'" data-toggle="modal" data-target="#deleteBlock" class="btn btn-danger btn-sm delGroup rounded'+delButton+' ml-3" title="Удалить блок"><i class="fas fa-trash"></i></div>' +
+            '                   <div id="'+cloneGroup+dubKey+'" class="btn btn-mdb-color btn-sm '+cloneGroup+' rounded'+cloneButton+'" title="Дублировать блок"><i class="fas fa-copy"></i></div>' +
+            '                   <div id="'+delGroup+dubKey+'" data-toggle="modal" data-parent="'+fieldId+'" data-target="#deleteBlock" class="btn btn-danger btn-sm delGroup rounded'+delButton+' ml-3" title="Удалить блок"><i class="fas fa-trash"></i></div>' +
             '               </div>' +
             '           </div>' +
             '           <hr>' +
@@ -326,13 +316,25 @@
             var rowChild = data;
             if(id > 0 && block !== 1) {rowChild = data.childFields;}
             if(pole && pole > 0) {rowChild = data[pole];}
-            console.log(data[pole]);
             for(var i in rowChild) {
                 var row = rowChild[i];
                 if(pole && pole > 0) {row = rowChild;}
                 // Переменная даты
                 var valueDate = '';
                 // Переменная поля
+                var idFiledInput = '';
+                var newKey = 1;
+                //var dubKey = row.field.fieldId+'_'+i;
+                var dubKey = 1;
+                var dataField = 0;
+                var fieldId = row.field.fieldId;
+                var blockDivId = 'blockDiv'+fieldId;
+                if (number != '') {
+                    newKey = number;
+                    dubKey = number;
+                    dataField = number;
+                    /*blockDivId = 'blockDiv'+fieldId+'_'+number;*/
+                }
                 var idField = '';
                 var enaOpiton = '';
                 var numberField = '';
@@ -498,7 +500,7 @@
                         no_results_text: "Ничего не найдено!"
                     });
                     // Добавляем опции при нажатии поля
-                    createOptions ("rest/profile/organizations/", numberCatalog, "shortNameLf", "id", numberField, '');
+                    createOptions ('rest/profile/organizations/', numberCatalog, 'shortNameLf', 'id', numberField, '');
                 }
                 // Если вид поля справочник организаций
                 if (row.field.fieldType === "CATALOG_REGNUMBERS") {
@@ -527,34 +529,30 @@
                 if (row.field.fieldType === "CATALOG_HTML_TABLES") {
                     if(id > 0) {
                         $(field).append('' +
-                            '<div class="row '+upElem+' ml-1 mb-3 d-flex' +
-                            ' align-items-center justify-content-center"' +
-                            ' id="catalogTables" data-id="'+row.field.id+'" type="tableHtml"' +
-                            ' data-field="'+row.field.fieldId+'" data-value="'+row.field.valueInt+'">' +
+                            '<div class="row '+upElem+' ml-1 mb-3 d-flex align-items-center justify-content-center" id="catalogTables'+dubKey+'" data-id="'+row.field.id+'" type="tableHtml" data-field="'+row.field.fieldId+'" data-value="'+row.field.valueInt+'">' +
                             '   <div class="col-md-12 text-left newTable">' +
-                            '       <div class="btn btn-primary btn-sm rounded" id="tableTemplates" data-click="">Изменить макет таблицы</div>' +
+                            '       <div class="btn btn-primary btn-sm rounded tableTemplates" data-table="'+dubKey+'" data-click="">Изменить макет таблицы</div>' +
                             '       <div class="editTable">' +
                             '           <h6 class="my-3 text-center"></h6>' +
                             '           ' + row.field.valueStr +
                             '       </div>' +
                             '   </div>' +
                             '</div>');
-                        var sumTop = parseInt($('.newTable table tbody tr:first td:last').html());
+                        var tableId = '#catalogTables'+dubKey+' .newTable';
+                        var sumTop = parseInt($(tableId+' table tbody tr:first td:last').html());
                         sumTop = sumTop+1;
-                        $('.newTable table thead tr:first').append('<th' +
-                            ' class="text-center deleteElem" rowspan="2">Удалить</th>');
-                        $('.newTable table tbody tr:first').append('<td' +
-                            ' class="text-center deleteElem">'+sumTop+'</td>');
-                        $('.newTable table tbody tr:not(:first)').append('' +
+                        $(tableId+' table thead tr:first').append('<th class="text-center deleteElem" rowspan="2">Удалить</th>');
+                        $(tableId+' table tbody tr:first').append('<td class="text-center deleteElem">'+sumTop+'</td>');
+                        $(tableId+' table tbody tr:not(:first)').append('' +
                             '<td class="deleteElem">' +
                             '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
                             '       <i class="fas fa-trash"></i>' +
                             '   </div>' +
                             '</td>');
-                        $('.newTable').append('' +
+                        $(tableId).append('' +
                             '<div class="row">' +
                             '   <div class="col-12 text-right">' +
-                            '       <div class="btn btn-primary btn-sm rounded" id="addTableRow">' +
+                            '       <div class="btn btn-primary btn-sm rounded addTableRow" data-table="'+dubKey+'">' +
                             '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
                             '       </div>' +
                             '   </div>' +
@@ -571,31 +569,17 @@
                         });
                     } else {
                         $(field).append('' +
-                            '<div class="row '+upElem+' ml-1 mb-3 d-flex' +
-                            ' align-items-center justify-content-center"' +
-                            ' id="catalogTables" type="tableHtml"' +
-                            ' data-field="'+row.field.fieldId+' data-value="">' +
+                            '<div class="row '+upElem+' ml-1 mb-3 d-flex align-items-center justify-content-center" id="catalogTables'+dubKey+'" type="tableHtml" data-field="'+row.field.fieldId+' data-value="">' +
                             '   <div class="col-md-3 text-left mt-3">' +
                             '       <div class="text-muted">'+row.field.name+requiredSup+'</div>' +
                             '   </div>' +
                             '   <div class="col-md-9 text-left newTable">' +
-                            '       <div class="btn btn-primary btn-sm rounded" id="tableTemplates" data-click="">Создать таблицу</div>' +
+                            '       <div class="btn btn-primary btn-sm rounded tableTemplates" data-table="'+dubKey+'" data-click="">Создать таблицу</div>' +
                             '   </div>' +
                             '</div>');
                     }
                 }
                 if (row.field.fieldType === "GROUP_FIELDS") {
-                    var idFiledInput = '';
-                    var newKey = 1;
-                    var dubKey = row.field.fieldId+'_'+i;
-                    var dataField = 0;
-                    var fieldId = row.field.fieldId;
-                    var blockDivId = 'blockDiv'+fieldId;
-                    if (number != '') {
-                        newKey = number;
-                        dataField = number;
-                        blockDivId = 'blockDiv'+fieldId+'_'+number;
-                    }
                     $('#blockBlock').append('' +
                         '<div id="'+blockDivId+'" class="'+blockDiv+' card p-3 mb-3">' +
                         '   <h5 class="blockName" data-block="'+fieldId+'">'+row.field.name+'</h5>' +
@@ -610,9 +594,9 @@
                         '       </div>' +
                         '   </div>' +
                         '</div>');
-                    var rowChildFields = row.field.childFields;
                     groupNewFields('#'+blockDivId+' .blockField', fieldId, dubKey, name, newKey, block);
-                    groupNewFieldsValue (rowChildFields, id, blockGroup, dubKey, dataBlock);
+                    var rowChildFields = row.field.childFields;
+                    groupNewFieldsValue (rowChildFields, id, fieldId, dubKey, dataBlock);
                     if (id > 0) {
                         number = number + 1;
                     }
@@ -622,5 +606,15 @@
             var filedBlock = '#blockFields, #blockBlock, #btnSave, #btnWordFile';
             if(block && block === 1) {filedBlock = '#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew';}
             if (response.length == 0) {$(filedBlock).addClass('d-none');}
+        });
+    }
+
+    // Получение стека из строки
+    function getStack (url, pole, linksOld) {
+        $.getJSON (url, function(data) {
+            var rowChild = data;
+            if(pole && pole > 0) {rowChild = data[pole].field.childFields;}
+            var blockId = data[pole].field.fieldId;
+            groupNewFieldsValue (rowChild, '', blockId, linksOld, 1);
         });
     }

@@ -49,27 +49,26 @@ $(function() {
         var linksOld = parseInt($(idBlock+" .blockGroup [data-block='1']").length);
         var pole = $(this).attr('data-value');
         linksOld = linksOld + 1;
-        var links = $(idBlock+" .blockGroup:last").attr('data-field');
-        links = parseInt(links);
+        //var links = $(idBlock+" .blockGroup:last").attr('data-field');
+        //links = parseInt(links);
         //var links1 = links + 1;
+        //var newBlock = '#blockDiv'+id+'_'+links1+' .blockField';
         var asd = $("#selectType").val();
-        var stack = getStack ("rest/profile/doctypes/" + asd + "/fields", pole);
-        console.log(stack);
-        groupNewFields(idBlock, links, linksOld, '', linksOld, '');
-        //groupNewFieldsValue (stack, '', '#blockGroup', linksOld, 1);
+        groupNewFields(idBlock, id, linksOld, '', linksOld, '');
+        getStack ("rest/profile/doctypes/" + asd + "/fields", pole, linksOld);
         //window.location.hash = 'blockGroup'+links1;
         //window.location.href;
     });
 
   $(document).on("click", ".addGroupNew", function() {
-      //var links = $("[data-block='2']").length;
-      var links = $(".blockGroupNew:last").attr('id');
-      links = parseInt(links.substr(13));
-      var links1 = links + 1;
-      //var id = getId();
-      var asd = $("#selectTypeNew").val();
-      var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", /*id*/'', links1, 1);
-      $('#newBlockGroupNew').append(newField);
+      var id = $(this).attr('data-block');
+      var idBlock = '#blockDivNew'+id+' .blockField';
+      var linksOld = parseInt($(idBlock+" .blockGroup [data-block='2']").length);
+      var pole = $(this).attr('data-value');
+      linksOld = linksOld + 1;
+      var asd = $("#selectType").val();
+      groupNewFields(idBlock, id, linksOld, '', linksOld, '');
+      getStack ("rest/profile/doctypes/" + asd + "/fields", pole, linksOld);
   });
 
   // Добавить пользователя
@@ -195,24 +194,29 @@ $(function() {
   $(document).on("click", ".delGroup", function() {
     var id = $(this).attr("id");
     id = id.substr(8);
-    $('#btnDeleteBlock').attr('data-delete','blockGroup' + id);
+    var blockId = $(this).attr('data-parent');
+    $('#btnDeleteBlock').attr({
+        'data-delete':'blockGroup'+id,
+        'data-block': 'blockDiv'+blockId
+    });
   });
 
   $(document).on("click", ".delGroupNew", function() {
     var id = $(this).attr("id");
     id = id.substr(8);
-    $('#btnDeleteBlock').attr('data-delete','blockGroupNew' + id);
+    $('#btnDeleteBlock').attr('data-delete','blockGroupNew'+id);
   });
 
   // Удаление блока при нажатии OK в модальном окне
   $(document).on('click', '#btnDeleteBlock', function() {
     var id = $(this).attr('data-delete');
+    var blockId = $(this).attr('data-block');
     $('#deleteBlock').modal('hide');
     // Удаляем нужный блок
     $('#' + id).remove();
     // Переименовываем название блоков
     var i = 1;
-    $('.blockGroup').each(function() {
+    $('#'+blockId+' .blockField .blockGroup').each(function() {
       $('.nameGroup', this).html('Блок '+i);
       i = i+1;
     });
@@ -454,9 +458,10 @@ $(function() {
   });
 
     // Список макетов таблиц
-    $(document).on("click", '#tableTemplates',  function(event) {
+    $(document).on("click", '.tableTemplates',  function(event) {
         event.preventDefault();
         var newEdit = $(this).attr('data-click');
+        var tabId = $(this).attr('data-table');
         if(newEdit && newEdit == 1) {
             $('.addTableVal').append('' +
                 '<div class="col-12 mt-2 dangerVoid">' +
@@ -465,6 +470,7 @@ $(function() {
                 '   </div>' +
                 '</div>');
         }
+        $('#addTableSave').attr('data-table', tabId);
         $('#btnAddTable').modal('show');
         createOptions ('rest/profile/htmltables/', '#addTable1001', 'name', 'id', '', '');
     });
@@ -502,10 +508,12 @@ $(function() {
     // Добавляем таблицу
     $('#addTableSave').click(function(event) {
         event.preventDefault();
+        var tabId = $(this).attr('data-table');
+        var newTabField = '#catalogTables'+tabId;
         $('#tableTemplateView, .dangerVoid').empty();
-        $('.newTable .editTable').remove();
+        $(newTabField+' .newTable .editTable').remove();
         var tableId = $('#addTable1001').val();
-        $('#catalogTables').attr('data-value', tableId);
+        $(newTabField).attr('data-value', tableId);
         $('#addTable1001').empty().html('' +
             '<div class="col-12 mb-3">' +
             '   <select data-placeholder="Выберите из справочника" class="chosen-select addTable1001" id="addTable1001" name="addTable1001" required>' +
@@ -513,51 +521,47 @@ $(function() {
             '   </select>' +
             '</div>');
         $('#btnAddTable').modal('hide');
-        $('#tableTemplates').html('Изменить макет таблицы').attr('data-click', 1);
+        $(newTabField+' .tableTemplates').html('Изменить макет таблицы').attr('data-click', 1);
         if(tableId > 0) {
-            $('#catalogTables .col-md-3').remove();
-            $('#catalogTables .newTable').removeClass('col-md-9').addClass('col-md-12');
-            getTablesFields('rest/profile/htmltables/' + tableId, '.newTable');
-            $('.newTable table').addClass('table table-sm table-bordered table-editable table-hover').attr('width', '100%');
-            var sumTop = parseInt($('.newTable table tbody tr:first td:last').html());
+            $(newTabField+' .col-md-3').remove();
+            $(newTabField+' .newTable').removeClass('col-md-9').addClass('col-md-12');
+            getTablesFields('rest/profile/htmltables/' + tableId, newTabField+' .newTable');
+            $(newTabField+' .newTable table').addClass('table table-sm table-bordered table-editable table-hover').attr('width', '100%');
+            var sumTop = parseInt($(newTabField+' .newTable table tbody tr:first td:last').html());
             sumTop = sumTop+1;
-            $('.newTable table thead tr:first').append('<th' +
-                ' class="text-center deleteElem" rowspan="2">Удалить</th>');
-            $('.newTable table tbody tr:first').append('<td' +
-                ' class="text-center deleteElem">'+sumTop+'</td>');
-            $('.newTable table tbody tr:not(:first)').append('' +
+            $(newTabField+' .newTable table thead tr:first').append('<th class="text-center deleteElem" rowspan="2">Удалить</th>');
+            $(newTabField+' .newTable table tbody tr:first').append('<td class="text-center deleteElem">'+sumTop+'</td>');
+            $(newTabField+' .newTable table tbody tr:not(:first)').append('' +
                 '<td class="deleteElem">' +
                 '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
                 '       <i class="fas fa-trash"></i>' +
                 '   </div>' +
                 '</td>');
-            $('.newTable').append('' +
+            $(newTabField+' .newTable').append('' +
                 '<div class="row">' +
                 '   <div class="col-12 text-right">' +
-                '       <div class="btn btn-primary btn-sm rounded" id="addTableRow">' +
+                '       <div class="btn btn-primary btn-sm rounded addTableRow" data-table="'+tabId+'">' +
                 '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
                 '       </div>' +
                 '   </div>' +
                 '</div>');
         }
         // Делаем столбцы редактируемыми
-        $('.newTable table th').css({
+        $(newTabField+' .newTable table th').css({
             'text-align': 'center',
             'vertical-align': 'middle',
             'font-weight': 'bold'
         });
-        $('.newTable table td').attr('contenteditable', true);
+        $(newTabField+' .newTable table td').attr('contenteditable', true);
+        $(newTabField+' .newTable table tbody tr:first td').css('text-align', 'center');
+        $(newTabField+' .newTable table tbody tr').each(function() {
+            $('td:first', this).css('text-align', 'center');
+        });
     });
-
-    // Столбцы по центру
-    $('.newTable table th, .newTable table tbody tr:first td').css('text-align', 'center');
-    $('.newTable table tbody tr').each(function() {
-        $('td:first', this).css('text-align', 'center');
-    });
-
     // Добавляем строку
-    $(document).on('click', '#addTableRow', function() {
-        $('.newTable table').find('tbody tr:last').clone().appendTo('.newTable table').find('td:not(:last)').html('&nbsp;');
+    $(document).on('click', '.addTableRow', function() {
+        var tabId = $(this).attr('data-table');
+        $('#catalogTables'+tabId+' .newTable table').find('tbody tr:last').clone().appendTo('#catalogTables'+tabId+' .newTable table').find('td:not(:last)').html('&nbsp;');
     });
 
     // Удаляем строку
