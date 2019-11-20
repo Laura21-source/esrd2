@@ -19,8 +19,8 @@ public class DocType extends NamedEntity {
     //@OneToMany(fetch = FetchType.LAZY, mappedBy = "docType")
     //private List<DocTypeFields> docTypeFields;
 
-    @Column(name = "tmp_template_filename")
-    private String tmpTemplateFileName;
+    @Column(name = "appendix_template_filename")
+    private String appendixTemplateFileName;
 
     @Column(name = "template_filename")
     private String templateFileName;

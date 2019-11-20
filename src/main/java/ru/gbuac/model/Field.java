@@ -32,5 +32,7 @@ public class Field extends NamedEntity {
     @JoinColumn(name = "catalog_id", nullable = true)
     private Catalog catalog;
 
+    private Boolean appendix;
+
     private String tag;
 }

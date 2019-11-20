@@ -1180,7 +1180,7 @@ II полугодие
 </tbody>
 </table>');
 
-INSERT INTO esrd.doctype (id, name, role_id, tmp_template_filename, template_filename, doc_number_prefix_id, final_doc)
+INSERT INTO esrd.doctype (id, name, role_id, appendix_template_filename, template_filename, doc_number_prefix_id, final_doc)
 VALUES (1, 'Служебная записка о включении вопросов в Повестку заседания Правления', 3002, 'zapiska.docx', 'zapiska.docx', 23, false);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null, 'MeetingDate');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (6, 'Номер СЭДО', 'TEXT', null, null, null, null, '');
@@ -1223,7 +1223,7 @@ INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 17);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 4, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (21, 1, 7, 3);
 
-INSERT INTO esrd.doctype (id, name, tmp_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params)
+INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params)
 VALUES (2, 'Повестка заседания Правления', 'povestka.docx', 'povestka.docx', 3005, 24, true, 'Повестка № %s заседания правления Департамента экономической политики и развития города Москвы %s г.', 'Повестки заседания Правления;https://www.mos.ru/depr/documents/tarifnaia-politika/povestki-zasedaniya-pravleniya/|2881');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (5, 'Время заседания', 'TIME', null, null, null, null, 'MeetingTime');
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (101, 2, 4, true, 3006);
@@ -1247,7 +1247,7 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (117
 
 INSERT INTO esrd.users_distribution_departments (user_id, distribution_departments_id) VALUES (4084, 575);
 
-INSERT INTO esrd.doctype (id, name, tmp_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (301, 'Приказ (тарифное регулирование)', null, 'prikaz.docx', 3002, 300, true);
+INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (301, 'Приказ (тарифное регулирование)', 'prikaz_appendix.docx', 'prikaz.docx', 3002, 300, true);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (304, 'Дата протокола', 'DATE', null, null, null, null, 'ProtocolDate');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (305, 'Номер протокола', 'TEXT', null, null, null, null, 'ProtocolRegNum');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (306, 'Дата начала действия тарифа', 'DATE', null, null, null, null, 'TarifStartDate');
@@ -1288,7 +1288,7 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (303
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (378, 301, 376, 20);
 
 
-INSERT INTO esrd.doctype (id, name, tmp_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (350, 'Протокол заседания Правления', null, 'protocol.docx', 3002, 25, true);
+INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (350, 'Протокол заседания Правления', null, 'protocol.docx', 3002, 25, true);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (351, 'Члены Правления', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsRulers');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (352, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, 'FIO');
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (351, 352);
