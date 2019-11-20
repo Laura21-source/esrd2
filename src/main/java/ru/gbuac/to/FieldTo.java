@@ -38,6 +38,8 @@ public class FieldTo extends BaseTo {
 
     private Role role;
 
+    private Boolean appendix;
+
     private String tag;
 
     private Integer valueInt;
@@ -49,7 +51,7 @@ public class FieldTo extends BaseTo {
     public FieldTo(Integer id, String name, List<FieldTo> childFields, Integer fieldId, FieldType fieldType,
                    Integer positionInGroup, Integer maxCount, Integer length,
                    Integer parentCatalogId, Integer catalogId, Boolean enabled,
-                   Boolean required, String tag) {
+                   Boolean required, Boolean appendix, String tag) {
         super(id);
         this.name = name;
         this.childFields = childFields;
@@ -62,6 +64,7 @@ public class FieldTo extends BaseTo {
         this.catalogId = catalogId;
         this.enabled = enabled;
         this.required = required;
+        this.appendix = appendix;
         this.tag = tag;
     }
 
@@ -100,6 +103,7 @@ public class FieldTo extends BaseTo {
         switch (fieldType) {
             case TEXT:
             case TEXTAREA:
+            case CATALOG_HTML_TABLES:
                 return getValueStr() != null ? getValueStr().replace("  ", " ") : "";
             case NUMBER:
                 return getValueInt() != null ? getValueInt().toString() : "";

@@ -1,6 +1,8 @@
 package ru.gbuac.service;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.pdfbox.io.MemoryUsageSetting;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -579,7 +581,7 @@ public class DocServiceImpl implements DocService {
         return count;
     }
 
-    private void fillTags(FieldTo fieldTo, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables, Integer maxCellsCount) {
+    private void fillTags(FieldTo fieldTo, Map<String, String> simpleTags, Map<String, TaggedTable> taggedTables, Map<String, String> htmlTables, Integer maxCellsCount) {
         String tag = fieldTo.getTag();
         if (TagUtil.getTableTag(tag) != null) {
             Map<String, String> cellsTags;
@@ -604,13 +606,13 @@ public class DocServiceImpl implements DocService {
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         cellsTags.put(tag, fieldTo.getValueByFieldType());
                         childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
-                        fillTags(childField, simpleTags, taggedTables, fieldTo.getChildFields().size());
+                        fillTags(childField, simpleTags, taggedTables, htmlTables, fieldTo.getChildFields().size());
                     }
                     break;
                 case GROUP_CHECKBOX:
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
-                        fillTags(childField, simpleTags, taggedTables, fieldTo.getChildFields().size());
+                        fillTags(childField, simpleTags, taggedTables, htmlTables, fieldTo.getChildFields().size());
                     }
                     break;
                 case CATALOG:
@@ -678,7 +680,7 @@ public class DocServiceImpl implements DocService {
                         int childMaxCellsCount = (int) fieldTo.getChildFields().stream()
                                 .filter(c -> !c.getTag().equals("")).count();
                         simpleTags.put(tag, fieldTo.getValueByFieldType());
-                        fillTags(childField, simpleTags, taggedTables, childMaxCellsCount);
+                        fillTags(childField, simpleTags, taggedTables, htmlTables, childMaxCellsCount);
                     }
                     break;
                 case GROUP_FIELDS:
@@ -686,7 +688,7 @@ public class DocServiceImpl implements DocService {
                         childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
                         int childMaxCellsCount = (int) fieldTo.getChildFields().stream()
                                 .filter(c -> !c.getTag().equals("")).count();
-                        fillTags(childField, simpleTags, taggedTables, childMaxCellsCount);
+                        fillTags(childField, simpleTags, taggedTables, htmlTables, childMaxCellsCount);
                     }
                     break;
                 case CATALOG:
@@ -740,6 +742,10 @@ public class DocServiceImpl implements DocService {
                         simpleTags.put(tag + ".dd MMMM yyyy", fieldTo.getValueDate() != null ? DateTimeUtil.toStringPrint(fieldTo.getValueDate().toLocalDate()) : "");
                     }
                     break;
+                case CATALOG_HTML_TABLES:
+                    if (!tag.equals("")) {
+                        htmlTables.put(tag, fieldTo.getValueByFieldType());
+                    }
                 default:
                     if (!tag.equals("")) {
                         simpleTags.put(tag, fieldTo.getValueByFieldType());
@@ -779,10 +785,8 @@ public class DocServiceImpl implements DocService {
 
     private String createPDFOrDocx(DocTo docTo, String rootPath, Boolean saveToTempDir, Boolean isPDF) {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
-        String templatePath = rootPath + docTemplatesDir + docType.getTemplateFileName();
-        String tmpTemplatePath = rootPath + docTemplatesDir + docType.getTmpTemplateFileName();
-
-        String genTemplatePath = isPDF ? templatePath : tmpTemplatePath;
+        String docTemplatePath = rootPath + docTemplatesDir + docType.getTemplateFileName();
+        String docAppendixTemplatePath = rootPath + docTemplatesDir + docType.getAppendixTemplateFileName();
 
         String pdfTempPath = rootPath + pdfTempDir + UUID.randomUUID().toString() + ".pdf";
         String pdfPath = rootPath + pdfDir + docTo.getId() + ".pdf";
@@ -794,6 +798,11 @@ public class DocServiceImpl implements DocService {
 
         Map<String, String> simpleTags = new HashMap<>();
         simpleTags.put("RegNum", Optional.ofNullable(docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum()).orElse(""));
+        String regDate = docTo.getRegDateTime() != null ? DateTimeUtil.toString(docTo.getRegDateTime().toLocalDate()) : null;
+        if (regDate == null) {
+            regDate =  docTo.getProjectRegDateTime() != null ? DateTimeUtil.toString(docTo.getProjectRegDateTime().toLocalDate()) : "";
+        }
+        simpleTags.put("RegDate", regDate);
         if (docTo.getFinalUserId() != null) {
             User finalUser = userRepository.findById(docTo.getFinalUserId()).orElse(null);
             if (finalUser != null) {
@@ -822,14 +831,34 @@ public class DocServiceImpl implements DocService {
         }
 
         Map<String, TaggedTable> taggedTables = new HashMap<>();
+        Map<String, String> htmlTables = new HashMap<>();
         for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
-            fillTags(docFieldsTo.getField(), simpleTags, taggedTables, docTo.getChildFields().size());
+            if (docFieldsTo.getField().getAppendix() == null || !docFieldsTo.getField().getAppendix()) {
+                fillTags(docFieldsTo.getField(), simpleTags, taggedTables, htmlTables, docTo.getChildFields().size());
+            }
         }
 
         try {
+
             ByteArrayOutputStream byteArrayOutputStream =
-                    Templater.fillTagsByDictionary(genTemplatePath, simpleTags, taggedTables, new HashMap<>(), isPDF);
-            byteArrayOutputStream.writeTo(new FileOutputStream(savePath));
+                    Templater.fillTagsByDictionary(docTemplatePath, simpleTags, taggedTables, htmlTables, isPDF);
+            PDFMergerUtility ut = new PDFMergerUtility();
+            ut.addSource(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
+            int appedixNumber = 0;
+            for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
+                if (docFieldsTo.getField().getFieldType() == FieldType.GROUP_FIELDS && docFieldsTo.getField().getAppendix() != null && docFieldsTo.getField().getAppendix()) {
+                    FieldTo appendixGroupField = docFieldsTo.getField();
+                    simpleTags.put("AppendN", String.valueOf(++appedixNumber));
+                    for (FieldTo appField : appendixGroupField.getChildFields()) {
+                        fillTags(appField, simpleTags, taggedTables, htmlTables, docTo.getChildFields().size());
+                    }
+                    ByteArrayOutputStream appendixByteArrayOutputStream =
+                            Templater.fillTagsByDictionary(docAppendixTemplatePath, simpleTags, taggedTables, htmlTables, isPDF);
+                    ut.addSource(new ByteArrayInputStream(appendixByteArrayOutputStream.toByteArray()));
+                }
+            }
+            ut.setDestinationFileName(savePath);
+            ut.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
         } catch (Exception e) {
             throw new GeneratePdfException();
         }

@@ -108,7 +108,7 @@ CREATE TABLE esrd.doctype
 (
     id                      INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
     name                    VARCHAR                 NOT NULL,
-    tmp_template_filename   VARCHAR                         ,
+    appendix_template_filename   VARCHAR                         ,
     template_filename       VARCHAR                         ,
     role_id                 INTEGER                 NOT NULL,
     doc_number_prefix_id    INTEGER                 NOT NULL,
@@ -200,6 +200,7 @@ CREATE TABLE esrd.field
     max_count         INTEGER                         ,
     length            INTEGER                         ,
     catalog_id        INTEGER                         ,
+    appendix          BOOLEAN DEFAULT FALSE           ,
     tag               VARCHAR                         ,
     FOREIGN KEY (catalog_id) REFERENCES esrd.catalog (id) ON DELETE CASCADE
 );
