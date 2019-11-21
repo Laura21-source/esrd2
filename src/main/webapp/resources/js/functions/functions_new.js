@@ -45,7 +45,7 @@
             if (rowSelectField.fieldType === "CATALOG_HTML_TABLES") {
                 if(id > 0) {
                     $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                        '<div class="row ml-1 mb-3 d-flex align-items-center' +
+                        '<div class="row ml-1 mt-3 d-flex align-items-center' +
                         ' justify-content-center tableHtml"' +
                         ' id="catalogTables'+dubKey+'" data-id="'+rowSelectField.id+'" type="tableHtml" data-field="'+rowSelectField.fieldId+'" data-value="'+rowSelectField.valueInt+'">' +
                         '   <div class="col-md-12 text-left newTable">' +
@@ -89,13 +89,12 @@
                     });
                 } else {
                     $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                        '<div class="row tableHtml ml-1 mb-3 d-flex' +
-                        ' align-items-center justify-content-center" id="catalogTables'+dubKey+'" type="tableHtml" data-field="'+rowSelectField.fieldId+'">' +
-                        '   <div class="col-md-3 text-left mt-3">' +
+                        '<div class="row tableHtml mt-3 d-flex align-items-center justify-content-center" id="catalogTables'+dubKey+'" type="tableHtml" data-field="'+rowSelectField.fieldId+'">' +
+                        '   <div class="col-md-3 text-left">' +
                         '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
                         '   </div>' +
                         '   <div class="col-md-9 text-left newTable">' +
-                        '       <div class="btn btn-primary btn-sm rounded tableTemplates" data-table="'+dubKey+'" data-click="">Создать таблицу</div>' +
+                        '       <div class="btn btn-primary btn-sm rounded tableTemplates ml-0" data-table="'+dubKey+'" data-click="">Создать таблицу</div>' +
                         '   </div>' +
                         '</div>');
                 }
@@ -203,7 +202,7 @@
                         '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
                         '   </div>' +
                         '   <div class="col-md-9 mt-3">' +
-                        '       <textarea></textarea>'+requiredValidate+'' +
+                        '       <textarea class="form-control"></textarea>'+requiredValidate+'' +
                         '   </div>' +
                         '</div>');
                 }

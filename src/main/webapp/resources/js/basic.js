@@ -522,6 +522,7 @@ $(function() {
             '</div>');
         $('#btnAddTable').modal('hide');
         $(newTabField+' .tableTemplates').html('Изменить макет таблицы').attr('data-click', 1);
+        $(newTabField+' .newTable').append('<div class="btn btn-danger btn-sm mx-2 rounded" data-delete="'+tabId+'">Удалить таблицу</div>');
         if(tableId > 0) {
             $(newTabField+' .col-md-3').remove();
             $(newTabField+' .newTable').removeClass('col-md-9').addClass('col-md-12');
@@ -568,5 +569,7 @@ $(function() {
     $(document).on('click', '.table-remove', function() {
         $(this).parents('tr').detach();
     });
+
+    // Удаляем таблицу по клику
 
 });
