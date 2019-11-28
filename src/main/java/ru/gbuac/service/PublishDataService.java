@@ -27,13 +27,6 @@ public class PublishDataService {
     @Autowired
     public JavaMailSender emailSender;
 
-    private static List<String> SPRING_PROFILES_ACTIVE;
-
-    @Autowired
-    public PublishDataService(@Value("${spring.profiles.active}") String[] actProfiles) {
-        SPRING_PROFILES_ACTIVE = Arrays.asList(actProfiles);
-    }
-
     @Value("${email.sender}")
     private String sender;
 
@@ -43,10 +36,11 @@ public class PublishDataService {
     @Value("${email.publish.recipients}")
     private String publishRecipients;
 
-    public void publish(String regNum, String regDate, String publishNameMask, String publishClassifierParams,
+    public void publish(String regNum, String regDate, String optionalDate, String publishNameMask, String publishClassifierParams,
                         String fileName, byte[] fileBytes, String signer, String signerPosition) {
         if (publishClassifierParams != null) {
-            String docName = String.format(publishNameMask, regNum, regDate);
+            String docName = optionalDate != null ? String.format(publishNameMask, regNum, optionalDate) :
+                    String.format(publishNameMask, regNum, regDate);
             String[] topLevelClassifierParams = publishClassifierParams.split("\\|");
 
 
@@ -177,7 +171,7 @@ public class PublishDataService {
                     "            </td>\n" +
                     "            <td width=\"64%\" valign=\"top\">\n" +
                     "                <p align=\"center\">\n" +
-                    "                    <strong><u>1-х суток</u></strong>\n" +
+                    "                    <strong><u>3-х часов</u></strong>\n" +
                     "                </p>\n" +
                     "            </td>\n" +
                     "        </tr>\n" +

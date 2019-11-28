@@ -516,8 +516,16 @@ public class DocServiceImpl implements DocService {
             try {
                 User finalUser = userRepository.findById(docTo.getFinalUserId()).orElse(null);
                 byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(rootPath + updated.getUrlPDF()));
+
+                String optionalDate = null;
+                DocValuedFields vf = updated.getDocValuedFields().stream()
+                        .filter(f -> f.getValuedField().getField().getId().equals(4)).findFirst().orElse(null);
+                if (vf != null) {
+                    optionalDate = DateTimeUtil.toString(vf.getValuedField().getValueDate().toLocalDate());
+                }
+
                 publishDataService.publish(updated.getRegNum(), DateTimeUtil.toString(updated.getRegDateTime().toLocalDate()),
-                        updated.getDocType().getPublishNameMask(), updated.getDocType().getPublishClassifierParams(),
+                        optionalDate, updated.getDocType().getPublishNameMask(), updated.getDocType().getPublishClassifierParams(),
                         updated.getId().toString() + ".pdf", fileBytes,finalUser.getFirstname() + " " +
                                 finalUser.getPatronym() + " " + finalUser.getLastname(), finalUser.getPosition());
             }
