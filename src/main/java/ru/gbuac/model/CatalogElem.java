@@ -26,6 +26,9 @@ public class CatalogElem extends BaseEntity {
     @Column(name = "value_str")
     private String valueStr;
 
+    @Column(name = "value_str_preposition")
+    private String valueStrPreposition;
+
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "catalog_id", nullable = false)

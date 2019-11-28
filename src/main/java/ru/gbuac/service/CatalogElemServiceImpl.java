@@ -30,7 +30,7 @@ public class CatalogElemServiceImpl implements CatalogElemService{
         List<CatalogElemTo> catalogElemTos = new ArrayList<>();
         for (CatalogElem c : catalogElems) {
             catalogElemTos.add(new CatalogElemTo(c.getId(), null, c.getValueInt(),
-                    c.getValueStr(), c.getCatalog().getId()));
+                    c.getValueStr(), c.getValueStrPreposition(), c.getCatalog().getId()));
         }
 
         return catalogElemTos;
@@ -42,7 +42,7 @@ public class CatalogElemServiceImpl implements CatalogElemService{
         List<CatalogElemTo> catalogElemTos = new ArrayList<>();
         for (CatalogElem c : catalogElems) {
             catalogElemTos.add(new CatalogElemTo(c.getId(), null, c.getValueInt(),
-                    c.getValueStr(), c.getCatalog().getId()));
+                    c.getValueStr(), c.getValueStrPreposition(), c.getCatalog().getId()));
         }
 
         return catalogElemTos;

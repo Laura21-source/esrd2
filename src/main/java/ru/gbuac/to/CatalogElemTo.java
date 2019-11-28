@@ -14,13 +14,17 @@ public class CatalogElemTo extends BaseTo {
 
     private String valueStr;
 
+    private String valueStrPreposition;
+
     private Integer catalogId;
 
-    public CatalogElemTo(Integer id, Integer idParentCatalogElem, String valueInt, String valueStr, Integer catalogId) {
+    public CatalogElemTo(Integer id, Integer idParentCatalogElem, String valueInt, String valueStr,
+                         String valueStrPreposition, Integer catalogId) {
         super(id);
         this.idParentCatalogElem = idParentCatalogElem;
         this.valueInt = valueInt;
         this.valueStr = valueStr;
+        this.valueStrPreposition = valueStrPreposition;
         this.catalogId = catalogId;
     }
 }

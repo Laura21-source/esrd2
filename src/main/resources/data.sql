@@ -796,6 +796,7 @@ INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1010, null, 'Методические указания', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1011, null, 'Регламенты', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1013, null, 'Таблицы', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1014, null, 'Приказы ДЭПР', 0);
 
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2007, null, 'Регулирование цен (тарифов)', 1001, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, catalog_id, parent_catalogelem_id) VALUES (2008, null, 'Изменение, отменена правовых актов', 1001, null);
@@ -17141,8 +17142,8 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (306, 'Дата начала действия тарифа', 'DATE', null, null, null, null, 'TarifStartDate');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (307, 'Дата окончания дейстия тарифа', 'DATE', null, null, null, null, 'TarifEndDate');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (302, 'Признать утратившим силу', 'GROUP_CHECKBOX', null, null, null, null, 'CancelDocs');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (322, 'Наименование постановления', 'TEXTAREA', null, null, null, null, 'LawName');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (323, 'Наименование приказа', 'TEXTAREA', null, null, null, null, 'DecreeName');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (322, 'Наименование приказа', 'CATALOG', null, null, null, 1014, 'LawName');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (323, 'Структурный элемент приказа (для отмены)', 'TEXT', null, null, null, null, 'DecreeName');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (324, 'В соответствии с Федеральным законом', 'CATALOG', null, null, null, 1009, 'FederalLaw');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (378, 'В соответствии с Постановлением Правительства РФ', 'CATALOG', null, null, null, 1012, 'GovDecree');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (325, 'В соответствии с Методическими указаниями', 'CATALOG', null, null, null, 1010, 'TarifMethod');

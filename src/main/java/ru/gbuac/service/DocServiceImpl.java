@@ -632,6 +632,7 @@ public class DocServiceImpl implements DocService {
                         switch (catalogElemChild.getCatalog().getCatalogType()) {
                             case TEXT:
                                 cellsTags.put(tag, catalogElemChild.getValueStr());
+                                cellsTags.put(tag + ".Preposition", catalogElemChild.getValueStrPreposition());
                                 break;
                             case NUMBER:
                                 cellsTags.put(tag, catalogElemChild.getValueInt());
@@ -709,6 +710,7 @@ public class DocServiceImpl implements DocService {
                     switch (catalogElemChild.getCatalog().getCatalogType()) {
                         case TEXT:
                             simpleTags.put(tag, catalogElemChild.getValueStr());
+                            simpleTags.put(tag + ".Preposition", catalogElemChild.getValueStrPreposition());
                             break;
                         case NUMBER:
                             simpleTags.put(tag, catalogElemChild.getValueInt());

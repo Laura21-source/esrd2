@@ -186,6 +186,18 @@ CREATE TABLE esrd.catalogelem
     id                      INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
     value_int               INTEGER                         ,
     value_str               VARCHAR                         ,
+    value_str_preposition   VARCHAR                         ,
+    catalog_id              INTEGER                 NOT NULL,
+    parent_catalogelem_id   INTEGER                         ,
+    FOREIGN KEY (catalog_id) REFERENCES esrd.catalog (id) ON DELETE CASCADE
+);
+
+CREATE TABLE esrd.catalogelem2
+(
+    id                      INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    value_int               INTEGER                         ,
+    value_str               VARCHAR                         ,
+    value_str_preposition   VARCHAR                         ,
     catalog_id              INTEGER                 NOT NULL,
     parent_catalogelem_id   INTEGER                         ,
     FOREIGN KEY (catalog_id) REFERENCES esrd.catalog (id) ON DELETE CASCADE
