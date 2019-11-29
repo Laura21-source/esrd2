@@ -104,7 +104,7 @@ public class PublishDataService {
             }
         }
         catch (RemoteException | ParseException re) {
-
+            System.out.println(re);
         }
         return "";
     }

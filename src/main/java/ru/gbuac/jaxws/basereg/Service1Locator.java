@@ -7,7 +7,12 @@
 
 package ru.gbuac.jaxws.basereg;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class Service1Locator extends org.apache.axis.client.Service implements ru.gbuac.jaxws.basereg.Service1 {
+
+    @Value("${service.basereg.uri}")
+    private String serviceUri;
 
     public Service1Locator() {
     }
@@ -22,7 +27,7 @@ public class Service1Locator extends org.apache.axis.client.Service implements r
     }
 
     // Use to get a proxy class for BasicHttpBinding_IService1
-    private java.lang.String BasicHttpBinding_IService1_address = "http://gw.it-geo.ru:64809/BRRemoteService/Service1.svc";
+    private java.lang.String BasicHttpBinding_IService1_address = serviceUri != null ? serviceUri : "http://gw.it-geo.ru:64809/BRRemoteService/Service1.svc";
 
     public java.lang.String getBasicHttpBinding_IService1Address() {
         return BasicHttpBinding_IService1_address;
