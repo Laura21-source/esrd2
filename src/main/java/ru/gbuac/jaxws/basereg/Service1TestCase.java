@@ -158,6 +158,9 @@ public class Service1TestCase extends junit.framework.TestCase {
                 "Департамент экономической политики и развития города Москвы", "135d2a0b-dd6c-4d56-be6d-dc9e399c9621",
                 null, null, null, "Test", 2881));
         System.out.println(value.getStatus());
+        for (Integer fileId : value.getFilesId()) {
+            System.out.println(fileId);
+        }
         // TBD - validate results
     }
 

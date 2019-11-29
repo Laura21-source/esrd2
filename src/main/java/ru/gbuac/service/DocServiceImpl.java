@@ -525,7 +525,7 @@ public class DocServiceImpl implements DocService {
                 }
 
                 publishDataService.publish(updated.getRegNum(), DateTimeUtil.toString(updated.getRegDateTime().toLocalDate()),
-                        optionalDate, updated.getDocType().getPublishNameMask(), updated.getDocType().getPublishClassifierParams(),
+                        optionalDate, updated, updated.getDocType().getPublishNameMask(), updated.getDocType().getPublishClassifierParams(),
                         updated.getId().toString() + ".pdf", fileBytes,finalUser.getFirstname() + " " +
                                 finalUser.getPatronym() + " " + finalUser.getLastname(), finalUser.getPosition());
             }

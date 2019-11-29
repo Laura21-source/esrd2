@@ -3,12 +3,15 @@ package ru.gbuac.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import ru.gbuac.dao.PublishDataRepository;
 import ru.gbuac.jaxws.basereg.CreateDocumentFile;
 import ru.gbuac.jaxws.basereg.DocStatus;
+import ru.gbuac.jaxws.basereg.ResponseStatus;
+import ru.gbuac.model.Doc;
+import ru.gbuac.model.PublishData;
 import ru.gbuac.util.DateTimeUtil;
 
 import javax.mail.internet.InternetAddress;
@@ -18,9 +21,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.List;
 
 @Service
 public class PublishDataService {
@@ -36,8 +38,15 @@ public class PublishDataService {
     @Value("${email.publish.recipients}")
     private String publishRecipients;
 
-    public void publish(String regNum, String regDate, String optionalDate, String publishNameMask, String publishClassifierParams,
+    @Value("${uri.publish.mask}")
+    private String publishUriMask;
+
+    @Autowired
+    private PublishDataRepository publishDataRepository;
+
+    public void publish(String regNum, String regDate, String optionalDate, Doc doc, String publishNameMask, String publishClassifierParams,
                         String fileName, byte[] fileBytes, String signer, String signerPosition) {
+        PublishData publishData = new PublishData(doc);
         if (publishClassifierParams != null) {
             String docName = optionalDate != null ? String.format(publishNameMask, regNum, optionalDate) :
                     String.format(publishNameMask, regNum, regDate);
@@ -46,21 +55,21 @@ public class PublishDataService {
 
             String[] mosRuClassifierParams = topLevelClassifierParams[0].split(";");
             publishMosRu(docName, DateTimeUtil.toString(LocalDate.now()), mosRuClassifierParams[0], mosRuClassifierParams[1],
-                    fileName, fileBytes);
-            /*
+                    fileName, fileBytes, publishData);
+
             String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
             String uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
-                    signer, signerPosition);
+                    signer, signerPosition, publishData);
 
-             */
 
+            publishDataRepository.save(publishData);
             //String[] openDataClassifierParams = topLevelClassifierParams[2].split(";");
             //publishOpenData(uri);
         }
     }
 
     private String publishBaseReg(String docName, String docType, String fileName, byte[] fileBytes,
-                                  String regNum, String regDate, String signer, String signerPosition) {
+                                  String regNum, String regDate, String signer, String signerPosition, PublishData publishData) {
         ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub binding;
         try {
             binding = (ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub)
@@ -79,8 +88,6 @@ public class PublishDataService {
                     new CreateDocumentFile(docName, fileBytes, fileName, null)
             };
 
-
-
             DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
             Calendar calendar  = Calendar.getInstance();
             calendar.setTime(df.parse(regDate));
@@ -90,16 +97,21 @@ public class PublishDataService {
                     new DocStatus("Действует"), signerPosition, signer,
                     "Департамент экономической политики и развития города Москвы", "135d2a0b-dd6c-4d56-be6d-dc9e399c9621",
                     null, null, null, regNum, Integer.parseInt(docType)));
+            if (response.getStatus().equals(ResponseStatus.ok)) {
+                publishData.setBasereg(response.getFilesId()[0]);
+                publishData.setBaseregDateTime(LocalDateTime.now());
+                return publishUriMask + response.getFilesId()[0];
+            }
         }
         catch (RemoteException | ParseException re) {
 
         }
-        return null;
+        return "";
     }
 
 
     private void publishMosRu(String docName, String publishDate, String rubrname, String uri, String fileName,
-                              byte[] fileBytes) {
+                              byte[] fileBytes, PublishData publishData) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
             message.setFrom(new InternetAddress(sender + "<" + login + ">"));
@@ -189,6 +201,9 @@ public class PublishDataService {
             helper.addAttachment(fileName, new ByteArrayResource(fileBytes));
 
             this.emailSender.send(message);
+
+            publishData.setMosRu(true);
+            publishData.setMosRuDateTime(LocalDateTime.now());
         }
         catch (Exception e) {
 

@@ -322,12 +322,25 @@ CREATE TABLE esrd.html_tables
     html_content               VARCHAR
 );
 
-create table esrd.users_distribution_departments
+CREATE TABLE esrd.users_distribution_departments
 (
     user_id                         INTEGER NOT NULL,
     distribution_departments_id     INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES esrd.users (id) ON DELETE CASCADE,
     FOREIGN KEY (distribution_departments_id) REFERENCES esrd.department (id) ON DELETE CASCADE
+);
+
+CREATE TABLE esrd.publish_data
+(
+    id                         INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
+    mosru                      BOOLEAN NOT NULL DEFAULT FALSE,
+    mosru_datetime             TIMESTAMP,
+    basereg                    INTEGER,
+    basereg_datetime           TIMESTAMP,
+    ri                         BOOLEAN NOT NULL DEFAULT FALSE,
+    ri_datetime                TIMESTAMP,
+    doc_id                     INTEGER NOT NULL,
+    FOREIGN KEY (doc_id) REFERENCES esrd.doc (id) ON DELETE CASCADE
 );
 
 CREATE OR REPLACE FUNCTION esrd.generateDocNumber (mask VARCHAR, optional VARCHAR DEFAULT NULL)
