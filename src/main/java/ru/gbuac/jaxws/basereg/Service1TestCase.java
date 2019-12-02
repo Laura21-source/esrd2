@@ -10,14 +10,17 @@ package ru.gbuac.jaxws.basereg;
 import java.util.Calendar;
 
 public class Service1TestCase extends junit.framework.TestCase {
+    private String serviceUri;
+
     public Service1TestCase(java.lang.String name) {
         super(name);
+        this.serviceUri = "http://10.159.18.21:8021/BRRemoteService/Service1.svc";
     }
 
     public void testBasicHttpBinding_IService1WSDL() throws Exception {
         javax.xml.rpc.ServiceFactory serviceFactory = javax.xml.rpc.ServiceFactory.newInstance();
-        java.net.URL url = new java.net.URL(new ru.gbuac.jaxws.basereg.Service1Locator().getBasicHttpBinding_IService1Address() + "?WSDL");
-        javax.xml.rpc.Service service = serviceFactory.createService(url, new ru.gbuac.jaxws.basereg.Service1Locator().getServiceName());
+        java.net.URL url = new java.net.URL(new ru.gbuac.jaxws.basereg.Service1Locator(serviceUri).getBasicHttpBinding_IService1Address() + "?WSDL");
+        javax.xml.rpc.Service service = serviceFactory.createService(url, new ru.gbuac.jaxws.basereg.Service1Locator(serviceUri).getServiceName());
         assertTrue(service != null);
     }
 
@@ -25,7 +28,7 @@ public class Service1TestCase extends junit.framework.TestCase {
         ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub binding;
         try {
             binding = (ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub)
-                          new ru.gbuac.jaxws.basereg.Service1Locator().getBasicHttpBinding_IService1();
+                          new ru.gbuac.jaxws.basereg.Service1Locator(serviceUri).getBasicHttpBinding_IService1();
         }
         catch (javax.xml.rpc.ServiceException jre) {
             if(jre.getLinkedCause()!=null)
@@ -47,7 +50,7 @@ public class Service1TestCase extends junit.framework.TestCase {
         ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub binding;
         try {
             binding = (ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub)
-                          new ru.gbuac.jaxws.basereg.Service1Locator().getBasicHttpBinding_IService1();
+                          new ru.gbuac.jaxws.basereg.Service1Locator(serviceUri).getBasicHttpBinding_IService1();
         }
         catch (javax.xml.rpc.ServiceException jre) {
             if(jre.getLinkedCause()!=null)
@@ -69,7 +72,7 @@ public class Service1TestCase extends junit.framework.TestCase {
         ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub binding;
         try {
             binding = (ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub)
-                          new ru.gbuac.jaxws.basereg.Service1Locator().getBasicHttpBinding_IService1();
+                          new ru.gbuac.jaxws.basereg.Service1Locator(serviceUri).getBasicHttpBinding_IService1();
         }
         catch (javax.xml.rpc.ServiceException jre) {
             if(jre.getLinkedCause()!=null)
@@ -91,7 +94,7 @@ public class Service1TestCase extends junit.framework.TestCase {
         ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub binding;
         try {
             binding = (ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub)
-                          new ru.gbuac.jaxws.basereg.Service1Locator().getBasicHttpBinding_IService1();
+                          new ru.gbuac.jaxws.basereg.Service1Locator(serviceUri).getBasicHttpBinding_IService1();
         }
         catch (javax.xml.rpc.ServiceException jre) {
             if(jre.getLinkedCause()!=null)
@@ -113,7 +116,7 @@ public class Service1TestCase extends junit.framework.TestCase {
         ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub binding;
         try {
             binding = (ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub)
-                          new ru.gbuac.jaxws.basereg.Service1Locator().getBasicHttpBinding_IService1();
+                          new ru.gbuac.jaxws.basereg.Service1Locator(serviceUri).getBasicHttpBinding_IService1();
         }
         catch (javax.xml.rpc.ServiceException jre) {
             if(jre.getLinkedCause()!=null)
@@ -135,7 +138,7 @@ public class Service1TestCase extends junit.framework.TestCase {
         ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub binding;
         try {
             binding = (ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub)
-                          new ru.gbuac.jaxws.basereg.Service1Locator().getBasicHttpBinding_IService1();
+                          new ru.gbuac.jaxws.basereg.Service1Locator(serviceUri).getBasicHttpBinding_IService1();
         }
         catch (javax.xml.rpc.ServiceException jre) {
             if(jre.getLinkedCause()!=null)

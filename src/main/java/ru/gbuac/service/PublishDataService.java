@@ -41,6 +41,9 @@ public class PublishDataService {
     @Value("${uri.publish.mask}")
     private String publishUriMask;
 
+    @Value("${service.basereg.uri}")
+    private String baseregServiceUri;
+
     @Autowired
     private PublishDataRepository publishDataRepository;
 
@@ -73,7 +76,7 @@ public class PublishDataService {
         ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub binding;
         try {
             binding = (ru.gbuac.jaxws.basereg.BasicHttpBinding_IService1Stub)
-                    new ru.gbuac.jaxws.basereg.Service1Locator().getBasicHttpBinding_IService1();
+                    new ru.gbuac.jaxws.basereg.Service1Locator(baseregServiceUri).getBasicHttpBinding_IService1();
         }
         catch (javax.xml.rpc.ServiceException jre) {
             if(jre.getLinkedCause()!=null)
