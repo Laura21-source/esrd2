@@ -1,5 +1,15 @@
 package ru.gbuac.service;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -11,6 +21,7 @@ import ru.gbuac.jaxws.basereg.CreateDocumentFile;
 import ru.gbuac.jaxws.basereg.DocStatus;
 import ru.gbuac.jaxws.basereg.ResponseStatus;
 import ru.gbuac.model.Doc;
+import ru.gbuac.model.Organization;
 import ru.gbuac.model.PublishData;
 import ru.gbuac.util.DateTimeUtil;
 
@@ -23,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.List;
 
 @Service
 public class PublishDataService {
@@ -65,10 +77,52 @@ public class PublishDataService {
                     signer, signerPosition, publishData);
 
 
+
+            String[] openDataClassifierParams = topLevelClassifierParams[2].split(";");
+            publishOpenData(openDataClassifierParams[0], regNum, regDate, docName, regDate, uri, );
             publishDataRepository.save(publishData);
-            //String[] openDataClassifierParams = topLevelClassifierParams[2].split(";");
-            //publishOpenData(uri);
         }
+    }
+
+    private void publishOpenData(String docType, String docNumber, String docDate, String docTitle,
+                                 String dateAccept, String contentUrl, String meetingDatePlan, String meetingAddress,
+                                 List<Organization> organizationList) {
+        try {
+            JSONObject query = new JSONObject();
+            query.put("docType", docType);
+            query.put("docNumber", docNumber);
+            query.put("docDate", docDate);
+            query.put("docTitle", docTitle);
+            query.put("dateAccept", dateAccept);
+            query.put("contentUrl", contentUrl);
+            query.put("meetingDatePlan", meetingDatePlan);
+            query.put("meetingAddress", meetingAddress);
+            JSONArray jsonArray = new JSONArray();
+            for (Organization organization : organizationList) {
+                JSONObject organizationQuery = new JSONObject();
+                organizationQuery.put("inn", organization.getInn());
+                organizationQuery.put("ogrn", organization.getOgrn());
+                jsonArray.add(organizationQuery);
+            }
+            query.put("organizations", jsonArray);
+
+            String JSONString = query.toJSONString();
+
+
+            HttpPost request = new HttpPost(uri);
+            StringEntity params = new StringEntity(JSONString, "UTF-8");
+            params.setContentEncoding("UTF-8");
+            params.setContentType("application/json");
+            request.addHeader("Authorization", "Token 13c49f7cdb1ab14887f0329ff2bba40073a74c25");
+            request.setEntity(params);
+            HttpResponse response = httpClient.execute(request);
+            String data = EntityUtils.toString(response.getEntity());
+            JsonParser parser = new JsonParser();
+            JsonObject root = parser.parse(data).getAsJsonObject();
+        } catch (Exception ex) {
+
+        }
+        return returned;
     }
 
     private String publishBaseReg(String docName, String docType, String fileName, byte[] fileBytes,
@@ -112,7 +166,6 @@ public class PublishDataService {
         return "";
     }
 
-
     private void publishMosRu(String docName, String publishDate, String rubrname, String uri, String fileName,
                               byte[] fileBytes, PublishData publishData) {
         try {
@@ -142,10 +195,6 @@ public class PublishDataService {
                     "            </td>\n" +
                     "        </tr>\n" +
                     "        <tr>\n" +
-                    "            <td colspan=\"2\" width=\"100%\" valign=\"top\">\n" +
-                    "            </td>\n" +
-                    "        </tr>\n" +
-                    "        <tr>\n" +
                     "            <td width=\"35%\" valign=\"top\">\n" +
                     "                <p>\n" +
                     "                    Название документа/ информация\n" +
@@ -155,10 +204,6 @@ public class PublishDataService {
                     "                <p>\n" +
                     "                    "+docName+"\n" +
                     "                </p>\n" +
-                    "            </td>\n" +
-                    "        </tr>\n" +
-                    "        <tr>\n" +
-                    "            <td colspan=\"2\" width=\"100%\" valign=\"top\">\n" +
                     "            </td>\n" +
                     "        </tr>\n" +
                     "        <tr>\n" +
@@ -211,9 +256,5 @@ public class PublishDataService {
         catch (Exception e) {
 
         }
-    }
-
-    private void publishOpenData(String uri) {
-
     }
 }
