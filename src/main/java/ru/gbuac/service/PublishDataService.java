@@ -79,7 +79,7 @@ public class PublishDataService {
 
 
             String[] openDataClassifierParams = topLevelClassifierParams[2].split(";");
-            publishOpenData(openDataClassifierParams[0], regNum, regDate, docName, regDate, uri, );
+            //publishOpenData(openDataClassifierParams[0], regNum, regDate, docName, regDate, uri, );
             publishDataRepository.save(publishData);
         }
     }
@@ -87,6 +87,7 @@ public class PublishDataService {
     private void publishOpenData(String docType, String docNumber, String docDate, String docTitle,
                                  String dateAccept, String contentUrl, String meetingDatePlan, String meetingAddress,
                                  List<Organization> organizationList) {
+        /*
         try {
             JSONObject query = new JSONObject();
             query.put("docType", docType);
@@ -123,6 +124,7 @@ public class PublishDataService {
 
         }
         return returned;
+ */
     }
 
     private String publishBaseReg(String docName, String docType, String fileName, byte[] fileBytes,
