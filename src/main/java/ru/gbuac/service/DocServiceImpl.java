@@ -448,11 +448,14 @@ public class DocServiceImpl implements DocService {
                         LocalDate agendaDate = docValuedFields.getValuedField().getValueDate().toLocalDate();
                         optional.append(agendaDate.format(DateTimeFormatter.ofPattern("dd.MM")));
                         long agendaCountForDay = docs.stream()
+                                .filter(f -> f.getDocType().getId() == 2)
+                                .filter(f -> f.getDocStatus() == DocStatus.IN_WORK || f.getDocStatus() == DocStatus.COMPLETED)
                                 .flatMap(f -> f.getDocValuedFields().stream())
                                 .filter(f -> f.getValuedField().getField().getId() == 4)
                                 .filter(f -> f.getValuedField().getValueDate().toLocalDate().equals(agendaDate))
                                 .count();
                         optional.append("-");
+                        agendaCountForDay++;
                         optional.append(agendaCountForDay);
                         break;
                     }
