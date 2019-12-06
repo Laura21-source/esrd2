@@ -694,7 +694,6 @@ public class Templater {
                 .convert(docxInputStream).as(DocumentType.DOCX)
                 .to(byteArrayOutputStream).as(DocumentType.PDF)
                 .prioritizeWith(1000).execute();
-        converter.shutDown();
         return byteArrayOutputStream;
     }
 }
