@@ -307,7 +307,7 @@
 <script>
     setTimeout(function() {
         $('#mdb-preloader').remove();
-    }, 1500);
+    }, 5000);
     $(function() {
         // Список всех документов
         var docAllURL = "rest/profile/doctypes/";

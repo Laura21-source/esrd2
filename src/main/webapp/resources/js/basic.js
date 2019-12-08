@@ -42,6 +42,19 @@ $(function() {
         //window.location.href;
     });
 
+    $(document).on("click", ".addGroupNew", function() {
+        var linksOld = parseInt($("#newBlockGroupNew [data-block='2']").length);
+        linksOld = linksOld + 1;
+        var links = $(".blockGroupNew:last").attr('id');
+        links = parseInt(links.substr(13));
+        var links1 = links + 1;
+        var asd = $("#selectTypeNew").val();
+        var newField = getDownFields("rest/profile/doctypes/" + asd + "/fields", '', links1, 1, linksOld);
+        $('#newBlockGroupNew').append(newField);
+        //window.location.hash = 'blockGroup'+links1;
+        //window.location.href;
+    });
+
     /*$(document).on("click", ".addGroup", function() {
         var id = $(this).attr('data-block');
         var idBlock = '#blockDiv'+id+' .blockField';
@@ -60,7 +73,7 @@ $(function() {
         //window.location.href;
     });*/
 
-  $(document).on("click", ".addGroupNew", function() {
+  /*$(document).on("click", ".addGroupNew", function() {
       var id = $(this).attr('data-block');
       var idBlock = '#blockDivNew'+id+' .blockField';
       var linksOld = parseInt($(idBlock+" .blockGroup [data-block='2']").length);
@@ -69,7 +82,7 @@ $(function() {
       var asd = $("#selectType").val();
       groupNewFields(idBlock, id, linksOld, '', linksOld, '');
       getStack ("rest/profile/doctypes/" + asd + "/fields", pole, linksOld);
-  });
+  });*/
 
   // Добавить пользователя
   $(document).on("click", ".addUser", function() {
