@@ -18,6 +18,8 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import ru.gbuac.dao.CatalogElemRepository;
+import ru.gbuac.dao.CatalogRepository;
 import ru.gbuac.dao.OrganizationRepository;
 import ru.gbuac.dao.PublishDataRepository;
 import ru.gbuac.jaxws.basereg.CreateDocumentFile;
@@ -37,8 +39,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PublishDataService {
@@ -70,6 +74,9 @@ public class PublishDataService {
 
     @Autowired
     private OrganizationRepository organizationRepository;
+
+    @Autowired
+    private CatalogElemRepository catalogElemRepository;
 
     @Autowired
     private PublishDataRepository publishDataRepository;
@@ -131,41 +138,56 @@ public class PublishDataService {
                 query.put("docTitle", docName);
                 query.put("dateAccept", doc.getRegDateTime().toLocalDate().toString());
                 query.put("contentUrl", uri);
-                if (doc.getDocType().getId() == 2) {
-                    String agendaDateTime = "";
-                    DocValuedFields vfAgendaDate = doc.getDocValuedFields().stream()
-                            .filter(f -> f.getValuedField().getField().getName().equals("Дата заседания")).findFirst().orElse(null);
-                    DocValuedFields vfAgendaTime = doc.getDocValuedFields().stream()
-                            .filter(f -> f.getValuedField().getField().getName().equals("Время заседания")).findFirst().orElse(null);
-                    if (vfAgendaDate != null && vfAgendaTime != null) {
-                        LocalTime agendaTime = vfAgendaTime.getValuedField().getValueDateTime().toLocalTime();
-                        int agendaHours = agendaTime.getHour();
-                        int agendaMinutes = agendaTime.getMinute();
-                        agendaDateTime = vfAgendaDate.getValuedField().getValueDate()
-                                .plusHours(agendaHours)
-                                .plusMinutes(agendaMinutes)
-                                .toString();
-                    }
+                switch (doc.getDocType().getId()) {
+                    case 2:
+                        String agendaDateTime = "";
+                        DocValuedFields vfAgendaDate = doc.getDocValuedFields().stream()
+                                .filter(f -> f.getValuedField().getField().getName().equals("Дата заседания")).findFirst().orElse(null);
+                        DocValuedFields vfAgendaTime = doc.getDocValuedFields().stream()
+                                .filter(f -> f.getValuedField().getField().getName().equals("Время заседания")).findFirst().orElse(null);
+                        if (vfAgendaDate != null && vfAgendaTime != null) {
+                            LocalTime agendaTime = vfAgendaTime.getValuedField().getValueDateTime().toLocalTime();
+                            int agendaHours = agendaTime.getHour();
+                            int agendaMinutes = agendaTime.getMinute();
+                            agendaDateTime = vfAgendaDate.getValuedField().getValueDate()
+                                    .plusHours(agendaHours)
+                                    .plusMinutes(agendaMinutes)
+                                    .toString();
+                        }
+                        query.put("meetingDatePlan", agendaDateTime);
 
-                    query.put("meetingDatePlan", agendaDateTime);
-                    query.put("meetingAddress", "г. Москва, Вознесенский пер., д. 21, каб. 42а");
-                    JSONArray jsonArray = new JSONArray();
-                    List<Organization> organizationList = doc.getDocValuedFields()
-                            .stream().filter(f -> f.getValuedField().getField().getName().equals("Вопросы повестки"))
-                            .flatMap(f -> f.getValuedField().getChildValuedField().stream())
-                            .filter(f -> f.getField().getName().equals("Организация"))
-                            .filter(f -> f.getValueInt() != null)
-                            .map(f -> organizationRepository.findById(f.getValueInt()).orElse(null))
-                            .filter(Objects::nonNull)
-                            .collect(Collectors.toList());
+                        query.put("meetingAddress", "г. Москва, Вознесенский пер., д. 21, каб. 42а");
 
-                    for (Organization organization : organizationList) {
-                        JSONObject organizationQuery = new JSONObject();
-                        organizationQuery.put("inn", organization.getInn());
-                        organizationQuery.put("ogrn", organization.getOgrn());
-                        jsonArray.add(organizationQuery);
-                    }
-                    query.put("organizations", jsonArray);
+                        JSONArray jsonArrayOrgs = new JSONArray();
+                        List<Organization> organizationList = doc.getDocValuedFields()
+                                .stream().filter(f -> f.getValuedField().getField().getName().equals("Вопросы повестки"))
+                                .flatMap(f -> f.getValuedField().getChildValuedField().stream())
+                                .filter(f -> f.getField().getName().equals("Организация"))
+                                .filter(f -> f.getValueInt() != null)
+                                .map(f -> organizationRepository.findById(f.getValueInt()).orElse(null))
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.toList());
+
+                        for (Organization organization : organizationList) {
+                            JSONObject organizationQuery = new JSONObject();
+                            organizationQuery.put("inn", organization.getInn());
+                            organizationQuery.put("ogrn", organization.getOgrn());
+                            jsonArrayOrgs.add(organizationQuery);
+                        }
+                        query.put("organizations", jsonArrayOrgs);
+
+                        JSONArray jsonArraySpheres = new JSONArray();
+                        doc.getDocValuedFields()
+                                .stream().filter(f -> f.getValuedField().getField().getName().equals("Вопросы повестки"))
+                                .flatMap(f -> f.getValuedField().getChildValuedField().stream())
+                                .filter(f -> f.getField().getName().equals("Сфера деятельности"))
+                                .filter(f -> f.getCatalogElem() != null)
+                                .map(f -> f.getCatalogElem().getValueStrPreposition())
+                                .filter(Objects::nonNull)
+                                .distinct()
+                                .forEach(f -> jsonArraySpheres.add(f));
+                        query.put("spheres", jsonArraySpheres);
+                        break;
                 }
                 String JSONString = query.toJSONString();
 
