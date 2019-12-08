@@ -31,9 +31,11 @@ public class MailService {
     @Value("${email.uri}")
     private String uri;
 
-    @Value("${email.sender}")
-    private String sender;
+    @Value("${email.sender.name}")
+    private String senderName;
 
+    @Value("${email.sender.addr}")
+    private String senderAddr;
 
     @Value("${email.login}")
     private String login;
@@ -41,7 +43,7 @@ public class MailService {
     public void sendAgreementEmail(String email, int docId, String projectRegNum) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
-            message.setFrom(new InternetAddress(sender + "<" + login + ">"));
+            message.setFrom(new InternetAddress(senderName + "<" + senderAddr + ">"));
 
             boolean multipart = true;
 
@@ -71,7 +73,7 @@ public class MailService {
     public void sendDistributionEmail(String email, int docId, String regNum) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
-            message.setFrom(new InternetAddress(sender + "<" + login + ">"));
+            message.setFrom(new InternetAddress(senderName + "<" + senderAddr + ">"));
 
             boolean multipart = true;
 
@@ -101,7 +103,7 @@ public class MailService {
     public void sendExecutionEmail(String email, int docId, String regNum) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
-            message.setFrom(new InternetAddress(sender + "<" + login + ">"));
+            message.setFrom(new InternetAddress(senderName + "<" + senderAddr + ">"));
 
             boolean multipart = true;
 
@@ -131,7 +133,7 @@ public class MailService {
     public void sendRegisteredEmail(String email, int docId, String projRegNum, String regNum) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
-            message.setFrom(new InternetAddress(sender + "<" + login + ">"));
+            message.setFrom(new InternetAddress(senderName + "<" + senderAddr + ">"));
 
             boolean multipart = true;
 

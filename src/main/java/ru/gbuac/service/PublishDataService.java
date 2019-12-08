@@ -34,6 +34,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -46,8 +47,11 @@ public class PublishDataService {
     @Autowired
     public JavaMailSender emailSender;
 
-    @Value("${email.sender}")
-    private String sender;
+    @Value("${email.sender.name}")
+    private String senderName;
+
+    @Value("${email.sender.addr}")
+    private String senderAddr;
 
     @Value("${email.login}")
     private String login;
@@ -81,8 +85,6 @@ public class PublishDataService {
             String signer = signerUser.getFirstname() + " " + signerUser.getPatronym() + " " + signerUser.getLastname();
             String signerPosition = signerUser.getPosition();
 
-            String[] topLevelClassifierParams = publishClassifierParams.split("\\|");
-
             String docName = String.format(doc.getDocType().getPublishNameMask(), regNum, regDate);
             if (doc.getDocType().getId() == 2) {
                 String agendaDate = "";
@@ -94,16 +96,24 @@ public class PublishDataService {
                 docName = String.format(doc.getDocType().getPublishNameMask(), regNum, agendaDate);
             }
 
+            String[] topLevelClassifierParams = publishClassifierParams.split("\\|");
+
             String[] mosRuClassifierParams = topLevelClassifierParams[0].split(";");
-            publishMosRu(docName, publishDate, mosRuClassifierParams[0], mosRuClassifierParams[1],
-                    fileName, fileBytes, publishData);
+            if (mosRuClassifierParams.length != 0) {
+                publishMosRu(docName, publishDate, mosRuClassifierParams[0], mosRuClassifierParams[1],
+                        fileName, fileBytes, publishData);
+            }
 
             String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
-            String uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
-                    signer, signerPosition, publishData);
+            if (baseRegClassifierParams.length != 0) {
+                String uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
+                        signer, signerPosition, publishData);
 
-            String[] riClassifierParams = topLevelClassifierParams[2].split(";");
-            publishRi(doc, docName, riClassifierParams[0], uri, publishData);
+                String[] riClassifierParams = topLevelClassifierParams[2].split(";");
+                if (riClassifierParams.length != 0) {
+                    publishRi(doc, docName, riClassifierParams[0], uri, publishData);
+                }
+            }
             publishDataRepository.save(publishData);
         }
     }
@@ -117,19 +127,27 @@ public class PublishDataService {
                 JSONObject query = new JSONObject();
                 query.put("docType", docClass);
                 query.put("docNumber", doc.getRegNum());
-                query.put("docDate", DateTimeUtil.toString(doc.getRegDateTime().toLocalDate()));
+                query.put("docDate", doc.getRegDateTime().toLocalDate().toString());
                 query.put("docTitle", docName);
-                query.put("dateAccept", DateTimeUtil.toString(doc.getRegDateTime().toLocalDate()));
+                query.put("dateAccept", doc.getRegDateTime().toLocalDate().toString());
                 query.put("contentUrl", uri);
                 if (doc.getDocType().getId() == 2) {
-                    String agendaDate = "";
-                    DocValuedFields vf = doc.getDocValuedFields().stream()
+                    String agendaDateTime = "";
+                    DocValuedFields vfAgendaDate = doc.getDocValuedFields().stream()
                             .filter(f -> f.getValuedField().getField().getName().equals("Дата заседания")).findFirst().orElse(null);
-                    if (vf != null) {
-                        agendaDate = DateTimeUtil.toString(vf.getValuedField().getValueDate().toLocalDate());
+                    DocValuedFields vfAgendaTime = doc.getDocValuedFields().stream()
+                            .filter(f -> f.getValuedField().getField().getName().equals("Время заседания")).findFirst().orElse(null);
+                    if (vfAgendaDate != null && vfAgendaTime != null) {
+                        LocalTime agendaTime = vfAgendaTime.getValuedField().getValueDateTime().toLocalTime();
+                        int agendaHours = agendaTime.getHour();
+                        int agendaMinutes = agendaTime.getMinute();
+                        agendaDateTime = vfAgendaDate.getValuedField().getValueDate()
+                                .plusHours(agendaHours)
+                                .plusMinutes(agendaMinutes)
+                                .toString();
                     }
 
-                    query.put("meetingDatePlan", agendaDate);
+                    query.put("meetingDatePlan", agendaDateTime);
                     query.put("meetingAddress", "г. Москва, Вознесенский пер., д. 21, каб. 42а");
                     JSONArray jsonArray = new JSONArray();
                     List<Organization> organizationList = doc.getDocValuedFields()
@@ -215,7 +233,7 @@ public class PublishDataService {
                               byte[] fileBytes, PublishData publishData) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
-            message.setFrom(new InternetAddress(sender + "<" + login + ">"));
+            message.setFrom(new InternetAddress(senderName + "<" + senderAddr + ">"));
 
             boolean multipart = true;
 
