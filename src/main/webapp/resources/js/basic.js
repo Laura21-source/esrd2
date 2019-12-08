@@ -29,7 +29,7 @@ $(function() {
   //$('[data-toggle="tooltip"]').tooltip();
 
     // Добавить блок
-    /*$(document).on("click", ".addGroup", function() {
+    $(document).on("click", ".addGroup", function() {
         var linksOld = parseInt($("#newBlockGroup [data-block='1']").length);
         linksOld = linksOld + 1;
         var links = $(".blockGroup:last").attr('id');
@@ -40,9 +40,9 @@ $(function() {
         $('#newBlockGroup').append(newField);
         //window.location.hash = 'blockGroup'+links1;
         //window.location.href;
-    });*/
+    });
 
-    $(document).on("click", ".addGroup", function() {
+    /*$(document).on("click", ".addGroup", function() {
         var id = $(this).attr('data-block');
         var idBlock = '#blockDiv'+id+' .blockField';
         //alert(idBlock);
@@ -58,7 +58,7 @@ $(function() {
         getStack ("rest/profile/doctypes/" + asd + "/fields", pole, linksOld);
         //window.location.hash = 'blockGroup'+links1;
         //window.location.href;
-    });
+    });*/
 
   $(document).on("click", ".addGroupNew", function() {
       var id = $(this).attr('data-block');

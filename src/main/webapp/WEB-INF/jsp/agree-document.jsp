@@ -6,6 +6,12 @@
 
 <jsp:include page="fragments/headerNew.jsp"/>
 
+
+<script>
+    $(window).on('load', function() {
+        $('#mdb-preloader').addClass('loaded');
+    });
+</script>
 <main>
     <div id="mdb-preloader" class="flex-center">
         <h2 class="text-white mr-5">Подождите, идёт загрузка документа</h2>
@@ -299,13 +305,10 @@
 <jsp:include page="fragments/modals/newDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
-    $(window).on('load', function() {
-        $('#mdb-preloader').addClass('loaded');
-    });
+    setTimeout(function() {
+        $('#mdb-preloader').remove();
+    }, 1500);
     $(function() {
-        setTimeout(function() {
-            $('#mdb-preloader').remove();
-        }, 1500);
         // Список всех документов
         var docAllURL = "rest/profile/doctypes/";
         // Получаем id документа из строки
