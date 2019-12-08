@@ -8,6 +8,7 @@
 
 <main>
     <div id="mdb-preloader" class="flex-center">
+        <h2 class="text-white mr-5">Подождите, идёт загрузка документа</h2>
         <div class="preloader-wrapper active">
             <div class="spinner-layer spinner-blue-only">
                 <div class="circle-clipper left">
