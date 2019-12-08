@@ -7,6 +7,21 @@
 <jsp:include page="fragments/headerNew.jsp"/>
 
 <main>
+    <div id="mdb-preloader" class="flex-center">
+        <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid text-center mb-4">
         <div class="card mx-auto w-100">
             <div class="card-body">
@@ -283,6 +298,8 @@
 <jsp:include page="fragments/modals/newDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
+    $(window).on('load', function() {
+        $('#mdb-preloader').addClass('loaded');
     $(function() {
         // Список всех документов
         var docAllURL = "rest/profile/doctypes/";
@@ -838,5 +855,7 @@
             }
         });
     });
+    });
+
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>

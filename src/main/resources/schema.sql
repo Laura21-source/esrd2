@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS esrd.resolutions_users CASCADE;
 DROP TABLE IF EXISTS esrd.users_distribution_departments CASCADE;
 DROP TABLE IF EXISTS esrd.users_delegation_users CASCADE;
 DROP TABLE IF EXISTS esrd.html_tables CASCADE;
+DROP TABLE IF EXISTS publish_data CASCADE;
 
 DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
@@ -182,17 +183,6 @@ CREATE TABLE esrd.catalog
 );
 
 CREATE TABLE esrd.catalogelem
-(
-    id                      INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
-    value_int               INTEGER                         ,
-    value_str               VARCHAR                         ,
-    value_str_preposition   VARCHAR                         ,
-    catalog_id              INTEGER                 NOT NULL,
-    parent_catalogelem_id   INTEGER                         ,
-    FOREIGN KEY (catalog_id) REFERENCES esrd.catalog (id) ON DELETE CASCADE
-);
-
-CREATE TABLE esrd.catalogelem2
 (
     id                      INTEGER PRIMARY KEY DEFAULT nextval('esrd.global_seq'),
     value_int               INTEGER                         ,

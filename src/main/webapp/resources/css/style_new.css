@@ -100,3 +100,9 @@ sup {font-size: 6px;}
 
 .chosen-invalid, .invalid {border: 1px solid #f00!important;}
 /*.invalid-feedback {text-align: left!important; margin-top: 0!important; padding-top: 0!important;}*/
+
+/* Блокировка загрузки страницы */
+#mdb-preloader.loaded {
+  opacity: 0;
+  transition: .3s ease-in 1s;
+}
