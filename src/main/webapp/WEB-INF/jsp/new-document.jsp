@@ -252,7 +252,7 @@
                 });
                 // Ошибка сохранения документа
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка сохранения списка согласования!<br>Заполните обязательное поле - Адресат!");
+                    toastr["error"]("Ошибка сохранения документа!<br>Заполните обязательное поле - Адресат!");
                 });
             }
         });
@@ -319,7 +319,7 @@
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem);
                 var reformatPDF = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-                //console.log(reformatPDF);
+                console.log(reformatPDF);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs/pdf',
