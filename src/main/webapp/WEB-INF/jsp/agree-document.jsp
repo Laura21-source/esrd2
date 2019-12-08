@@ -301,7 +301,11 @@
 <script>
     $(window).on('load', function() {
         $('#mdb-preloader').addClass('loaded');
+    });
     $(function() {
+        setTimeout(function() {
+            $('#mdb-preloader').remove();
+        }, 1500);
         // Список всех документов
         var docAllURL = "rest/profile/doctypes/";
         // Получаем id документа из строки
@@ -855,7 +859,6 @@
                 });
             }
         });
-    });
     });
 
 </script>
