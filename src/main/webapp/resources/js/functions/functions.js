@@ -11,141 +11,6 @@
         }
     });
 
-    // Отображение размера плашек от значений показателей
-    function statisticBlock (array) {
-        var countMax = /*Math.max.apply(null, array);*/ array[0]['value'];
-        //var sum75 = parseInt(countMax*0.75);
-        var sum50 = countMax*0.5;
-        var sum25 = countMax*0.25;
-        console.log(countMax+' - '+sum50+' - '+sum25);
-        var sumClass = 'w-25';
-        for(var i in array) {
-            var value = array[i]['value'];
-            var pole = array[i]['pole'];
-            if(value == countMax) {sumClass = 'w-100';}
-            if(value < countMax && value > sum50) {sumClass = 'w-75';}
-            if(value < sum50 && value > sum25) {sumClass = 'w-50';}
-            if(value < sum25) {sumClass = 'w-25';}
-            $(pole).addClass(sumClass).html(value);
-        }
-    }
-
-    // Массив JSON со всеми значениями сумм элементов
-    function countElemJSON (url, value) {
-        $.getJSON(url, function(data) {
-            if(value == 1) {
-                var mySum = data.atThisMounthOnControl;
-                var mySuccess = data.atThisMounthOnControlCompletedInTime;
-                var myWarning = data.atThisMounthOnControlCompletedAfterTime;
-                var myDanger = data.atThisMounthOnControlNotCompleted;
-                var myDis = [{'pole':'#mySum','value':mySum},{'pole':'#mySuccess','value':mySuccess},{'pole':'#myWarning','value':myWarning},{'pole':'#myDanger','value':myDanger}];
-                statisticBlock(myDis);
-            }
-            if(value == 2) {
-                var inWorkSuccess = data.inworkMoreDeadlineByDepartment;
-                var inWorkDanger = data.inworkLessDeadlineByDepartment;
-                var allInWork = [{'pole':'#inWorkSuccess','value':inWorkSuccess},{'pole':'#inWorkDanger','value':inWorkDanger}];
-                statisticBlock(allInWork);
-                // Для бубликов
-                var inWorkSuccessUser = data.inworkMoreDeadlineByUserName;
-                var inWorkDangerUser = data.inworkLessDeadlineByUserName;
-                am4core.ready(function () {
-                    am4core.useTheme(am4themes_dark);
-                    am4core.useTheme(am4themes_animated);
-                    var chart = am4core.create("chartDiv1", am4charts.PieChart3D);
-                    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
-                    chart.data = [
-                        {
-                            country: "Срок контроля 3 дня и меньше",
-                            litres: inWorkDangerUser,
-                            color: am4core.color("#ff4444")
-                        },
-                        {
-                            country: "Срок контроля более 3 дней",
-                            litres: inWorkSuccessUser,
-                            color: am4core.color("#2BBBAD")
-                        }
-                    ];
-                    var pieSeries = chart.series.push(new am4charts.PieSeries3D());
-                    pieSeries.dataFields.value = "litres";
-                    pieSeries.dataFields.category = "country";
-                    pieSeries.slices.template.propertyFields.fill = "color";
-                    chart.innerRadius = am4core.percent(63);
-                    pieSeries.labels.template.disabled = true;
-                    pieSeries.ticks.template.disabled = true;
-                });
-            }
-            if(value == 3) {
-                var agreeSuccess = data.agreementMoreDeadlineByDepartment;
-                var agreeDanger = data.agreementLessDeadlineByDepartment;
-                var allAgrre = [{'pole':'#agreeSuccess','value':agreeSuccess},{'pole':'#agreeDanger','value':agreeDanger}];
-                statisticBlock(allAgrre);
-                // Для бубликов
-                var agreeSuccessUser = data.agreementLessDeadlineByUserName;
-                var agreeDangerUser = data.agreementMoreDeadlineByUserName;
-                am4core.ready(function() {
-                    am4core.useTheme(am4themes_dark);
-                    am4core.useTheme(am4themes_animated);
-                    var chart = am4core.create("chartDiv2", am4charts.PieChart3D);
-                    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-                    chart.data = [
-                        {
-                            country: "Срок контроля 3 дня и меньше",
-                            litres: agreeDangerUser,
-                            color: am4core.color("#ff4444")
-                        },
-                        {
-                            country: "Срок контроля более 3 дней",
-                            litres: agreeSuccessUser,
-                            color: am4core.color("#2BBBAD")
-                        }
-                    ];
-                    var pieSeries = chart.series.push(new am4charts.PieSeries3D());
-                    pieSeries.dataFields.value = "litres";
-                    pieSeries.dataFields.category = "country";
-                    pieSeries.slices.template.propertyFields.fill = "color";
-                    chart.innerRadius = am4core.percent(63);
-                    pieSeries.labels.template.disabled = true;
-                    pieSeries.ticks.template.disabled = true;
-                });
-            }
-            if(value == 4) {
-                var distSuccess = data.distributionMoreDeadlineByDepartment;
-                var distDanger = data.distributionLessDeadlineByDepartment;
-                var allDist = [{'pole':'#distSuccess','value':distSuccess},{'pole':'#distDanger','value':distDanger}];
-                statisticBlock(allDist);
-                var distSuccessUser = data.distributionMoreDeadlineByChiefUserName;
-                var distDangerUser = data.distributionLessDeadlineByChiefUserName;
-                am4core.ready(function() {
-                    am4core.useTheme(am4themes_dark);
-                    am4core.useTheme(am4themes_animated);
-                    var chart = am4core.create("chartDiv3", am4charts.PieChart3D);
-                    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-                    chart.data = [
-                        {
-                            country: "Срок контроля 3 дня и меньше",
-                            litres: distDangerUser,
-                            color: am4core.color("#ff4444")
-                        },
-                        {
-                            country: "Срок контроля более 3 дней",
-                            litres: distSuccessUser,
-                            color: am4core.color("#2BBBAD")
-                        }
-                    ];
-                    var pieSeries = chart.series.push(new am4charts.PieSeries3D());
-                    pieSeries.dataFields.value = "litres";
-                    pieSeries.dataFields.category = "country";
-                    pieSeries.slices.template.propertyFields.fill = "color";
-                    chart.innerRadius = am4core.percent(63);
-                    pieSeries.labels.template.disabled = true;
-                    pieSeries.ticks.template.disabled = true;
-                });
-            }
-        })
-    }
-
     // Получение id документа из адресной строки
     function getId() {return new URL(window.location.href).searchParams.get("id");}
     function getPage() {return new URL(window.location.href).searchParams.get("page");}
@@ -160,7 +25,12 @@
         return $.getJSON (url, function(data) {
             var userName = data.lastname+' '+data.firstname+' '+data.patronym;
             $(element).html(userName);
-            $('#hiddenUserBlock2').html('<input type="hidden" id="helpLogin" value="'+data.name+'"><input type="hidden" id="helpFIO" value="'+userName+'"><input type="hidden" id="helpPhone" value="'+data.phone+'"><input type="hidden" id="helpEmail" value="'+data.email+'">');
+            $('#hiddenUserBlock2').html(
+                '<input type="hidden" id="helpLogin" value="'+data.name+'">' +
+                '<input type="hidden" id="helpFIO" value="'+userName+'">' +
+                '<input type="hidden" id="helpPhone" value="'+data.phone+'">' +
+                '<input type="hidden" id="helpEmail" value="'+data.email+'">'
+            );
         });
     }
 
@@ -268,10 +138,10 @@
     16. selfClass - Название собственного класса
     */
     function createInput (element, type, id, name, title, short, iconName, value, field, up, idField, enabled, required, attachment, text, selfClass) {
+        //console.log(idField);
         var idVal = "";
         if (idField) {idVal = ' data-id="'+idField+'"';}
         var inputVal = '';
-        //if (value) {inputVal = ' value="'+value+'"';}
         if (value) {inputVal = " value='"+value+"'";}
         var col = '<div class="col-md-12">';
         var colShort = '';
@@ -287,9 +157,7 @@
             enaBled = ' disabled';
             upClass = upClass+' disableElem';
         }
-        if(selfClass !='') {
-            upClass = upClass+' '+selfClass;
-        }
+        if(selfClass !='') {upClass = upClass+' '+selfClass;}
         var reqUired = '';
         var requiredSup = '';
         var requiredValidate = '';
@@ -299,37 +167,62 @@
             requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
         }
         if (attachment == 1) {
-            $(element).append('<div class="md-form file-field mb-2">' +
-                '<div class="btn btn-primary btn-sm float-left"><span>Обзор</span>' +
-                '<input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'" data-field="'+field+'" '+idVal+enaBled+reqUired+' class="inputFile'+upClass+'"'+inputVal+'>' +
-                '</div>' +
-                '<div class="file-path-wrapper btnLoad">' +
-                '<input class="file-path validate" type="text" placeholder="Выберите файл">'+requiredValidate+'</div></div>');
+            $(element).append(
+                '<div class="md-form file-field mb-2">' +
+                '   <div class="btn btn-primary btn-sm float-left"><span>Обзор</span>' +
+                '       <input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'"' +
+                ' data-field="'+field+'" '+idVal+enaBled+reqUired+' class="inputFile'+upClass+'"'+inputVal+'>' +
+                '   </div>' +
+                '   <div class="file-path-wrapper btnLoad">' +
+                '       <input class="file-path validate" type="text" placeholder="Выберите файл">'+requiredValidate+'' +
+                '   </div>' +
+                '</div>');
         } else if (attachment == 2) {
-            $(element).append('<div class="row d-flex align-items-center">' +
-                '<div class="col-md-9">' +
-                '<div class="md-form file-field">' +
-                '<div class="btn btn-primary btn-sm float-left"><span>Обзор</span>' +
-                '<input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'" data-field="'+field+'" '+idVal+enaBled+reqUired+' class="inputFile'+upClass+'"'+inputVal+'>' +
-                '</div>' +
-                '<div class="file-path-wrapper btnLoad">' +
-                '<input class="file-path validate" type="text" placeholder="Выберите файл">'+requiredValidate+'</div></div></div>' +
-                '<div class="col-md-3"><a href="#" id="btnLoad" class="btn btn-default btn-sm rounded" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download"></i></a></div></div>');
+            $(element).append(
+                '<div class="row d-flex align-items-center">' +
+                '   <div class="col-md-9">' +
+                '       <div class="md-form file-field">' +
+                '           <div class="btn btn-primary btn-sm float-left"><span>Обзор</span>' +
+                '               <input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'"' +
+                ' data-field="'+field+'" '+idVal+enaBled+reqUired+' class="inputFile'+upClass+'"'+inputVal+'>' +
+                '           </div>' +
+                '       <div class="file-path-wrapper btnLoad">' +
+                '           <input class="file-path validate" type="text" placeholder="Выберите файл">'+requiredValidate+'</div>' +
+                '       </div>' +
+                '   </div>' +
+                '   <div class="col-md-3">' +
+                '       <a href="#" id="btnLoad" class="btn btn-default btn-sm rounded" target="_blank"' +
+                ' data-toggle="tooltip" title="Скачать файл">' +
+                '           <i class="fas fa-download"></i>' +
+                '       </a>' +
+                '   </div>' +
+                '</div>');
         } else if (text == 1) {
-            $(element).append('<input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'" data-field="'+field+'" '+idVal+enaBled+reqUired+' class="white form-control'+upClass+'"'+inputVal+'>'+requiredValidate);
+            $(element).append(
+                '<input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'"' +
+                ' data-field="'+field+'"' +
+                ' '+idVal+enaBled+reqUired+' class="white form-control'+upClass+'"'+inputVal+'>' +
+                ''+requiredValidate);
         } else {
-            $(element).append('<div class="row ml-1 mb-3">'+col+'<div class="row">' +
-                '<div class="col-md-3 text-left">' +
-                '<div for="'+name+'" class="text-muted">'+iconName+requiredSup+'</div>' +
-                '</div><div class="col-md-9">' +
-                '<input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'" data-field="'+field+'" '+idVal+enaBled+reqUired+' class="white form-control'+upClass+'"'+inputVal+'>'+requiredValidate+'</div></div></div>'+colShort+'</div>');
+            $(element).append(
+                '<div class="row d-flex align-items-center mb-3">'+col+'' +
+                '<div class="row">' +
+                '   <div class="col-md-3 text-left">' +
+                '       <div for="'+name+'" class="text-muted">'+iconName+requiredSup+'</div>' +
+                '   </div>' +
+                '   <div class="col-md-9">' +
+                '       <input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'" ' +
+                'data-field="'+field+'" '+idVal+enaBled+reqUired+'' +
+                ' class="white form-control'+upClass+'"'+inputVal+'>'+requiredValidate+'</div>' +
+                '   </div>' +
+                '</div>'+colShort+'</div>');
         }
     }
 
     // Добавить блок по чеку на чекбокс
     function checkedFields (element, block) {
         $(element).click(function() {
-            if ($(this).is(':checked')){
+            if ($(this).is(':checked')) {
                 $(block).removeClass('d-none');
                 $(this).val(1);
             } else {
@@ -402,18 +295,21 @@
 
     // Иерархические справочники (изменение элемента, к какому применить)
     function createOptionsValue (element, block, parent) {
-        //console.log(element);
         $(element).on('change', function () {
+            //console.log(element, block, parent);
             var numberSelectField = $(this).val();
+            //console.log(numberSelectField);
             if(numberSelectField) {
                 //$(block+' .parent').addClass('d-none');
                 var idParent = $(this).attr("data-catalog");
+                //console.log(block + " .p" + idParent);
                 $(block + " .p" + idParent).each(function () {
                     $(this).removeClass('d-none');
                     $(this).find("select").each(function () {
                         var tempCatalogField = $(this).attr("id");
                         var numberCatalogField = $(this).attr("data-catalog");
                         var nameCatalogField = '#'+tempCatalogField;
+                        //console.log(nameCatalogField);
                         // Количество опций по запросу, тут же в функции прячем ненужные
                         //console.log("rest/profile/catalogs/"+numberCatalogField+"/elems/parent/"+numberSelectField+" - "+nameCatalogField);
                         sumOptions ("rest/profile/catalogs/"+numberCatalogField+"/elems/parent/"+numberSelectField, nameCatalogField, parent);
@@ -882,7 +778,7 @@
         });
     }
 
-    // Формирование массива элементов для JSON
+    // Формирование массива элементов для JSON поля вне GROUP_FIELDS
     function createDataField (id, block) {
         var upElem = '.upElem';
         if(block && block === 1) {
@@ -957,6 +853,8 @@
                     "position": key
                 }
             } else if (valueData === 3) {
+                if(id > 0) {idField = parseInt($('.chosen-select', this).attr("data-id"));}
+
                 field = {
                     "field": {
                         "id" : idField,
@@ -967,6 +865,7 @@
                     "position": key
                 }
             } else if (valueData === 4) {
+                if(id > 0) {idField = parseInt($(this).attr("data-id"));}
                 var childBox = [];
                 var childField = '';
                 $('.childBox .checkClass').each(function() {
@@ -1003,20 +902,19 @@
                     "position": key
                 }
             }
+            //console.log(field);
             dataField.push(field);
         });
         return dataField;
     }
 
-    // Формирование массива блока для JSON - аргумент начало отсчёта
-    function createDataBlock (id, key, block) {
+    // Формирование массива блока для JSON поля внутри GROUP_FIELDS
+    /*function createDataBlock (id, key, block) {
         var blockGroup = '.blockGroup';
         var blockGroupId = '#blockGroup';
-        var blockName = '.blockName';
         if(block && block === 1) {
             blockGroup = '.blockGroupNew';
             blockGroupId = '#blockGroupNew';
-            blockName = '.blockNameNew';
         }
         var id = parseInt(id);
         var idField = null;
@@ -1029,15 +927,14 @@
                 if(i !== 0) {elementBlock = elementBlock+i;}
                 var elementArray = [];
                 $(elementBlock+' [data-field]').each(function() {
-                    if(id > 0) {idField = parseInt($(this).attr("data-id"));}
                     var typeAttr = $(this).attr("type");
-                    if (typeAttr && typeAttr !== '') {
+                    if(id > 0) {idField = parseInt($(this).attr("data-id"));}
+                    if (typeAttr && typeAttr != '') {
                         if (typeAttr === "tableHtml") {
                             var valueInt = $(this).attr('data-value');
                             var tabId = '#'+$(this).attr('id');
                             $(tabId+' .editTable .deleteElem, '+tabId+' .tableHtml .editTable h6').remove();
                             var valueStr = $(tabId+' .editTable').html();
-                            alert(valueStr);
                             var elementBlockElem = {
                                 "id" : idField,
                                 "childFields" : [],
@@ -1045,7 +942,14 @@
                                 "valueInt": valueInt,
                                 "valueStr" : valueStr
                             }
-                        } else {
+                        } else if(typeAttr === "select") {
+                            var elementBlockElem = {
+                                "id" : idField,
+                                "childFields" : [],
+                                "fieldId" : parseInt($(this).attr("data-field")),
+                                "valueInt" : parseInt($(this).val())
+                            }
+                        } else if(typeAttr === "text") {
                             var elementBlockElem = {
                                 "id" : idField,
                                 "childFields" : [],
@@ -1058,13 +962,13 @@
                             "id" : idField,
                             "childFields" : [],
                             "fieldId" : parseInt($(this).attr("data-field")),
-                            "valueInt" : parseInt($(this).val())
+                            "valueStr" : $(this).val()
                         }
                     }
                     elementArray.push(elementBlockElem);
                 });
                 var position = parseInt(key)+i;
-                var fieldId = parseInt($(blockName).attr("data-block"));
+                var fieldId = parseInt($(elementBlock).attr("data-div"));
                 if(id > 0) {idField = parseInt($(elementBlock).attr("data-id"));}
                 var dataBlockElement = {
                     "field" : {
@@ -1074,11 +978,155 @@
                     },
                     "position" : position
                 }
+            } else {
+                alert($(this).attr("data-field")+' - '+i);
             }
             dataBlock.push(dataBlockElement);
         });
         return dataBlock;
+    }*/
+
+    function createDataBlock (id, key, block) {
+        var blockGroup = '.blockGroup';
+        var blockGroupId = '#blockGroup';
+        if(block && block === 1) {
+            blockGroup = '.blockGroupNew';
+            blockGroupId = '#blockGroupNew';
+        }
+        var id = parseInt(id);
+        var idField = null;
+        var dataBlock = [];
+        $('.BlockDiv').each(function() {
+            var name = $(this).attr('id');
+            $('#'+name+' '+blockGroup).each(function(item) {
+                var nameBlock = '#'+name;
+                var i = parseInt(item)+1;
+                if($(this).attr("data-field") == i) {
+                    var elementBlock = nameBlock+' '+blockGroupId;
+                    if(i !== 0) {elementBlock = elementBlock+i;}
+                    var elementArray = [];
+                    $(elementBlock+' [data-field]').each(function() {
+                        var typeAttr = $(this).attr("type");
+                        if(id > 0) {idField = parseInt($(this).attr("data-id"));}
+                        if (typeAttr && typeAttr != '') {
+                            if (typeAttr === "tableHtml") {
+                                var valueInt = $(this).attr('data-value');
+                                var tabId = '#'+$(this).attr('id');
+                                $(tabId+' .editTable .deleteElem, '+tabId+' .tableHtml .editTable h6').remove();
+                                var valueStr = $(tabId+' .editTable').html();
+                                var elementBlockElem = {
+                                    "id" : idField,
+                                    "childFields" : [],
+                                    "fieldId" : parseInt($(this).attr("data-field")),
+                                    "valueInt": valueInt,
+                                    "valueStr" : valueStr
+                                }
+                            } else if(typeAttr === "select") {
+                                var elementBlockElem = {
+                                    "id" : idField,
+                                    "childFields" : [],
+                                    "fieldId" : parseInt($(this).attr("data-field")),
+                                    "valueInt" : parseInt($(this).val())
+                                }
+                            } else if(typeAttr === "text") {
+                                var elementBlockElem = {
+                                    "id" : idField,
+                                    "childFields" : [],
+                                    "fieldId" : parseInt($(this).attr("data-field")),
+                                    "valueStr" : $(this).val()
+                                }
+                            }
+                        } else {
+                            var elementBlockElem = {
+                                "id" : idField,
+                                "childFields" : [],
+                                "fieldId" : parseInt($(this).attr("data-field")),
+                                "valueStr" : $(this).val()
+                            }
+                        }
+                        elementArray.push(elementBlockElem);
+                    });
+                    var position = parseInt(key)+i;
+                    var fieldId = parseInt($(elementBlock).attr("data-div"));
+                    if(id > 0) {idField = parseInt($(elementBlock).attr("data-id"));}
+                    var dataBlockElement = {
+                        "field" : {
+                            "id" : idField,
+                            "childFields": elementArray,
+                            "fieldId" : fieldId,
+                        },
+                        "position" : position
+                    }
+                } else {
+                    alert($(this).attr("data-field")+' - '+i);
+                }
+                dataBlock.push(dataBlockElement);
+            });
+        });
+        return dataBlock;
     }
+
+    /*var i = parseInt(item)+1;
+    if($(this).attr("data-field") == i) {
+        var elementBlock = blockGroupId;
+        if(i !== 0) {elementBlock = elementBlock+i;}
+        var elementArray = [];
+        $(elementBlock+' [data-field]').each(function() {
+            var typeAttr = $(this).attr("type");
+            if(id > 0) {idField = parseInt($(this).attr("data-id"));}
+            if (typeAttr && typeAttr != '') {
+                if (typeAttr === "tableHtml") {
+                    var valueInt = $(this).attr('data-value');
+                    var tabId = '#'+$(this).attr('id');
+                    $(tabId+' .editTable .deleteElem, '+tabId+' .tableHtml .editTable h6').remove();
+                    var valueStr = $(tabId+' .editTable').html();
+                    var elementBlockElem = {
+                        "id" : idField,
+                        "childFields" : [],
+                        "fieldId" : parseInt($(this).attr("data-field")),
+                        "valueInt": valueInt,
+                        "valueStr" : valueStr
+                    }
+                } else if(typeAttr === "select") {
+                    var elementBlockElem = {
+                        "id" : idField,
+                        "childFields" : [],
+                        "fieldId" : parseInt($(this).attr("data-field")),
+                        "valueInt" : parseInt($(this).val())
+                    }
+                } else if(typeAttr === "text") {
+                    var elementBlockElem = {
+                        "id" : idField,
+                        "childFields" : [],
+                        "fieldId" : parseInt($(this).attr("data-field")),
+                        "valueStr" : $(this).val()
+                    }
+                }
+            } else {
+                var elementBlockElem = {
+                    "id" : idField,
+                    "childFields" : [],
+                    "fieldId" : parseInt($(this).attr("data-field")),
+                    "valueStr" : $(this).val()
+                }
+            }
+            elementArray.push(elementBlockElem);
+        });
+        var position = parseInt(key)+i;
+        var fieldId = parseInt($(elementBlock).attr("data-div"));
+        if(id > 0) {idField = parseInt($(elementBlock).attr("data-id"));}
+        var dataBlockElement = {
+            "field" : {
+                "id" : idField,
+                "childFields": elementArray,
+                "fieldId" : fieldId,
+            },
+            "position" : position
+        }
+    } else {
+        alert($(this).attr("data-field")+' - '+i);
+    }
+    dataBlock.push(dataBlockElement);*/
 
     // Формирование листа согласования
     function createAgreeList (data) {
@@ -1168,151 +1216,6 @@
         return valueObj;
     }
 
-    // Функция получения записей в таблицу
-    function dataTableArray (element, url, typeId) {
-        var columns = [];
-        columns.push(
-            [
-                { 'data': 'num' },
-                { 'data': 'docStatus' },
-                { 'data': 'regNum' },
-                { 'data': 'regDateTime' },
-                { 'data': 'docType' },
-                { 'data': 'currentAgreeFullName' },
-                { 'data': 'link' }
-            ]
-        );
-        columns.push(
-            [
-                { 'data': 'num' },
-                { 'data': 'docStatus' },
-                { 'data': 'regNum' },
-                { 'data': 'regDateTime' },
-                { 'data': 'controlDate' },
-                { 'data': 'docType' },
-                { 'data': 'executorDepartments' },
-                { 'data': 'executorUsers' },
-                { 'data': 'link' }
-            ]
-        );
-        columns.push(
-            [
-                { 'data': 'num' },
-                { 'data': 'docStatus' },
-                { 'data': 'regNum' },
-                { 'data': 'regDateTime' },
-                { 'data': 'controlDate' },
-                { 'data': 'docType' },
-                { 'data': 'currentAgreeFullName' },
-                { 'data': 'executorDepartments' },
-                { 'data': 'executorUsers' },
-                { 'data': 'link' }
-            ]
-        );
-
-        $(element).DataTable({
-            "columns": columns[typeId],
-            "ajax": {
-                "url" : url,
-                "dataSrc" : function(data) {
-                    $.each(data, function(i, item) {
-                        item.num = parseInt(i)+1;
-
-                        switch(item.docStatus) {
-                            case 'IN_WORK':
-                                item.docStatus = 'На исполнении';
-                                break;
-                            case 'IN_AGREEMENT':
-                                item.docStatus = 'На согласовании';
-                                break;
-                            case 'AGREEMENT_REJECTED':
-                                item.docStatus = 'Согласование отменено';
-                                break;
-                            case 'COMPLETED':
-                                item.docStatus = 'Исполнен';
-                                break;
-                            case 'DELETED':
-                                item.docStatus = 'Удален';
-                                break;
-                        }
-
-                        if (!item.regNum || item.regNum == '') {
-                            item.regNum = item.projectRegNum;
-                            item.regDateTime = formatDate(item.projectRegDateTime, 0);
-                        } else {
-                            item.regDateTime = formatDate(item.regDateTime, 0);
-                        }
-                        item.regNum = "<a href='agree-document?id=" + item.id + "'>" + item.regNum + "</a>";
-                        if (!item.currentAgreeFullName || item.currentAgreeFullName == '') {
-                            item.currentAgreeFullName = 'Согласование завершено';
-                        }
-
-                        if (item.controlDate && item.controlDate != '') {
-                            item.controlDate = formatDate(item.controlDate, 0);
-                            if (item.alarmControlDate) {
-                                item.controlDate = '<span style="color: #ff0000;">' + item.controlDate + '</span>';
-                            }
-                        } else {
-                            item.controlDate = '';
-                        }
-
-                        // Если поле не пустое отображаем поля
-                        if(item.executorDepartments && item.executorDepartments != '') {
-                            var dataDepartments = JSON.parse(item.executorDepartments);
-                            item.executorDepartments = '';
-                            for(var i in dataDepartments) {
-                                if(dataDepartments[i].id > 0) {
-                                    item.executorDepartments = item.executorDepartments + '<div class="d-inline-block amber lighten-4 rounded black-text my-1 mr-2 p-1" data-value="'+dataDepartments[i].id+'"><small>'+dataDepartments[i].name+'</small></div>';
-                                }
-                            }
-                        }
-                        // Если поле не пустое отображаем поля
-                        if(item.executorUsers && item.executorUsers != '') {
-                            var dataUsers = JSON.parse(item.executorUsers);
-                            item.executorUsers = '';
-                            for(var i in dataUsers) {
-                                if(dataUsers[i].id > 0) {
-                                    item.executorUsers = item.executorUsers + '<div class="d-inline-block green lighten-4 rounded black-text my-1 mr-2 p-1" data-value="'+dataUsers[i].id+'"><small>'+dataUsers[i].fullName+'</small></div>';
-                                }
-                            }
-                        }
-                        item.link = "<a href='agree-document?id=" + item.id + "'><i class='fas fa-edit text-primary'></i></a>";
-                        //item.executorDepartments = '<form><select class="chosen-select" id="departmentList"><option value="'+item.executorDepartments+'">'+item.executorDepartments+'</option></select></form>';
-                    });
-                    return data;
-                }
-            },
-            "iDisplayLength": 25,
-            "language": {
-                "processing": "Подождите...",
-                "search": "Поиск:",
-                "lengthMenu": "Показать _MENU_ записей",
-                "info": "Страница _PAGE_ из _PAGES_",
-                "infoEmpty": "",
-                "infoFiltered": "(отфильтровано из _MAX_ записей)",
-                "infoPostFix": "",
-                "loadingRecords": "Загрузка записей...",
-                "zeroRecords": "Записи отсутствуют.",
-                "emptyTable": "В таблице отсутствуют данные",
-                "paginate": {
-                    "first": "",
-                    "previous": "",
-                    "next": "",
-                    "last": ""
-                },
-                "aria": {
-                    "sortAscending": ": активировать для сортировки столбца по возрастанию",
-                    "sortDescending": ": активировать для сортировки столбца по убыванию"
-                }
-            }
-        });
-        $('.dataTables_length').addClass('bs-select');
-        $('#departmentList').chosen({
-            width: "100%",
-            no_results_text: "Ничего не найдено!"
-        });
-    }
-
     // Получение данных об управлении по id
     function getDepartments (url) {
         $.ajax({
@@ -1375,18 +1278,6 @@
                     currentUser = '<i class="fas fa-times text-danger" title="Согалсование отменено"></i>';
                 }
                 $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center" data-value="'+row.userId+'"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+undoUser+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
-            }
-        });
-    }
-
-    // Получение данных в таблицу
-    function getTablesFields (url, pole) {
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            async: false,
-            success: function(data) {
-                $(pole).append('<div class="editTable"><h6 class="my-3 text-center">'+data.name+'</h6>'+data.htmlContent+'</div>');
             }
         });
     }

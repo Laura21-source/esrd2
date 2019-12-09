@@ -1,10 +1,9 @@
     // Получение полей блока GROUP_FIELDS
     function groupNewFieldsValue (data, id, blockId, dubKey, dataBlock) {
-        var idField = '';
-        var idFiledInput = '';
+        //console.log(data, id, blockId, dubKey, dataBlock);
+        var idField = ''; var idFiledInput = '';
         var blockGroup = '#blockDiv'+blockId+' #blockGroup';
         for (var y in data) {
-            //alert(blockGroup+dubKey+' .blockGroupFields');
             var rowSelectField = data[y];
             // Есть ли родитель у блока
             var parentBlock = '';
@@ -14,6 +13,7 @@
                 parentBlock = ' d-none';
             }
             var numberField = '';
+            var selectFieldName = 'selectField_'+blockId+'_'+dubKey+'_'+dataBlock+y;
             if (id > 0) {
                 if (rowSelectField.parentCatalogId > 0) {
                     parentCatalog = ' p'+rowSelectField.parentCatalogId;
@@ -40,198 +40,13 @@
                 requiredSup = '<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup>';
                 requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
             }
-            var selectFieldName = 'selectField_'+blockId+'_'+dubKey+'_'+dataBlock +y;
-            // Если вид поля HTML таблицы
-            if (rowSelectField.fieldType === "CATALOG_HTML_TABLES") {
-                if(id > 0) {
-                    $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                        '<div class="row ml-1 mt-3 d-flex align-items-center' +
-                        ' justify-content-center tableHtml"' +
-                        ' id="catalogTables'+dubKey+'" data-id="'+rowSelectField.id+'" type="tableHtml" data-field="'+rowSelectField.fieldId+'" data-value="'+rowSelectField.valueInt+'">' +
-                        '   <div class="col-md-12 text-left newTable">' +
-                        '       <div class="btn btn-primary btn-sm rounded tableTemplates" data-table="'+dubKey+'" data-click="">Изменить макет таблицы</div>' +
-                        '       <div class="editTable">' +
-                        '           <h6 class="my-3 text-center"></h6>' +
-                        '           ' + rowSelectField.valueStr +
-                        '       </div>' +
-                        '   </div>' +
-                        '</div>');
-                    var tableId = '#catalogTables'+dubKey+' .newTable';
-                    var sumTop = parseInt($(tableId+' table tbody tr:first td:last').html());
-                    sumTop = sumTop+1;
-                    $(tableId+' table thead tr:first').append('' +
-                        '<th class="text-center deleteElem" rowspan="2">Удалить</th>');
-                    $(tableId+' table tbody tr:first').append('' +
-                        '<td class="text-center deleteElem">'+sumTop+'</td>');
-                    $(tableId+' table tbody tr:not(:first)').append('' +
-                        '<td class="deleteElem">' +
-                        '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
-                        '       <i class="fas fa-trash"></i>' +
-                        '   </div>' +
-                        '</td>');
-                    $(tableId).append('' +
-                        '<div class="row">' +
-                        '   <div class="col-12 text-right">' +
-                        '       <div class="btn btn-primary btn-sm rounded addTableRow" data-table="'+dubKey+'">' +
-                        '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
-                        '       </div>' +
-                        '   </div>' +
-                        '</div>');
-                    $('.newTable table th').css({
-                        'text-align': 'center',
-                        'vertical-align': 'middle',
-                        'font-weight': 'bold'
-                    });
-                    $('.newTable table td').css('text-align', 'left');
-                    $('.newTable table tbody tr:first td').css('text-align', 'center');
-                    $('.newTable table tbody tr').each(function() {
-                        $('td:first', this).css('text-align', 'center');
-                    });
-                } else {
-                    $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                        '<div class="row tableHtml mt-3 d-flex align-items-center justify-content-center" id="catalogTables'+dubKey+'" type="tableHtml" data-field="'+rowSelectField.fieldId+'">' +
-                        '   <div class="col-md-3 text-left">' +
-                        '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
-                        '   </div>' +
-                        '   <div class="col-md-9 text-left newTable">' +
-                        '       <div class="btn btn-primary btn-sm rounded tableTemplates ml-0" data-table="'+dubKey+'" data-click="">Создать таблицу</div>' +
-                        '   </div>' +
-                        '</div>');
-                }
-            }
-            // Если вид поля SELECT
-            if (rowSelectField.fieldType === "CATALOG") {
-                // Добавляем строку
-                $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                    '<div class="row blockRow'+parentBlock+parentCatalog+ '" data-row="'+y+'">' +
-                    '   <div class="col-md-3 text-left mt-3 d-flex align-items-center">' +
-                    '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
-                    '   </div>' +
-                    '   <div class="col-md-9 mt-3">' +
-                    '       <select data-placeholder="Выберите вид документа" class="chosen-select" id="'+selectFieldName+'" name="'+selectFieldName+'" data-catalog="'+rowSelectField.catalogId+'" data-field="'+rowSelectField.fieldId+'"'+idField+enaOpiton+required+'>' +
-                    '           <option value="">Выберите значение справочника</option>' +
-                    '       </select>'+requiredValidate+'' +
-                    '   </div>' +
-                    '</div>');
-                var numberCatalog = ('#'+selectFieldName);
-                $(numberCatalog).chosen({
-                    width: "100%",
-                    no_results_text: "Ничего не найдено!"
-                });
-                // Формирование правильных полей
-                createOptionsValue(numberCatalog, blockGroup+dubKey, '.blockRow');
-                if (parentBlock == '') {
-                    // Добавляем опции
-                    createOptions("rest/profile/catalogs/" + rowSelectField.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField, "");
-                }
-            }
-            // Если вид поля справочник организаций
-            if (rowSelectField.fieldType === "CATALOG_ORGANIZATIONS") {
-                var numberCatalog = ('#'+selectFieldName);
-                // Добавляем строку
-                $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                    '<div class="row blockRow d-flex align-items-center'+parentBlock+parentCatalog+'" data-row="'+y+'">' +
-                    '   <div class="col-md-3 text-left mt-3">' +
-                    '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
-                    '   </div>' +
-                    '   <div class="col-md-8 mt-3">' +
-                    '       <select data-placeholder="Выберите вид документа" class="chosen-select" id="'+selectFieldName+'" name="'+selectFieldName+'" data-catalog="'+rowSelectField.catalogId+'" data-field="'+rowSelectField.fieldId+'"'+idField+enaOpiton+required+'>' +
-                    '           <option value="">Выберите значение справочника</option>' +
-                    '       </select>' +
-                    '   </div>' +
-                    '   <div class="col-md-1 mt-3 text-right">' +
-                    '       <button class="btn btn-primary btn-sm addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="'+numberCatalog+'" type="button" title="Добавить организацию" '+enaOpiton+'>' +
-                    '           <i class="fas fa-plus white-text"></i>' +
-                    '       </button>' +
-                    '   </div>' +
-                    '   <div class="col-md-3"></div>' +
-                    '   <div class="col-9">'+requiredValidate+'</div>' +
-                    '</div>');
-                $(numberCatalog).chosen({
-                    width: "100%",
-                    no_results_text: "Ничего не найдено!"
-                });
-                // Добавляем опции при нажатии поля
-                createOptions("rest/profile/organizations/", numberCatalog, "shortNameLf", "id", numberField, '');
-            }
-            // Если вид поля справочник пользователей
-            if (rowSelectField.fieldType === "CATALOG_USERS") {
-                var numberCatalog = ('#'+selectFieldName);
-                // Добавляем строку
-                $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                    '<div class="row blockRow d-flex align-items-center'+parentBlock+parentCatalog+'" data-row="'+y+'">' +
-                    '   <div class="col-md-3 text-left mt-3">' +
-                    '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
-                    '   </div>' +
-                    '   <div class="col-md-9 mt-3">' +
-                    '       <select data-placeholder="Выберите вид документа" class="chosen-select" id="'+selectFieldName+'" name="'+selectFieldName+'" data-catalog="'+rowSelectField.catalogId+'" data-field="'+rowSelectField.fieldId+'"'+idField+enaOpiton+required+'>' +
-                    '           <option value="">Выберите значение справочника</option>' +
-                    '       </select>'+requiredValidate+'' +
-                    '   </div>' +
-                    '</div>');
-                $(numberCatalog).chosen({
-                    width: "100%",
-                    no_results_text: "Ничего не найдено!"
-                });
-                // Добавляем опции
-                createOptions("rest/profile/users/", numberCatalog, '', 'id', numberField, 'users');
-            }
-            if (rowSelectField.fieldType === "ATTACHMENT") {
-                // Добавляем строку
-                if (parentBlock == '') {
-                    var attachment = 1;
-                    if (id && id > 0) {
-                        attachment = 2;
-                    }
-                    $(blockGroup+dubKey+ ' .blockGroupFields').append('' +
-                        '<div class="row blockRow d-flex align-items-center'+parentBlock+parentCatalog+'" data-row="'+y+'">' +
-                        '   <div class="col-md-3 text-left">' +
-                        '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
-                        '   </div>' +
-                        '   <div class="col-md-9"></div>' +
-                        '</div>');
-                    createInput(".col-md-9:last", "file", 'inputFile', 'inputFile', "Загрузить файл", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idFiledInput, rowSelectField.enabled, rowSelectField.required, attachment, '');
-                }
-            }
-            if (rowSelectField.fieldType === "TEXTAREA") {
-                // Добавляем строку
-                if (parentBlock == '') {
-                    $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                        '<div class="row blockRow'+parentBlock+parentCatalog+'" data-row="'+y+'">' +
-                        '   <div class="col-md-3 text-left mt-3">' +
-                        '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
-                        '   </div>' +
-                        '   <div class="col-md-9 mt-3">' +
-                        '       <textarea class="form-control"></textarea>'+requiredValidate+'' +
-                        '   </div>' +
-                        '</div>');
-                }
-            }
-            if (rowSelectField.fieldType === "TEXT") {
-                // Добавляем строку
-                if (parentBlock == '') {
-                    var textName = '';
-                    var textId = y + 1;
-                    if (id > 0) {
-                        textName = rowSelectField.id+'_';
-                    }
-                    var nameText = "inputText_"+dubKey+'_'+textName+textId;
-                    $(blockGroup+dubKey+' .blockGroupFields').append('' +
-                        '<div class="row blockRow d-flex align-items-center'+parentBlock+parentCatalog+'" data-row="'+y+'">' +
-                        '   <div class="col-md-3 text-left mt-3">' +
-                        '       <div class="text-muted">'+rowSelectField.name+requiredSup+'</div>' +
-                        '   </div>' +
-                        '   <div class="col-md-9 mt-3"></div>' +
-                        '</div>');
-                    createInput(".col-md-9:last", "text", nameText, nameText, "Введите значение", 0, '' + rowSelectField.name, rowSelectField.valueStr, rowSelectField.fieldId, 0, idFiledInput, rowSelectField.enabled, rowSelectField.required, '', 1);
-                    textId = textId + 1;
-                }
-            }
+            // Добавляем поля
+            getFieldType (rowSelectField.fieldType, rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, '','')
         }
     }
 
     // Подключение блока GROUP_FIELDS
-    function groupNewFields (field, fieldId, dubKey, name, newKey, block) {
+    function groupNewFields (field, fieldId, dubKey, name, newKey, block, id, dataId) {
         var delGroup = 'delGroup';
         var cloneGroup = 'cloneGroup';
         var dataBlock = 1;
@@ -251,69 +66,86 @@
             delButton = '';
             //cloneButton = '';
         }
+        var idData = '';
         var blockNameVal = 'Блок '+newKey;
         if(name) {blockNameVal = 'Блок '+name;}
-        $(field).append('' +
-            '<div class="row card mb-3 '+blockGroup+'" id="blockGroup'+dubKey+'" data-field="'+newKey+'" data-block="'+dataBlock+'">' +
-            '   <div class="col-12">' +
-            '       <div class="card-body">' +
-            '           <div class="row">' +
-            '               <div class="col-md-9 text-left"><h5 class="'+nameGroup+'">'+blockNameVal+'</h5></div>' +
-            '               <div class="col-md-3 text-right">' +
-            '                   <div id="'+cloneGroup+dubKey+'" class="btn btn-mdb-color btn-sm '+cloneGroup+' rounded'+cloneButton+'" title="Дублировать блок"><i class="fas fa-copy"></i></div>' +
-            '                   <div id="'+delGroup+dubKey+'" data-toggle="modal" data-parent="'+fieldId+'" data-target="#deleteBlock" class="btn btn-danger btn-sm delGroup rounded'+delButton+' ml-3" title="Удалить блок"><i class="fas fa-trash"></i></div>' +
+        if(id > 0) {idData = ' data-id="'+dataId+'"';}
+        $(field).append(
+            '   <div class="row mb-3 '+blockGroup+'" id="blockGroup'+dubKey+'"' +
+            ' data-field="'+newKey+'"' +
+            ' data-move="'+dubKey+'"' +
+            ' data-block="'+dataBlock+'"'+idData+'' +
+            ' data-div="'+fieldId+'">' +
+            '       <div class="col-12">' +
+            '           <div class="card">' +
+            '               <div class="card-body">' +
+            '                   <div class="row">' +
+            '                       <div class="col-md-9 text-left"><h5 class="'+nameGroup+'">'+blockNameVal+'</h5></div>' +
+            '                       <div class="col-md-3 text-right">' +
+            '                           <div id="'+cloneGroup+dubKey+'" title="Дублировать блок"' +
+            ' class="btn btn-mdb-color btn-sm '+cloneGroup+' rounded'+cloneButton+'">' +
+            '<i class="fas fa-copy"></i></div>' +
+            '                           <div id="'+delGroup+dubKey+'" title="Удалить блок"' +
+            ' data-toggle="modal"' +
+            ' data-parent="'+fieldId+'"' +
+            ' data-target="#deleteBlock"' +
+            ' class="btn btn-danger btn-sm delGroup rounded'+delButton+' ml-3">' +
+            '<i class="fas fa-trash"></i></div>' +
+            '                       </div>' +
+            '                   </div>' +
+            '                   <hr>' +
+            '                   <div class="row">' +
+            '                       <div class="col-12 blockGroupFields" data-block="'+dataBlock+'"></div>' +
+            '                   </div>' +
             '               </div>' +
             '           </div>' +
-            '           <hr>' +
-            '           <div class="row">' +
-            '               <div class="col-12 blockGroupFields" data-block="'+dataBlock+'"></div>' +
-            '           </div>' +
+            '       </div>' +
+            '   </div>');
+    }
+
+    // Добавление блока группы
+    function groupNew (id, field, fieldId, dubKey, name, newKey, block, nameBlock, poleId, agree) {
+        var blockDiv = 'blockDiv';
+        var addBlock = 'addBlock';
+        if(block && block === 1) {
+            blockDiv = 'blockDivNew';
+            addBlock = 'addBlockNew'
+        }
+        blockDiv = blockDiv+fieldId;
+        var dataId = '';
+        if(id > 0) {}
+        $(field).append(
+            '<div class="card BlockDiv p-3" id="'+blockDiv+'" data-block="'+fieldId+'">' +
+            '   <h5 class="blockName my-3">'+nameBlock+'</h5>' +
+            '   <div class="blockField"></div>' +
+            '   <div class="row my-3">' +
+            '       <div class="col-12 text-right">' +
+            '           <div title="Добавить блок"' +
+            ' class="btn btn-primary btn-sm pointer '+addBlock+' mr-3 rounded"' +
+            ' data-group="'+fieldId+'"' +
+            ' data-value="'+poleId+'">' +
+            '<i class="fas fa-plus mr-2"></i>Добавить</div>' +
             '       </div>' +
             '   </div>' +
             '</div>');
+        if(agree != 1) {
+            groupNewFields ('#'+blockDiv+' .blockField', fieldId, dubKey, name, newKey, block, id, dataId);
+        }
     }
 
     // Получение стека полей
     function getNewFields (url, id, number, short, block, name, pole) {
         var field = '#blockBlock';
-        var upElem = 'upElem';
-        var inputDate = 'inputDate';
-        var inputTime = 'inputTime';
-        var blockDate = 'blockDate';
-        var blockTime = 'blockTime';
-        var up = 1;
         var blockGroup = '#blockGroup';
-        var idBlockGroup = 'blockGroup';
-        var newBlockGroup = '.newBlockGroup';
-        var blockName = '.blockName';
-        var delGroup = 'delGroup';
-        var cloneGroup = 'cloneGroup';
-        var dataBlock = 1;
-        var nameGroup = 'nameGroup';
-        var addGroup = 'addGroup';
-        var blockDiv = 'blockDiv';
         if(block && block === 1) {
             field = '#blockBlockNew';
-            upElem = 'upElemNew';
-            inputDate = 'inputDateNew';
-            inputTime = 'inputTimeNew';
-            blockDate = 'blockDateNew';
-            blockTime = 'blockTimeNew';
-            up = 2;
             blockGroup = '#blockGroupNew';
-            idBlockGroup = 'blockGroupNew';
-            newBlockGroup = '.newBlockGroupNew';
-            blockName = '.blockNameNew';
-            delGroup = 'delGroupNew';
-            cloneGroup = 'cloneGroupNew';
-            dataBlock = 2;
-            nameGroup = 'nameGroupNew';
-            addGroup = 'addGroupNew';
-            blockDiv = 'blockDivNew'
         }
         return $.getJSON (url, function(data) {
             var rowChild = data;
+            var agreeGroupFields = [];
             if(id > 0 && block !== 1) {rowChild = data.childFields;}
+            if(id > 0) {number = 1;}
             if(pole && pole > 0) {rowChild = data[pole];}
             for(var i in rowChild) {
                 var row = rowChild[i];
@@ -327,6 +159,7 @@
                 var dubKey = 1;
                 var dataField = 0;
                 var fieldId = row.field.fieldId;
+                //var poleId = row.field.id;
                 var blockDivId = 'blockDiv'+fieldId;
                 if (number != '') {
                     newKey = number;
@@ -338,7 +171,9 @@
                 var enaOpiton = '';
                 var numberField = '';
                 if(id > 0) {
-                    //idField = ' data-id="' + row.field.id + '"';
+                    blockDivId = 'blockDiv'+fieldId+'_'+newKey;
+                    fieldId = row.field.id;
+                    idField = ' data-id="' + row.field.id + '"';
                     // Номер поля для отметки в селектах если нужно
                     numberField = row.field.valueInt;
                 }
@@ -351,87 +186,6 @@
                     requiredSup = '<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup>';
                     requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
                 }
-                var selectFieldName = 'selectField'+row.field.fieldId;
-                if (row.field.fieldType === "DATE") {
-                    if (id > 0) {
-                        idField = row.field.id;
-                        if(row.field.valueDate !== '') {valueDate = formatDate(row.field.valueDate, 1);}
-                    }
-                    createInput (field, "date", blockDate,  inputDate, "Введите дату", short, '<i class="fas fa-calendar-alt mr-2"></i>'+row.field.name, valueDate, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
-                }
-                if (row.field.fieldType === "TIME") {
-                    if (id > 0) {
-                        idField = row.field.id;
-                        if(row.field.valueDate !== '') {valueDate = formatTime(row.field.valueDate);}
-                    }
-                    createInput (field, "time", blockTime,  inputTime, "Введите время", short, '<i class="fas fa-clock mr-2"></i>'+row.field.name, valueDate, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
-                }
-                if (row.field.fieldType === "GROUP_CHECKBOX") {
-                    var valueInt = 'value="0"';
-                    var checekCheckBox = '';
-                    idField = row.field.fieldId;
-                    if (row.field.valueInt > 0) {
-                        valueInt = 'value="'+row.field.valueInt+'"';
-                        checekCheckBox = ' checked';
-                    }
-                    /*id="'+row.field.tag+'Block"*/
-                    $(field).append('' +
-                        '<div class="row my-3">' +
-                        '   <div class="col-md-12 text-left">' +
-                        '       <div class="form-check">' +
-                        '           <input type="checkbox" class="form-check-input '+upElem+'" id="'+row.field.tag+'" data-field="'+idField+'" name="'+row.field.tag+'" '+valueInt+checekCheckBox+'>' +
-                        '           <label class="form-check-label text-muted text-left" for="'+row.field.tag+'">'+row.field.name+'</label>' +
-                        '       </div>' +
-                        '   </div>' +
-                        '</div>');
-                    if(row.field.childFields.length > 0) {
-                        $(field).append('<div id="'+row.field.tag+'BlockDiv" class="childBox d-none"></div>');
-                        for(var y in row.field.childFields) {
-                            var checkField = row.field.childFields[y];
-                            idField = null;
-                            if (id > 0) {idField = checkField.id;}
-                            var elementField = field+' #'+row.field.tag+'BlockDiv';
-                            var textId = y+1;
-                            if (checkField.fieldType === "TEXT") {
-                                var nameText = "checkText_"+textId;
-                                createInput(elementField, "text", nameText, nameText, "Введите значение", short, checkField.name, checkField.valueStr, checkField.fieldId, '', idField, checkField.enabled, checkField.required, '', '', 'checkClass');
-                            }
-                            if (checkField.fieldType === "TEXTAREA") {
-                                var nameTextarea = "textarea_"+textId;
-                                var textareaId = '';
-                                var textValue = '';
-                                if(checkField.id > 0) {
-                                    textareaId = ' data-id="'+checkField.id+'"';
-                                    textValue = checkField.valueStr;
-                                }
-                                $(elementField).append('' +
-                                    '<div class="row ml-1 mb-3">' +
-                                    '   <div class="col-md-3 text-left mt-3">' +
-                                    '       <div class="text-muted">'+checkField.name+requiredSup+'</div>' +
-                                    '   </div>' +
-                                    '   <div class="col-md-9 mt-3">' +
-                                    '       <textarea type="text" id="'+nameTextarea+'" class="checkClass form-control" data-field="'+checkField.fieldId+'"'+textareaId+'>'+textValue+'</textarea>'+requiredValidate+'' +
-                                    '   </div>' +
-                                    '</div>');
-                            }
-                            textId = textId+1;
-                        }
-                    }
-                    checkedFields ('#'+row.field.tag, '#'+row.field.tag+'BlockDiv');
-                    if (row.field.valueInt > 0) {$('.childBox').removeClass('d-none');}
-                }
-                var textId = i+1;
-                if (row.field.fieldType === "TEXT") {
-                    var textName = '_';
-                    if (id > 0) {
-                        idField = row.field.id;
-                        textName = row.field.id + '_';
-                    }
-                    var nameText = "inputText_" + textName + textId;
-                    createInput(field, "text", nameText, nameText, "Введите значение", short, row.field.name, row.field.valueStr, row.field.fieldId, up, idField, row.field.enabled, row.field.required, '', '');
-                    textId = textId+1;
-                }
-                // Если вид поля выборка
                 var parentBlock = '';
                 var parentCatalog = '';
                 if(row.field.parentCatalogId > 0) {
@@ -448,159 +202,95 @@
                         }
                     }
                 }
-                if (row.field.fieldType === "CATALOG") {
-                    if(id > 0) {idField = ' data-id="'+row.field.id+'"';}
-                    var numberCatalog = ('#' + selectFieldName);
-                    // Добавляем строку
-                    $(field).append('' +
-                        '<div class="row blockRowUp '+upElem+parentBlock+parentCatalog+' ml-1 mb-3">' +
-                        '   <div class="col-md-3 text-left mt-3">' +
-                        '       <div class="text-muted">'+row.field.name+requiredSup+'</div>' +
-                        '   </div>' +
-                        '   <div class="col-md-9">' +
-                        '       <select data-placeholder="Выберите вид документа" class="chosen-select" searchable=" Поиск" type="select" id="'+selectFieldName+'" name="'+selectFieldName+'" data-catalog="'+row.field.catalogId+'" data-field="'+row.field.fieldId+'"'+idField+enaOpiton+required+'>' +
-                        '           <option value="">Выберите значение справочника</option>' +
-                        '       </select>'+requiredValidate+'' +
-                        '   </div>' +
-                        '</div>');
-                    $(numberCatalog).chosen({
-                        width: "100%",
-                        no_results_text: "Ничего не найдено!"
-                    });
-                    // Формирование правильных полей
-                    createOptionsValue(numberCatalog, field, '.blockRowUp');
-                    if(parentBlock == '') {
-                        // Добавляем опции
-                        createOptions("rest/profile/catalogs/" + row.field.catalogId + "/elems", numberCatalog, "valueStr", "id", numberField, '');
-                    }
-                }
-                // Если вид поля справочник организаций
-                if (row.field.fieldType === "CATALOG_ORGANIZATIONS") {
-                    var numberCatalog = ('#' + selectFieldName);
-                    // Добавляем строку
-                    $(field).append('' +
-                        '<div class="row blockRowUp '+upElem+parentBlock+parentCatalog+' ml-1 mb-3 d-flex align-items-center">' +
-                        '   <div class="col-md-3 text-left mt-3">' +
-                        '       <div class="text-muted">'+row.field.name+requiredSup+'</div>' +
-                        '   </div>' +
-                        '   <div class="col-md-8 mt-3">' +
-                        '       <select data-placeholder="Выберите вид документа" class="chosen-select" type="select" id="'+selectFieldName+'" name="'+selectFieldName+'" data-catalog="'+row.field.catalogId+'" data-field="'+row.field.fieldId+'"'+idField+enaOpiton+required+'>' +
-                        '           <option value="">Выберите значение справочника</option>' +
-                        '       </select>' +
-                        '   </div>' +
-                        '   <div class="col-md-1 mt-3 text-right">' +
-                        '       <button class="btn btn-primary btn-sm addElement rounded m-0 px-3 waves-effect" data-toggle="modal" data-target="#addElement" data-catalog="'+numberCatalog+'" type="button" title="Добавить организацию" '+enaOpiton+'><i class="fas fa-plus white-text"></i></button>' +
-                        '   </div>' +
-                        '   <div class="col-md-3"></div>' +
-                        '   <div class="col-9">'+requiredValidate+'</div>' +
-                        '</div>');
-                    $(numberCatalog).chosen({
-                        width: "100%",
-                        no_results_text: "Ничего не найдено!"
-                    });
-                    // Добавляем опции при нажатии поля
-                    createOptions ('rest/profile/organizations/', numberCatalog, 'shortNameLf', 'id', numberField, '');
-                }
-                // Если вид поля справочник организаций
-                if (row.field.fieldType === "CATALOG_REGNUMBERS") {
-                    if(id > 0) {idField = ' data-id="'+row.field.id+'"';}
-                    // Добавляем строку
-                    $(field).append('' +
-                        '<div class="row '+upElem+' ml-1 mb-3 d-flex align-items-center justify-content-center">' +
-                        '   <div class="col-md-3 text-left mt-3">' +
-                        '       <div class="text-muted">'+row.field.name+requiredSup+'</div>' +
-                        '   </div>' +
-                        '   <div class="col-md-9">' +
-                        '       <select data-placeholder="Выберите вид документа" class="chosen-select" searchable=" Поиск" type="select" id="'+selectFieldName+'" name="'+selectFieldName+'" data-field="'+row.field.fieldId+'"'+idField+enaOpiton+required+'>' +
-                        '           <option value="">Выберите значение справочника</option>' +
-                        '       </select>'+requiredValidate+'' +
-                        '   </div>' +
-                        '</div>');
-                    var numberCatalog = ('#'+selectFieldName);
-                    $(numberCatalog).chosen({
-                        width: "100%",
-                        no_results_text: "Ничего не найдено!"
-                    });
-                    // Добавляем опции
-                    createOptions ('rest/profile/docs/regnumbers/', numberCatalog, 'regNum', 'id', numberField, '');
-                }
-                // Если вид поля HTML таблицы
-                if (row.field.fieldType === "CATALOG_HTML_TABLES") {
-                    if(id > 0) {
-                        $(field).append('' +
-                            '<div class="row '+upElem+' ml-1 mb-3 d-flex align-items-center justify-content-center" id="catalogTables'+dubKey+'" data-id="'+row.field.id+'" type="tableHtml" data-field="'+row.field.fieldId+'" data-value="'+row.field.valueInt+'">' +
-                            '   <div class="col-md-12 text-left newTable">' +
-                            '       <div class="btn btn-primary btn-sm rounded tableTemplates" data-table="'+dubKey+'" data-click="">Изменить макет таблицы</div>' +
-                            '       <div class="editTable">' +
-                            '           <h6 class="my-3 text-center"></h6>' +
-                            '           ' + row.field.valueStr +
-                            '       </div>' +
-                            '   </div>' +
-                            '</div>');
-                        var tableId = '#catalogTables'+dubKey+' .newTable';
-                        var sumTop = parseInt($(tableId+' table tbody tr:first td:last').html());
-                        sumTop = sumTop+1;
-                        $(tableId+' table thead tr:first').append('<th class="text-center deleteElem" rowspan="2">Удалить</th>');
-                        $(tableId+' table tbody tr:first').append('<td class="text-center deleteElem">'+sumTop+'</td>');
-                        $(tableId+' table tbody tr:not(:first)').append('' +
-                            '<td class="deleteElem">' +
-                            '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
-                            '       <i class="fas fa-trash"></i>' +
-                            '   </div>' +
-                            '</td>');
-                        $(tableId).append('' +
-                            '<div class="row">' +
-                            '   <div class="col-12 text-right">' +
-                            '       <div class="btn btn-primary btn-sm rounded addTableRow" data-table="'+dubKey+'">' +
-                            '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
-                            '       </div>' +
-                            '   </div>' +
-                            '</div>');
-                        $('.newTable table th').css({
-                            'text-align': 'center',
-                            'vertical-align': 'middle',
-                            'font-weight': 'bold'
-                        });
-                        $('.newTable table td').css('text-align', 'left');
-                        $('.newTable table tbody tr:first td').css('text-align', 'center');
-                        $('.newTable table tbody tr').each(function() {
-                            $('td:first', this).css('text-align', 'center');
-                        });
-                    } else {
-                        $(field).append('' +
-                            '<div class="row '+upElem+' ml-1 mb-3 d-flex align-items-center justify-content-center" id="catalogTables'+dubKey+'" type="tableHtml" data-field="'+row.field.fieldId+' data-value="">' +
-                            '   <div class="col-md-3 text-left mt-3">' +
-                            '       <div class="text-muted">'+row.field.name+requiredSup+'</div>' +
-                            '   </div>' +
-                            '   <div class="col-md-9 text-left newTable">' +
-                            '       <div class="btn btn-primary btn-sm rounded tableTemplates" data-table="'+dubKey+'" data-click="">Создать таблицу</div>' +
-                            '   </div>' +
-                            '</div>');
-                    }
-                }
+                var selectFieldName = 'selectField'+fieldId;
                 if (row.field.fieldType === "GROUP_FIELDS") {
-                    $('#blockBlock').append('' +
-                        '<div id="'+blockDivId+'" class="'+blockDiv+' card p-3 mb-3">' +
-                        '   <h5 class="blockName" data-block="'+fieldId+'">'+row.field.name+'</h5>' +
-                        '   <div class="card-body">' +
-                        '       <div class="blockField"></div>' +
-                        '       <div class="row">' +
-                        '           <div class="col-12 text-right">' +
-                        '               <div class="btn btn-primary btn-sm pointer '+addGroup+' mr-3 rounded" title="Добавить блок" data-value="'+i+'" data-block="'+fieldId+'">' +
-                        '                   <i class="fas fa-plus mr-2"></i>Добавить' +
-                        '               </div>' +
-                        '           </div>' +
-                        '       </div>' +
-                        '   </div>' +
-                        '</div>');
-                    groupNewFields('#'+blockDivId+' .blockField', fieldId, dubKey, name, newKey, block);
-                    var rowChildFields = row.field.childFields;
-                    groupNewFieldsValue (rowChildFields, id, fieldId, dubKey, dataBlock);
-                    if (id > 0) {
-                        number = number + 1;
+
+
+
+
+
+
+
+                    if(id > 0) {
+                        // Формиируем массив для отображения груповых полей у сформированного документа
+                        var element = '';
+                        element = {
+                            "id" : row.field.fieldId,
+                            "name" : row.field.name,
+                            "field" : [row.field.childFields],
+                            "poleId": row.field.id
+                        }
+                        agreeGroupFields.push(element);
+                        /*if(agreeGroupFields.length === 0) {
+                            element = {
+                                "id" : row.field.fieldId,
+                                "name" : row.field.name,
+                                "field" : [row.field.childFields],
+                                "poleId": row.field.id
+                            }
+                            agreeGroupFields.push(element);
+                        }*/ /*else {
+                            for(var y in agreeGroupFields) {
+                                //console.log(agreeGroupFields[y].field);
+                                //console.log(agreeGroupFields);
+                                console.log(y+' - '+row.field.fieldId+' - '+agreeGroupFields[y].id);
+                                if(row.field.fieldId == agreeGroupFields[y].id) {
+                                    agreeGroupFields[y].field.push(row.field.childFields);
+                                }
+                                /!*if(row.field.fieldId == agreeGroupFields[s].id) {
+                                    agreeGroupFields[s].field.push(row.field.childFields);
+                                }*!/ else {
+                                    element = {
+                                        "id" : row.field.fieldId,
+                                        "name" : row.field.name,
+                                        "field" : [row.field.childFields],
+                                        "poleId": row.field.id
+                                    }
+                                    agreeGroupFields.push(element);
+                                }
+                                //console.log(agreeGroupFields);
+                            }
+                        }*/
+                    } else {
+                        var nameBlock = row.field.name;
+                        groupNew (id, field, fieldId, dubKey, name, newKey, block, nameBlock, i, '');
+                        groupNewFieldsValue (row.field.childFields, id, fieldId, dubKey, 1);
                     }
+                } else if (row.field.fieldType === "GROUP_CHECKBOX") {
+                    getFiledTypeGroup ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, 1)
+                } else {
+                    getFieldType (row.field.fieldType, row.field, field, id, selectFieldName, '', numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, '',1)
                 }
             }
+            // Заполняем данные груповых полей из формированного массива
+            $.each(agreeGroupFields, function(key, data) {
+                $.each(data, function(index,value) {
+                    console.log('Статья: id = ' + value['id'] + '; Название' + ' = '+ value['name']);
+                });
+            });
+
+
+
+
+
+
+
+            /*if(id > 0 && agreeGroupFields.length > 0) {
+                console.log(agreeGroupFields);
+                for(var h in agreeGroupFields) {
+                    var rowGroup = agreeGroupFields[h];
+                    var t = parseInt(h)+1;
+                    var nameBlock = rowGroup.name;
+                    groupNew (id, field, rowGroup.id, dubKey, name, t, block, nameBlock, t, 1);
+                    for(var v in rowGroup.field) {
+                        var rowGroupChild = rowGroup.field[v];
+                        var dataId = rowGroup.poleId;
+                        var newDubkey = parseInt(v)+1;
+                        groupNewFields ('#blockDiv'+rowGroup.id+' .blockField', rowGroup.id, newDubkey, name, newDubkey, block, id, dataId);
+                        groupNewFieldsValue (rowGroupChild, id, rowGroup.id, newDubkey, 1);
+                    }
+                }
+            }*/
         }).done(function(response) {
             var filedBlock = '#blockFields, #blockBlock, #btnSave, #btnWordFile';
             if(block && block === 1) {filedBlock = '#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew';}
@@ -610,6 +300,7 @@
 
     // Получение стека из строки
     function getStack (url, pole, linksOld) {
+        //console.log(url, pole, linksOld);
         $.getJSON (url, function(data) {
             var rowChild = data;
             if(pole && pole > 0) {rowChild = data[pole].field.childFields;}

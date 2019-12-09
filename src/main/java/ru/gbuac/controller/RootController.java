@@ -59,6 +59,9 @@ public class RootController {
     @GetMapping(value = "/agree-document")
     public String agreeDocument() { return "agree-document"; }
 
+    @GetMapping(value = "/agree-template")
+    public String agreeTemplate() { return "agree-template"; }
+
     @GetMapping(value = "/temp-list")
     public String tempList() { return "temp-list"; }
 

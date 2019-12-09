@@ -6,29 +6,7 @@
 
 <jsp:include page="fragments/headerNew.jsp"/>
 
-
-<script>
-    $(window).on('load', function() {
-        $('#mdb-preloader').addClass('loaded');
-    });
-</script>
 <main>
-    <div id="mdb-preloader" class="flex-center">
-        <h2 class="text-white mr-5">Подождите, идёт загрузка документа</h2>
-        <div class="preloader-wrapper active">
-            <div class="spinner-layer spinner-blue-only">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="gap-patch">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="container-fluid text-center mb-4">
         <div class="card mx-auto w-100">
             <div class="card-body">
@@ -135,7 +113,7 @@
                         </div>
                         <div class="card blockDocument">
                             <div class="card-body">
-                                <div class="row ml-1 mb-3 d-flex align-items-center">
+                                <div class="row mb-3 d-flex align-items-center">
                                     <div class="col-md-3 text-left mt-2">
                                         <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                                     </div>
@@ -147,18 +125,7 @@
                                     </div>
                                 </div>
                                 <div id="blockUp"></div>
-                                <div id="blockDown" class="card p-3">
-                                    <h5 class="blockName"></h5>
-                                    <div class="card-body">
-                                        <div id="newBlockGroup"></div>
-                                        <div class="marginBlock my-3"></div>
-                                        <div class="row">
-                                            <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить блок"><i class="fas fa-plus mr-2"></i> Добавить</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div id="blockBlock"></div>
                                 <div class="row mt-3" id="commentText">
                                     <div class="col-md-3">&nbsp;</div>
                                     <div class="col-md-6 form-group text-left">
@@ -274,19 +241,7 @@
                                         <h5 class="mt-2">Поля формирования документа</h5>
                                     </div>
                                 </div>
-                                <div id="blockUpNew" class="d-none"></div>
-                                <div id="blockDownNew" class="d-none card p-3">
-                                    <h5 class="blockNameNew"></h5>
-                                    <div class="card-body">
-                                        <div id="newBlockGroupNew"></div>
-                                        <div class="marginBlockNew my-3"></div>
-                                        <div class="row">
-                                            <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm pointer addGroupNew mr-3 rounded" title="Добавить блок"><i class="fas fa-plus mr-2"></i> Добавить</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div id="blockBlockNew"></div>
                                 <button type="submit" id="btnSaveNew" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Отправить на согласование</button>
                                 <%--<button type="button" id="btnWordFileNew" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>--%>
                                 <a href="" type="button" id="btnLoadNew" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
@@ -305,9 +260,6 @@
 <jsp:include page="fragments/modals/newDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
-    setTimeout(function() {
-        $('#mdb-preloader').remove();
-    }, 7000);
     $(function() {
         // Список всех документов
         var docAllURL = "rest/profile/doctypes/";
@@ -412,7 +364,13 @@
             $('.disableUserList').removeClass('d-none');
             // Инициатор согласования
             if(data.initialUser) {
-                $('#initialUser').append('<div class="mb-3 d-flex align-items-center"><div class="text-muted mr-2"><i class="fas fa-user text-success mr-2" title="Инициатор согласования"></i>Инициатор согласования:</div><div>'+data.initialUser.fullName+'</div></div>');
+                $('#initialUser').append('' +
+                    '<div class="mb-3 d-flex align-items-center">' +
+                    '   <div class="text-muted mr-2">' +
+                    '       <i class="fas fa-user text-success mr-2" title="Инициатор согласования"></i>Инициатор согласования:' +
+                    '   </div>' +
+                    '   <div>'+data.initialUser.fullName+'</div>' +
+                    '</div>');
             }
             createUserListDisabled('rest/profile/docs/'+id+'/agreement/list', finalVersion);
 
@@ -471,10 +429,8 @@
             // Получение основных полей
             // Список кому
             createWhomListDisabled (data.executorDepartmentsIds);
-            // Верхний блок полей
-            getUpFields(docURL, id);
-            // Нижний блок полей
-            getDownFields(docURL, id, 0);
+            // Вывод блоков полей
+            getNewFields(docURL, id, '');
         });
 
         // Отправка согласования на сервер
@@ -498,7 +454,7 @@
                 var dataBlock = createDataBlock(id, sumElem);
                 //console.log(JSON.stringify(dataBlock));
                 var serverStack = JSON.stringify(createJSON(id, dataType, dataField, dataBlock,2));
-                //console.log(serverStack);
+                console.log(serverStack);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
@@ -686,13 +642,11 @@
                 // Показать или скрыть поле Адресат по параметру finalDoc
                 getFinalStage('rest/profile/doctypes/'+ asd, '.whomListNew');
                 // Добавить блоки отсюда в файл функций -getFieldsDocument
-                $("#blockFieldsNew, #blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").removeClass("d-none");
-                // Верхний блок полей
-                getUpFields("rest/profile/docs/" + id + "/fields/merged?targetDocTypeId=" + asd, id, '', 1);
-                // Нижний блок полей
-                getDownFields("rest/profile/docs/" + id + "/fields/merged?targetDocTypeId=" + asd, id, '', 1);
+                $("#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew").removeClass("d-none");
+                // Показываем поля документа
+                getNewFields("rest/profile/docs/" + id + "/fields/merged?targetDocTypeId=" + asd, id, '', 1);
             } else {
-                $("#blockFieldsNew, #blockUpNew, #blockDownNew, #btnSaveNew, #btnWordFileNew").addClass("d-none");
+                $("#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew").addClass("d-none");
             }
         });
 
@@ -863,6 +817,5 @@
             }
         });
     });
-
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>

@@ -181,7 +181,7 @@
                 toastr["error"]("Заполните обязательные поля!");
                 event.stopPropagation();
             } else {
-                $('#createSave').modal('show');
+                //$('#createSave').modal('show');
                 var dataType = $("#selectType").val();
                 // Формируем поля JSON
                 var dataField = createDataField(0);
@@ -189,12 +189,12 @@
                 var dataBlock = createDataBlock(0, sumElem);
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
                 console.log(serverStack);
-                var serverAjax = $.ajax({
+                /*var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
                     data: serverStack,
                     contentType: 'application/json; charset=utf-8'
-                });
+                });*/
                 // Успешное сохранение документа
                 serverAjax.done(function(data) {
                     $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
@@ -238,7 +238,7 @@
                 });
                 // Ошибка сохранения документа
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка сохранения списка согласования!<br>Заполните обязательное поле - Адресат!");
+                    toastr["error"]("Ошибка сохранения документа!<br>Заполните обязательное поле - Адресат!");
                 });
             }
         });
@@ -305,7 +305,7 @@
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem);
                 var reformatPDF = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-                //console.log(reformatPDF);
+                console.log(reformatPDF);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs/pdf',
@@ -320,7 +320,7 @@
                     $(".pdfHREF").attr("href", data.fileUrl);
                 });
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка формировки файла PDF!");
+                    toastr["error"]("Ошибка формирования файла PDF!");
                 });
             }
         });

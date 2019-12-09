@@ -334,7 +334,7 @@
                     $(".pdfHREF").attr("href", data.fileUrl);
                 });
                 serverAjax.fail(function () {
-                    toastr["error"]("Ошибка формировки файла PDF!");
+                    toastr["error"]("Ошибка формирования файла PDF!");
                 });
             }
         });
