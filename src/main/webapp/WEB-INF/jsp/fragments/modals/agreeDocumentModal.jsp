@@ -24,6 +24,9 @@
 <div class="modal fade" id="btnSuccess" tabindex="-1" role="dialog" aria-labelledby="btnSuccess" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-notify modal-success" role="document">
         <div class="modal-content btnSuccess">
+            <div class="modal-header headerAddTemplate">
+                <p class="heading mx-auto">Внимание! Процесс согласования документа!</p>
+            </div>
             <div class="modal-header headerSuccess d-none">
                 <p class="heading lead">Согласование документа</p>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">

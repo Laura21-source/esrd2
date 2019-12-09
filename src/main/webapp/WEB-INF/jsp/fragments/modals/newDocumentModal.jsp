@@ -6,6 +6,10 @@
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-notify modal-success" role="document">
         <div class="modal-content btnSuccess">
+            <div class="modal-header headerCreateTemplate">
+                <p class="heading mx-auto">Внимание! Регистрация документа в
+                    системе!</p>
+            </div>
             <div class="modal-header headerSuccess d-none">
                 <p class="heading lead">Документ успешно зарегистрирован!</p>
                 <button type="button" class="close reloadButton" data-dismiss="modal" aria-label="Close">

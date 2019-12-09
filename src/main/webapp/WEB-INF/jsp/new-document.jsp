@@ -225,7 +225,7 @@
                 // Успешное сохранение документа
                 serverAjax.done(function(data) {
                     $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
-                    $('.loaderSuccess').addClass('d-none');
+                    $('.loaderSuccess, .headerCreateTemplate').addClass('d-none');
                     $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
                     $('.registrationForm').removeClass('was-validated');
                     var projectRegNum = data.projectRegNum;
