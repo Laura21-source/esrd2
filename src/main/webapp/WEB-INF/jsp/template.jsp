@@ -6,7 +6,28 @@
 
 <jsp:include page="fragments/headerNew.jsp"/>
 <c:set var = "main" />
+<script>
+    $(window).on('load', function() {
+        $('#mdb-preloader').addClass('loaded');
+    });
+</script>
 <main>
+    <div id="mdb-preloader" class="flex-center">
+        <h2 class="text-white mr-5">Подождите, идёт загрузка документа</h2>
+        <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid text-center mb-4">
         <div class="card mx-auto w-100 pb-5">
             <div class="card-body pb-5">
@@ -131,6 +152,10 @@
 <jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
+    setTimeout(function() {
+        $('#mdb-preloader').remove();
+    }, 1000);
+
     $(function() {
         // Список полей вида документов
         createOptions('rest/profile/doctypes/', '#selectType', 'name', 'id', '', '');
@@ -180,8 +205,10 @@
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
                 event.stopPropagation();
+                // Переход к первому незаполненному элементу
+                $("html,body").scrollTop($('.chosen-invalid:first').offset().top);
             } else {
-                //$('#createSave').modal('show');
+                $('#createSave').modal('show');
                 var dataType = $("#selectType").val();
                 // Формируем поля JSON
                 var dataField = createDataField(0);

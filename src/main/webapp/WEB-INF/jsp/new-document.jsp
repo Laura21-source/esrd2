@@ -6,7 +6,28 @@
 
 <jsp:include page="fragments/headerNew.jsp"/>
 <c:set var = "main" />
+<script>
+    $(window).on('load', function() {
+        $('#mdb-preloader').addClass('loaded');
+    });
+</script>
 <main>
+    <div id="mdb-preloader" class="flex-center">
+        <h2 class="text-white mr-5">Подождите, идёт загрузка документа</h2>
+        <div class="preloader-wrapper active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid text-center mb-4">
         <div class="card mx-auto w-100 pb-5">
             <div class="card-body pb-5">
@@ -113,19 +134,7 @@
                                         <h5 class="mt-2">Поля формирования документа</h5>
                                     </div>
                                 </div>
-                                <div id="blockUp" class="d-none"></div>
-                                <div id="blockDown" class="d-none card p-3">
-                                    <h5 class="blockName"></h5>
-                                    <div class="card-body">
-                                        <div id="newBlockGroup"></div>
-                                        <div class="marginBlock my-3"></div>
-                                        <div class="row">
-                                            <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm pointer addGroup mr-3 rounded" title="Добавить блок"><i class="fas fa-plus mr-2"></i>Добавить</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div id="blockBlock"></div>
                                 <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded d-none btnSave">Отправить на согласование</button>
                                 <%--<button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded d-none btnSave">Сгенерировать служебную записку</button>--%>
                                 <a href="" type="button" id="btnLoad" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
@@ -143,6 +152,10 @@
 <jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
+    setTimeout(function() {
+        $('#mdb-preloader').remove();
+    }, 1000);
+
     $(function() {
         // Список полей вида документов
         createOptions('rest/profile/doctypes/', '#selectType', 'name', 'id', '', '');
@@ -150,20 +163,18 @@
         // Выбор типа документа
         $("#selectType").change(function() {
             // Убрать с экрана все предыдущие поля
-            $('#blockUp, #newBlockGroup').empty();
+            $('#blockBlock, .newBlockGroup').empty();
             $('.blockGroup').remove();
             var asd = $("#selectType").val();
             if(asd && asd !== '') {
                 // Показать или скрыть поле Адресат по параметру finalDoc
                 getFinalStage('rest/profile/doctypes/'+ asd, '.whomList');
                 // Добавить блоки отсюда в файл функций -getFieldsDocument
-                $("#blockFields, #blockUp, #btnSave, #btnWordFile").removeClass("d-none");
-                // Верхний блок полей
-                getUpFields("rest/profile/doctypes/" + asd + "/fields", 0);
-                // Нижний блок полей
-                getDownFields("rest/profile/doctypes/" + asd + "/fields", 0, '');
+                $("#blockFields, #btnSave, #btnWordFile, #blockBlock").removeClass("d-none");
+                // Получение блока полей
+                getNewFields("rest/profile/doctypes/" + asd + "/fields", 0, '');
             } else {
-                $("#blockFields, #blockUp, #blockDown, #btnSave, #btnWordFile").addClass("d-none");
+                $("#blockFields, #btnSave, #btnWordFile, #blockBlock").addClass("d-none");
             }
         });
 
@@ -194,6 +205,8 @@
             if(checkField === false) {
                 toastr["error"]("Заполните обязательные поля!");
                 event.stopPropagation();
+                // Переход к первому незаполненному элементу
+                $("html,body").scrollTop($('.chosen-invalid:first').offset().top);
             } else {
                 $('#createSave').modal('show');
                 var dataType = $("#selectType").val();

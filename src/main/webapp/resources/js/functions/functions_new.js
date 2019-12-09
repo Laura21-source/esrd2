@@ -2,7 +2,13 @@
     function groupNewFieldsValue (data, id, blockId, dubKey, dataBlock) {
         //console.log(data, id, blockId, dubKey, dataBlock);
         var idField = ''; var idFiledInput = '';
-        var blockGroup = '#blockDiv'+blockId+' #blockGroup';
+        var blockDiv = 'blockDiv';
+        var blockGroup = 'blockGroup';
+        if(dataBlock == 1) {
+            blockDiv = 'blockDivNew';
+            blockGroup = 'blockGroupNew';
+        }
+        var blockGroup = '#'+blockDiv+blockId+' #'+blockGroup;
         for (var y in data) {
             var rowSelectField = data[y];
             // Есть ли родитель у блока
@@ -71,7 +77,7 @@
         if(name) {blockNameVal = 'Блок '+name;}
         if(id > 0) {idData = ' data-id="'+dataId+'"';}
         $(field).append(
-            '   <div class="row mb-3 '+blockGroup+'" id="blockGroup'+dubKey+'"' +
+            '   <div class="row mb-3 '+blockGroup+'" id="'+blockGroup+dubKey+'"' +
             ' data-field="'+newKey+'"' +
             ' data-move="'+dubKey+'"' +
             ' data-block="'+dataBlock+'"'+idData+'' +
@@ -89,7 +95,7 @@
             ' data-toggle="modal"' +
             ' data-parent="'+fieldId+'"' +
             ' data-target="#deleteBlock"' +
-            ' class="btn btn-danger btn-sm delGroup rounded'+delButton+' ml-3">' +
+            ' class="btn btn-danger btn-sm '+delGroup+' rounded'+delButton+' ml-3">' +
             '<i class="fas fa-trash"></i></div>' +
             '                       </div>' +
             '                   </div>' +
@@ -107,16 +113,18 @@
     function groupNew (id, field, fieldId, dubKey, name, newKey, block, nameBlock, poleId, agree) {
         var blockDiv = 'blockDiv';
         var addBlock = 'addBlock';
+        var blockName = 'blockName';
         if(block && block === 1) {
             blockDiv = 'blockDivNew';
-            addBlock = 'addBlockNew'
+            addBlock = 'addBlockNew';
+            blockName = 'blockNameNew';
         }
         blockDiv = blockDiv+fieldId;
         var dataId = '';
         if(id > 0) {}
         $(field).append(
             '<div class="card BlockDiv p-3" id="'+blockDiv+'" data-block="'+fieldId+'">' +
-            '   <h5 class="blockName my-3">'+nameBlock+'</h5>' +
+            '   <h5 class="'+blockName+' my-3">'+nameBlock+'</h5>' +
             '   <div class="blockField"></div>' +
             '   <div class="row my-3">' +
             '       <div class="col-12 text-right">' +
@@ -137,16 +145,20 @@
     function getNewFields (url, id, number, short, block, name, pole) {
         var field = '#blockBlock';
         var blockGroup = '#blockGroup';
+        var blockDiv = 'blockDiv';
         if(block && block === 1) {
             field = '#blockBlockNew';
             blockGroup = '#blockGroupNew';
+            blockDiv = 'blockDivNew';
         }
+        //alert (field + ' - ' + blockGroup);
         return $.getJSON (url, function(data) {
             var rowChild = data;
             var agreeGroupFields = [];
             if(id > 0 && block !== 1) {rowChild = data.childFields;}
             if(id > 0) {number = 1;}
             if(pole && pole > 0) {rowChild = data[pole];}
+            //console.log(rowChild);
             for(var i in rowChild) {
                 var row = rowChild[i];
                 if(pole && pole > 0) {row = rowChild;}
@@ -160,7 +172,7 @@
                 var dataField = 0;
                 var fieldId = row.field.fieldId;
                 //var poleId = row.field.id;
-                var blockDivId = 'blockDiv'+fieldId;
+                var blockDivId = blockDiv+fieldId;
                 if (number != '') {
                     newKey = number;
                     dubKey = number;
@@ -171,7 +183,7 @@
                 var enaOpiton = '';
                 var numberField = '';
                 if(id > 0) {
-                    blockDivId = 'blockDiv'+fieldId+'_'+newKey;
+                    blockDivId = blockDiv+fieldId+'_'+newKey;
                     fieldId = row.field.id;
                     idField = ' data-id="' + row.field.id + '"';
                     // Номер поля для отметки в селектах если нужно
@@ -226,7 +238,8 @@
                             for(var y in agreeGroupFields) {
                                 //console.log(agreeGroupFields[y].field);
                                 //console.log(agreeGroupFields);
-                                console.log(y+' - '+row.field.fieldId+' - '+agreeGroupFields[y].id);
+                                //console.log(y+' - '+row.field.fieldId+' -
+                                // '+agreeGroupFields[y].id);
                                 if(row.field.fieldId == agreeGroupFields[y].id) {
                                     agreeGroupFields[y].field.push(row.field.childFields);
                                 }  else {
@@ -243,7 +256,7 @@
                     } else {
                         var nameBlock = row.field.name;
                         groupNew (id, field, fieldId, dubKey, name, newKey, block, nameBlock, i, '');
-                        groupNewFieldsValue (row.field.childFields, id, fieldId, dubKey, 1);
+                        groupNewFieldsValue (row.field.childFields, id, fieldId, dubKey, block);
                     }
                 } else if (row.field.fieldType === "GROUP_CHECKBOX") {
                     getFiledTypeGroup ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, 1)
@@ -259,7 +272,7 @@
             });*/
 
             if(id > 0 && agreeGroupFields.length > 0) {
-                console.log(agreeGroupFields);
+                //console.log(agreeGroupFields);
                 for(var h in agreeGroupFields) {
                     var rowGroup = agreeGroupFields[h];
                     var t = parseInt(h)+1;
@@ -269,8 +282,9 @@
                         var rowGroupChild = rowGroup.field[v];
                         var dataId = rowGroup.poleId;
                         var newDubkey = parseInt(v)+1;
-                        groupNewFields ('#blockDiv'+rowGroup.id+' .blockField', rowGroup.id, newDubkey, name, newDubkey, block, id, dataId);
-                        groupNewFieldsValue (rowGroupChild, id, rowGroup.id, newDubkey, 1);
+                        groupNewFields ('#'+blockDiv+rowGroup.id+' .blockField', rowGroup.id, newDubkey, name, newDubkey, block, id, dataId);
+                        //console.log(rowGroupChild);
+                        groupNewFieldsValue (rowGroupChild, id, rowGroup.id, newDubkey, block);
                     }
                 }
             }
@@ -282,12 +296,12 @@
     }
 
     // Получение стека из строки
-    function getStack (url, pole, linksOld) {
+    function getStack (url, pole, linksOld, block) {
         //console.log(url, pole, linksOld);
         $.getJSON (url, function(data) {
             var rowChild = data;
             if(pole && pole > 0) {rowChild = data[pole].field.childFields;}
             var blockId = data[pole].field.fieldId;
-            groupNewFieldsValue (rowChild, '', blockId, linksOld, 1);
+            groupNewFieldsValue (rowChild, '', blockId, linksOld, block);
         });
     }

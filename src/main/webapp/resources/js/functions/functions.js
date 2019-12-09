@@ -987,6 +987,7 @@
     }*/
 
     function createDataBlock (id, key, block) {
+        //alert(key);
         var blockGroup = '.blockGroup';
         var blockGroupId = '#blockGroup';
         if(block && block === 1) {
@@ -998,14 +999,15 @@
         var dataBlock = [];
         $('.BlockDiv').each(function() {
             var name = $(this).attr('id');
-            $('#'+name+' '+blockGroup).each(function(item) {
-                var nameBlock = '#'+name;
+            $('#'+name+' .blockField '+blockGroup).each(function(item) {
                 var i = parseInt(item)+1;
                 if($(this).attr("data-field") == i) {
-                    var elementBlock = nameBlock+' '+blockGroupId;
-                    if(i !== 0) {elementBlock = elementBlock+i;}
+                    var elementBlock = '#'+name+' '+blockGroup+' .blockGroupFields .blockRow';
+                    var blockName = $(this).attr('id');
+                    //if(i !== 0) {elementBlock = elementBlock+i;}
                     var elementArray = [];
-                    $(elementBlock+' [data-field]').each(function() {
+                    $('#'+blockName+' [data-field]').each(function() {
+                        //alert(elementBlock);
                         var typeAttr = $(this).attr("type");
                         if(id > 0) {idField = parseInt($(this).attr("data-id"));}
                         if (typeAttr && typeAttr != '') {
@@ -1047,8 +1049,8 @@
                         elementArray.push(elementBlockElem);
                     });
                     var position = parseInt(key)+i;
-                    var fieldId = parseInt($(elementBlock).attr("data-div"));
-                    if(id > 0) {idField = parseInt($(elementBlock).attr("data-id"));}
+                    var fieldId = parseInt($('#'+blockName).attr("data-div"));
+                    if(id > 0) {idField = parseInt($('#'+blockName).attr("data-id"));}
                     var dataBlockElement = {
                         "field" : {
                             "id" : idField,

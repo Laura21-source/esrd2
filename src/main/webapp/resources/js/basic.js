@@ -56,7 +56,7 @@ $(function() {
             links = (value > links) ? value : links;
         });
         links = links+1;
-        //alert(maximum);
+        //alert(links);
         //var links = $(idBlock+" .blockGroup:last").attr('data-field');
         //links = parseInt(links);
         //var links1 = links + 1;
@@ -71,12 +71,22 @@ $(function() {
     $(document).on("click", ".addBlockNew", function() {
         var id = $(this).attr('data-group');
         var idBlock = '#blockDivNew'+id+' .blockField';
-        var linksOld = parseInt($(idBlock+" .blockGroup [data-block='2']").length);
+        //alert(idBlock);
+        var linksOld = parseInt($(idBlock+" .blockGroupNew [data-block='2']").length);
         var pole = $(this).attr('data-value');
         linksOld = linksOld + 1;
-        var asd = $("#selectType").val();
-        groupNewFields(idBlock, id, linksOld, '', linksOld, '');
-        getStack ("rest/profile/doctypes/" + asd + "/fields", pole, linksOld);
+        // Найдем максимальное значение атрибута
+        var links = null;
+        $(idBlock+" .blockGroupNew").each(function() {
+            var value = parseInt($(this).attr('data-move'));
+            links = (value > links) ? value : links;
+        });
+        links = links+1;
+        //alert(links);
+        var asd = $("#selectTypeNew").val();
+        //console.log(idBlock, id, links, '', linksOld, 1);
+        groupNewFields(idBlock, id, links, '', linksOld, 1);
+        getStack ("rest/profile/doctypes/" + asd + "/fields", pole, links, 1);
     });
 
     // Добавить пользователя
@@ -205,30 +215,46 @@ $(function() {
         var blockId = $(this).attr('data-parent');
         $('#btnDeleteBlock').attr({
             'data-delete':'blockGroup'+id,
-            'data-block': 'blockDiv'+blockId
+            'data-block': 'blockDiv'+blockId,
+            'block-id': 0
         });
     });
 
     $(document).on("click", ".delGroupNew", function() {
         var id = $(this).attr("id");
-        id = id.substr(8);
-        $('#btnDeleteBlock').attr('data-delete','blockGroupNew'+id);
+        id = id.substr(11);
+        var blockId = $(this).attr('data-parent');
+        $('#btnDeleteBlock').attr({
+            'data-delete':'blockGroupNew'+id,
+            'data-block': 'blockDivNew'+blockId,
+            'block-id': 1
+        });
     });
 
     // Удаление блока при нажатии OK в модальном окне
     $(document).on('click', '#btnDeleteBlock', function() {
         var id = $(this).attr('data-delete');
         var blockId = $(this).attr('data-block');
+        var idBlock = $(this).attr('block-id');
         $('#deleteBlock').modal('hide');
         // Удаляем нужный блок
         $('#' + id).remove();
         // Переименовываем название блоков и атрибуты data-field
         var i = 1;
-        $('#'+blockId+' .blockField .blockGroup').each(function() {
-            $(this).attr('data-field', i);
-            $('.nameGroup', this).html('Блок '+i);
-            i = i+1;
-        });
+        if(idBlock == 0) {
+            $('#'+blockId+' .blockField .blockGroup').each(function() {
+                $(this).attr('data-field', i);
+                $('.nameGroup', this).html('Блок '+i);
+                i = i+1;
+            });
+        } else if(idBlock == 1) {
+            $('#'+blockId+' .blockField .blockGroupNew').each(function() {
+                $(this).attr('data-field', i);
+                $('.nameGroupNew', this).html('Блок '+i);
+                i = i+1;
+            });
+        }
+
     });
 
     // Удалить пользователя
