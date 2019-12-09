@@ -204,24 +204,17 @@
                 }
                 var selectFieldName = 'selectField'+fieldId;
                 if (row.field.fieldType === "GROUP_FIELDS") {
-
-
-
-
-
-
-
                     if(id > 0) {
                         // Формиируем массив для отображения груповых полей у сформированного документа
                         var element = '';
-                        element = {
+                        /*element = {
                             "id" : row.field.fieldId,
                             "name" : row.field.name,
                             "field" : [row.field.childFields],
                             "poleId": row.field.id
                         }
-                        agreeGroupFields.push(element);
-                        /*if(agreeGroupFields.length === 0) {
+                        agreeGroupFields.push(element);*/
+                        if(agreeGroupFields.length == 0) {
                             element = {
                                 "id" : row.field.fieldId,
                                 "name" : row.field.name,
@@ -229,17 +222,14 @@
                                 "poleId": row.field.id
                             }
                             agreeGroupFields.push(element);
-                        }*/ /*else {
+                        } else {
                             for(var y in agreeGroupFields) {
                                 //console.log(agreeGroupFields[y].field);
                                 //console.log(agreeGroupFields);
                                 console.log(y+' - '+row.field.fieldId+' - '+agreeGroupFields[y].id);
                                 if(row.field.fieldId == agreeGroupFields[y].id) {
                                     agreeGroupFields[y].field.push(row.field.childFields);
-                                }
-                                /!*if(row.field.fieldId == agreeGroupFields[s].id) {
-                                    agreeGroupFields[s].field.push(row.field.childFields);
-                                }*!/ else {
+                                }  else {
                                     element = {
                                         "id" : row.field.fieldId,
                                         "name" : row.field.name,
@@ -248,9 +238,8 @@
                                     }
                                     agreeGroupFields.push(element);
                                 }
-                                //console.log(agreeGroupFields);
                             }
-                        }*/
+                        }
                     } else {
                         var nameBlock = row.field.name;
                         groupNew (id, field, fieldId, dubKey, name, newKey, block, nameBlock, i, '');
@@ -263,19 +252,13 @@
                 }
             }
             // Заполняем данные груповых полей из формированного массива
-            $.each(agreeGroupFields, function(key, data) {
+            /*$.each(agreeGroupFields, function(key, data) {
                 $.each(data, function(index,value) {
                     console.log('Статья: id = ' + value['id'] + '; Название' + ' = '+ value['name']);
                 });
-            });
+            });*/
 
-
-
-
-
-
-
-            /*if(id > 0 && agreeGroupFields.length > 0) {
+            if(id > 0 && agreeGroupFields.length > 0) {
                 console.log(agreeGroupFields);
                 for(var h in agreeGroupFields) {
                     var rowGroup = agreeGroupFields[h];
@@ -290,7 +273,7 @@
                         groupNewFieldsValue (rowGroupChild, id, rowGroup.id, newDubkey, 1);
                     }
                 }
-            }*/
+            }
         }).done(function(response) {
             var filedBlock = '#blockFields, #blockBlock, #btnSave, #btnWordFile';
             if(block && block === 1) {filedBlock = '#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew';}

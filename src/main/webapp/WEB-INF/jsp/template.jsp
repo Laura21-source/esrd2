@@ -189,12 +189,12 @@
                 var dataBlock = createDataBlock(0, sumElem);
                 var serverStack = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
                 console.log(serverStack);
-                /*var serverAjax = $.ajax({
+                var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
                     data: serverStack,
                     contentType: 'application/json; charset=utf-8'
-                });*/
+                });
                 // Успешное сохранение документа
                 serverAjax.done(function(data) {
                     $("#btnWordFile").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
