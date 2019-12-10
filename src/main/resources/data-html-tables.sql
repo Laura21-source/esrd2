@@ -7836,29 +7836,29 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11015, 'Цена (
 напряжения (тарифы указываются без НДС)', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
-			<td rowspan="2" width="9.421487603305785%">
+			<th rowspan="2" width="9.421487603305785%">
 				N п/п
-			</td>
-			<td rowspan="2" width="50.578512396694215%">
+			</th>
+			<th rowspan="2" width="50.578512396694215%">
 				Показатель (группы потребителей с разбивкой тарифа по ставкам и дифференциацией по зонам суток)
-			</td>
-			<td rowspan="2" width="14.380165289256198%">
+			</th>
+			<th rowspan="2" width="14.380165289256198%">
 				Единица измерения
-			</td>
-			<td width="12.561983471074381%">
+			</th>
+			<th width="12.561983471074381%">
 				I полугодие
-			</td>
-			<td width="13.057851239669422%">
+			</th>
+			<th width="13.057851239669422%">
 				II полугодие
-			</td>
+			</th>
 		</tr>
 		<tr>
-			<td width="49.03225806451613%">
+			<th width="49.03225806451613%">
 				Цена (тариф)
-			</td>
-			<td width="50.96774193548387%">
+			</th>
+			<th width="50.96774193548387%">
 				Цена (тариф)
-			</td>
+			</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -10805,7 +10805,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11021, 'Разме
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11022, 'Размер экономически обоснованных единых (котловых) тарифов
 на услуги по передаче электрической энергии по сетям
 субъекта Российской Федерации на ________ 20__ год (Таблица 2)', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="9.421487603305785%">
 				N п/п
@@ -12263,7 +12263,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11025, 'Долго
 регулирования для сетевых организаций, применяющих метод
 доходности инвестированного капитала (RAB) при расчете
 тарифов на услуги по передаче электрической энергии', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="3" width="3.717826501429933%">
 				N п/п
@@ -12616,7 +12616,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11025, 'Долго
 </table>');
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11026, 'НВВ сетевых организаций на долгосрочный период
 регулирования (без учета оплаты потерь)', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="8.099173553719009%">
 				N п/п
@@ -14422,7 +14422,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11033, 'Балан
 при расчете цен (тарифов) на электрическую энергию
 для населения и приравненных к нему категориям
 потребителей по субъекту Российской Федерации', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="3" width="5.813953488372093%">
 				N п/п
@@ -14778,7 +14778,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11035, 'Цены (
 организаций, обслуживающих преимущественно одного
 потребителя <1>, <2>
 на __________ 20__ год (Часть 2)', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="7.43801652892562%">
 				N п/п
@@ -14867,7 +14867,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11036, 'Балан
 цен (тарифов) на электрическую энергию для населения
 и приравненных к нему категориям потребителей
 по субъекту Российской Федерации (Часть 1)', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="6.2809917355371905%">
 				N п/п
@@ -15023,7 +15023,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11037, 'Балан
 цен (тарифов) на электрическую энергию для населения
 и приравненных к нему категориям потребителей
 по субъекту Российской Федерации (Часть 2)', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="6.2809917355371905%">
 				N п/п
@@ -15990,7 +15990,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11038, 'Цены (
 	</tbody>
 </table>');
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11039, 'Тарифы на тепловую энергию (мощность) на коллекторах источника тепловой энергии', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th width="4.597701149425287%">
 				N п/п
@@ -16588,7 +16588,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11039, 'Тариф
 	</tbody>
 </table>');
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11040, 'Тарифы на тепловую энергию (мощность), поставляемую теплоснабжающим, теплосетевым организациям, приобретающим тепловую энергию с целью компенсации потерь тепловой энергии', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="4.597701149425287%">
 				N п/п
@@ -16613,33 +16613,33 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11040, 'Тариф
 			</th>
 		</tr>
 		<tr>
-			<td width="21.73913043478261%">
+			<th width="21.73913043478261%">
 				от 1,2 до 2,5 кг/см
 				<sup>
 					 2
 				</sup>
-			</td>
-			<td width="19.565217391304348%">
+			</th>
+			<th width="19.565217391304348%">
 				от 2,5 до 7,0 кг/см
 				<sup>
 					 2
 				</sup>
-			</td>
-			<td width="19.565217391304348%">
+			</th>
+			<th width="19.565217391304348%">
 				от 7,0 до 13,0 кг/см
 				<sup>
 					 2
 				</sup>
-			</td>
-			<td width="17.391304347826086%">
+			</th>
+			<th width="17.391304347826086%">
 				свыше 13,0 кг/см
 				<sup>
 					 2
 				</sup>
-			</td>
-			<td width="21.73913043478261%">
+			</th>
+			<th width="21.73913043478261%">
 				&nbsp;
-			</td>
+			</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -16910,10 +16910,9 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11040, 'Тариф
 			</td>
 		</tr>
 	</tbody>
-</table>
-');
+</table>');
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11041, 'Тарифы на теплоноситель', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="5.405405405405405%">
 				N п/п
@@ -16986,7 +16985,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11041, 'Тариф
 </table>
 ');
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11042, 'Тарифы на услуги по передаче тепловой энергии, теплоносителя', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="5.405405405405405%">
 				N п/п
@@ -17614,7 +17613,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11042, 'Тариф
 </table>
 ');
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11043, 'Долгосрочные параметры регулирования, устанавливаемые для регулируемых организаций при расчете тарифов с применением метода обеспечения доходности инвестированного капитала', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="3" width="3.361344537815126%">
 				N п/п
@@ -17834,7 +17833,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11043, 'Долго
 </table>
 ');
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11044, 'Долгосрочные параметры регулирования, устанавливаемые на догосрочный период регулирования для формирования тарифов с использованием метода индексации установленных тарифов', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="4.3478260869565215%">
 				N п/п
@@ -17986,7 +17985,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11044, 'Долго
 </table>
 ');
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11045, 'Долгосрочные параметры регулирование, устанавливаемые на долгосрочный период регулирования для формирования тарифов с использованием методоа сравнения аналогов', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="6.756756756756757%">
 				N п/п
@@ -18063,7 +18062,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11045, 'Долго
 </table>
 ');
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11046, 'Тарифы на горячую воду в открытых системах теплоснабжения (горячее водоснабжение)', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="3" width="5.405405405405405%">
 				N п/п
@@ -18120,7 +18119,7 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11046, 'Тариф
 </table>
 ');
 INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11047, 'Тарифы на горячую воду в открытых системах теплоснабжения (горячее водоснабжение) в виде формулы двухкомпонентного тарифа', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+	<thead class="noNumber">
 		<tr>
 			<th rowspan="2" width="5.657237936772047%">
 				N п/п
@@ -18159,8 +18158,8 @@ INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11047, 'Тариф
 	</tbody>
 </table>
 ');
-INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11048, 'Плата за услуги по поддержанию резервной тепловой мощности', '<table border="1" style="border-collapse: collapse;" cellspacing="0" cellpadding="0">
-	<thead>
+INSERT INTO esrd.html_tables (id, name, html_content) VALUES (11048, 'Плата за услуги по поддержанию резервной тепловой мощности', '<table border="1" style="font-family: Times; border-collapse: collapse;" cellspacing="0" cellpadding="0">
+	<thead class="noNumber">
 		<tr>
 			<th width="5.405405405405405%">
 				N п/п
