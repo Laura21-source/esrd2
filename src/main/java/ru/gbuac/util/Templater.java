@@ -600,7 +600,7 @@ public class Templater {
                     cmpValues = ifStatement.condition.split("~");
                 }
                 if ((ifStatement.condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
-                        (cmpValues.length == 1 && cmpValues[0].length() > 0) ||
+                        (cmpValues.length == 1 && cmpValues[0].equals("TRUE")) ||
                         (ifStatement.condition.contains("~") && cmpValues[0].contains(cmpValues[1]))) {
                     text = text.replace(ifStatement.fullText, ifStatement.getThenVal());
                 } else {
