@@ -547,6 +547,7 @@ $(function() {
         var newTabField = '#catalogTables'+tabId;
         $('#tableTemplateView, .dangerVoid').empty();
         $(newTabField+' .newTable .editTable').remove();
+        $(newTabField+' .newTable .addTableRow').remove();
         var tableId = $('#addTable1001').val();
         $(newTabField).attr('data-value', tableId);
         $('#addTable1001').empty().html('' +
@@ -564,22 +565,35 @@ $(function() {
             $(newTabField+' .newTable table').addClass('table table-sm table-bordered table-editable table-hover').attr('width', '100%');
             var sumTop = parseInt($(newTabField+' .newTable table tbody tr:first td:last').html());
             sumTop = sumTop+1;
+            if($(newTabField+' .newTable table thead').hasClass('noNumber')) {
+                $(newTabField+' .newTable table tbody tr:first').append(
+                    '<td class="deleteElem">' +
+                    '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
+                    '       <i class="fas fa-trash"></i>' +
+                    '   </div>' +
+                    '</td>'
+                );
+            } else {
+                $(newTabField+' .newTable table tbody tr:first').append('<td class="text-center deleteElem">'+sumTop+'</td>');
+                $(newTabField+' .newTable table tbody tr:first td').css('text-align', 'center');
+            }
             $(newTabField+' .newTable table thead tr:first').append('<th class="text-center deleteElem" rowspan="2">Удалить</th>');
-            $(newTabField+' .newTable table tbody tr:first').append('<td class="text-center deleteElem">'+sumTop+'</td>');
-            $(newTabField+' .newTable table tbody tr:not(:first)').append('' +
+            $(newTabField+' .newTable table tbody tr:not(:first)').append(
                 '<td class="deleteElem">' +
                 '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
                 '       <i class="fas fa-trash"></i>' +
                 '   </div>' +
-                '</td>');
+                '</td>'
+            );
             $(newTabField+' .newTable').append('' +
-                '<div class="row">' +
+                '<div class="row addTableRow">' +
                 '   <div class="col-12 text-right">' +
                 '       <div class="btn btn-primary btn-sm rounded addTableRow" data-table="'+tabId+'">' +
                 '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
                 '       </div>' +
                 '   </div>' +
-                '</div>');
+                '</div>'
+            );
         }
         // Делаем столбцы редактируемыми
         $(newTabField+' .newTable table th').css({
@@ -588,11 +602,12 @@ $(function() {
             'font-weight': 'bold'
         });
         $(newTabField+' .newTable table td').attr('contenteditable', true);
-        $(newTabField+' .newTable table tbody tr:first td').css('text-align', 'center');
+        //$(newTabField+' .newTable table tbody tr:first td').css('text-align', 'center');
         $(newTabField+' .newTable table tbody tr').each(function() {
             $('td:first', this).css('text-align', 'center');
         });
     });
+
     // Добавляем строку
     $(document).on('click', '.addTableRow', function() {
         var tabId = $(this).attr('data-table');

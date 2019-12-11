@@ -4,9 +4,11 @@
         var idField = ''; var idFiledInput = '';
         var blockDiv = 'blockDiv';
         var blockGroup = 'blockGroup';
+        var idBlock = 1;
         if(dataBlock == 1) {
             blockDiv = 'blockDivNew';
             blockGroup = 'blockGroupNew';
+            idBlock = 2;
         }
         var blockGroup = '#'+blockDiv+blockId+' #'+blockGroup;
         for (var y in data) {
@@ -19,7 +21,7 @@
                 parentBlock = ' d-none';
             }
             var numberField = '';
-            var selectFieldName = 'selectField_'+blockId+'_'+dubKey+'_'+dataBlock+y;
+            var selectFieldName = 'selectField_'+blockId+'_'+dubKey+'_'+idBlock+y;
             if (id > 0) {
                 if (rowSelectField.parentCatalogId > 0) {
                     parentCatalog = ' p'+rowSelectField.parentCatalogId;
@@ -186,6 +188,7 @@
                     blockDivId = blockDiv+fieldId+'_'+newKey;
                     fieldId = row.field.id;
                     idField = ' data-id="' + row.field.id + '"';
+                    var poleId = row.field.id;
                     // Номер поля для отметки в селектах если нужно
                     numberField = row.field.valueInt;
                 }
@@ -231,7 +234,8 @@
                                 "id" : row.field.fieldId,
                                 "name" : row.field.name,
                                 "field" : [row.field.childFields],
-                                "poleId": row.field.id
+                                "poleId": row.field.id,
+                                "value": i
                             }
                             agreeGroupFields.push(element);
                         } else {
@@ -247,7 +251,8 @@
                                         "id" : row.field.fieldId,
                                         "name" : row.field.name,
                                         "field" : [row.field.childFields],
-                                        "poleId": row.field.id
+                                        "poleId": row.field.id,
+                                        "value" : i
                                     }
                                     agreeGroupFields.push(element);
                                 }
@@ -272,12 +277,13 @@
             });*/
 
             if(id > 0 && agreeGroupFields.length > 0) {
-                //console.log(agreeGroupFields);
+                console.log(agreeGroupFields);
                 for(var h in agreeGroupFields) {
                     var rowGroup = agreeGroupFields[h];
                     var t = parseInt(h)+1;
                     var nameBlock = rowGroup.name;
-                    groupNew (id, field, rowGroup.id, dubKey, name, t, block, nameBlock, t, 1);
+                    var idCicle = rowGroup.value;
+                    groupNew (id, field, rowGroup.id, dubKey, name, t, block, nameBlock, idCicle, 1);
                     for(var v in rowGroup.field) {
                         var rowGroupChild = rowGroup.field[v];
                         var dataId = rowGroup.poleId;

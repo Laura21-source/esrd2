@@ -1,7 +1,8 @@
     // Получение данных по виду поля
     function getFieldType (type, data, pole, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, key, dubKey, idField, idFiledInput, selfClass, up) {
         var numberCatalog = ('#'+selectFieldName);
-        var valueDate = ''; var classElem = ''; var idData = '';
+        var valueDate = ''; var classElem = ''; var idData = ''; var checkClass = '';
+        if(selfClass && selfClass != '') {checkClass = ' '+selfClass;}
         // DATE
         if (data.fieldType === "DATE") {
             var textName = '';
@@ -68,7 +69,7 @@
                     '       <div class="text-muted">'+data.name+requiredSup+'</div>' +
                     '   </div>' +
                     '   <div class="col-md-9'+classElem+'">' +
-                    '       <textarea class="form-control" id="'+nameText+'"' +
+                    '       <textarea class="form-control'+checkClass+'" id="'+nameText+'"' +
                     ' data-field="'+data.fieldId+'"'+idData+'>'+textData+'</textarea>'+requiredValidate+'' +
                     '   </div>' +
                     '</div>');
@@ -97,7 +98,7 @@
         }
         // HTML ТАБЛИЦЫ
         if (data.fieldType === "CATALOG_HTML_TABLES") {
-            if(id > 0) {
+            if(id > 0 && data.valueStr && data.valueStr !== '') {
                 $(pole).append(
                     '<div class="row mb-3 d-flex align-items-center justify-content-center tableHtml"' +
                     ' id="catalogTables'+dubKey+'" type="tableHtml"' +
@@ -114,19 +115,32 @@
                     '   </div>' +
                     '</div>');
                 var tableId = '#catalogTables'+dubKey+' .newTable';
-                //console.log(tableId);
+                console.log(tableId);
                 var sumTop = parseInt($(tableId+' table tbody tr:first td:last').html());
                 sumTop = sumTop+1;
                 $(tableId+' table thead tr:first').append(
                     '<th class="text-center deleteElem" rowspan="2">Удалить</th>');
-                $(tableId+' table tbody tr:first').append('' +
-                    '<td class="text-center deleteElem">'+sumTop+'</td>');
-                $(tableId+' table tbody tr:not(:first)').append('' +
+                if($(tableId+' table thead').hasClass('noNumber')) {
+                    $(tableId+' table tbody tr:first').append(
+                        '<td class="deleteElem">' +
+                        '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
+                        '       <i class="fas fa-trash"></i>' +
+                        '   </div>' +
+                        '</td>'
+                    );
+                } else {
+                    $(tableId+' table tbody tr:first').append(
+                        '<td class="text-center deleteElem">'+sumTop+'</td>'
+                    );
+                    $(tableId+' table tbody tr:first td').css('text-align', 'center');
+                }
+                $(tableId+' table tbody tr:not(:first)').append(
                     '<td class="deleteElem">' +
                     '   <div class="btn btn-sm btn-danger table-remove rounded px-3 my-0">' +
                     '       <i class="fas fa-trash"></i>' +
                     '   </div>' +
-                    '</td>');
+                    '</td>'
+                );
                 $(tableId).append(
                     '<div class="row">' +
                     '   <div class="col-12 text-right">' +
@@ -134,14 +148,15 @@
                     '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
                     '       </div>' +
                     '   </div>' +
-                    '</div>');
+                    '</div>'
+                );
                 $('.newTable table th').css({
                     'text-align': 'center',
                     'vertical-align': 'middle',
                     'font-weight': 'bold'
                 });
                 $(tableId+' table td').css('text-align', 'left');
-                $(tableId+' table tbody tr:first td').css('text-align', 'center');
+                //$(tableId+' table tbody tr:first td').css('text-align', 'center');
                 $(tableId+' table tbody tr').each(function() {
                     $('td:first', this).css('text-align', 'center');
                 });
@@ -170,7 +185,8 @@
                 '       <div class="text-muted">'+data.name+requiredSup+'</div>' +
                 '   </div>' +
                 '   <div class="col-md-9'+classElem+'">' +
-                '       <select data-placeholder="Выберите вид документа" class="chosen-select"' +
+                '       <select data-placeholder="Выберите вид документа"' +
+                ' class="chosen-select'+checkClass+'"' +
                 ' id="'+selectFieldName+'" name="'+selectFieldName+'" type="select"' +
                 ' data-catalog="'+data.catalogId+'"' +
                 ' data-field="'+data.fieldId+'"' +
@@ -203,7 +219,8 @@
                 '       <div class="text-muted">'+data.name+requiredSup+'</div>' +
                 '   </div>' +
                 '   <div class="col-md-8'+classElem+'">' +
-                '       <select data-placeholder="Выберите вид документа" class="chosen-select"' +
+                '       <select data-placeholder="Выберите вид документа"' +
+                ' class="chosen-select'+checkClass+'"' +
                 ' id="'+selectFieldName+'" name="'+selectFieldName+'" type="select"' +
                 ' data-catalog="'+data.catalogId+'"' +
                 ' data-field="'+data.fieldId+'"' +
@@ -239,7 +256,8 @@
                 '       <div class="text-muted">'+data.name+requiredSup+'</div>' +
                 '   </div>' +
                 '   <div class="col-md-9'+classElem+'">' +
-                '       <select data-placeholder="Выберите вид документа" class="chosen-select"' +
+                '       <select data-placeholder="Выберите вид документа"' +
+                ' class="chosen-select'+checkClass+'"' +
                 ' id="'+selectFieldName+'" name="'+selectFieldName+'" type="select"' +
                 ' data-catalog="'+data.catalogId+'"' +
                 ' data-field="'+data.fieldId+'"' +
@@ -271,7 +289,7 @@
             var idData = '';
             if (id > 0) {idData = ' data-id="'+data.id+'"';}
             var nameBlock = data.tag+data.fieldId;
-            $(pole).append('' +
+            $(pole).append(
                 '<div class="row my-3">' +
                 '   <div class="col-md-12 text-left">' +
                 '       <div class="form-check">' +
@@ -284,13 +302,17 @@
                 ' text-left" for="'+nameBlock+'">'+data.name+'</label>' +
                 '       </div>' +
                 '   </div>' +
-                '</div>');
+                '</div>'
+            );
             if(data.childFields.length > 0) {
                 $(pole).append('<div id="'+nameBlock+'BlockDiv" class="childBox mb-4 d-none"></div>');
                 for(var y in data.childFields) {
                     var checkField = data.childFields[y];
                     idField = null;
-                    if (id > 0) {idField = checkField.id;}
+                    if (id > 0) {
+                        idField = checkField.id;
+                        numberField = checkField.valueInt;
+                    }
                     var elementField = pole+' #'+nameBlock+'BlockDiv';
                     var textId = y+1;
                     getFieldType (checkField.fieldType, checkField, elementField, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 'checkClass');
