@@ -800,11 +800,13 @@ public class DocServiceImpl implements DocService {
 
         Map<String, String> simpleTags = new HashMap<>();
         simpleTags.put("RegNum", Optional.ofNullable(docTo.getRegNum() != null ? docTo.getRegNum() : docTo.getProjectRegNum()).orElse(""));
-        String regDate = docTo.getRegDateTime() != null ? DateTimeUtil.toString(docTo.getRegDateTime().toLocalDate()) : null;
+        LocalDate regDate = docTo.getRegDateTime() != null ? docTo.getRegDateTime().toLocalDate() : null;
         if (regDate == null) {
-            regDate =  docTo.getProjectRegDateTime() != null ? DateTimeUtil.toString(docTo.getProjectRegDateTime().toLocalDate()) : "";
+            regDate = docTo.getProjectRegDateTime() != null ? docTo.getProjectRegDateTime().toLocalDate() : null;
         }
-        simpleTags.put("RegDate", regDate);
+        simpleTags.put("RegDate.dd.MM.yyyy", regDate != null ? DateTimeUtil.toString(regDate) : "");
+        simpleTags.put("RegDate.dd MMMM yyyy", regDate != null ? DateTimeUtil.toStringPrint(regDate) : "");
+
         if (docTo.getFinalUserId() != null) {
             User finalUser = userRepository.findById(docTo.getFinalUserId()).orElse(null);
             if (finalUser != null) {
