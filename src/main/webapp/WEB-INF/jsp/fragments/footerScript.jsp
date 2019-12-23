@@ -11,11 +11,11 @@
 <script type="text/javascript" src="resources/js/mdb.min.js"></script>
 <script type="text/javascript" src="resources/js/addons/datatables.min.js"></script>
 <script type="text/javascript" src="resources/js/functions/functions_base.js"></script>
-<script type="text/javascript" src="resources/js/functions/functions_save.js"></script>
-<script type="text/javascript" src="resources/js/functions/functions_test.js"></script>
+<script type="text/javascript" src="resources/js/functions/functions_save_test.js"></script>
+<%--<script type="text/javascript" src="resources/js/functions/functions_test.js"></script>--%>
 <script type="text/javascript" src="resources/js/functions/functions_index.js"></script>
 <script type="text/javascript" src="resources/js/functions/functions_fields.js"></script>
-<script type="text/javascript" src="resources/js/functions/functions_group.js"></script>
+<script type="text/javascript" src="resources/js/functions/functions_group_test.js"></script>
 <%--<script type="text/javascript" src="resources/js/functions/functions_test.js"></script>--%>
 <script type="text/javascript" src="resources/js/functions/functions_datatables.js"></script>
 <script type="text/javascript" src="resources/js/basic.js"></script>

@@ -63,7 +63,12 @@ $(function() {
         //var newBlock = '#blockDiv'+id+'_'+links1+' .blockField';
         var asd = $("#selectType").val();
         groupNewFields(idBlock, id, links, '', linksOld, '');
-        getStack ("rest/profile/doctypes/" + asd + "/fields", pole, links);
+        var docId = getId();
+        if(docId > 0) {
+            getStack ('rest/profile/docs/'+docId, pole, links, '', docId);
+        } else {
+            getStack ('rest/profile/doctypes/'+asd+'/fields', pole, links, '', '');
+        }
         //window.location.hash = 'blockGroup'+links1;
         //window.location.href;
     });
@@ -238,7 +243,7 @@ $(function() {
         var idBlock = $(this).attr('block-id');
         $('#deleteBlock').modal('hide');
         // Удаляем нужный блок
-        $('#' + id).remove();
+        $('#'+blockId+' '+'#'+id).remove();
         // Переименовываем название блоков и атрибуты data-field
         var i = 1;
         if(idBlock == 0) {

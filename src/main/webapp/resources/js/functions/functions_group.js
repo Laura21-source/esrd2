@@ -125,7 +125,7 @@
         var dataId = '';
         if(id > 0) {}
         $(field).append(
-            '<div class="card BlockDiv p-3" id="'+blockDiv+'" data-block="'+fieldId+'">' +
+            '<div class="card BlockDiv p-3 mb-3" id="'+blockDiv+'" data-block="'+fieldId+'">' +
             '   <h5 class="'+blockName+' my-3">'+nameBlock+'</h5>' +
             '   <div class="blockField"></div>' +
             '   <div class="row my-3">' +

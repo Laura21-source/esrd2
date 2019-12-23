@@ -1,6 +1,11 @@
     // Количество элементов в массиве
     function countElem (array) {return array.length;}
 
+    // Оставляем только уникальные значения в массиве
+    /*function uniqueVal (value, index, self) {
+        return self.indexOf(value) === index;
+    }*/
+
     // Отображаем пользователя для секретаря за кем работаем
     $.getJSON('rest/profile/users/getDelegatedUser', function(data) {
         if(data.length !== 0) {

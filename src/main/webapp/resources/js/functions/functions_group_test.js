@@ -1,12 +1,14 @@
     // Получение полей блока GROUP_FIELDS
     function groupNewFieldsValue (data, id, blockId, dubKey, dataBlock) {
-        console.log(data, id, blockId, dubKey, dataBlock);
+        //console.log(data, id, blockId, dubKey, dataBlock);
         var idField = ''; var idFiledInput = '';
         var blockDiv = 'blockDiv';
         var blockGroup = 'blockGroup';
+        var idBlock = 1;
         if(dataBlock == 1) {
             blockDiv = 'blockDivNew';
             blockGroup = 'blockGroupNew';
+            idBlock = 2;
         }
         var blockGroup = '#'+blockDiv+blockId+' #'+blockGroup;
         for (var y in data) {
@@ -19,7 +21,7 @@
                 parentBlock = ' d-none';
             }
             var numberField = '';
-            var selectFieldName = 'selectField_'+blockId+'_'+dubKey+'_'+dataBlock+y;
+            var selectFieldName = 'selectField_'+blockId+'_'+dubKey+'_'+idBlock+y;
             if (id > 0) {
                 if (rowSelectField.parentCatalogId > 0) {
                     parentCatalog = ' p'+rowSelectField.parentCatalogId;
@@ -47,7 +49,7 @@
                 requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
             }
             // Добавляем поля
-            getFieldType (rowSelectField.fieldType, rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, '','')
+            getFieldType (rowSelectField.fieldType, rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 'blockElement','');
         }
     }
 
@@ -114,16 +116,18 @@
         var blockDiv = 'blockDiv';
         var addBlock = 'addBlock';
         var blockName = 'blockName';
+        var blockDivClass = 'BlockDiv';
         if(block && block === 1) {
             blockDiv = 'blockDivNew';
             addBlock = 'addBlockNew';
             blockName = 'blockNameNew';
+            blockDivClass = 'BlockDivNew';
         }
         blockDiv = blockDiv+fieldId;
         var dataId = '';
         if(id > 0) {}
         $(field).append(
-            '<div class="card BlockDiv p-3" id="'+blockDiv+'" data-block="'+fieldId+'">' +
+            '<div class="card '+blockDivClass+' p-3 mb-3" id="'+blockDiv+'" data-block="'+fieldId+'">' +
             '   <h5 class="'+blockName+' my-3">'+nameBlock+'</h5>' +
             '   <div class="blockField"></div>' +
             '   <div class="row my-3">' +
@@ -143,18 +147,32 @@
 
     // Получение стека полей
     function getNewFields (url, id, number, short, block, name, pole) {
+        //console.log(url, id, number, short, block, name, pole);
         var field = '#blockBlock';
         var blockGroup = '#blockGroup';
         var blockDiv = 'blockDiv';
+        var blockGroupClass = 'blockGroup';
+        var BlockDivClass = '.BlockDiv';
+        var arrayBlock = '#arrayBlock';
         if(block && block === 1) {
             field = '#blockBlockNew';
             blockGroup = '#blockGroupNew';
             blockDiv = 'blockDivNew';
+            blockGroupClass = 'blockGroupNew';
+            BlockDivClass = '.BlockDivNew';
+            arrayBlock = '#arrayBlockNew';
         }
-        //alert (field + ' - ' + blockGroup);
+        // var agreeGroupFields = [];
+        /*var agreeGroupFields = $(arrayBlock).on('ready', function() {
+            return $(this).val();
+        });*/
+        /*$(arrayBlock+' option').each(function() {
+            var value = $(this).attr('value');
+            alert(value);
+            agreeGroupFields.push(value);
+        });*/
         return $.getJSON (url, function(data) {
             var rowChild = data;
-            var agreeGroupFields = [];
             if(id > 0 && block !== 1) {rowChild = data.childFields;}
             if(id > 0) {number = 1;}
             if(pole && pole > 0) {rowChild = data[pole];}
@@ -162,8 +180,6 @@
             for(var i in rowChild) {
                 var row = rowChild[i];
                 if(pole && pole > 0) {row = rowChild;}
-                // Переменная даты
-                var valueDate = '';
                 // Переменная поля
                 var idFiledInput = '';
                 var newKey = 1;
@@ -184,8 +200,9 @@
                 var numberField = '';
                 if(id > 0) {
                     blockDivId = blockDiv+fieldId+'_'+newKey;
-                    fieldId = row.field.id;
+                    //fieldId = row.field.fieldId;
                     idField = ' data-id="' + row.field.id + '"';
+                    var poleId = row.field.id;
                     // Номер поля для отметки в селектах если нужно
                     numberField = row.field.valueInt;
                 }
@@ -217,40 +234,22 @@
                 var selectFieldName = 'selectField'+fieldId;
                 if (row.field.fieldType === "GROUP_FIELDS") {
                     if(id > 0) {
-                        // Формиируем массив для отображения груповых полей у сформированного документа
-                        var element = '';
-                        /*element = {
-                            "id" : row.field.fieldId,
-                            "name" : row.field.name,
-                            "field" : [row.field.childFields],
-                            "poleId": row.field.id
-                        }
-                        agreeGroupFields.push(element);*/
-                        if(agreeGroupFields.length == 0) {
-                            element = {
-                                "id" : row.field.fieldId,
-                                "name" : row.field.name,
-                                "field" : [row.field.childFields],
-                                "poleId": row.field.id
-                            }
-                            agreeGroupFields.push(element);
+                        if($(BlockDivClass).length == 0) {
+                            var nameBlock = row.field.name;
+                            groupNew (id, field, fieldId, dubKey, name, newKey, block, nameBlock, i, 1);
+                            groupNewFields ('#'+blockDiv+row.field.fieldId+' .blockField', fieldId, dubKey, name, 1, block, id, row.field.id);
+                            groupNewFieldsValue (row.field.childFields, id, fieldId, dubKey, block);
                         } else {
-                            for(var y in agreeGroupFields) {
-                                //console.log(agreeGroupFields[y].field);
-                                //console.log(agreeGroupFields);
-                                //console.log(y+' - '+row.field.fieldId+' -
-                                // '+agreeGroupFields[y].id);
-                                if(row.field.fieldId == agreeGroupFields[y].id) {
-                                    agreeGroupFields[y].field.push(row.field.childFields);
-                                }  else {
-                                    element = {
-                                        "id" : row.field.fieldId,
-                                        "name" : row.field.name,
-                                        "field" : [row.field.childFields],
-                                        "poleId": row.field.id
-                                    }
-                                    agreeGroupFields.push(element);
-                                }
+                            var idBlockValue = $(BlockDivClass+':last').attr('data-block');
+                            var y = $('#'+blockDiv+row.field.fieldId+' .'+blockGroupClass).length + 1;
+                            if(idBlockValue == row.field.fieldId) {
+                                groupNewFields ('#'+blockDiv+row.field.fieldId+' .blockField', fieldId, y, name, y, block, id, row.field.id);
+                                groupNewFieldsValue (row.field.childFields, id, fieldId, y, block);
+                            } else {
+                                var nameBlock = row.field.name;
+                                groupNew (id, field, fieldId, y, name, y, block, nameBlock, i, 1);
+                                groupNewFields ('#'+blockDiv+row.field.fieldId+' .blockField', fieldId, y, name, 1, block, id, row.field.id);
+                                groupNewFieldsValue (row.field.childFields, id, fieldId, dubKey, block);
                             }
                         }
                     } else {
@@ -264,30 +263,6 @@
                     getFieldType (row.field.fieldType, row.field, field, id, selectFieldName, '', numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, '',1)
                 }
             }
-            // Заполняем данные груповых полей из формированного массива
-            /*$.each(agreeGroupFields, function(key, data) {
-                $.each(data, function(index,value) {
-                    console.log('Статья: id = ' + value['id'] + '; Название' + ' = '+ value['name']);
-                });
-            });*/
-
-            if(id > 0 && agreeGroupFields.length > 0) {
-                //console.log(agreeGroupFields);
-                for(var h in agreeGroupFields) {
-                    var rowGroup = agreeGroupFields[h];
-                    var t = parseInt(h)+1;
-                    var nameBlock = rowGroup.name;
-                    groupNew (id, field, rowGroup.id, dubKey, name, t, block, nameBlock, t, 1);
-                    for(var v in rowGroup.field) {
-                        var rowGroupChild = rowGroup.field[v];
-                        var dataId = rowGroup.poleId;
-                        var newDubkey = parseInt(v)+1;
-                        groupNewFields ('#'+blockDiv+rowGroup.id+' .blockField', rowGroup.id, newDubkey, name, newDubkey, block, id, dataId);
-                        //console.log(rowGroupChild);
-                        groupNewFieldsValue (rowGroupChild, id, rowGroup.id, newDubkey, block);
-                    }
-                }
-            }
         }).done(function(response) {
             var filedBlock = '#blockFields, #blockBlock, #btnSave, #btnWordFile';
             if(block && block === 1) {filedBlock = '#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew';}
@@ -296,12 +271,17 @@
     }
 
     // Получение стека из строки
-    function getStack (url, pole, linksOld, block) {
-        //console.log(url, pole, linksOld);
+    function getStack (url, pole, linksOld, block, id) {
+        //console.log(url, pole, linksOld, block, id);
         $.getJSON (url, function(data) {
             var rowChild = data;
-            if(pole && pole > 0) {rowChild = data[pole].field.childFields;}
-            var blockId = data[pole].field.fieldId;
+            if(id && id > 0) {
+                if(pole && pole > 0) {rowChild = data.childFields[pole].field.childFields;}
+                var blockId = data.childFields[pole].field.fieldId;
+            } else {
+                if(pole && pole > 0) {rowChild = data[pole].field.childFields;}
+                var blockId = data[pole].field.fieldId;
+            }
             groupNewFieldsValue (rowChild, '', blockId, linksOld, block);
         });
     }

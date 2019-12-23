@@ -131,6 +131,9 @@
                         <div class="alert alert-secondary text-center mt-5 mb-3">
                             <div class="btn btn-primary btn-sm rounded px-3 btnView"><i class="fas fa-plus mr-2"></i>Развернуть</div>
                             <h5 class="mt-2 docName">Поля формирования документа</h5>
+                            <select id="arrayBlock" class="d-none" multiple>
+                                <option value="256" selected></option>
+                            </select>
                         </div>
                         <div class="card blockDocument">
                             <div class="card-body">
@@ -260,6 +263,7 @@
                                     </div>
                                     <div class="alert alert-secondary text-center mt-5 mb-3">
                                         <h5 class="mt-2">Поля формирования документа</h5>
+                                        <select id="arrayBlockNew" class="d-none"></select>
                                     </div>
                                 </div>
                                 <div id="blockBlockNew"></div>
@@ -670,7 +674,7 @@
                 // Добавить блоки отсюда в файл функций -getFieldsDocument
                 $("#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew").removeClass("d-none");
                 // Показываем поля документа
-                getNewFields("rest/profile/docs/" + id + "/fields/merged?targetDocTypeId=" + asd, id, '', '', 1);
+                getNewFields("rest/profile/docs/"+id+"/fields/merged?targetDocTypeId="+asd, id, '', '', 1, '' , '');
             } else {
                 $("#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew").addClass("d-none");
             }
