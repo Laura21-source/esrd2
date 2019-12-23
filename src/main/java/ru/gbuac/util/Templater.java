@@ -605,7 +605,6 @@ public class Templater {
 
                         for (int cell = 0; cell < newRow.getTableCells().size(); cell++) {
                             XWPFTableCell cellObj = newRow.getTableCells().get(cell);
-                            ifTagsCalculate(cellObj.getParagraphs());
                             for (XWPFParagraph paragraph : cellObj.getParagraphs()) {
                                 String text = paragraph.getText();
                                 for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
@@ -615,6 +614,7 @@ public class Templater {
                                 text = text.replace("  ", " ").replace(" ,", ",");
                                 changeText(paragraph, text);
                             }
+                            ifTagsCalculate(cellObj.getParagraphs());
                         }
                         table.addRow(newRow, table.getNumberOfRows() - 1);
                     }
@@ -638,7 +638,6 @@ public class Templater {
             for (int row = 0; row < rows.size(); row++) {
                 List<XWPFTableCell> cells = rows.get(row).getTableCells();
                 for (int cell = 0; cell < cells.size(); cell++) {
-                    ifTagsCalculate(cells.get(cell).getParagraphs());
                     for (XWPFParagraph p: cells.get(cell).getParagraphs()) {
                         String text = p.getText();
                         for (Map.Entry<String,String> entry : simpleTags.entrySet()) {
@@ -647,6 +646,7 @@ public class Templater {
                         text = text.replace("  ", " ").replace(" ,", ",");
                         changeText(p, text);
                     }
+                    ifTagsCalculate(cells.get(cell).getParagraphs());
                 }
             }
         }
