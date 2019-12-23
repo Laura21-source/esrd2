@@ -522,6 +522,39 @@ public class Templater {
         }
     }
 
+    private static void ifTagsCalculate(List<XWPFParagraph> paragraphs) {
+        List<XWPFParagraph> paragraphsToDelete = new ArrayList<>();
+        for (XWPFParagraph p: paragraphs) {
+            String text = p.getText();
+            int startLength = text.length();
+            for (IfStatement ifStatement : getIfStatements(text)) {
+                String[] cmpValues = ifStatement.condition.split("=");
+                if (cmpValues.length == 1) {
+                    cmpValues = ifStatement.condition.split("~");
+                }
+                if ((ifStatement.condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
+                        (cmpValues.length == 1 && cmpValues[0].equals("TRUE")) ||
+                        (ifStatement.condition.contains("~") && cmpValues[0].contains(cmpValues[1]))) {
+                    text = text.replace(ifStatement.fullText, ifStatement.getThenVal());
+                } else {
+                    text = text.replace(ifStatement.fullText, ifStatement.getElseVal());
+                }
+            }
+            // Если размер параграфа стал равен нулю, и при этом изначально он таким не был,
+            // то значит его нужно добавить в список удаления
+            if (startLength > text.length() && text.length() == 0) {
+                paragraphsToDelete.add(p);
+            } else {
+                changeText(p, text);
+            }
+        }
+
+        // Удаление пустых параграфов
+        for (int i = 0; i < paragraphsToDelete.size(); i++) {
+            deleteParagraph(paragraphsToDelete.get(i));
+        }
+    }
+
 
     public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags,
                                                              Map<String, TaggedTable> taggedTables, Map<String, String> htmlTables,
@@ -572,6 +605,7 @@ public class Templater {
 
                         for (int cell = 0; cell < newRow.getTableCells().size(); cell++) {
                             XWPFTableCell cellObj = newRow.getTableCells().get(cell);
+                            ifTagsCalculate(cellObj.getParagraphs());
                             for (XWPFParagraph paragraph : cellObj.getParagraphs()) {
                                 String text = paragraph.getText();
                                 for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
@@ -589,37 +623,8 @@ public class Templater {
             }
         }
 
-        // Замена тэгов щаблона значениями по словарю
-        List<XWPFParagraph> paragraphsToDelete = new ArrayList<>();
-        for (XWPFParagraph p: doc.getParagraphs()) {
-            String text = p.getText();
-            int startLength = text.length();
-            for (IfStatement ifStatement : getIfStatements(text)) {
-                String[] cmpValues = ifStatement.condition.split("=");
-                if (cmpValues.length == 1) {
-                    cmpValues = ifStatement.condition.split("~");
-                }
-                if ((ifStatement.condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
-                        (cmpValues.length == 1 && cmpValues[0].equals("TRUE")) ||
-                        (ifStatement.condition.contains("~") && cmpValues[0].contains(cmpValues[1]))) {
-                    text = text.replace(ifStatement.fullText, ifStatement.getThenVal());
-                } else {
-                    text = text.replace(ifStatement.fullText, ifStatement.getElseVal());
-                }
-            }
-            // Если размер параграфа стал равен нулю, и при этом изначально он таким не был,
-            // то значит его нужно добавить в список удаления
-            if (startLength > text.length() && text.length() == 0) {
-                paragraphsToDelete.add(p);
-            } else {
-                changeText(p, text);
-            }
-        }
-
-        // Удаление пустых параграфов
-        for (int i = 0; i < paragraphsToDelete.size(); i++) {
-            deleteParagraph(paragraphsToDelete.get(i));
-        }
+        // Проверка условий и их разрешение
+        ifTagsCalculate(doc.getParagraphs());
 
         // Если количество страниц больше одной, то делаем полную подпись
         if (getPageCount(doc) > 1) {
@@ -633,6 +638,7 @@ public class Templater {
             for (int row = 0; row < rows.size(); row++) {
                 List<XWPFTableCell> cells = rows.get(row).getTableCells();
                 for (int cell = 0; cell < cells.size(); cell++) {
+                    ifTagsCalculate(cells.get(cell).getParagraphs());
                     for (XWPFParagraph p: cells.get(cell).getParagraphs()) {
                         String text = p.getText();
                         for (Map.Entry<String,String> entry : simpleTags.entrySet()) {
