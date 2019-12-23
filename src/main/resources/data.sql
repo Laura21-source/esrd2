@@ -2766,14 +2766,14 @@ INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (353, 354);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (355, 'Присутствовали участники других организаций', 'GROUP_CHECKBOX', null, null, null, null, 'OtherOrganizationsParticipants');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (356, 'От других организаций', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsOther');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (357, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, 'FIO3');
+INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (355, 356);
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (356, 357);
 
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (370, 350, 4, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (371, 350, 351, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (372, 350, 353, 3);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (373, 350, 355, 4);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (374, 350, 356, 5);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (375, 350, 7, 6);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (375, 350, 7, 5);
 
 
 
