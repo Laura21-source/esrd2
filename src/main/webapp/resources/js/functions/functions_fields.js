@@ -274,7 +274,7 @@
         }
     }
 
-    // Получение данных групового поля
+    // Получение данных поля чекбокса
     function getFiledTypeGroup (type, data, pole, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, key, dubKey, idField, idFiledInput, up) {
         var classElem = '';
         if(up == 1) {classElem = ' upElem';}
@@ -290,8 +290,8 @@
             if (id > 0) {idData = ' data-id="'+data.id+'"';}
             var nameBlock = data.tag+data.fieldId;
             $(pole).append(
-                '<div class="row my-3">' +
-                '   <div class="col-md-12 text-left">' +
+                '<div class="card my-3 p-3">' +
+                '   <div class="'+nameBlock+' text-left">' +
                 '       <div class="form-check">' +
                 '           <input class="form-check-input'+classElem+'"' +
                 ' id="'+nameBlock+'" type="checkbox"' +
@@ -305,7 +305,8 @@
                 '</div>'
             );
             if(data.childFields.length > 0) {
-                $(pole).append('<div id="'+nameBlock+'BlockDiv" class="childBox mb-4 d-none"></div>');
+                $('.'+nameBlock).append('<div id="'+nameBlock+'BlockDiv"' +
+                    ' class="childBox mb-4 d-none"></div>');
                 for(var y in data.childFields) {
                     var checkField = data.childFields[y];
                     idField = null;
@@ -315,7 +316,13 @@
                     }
                     var elementField = pole+' #'+nameBlock+'BlockDiv';
                     var textId = y+1;
-                    getFieldType (checkField.fieldType, checkField, elementField, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 'checkClass');
+                    // GROUP_FIELDS
+                    if (checkField.fieldType === "GROUP_FIELDS") {
+                        alert("Hello!");
+                        getFieldType ("GROUP_FIELDS", checkField, elementField, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, key, dubKey, idField, idFiledInput)
+                    } else {
+                        getFieldType (checkField.fieldType, checkField, elementField, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 'checkClass');
+                    }
                     /*if (checkField.fieldType === "TEXT") {
                         getFieldType (checkField.fieldType, checkField, elementField, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, selfClass)
                     }
@@ -327,10 +334,5 @@
             }
             checkedFields ('#'+nameBlock, '#'+nameBlock+'BlockDiv');
             if (data.valueInt > 0) {$('.childBox').removeClass('d-none');}
-        }
-        // GROUP_FIELDS
-        if (data.fieldType === "GROUP_FIELDS") {
-            data = data.childFields;
-            getFieldType (data.fieldType, data, pole, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, key, dubKey, idField, idFiledInput)
         }
     }
