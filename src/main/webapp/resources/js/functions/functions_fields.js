@@ -1,7 +1,7 @@
     // Получение данных по виду поля
-    function getFieldType (type, data, pole, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, key, dubKey, idField, idFiledInput, selfClass, up) {
+    function getFieldType (type, data, pole, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, key, dubKey, idField, idFiledInput, selfClass, up, emptyData) {
         var numberCatalog = ('#'+selectFieldName);
-        var valueDate = ''; var classElem = ''; var idData = ''; var checkClass = '';
+        var valueDate = ''; var classElem = ''; var idData = ''; var checkClass = ''; var dataValue = '';
         if(selfClass && selfClass != '') {checkClass = ' '+selfClass;}
         // DATE
         if (data.fieldType === "DATE") {
@@ -37,6 +37,9 @@
                 if (id > 0) {
                     idField = data.id;
                     textName = data.id+'_';
+                    if(emptyData == 1) {
+                        dataValue = data.valueStr;
+                    }
                 }
                 var nameText = "inputText_"+dubKey+'_'+textName+newId;
                 $(pole).append('' +
@@ -46,7 +49,7 @@
                     '   </div>' +
                     '   <div class="col-md-9"></div>' +
                     '</div>');
-                createInput(".col-md-9:last", "text", nameText, nameText, "Введите значение", 0, '' + data.name, data.valueStr, data.fieldId, up, idField, data.enabled, data.required, '', 1, selfClass);
+                createInput(".col-md-9:last", "text", nameText, nameText, "Введите значение", 0, '' + data.name, dataValue, data.fieldId, up, idField, data.enabled, data.required, '', 1, selfClass);
                 newId = newId + 1;
             }
         }
@@ -271,68 +274,5 @@
                 no_results_text: "Ничего не найдено!"
             });
             createOptions("rest/profile/users/", numberCatalog, '', 'id', numberField, 'users');
-        }
-    }
-
-    // Получение данных поля чекбокса
-    function getFiledTypeGroup (type, data, pole, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, key, dubKey, idField, idFiledInput, up) {
-        var classElem = '';
-        if(up == 1) {classElem = ' upElem';}
-        // GROUP_CHECKBOX
-        if (data.fieldType === "GROUP_CHECKBOX") {
-            var valueInt = 'value="0"';
-            var checekCheckBox = '';
-            if (data.valueInt > 0) {
-                valueInt = 'value="'+data.valueInt+'"';
-                checekCheckBox = ' checked';
-            }
-            var idData = '';
-            if (id > 0) {idData = ' data-id="'+data.id+'"';}
-            var nameBlock = data.tag+data.fieldId;
-            $(pole).append(
-                '<div class="card my-3 p-3">' +
-                '   <div class="'+nameBlock+' text-left">' +
-                '       <div class="form-check">' +
-                '           <input class="form-check-input'+classElem+'"' +
-                ' id="'+nameBlock+'" type="checkbox"' +
-                ' data-field="'+data.fieldId+'"'+idData+'' +
-                ' name="'+nameBlock+'"' +
-                ' '+valueInt+checekCheckBox+'>' +
-                '           <label class="form-check-label text-muted' +
-                ' text-left" for="'+nameBlock+'">'+data.name+'</label>' +
-                '       </div>' +
-                '   </div>' +
-                '</div>'
-            );
-            if(data.childFields.length > 0) {
-                $('.'+nameBlock).append('<div id="'+nameBlock+'BlockDiv"' +
-                    ' class="childBox mb-4 d-none"></div>');
-                for(var y in data.childFields) {
-                    var checkField = data.childFields[y];
-                    idField = null;
-                    if (id > 0) {
-                        idField = checkField.id;
-                        numberField = checkField.valueInt;
-                    }
-                    var elementField = pole+' #'+nameBlock+'BlockDiv';
-                    var textId = y+1;
-                    // GROUP_FIELDS
-                    if (checkField.fieldType === "GROUP_FIELDS") {
-                        alert("Hello!");
-                        getFieldType ("GROUP_FIELDS", checkField, elementField, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, key, dubKey, idField, idFiledInput)
-                    } else {
-                        getFieldType (checkField.fieldType, checkField, elementField, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 'checkClass');
-                    }
-                    /*if (checkField.fieldType === "TEXT") {
-                        getFieldType (checkField.fieldType, checkField, elementField, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, selfClass)
-                    }
-                    if (checkField.fieldType === "TEXTAREA") {
-                        getFieldType ("TEXTAREA", checkField, elementField, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput)
-                    }*/
-                    textId = textId+1;
-                }
-            }
-            checkedFields ('#'+nameBlock, '#'+nameBlock+'BlockDiv');
-            if (data.valueInt > 0) {$('.childBox').removeClass('d-none');}
         }
     }

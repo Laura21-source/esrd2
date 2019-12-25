@@ -154,7 +154,7 @@
 <script>
     setTimeout(function() {
         $('#mdb-preloader').remove();
-    }, 1000);
+    }, 2000);
 
     $(function() {
         // Список полей вида документов
