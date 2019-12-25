@@ -93,27 +93,6 @@
                 var poleFieldFieldId = row.field.fieldId;
                 if (row.field.fieldType === "GROUP_FIELDS") {
                     getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId);
-                    /*if(id > 0) {
-                        if($(BlockDivClass).length == 0) {
-                            groupNew (id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);
-                            groupNewFields (fieldField, fieldId, dubKey, name, 1, block, id, poleFieldId);
-                            groupNewFieldsValue (dataField, id, fieldId, dubKey, block);
-                        } else {
-                            var idBlockValue = $(BlockDivClass+':last').attr('data-block');
-                            var y = $(fieldFieldName).length + 1;
-                            if(idBlockValue == poleFieldFieldId) {
-                                groupNewFields (fieldField, fieldId, y, name, y, block, id, poleFieldId);
-                                groupNewFieldsValue (dataField, id, fieldId, y, block);
-                            } else {
-                                groupNew (id, field, fieldId, y, name, y, block, fieldName, i, 1);
-                                groupNewFields (fieldField, fieldId, y, name, 1, block, id, poleFieldId);
-                                groupNewFieldsValue (dataField, id, fieldId, dubKey, block);
-                            }
-                        }
-                    } else {
-                        groupNew (id, field, fieldId, dubKey, name, newKey, block, fieldName, i, '');
-                        groupNewFieldsValue (dataField, id, fieldId, dubKey, block);
-                    }*/
                 } else if (row.field.fieldType === "GROUP_CHECKBOX") {
                     getFiledTypeCheckBox ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, 0, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i);
                 } else {
@@ -129,7 +108,6 @@
 
     // Получение стека из строки
     function getStack (url, pole, linksOld, block, id) {
-        console.log(url, pole, linksOld, block, id);
         $.getJSON (url, function(data) {
             var rowChild = data;
             var emptyData = 1;

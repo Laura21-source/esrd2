@@ -144,7 +144,34 @@
         }
     }
 
-    function getFiledTypeGroupField(id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId) {
+    function getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId) {
+        //console.log(id, BlockDivClass, fieldFieldName, field, fieldId,
+        // dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId);
+        if(id > 0) {
+            if($(BlockDivClass).length == 0) {
+                groupNew (id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);
+                groupNewFields (fieldField, fieldId, dubKey, name, 1, block, id, poleFieldId);
+                groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
+            } else {
+                var idBlockValue = $(BlockDivClass+':last').attr('data-block');
+                var y = $(fieldFieldName).length + 1;
+                if(idBlockValue == poleFieldFieldId) {
+                    groupNewFields (fieldField, fieldId, y, name, y, block, id, poleFieldId);
+                    groupNewFieldsValue (dataField, id, fieldId, y, block, 1);
+                } else {
+                    groupNew (id, field, fieldId, y, name, y, block, fieldName, i, 1);
+                    groupNewFields (fieldField, fieldId, y, name, 1, block, id, poleFieldId);
+                    groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
+                }
+            }
+        } else {
+            groupNew (id, field, fieldId, dubKey, name, newKey, block, fieldName, i, '');
+            groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
+            //console.log(dataField, id, fieldId, dubKey, block);
+        }
+    }
+
+    function getFiledTypeGroupFieldCheckBox (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId) {
         //console.log(id, BlockDivClass, fieldFieldName, field, fieldId,
         // dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId);
         if(id > 0) {

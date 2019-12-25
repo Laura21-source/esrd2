@@ -44,7 +44,7 @@
                     if (checkField.fieldType === "GROUP_FIELDS") {
                         /*for(var m in checkField.childFields) {
                             var childCheckField = checkField.childFields[m];*/
-                            getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, elementField, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, checkField.childFields, poleFieldFieldId);
+                        getFiledTypeGroupFieldCheckBox (id, BlockDivClass, fieldFieldName, elementField, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, checkField.childFields, poleFieldFieldId);
                        /* }*/
                     } else {
                         getFieldType (checkField.fieldType, checkField, elementField, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 'checkClass', 0, 1);
