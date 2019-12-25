@@ -3,8 +3,10 @@ package ru.gbuac.util;
 import ru.gbuac.model.*;
 import ru.gbuac.to.FieldTo;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FieldUtil {
 
@@ -13,6 +15,8 @@ public class FieldUtil {
 
     public static FieldTo asTo(Field field, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap, boolean deny) {
         List<FieldTo> childFields = new ArrayList<>();
+        field.setChildField(field.getChildField()
+                .stream().sorted(Comparator.comparing(f -> f.getPositionInGroup() != null ? f.getPositionInGroup() : 1)).collect(Collectors.toList()));
         for (Field childField : field.getChildField()) {
             childFields.add(asTo(childField, curUserRoles, fMap, deny));
         }
@@ -39,6 +43,8 @@ public class FieldUtil {
     public static FieldTo asTo(ValuedField valuedField, List<String> curUserRoles, HashMap<Integer, FieldsRoles> fMap, boolean deny,
                                boolean clearIds) {
         List<FieldTo> childFields = new ArrayList<>();
+        valuedField.setChildValuedField(valuedField.getChildValuedField()
+                .stream().sorted(Comparator.comparing(f -> f.getField().getPositionInGroup() != null ? f.getField().getPositionInGroup() : 1)).collect(Collectors.toList()));
         for (ValuedField childField : valuedField.getChildValuedField()) {
             childFields.add(asTo(childField, curUserRoles, fMap, deny, clearIds));
         }
