@@ -522,6 +522,39 @@ public class Templater {
         }
     }
 
+    private static void ifTagsCalculate(List<XWPFParagraph> paragraphs) {
+        List<XWPFParagraph> paragraphsToDelete = new ArrayList<>();
+        for (XWPFParagraph p: paragraphs) {
+            String text = p.getText();
+            int startLength = text.length();
+            for (IfStatement ifStatement : getIfStatements(text)) {
+                String[] cmpValues = ifStatement.condition.split("=");
+                if (cmpValues.length == 1) {
+                    cmpValues = ifStatement.condition.split("~");
+                }
+                if ((ifStatement.condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
+                        (cmpValues.length == 1 && cmpValues[0].equals("TRUE")) ||
+                        (ifStatement.condition.contains("~") && cmpValues[0].contains(cmpValues[1]))) {
+                    text = text.replace(ifStatement.fullText, ifStatement.getThenVal());
+                } else {
+                    text = text.replace(ifStatement.fullText, ifStatement.getElseVal());
+                }
+            }
+            // Если размер параграфа стал равен нулю, и при этом изначально он таким не был,
+            // то значит его нужно добавить в список удаления
+            if (startLength > text.length() && text.length() == 0) {
+                paragraphsToDelete.add(p);
+            } else {
+                changeText(p, text);
+            }
+        }
+
+        // Удаление пустых параграфов
+        for (int i = 0; i < paragraphsToDelete.size(); i++) {
+            deleteParagraph(paragraphsToDelete.get(i));
+        }
+    }
+
 
     public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags,
                                                              Map<String, TaggedTable> taggedTables, Map<String, String> htmlTables,
@@ -581,6 +614,7 @@ public class Templater {
                                 text = text.replace("  ", " ").replace(" ,", ",");
                                 changeText(paragraph, text);
                             }
+                            ifTagsCalculate(cellObj.getParagraphs());
                         }
                         table.addRow(newRow, table.getNumberOfRows() - 1);
                     }
@@ -589,37 +623,8 @@ public class Templater {
             }
         }
 
-        // Замена тэгов щаблона значениями по словарю
-        List<XWPFParagraph> paragraphsToDelete = new ArrayList<>();
-        for (XWPFParagraph p: doc.getParagraphs()) {
-            String text = p.getText();
-            int startLength = text.length();
-            for (IfStatement ifStatement : getIfStatements(text)) {
-                String[] cmpValues = ifStatement.condition.split("=");
-                if (cmpValues.length == 1) {
-                    cmpValues = ifStatement.condition.split("~");
-                }
-                if ((ifStatement.condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
-                        (cmpValues.length == 1 && cmpValues[0].equals("TRUE")) ||
-                        (ifStatement.condition.contains("~") && cmpValues[0].contains(cmpValues[1]))) {
-                    text = text.replace(ifStatement.fullText, ifStatement.getThenVal());
-                } else {
-                    text = text.replace(ifStatement.fullText, ifStatement.getElseVal());
-                }
-            }
-            // Если размер параграфа стал равен нулю, и при этом изначально он таким не был,
-            // то значит его нужно добавить в список удаления
-            if (startLength > text.length() && text.length() == 0) {
-                paragraphsToDelete.add(p);
-            } else {
-                changeText(p, text);
-            }
-        }
-
-        // Удаление пустых параграфов
-        for (int i = 0; i < paragraphsToDelete.size(); i++) {
-            deleteParagraph(paragraphsToDelete.get(i));
-        }
+        // Проверка условий и их разрешение
+        ifTagsCalculate(doc.getParagraphs());
 
         // Если количество страниц больше одной, то делаем полную подпись
         if (getPageCount(doc) > 1) {
@@ -641,6 +646,7 @@ public class Templater {
                         text = text.replace("  ", " ").replace(" ,", ",");
                         changeText(p, text);
                     }
+                    ifTagsCalculate(cells.get(cell).getParagraphs());
                 }
             }
         }

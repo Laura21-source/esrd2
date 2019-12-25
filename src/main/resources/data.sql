@@ -2760,7 +2760,7 @@ INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filenam
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (351, 'Члены Правления', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsRulers');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (352, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, 'FIO');
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (351, 352);
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (353, 'От Департамента экономической политики и развития города Москвы', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsRulers');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (353, 'От Департамента экономической политики и развития города Москвы', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsDepr');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (354, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, 'FIO2');
 INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (353, 354);
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (355, 'Присутствовали участники других организаций', 'GROUP_CHECKBOX', null, null, null, null, 'OtherOrganizationsParticipants');

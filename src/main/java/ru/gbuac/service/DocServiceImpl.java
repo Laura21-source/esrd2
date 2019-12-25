@@ -603,13 +603,8 @@ public class DocServiceImpl implements DocService {
             }
             switch (fieldTo.getFieldType()) {
                 case GROUP_FIELDS:
-                    for (FieldTo childField : fieldTo.getChildFields()) {
-                        cellsTags.put(tag, fieldTo.getValueByFieldType());
-                        childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
-                        fillTags(childField, simpleTags, taggedTables, htmlTables, fieldTo.getChildFields().size());
-                    }
-                    break;
                 case GROUP_CHECKBOX:
+                    cellsTags.put(tag, fieldTo.getValueByFieldType());
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
                         fillTags(childField, simpleTags, taggedTables, htmlTables, fieldTo.getChildFields().size());
@@ -677,14 +672,15 @@ public class DocServiceImpl implements DocService {
         if (TagUtil.getSimpleTag(tag) != null) {
             switch (fieldTo.getFieldType()) {
                 case GROUP_CHECKBOX:
+                    simpleTags.put(tag, fieldTo.getValueByFieldType());
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         int childMaxCellsCount = (int) fieldTo.getChildFields().stream()
                                 .filter(c -> !c.getTag().equals("")).count();
-                        simpleTags.put(tag, fieldTo.getValueByFieldType());
                         fillTags(childField, simpleTags, taggedTables, htmlTables, childMaxCellsCount);
                     }
                     break;
                 case GROUP_FIELDS:
+                    simpleTags.put(tag, fieldTo.getValueByFieldType());
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
                         int childMaxCellsCount = (int) fieldTo.getChildFields().stream()
