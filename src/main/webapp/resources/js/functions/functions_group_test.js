@@ -134,11 +134,23 @@
             var rowChild = data;
             var emptyData = 1;
             if(id && id > 0) {
-                if(pole && pole > 0) {rowChild = data.childFields[pole].field.childFields;}
+                if(pole && pole > 0) {
+                    if(data.childFields[pole].field.childFields[0].fieldType == "GROUP_FIELDS") {
+                        rowChild = data.childFields[pole].field.childFields[0].childFields;
+                    } else {
+                        rowChild = data.childFields[pole].field.childFields;
+                    }
+                }
                 var blockId = data.childFields[pole].field.fieldId;
                 emptyData = 0;
             } else {
-                if(pole && pole > 0) {rowChild = data[pole].field.childFields;}
+                if(pole && pole > 0) {
+                    if(data[pole].field.childFields[0].fieldType == "GROUP_FIELDS") {
+                        rowChild = data[pole].field.childFields[0].childFields;
+                    } else {
+                        rowChild = data[pole].field.childFields;
+                    }
+                }
                 var blockId = data[pole].field.fieldId;
             }
             groupNewFieldsValue (rowChild, '', blockId, linksOld, block, emptyData);
