@@ -1,8 +1,12 @@
     // Формирование массива элементов для JSON поля вне GROUP_FIELDS
     function createDataField (id, block) {
+        var blockGroup = '.blockGroup';
+        var blockElement = '.blockElement';
         var upElem = '.upElem';
         if(block && block === 1) {
             upElem = '.upElemNew';
+            blockGroup = '.blockGroupNew';
+            blockElement = '.blockElementNew'
         }
         var id = parseInt(id);
         var dataField = [];
@@ -110,6 +114,65 @@
                         }
                     }
                     childBox.push(childField);
+                });
+                $('.BlockDivCheckBox').each(function() {
+                    $(blockGroup, this).each(function() {
+                        var fieldId = parseInt($(this).attr("data-div"));
+                        if(id > 0) {idField = parseInt($(this).attr("data-id"));}
+                        var elementArray = [];
+                        // Добавляем элементы полей
+                        $(blockElement, this).each(function() {
+                            var typeAttr = $(this).attr("type");
+                            if(id > 0) {idField = parseInt($(this).attr("data-id"));}
+                            if (typeAttr && typeAttr != '') {
+                                if (typeAttr === "tableHtml") {
+                                    var valueInt = $(this).attr('data-value');
+                                    var tabId = '#'+$(this).attr('id');
+                                    $(tabId+' .editTable .deleteElem, '+tabId+' .editTable h6').remove();
+                                    var valueStr = $(tabId+' .editTable').html();
+                                    var elementBlockElem = {
+                                        "id" : idField,
+                                        "childFields" : [],
+                                        "fieldId" : parseInt($(this).attr("data-field")),
+                                        "valueInt": valueInt,
+                                        "valueStr" : valueStr
+                                    }
+                                } else if(typeAttr === "select") {
+                                    var elementBlockElem = {
+                                        "id" : idField,
+                                        "childFields" : [],
+                                        "fieldId" : parseInt($(this).attr("data-field")),
+                                        "valueInt" : parseInt($(this).val())
+                                    }
+                                } else if(typeAttr === "text") {
+                                    var elementBlockElem = {
+                                        "id" : idField,
+                                        "childFields" : [],
+                                        "fieldId" : parseInt($(this).attr("data-field")),
+                                        "valueStr" : $(this).val()
+                                    }
+                                }
+                            } else {
+                                var elementBlockElem = {
+                                    "id" : idField,
+                                    "childFields" : [],
+                                    "fieldId" : parseInt($(this).attr("data-field")),
+                                    "valueStr" : $(this).val()
+                                }
+                            }
+                            elementArray.push(elementBlockElem);
+                        });
+                        /*var position = parseInt(key)+parseInt(countElem(childBox));*/
+                        var childBoxElement = {
+                            /*"field" : {*/
+                                "id" : idField,
+                                "childFields": elementArray,
+                                "fieldId" : fieldId,
+                            }/*,
+                            "position" : position*/
+                        /*}*/
+                        childBox.push(childBoxElement);
+                    });
                 });
                 field = {
                     "field": {

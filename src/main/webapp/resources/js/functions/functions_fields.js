@@ -103,7 +103,8 @@
         if (data.fieldType === "CATALOG_HTML_TABLES") {
             if(id > 0 && data.valueStr && data.valueStr !== '') {
                 $(pole).append(
-                    '<div class="row mb-3 d-flex align-items-center justify-content-center tableHtml"' +
+                    '<div class="row mb-3 d-flex align-items-center' +
+                    ' justify-content-center tableHtml blockElement"' +
                     ' id="catalogTables'+dubKey+'" type="tableHtml"' +
                     ' data-id="'+data.id+'"' +
                     ' data-field="'+data.fieldId+'"' +
@@ -165,7 +166,8 @@
                 });
             } else {
                 $(pole).append(
-                    '<div class="row tableHtml mb-3 d-flex align-items-center justify-content-center"' +
+                    '<div class="row tableHtml mb-3 d-flex' +
+                    ' align-items-center justify-content-center blockElement"' +
                     ' id="catalogTables'+dubKey+'" type="tableHtml"' +
                     ' data-field="'+data.fieldId+'">' +
                     '   <div class="col-md-3 text-left">' +

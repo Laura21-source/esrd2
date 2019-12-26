@@ -111,16 +111,16 @@
     }
 
     // Добавление блока группы
-    function groupNew (id, field, fieldId, dubKey, name, newKey, block, nameBlock, poleId, agree) {
+    function groupNew (blockDivClass, id, field, fieldId, dubKey, name, newKey, block, nameBlock, poleId, agree) {
         var blockDiv = 'blockDiv';
         var addBlock = 'addBlock';
         var blockName = 'blockName';
-        var blockDivClass = 'BlockDiv';
+        //var blockDivClass = 'BlockDiv';
         if(block && block === 1) {
             blockDiv = 'blockDivNew';
             addBlock = 'addBlockNew';
             blockName = 'blockNameNew';
-            blockDivClass = 'BlockDivNew';
+            //blockDivClass = 'BlockDivNew';
         }
         blockDiv = blockDiv+fieldId;
         var dataId = '';
@@ -149,7 +149,7 @@
         // dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId);
         if(id > 0) {
             if($(BlockDivClass).length == 0) {
-                groupNew (id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);
+                groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);
                 groupNewFields (fieldField, fieldId, dubKey, name, 1, block, id, poleFieldId);
                 groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
             } else {
@@ -159,13 +159,13 @@
                     groupNewFields (fieldField, fieldId, y, name, y, block, id, poleFieldId);
                     groupNewFieldsValue (dataField, id, fieldId, y, block, 1);
                 } else {
-                    groupNew (id, field, fieldId, y, name, y, block, fieldName, i, 1);
+                    groupNew (BlockDivClass, id, field, fieldId, y, name, y, block, fieldName, i, 1);
                     groupNewFields (fieldField, fieldId, y, name, 1, block, id, poleFieldId);
                     groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
                 }
             }
         } else {
-            groupNew (id, field, fieldId, dubKey, name, newKey, block, fieldName, i, '');
+            groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, '');
             groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
             //console.log(dataField, id, fieldId, dubKey, block);
         }
@@ -176,7 +176,7 @@
         // dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId);
         if(id > 0) {
             if($(BlockDivClass).length == 0) {
-                groupNew (id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);
+                groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);
                 groupNewFields (fieldField, fieldId, dubKey, name, 1, block, id, poleFieldId);
                 groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
             } else {
@@ -186,13 +186,13 @@
                     groupNewFields (fieldField, fieldId, y, name, y, block, id, poleFieldId);
                     groupNewFieldsValue (dataField, id, fieldId, y, block, 1);
                 } else {
-                    groupNew (id, field, fieldId, y, name, y, block, fieldName, i, 1);
+                    groupNew (BlockDivClass, id, field, fieldId, y, name, y, block, fieldName, i, 1);
                     groupNewFields (fieldField, fieldId, y, name, 1, block, id, poleFieldId);
                     groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
                 }
             }
         } else {
-            groupNew (id, field, fieldId, dubKey, name, newKey, block, fieldName, i, '');
+            groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, '');
             groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
             //console.log(dataField, id, fieldId, dubKey, block);
         }

@@ -92,9 +92,17 @@
                 var dataField = row.field.childFields;
                 var poleFieldFieldId = row.field.fieldId;
                 if (row.field.fieldType === "GROUP_FIELDS") {
+                    BlockDivClass = 'BlockDiv';
+                    if(block && block === 1) {
+                        BlockDivClass = 'BlockDivNew';
+                    }
                     getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId);
                 } else if (row.field.fieldType === "GROUP_CHECKBOX") {
-                    getFiledTypeCheckBox ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, 0, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i);
+                    BlockDivClass = 'BlockDivCheckBox';
+                    if(block && block === 1) {
+                        BlockDivClass = 'BlockDivCheckBoxNew';
+                    }
+                    getFiledTypeCheckBox ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, 1, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i);
                 } else {
                     getFieldType (row.field.fieldType, row.field, field, id, selectFieldName, '', numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, '',1, 1);
                 }
