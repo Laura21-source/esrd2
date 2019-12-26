@@ -123,22 +123,27 @@
                 if(pole && pole > 0) {
                     if(data.childFields[pole].field.childFields[0].fieldType == "GROUP_FIELDS") {
                         rowChild = data.childFields[pole].field.childFields[0].childFields;
+                        var blockId = data.childFields[pole].field.childFields[0].fieldId;
                     } else {
                         rowChild = data.childFields[pole].field.childFields;
+                        var blockId = data.childFields[pole].field.fieldId;
                     }
                 }
-                var blockId = data.childFields[pole].field.fieldId;
                 emptyData = 0;
             } else {
                 if(pole && pole > 0) {
                     if(data[pole].field.childFields[0].fieldType == "GROUP_FIELDS") {
+                        //rowChild =
+                        // data[pole].field.childFields[0].childFields;
                         rowChild = data[pole].field.childFields[0].childFields;
+                        var blockId = data[pole].field.childFields[0].fieldId;
                     } else {
                         rowChild = data[pole].field.childFields;
+                        var blockId = data[pole].field.fieldId;
                     }
                 }
-                var blockId = data[pole].field.fieldId;
             }
             groupNewFieldsValue (rowChild, '', blockId, linksOld, block, emptyData);
+            //console.log(blockId, linksOld, block, emptyData);
         });
     }

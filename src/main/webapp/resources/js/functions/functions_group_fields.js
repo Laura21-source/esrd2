@@ -1,5 +1,6 @@
     // Получение полей блока GROUP_FIELDS
     function groupNewFieldsValue (data, id, blockId, dubKey, dataBlock, emptyData) {
+        //console.log(data, id, blockId, dubKey, dataBlock, emptyData);
         var idField = ''; var idFiledInput = '';
         var blockDiv = 'blockDiv';
         var blockGroup = 'blockGroup';
@@ -54,6 +55,7 @@
 
     // Подключение блока GROUP_FIELDS
     function groupNewFields (field, fieldId, dubKey, name, newKey, block, id, dataId) {
+        //console.log(field, fieldId, dubKey, name, newKey, block, id, dataId);
         var delGroup = 'delGroup';
         var cloneGroup = 'cloneGroup';
         var dataBlock = 1;
@@ -145,15 +147,15 @@
     }
 
     function getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId) {
-        //console.log(id, BlockDivClass, fieldFieldName, field, fieldId,
-        // dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId);
+        //console.log(id,BlockDivClass,fieldFieldName,field,fieldId,dubKey,name,newKey,block,fieldName,i,fieldField,poleFieldId,dataField,poleFieldFieldId);
+        var BlockDivClassBlock = '.'+BlockDivClass;
         if(id > 0) {
-            if($(BlockDivClass).length == 0) {
+            if($(BlockDivClassBlock).length == 0) {
                 groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);
                 groupNewFields (fieldField, fieldId, dubKey, name, 1, block, id, poleFieldId);
                 groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
             } else {
-                var idBlockValue = $(BlockDivClass+':last').attr('data-block');
+                var idBlockValue = $(BlockDivClassBlock+':last').attr('data-block');
                 var y = $(fieldFieldName).length + 1;
                 if(idBlockValue == poleFieldFieldId) {
                     groupNewFields (fieldField, fieldId, y, name, y, block, id, poleFieldId);
@@ -172,16 +174,17 @@
     }
 
     function getFiledTypeGroupFieldCheckBox (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId) {
-        //console.log(id, BlockDivClass, fieldFieldName, field, fieldId,
-        // dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId);
+        //console.log(id,BlockDivClass,fieldFieldName,field,fieldId,dubKey,name,newKey,block,fieldName,i,fieldField,poleFieldId,dataField,poleFieldFieldId);
+        var BlockDivClassBlock = '.'+BlockDivClass;
         if(id > 0) {
-            if($(BlockDivClass).length == 0) {
+            if($(BlockDivClassBlock).length == 0) {
                 groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);
                 groupNewFields (fieldField, fieldId, dubKey, name, 1, block, id, poleFieldId);
                 groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
             } else {
-                var idBlockValue = $(BlockDivClass+':last').attr('data-block');
+                var idBlockValue = $(BlockDivClassBlock+':last').attr('data-block');
                 var y = $(fieldFieldName).length + 1;
+                console.log(y);
                 if(idBlockValue == poleFieldFieldId) {
                     groupNewFields (fieldField, fieldId, y, name, y, block, id, poleFieldId);
                     groupNewFieldsValue (dataField, id, fieldId, y, block, 1);

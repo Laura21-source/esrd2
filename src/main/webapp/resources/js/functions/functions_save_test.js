@@ -164,13 +164,10 @@
                         });
                         /*var position = parseInt(key)+parseInt(countElem(childBox));*/
                         var childBoxElement = {
-                            /*"field" : {*/
-                                "id" : idField,
-                                "childFields": elementArray,
-                                "fieldId" : fieldId,
-                            }/*,
-                            "position" : position*/
-                        /*}*/
+                            "id" : idField,
+                            "childFields": elementArray,
+                            "fieldId" : fieldId
+                        }
                         childBox.push(childBoxElement);
                     });
                 });
