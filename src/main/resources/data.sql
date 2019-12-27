@@ -2802,5 +2802,6 @@ INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 384);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 385);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 386);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 388);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (388, 389);
 
 
