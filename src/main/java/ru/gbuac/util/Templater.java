@@ -555,6 +555,33 @@ public class Templater {
         }
     }
 
+    private static void replaceSimpleTags(List<XWPFParagraph> paragraphs, Map<String, String> simpleTags) {
+        for (XWPFParagraph p : paragraphs) {
+            String text = p.getText();
+            if (!text.equals("")) {
+                for (Map.Entry<String, String> entry : simpleTags.entrySet()) {
+                    if (text.contains("<" + entry.getKey() + ">")) {
+                        text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+                    }
+                }
+            }
+            text = text.replace("  ", " ").replace(" ,", ",");
+            changeText(p, text);
+        }
+    }
+
+    private static void replaceTaggedTableTags(List<XWPFParagraph> paragraphs, TaggedTable taggedTable, Integer row) {
+        for (XWPFParagraph p : paragraphs) {
+            String text = p.getText();
+            for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
+                text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+            }
+            text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
+            text = text.replace("  ", " ").replace(" ,", ",");
+            changeText(p, text);
+        }
+    }
+
 
     public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags,
                                                              Map<String, TaggedTable> taggedTables, Map<String, String> htmlTables,
@@ -570,17 +597,7 @@ public class Templater {
         }
 
         // Замена тэгов щаблона значениями по словарю
-        for (XWPFParagraph p : doc.getParagraphs()) {
-            String text = p.getText();
-            if (!text.equals("")) {
-                for (Map.Entry<String, String> entry : simpleTags.entrySet()) {
-                    if (text.contains("<" + entry.getKey() + ">")) {
-                        text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
-                    }
-                }
-            }
-            changeText(p, text);
-        }
+        replaceSimpleTags(doc.getParagraphs(), simpleTags);
 
         // Замена тэгов в таблицах, которые есть в taggedTables
         if (taggedTables.size() != 0 && doc.getTables().size() != 0) {
@@ -605,15 +622,8 @@ public class Templater {
 
                         for (int cell = 0; cell < newRow.getTableCells().size(); cell++) {
                             XWPFTableCell cellObj = newRow.getTableCells().get(cell);
-                            for (XWPFParagraph paragraph : cellObj.getParagraphs()) {
-                                String text = paragraph.getText();
-                                for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
-                                    text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
-                                }
-                                text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
-                                text = text.replace("  ", " ").replace(" ,", ",");
-                                changeText(paragraph, text);
-                            }
+                            replaceSimpleTags(cellObj.getParagraphs(), simpleTags);
+                            replaceTaggedTableTags(cellObj.getParagraphs(), taggedTable, row);
                             ifTagsCalculate(cellObj.getParagraphs());
                         }
                         table.addRow(newRow, table.getNumberOfRows() - 1);
@@ -638,14 +648,7 @@ public class Templater {
             for (int row = 0; row < rows.size(); row++) {
                 List<XWPFTableCell> cells = rows.get(row).getTableCells();
                 for (int cell = 0; cell < cells.size(); cell++) {
-                    for (XWPFParagraph p: cells.get(cell).getParagraphs()) {
-                        String text = p.getText();
-                        for (Map.Entry<String,String> entry : simpleTags.entrySet()) {
-                            text = text.replace("<"+entry.getKey()+">", Optional.ofNullable(entry.getValue()).orElse(""));
-                        }
-                        text = text.replace("  ", " ").replace(" ,", ",");
-                        changeText(p, text);
-                    }
+                    replaceSimpleTags(cells.get(cell).getParagraphs(), simpleTags);
                     ifTagsCalculate(cells.get(cell).getParagraphs());
                 }
             }
