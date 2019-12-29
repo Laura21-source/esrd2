@@ -428,7 +428,11 @@ public class Templater {
     public static void deleteParagraph(XWPFParagraph p) {
         XWPFDocument doc = p.getDocument();
         int pPos = doc.getPosOfParagraph(p);
-        doc.removeBodyElement(pPos);
+        if (pPos == -1) {
+            changeText(p, "");
+        } else {
+            doc.removeBodyElement(pPos);
+        }
     }
 
 
