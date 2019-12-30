@@ -2785,6 +2785,8 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (386, 'Документы, подтверждающие законное владение РО в отношении указанного имущества', 'TEXTAREA', 16, null, null, null, false, 'RealtyDocs');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (388, 'В РО ведется раздельный учет расходов и доходов по регулируемым видам деятельности', 'GROUP_CHECKBOX', 17, null, null, null, false, 'SeparateCostAcc');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (389, 'Учетная политика РО утверждена документом', 'TEXT', null, null, null, null, false, 'DecreeNameAcc');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (390, 'Корректировка долгосрочного тарифа', 'GROUP_CHECKBOX', 18, null, null, null, false, 'LongTimeCorrect');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (391, 'Параметры установленного долгосрочного регулирования', 'CATALOG_HTML_TABLES', null, null, null, 1013, false, 'EstablishedRegParamsTable');
 
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 8);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 9);
@@ -2803,5 +2805,8 @@ INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 385);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 386);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 388);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (388, 389);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 390);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (390, 322);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (390, 391);
 
 
