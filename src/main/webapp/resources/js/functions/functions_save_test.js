@@ -92,7 +92,7 @@
                 if(id > 0) {idField = parseInt($(this).attr("data-id"));}
                 var childBox = [];
                 var childField = '';
-                $('.childBox .checkClass').each(function() {
+                $(upElem+' .childBox .checkClass').each(function() {
                     var childFieldId = null;
                     if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
                     var childFieldVal = $(this).val();
@@ -245,6 +245,42 @@
                                 "childFields" : [],
                                 "fieldId" : parseInt($(this).attr("data-field")),
                                 "valueStr" : $(this).val()
+                            }
+                        } else if(typeAttr === 'checkbox') {
+                            var attrVal = $(this).val();
+                            var attrId = parseInt($(this).attr("data-field"));
+                            if(id > 0) {idField = parseInt($(this).attr("data-id"));}
+                            var nameBlock = $(this).attr('id');
+                            var childBox = [];
+                            var childField = '';
+                            $('#'+nameBlock+'BlockDiv .checkClass').each(function() {
+                                var childFieldId = null;
+                                if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
+                                var childFieldVal = $(this).val();
+                                var childFieldField = parseInt($(this).attr("data-field"));
+                                var typeAttr = $(this).attr('type');
+                                if(typeAttr === "select") {
+                                    childField = {
+                                        "id": childFieldId,
+                                        "childFields": [],
+                                        "fieldId": childFieldField,
+                                        "valueInt": childFieldVal
+                                    }
+                                } else {
+                                    childField = {
+                                        "id" : childFieldId,
+                                        "childFields" : [],
+                                        "fieldId" : childFieldField,
+                                        "valueStr" : childFieldVal
+                                    }
+                                }
+                                childBox.push(childField);
+                            });
+                            elementBlockElem = {
+                                "id" : idField,
+                                "childFields": childBox,
+                                "fieldId": attrId,
+                                "valueInt" : attrVal
                             }
                         }
                     } else {

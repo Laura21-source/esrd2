@@ -2,6 +2,7 @@
 function getFiledTypeCheckBox (type, data, pole, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, idField, idFiledInput, up, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i) {
     var classElem = '';
     if(up == 1) {classElem = ' upElem';}
+    if(up == 0) {classElem = ' blockElement';}
     // GROUP_CHECKBOX
     if (data.fieldType === "GROUP_CHECKBOX") {
         var valueInt = 'value="0"';

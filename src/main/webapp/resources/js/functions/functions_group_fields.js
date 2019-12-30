@@ -49,7 +49,12 @@
                 requiredValidate = '<div class="invalid-feedback">Поле обязательно для заполнения</div>';
             }
             // Добавляем поля
-            getFieldType (rowSelectField.fieldType, rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 'blockElement','', emptyData);
+            if(rowSelectField.fieldType !== "GROUP_CHECKBOX") {
+                getFieldType (rowSelectField.fieldType, rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 'blockElement','', emptyData);
+            } else {
+//  BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i
+                getFiledTypeCheckBox ("GROUP_CHECKBOX", rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 0);
+            }
         }
     }
 
@@ -184,7 +189,6 @@
             } else {
                 var idBlockValue = $(BlockDivClassBlock+':last').attr('data-block');
                 var y = $(fieldFieldName).length + 1;
-                console.log(y);
                 if(idBlockValue == poleFieldFieldId) {
                     groupNewFields (fieldField, fieldId, y, name, y, block, id, poleFieldId);
                     groupNewFieldsValue (dataField, id, fieldId, y, block, 1);

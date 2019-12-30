@@ -92,6 +92,7 @@
                 var dataField = row.field.childFields;
                 var poleFieldFieldId = row.field.fieldId;
                 if (row.field.fieldType === "GROUP_FIELDS") {
+                    //console.log(row.field.childFields.length);
                     BlockDivClass = 'BlockDiv';
                     if(block && block === 1) {
                         BlockDivClass = 'BlockDivNew';
