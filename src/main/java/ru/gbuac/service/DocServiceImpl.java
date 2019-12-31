@@ -603,10 +603,17 @@ public class DocServiceImpl implements DocService {
             }
             switch (fieldTo.getFieldType()) {
                 case GROUP_FIELDS:
-                case GROUP_CHECKBOX:
                     cellsTags.put(tag, fieldTo.getValueByFieldType());
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         childField.setTag("[" + fieldTo.getTag() + "]" + childField.getTag());
+                        fillTags(childField, simpleTags, taggedTables, htmlTables, fieldTo.getChildFields().size());
+                    }
+                case GROUP_CHECKBOX:
+                    cellsTags.put(tag, fieldTo.getValueByFieldType());
+                    for (FieldTo childField : fieldTo.getChildFields()) {
+                        if (TagUtil.getTableTag(tag) != null) {
+                            childField.setTag(fieldTo.getTag() + "." + childField.getTag());
+                        }
                         fillTags(childField, simpleTags, taggedTables, htmlTables, fieldTo.getChildFields().size());
                     }
                     break;

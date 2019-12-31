@@ -818,13 +818,13 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2024, null, 'Отсутствие оснований для утверждения', 'Об отсутствии оснований для утверждения', 1002, 2009);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2025, null, 'Корректировка', 'О корректировке', 1002, 2009);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2026, null, 'долгосрочный тариф на услуги по предоставлению судам причалов', 'долгосрочного тарифа на услуги по предоставлению судам причалов', 1004, 2033);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2027, null, 'Электроэнергетика', 'EE', 1003, 2007);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2028, null, 'Теплоснабжение', 'TS', 1003, 2007);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2027, null, 'Электроэнергетика', 'электрическую эенергию', 1003, 2007);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2028, null, 'Теплоснабжение', 'тепловую энергию (тепло)', 1003, 2007);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2029, null, 'Холодное водоснабжение, водоотведение', 'HVS', 1003, 2007);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2030, null, 'Горячее водоснабжение', 'GVS', 1003, 2007);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2031, null, 'Газоснабжение, топливо', 'GAZ', 1003, 2007);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2032, null, 'ТКО', 'TKO', 1003, 2007);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2033, null, 'Транспорт', 'TS', 1003, 2007);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2030, null, 'Горячее водоснабжение', 'горячее водоснабжение', 1003, 2007);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2031, null, 'Газоснабжение, топливо', 'газоснабжение (топливо)', 1003, 2007);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2032, null, 'ТКО', 'твердые коммунальные отходы', 1003, 2007);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2033, null, 'Транспорт', 'транспорт', 1003, 2007);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2034, null, 'Инвестиционные программы', null, 1003, 2009);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2035, null, 'Определение фактических значений показателей надежности и качества поставляемых товаров и оказываемых услуг для территориальных сетевых организаций города Москвы', 'Об определении фактических значений показателей надежности и качества поставляемых товаров и оказываемых услуг для территориальных сетевых организаций города Москвы', 1002, 2010);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2036, null, 'тариф на питьевую воду (питьевое водоснабжение) и водоотведение', 'тарифов на питьевую воду (питьевое водоснабжение) и водоотведение', 1004, 2029);
@@ -2784,7 +2784,9 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (385, 'Перечень участвующего имущества РО', 'TEXTAREA', 15, null, null, null, false, 'Realty');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (386, 'Документы, подтверждающие законное владение РО в отношении указанного имущества', 'TEXTAREA', 16, null, null, null, false, 'RealtyDocs');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (388, 'В РО ведется раздельный учет расходов и доходов по регулируемым видам деятельности', 'GROUP_CHECKBOX', 17, null, null, null, false, 'SeparateCostAcc');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (389, 'Учетная политика РО утверждена документом', 'TEXT', null, null, null, null, false, 'SeparateCostAccDecreeName');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (389, 'Учетная политика РО утверждена документом', 'TEXT', null, null, null, null, false, 'DecreeNameAcc');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (390, 'Корректировка долгосрочного тарифа', 'GROUP_CHECKBOX', 18, null, null, null, false, 'LongTimeCorrect');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (391, 'Параметры установленного долгосрочного регулирования', 'CATALOG_HTML_TABLES', null, null, null, 1013, false, 'EstablishedRegParamsTable');
 
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 8);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 9);
@@ -2803,5 +2805,8 @@ INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 385);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 386);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 388);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (388, 389);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 390);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (390, 322);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (390, 391);
 
 
