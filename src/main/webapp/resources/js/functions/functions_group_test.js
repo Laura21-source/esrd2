@@ -7,6 +7,7 @@
         var blockGroupClass = 'blockGroup';
         var BlockDivClass = '.BlockDiv';
         var arrayBlock = '#arrayBlock';
+        var up = 1;
         if(block && block === 1) {
             field = '#blockBlockNew';
             blockGroup = '#blockGroupNew';
@@ -14,6 +15,7 @@
             blockGroupClass = 'blockGroupNew';
             BlockDivClass = '.BlockDivNew';
             arrayBlock = '#arrayBlockNew';
+            up = 2;
         }
         // var agreeGroupFields = [];
         /*var agreeGroupFields = $(arrayBlock).on('ready', function() {
@@ -103,9 +105,9 @@
                     if(block && block === 1) {
                         BlockDivClass = 'BlockDivCheckBoxNew';
                     }
-                    getFiledTypeCheckBox ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, 1, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i);
+                    getFiledTypeCheckBox ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, up, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i);
                 } else {
-                    getFieldType (row.field.fieldType, row.field, field, id, selectFieldName, '', numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, '',1, 1);
+                    getFieldType (row.field.fieldType, row.field, field, id, selectFieldName, '', numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, '', up, 1);
                 }
             }
         }).done(function(response) {

@@ -4,10 +4,12 @@
         var idField = ''; var idFiledInput = '';
         var blockDiv = 'blockDiv';
         var blockGroup = 'blockGroup';
+        var blockElement = 'blockElement';
         var idBlock = 1;
         if(dataBlock == 1) {
             blockDiv = 'blockDivNew';
             blockGroup = 'blockGroupNew';
+            blockElement = 'blockElementNew';
             idBlock = 2;
         }
         var blockGroup = '#'+blockDiv+blockId+' #'+blockGroup;
@@ -50,9 +52,8 @@
             }
             // Добавляем поля
             if(rowSelectField.fieldType !== "GROUP_CHECKBOX") {
-                getFieldType (rowSelectField.fieldType, rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 'blockElement','', emptyData);
+                getFieldType (rowSelectField.fieldType, rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, blockElement,'', emptyData);
             } else {
-//  BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i
                 getFiledTypeCheckBox ("GROUP_CHECKBOX", rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 0);
             }
         }

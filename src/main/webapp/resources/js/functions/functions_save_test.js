@@ -3,10 +3,12 @@
         var blockGroup = '.blockGroup';
         var blockElement = '.blockElement';
         var upElem = '.upElem';
+        var BlockDivCheckBox = '.BlockDivCheckBox';
         if(block && block === 1) {
             upElem = '.upElemNew';
             blockGroup = '.blockGroupNew';
-            blockElement = '.blockElementNew'
+            blockElement = '.blockElementNew';
+            BlockDivCheckBox = '.BlockDivCheckBoxNew';
         }
         var id = parseInt(id);
         var dataField = [];
@@ -115,7 +117,7 @@
                     }
                     childBox.push(childField);
                 });
-                $('.BlockDivCheckBox').each(function() {
+                $(BlockDivCheckBox).each(function() {
                     $(blockGroup, this).each(function() {
                         var fieldId = parseInt($(this).attr("data-div"));
                         if(id > 0) {idField = parseInt($(this).attr("data-id"));}
@@ -200,17 +202,17 @@
 
     function createDataBlock (id, key, block) {
         var blockGroup = '.blockGroup';
-        //var blockGroupId = '#blockGroup';
+        var blockDiv = '.BlockDiv';
         var blockElement = '.blockElement';
         if(block && block === 1) {
             blockGroup = '.blockGroupNew';
-            //blockGroupId = '#blockGroupNew';
+            blockDiv = '.BlockDivNew';
             blockElement = '.blockElementNew'
         }
         var id = parseInt(id);
         var idField = null;
         var dataBlock = [];
-        $('.BlockDiv').each(function() {
+        $(blockDiv).each(function() {
             $(blockGroup, this).each(function() {
                 var fieldId = parseInt($(this).attr("data-div"));
                 if(id > 0) {idField = parseInt($(this).attr("data-id"));}
