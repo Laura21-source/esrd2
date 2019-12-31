@@ -94,7 +94,8 @@
                 if(id > 0) {idField = parseInt($(this).attr("data-id"));}
                 var childBox = [];
                 var childField = '';
-                $(upElem+' .childBox .checkClass').each(function() {
+                var nameBlock = $(this).attr('id');
+                $('#'+nameBlock+'BlockDiv .checkClass').each(function() {
                     var childFieldId = null;
                     if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
                     var childFieldVal = $(this).val();

@@ -332,7 +332,7 @@
                 var sumElem = countElem(dataField)+1;
                 var dataBlock = createDataBlock(0, sumElem);
                 var reformatPDF = JSON.stringify(createJSON(0,dataType,dataField,dataBlock));
-                //console.log(reformatPDF);
+                console.log(reformatPDF);
                 var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs/pdf',
