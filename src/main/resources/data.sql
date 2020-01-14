@@ -783,6 +783,7 @@ INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (24, 'ДПР-П');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (25, 'ДПР-ПPО');
 INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (300, 'ДПР-ПР');
 
+
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1001, null, 'Предмет вопроса', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1002, 1001, 'Вопрос', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1003, 1001, 'Сфера деятельности', 0);
@@ -797,6 +798,13 @@ INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1011, null, 'Регламенты', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1013, null, 'Таблицы', 0);
 INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1014, null, 'Приказы ДЭПР', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1015, null, 'Пункты основ ценообразования', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1016, null, 'Пункты методических указаний', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1017, null, 'Утвержден приказом', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1018, null, 'Приказы ФАС', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1019, null, 'Приказы ФСТ', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1020, null, 'Наименование отраслевого показателя', 0);
+INSERT INTO esrd.catalog (id, parent_catalog_id, name, catalogtype_id) VALUES (1021, null, 'Отраслевая услуга', 0);
 
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2007, null, 'Регулирование цен (тарифов)', null, 1001, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2008, null, 'Изменение, отменена правовых актов', null, 1001, null);
@@ -818,9 +826,9 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2024, null, 'Отсутствие оснований для утверждения', 'Об отсутствии оснований для утверждения', 1002, 2009);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2025, null, 'Корректировка', 'О корректировке', 1002, 2009);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2026, null, 'долгосрочный тариф на услуги по предоставлению судам причалов', 'долгосрочного тарифа на услуги по предоставлению судам причалов', 1004, 2033);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2027, null, 'Электроэнергетика', 'электрическую эенергию', 1003, 2007);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2027, null, 'Электроэнергетика', 'электрическую энергию', 1003, 2007);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2028, null, 'Теплоснабжение', 'тепловую энергию (тепло)', 1003, 2007);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2029, null, 'Холодное водоснабжение, водоотведение', 'HVS', 1003, 2007);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2029, null, 'Холодное водоснабжение, водоотведение', 'холодное водоснабжение', 1003, 2007);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2030, null, 'Горячее водоснабжение', 'горячее водоснабжение', 1003, 2007);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2031, null, 'Газоснабжение, топливо', 'газоснабжение (топливо)', 1003, 2007);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (2032, null, 'ТКО', 'твердые коммунальные отходы', 1003, 2007);
@@ -2643,23 +2651,280 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (6559, null, 'Приказ Департамента экономической политики и развития города Москвы от 16.10.2019 года № 148-ТР "О корректировке на 2020 год установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям казенным предприятием «Московская энергетическая дирекция» по системе теплоснабжения от котельных на ул. Береговая"', null, 1014, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (6560, null, 'Приказ Департамента экономической политики и развития города Москвы от 16.10.2019 года № 149-ТР "О корректировке на 2020 год установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям казенным предприятием «Московская энергетическая дирекция» по системе теплоснабжения от котельной поселка Филимонки Новомосковского административного округа города Москвы"', null, 1014, null);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (6561, null, 'Приказ Департамента экономической политики и развития города Москвы от 16.10.2019 года № 150-ТР "О корректировке на 2020 год установленных долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую казенным предприятием «Московская энергетическая дирекция» потребителям с использованием закрытой системы горячего водоснабжения от котельной поселка Филимонки Новомосковского административного округа города Москвы"', null, 1014, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12000, null, '51', null, 1015, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12001, null, '31', null, 1015, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12002, null, '26', null, 1015, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12003, null, '143', null, 1016, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12004, null, '52', null, 1016, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12005, null, '49', null, 1016, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12006, null, '36', null, 1016, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12007, null, '14', null, 1015, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12008, null, '10', null, 1015, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12009, null, '118', null, 1016, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12010, null, 'Приказ ФАС России от 13.06.2018 № 804/18', null, 1018, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12011, null, 'Приказ ФСТ России от 31.03.2015
+№ 58-э/3', null, 1019, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12012, null, '50', null, 1016, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12013, null, 'IX.I ', null, 1016, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12014, null, 'IX.II', null, 1016, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12015, null, 'тепловая энергия', null, 1020, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12016, null, 'тепловая нагрузка', null, 1020, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12017, null, 'энергетические ресурсы', null, 1020, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12018, null, 'холодная вода', null, 1020, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12019, null, 'теплоноситель', null, 1020, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12020, null, 'электрическая энергия', null, 1020, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12021, null, 'транспортировка газа', null, 1021, null);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id) VALUES (12022, null, 'холодное волоснабжение и водоотведение ', null, 1020, null);
+
 
 INSERT INTO esrd.doctype (id, name, role_id, appendix_template_filename, template_filename, doc_number_prefix_id, final_doc)
 VALUES (1, 'Служебная записка о включении вопросов в Повестку заседания Правления', 3002, 'zapiska.docx', 'zapiska.docx', 23, false);
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null, 'MeetingDate');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (6, 'Номер СЭДО', 'TEXT', null, null, null, null, '');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (7, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, 'Questions');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (8, 'Предмет вопроса', 'CATALOG', 1, null, null, 1001, 'Subject');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (9, 'Вопрос', 'CATALOG', 2, null, null, 1002, 'Question');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (301, 'Система техприсоединения', 'CATALOG_ORGANIZATIONS', 3, null, null, 1006, 'OrganizationSystem');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (10, 'Период', 'TEXT', 4, null, null, null, 'Period');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (11, 'Сфера деятельности', 'CATALOG', 5, null, null, 1003, 'Direction');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (12, 'Реквизиты приказа', 'CATALOG', 6, null, null, 1008, 'OrderNumber');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (13, 'Вид тарифа', 'CATALOG', 7, null, null, 1004, 'TarifView');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (14, 'Прочее', 'TEXT', 8, null, null, null, 'Comments');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (15, 'Организация', 'CATALOG_ORGANIZATIONS', 9, null, null, 1006, 'Organization');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (16, 'Ответственный', 'CATALOG_USERS', 10, null, null, 1007, 'AuthPerson');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (17, 'Дополнительная информация', 'TEXT', 11, null, null, null, 'AdditionalInfo');
+
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (4, 'Дата заседания', 'DATE', null, null, null, null, false, 'MeetingDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (5, 'Время заседания', 'TIME', null, null, null, null, false, 'MeetingTime');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (6, 'Номер СЭДО', 'TEXT', null, null, null, null, false, '');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (7, 'Вопросы повестки', 'GROUP_FIELDS', null, 4, null, null, false, 'Questions');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (8, 'Предмет вопроса', 'CATALOG', 1, null, null, 1001, false, 'Subject');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (9, 'Вопрос', 'CATALOG', 2, null, null, 1002, false, 'Question');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (10, 'Период', 'TEXT', 4, null, null, null, false, 'Period');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (11, 'Сфера деятельности', 'CATALOG', 5, null, null, 1003, false, 'Direction');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (12, 'Реквизиты приказа', 'CATALOG', 6, null, null, 1008, false, 'OrderNumber');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (13, 'Вид тарифа', 'CATALOG', 7, null, null, 1004, false, 'TarifView');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (14, 'Прочее', 'TEXT', 8, null, null, null, false, 'Comments');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (15, 'Организация', 'CATALOG_ORGANIZATIONS', 9, null, null, 1006, false, 'Organization');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (16, 'Ответственный', 'CATALOG_USERS', 10, null, null, 1007, false, 'AuthPerson');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (17, 'Дополнительная информация', 'TEXT', 11, null, null, null, false, 'AdditionalInfo');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (301, 'Система техприсоединения', 'CATALOG_ORGANIZATIONS', 3, null, null, 1006, false, 'OrganizationSystem');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (302, 'Внести изменения в приказ', 'GROUP_CHECKBOX', null, null, null, null, false, 'ChangeDecree');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (304, 'Дата протокола', 'DATE', null, null, null, null, false, 'ProtocolDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (305, 'Номер протокола', 'TEXT', null, null, null, null, false, 'ProtocolRegNum');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (306, 'Дата начала действия тарифа', 'DATE', null, null, null, null, false, 'TarifStartDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (307, 'Дата окончания дейстия тарифа', 'DATE', null, null, null, null, false, 'TarifEndDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (322, 'Наименование приказа', 'CATALOG', null, null, null, 1014, false, 'DecreeName');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (323, 'Пункт приказа', 'TEXT', null, null, null, null, false, 'DecreeItem');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (324, 'В соответствии с Федеральным законом', 'CATALOG', null, null, null, 1009, false, 'FederalLaw');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (325, 'В соответствии с пунктом', 'CATALOG', null, null, null, 1010, false, 'TarifMethod');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (326, 'В соответствии с Регламентом', 'CATALOG', null, null, null, 1011, false, 'TarifReglament');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (351, 'Члены Правления', 'GROUP_FIELDS', null, 4, null, null, false, 'ParticipantsRulers');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (352, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, false, 'FIO');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (353, 'От Департамента экономической политики и развития города Москвы', 'GROUP_FIELDS', null, 4, null, null, false, 'ParticipantsDepr');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (354, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, false, 'FIO2');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (355, 'Присутствовали участники других организаций', 'GROUP_CHECKBOX', null, null, null, null, false, 'OtherOrganizationsParticipants');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (356, 'От других организаций', 'GROUP_FIELDS', null, 4, null, null, false, 'ParticipantsOther');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (357, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, false, 'FIO3');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (376, 'Приложения', 'GROUP_FIELDS', null, null, null, null, true, null);
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (377, 'Название таблицы', 'TEXT', null, null, null, null, false, 'TarifTableTitle');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (378, 'В соответствии с Постановлением Правительства РФ', 'CATALOG', null, null, null, 1012, false, 'GovDecree');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (379, 'Таблица', 'CATALOG_HTML_TABLES', null, null, null, 1013, false, 'TarifTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (380, 'Примечание', 'TEXTAREA', null, null, null, null, false, 'TarifDescription');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (382, 'В обсуждении принимали участие (фамилия и инициалы)', 'TEXTAREA', 12, null, null, null, false, 'Participants');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (383, 'Принять к сведению следующую информацию', 'TEXTAREA', 13, null, null, null, false, 'Information');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (384, 'Перечень нормативных актов, использованных в процессе проведения экспертизы', 'TEXTAREA', 14, null, null, null, false, 'NormativDocs');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (385, 'Перечень участвующего имущества РО', 'TEXTAREA', 15, null, null, null, false, 'Realty');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (386, 'Документы, подтверждающие законное владение РО в отношении указанного имущества', 'TEXTAREA', 16, null, null, null, false, 'RealtyDocs');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (387, 'Вопросы повестки', 'GROUP_FIELDS', null, null, null, null, false, 'Questions');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (388, 'В РО ведется раздельный учет расходов и доходов по регулируемым видам деятельности', 'GROUP_CHECKBOX', 17, null, null, null, false, 'SeparateCostAcc');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (389, 'Учетная политика РО утверждена документом', 'TEXT', null, null, null, null, false, 'DecreeNameAcc');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (390, 'Корректировка долгосрочного тарифа', 'GROUP_CHECKBOX', 18, null, null, null, false, 'LongTimeCorrect');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (391, 'Параметры установленного долгосрочного регулирования', 'CATALOG_HTML_TABLES', 19, null, null, 1013, false, 'EstablishedRegParamsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (392, 'Пункт основ ценообразования  для  долгосрочных параметров  регулирования', 'CATALOG', 20, null, null, 1015, false, 'LongTimePeriodCostBasis');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (393, 'Пункт oснов ценообразования при определении плановых (расчетных) и фактических значений расходов ', 'CATALOG', 23, null, null, 1015, false, 'PlanFactCostBasis');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (394, 'Тарифы на период регулирования
+', 'CATALOG_HTML_TABLES', 21, null, null, 1013, false, 'TariffsHeatEnergyTable
+');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (395, 'Темп изменения предлагаемых организацией к утверждению тарифов ', 'CATALOG_HTML_TABLES', 22, null, null, 1013, false, 'RateChangeTariffsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (396, 'Пункт основ ценообразования', 'CATALOG', 24, null, null, 1015, false, 'SingleRateCoastBasis');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (397, 'Индекс роста потребительских цен', 'CATALOG_HTML_TABLES', 26, null, null, 1013, false, 'PriceIncreaseIndexTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (398, 'Пункт основ ценнообразования для уточнения плановой необходимой валовой выручки ', 'CATALOG', 25, null, null, 1016, false, 'PlanRequiredGrossRevenue');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (399, 'По балансовым показателям организацией представлены следующие документы', 'TEXTAREA', 27, null, null, null, false, 'IndustryBalanceSheetDocs');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (401, 'Балансовые показатели', 'TEXTAREA', 28, null, null, null, false, 'IndustryBalanceSheet');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (402, 'Величины балансовых показателей ', 'TEXTAREA', 29, null, null, null, false, 'BalanceSheetValues');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (404, 'Отраслевые показатели', 'TEXTAREA', 30, null, null, null, false, 'IndustryParameters');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (405, 'Утверждены приказом Департамента  ', 'CATALOG', null, null, null, 1017, false, 'ApprovedDepartmentOrder');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (430, 'Отклонение скорректированного объема полезного отпуска тепловой энергии от объема, учтенного при установлении долгосрочных тарифов', 'CATALOG_HTML_TABLES', 31, null, null, 1013, false, 'VolumeSupplyIndustryTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (431, 'Корректировка расходов на приобретение ресурсов', 'TEXTAREA', 32, null, null, null, false, 'ResourceAcquisitionAdjustment');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (432, 'Пункт Методических указаний', 'CATALOG', null, null, null, 1016, false, 'MethodItem');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (440, 'Расходы на приобретение энергетических ресурсов, холодной воды и теплоносителя', 'CATALOG_HTML_TABLES', 33, null, null, 1013, false, 'CostAcquiringEnergyTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (441, 'Наименование отраслевого показателя', 'CATALOG', 34, null, null, null, false, 'NameIndustryIndicators');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (442, 'Скорректированные расходы на отраслевой показатель', 'TEXTAREA', 35, null, null, null, false, 'AdjustedExpensesNameIndustryIndicators');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (443, 'Планируемый объем отраслевого показателя', 'TEXTAREA', 36, null, null, null, false, 'PlannedVolumeIndustryIndicator');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (450, 'Анализ динамики скорректированных расходов на топливо и сравнение с предложением организации
+', 'CATALOG_HTML_TABLES', 37, null, null, 1013, false, 'TechnologicalFuelCostsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (451, 'Обосновывающие документы', 'TEXTAREA', 38, null, null, null, false, 'SubstantiatingDocs');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (460, 'Анализ динамики скорректированных расходов на топливо и сравнение с предложением организации
+
+', 'CATALOG_HTML_TABLES', 39, null, null, 1013, false, 'FuelConsumptionDynamicsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (470, 'Расходы на электрическую энергию заявленные  организацией исходя из объема электрической энергии', 'CATALOG_HTML_TABLES', 40, null, null, 1013, false, 'ElectricityCostsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (480, 'Анализ динамики скорректированных расходов на электрическую энергию ', 'CATALOG_HTML_TABLES', 41, null, null, 1013, false, 'AnalysisDynamicsElectricityCostsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (490, 'Скорректированные расходы на холодную воду заявленные организацией', 'CATALOG_HTML_TABLES', 42, null, null, 1013, false, 'ColdWaterCostsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (500, 'Анализ динамики скорректированных расходов на холодную воду и сравнение
+', 'CATALOG_HTML_TABLES', 43, null, null, 1013, false, 'AnalysisDynamicsCostsColdWateProposalTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (510, 'Анализ динамики скорректированных расходов на приобретение энергетических ресурсов, холодной воды, теплоносителя ', 'CATALOG_HTML_TABLES', 44, null, null, 1013, false, 'AnalysisDynamicsAdjustedCostsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (520, 'Отклонение скорректированных расходов на приобретение энергетических ресурсов, холодной воды и теплоносителя ', 'CATALOG_HTML_TABLES', 45, null, null, 1013, false, 'AdjustedCostDeviationTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (530, 'Скорректированные операционные (подконтрольные) расходы ', 'CATALOG_HTML_TABLES', 46, null, null, 1013, false, 'OperatingControlledExpensesTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (540, 'Скорректированные операционные расходы, принятые экспертами сравнение с предложением организации', 'CATALOG_HTML_TABLES', 47, null, null, 1013, false, 'ExpertOperatingCostsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (550, 'Отклонение уровня скорректированных операционных расходов с учетом отклонения фактических значений индекса потребительских цен ', 'CATALOG_HTML_TABLES', 48, null, null, 1013, false, 'DeviationsActualIndexValuesTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (560, 'Скорректированные неподконтрольные расходы заявленные организацией', 'CATALOG_HTML_TABLES', 49, null, null, 1013, false, 'CorrectedExpensesTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (570, 'Скорректированные расходы на оплату услуг, оказываемых организациями, осуществляющими регулируемые виды деятельности ', 'CATALOG_HTML_TABLES', 50, null, null, 1013, false, 'ExpensesPaymentServicesTable
+');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (580, 'Скорректированные расходы на уплату налогов, сборов и других обязательных платежей ', 'CATALOG_HTML_TABLES', 73, null, null, 1013, false, 'TaxExpensesTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (590, 'Расходы по данной статье скорректированы экспертами Департамента на основании представленных материалов ', 'CATALOG_HTML_TABLES', 75, null, null, 1013, false, 'CostsArticleMaterialExpertsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (600, 'Анализ динамики скорректированных расходов на уплату налогов, сборов
+и других обязательных платежей', 'CATALOG_HTML_TABLES', 77, null, null, 1013, false, 'AdjustedTaxesFeesTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (610, 'Расходы по статье «Отчисления на социальные нужды»', 'CATALOG_HTML_TABLES', 78, null, null, 1013, false, 'SocialSecurityContributionsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (620, 'Скорректированные расходы по статье «Отчисления на социальные нужды» затрат по расчету экспертов Департамента, анализ динамики указанных расходов и сравнение с предложением организации', 'CATALOG_HTML_TABLES', 80, null, null, 1013, false, 'AdjustedCalculationCostsSocialTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (630, 'Расходы по статье «Амортизация основных средств" cкорректированные расходы  заявленные организацией ', 'CATALOG_HTML_TABLES', 81, null, null, 1013, false, 'AdjustedExpensesTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (640, 'Расходы по статье «Амортизация основных средств" cкоpректированные расходы по данной статье затрат по расчету экспертов Департамента, анализ динамики указанных расходов и сравнение с предложением организации ', 'CATALOG_HTML_TABLES', 82, null, null, 1013, false, 'AdjustedCalculationCostsAmortizationTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (650, 'Скорректированные неподконтрольные расходы', 'CATALOG_HTML_TABLES', 83, null, null, 1013, false, 'UncontrolledExpensesTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (660, 'Отклонение уровня скорректированных неподконтрольных расходов с учетом отклонения фактических значений индекса потребительских цен
+                                                              и других индексов
+с учетом отклонения фактических значений индекса потребительских цен
+и других индексов', 'CATALOG_HTML_TABLES', 84, null, null, 1013, false, 'DeviationAdjustedUncontrolledCostsLevelTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (670, 'Скорректированная необходимая валовая выручка заявленная организацией', 'CATALOG_HTML_TABLES', 85, null, null, 1013, false, 'RequiredGrossRevenueThermalEnergyTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (680, 'Cкорректированная необходимая валовая выручка организации ', 'CATALOG_HTML_TABLES', 75, null, null, 1013, false, 'RequiredGrossRevenueTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (690, 'Отклонение уровня скорректированной необходимой валовой выручки с учетом отклонения фактических значений индекса потребительских цен и других индексов
+с учетом отклонения фактических значений индекса потребительских цен
+и других индексов', 'CATALOG_HTML_TABLES', 86, null, null, 1013, false, 'DeviationLevelAdjustedRequiredGrossRevenueTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (700, 'По расчету экспертов Департамента скорректированные тарифы на тепловую энергию (мощность), поставляемую организацией потребителям', 'CATALOG_HTML_TABLES', 63, null, null, 1013, false, 'AdjustedTariffsThermalEnergyTable ');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (701, 'Корректировка расходов', 'TEXTAREA', 64, null, null, null, false, 'СostAdjustment');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (702, 'Расходы на отраслевой показатель', 'TEXTAREA', 65, null, null, null, false, 'СostIndustryIndicator');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (703, 'Объем отраслевого показателя', 'TEXTAREA', 66, null, null, null, false, 'VolumeIndustryIndicator');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (704, 'Cкорректированы экспертами Департамента', 'TEXT', 74, null, null, null, false, 'CorrectedExpertsDepartment');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (705, 'Стоимость отраслевого показателя', 'TEXTAREA', 68, null, null, null, false, 'ValIndustryIndicator');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (706, 'Принят экспертами Департамента ', 'TEXT', 69, null, null, null, false, 'AdoptedExpertsDepartment');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (707, 'Долгосрочный период регулирования', 'TEXT', 70, null, null, null, false, 'LongPeriodRegulation');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (708, 'Значение отраслевого показателя', 'TEXT', 71, null, null, null, false, 'IndustryIndicatorValue');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (709, 'Анализ динамики скорректированных расходов ', 'TEXT', 72, null, null, null, false, 'AnalysisDynamicsAdjustedCosts');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (710, 'Динамика показателя', 'TEXT', 73, null, null, null, false, 'IndicatorDynamics');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (711, 'Установленных долгосрочных тарифов', 'TEXT', 74, null, null, null, false, 'FixedLongPeriodTariffs');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (712, 'Расчет планового расхода отраслевого показателя', 'TEXT', 75, null, null, null, false, 'СalcPlanVolumeIndustryIndicator');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (713, 'Cравнение с предложением организации представлены в таблице', 'TEXT', 76, null, null, null, false, 'ComparisonProposalOrganizationPresentedInTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (714, 'Дифференциация тарифов по схеме подключения ', 'CATALOG_HTML_TABLES', 89, null, null, 1013, false, 'TariffDifferentiationAccordingConnectionScheme');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (715, 'Голосование', 'TEXTAREA', 90, null, null, null, false, 'Voting');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (716, 'Решение', 'TEXTAREA', 91, null, null, null, false, 'Decision');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (717, 'Дата публикации прогноза', 'TEXT', 82, null, null, null, false, 'PrognozDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (719, 'Проценты в год', 'TEXT', 83, null, null, null, false, 'PercentYear');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (720, 'Проценты в период', 'TEXT', 84, null, null, null, false, 'PercentPeriod');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (721, 'Главы Методических указаний', 'CATALOG', 85, null, null, 1016, false, 'HeadMethodItem');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (722, 'Раздел методических указаний', 'CATALOG', 86, null, null, 1016, false, 'PartMethodItem');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (723, 'Проценты', 'TEXT', 40, null, null, null, false, 'Percent');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (724, 'Oтраслевые услуги', 'CATALOG', 88, null, null, 1021, false, 'IndustryService');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (725, 'Формула методических указаний', 'TEXT', 89, null, null, null, false, 'FormulaMethodItem');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (726, 'Расчет тарифов на отраслевой показатель, поставляемый потребителям', 'CATALOG_HTML_TABLES', 87, null, null, 1013, false, 'AdjustedTariffsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (727, 'Рост тарифов на отраслевой показатель, поставляемый потребителям', 'CATALOG_HTML_TABLES', 88, null, null, 1013, false, 'СalculationGrowthTariffIndicatorsTable');
+
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 8);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 9);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 301);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 10);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 11);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 12);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 13);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 14);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 15);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 16);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (7, 17);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (302, 322);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (302, 323);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (376, 377);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (376, 379);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (376, 380);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (351, 352);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (353, 354);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (355, 356);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (356, 15);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (356, 357);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 8);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 9);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 10);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 11);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 12);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 13);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 14);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 15);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 17);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 301);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 382);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 383);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 384);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 385);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 386);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 388);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (388, 389);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 390);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (390, 322);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (390, 391);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 396);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 393);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 392);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 397);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 398);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 430);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 440);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 450);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 399);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 401);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 402);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 708);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 432);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 440);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 441);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 442);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 443);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 450);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 451);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 460);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 470);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 480);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 490);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 500);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 510);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 520);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 530);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 540);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 550);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 560);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 570);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 580);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 590);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 600);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 610);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 620);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 630);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 640);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 650);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 660);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 670);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 680);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 690);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 700);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 701);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 702);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 709);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 705);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 711);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 703);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 707);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 706);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 704);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 710);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 711);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 712);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 713);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 714);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 715);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 716);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 717);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 719);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 720);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 721);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 722);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 723);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 724);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 725);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 726);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 727);
+
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (200, 1, 4, true, 3006);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (202, 1, 7, true, 3002);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (203, 1, 8, true, 3002);
@@ -2673,23 +2938,12 @@ INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUE
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (211, 1, 15, false, 3002);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (212, 1, 16, true, 3002);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (213, 1, 17, false, 3002);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 8);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 9);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 301);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 10);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 11);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 12);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 13);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 14);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 15);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 16);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (7, 17);
+
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (18, 1, 4, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (21, 1, 7, 3);
 
 INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params)
 VALUES (2, 'Повестка заседания Правления', 'povestka.docx', 'povestka.docx', 3005, 24, true, 'Повестка № %s заседания правления Департамента экономической политики и развития города Москвы %s г.', 'Повестки заседания Правления;https://www.mos.ru/depr/documents/tarifnaia-politika/povestki-zasedaniya-pravleniya/|2881|ChairPlan');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (5, 'Время заседания', 'TIME', null, null, null, null, 'MeetingTime');
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (101, 2, 4, true, 3006);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (102, 2, 5, true, 3005);
 INSERT INTO esrd.fields_roles(id, doctype_id, field_id, required, role_id) VALUES (103, 2, 7, true, 3002);
@@ -2712,27 +2966,9 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (117
 INSERT INTO esrd.users_distribution_departments (user_id, distribution_departments_id) VALUES (4084, 575);
 
 INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (301, 'Приказ (тарифное регулирование)', 'prikaz_appendix.docx', 'prikaz.docx', 3002, 300, true);
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (304, 'Дата протокола', 'DATE', null, null, null, null, 'ProtocolDate');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (305, 'Номер протокола', 'TEXT', null, null, null, null, 'ProtocolRegNum');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (306, 'Дата начала действия тарифа', 'DATE', null, null, null, null, 'TarifStartDate');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (307, 'Дата окончания дейстия тарифа', 'DATE', null, null, null, null, 'TarifEndDate');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (302, 'Внести изменения в приказ', 'GROUP_CHECKBOX', null, null, null, null, 'ChangeDecree');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (322, 'Наименование приказа', 'CATALOG', null, null, null, 1014, 'DecreeName');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (323, 'Пункт приказа', 'TEXT', null, null, null, null, 'DecreeItem');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (324, 'В соответствии с Федеральным законом', 'CATALOG', null, null, null, 1009, 'FederalLaw');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (378, 'В соответствии с Постановлением Правительства РФ', 'CATALOG', null, null, null, 1012, 'GovDecree');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (325, 'В соответствии с Методическими указаниями', 'CATALOG', null, null, null, 1010, 'TarifMethod');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (326, 'В соответствии с Регламентом', 'CATALOG', null, null, null, 1011, 'TarifReglament');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag, appendix) VALUES (376, 'Приложения', 'GROUP_FIELDS', null, null, null, null, null, true);
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (377, 'Название таблицы', 'TEXT', null, null, null, null, 'TarifTableTitle');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (379, 'Таблица', 'CATALOG_HTML_TABLES', null, null, null, 1013, 'TarifTable');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (380, 'Примечание', 'TEXTAREA', null, null, null, null, 'TarifDescription');
 
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (302, 322);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (302, 323);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (376, 377);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (376, 379);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (376, 380);
+
+
 
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (312, 301, 8, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (313, 301, 9, 2);
@@ -2757,56 +2993,18 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (381
 
 
 INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc) VALUES (350, 'Протокол заседания Правления', null, 'protocol.docx', 3002, 25, true);
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (351, 'Члены Правления', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsRulers');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (352, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, 'FIO');
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (351, 352);
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (353, 'От Департамента экономической политики и развития города Москвы', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsDepr');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (354, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, 'FIO2');
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (353, 354);
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (355, 'Присутствовали участники других организаций', 'GROUP_CHECKBOX', null, null, null, null, 'OtherOrganizationsParticipants');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (356, 'От других организаций', 'GROUP_FIELDS', null, 4, null, null, 'ParticipantsOther');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, tag) VALUES (357, 'ФИО', 'CATALOG_USERS', null, null, null, 1007, 'FIO3');
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (355, 356);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (356, 15);
-INSERT INTO esrd.field_child_field(field_id, child_field_id) VALUES (356, 357);
+
 
 
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (370, 350, 4, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (371, 350, 351, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (372, 350, 353, 3);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (373, 350, 355, 4);
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (387, 'Вопросы повестки', 'GROUP_FIELDS', null, null, null, null, false, 'Questions');
+
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, position) VALUES (375, 350, 387, 5);
 
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (382, 'В обсуждении принимали участие (фамилия и инициалы)', 'TEXTAREA', 12, null, null, null, false, 'Participants');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (383, 'Принять к сведению следующую информацию', 'TEXTAREA', 13, null, null, null, false, 'Information');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (384, 'Перечень нормативных актов, использованных в процессе проведения экспертизы', 'TEXTAREA', 14, null, null, null, false, 'NormativDocs');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (385, 'Перечень участвующего имущества РО', 'TEXTAREA', 15, null, null, null, false, 'Realty');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (386, 'Документы, подтверждающие законное владение РО в отношении указанного имущества', 'TEXTAREA', 16, null, null, null, false, 'RealtyDocs');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (388, 'В РО ведется раздельный учет расходов и доходов по регулируемым видам деятельности', 'GROUP_CHECKBOX', 17, null, null, null, false, 'SeparateCostAcc');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (389, 'Учетная политика РО утверждена документом', 'TEXT', null, null, null, null, false, 'DecreeNameAcc');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (390, 'Корректировка долгосрочного тарифа', 'GROUP_CHECKBOX', 18, null, null, null, false, 'LongTimeCorrect');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (391, 'Параметры установленного долгосрочного регулирования', 'CATALOG_HTML_TABLES', null, null, null, 1013, false, 'EstablishedRegParamsTable');
 
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 8);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 9);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 10);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 11);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 12);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 13);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 14);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 15);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 17);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 301);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 382);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 383);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 384);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 385);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 386);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 388);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (388, 389);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 390);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (390, 322);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (390, 391);
+
+
 
 
