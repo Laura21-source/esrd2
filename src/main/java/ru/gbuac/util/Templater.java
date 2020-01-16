@@ -526,19 +526,43 @@ public class Templater {
         }
     }
 
+    private static boolean calcAndConditionsResult(String condition) {
+        String[] andBlocks = condition.split("&&");
+        for (String block : andBlocks) {
+            if (!checkCondition(block)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean calcOrConditionsResult(String condition) {
+        String[] orBlocks = condition.split("||");
+        for (String block : orBlocks) {
+            if (calcAndConditionsResult(block)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean checkCondition(String condition) {
+        String[] cmpValues = condition.split("=");
+        if (cmpValues.length == 1) {
+            cmpValues = condition.split("~");
+        }
+        return (condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
+                (cmpValues.length == 1 && cmpValues[0].equals("TRUE")) ||
+                (condition.contains("~") && cmpValues[0].contains(cmpValues[1]));
+    }
+
     private static void ifTagsCalculate(List<XWPFParagraph> paragraphs) {
         List<XWPFParagraph> paragraphsToDelete = new ArrayList<>();
         for (XWPFParagraph p: paragraphs) {
             String text = p.getText();
             int startLength = text.length();
             for (IfStatement ifStatement : getIfStatements(text)) {
-                String[] cmpValues = ifStatement.condition.split("=");
-                if (cmpValues.length == 1) {
-                    cmpValues = ifStatement.condition.split("~");
-                }
-                if ((ifStatement.condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
-                        (cmpValues.length == 1 && cmpValues[0].equals("TRUE")) ||
-                        (ifStatement.condition.contains("~") && cmpValues[0].contains(cmpValues[1]))) {
+                if (calcOrConditionsResult(ifStatement.condition)) {
                     text = text.replace(ifStatement.fullText, ifStatement.getThenVal());
                 } else {
                     text = text.replace(ifStatement.fullText, ifStatement.getElseVal());
