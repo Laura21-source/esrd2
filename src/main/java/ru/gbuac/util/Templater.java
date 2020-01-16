@@ -537,7 +537,7 @@ public class Templater {
     }
 
     private static boolean calcOrConditionsResult(String condition) {
-        String[] orBlocks = condition.split("||");
+        String[] orBlocks = condition.split("\\|\\|");
         for (String block : orBlocks) {
             if (calcAndConditionsResult(block)) {
                 return true;
