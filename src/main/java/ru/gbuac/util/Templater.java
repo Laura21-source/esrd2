@@ -550,9 +550,14 @@ public class Templater {
         String[] cmpValues = condition.split("=");
         if (cmpValues.length == 1) {
             cmpValues = condition.split("~");
+            if (cmpValues.length == 1) {
+                cmpValues = condition.split("!=");
+            }
         }
-        return (condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
-                (cmpValues.length == 1 && cmpValues[0].equals("TRUE")) ||
+        return  (condition.contains("!=") && !cmpValues[0].equals(cmpValues[1])) ||
+                (condition.contains("=") && cmpValues[0].equals(cmpValues[1])) ||
+                (cmpValues.length == 1 && (cmpValues[0].equals("TRUE") || cmpValues[0].equals("!FALSE"))) ||
+                (cmpValues.length == 1 && (cmpValues[0].equals("FALSE") || cmpValues[0].equals("!TRUE"))) ||
                 (condition.contains("~") && cmpValues[0].contains(cmpValues[1]));
     }
 
