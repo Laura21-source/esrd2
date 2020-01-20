@@ -852,10 +852,15 @@ public class DocServiceImpl implements DocService {
             PDFMergerUtility ut = new PDFMergerUtility();
             ut.addSource(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
             int appedixNumber = 0;
+            long appendixCount = docTo.getChildFields()
+                    .stream().filter(f -> (f.getField().getFieldType() == FieldType.GROUP_FIELDS
+                    && f.getField().getAppendix() != null
+                    && f.getField().getAppendix())).count();
+
             for (DocFieldsTo docFieldsTo : docTo.getChildFields()) {
                 if (docFieldsTo.getField().getFieldType() == FieldType.GROUP_FIELDS && docFieldsTo.getField().getAppendix() != null && docFieldsTo.getField().getAppendix()) {
                     FieldTo appendixGroupField = docFieldsTo.getField();
-                    simpleTags.put("AppendN", String.valueOf(++appedixNumber));
+                    simpleTags.put("AppendN", appendixCount > 1 ? String.valueOf(++appedixNumber) : "");
                     for (FieldTo appField : appendixGroupField.getChildFields()) {
                         fillTags(appField, simpleTags, taggedTables, htmlTables, docTo.getChildFields().size());
                     }

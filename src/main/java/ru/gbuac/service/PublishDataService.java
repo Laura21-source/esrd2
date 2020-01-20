@@ -76,9 +76,6 @@ public class PublishDataService {
     private OrganizationRepository organizationRepository;
 
     @Autowired
-    private CatalogElemRepository catalogElemRepository;
-
-    @Autowired
     private PublishDataRepository publishDataRepository;
 
     public void publish(Doc doc, byte[] fileBytes, User signerUser) {
@@ -202,6 +199,8 @@ public class PublishDataService {
                     publishData.setRi(true);
                 } else {
                     publishData.setRi(false);
+                    LOG.error("RI upload error. " + "Code: " + response.getStatusLine().getStatusCode() +
+                            ". ReasonPhrase:" + response.getStatusLine().getReasonPhrase());
                 }
                 publishData.setRiDateTime(LocalDateTime.now());
             } catch (Exception ex) {
@@ -243,6 +242,9 @@ public class PublishDataService {
             if (response.getStatus().equals(ResponseStatus.ok)) {
                 publishData.setBasereg(response.getFilesId()[0]);
                 return publishUriMask + response.getFilesId()[0];
+            } else {
+                LOG.error("BaseReg upload error. " + "Code: " + response.getStatus() +
+                        ". ReasonPhrase:" + response.getMessage());
             }
         }
         catch (RemoteException | ParseException re) {
