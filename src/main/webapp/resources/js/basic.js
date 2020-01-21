@@ -626,7 +626,7 @@ $(function() {
     });
 
     // Возможность вставки данных в таблицу
-    $(document).on('paste', '.content', function(e) {
+    /*$(document).on('paste', '.content', function(e) {
         var $this = $(this);
         $.each(e.originalEvent.clipboardData.items, function(i, v){
             if (v.type === 'text/plain'){
@@ -647,6 +647,6 @@ $(function() {
             }
         });
         return false;
-    });
+    });*/
 
 });
