@@ -82,7 +82,7 @@
                                                     <div class="col-md-1">1</div>
                                                     <div class="col-md-1"><i class="fas fa-user"></i></div>
                                                     <div class="col-md-8 selectUser">
-                                                        <select data-placeholder="Выберите из справочника" class="chosen-select userList"  data-spisok="1" id="userList1" name="userList[]" required>
+                                                        <select data-placeholder="Выберите из справочника" class="chosen-select userList" data-spisok="1" id="userList1" name="userList[]" required>
                                                             <option value="" selected>Выбрать </option>
                                                         </select>
                                                         <div class="fontSmall text-left" id="userListPost1"></div>

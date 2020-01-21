@@ -20,7 +20,7 @@ function getFiledTypeCheckBox (type, data, pole, id, selectFieldName, blockGroup
             '       <div class="form-check">' +
             '           <input class="form-check-input'+classElem+'"' +
             ' id="'+nameBlock+'" type="checkbox"' +
-            ' data-field="'+data.fieldId+'"'+idData+'' +
+            ' data-field="'+data.fieldId+'"'+idData +
             ' name="'+nameBlock+'"' +
             ' '+valueInt+checekCheckBox+'>' +
             '           <label class="form-check-label text-muted' +
@@ -30,8 +30,7 @@ function getFiledTypeCheckBox (type, data, pole, id, selectFieldName, blockGroup
             '</div>'
         );
         if(data.childFields.length > 0) {
-            $('.'+nameBlock).append('<div id="'+nameBlock+'BlockDiv"' +
-                ' class="childBox my-4 d-none"></div>');
+            $('.'+nameBlock).append('<div id="'+nameBlock+'BlockDiv" class="childBox my-4 d-none"></div>');
             for(var y in data.childFields) {
                 var checkField = data.childFields[y];
                 idField = null;

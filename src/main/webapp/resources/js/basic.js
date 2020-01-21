@@ -607,7 +607,7 @@ $(function() {
             'vertical-align': 'middle',
             'font-weight': 'bold'
         });
-        $(newTabField+' .newTable table td').attr('contenteditable', true);
+        $(newTabField+' .newTable table td').attr('contenteditable', true).addClass('content');
         //$(newTabField+' .newTable table tbody tr:first td').css('text-align', 'center');
         $(newTabField+' .newTable table tbody tr').each(function() {
             $('td:first', this).css('text-align', 'center');
@@ -623,6 +623,30 @@ $(function() {
     // Удаляем строку
     $(document).on('click', '.table-remove', function() {
         $(this).parents('tr').detach();
+    });
+
+    // Возможность вставки данных в таблицу
+    $(document).on('paste', '.content', function(e) {
+        var $this = $(this);
+        $.each(e.originalEvent.clipboardData.items, function(i, v){
+            if (v.type === 'text/plain'){
+                v.getAsString(function(text){
+                    var x = $this.closest('td').index(),
+                        y = $this.closest('tr').index(),
+                        obj = {};
+                    text = text.trim('\r\n');
+                    $.each(text.split('\r\n'), function(i2, v2){
+                        $.each(v2.split('\t'), function(i3, v3){
+                            var row = y+i2, col = x+i3;
+                            obj['cell-'+row+'-'+col] = v3;
+                            $this.closest('table tbody').find('tr:eq('+row+') .content:eq('+col+')').val(v3);
+                        });
+                    });
+                    console.log(JSON.stringify(obj));
+                });
+            }
+        });
+        return false;
     });
 
 });

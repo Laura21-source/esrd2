@@ -159,7 +159,7 @@
                     'vertical-align': 'middle',
                     'font-weight': 'bold'
                 });
-                $(tableId+' table td').css('text-align', 'left');
+                $(tableId+' table td').css('text-align', 'left').addClass('content');
                 //$(tableId+' table tbody tr:first td').css('text-align', 'center');
                 $(tableId+' table tbody tr').each(function() {
                     $('td:first', this).css('text-align', 'center');

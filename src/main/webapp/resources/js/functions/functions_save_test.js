@@ -108,6 +108,13 @@
                             "fieldId": childFieldField,
                             "valueInt": childFieldVal
                         }
+                    } if (typeAttr === "date") {
+                        childField = {
+                            "id": childFieldId,
+                            "childFields": [],
+                            "fieldId": childFieldField,
+                            "valueDate": childFieldVal
+                        }
                     } else {
                         childField = {
                             "id" : childFieldId,

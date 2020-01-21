@@ -86,8 +86,8 @@
             <img src="resources/img/Logo.png" height="30" alt="Логотип">
         </a>
         <span class="breadcrumb-dn mr-auto">
-        <h6 class="mt-2">Система документооборота ИАС "Тариф"</h6>
-      </span>
+            <h6 class="mt-2">Система документооборота ИАС "Тариф"</h6>
+        </span>
         <ul class="nav navbar-nav nav-flex-icons ml-auto">
             <li class="nav-item">
                 <a class="nav-link" data-toggle="modal" data-target="#helpBlock"><i class="far fa-question-circle mr-2"></i><span class="clearfix d-none d-sm-inline-block mr-3">Поддержка</span></a>

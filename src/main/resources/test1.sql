@@ -1,4 +1,41 @@
+DROP TABLE IF EXISTS esrd.role_child_role CASCADE;
+DROP TABLE IF EXISTS esrd.user_roles CASCADE;
+DROP TABLE IF EXISTS esrd.doc_number_prefixes CASCADE;
+DROP TABLE IF EXISTS esrd.doctype_routes CASCADE;
+DROP TABLE IF EXISTS esrd.doc_agreement CASCADE;
+DROP TABLE IF EXISTS esrd.department CASCADE;
+DROP TABLE IF EXISTS esrd.department_child_departments CASCADE;
+DROP TABLE IF EXISTS esrd.users CASCADE;
+DROP TABLE IF EXISTS esrd.field_child_field CASCADE;
+DROP TABLE IF EXISTS esrd.fields_roles CASCADE;
+DROP TABLE IF EXISTS esrd.doctype_fields CASCADE;
+DROP TABLE IF EXISTS esrd.field CASCADE;
+DROP TABLE IF EXISTS esrd.valuedfield_child_valued_field CASCADE;
+DROP TABLE IF EXISTS esrd.doc_valuedfields CASCADE;
+DROP TABLE IF EXISTS esrd.doc CASCADE;
+DROP TABLE IF EXISTS esrd.doctype CASCADE;
+DROP TABLE IF EXISTS esrd.role CASCADE;
+DROP TABLE IF EXISTS esrd.valuedfield CASCADE;
+DROP TABLE IF EXISTS esrd.catalogelem CASCADE;
+DROP TABLE IF EXISTS esrd.catalog CASCADE;
+DROP TABLE IF EXISTS esrd.organization CASCADE;
+DROP TABLE IF EXISTS esrd.resolution CASCADE;
+DROP TABLE IF EXISTS esrd.resolutions_users CASCADE;
+DROP TABLE IF EXISTS esrd.users_distribution_departments CASCADE;
+DROP TABLE IF EXISTS esrd.users_delegation_users CASCADE;
+DROP TABLE IF EXISTS esrd.html_tables CASCADE;
+DROP TABLE IF EXISTS publish_data CASCADE;
 
+DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.memo_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.protocol_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.decree_seq CASCADE;
+CREATE SEQUENCE esrd.global_seq START 100000;
+CREATE SEQUENCE esrd.agreement_seq START 1;
+CREATE SEQUENCE esrd.memo_seq START 1;
+CREATE SEQUENCE esrd.protocol_seq START 1;
+CREATE SEQUENCE esrd.decree_seq START 1;
 
 CREATE TABLE esrd.catalog (
     id integer DEFAULT nextval('esrd.global_seq'::regclass) NOT NULL,
