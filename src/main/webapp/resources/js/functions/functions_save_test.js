@@ -109,11 +109,12 @@
                             "valueInt": childFieldVal
                         }
                     } if (typeAttr === "date") {
+                        value = childFieldVal + "T00:00:00";
                         childField = {
                             "id": childFieldId,
                             "childFields": [],
                             "fieldId": childFieldField,
-                            "valueDate": childFieldVal
+                            "valueDate": value
                         }
                     } else {
                         childField = {
