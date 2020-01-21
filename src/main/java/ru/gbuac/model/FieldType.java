@@ -8,6 +8,7 @@ public enum FieldType {
     TIME,
     DATETIME,
     CATALOG,
+    CATALOG_MULTI_SELECT,
     GROUP_FIELDS,
     GROUP_CHECKBOX,
     CHECKBOX,

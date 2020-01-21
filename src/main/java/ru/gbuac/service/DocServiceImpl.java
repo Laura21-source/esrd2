@@ -706,6 +706,7 @@ public class DocServiceImpl implements DocService {
                         case TEXT:
                             simpleTags.put(tag, catalogElemChild.getValueStr());
                             simpleTags.put(tag + ".Preposition", catalogElemChild.getValueStrPreposition());
+                            simpleTags.put(tag + ".Modified", catalogElemChild.getValueStrModified());
                             break;
                         case NUMBER:
                             simpleTags.put(tag, catalogElemChild.getValueInt());
@@ -732,6 +733,8 @@ public class DocServiceImpl implements DocService {
                     }
                     Organization organization = organizationRepository.findById(fieldTo.getValueInt()).orElse(null);
                     simpleTags.put(tag, organization.getShortNameLf());
+                    simpleTags.put(tag + ".INN", organization.getInn());
+                    simpleTags.put(tag + ".OGRN", organization.getOgrn());
                     break;
                 case CATALOG_REGNUMBERS:
                     if (fieldTo.getValueInt() == null) {
