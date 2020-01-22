@@ -28,6 +28,9 @@
         </naming-strategy-map>
       </configuration>
     </facet>
+    <facet type="WebServicesClient" name="WebServices Client">
+      <configuration ws.engine="Apache Axis" />
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
