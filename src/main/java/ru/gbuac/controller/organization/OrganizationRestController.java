@@ -36,8 +36,8 @@ public class OrganizationRestController extends AbstractOrganizationRestControll
 
     @Override
     @GetMapping(value = "/getEGRULData")
-    public Organization getEGRULData(@RequestParam String INN) {
-        return super.getEGRULData(INN);
+    public List<Organization> getEGRULData(@RequestParam String query) {
+        return super.getEGRULData(query);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

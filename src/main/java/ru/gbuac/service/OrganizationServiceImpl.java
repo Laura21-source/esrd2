@@ -1,5 +1,6 @@
 package ru.gbuac.service;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -26,6 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,16 +57,16 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public Organization getEGRULData(String INN) {
-        JSONObject query = new JSONObject();
-        query.put("query", INN);
-        query.put("branch_type", "MAIN");
-        String JSONString = query.toJSONString();
+    public List<Organization> getEGRULData(String query) {
+        JSONObject jsonQuery = new JSONObject();
+        jsonQuery.put("query", query);
+        jsonQuery.put("branch_type", "MAIN");
+        String JSONString = jsonQuery.toJSONString();
 
-        Organization returned = new Organization();
+        List<Organization> returnedOrganizations = new ArrayList<>();
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
         String uri = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";
-        if (INN.matches("[0-9]+") && INN.length() > 2) {
+        if (query.matches("[0-9]+") && query.length() > 2) {
             uri = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party";
         }
         try {
@@ -79,22 +81,26 @@ public class OrganizationServiceImpl implements OrganizationService {
             JsonParser parser = new JsonParser();
             JsonObject root = parser.parse(data).getAsJsonObject();
 
+            JsonArray jsonObjectSuggestions = root.get("suggestions").getAsJsonArray();
 
-            JsonObject jsonObjectSuggestions = root.get("suggestions").getAsJsonArray().get(0).getAsJsonObject();
-
-            JsonObject jsonObjectData = jsonObjectSuggestions.get("data").getAsJsonObject();
-            returned.setKpp(jsonObjectData.get("kpp").getAsString());
-            returned.setOgrn(jsonObjectData.get("ogrn").getAsString());
-            returned.setInn(jsonObjectData.get("inn").getAsString());
-            returned.setShortNameLf(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString());
-            returned.setFullNameLf(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString());
-            returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
-            returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
-            returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
+            for (int i = 0; i < jsonObjectSuggestions.size(); i++) {
+                JsonObject jsonObjectSuggestion = jsonObjectSuggestions.get(i).getAsJsonObject();
+                JsonObject jsonObjectData = jsonObjectSuggestion.get("data").getAsJsonObject();
+                Organization returned = new Organization();
+                returned.setKpp(jsonObjectData.get("kpp").getAsString());
+                returned.setOgrn(jsonObjectData.get("ogrn").getAsString());
+                returned.setInn(jsonObjectData.get("inn").getAsString());
+                returned.setShortNameLf(jsonObjectData.get("name").getAsJsonObject().get("short_with_opf").getAsString());
+                returned.setFullNameLf(jsonObjectData.get("name").getAsJsonObject().get("full_with_opf").getAsString());
+                returned.setAddress(jsonObjectData.get("address").getAsJsonObject().get("value").getAsString());
+                returned.setFioManager(jsonObjectData.get("management").getAsJsonObject().get("name").getAsString());
+                returned.setPositionManager(jsonObjectData.get("management").getAsJsonObject().get("post").getAsString());
+                returnedOrganizations.add(returned);
+            }
         }   catch (Exception ex) {
 
         }
-        return returned;
+        return returnedOrganizations;
     };
 
     private String replaceQuotes(String text) {

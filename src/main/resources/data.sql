@@ -2797,15 +2797,17 @@ INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 13);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 14);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 15);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 17);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 301);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 382);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 383);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 384);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 385);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 386);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 388);
-INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (388, 389);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (387, 390);
+
+
+
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (388, 389);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (390, 322);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (390, 391);
 
