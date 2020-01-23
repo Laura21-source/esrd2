@@ -167,8 +167,15 @@ public class PublishDataService {
 
                         for (Organization organization : organizationList) {
                             JSONObject organizationQuery = new JSONObject();
+                            organizationQuery.put("organizationName", organization.getShortNameLf());
+                            organizationQuery.put("organizationNameFull", organization.getFullNameLf());
                             organizationQuery.put("inn", organization.getInn());
+                            organizationQuery.put("kpp", organization.getKpp());
                             organizationQuery.put("ogrn", organization.getOgrn());
+                            organizationQuery.put("addressJuro", organization.getAddress());
+                            organizationQuery.put("cheifPosition", organization.getPositionManager());
+                            organizationQuery.put("cheifFio", organization.getFioManager());
+
                             jsonArrayOrgs.add(organizationQuery);
                         }
                         query.put("organizations", jsonArrayOrgs);
