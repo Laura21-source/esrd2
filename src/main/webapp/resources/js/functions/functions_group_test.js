@@ -17,15 +17,6 @@
             arrayBlock = '#arrayBlockNew';
             up = 2;
         }
-        // var agreeGroupFields = [];
-        /*var agreeGroupFields = $(arrayBlock).on('ready', function() {
-            return $(this).val();
-        });*/
-        /*$(arrayBlock+' option').each(function() {
-            var value = $(this).attr('value');
-            alert(value);
-            agreeGroupFields.push(value);
-        });*/
         return $.getJSON (url, function(data) {
             var rowChild = data;
             if(id > 0 && block !== 1) {rowChild = data.childFields;}

@@ -13,24 +13,24 @@ function getFiledTypeCheckBox (type, data, pole, id, selectFieldName, blockGroup
         }
         var idData = '';
         if (id > 0) {idData = ' data-id="'+data.id+'"';}
-        var nameBlock = data.tag+data.fieldId;
+        var nameBlock = data.tag+data.fieldId+'_'+dubKey;
         $(pole).append(
-            '<div class="my-3 card p-3">' +
-            '   <div class="'+nameBlock+' text-left">' +
+            '<div class="my-3 card p-3 text-left">' +
+            '   <div id="'+nameBlock+'" class="checkboxBlock">' +
             '       <div class="form-check">' +
             '           <input class="form-check-input'+classElem+'"' +
-            ' id="'+nameBlock+'" type="checkbox"' +
+            ' id="'+nameBlock+'Field" type="checkbox"' +
             ' data-field="'+data.fieldId+'"'+idData +
-            ' name="'+nameBlock+'"' +
+            ' name="'+nameBlock+'Field"' +
             ' '+valueInt+checekCheckBox+'>' +
             '           <label class="form-check-label text-muted' +
-            ' text-left" for="'+nameBlock+'">'+data.name+'</label>' +
+            ' text-left" for="'+nameBlock+'Field">'+data.name+'</label>' +
             '       </div>' +
             '   </div>' +
             '</div>'
         );
         if(data.childFields.length > 0) {
-            $('.'+nameBlock).append('<div id="'+nameBlock+'BlockDiv" class="childBox my-4 d-none"></div>');
+            $('#'+nameBlock).append('<div id="'+nameBlock+'BlockDiv" class="childBox my-4 d-none"></div>');
             for(var y in data.childFields) {
                 var checkField = data.childFields[y];
                 idField = null;
@@ -54,7 +54,7 @@ function getFiledTypeCheckBox (type, data, pole, id, selectFieldName, blockGroup
                 textId = textId+1;
             }
         }
-        checkedFields ('#'+nameBlock, '#'+nameBlock+'BlockDiv');
-        if (data.valueInt > 0) {$('.childBox').removeClass('d-none');}
+        checkedFields ('#'+nameBlock+'Field', '#'+nameBlock+'BlockDiv');
+        if (data.valueInt > 0) {$('#'+nameBlock+'BlockDiv .childBox').removeClass('d-none');}
     }
 }

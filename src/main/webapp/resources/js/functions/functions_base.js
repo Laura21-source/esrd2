@@ -105,24 +105,6 @@
         "hideMethod": "fadeOut"
     }
 
-    // Заполнение данных организации
-    function getValueOrganisation (url, element) {
-        return $.getJSON (url, function(data) {
-            $(element+' #shortNameLf').val(data.shortNameLf);
-            $(element+' #fullNameLf').val(data.fullNameLf);
-            $(element+' #inn').val(data.inn);
-            $(element+' #ogrn').val(data.ogrn);
-            $(element+' #kpp').val(data.kpp);
-            $(element+' #address').val(data.address);
-            $(element+' #fioManager').val(data.fioManager);
-            $(element+' #positionManager').val(data.positionManager);
-            $(element+' #shortName').val(data.shortName);
-            $(element+' #shortLegalForm').val(data.shortLegalForm);
-            $(element+' #fullLegalForm').val(data.fullLegalForm);
-            $(element+' #normalizedName').val(data.normalizedName);
-        });
-    }
-
     // Параметр финальности документа для отображени или скрытия блока Адресат
     function getFinalStage(url, field) {
         return $.getJSON (url, function(data) {

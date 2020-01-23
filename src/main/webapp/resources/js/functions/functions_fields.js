@@ -42,7 +42,7 @@
                     }
                 }
                 var nameText = "inputText_"+dubKey+'_'+textName+newId;
-                $(pole).append('' +
+                $(pole).append(
                     '<div class="row blockRow d-flex align-items-center'+parentBlock+parentCatalog+' mb-3" data-row="'+key+'">' +
                     '   <div class="col-md-3 text-left">' +
                     '       <div class="text-muted">'+data.name+requiredSup+'</div>' +

@@ -7,6 +7,7 @@ function getNewFields (url, id, number, short, block, name, pole) {
     var blockGroupClass = 'blockGroup';
     var BlockDivClass = '.BlockDiv';
     var arrayBlock = '#arrayBlock';
+    var up = 1;
     if(block && block === 1) {
         field = '#blockBlockNew';
         blockGroup = '#blockGroupNew';
@@ -14,6 +15,7 @@ function getNewFields (url, id, number, short, block, name, pole) {
         blockGroupClass = 'blockGroupNew';
         BlockDivClass = '.BlockDivNew';
         arrayBlock = '#arrayBlockNew';
+        up = 2;
     }
     // var agreeGroupFields = [];
     /*var agreeGroupFields = $(arrayBlock).on('ready', function() {
@@ -92,11 +94,20 @@ function getNewFields (url, id, number, short, block, name, pole) {
             var dataField = row.field.childFields;
             var poleFieldFieldId = row.field.fieldId;
             if (row.field.fieldType === "GROUP_FIELDS") {
+                //console.log(row.field.childFields.length);
+                BlockDivClass = 'BlockDiv';
+                if(block && block === 1) {
+                    BlockDivClass = 'BlockDivNew';
+                }
                 getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId);
             } else if (row.field.fieldType === "GROUP_CHECKBOX") {
-                getFiledTypeCheckBox ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, 0, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i);
+                BlockDivClass = 'BlockDivCheckBox';
+                if(block && block === 1) {
+                    BlockDivClass = 'BlockDivCheckBoxNew';
+                }
+                getFiledTypeCheckBox ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, up, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i);
             } else {
-                getFieldType (row.field.fieldType, row.field, field, id, selectFieldName, '', numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, '',1, 1);
+                getFieldType (row.field.fieldType, row.field, field, id, selectFieldName, '', numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, '', up, 1);
             }
         }
     }).done(function(response) {
@@ -114,23 +125,28 @@ function getStack (url, pole, linksOld, block, id) {
         if(id && id > 0) {
             if(pole && pole > 0) {
                 if(data.childFields[pole].field.childFields[0].fieldType == "GROUP_FIELDS") {
-                    rowChild = data.childFields[pole].field.childFields.childFields;
+                    rowChild = data.childFields[pole].field.childFields[0].childFields;
+                    var blockId = data.childFields[pole].field.childFields[0].fieldId;
                 } else {
                     rowChild = data.childFields[pole].field.childFields;
+                    var blockId = data.childFields[pole].field.fieldId;
                 }
             }
-            var blockId = data.childFields[pole].field.fieldId;
             emptyData = 0;
         } else {
             if(pole && pole > 0) {
                 if(data[pole].field.childFields[0].fieldType == "GROUP_FIELDS") {
-                    rowChild = data[pole].field.childFields.childFields;
+                    //rowChild =
+                    // data[pole].field.childFields[0].childFields;
+                    rowChild = data[pole].field.childFields[0].childFields;
+                    var blockId = data[pole].field.childFields[0].fieldId;
                 } else {
                     rowChild = data[pole].field.childFields;
+                    var blockId = data[pole].field.fieldId;
                 }
             }
-            var blockId = data[pole].field.fieldId;
         }
         groupNewFieldsValue (rowChild, '', blockId, linksOld, block, emptyData);
+        //console.log(blockId, linksOld, block, emptyData);
     });
 }

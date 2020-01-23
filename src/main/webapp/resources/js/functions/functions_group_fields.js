@@ -23,7 +23,7 @@
                 parentBlock = ' d-none';
             }
             var numberField = '';
-            var selectFieldName = 'selectField_'+blockId+'_'+dubKey+'_'+idBlock+y;
+            var selectFieldName = 'selectField'+blockId+'_'+dubKey+'_'+idBlock+y;
             if (id > 0) {
                 if (rowSelectField.parentCatalogId > 0) {
                     parentCatalog = ' p'+rowSelectField.parentCatalogId;
@@ -98,14 +98,17 @@
             '                       <div class="col-md-9 text-left"><h5 class="'+nameGroup+'">'+blockNameVal+'</h5></div>' +
             '                       <div class="col-md-3 text-right">' +
             '                           <div id="'+cloneGroup+dubKey+'" title="Дублировать блок"' +
-            ' class="btn btn-mdb-color btn-sm '+cloneGroup+' rounded'+cloneButton+'">' +
-            '<i class="fas fa-copy"></i></div>' +
+            ' class="btn btn-mdb-color btn-sm '+cloneGroup+' rounded'+cloneButton+'"' +
+            ' data-group="'+fieldId+'" data-clone="'+dubKey+'">' +
+            '                               <i class="fas fa-copy"></i>' +
+            '                           </div>' +
             '                           <div id="'+delGroup+dubKey+'" title="Удалить блок"' +
             ' data-toggle="modal"' +
             ' data-parent="'+fieldId+'"' +
             ' data-target="#deleteBlock"' +
             ' class="btn btn-danger btn-sm '+delGroup+' rounded'+delButton+' ml-3">' +
-            '<i class="fas fa-trash"></i></div>' +
+            '                               <i class="fas fa-trash"></i>' +
+            '                           </div>' +
             '                       </div>' +
             '                   </div>' +
             '                   <hr>' +

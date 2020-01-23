@@ -19,6 +19,12 @@
 <script type="text/javascript" src="resources/js/functions/functions_checkbox.js"></script>
 <script type="text/javascript" src="resources/js/functions/functions_group_test.js"></script>
 <script type="text/javascript" src="resources/js/functions/functions_datatables.js"></script>
+<script type="text/javascript" src="resources/js/functions/functions_tables_html.js"></script>
+<script type="text/javascript" src="resources/js/functions/functions_add_fields.js"></script>
+<script type="text/javascript" src="resources/js/functions/functions_clone.js"></script>
+<script type="text/javascript" src="resources/js/functions/functions_add_organisation.js"></script>
+<script type="text/javascript" src="resources/js/functions/functions_delete.js"></script>
+<script type="text/javascript" src="resources/js/functions/functions_help.js"></script>
 <script type="text/javascript" src="resources/js/basic.js"></script>
 <script src="https://www.amcharts.com/lib/4/core.js"></script>
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>

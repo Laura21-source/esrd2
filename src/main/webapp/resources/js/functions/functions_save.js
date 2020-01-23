@@ -1,8 +1,14 @@
 // Формирование массива элементов для JSON поля вне GROUP_FIELDS
 function createDataField (id, block) {
+    var blockGroup = '.blockGroup';
+    var blockElement = '.blockElement';
     var upElem = '.upElem';
+    var BlockDivCheckBox = '.BlockDivCheckBox';
     if(block && block === 1) {
         upElem = '.upElemNew';
+        blockGroup = '.blockGroupNew';
+        blockElement = '.blockElementNew';
+        BlockDivCheckBox = '.BlockDivCheckBoxNew';
     }
     var id = parseInt(id);
     var dataField = [];
@@ -88,7 +94,8 @@ function createDataField (id, block) {
             if(id > 0) {idField = parseInt($(this).attr("data-id"));}
             var childBox = [];
             var childField = '';
-            $('.childBox .checkClass').each(function() {
+            var nameBlock = $(this).attr('id');
+            $('#'+nameBlock+'BlockDiv .checkClass').each(function() {
                 var childFieldId = null;
                 if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
                 var childFieldVal = $(this).val();
@@ -101,6 +108,16 @@ function createDataField (id, block) {
                         "fieldId": childFieldField,
                         "valueInt": childFieldVal
                     }
+                } if (typeAttr === "date") {
+                    if(childFieldVal !== '') {
+                        childFieldVal = childFieldVal+"T00:00:00";
+                    }
+                    childField = {
+                        "id": childFieldId,
+                        "childFields": [],
+                        "fieldId": childFieldField,
+                        "valueDate": childFieldVal
+                    }
                 } else {
                     childField = {
                         "id" : childFieldId,
@@ -110,6 +127,62 @@ function createDataField (id, block) {
                     }
                 }
                 childBox.push(childField);
+            });
+            $(BlockDivCheckBox).each(function() {
+                $(blockGroup, this).each(function() {
+                    var fieldId = parseInt($(this).attr("data-div"));
+                    if(id > 0) {idField = parseInt($(this).attr("data-id"));}
+                    var elementArray = [];
+                    // Добавляем элементы полей
+                    $(blockElement, this).each(function() {
+                        var typeAttr = $(this).attr("type");
+                        if(id > 0) {idField = parseInt($(this).attr("data-id"));}
+                        if (typeAttr && typeAttr != '') {
+                            if (typeAttr === "tableHtml") {
+                                var valueInt = $(this).attr('data-value');
+                                var tabId = '#'+$(this).attr('id');
+                                $(tabId+' .editTable .deleteElem, '+tabId+' .editTable h6').remove();
+                                var valueStr = $(tabId+' .editTable').html();
+                                var elementBlockElem = {
+                                    "id" : idField,
+                                    "childFields" : [],
+                                    "fieldId" : parseInt($(this).attr("data-field")),
+                                    "valueInt": valueInt,
+                                    "valueStr" : valueStr
+                                }
+                            } else if(typeAttr === "select") {
+                                var elementBlockElem = {
+                                    "id" : idField,
+                                    "childFields" : [],
+                                    "fieldId" : parseInt($(this).attr("data-field")),
+                                    "valueInt" : parseInt($(this).val())
+                                }
+                            } else if(typeAttr === "text") {
+                                var elementBlockElem = {
+                                    "id" : idField,
+                                    "childFields" : [],
+                                    "fieldId" : parseInt($(this).attr("data-field")),
+                                    "valueStr" : $(this).val()
+                                }
+                            }
+                        } else {
+                            var elementBlockElem = {
+                                "id" : idField,
+                                "childFields" : [],
+                                "fieldId" : parseInt($(this).attr("data-field")),
+                                "valueStr" : $(this).val()
+                            }
+                        }
+                        elementArray.push(elementBlockElem);
+                    });
+                    /*var position = parseInt(key)+parseInt(countElem(childBox));*/
+                    var childBoxElement = {
+                        "id" : idField,
+                        "childFields": elementArray,
+                        "fieldId" : fieldId
+                    }
+                    childBox.push(childBoxElement);
+                });
             });
             field = {
                 "field": {
@@ -140,17 +213,17 @@ function createDataField (id, block) {
 
 function createDataBlock (id, key, block) {
     var blockGroup = '.blockGroup';
-    //var blockGroupId = '#blockGroup';
+    var blockDiv = '.BlockDiv';
     var blockElement = '.blockElement';
     if(block && block === 1) {
         blockGroup = '.blockGroupNew';
-        //blockGroupId = '#blockGroupNew';
+        blockDiv = '.BlockDivNew';
         blockElement = '.blockElementNew'
     }
     var id = parseInt(id);
     var idField = null;
     var dataBlock = [];
-    $('.BlockDiv').each(function() {
+    $(blockDiv).each(function() {
         $(blockGroup, this).each(function() {
             var fieldId = parseInt($(this).attr("data-div"));
             if(id > 0) {idField = parseInt($(this).attr("data-id"));}
@@ -185,6 +258,42 @@ function createDataBlock (id, key, block) {
                             "childFields" : [],
                             "fieldId" : parseInt($(this).attr("data-field")),
                             "valueStr" : $(this).val()
+                        }
+                    } else if(typeAttr === 'checkbox') {
+                        var attrVal = $(this).val();
+                        var attrId = parseInt($(this).attr("data-field"));
+                        if(id > 0) {idField = parseInt($(this).attr("data-id"));}
+                        var nameBlock = $(this).attr('id');
+                        var childBox = [];
+                        var childField = '';
+                        $('#'+nameBlock+'BlockDiv .checkClass').each(function() {
+                            var childFieldId = null;
+                            if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
+                            var childFieldVal = $(this).val();
+                            var childFieldField = parseInt($(this).attr("data-field"));
+                            var typeAttr = $(this).attr('type');
+                            if(typeAttr === "select") {
+                                childField = {
+                                    "id": childFieldId,
+                                    "childFields": [],
+                                    "fieldId": childFieldField,
+                                    "valueInt": childFieldVal
+                                }
+                            } else {
+                                childField = {
+                                    "id" : childFieldId,
+                                    "childFields" : [],
+                                    "fieldId" : childFieldField,
+                                    "valueStr" : childFieldVal
+                                }
+                            }
+                            childBox.push(childField);
+                        });
+                        elementBlockElem = {
+                            "id" : idField,
+                            "childFields": childBox,
+                            "fieldId": attrId,
+                            "valueInt" : attrVal
                         }
                     }
                 } else {
