@@ -30,8 +30,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-2 d-none" id="resultYesEgrul">
+                    <div class="row mb-3 d-none" id="resultYesEgrul">
                         <div class="col-12">
+                            <div class="alert alert-success mb-n1">
+                                Список организаций соответствующих запросу
+                            </div>
                             <select data-placeholder="Выберите из справочника" class="chosen-select" id="resultList">
                                 <option value="">Выберите из справочника</option>
                             </select>
@@ -40,7 +43,7 @@
                     <div class="row mb-2 d-none" id="resultNoEgrul">
                         <div class="col-12">
                             <div class="alert alert-danger">
-                                Организаций соответсвующих запросу не найдено!
+                                Организаций соответствующих запросу не найдено!
                             </div>
                         </div>
                     </div>
