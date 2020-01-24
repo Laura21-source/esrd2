@@ -76,7 +76,8 @@
         }
         // Кнопка удаления полей
         var delButton = ' d-none';
-        var cloneButton = ' d-none';
+        //var cloneButton = ' d-none';
+        var cloneButton = '';
         if (dubKey > 1) {
             delButton = '';
             //cloneButton = '';
