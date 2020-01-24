@@ -20,7 +20,7 @@ $(document).on("click", ".addBlock", function() {
         getStack ('rest/profile/docs/'+docId, pole, links, '', docId);
     } else {
         getStack ('rest/profile/doctypes/'+asd+'/fields', pole, links, '', '');
-        console.log('rest/profile/doctypes/'+asd+'/fields', pole, links, '', '');
+        //console.log('rest/profile/doctypes/'+asd+'/fields', pole, links, '', '');
     }
 });
 
