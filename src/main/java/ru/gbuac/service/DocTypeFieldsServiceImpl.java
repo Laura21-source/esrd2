@@ -30,9 +30,6 @@ public class DocTypeFieldsServiceImpl implements DocTypeFieldsService {
     private DocTypeFieldsRepository docTypeFieldsRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     private FieldsRolesRepository fieldsRolesRepository;
 
     @Override

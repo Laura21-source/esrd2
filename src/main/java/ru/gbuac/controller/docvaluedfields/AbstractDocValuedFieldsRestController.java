@@ -34,9 +34,9 @@ public abstract class AbstractDocValuedFieldsRestController {
         return docValuedFieldsService.getAllFull(docId, AuthorizedUser.getUserName());
     }
 
-    public List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId) {
+    public List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, List<Integer> optionalDocIds) {
         LOG.info("getAllMerged");
-        return docValuedFieldsService.getAllMerged(docId, targetDocTypeId, AuthorizedUser.getUserName());
+        return docValuedFieldsService.getAllMerged(docId, targetDocTypeId, optionalDocIds, AuthorizedUser.getUserName());
     }
 
     public DocValuedFields create(DocValuedFields docValuedFields) {

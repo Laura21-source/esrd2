@@ -69,7 +69,7 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
     }
 
     @Override
-    public List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, String userName) {
+    public List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, List<Integer> optionalDocIds, String userName) {
         List<String> curUserRoles = AuthorizedUser.getRoles();
 
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
