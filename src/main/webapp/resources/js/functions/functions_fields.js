@@ -105,12 +105,12 @@
                 $(pole).append(
                     '<div class="row mb-3 d-flex align-items-center' +
                     ' justify-content-center tableHtml blockElement"' +
-                    ' id="catalogTables'+dubKey+'" type="tableHtml"' +
+                    ' id="catalogTables'+data.fieldId+dubKey+'" type="tableHtml"' +
                     ' data-id="'+data.id+'"' +
                     ' data-field="'+data.fieldId+'"' +
                     ' data-value="'+data.valueInt+'">' +
                     '   <div class="col-md-12 text-left newTable">' +
-                    '       <div class="btn btn-primary btn-sm rounded tableTemplates" data-table="'+dubKey+'" data-click="">Изменить макет таблицы</div>' +
+                    '       <div class="btn btn-primary btn-sm rounded tableTemplates" data-table="'+data.fieldId+dubKey+'" data-click="">Изменить макет таблицы</div>' +
                     /*'       <div class="btn btn-danger btn-sm mx-2 rounded" data-delete="'+data.valueInt+'">Удалить таблицу</div>' +*/
                     '       <div class="editTable">' +
                     '           <h6 class="my-3 text-center"></h6>' +
@@ -118,7 +118,7 @@
                     '       </div>' +
                     '   </div>' +
                     '</div>');
-                var tableId = '#catalogTables'+dubKey+' .newTable';
+                var tableId = '#catalogTables'+data.fieldId+dubKey+' .newTable';
                 console.log(tableId);
                 var sumTop = parseInt($(tableId+' table tbody tr:first td:last').html());
                 sumTop = sumTop+1;
@@ -148,7 +148,7 @@
                 $(tableId).append(
                     '<div class="row">' +
                     '   <div class="col-12 text-right">' +
-                    '       <div class="btn btn-primary btn-sm rounded addTableRow" data-table="'+dubKey+'">' +
+                    '       <div class="btn btn-primary btn-sm rounded addTableRow" data-table="'+data.fieldId+dubKey+'">' +
                     '           <i class="fas fa-plus white-text mr-2"></i>Добавить строку' +
                     '       </div>' +
                     '   </div>' +
@@ -168,13 +168,13 @@
                 $(pole).append(
                     '<div class="row tableHtml mb-3 d-flex' +
                     ' align-items-center justify-content-center blockElement"' +
-                    ' id="catalogTables'+dubKey+'" type="tableHtml"' +
+                    ' id="catalogTables'+data.fieldId+dubKey+'" type="tableHtml"' +
                     ' data-field="'+data.fieldId+'">' +
                     '   <div class="col-md-3 text-left">' +
                     '       <div class="text-muted">'+data.name+requiredSup+'</div>' +
                     '   </div>' +
                     '   <div class="col-md-9 text-left newTable">' +
-                    '       <div class="btn btn-primary btn-sm rounded tableTemplates ml-0" data-table="'+dubKey+'" data-click="">Создать таблицу</div>' +
+                    '       <div class="btn btn-primary btn-sm rounded tableTemplates ml-0" data-table="'+data.fieldId+dubKey+'" data-click="">Создать таблицу</div>' +
                     /*'       <div class="btn btn-danger btn-sm mx-2 rounded delTab d-none" id="delTab'+dubKey+'" data-delete="'+dubKey+'">Удалить таблицу</div>' +*/
                     '   </div>' +
                     '</div>');

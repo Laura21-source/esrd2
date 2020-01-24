@@ -2,28 +2,26 @@
 $(document).on("click", ".cloneGroup", function () {
     var id = $(this).attr('data-group');
     var poleId = $(this).attr('data-clone');
-    var idBlock = '#blockDiv' + id + ' .blockField';
-    var newField = $('#blockDiv' + id + ' #blockGroup' + poleId + ' .blockGroupFields').children().clone();
+    var idBlock = '#blockDiv'+id+' .blockField';
+    var newField = $('#blockDiv'+id+' #blockGroup'+poleId+' .blockGroupFields').children().clone();
     //alert(idBlock);
     var linksOld = parseInt($(idBlock + " .blockGroup [data-block='1']").length);
-    //var pole = $(this).attr('data-value');
     linksOld = linksOld + 1;
     // Найдем максимальное значение атрибута
     var links = null;
-    $(idBlock + " .blockGroup").each(function () {
+    $(idBlock+" .blockGroup").each(function () {
         var value = parseInt($(this).attr('data-move'));
         links = (value > links) ? value : links;
     });
     links = links + 1;
     groupNewFields(idBlock, id, links, '', linksOld, '');
-    $('#blockDiv' + id + ' #blockGroup' + links + ' .blockGroupFields').append(newField);
-    window.location.hash = 'blockGroup' + links;
+    $('#blockDiv'+id+' #blockGroup'+links+' .blockGroupFields').append(newField);
+    window.location.hash = 'blockGroup'+links;
     window.location.href;
     // Переписываем INPUTS
-    var newInput = $('#blockDiv' + id + ' #blockGroup'+links).find('input.form-control');
+    var newInput = $('#blockDiv'+id+' #blockGroup'+links).find('input.form-control');
     newInput.each(function() {
         var oldId = $(this).attr('id');
-        //var oldIdNumber = oldId.substr(10).split( "_", 1);
         var newId = oldId.replace("_"+poleId+"_","_"+links+"_");
         $(this).attr({
             'id': newId,
@@ -31,10 +29,9 @@ $(document).on("click", ".cloneGroup", function () {
         });
     });
     // Переписываем CHECKBOX
-    var newCheckboxBlock = $('#blockDiv' + id + ' #blockGroup'+links).find('.checkboxBlock');
+    var newCheckboxBlock = $('#blockDiv'+id+' #blockGroup'+links).find('.checkboxBlock');
     newCheckboxBlock.each(function() {
         var oldId = $(this).attr('id');
-        //var oldIdNumber = oldId.substr(10).split( "_", 1);
         var newId = oldId.replace("_"+poleId,"_"+links);
         $(this).attr({
             'id': newId,
@@ -52,25 +49,12 @@ $(document).on("click", ".cloneGroup", function () {
         });
         checkedFields ('#'+newId+'Field', '#'+newId+'BlockDiv');
     });
-    // Переписываем поля CHOSEN
-    /*var newChosen = $('#blockDiv' + id + ' #blockGroup'+links).find('div.chosen-container');
-    newChosen.each(function() {
-        var oldId = $(this).attr('id');
-        //var oldIdNumber = oldId.substr(12).split( "_", 1);
-        var newId = oldId.replace("selectField"+id+"_"+poleId+"_","selectField"+id+"_"+links+"_");
-        $(this).attr('id', newId);
-        $(this).removeClass('chosen-container-active');
-        //alert('#'+newId);
-        //$('#'+newId).trigger("chosen:updated");
-    });*/
-    // Переписываем поля SELECT
-    //var newSelect = $('#blockDiv' + id + ' #blockGroup'+links).find('select');
-    var newSelect = $('#blockDiv' + id + ' #blockGroup'+links).find('select');
+    // Переписываем поля SELECT CHOSEN
+    var newSelect = $('#blockDiv'+id+' #blockGroup'+links).find('select');
     newSelect.each(function() {
         var oldId = $(this).attr('id');
-        //var oldIdNumber = oldId.substr(12).split( "_", 1);
         var newId = oldId.replace("selectField"+id+"_"+poleId+"_","selectField"+id+"_"+links+"_");
-        $('#blockDiv' + id + ' #blockGroup'+links + ' #'+oldId+'_chosen').remove();
+        $('#blockDiv'+id+' #blockGroup'+links+' #'+oldId+'_chosen').remove();
         var valueElement = $('#'+oldId).val();
         $(this).attr({
             'id': newId,
@@ -83,6 +67,17 @@ $(document).on("click", ".cloneGroup", function () {
         });
         $('#'+newId).val(valueElement).trigger("chosen:updated");
     });
-
+    // Переписываем поля HTML Tables
+    var newTable = $('#blockDiv'+id+' #blockGroup'+links).find('.tableHtml');
+    newTable.each(function() {
+        var oldId = $(this).attr('id');
+        var newId = parseInt(oldId.substr( 13))+1;
+        var newString = "catalogTables"+newId;
+        $(this).attr({
+            'id': newString
+        });
+        $('#'+newString+' .btn.addTableRow').attr('data-table', newId);
+        $('#'+newString+' .btn.tableTemplates').attr('data-table', newId);
+    });
 });
 
