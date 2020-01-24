@@ -29,7 +29,7 @@ public class Templater {
     public static void main(String[]args) throws Exception {
         HashMap<String, String> map = new HashMap<>();
         String imgPath = "C:\\test\\stamp.png";
-        //map.put("IMG")
+        map.put("test.IMG", imgPath);
         ByteArrayOutputStream baos = fillTagsByDictionary("C:\\test\\povestka.docx", map, new HashMap<>(), new HashMap<>(), true);
         baos.writeTo(new FileOutputStream("C:\\test\\saved.pdf"));
     }
