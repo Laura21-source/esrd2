@@ -468,7 +468,11 @@ public class DocServiceImpl implements DocService {
             }
             updated.setRegNum(docNumber);
             updated.setRegDateTime(LocalDateTime.now());
-            updated.setDocStatus(DocStatus.IN_WORK);
+            if (updated.getDocType().isFinalDoc()) {
+                updated.setDocStatus(DocStatus.COMPLETED);
+            } else {
+                updated.setDocStatus(DocStatus.IN_WORK);
+            }
             //resolutionRepository
             //        .setControlDateForPrimaryResolution(updated.getId(), LocalDateTime.now().plusDays(2).toLocalDate());
         }
@@ -507,7 +511,9 @@ public class DocServiceImpl implements DocService {
                 mailService.sendAgreementEmail(user.getEmail(), docTo.getId(), updated.getProjectRegNum());
             }
         }
+        // Сохранение документа
         updated = checkNotFoundWithId(docRepository.save(updated), id);
+        // Действия после сохранения документа
         if (isFinalAgreementStage) {
             if (updated.getParentDoc() != null) {
                 resolutionRepository.setExecutionDateTimeForDoc(updated.getParentDoc().getId(), LocalDateTime.now());
