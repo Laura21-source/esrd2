@@ -3,7 +3,6 @@ package ru.gbuac.util;
 import com.documents4j.api.DocumentType;
 import com.documents4j.api.IConverter;
 import com.documents4j.job.LocalConverter;
-import com.google.common.io.Files;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.poi.ooxml.POIXMLDocumentPart;
 import org.apache.poi.ooxml.POIXMLRelation;
@@ -11,18 +10,21 @@ import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackagePart;
 import org.apache.poi.openxml4j.opc.PackagePartName;
 import org.apache.poi.openxml4j.opc.PackagingURIHelper;
-import org.apache.poi.wp.usermodel.Paragraph;
+import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlCursor;
+import org.openxmlformats.schemas.drawingml.x2006.main.CTGraphicalObject;
+import org.openxmlformats.schemas.drawingml.x2006.wordprocessingDrawing.CTAnchor;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTAltChunk;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTDrawing;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Templater {
 
@@ -225,14 +227,57 @@ public class Templater {
         }
     }
 
+    private static CTAnchor getAnchorWithGraphic(CTDrawing drawing /*inline drawing*/ ,
+                                                 String drawingDescr, boolean behind) throws Exception {
+
+        CTGraphicalObject graphicalobject = drawing.getInlineArray(0).getGraphic();
+        long width = drawing.getInlineArray(0).getExtent().getCx();
+        long height = drawing.getInlineArray(0).getExtent().getCy();
+
+        String anchorXML =
+                "<wp:anchor xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" "
+                        +"simplePos=\"0\" relativeHeight=\"0\" behindDoc=\""+((behind)?1:0)+"\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\">"
+                        +"<wp:simplePos x=\"0\" y=\"0\"/>"
+                        +"<wp:positionH relativeFrom=\"column\"><wp:posOffset>0</wp:posOffset></wp:positionH>"
+                        +"<wp:positionV relativeFrom=\"paragraph\"><wp:posOffset>0</wp:posOffset></wp:positionV>"
+                        +"<wp:extent cx=\""+width+"\" cy=\""+height+"\"/>"
+                        +"<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/><wp:wrapNone/>"
+                        +"<wp:docPr id=\"1\" name=\"Drawing 0\" descr=\""+drawingDescr+"\"/><wp:cNvGraphicFramePr/>"
+                        +"</wp:anchor>";
+
+        drawing = CTDrawing.Factory.parse(anchorXML);
+        CTAnchor anchor = drawing.getAnchorArray(0);
+        anchor.setGraphic(graphicalobject);
+        return anchor;
+    }
+
+    private static void insertImage(String imgPath, XWPFParagraph p, double decreaseWidthCoefficient,double decreaseHeightCoefficient) {
+        try (FileInputStream isB = new FileInputStream(imgPath)) {
+            BufferedImage bImage = ImageIO.read(isB);
+            try (FileInputStream is = new FileInputStream(imgPath)) {
+                XWPFRun run = p.getRuns().get(0);
+                run.addBreak();
+                run.addPicture(is, XWPFDocument.PICTURE_TYPE_PNG, imgPath,
+                        Units.toEMU(bImage.getWidth()/decreaseWidthCoefficient),
+                        Units.toEMU(bImage.getHeight()/decreaseHeightCoefficient));
+                CTDrawing drawing = run.getCTR().getDrawingArray(0);
+                CTAnchor anchor = getAnchorWithGraphic(drawing, imgPath, false /*not behind text*/);
+                drawing.setAnchorArray(new CTAnchor[]{anchor});
+                drawing.removeInline(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static void replaceSimpleTags(List<XWPFParagraph> paragraphs, Map<String, String> simpleTags) {
         for (XWPFParagraph p : paragraphs) {
             String text = p.getText();
             if (!text.equals("")) {
                 for (Map.Entry<String, String> entry : simpleTags.entrySet()) {
-                    if (text.contains("<" + entry.getKey() + ">")) {
-                        text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
-                    }
+                    text = replaceTags(p, text, entry);
                 }
             }
             text = text.replace("  ", " ").replace(" ,", ",");
@@ -244,7 +289,7 @@ public class Templater {
         for (XWPFParagraph p : paragraphs) {
             String text = p.getText();
             for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
-                text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+                text = replaceTags(p, text, entry);
             }
             text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
             text = text.replace("  ", " ").replace(" ,", ",");
@@ -252,6 +297,16 @@ public class Templater {
         }
     }
 
+    private static String replaceTags(XWPFParagraph p, String text, Map.Entry<String, String> entry) {
+        if (text.contains("<" + entry.getKey() + ">")) {
+            if (!entry.getKey().contains(".IMG")) {
+                text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+            } else {
+                insertImage(entry.getValue(), p, 2.3, 2.3);
+            }
+        }
+        return text;
+    }
 
     public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags,
                                                              Map<String, TaggedTable> taggedTables, Map<String, String> htmlTables,
