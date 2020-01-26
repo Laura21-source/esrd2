@@ -1,13 +1,11 @@
 package ru.gbuac.service;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -18,10 +16,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import ru.gbuac.dao.CatalogElemRepository;
-import ru.gbuac.dao.CatalogRepository;
-import ru.gbuac.dao.OrganizationRepository;
-import ru.gbuac.dao.PublishDataRepository;
+import ru.gbuac.dao.*;
 import ru.gbuac.jaxws.basereg.CreateDocumentFile;
 import ru.gbuac.jaxws.basereg.DocStatus;
 import ru.gbuac.jaxws.basereg.ResponseStatus;
@@ -30,6 +25,8 @@ import ru.gbuac.util.DateTimeUtil;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -39,10 +36,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class PublishDataService {
@@ -78,10 +73,28 @@ public class PublishDataService {
     @Autowired
     private PublishDataRepository publishDataRepository;
 
-    public void publish(Doc doc, byte[] fileBytes, User signerUser) {
+    @Autowired
+    private DocRepository docRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private DocAgreementRepository docAgreementRepository;
+
+    public void publish(int docId, String rootPath) throws IOException {
+        Doc doc = docRepository.findById(docId).orElse(null);
+        User signerUser = docAgreementRepository.getFinalUser(doc.getId());
+        byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(rootPath + doc.getUrlPDF()));
+
         String publishClassifierParams = doc.getDocType().getPublishClassifierParams();
         if (publishClassifierParams != null) {
-            PublishData publishData = new PublishData(doc);
+            PublishData publishData = publishDataRepository.getByDocId(docId);
+            if (publishData == null) {
+                publishData = new PublishData(doc);
+                publishData.setMosRu(false);
+                publishData.setRi(false);
+            }
             String regNum = doc.getRegNum();
             String regDate = DateTimeUtil.toString(doc.getRegDateTime().toLocalDate());
             String fileName = doc.getId().toString() + ".pdf";
@@ -103,18 +116,23 @@ public class PublishDataService {
             String[] topLevelClassifierParams = publishClassifierParams.split("\\|");
 
             String[] mosRuClassifierParams = topLevelClassifierParams[0].split(";");
-            if (mosRuClassifierParams.length != 0) {
+            if (mosRuClassifierParams.length != 0 && !publishData.isMosRu()) {
                 publishMosRu(docName, publishDate, mosRuClassifierParams[0], mosRuClassifierParams[1],
                         fileName, fileBytes, publishData);
             }
 
             String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
             if (baseRegClassifierParams.length != 0) {
-                String uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
-                        signer, signerPosition, publishData);
+                String uri = "";
+                if (publishData.getBasereg() != null) {
+                    uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
+                            signer, signerPosition, publishData);
+                } else {
+                    uri = publishUriMask + publishData.getBasereg();
+                }
 
                 String[] riClassifierParams = topLevelClassifierParams[2].split(";");
-                if (riClassifierParams.length != 0) {
+                if (riClassifierParams.length != 0 && !uri.equals("") && !publishData.isRi()) {
                     publishRi(doc, docName, riClassifierParams[0], uri, publishData);
                 }
             }

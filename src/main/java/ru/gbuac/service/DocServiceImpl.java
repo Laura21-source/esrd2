@@ -1,6 +1,7 @@
 package ru.gbuac.service;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.math3.analysis.function.Log;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -523,12 +524,9 @@ public class DocServiceImpl implements DocService {
             mailService.sendRegisteredEmail(initialUser.getEmail(), updated.getId(), updated.getProjectRegNum(),
                     updated.getRegNum());
             try {
-                User finalUser = userRepository.findById(docTo.getFinalUserId()).orElse(null);
-                byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(rootPath + updated.getUrlPDF()));
-                publishDataService.publish(updated, fileBytes, finalUser);
+                publishDataService.publish(updated.getId(), rootPath);
             }
             catch (Exception ignored) {
-
             }
         }
         DocTo updatedTo = asDocTo(updated);
