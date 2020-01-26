@@ -126,7 +126,7 @@ public class PublishDataService {
                 String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
                 if (baseRegClassifierParams.length != 0) {
                     String uri = "";
-                    if (publishData.getBasereg() != null) {
+                    if (publishData.getBasereg() == null) {
                         uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
                                 signer, signerPosition, publishData);
                     } else {
@@ -181,9 +181,9 @@ public class PublishDataService {
 
                         JSONArray jsonArrayOrgs = new JSONArray();
                         List<Organization> organizationList = doc.getDocValuedFields()
-                                .stream().filter(f -> f.getValuedField().getField().getName().equals("Вопросы повестки"))
+                                .stream().filter(f -> f.getValuedField().getField().getTag().equals("Questions"))
                                 .flatMap(f -> f.getValuedField().getChildValuedField().stream())
-                                .filter(f -> f.getField().getName().equals("Организация"))
+                                .filter(f -> f.getField().getTag().equals("Organization"))
                                 .filter(f -> f.getValueInt() != null)
                                 .map(f -> organizationRepository.findById(f.getValueInt()).orElse(null))
                                 .filter(Objects::nonNull)
