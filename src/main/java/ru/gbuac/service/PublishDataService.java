@@ -26,6 +26,7 @@ import ru.gbuac.util.DateTimeUtil;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.text.DateFormat;
@@ -82,62 +83,67 @@ public class PublishDataService {
     @Autowired
     private DocAgreementRepository docAgreementRepository;
 
-    public void publish(int docId, String rootPath) throws IOException {
+    public PublishData publish(int docId, String rootPath) {
         Doc doc = docRepository.findById(docId).orElse(null);
         User signerUser = docAgreementRepository.getFinalUser(doc.getId());
-        byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(rootPath + doc.getUrlPDF()));
+        try {
+            byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(rootPath + doc.getUrlPDF()));
 
-        String publishClassifierParams = doc.getDocType().getPublishClassifierParams();
-        if (publishClassifierParams != null) {
-            PublishData publishData = publishDataRepository.getByDocId(docId);
-            if (publishData == null) {
-                publishData = new PublishData(doc);
-                publishData.setMosRu(false);
-                publishData.setRi(false);
-            }
-            String regNum = doc.getRegNum();
-            String regDate = DateTimeUtil.toString(doc.getRegDateTime().toLocalDate());
-            String fileName = doc.getId().toString() + ".pdf";
-            String publishDate = DateTimeUtil.toString(LocalDate.now());
-            String signer = signerUser.getFirstname() + " " + signerUser.getPatronym() + " " + signerUser.getLastname();
-            String signerPosition = signerUser.getPosition();
-
-            String docName = String.format(doc.getDocType().getPublishNameMask(), regNum, regDate);
-            if (doc.getDocType().getId() == 2) {
-                String agendaDate = "";
-                DocValuedFields vf = doc.getDocValuedFields().stream()
-                        .filter(f -> f.getValuedField().getField().getName().equals("Дата заседания")).findFirst().orElse(null);
-                if (vf != null) {
-                    agendaDate = DateTimeUtil.toString(vf.getValuedField().getValueDate().toLocalDate());
+            String publishClassifierParams = doc.getDocType().getPublishClassifierParams();
+            if (publishClassifierParams != null) {
+                PublishData publishData = publishDataRepository.getByDocId(docId);
+                if (publishData == null) {
+                    publishData = new PublishData(doc);
+                    publishData.setMosRu(false);
+                    publishData.setRi(false);
                 }
-                docName = String.format(doc.getDocType().getPublishNameMask(), regNum, agendaDate);
-            }
+                String regNum = doc.getRegNum();
+                String regDate = DateTimeUtil.toString(doc.getRegDateTime().toLocalDate());
+                String fileName = doc.getId().toString() + ".pdf";
+                String publishDate = DateTimeUtil.toString(LocalDate.now());
+                String signer = signerUser.getFirstname() + " " + signerUser.getPatronym() + " " + signerUser.getLastname();
+                String signerPosition = signerUser.getPosition();
 
-            String[] topLevelClassifierParams = publishClassifierParams.split("\\|");
-
-            String[] mosRuClassifierParams = topLevelClassifierParams[0].split(";");
-            if (mosRuClassifierParams.length != 0 && !publishData.isMosRu()) {
-                publishMosRu(docName, publishDate, mosRuClassifierParams[0], mosRuClassifierParams[1],
-                        fileName, fileBytes, publishData);
-            }
-
-            String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
-            if (baseRegClassifierParams.length != 0) {
-                String uri = "";
-                if (publishData.getBasereg() != null) {
-                    uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
-                            signer, signerPosition, publishData);
-                } else {
-                    uri = publishUriMask + publishData.getBasereg();
+                String docName = String.format(doc.getDocType().getPublishNameMask(), regNum, regDate);
+                if (doc.getDocType().getId() == 2) {
+                    String agendaDate = "";
+                    DocValuedFields vf = doc.getDocValuedFields().stream()
+                            .filter(f -> f.getValuedField().getField().getName().equals("Дата заседания")).findFirst().orElse(null);
+                    if (vf != null) {
+                        agendaDate = DateTimeUtil.toString(vf.getValuedField().getValueDate().toLocalDate());
+                    }
+                    docName = String.format(doc.getDocType().getPublishNameMask(), regNum, agendaDate);
                 }
 
-                String[] riClassifierParams = topLevelClassifierParams[2].split(";");
-                if (riClassifierParams.length != 0 && !uri.equals("") && !publishData.isRi()) {
-                    publishRi(doc, docName, riClassifierParams[0], uri, publishData);
+                String[] topLevelClassifierParams = publishClassifierParams.split("\\|");
+
+                String[] mosRuClassifierParams = topLevelClassifierParams[0].split(";");
+                if (mosRuClassifierParams.length != 0 && !publishData.isMosRu()) {
+                    publishMosRu(docName, publishDate, mosRuClassifierParams[0], mosRuClassifierParams[1],
+                            fileName, fileBytes, publishData);
                 }
+
+                String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
+                if (baseRegClassifierParams.length != 0) {
+                    String uri = "";
+                    if (publishData.getBasereg() != null) {
+                        uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
+                                signer, signerPosition, publishData);
+                    } else {
+                        uri = publishUriMask + publishData.getBasereg();
+                    }
+
+                    String[] riClassifierParams = topLevelClassifierParams[2].split(";");
+                    if (riClassifierParams.length != 0 && !uri.equals("") && !publishData.isRi()) {
+                        publishRi(doc, docName, riClassifierParams[0], uri, publishData);
+                    }
+                }
+                return publishDataRepository.save(publishData);
             }
-            publishDataRepository.save(publishData);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     private void publishRi(Doc doc, String docName, String docClass, String uri, PublishData publishData) {
