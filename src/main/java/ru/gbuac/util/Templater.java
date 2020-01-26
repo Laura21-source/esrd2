@@ -277,7 +277,16 @@ public class Templater {
             String text = p.getText();
             if (!text.equals("")) {
                 for (Map.Entry<String, String> entry : simpleTags.entrySet()) {
-                    text = replaceTags(p, text, entry);
+                    if (text.contains("<" + entry.getKey() + ">")) {
+                        if (!entry.getKey().contains(".IMG")) {
+                            text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+                        } else {
+                            String parentEntryValue = simpleTags.get(entry.getKey().replace(".IMG", ""));
+                            if (parentEntryValue.equals("TRUE"))
+                                insertImage(entry.getValue(), p, 2.3, 2.3);
+                            text = text.replace("<" + entry.getKey() + ">", "");
+                        }
+                    }
                 }
             }
             text = text.replace("  ", " ").replace(" ,", ",");
@@ -289,23 +298,22 @@ public class Templater {
         for (XWPFParagraph p : paragraphs) {
             String text = p.getText();
             for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
-                text = replaceTags(p, text, entry);
+                if (text.contains("<" + entry.getKey() + ">")) {
+                    if (!entry.getKey().contains(".IMG")) {
+                        text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+                    } else {
+                        String parentEntryValue = taggedTable.getRows().get(row).getCellsTags()
+                                .get(entry.getKey().replace(".IMG", ""));
+                        if (parentEntryValue.equals("TRUE"))
+                            insertImage(entry.getValue(), p, 2.3, 2.3);
+                        text = text.replace("<" + entry.getKey() + ">", "");
+                    }
+                }
             }
             text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
             text = text.replace("  ", " ").replace(" ,", ",");
             changeText(p, text);
         }
-    }
-
-    private static String replaceTags(XWPFParagraph p, String text, Map.Entry<String, String> entry) {
-        if (text.contains("<" + entry.getKey() + ">")) {
-            if (!entry.getKey().contains(".IMG")) {
-                text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
-            } else {
-                insertImage(entry.getValue(), p, 2.3, 2.3);
-            }
-        }
-        return text;
     }
 
     public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags,

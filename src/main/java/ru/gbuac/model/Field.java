@@ -35,4 +35,10 @@ public class Field extends NamedEntity {
     private Boolean appendix;
 
     private String tag;
+
+    @Column(name = "add_image")
+    private boolean addImage;
+
+    @Column(name = "image_path")
+    private String imagePath;
 }

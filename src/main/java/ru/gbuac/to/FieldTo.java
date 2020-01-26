@@ -42,6 +42,10 @@ public class FieldTo extends BaseTo {
 
     private String tag;
 
+    private Boolean addImage;
+
+    private String imagePath;
+
     private Integer valueInt;
 
     private String valueStr;
@@ -51,7 +55,7 @@ public class FieldTo extends BaseTo {
     public FieldTo(Integer id, String name, List<FieldTo> childFields, Integer fieldId, FieldType fieldType,
                    Integer positionInGroup, Integer maxCount, Integer length,
                    Integer parentCatalogId, Integer catalogId, Boolean enabled,
-                   Boolean required, Boolean appendix, String tag) {
+                   Boolean required, Boolean appendix, String tag, Boolean addImage, String imagePath) {
         super(id);
         this.name = name;
         this.childFields = childFields;
@@ -66,6 +70,8 @@ public class FieldTo extends BaseTo {
         this.required = required;
         this.appendix = appendix;
         this.tag = tag;
+        this.addImage = addImage;
+        this.imagePath = imagePath;
     }
 
     public FieldTo(List<FieldTo> childFields, FieldType fieldType, Integer valueInt, String tag) {

@@ -616,6 +616,9 @@ public class DocServiceImpl implements DocService {
                     }
                 case GROUP_CHECKBOX:
                     cellsTags.put(tag, fieldTo.getValueByFieldType());
+                    if (fieldTo.getAddImage()) {
+                        cellsTags.put(tag + ".IMG", fieldTo.getImagePath());
+                    }
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         if (TagUtil.getTableTag(tag) != null) {
                             childField.setTag(fieldTo.getTag() + "." + childField.getTag());
@@ -686,6 +689,9 @@ public class DocServiceImpl implements DocService {
             switch (fieldTo.getFieldType()) {
                 case GROUP_CHECKBOX:
                     simpleTags.put(tag, fieldTo.getValueByFieldType());
+                    if (fieldTo.getAddImage()) {
+                        simpleTags.put(tag + ".IMG", fieldTo.getImagePath());
+                    }
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         int childMaxCellsCount = (int) fieldTo.getChildFields().stream()
                                 .filter(c -> !c.getTag().equals("")).count();

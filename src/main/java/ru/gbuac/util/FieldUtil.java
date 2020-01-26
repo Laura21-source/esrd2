@@ -29,7 +29,8 @@ public class FieldUtil {
 
         return new FieldTo(null, field.getName(), childFields, field.getId(), field.getFieldType(),
                 field.getPositionInGroup(), field.getMaxCount(), field.getLength(), parentCatalog_id, catalog_id,
-                enabled, enabled && (fieldsRoles != null && fieldsRoles.getRequired()), field.getAppendix(), field.getTag());
+                enabled, enabled && (fieldsRoles != null && fieldsRoles.getRequired()), field.getAppendix(),
+                field.getTag(), field.isAddImage(), field.getImagePath());
     }
 
     private static Integer getCatalogId(Catalog catalog) {
@@ -58,7 +59,8 @@ public class FieldUtil {
         FieldTo fieldTo = new FieldTo(clearIds ? null : valuedField.getId(), field.getName(), childFields,
                 field.getId(), field.getFieldType(), field.getPositionInGroup(), field.getMaxCount(), field.getLength(),
                 parentCatalog_id, catalog_id, enabled,
-                enabled && (fieldsRoles != null && fieldsRoles.getRequired()), field.getAppendix(), field.getTag());
+                enabled && (fieldsRoles != null && fieldsRoles.getRequired()), field.getAppendix(), field.getTag(),
+                field.isAddImage(), field.getImagePath());
 
         switch (field.getFieldType()) {
             case TEXT:
