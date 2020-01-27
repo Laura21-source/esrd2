@@ -1,13 +1,11 @@
 package ru.gbuac.service;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -18,10 +16,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import ru.gbuac.dao.CatalogElemRepository;
-import ru.gbuac.dao.CatalogRepository;
-import ru.gbuac.dao.OrganizationRepository;
-import ru.gbuac.dao.PublishDataRepository;
+import ru.gbuac.dao.*;
 import ru.gbuac.jaxws.basereg.CreateDocumentFile;
 import ru.gbuac.jaxws.basereg.DocStatus;
 import ru.gbuac.jaxws.basereg.ResponseStatus;
@@ -30,6 +25,9 @@ import ru.gbuac.util.DateTimeUtil;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -39,10 +37,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class PublishDataService {
@@ -78,48 +74,76 @@ public class PublishDataService {
     @Autowired
     private PublishDataRepository publishDataRepository;
 
-    public void publish(Doc doc, byte[] fileBytes, User signerUser) {
-        String publishClassifierParams = doc.getDocType().getPublishClassifierParams();
-        if (publishClassifierParams != null) {
-            PublishData publishData = new PublishData(doc);
-            String regNum = doc.getRegNum();
-            String regDate = DateTimeUtil.toString(doc.getRegDateTime().toLocalDate());
-            String fileName = doc.getId().toString() + ".pdf";
-            String publishDate = DateTimeUtil.toString(LocalDate.now());
-            String signer = signerUser.getFirstname() + " " + signerUser.getPatronym() + " " + signerUser.getLastname();
-            String signerPosition = signerUser.getPosition();
+    @Autowired
+    private DocRepository docRepository;
 
-            String docName = String.format(doc.getDocType().getPublishNameMask(), regNum, regDate);
-            if (doc.getDocType().getId() == 2) {
-                String agendaDate = "";
-                DocValuedFields vf = doc.getDocValuedFields().stream()
-                        .filter(f -> f.getValuedField().getField().getName().equals("Дата заседания")).findFirst().orElse(null);
-                if (vf != null) {
-                    agendaDate = DateTimeUtil.toString(vf.getValuedField().getValueDate().toLocalDate());
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private DocAgreementRepository docAgreementRepository;
+
+    public PublishData publish(int docId, String rootPath) {
+        Doc doc = docRepository.findById(docId).orElse(null);
+        User signerUser = docAgreementRepository.getFinalUser(doc.getId());
+        try {
+            byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(rootPath + doc.getUrlPDF()));
+
+            String publishClassifierParams = doc.getDocType().getPublishClassifierParams();
+            if (publishClassifierParams != null) {
+                PublishData publishData = publishDataRepository.getByDocId(docId);
+                if (publishData == null) {
+                    publishData = new PublishData(doc);
+                    publishData.setMosRu(false);
+                    publishData.setRi(false);
                 }
-                docName = String.format(doc.getDocType().getPublishNameMask(), regNum, agendaDate);
-            }
+                String regNum = doc.getRegNum();
+                String regDate = DateTimeUtil.toString(doc.getRegDateTime().toLocalDate());
+                String fileName = doc.getId().toString() + ".pdf";
+                String publishDate = DateTimeUtil.toString(LocalDate.now());
+                String signer = signerUser.getFirstname() + " " + signerUser.getPatronym() + " " + signerUser.getLastname();
+                String signerPosition = signerUser.getPosition();
 
-            String[] topLevelClassifierParams = publishClassifierParams.split("\\|");
-
-            String[] mosRuClassifierParams = topLevelClassifierParams[0].split(";");
-            if (mosRuClassifierParams.length != 0) {
-                publishMosRu(docName, publishDate, mosRuClassifierParams[0], mosRuClassifierParams[1],
-                        fileName, fileBytes, publishData);
-            }
-
-            String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
-            if (baseRegClassifierParams.length != 0) {
-                String uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
-                        signer, signerPosition, publishData);
-
-                String[] riClassifierParams = topLevelClassifierParams[2].split(";");
-                if (riClassifierParams.length != 0) {
-                    publishRi(doc, docName, riClassifierParams[0], uri, publishData);
+                String docName = String.format(doc.getDocType().getPublishNameMask(), regNum, regDate);
+                if (doc.getDocType().getId() == 2) {
+                    String agendaDate = "";
+                    DocValuedFields vf = doc.getDocValuedFields().stream()
+                            .filter(f -> f.getValuedField().getField().getName().equals("Дата заседания")).findFirst().orElse(null);
+                    if (vf != null) {
+                        agendaDate = DateTimeUtil.toString(vf.getValuedField().getValueDate().toLocalDate());
+                    }
+                    docName = String.format(doc.getDocType().getPublishNameMask(), regNum, agendaDate);
                 }
+
+                String[] topLevelClassifierParams = publishClassifierParams.split("\\|");
+
+                String[] mosRuClassifierParams = topLevelClassifierParams[0].split(";");
+                if (mosRuClassifierParams.length != 0 && !publishData.isMosRu()) {
+                    publishMosRu(docName, publishDate, mosRuClassifierParams[0], mosRuClassifierParams[1],
+                            fileName, fileBytes, publishData);
+                }
+
+                String[] baseRegClassifierParams = topLevelClassifierParams[1].split(";");
+                if (baseRegClassifierParams.length != 0) {
+                    String uri = "";
+                    if (publishData.getBasereg() == null) {
+                        uri = publishBaseReg(docName, baseRegClassifierParams[0], fileName, fileBytes, regNum, regDate,
+                                signer, signerPosition, publishData);
+                    } else {
+                        uri = publishUriMask + publishData.getBasereg();
+                    }
+
+                    String[] riClassifierParams = topLevelClassifierParams[2].split(";");
+                    if (riClassifierParams.length != 0 && !uri.equals("") && !publishData.isRi()) {
+                        publishRi(doc, docName, riClassifierParams[0], uri, publishData);
+                    }
+                }
+                return publishDataRepository.save(publishData);
             }
-            publishDataRepository.save(publishData);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     private void publishRi(Doc doc, String docName, String docClass, String uri, PublishData publishData) {
@@ -157,9 +181,9 @@ public class PublishDataService {
 
                         JSONArray jsonArrayOrgs = new JSONArray();
                         List<Organization> organizationList = doc.getDocValuedFields()
-                                .stream().filter(f -> f.getValuedField().getField().getName().equals("Вопросы повестки"))
+                                .stream().filter(f -> f.getValuedField().getField().getTag().equals("Questions"))
                                 .flatMap(f -> f.getValuedField().getChildValuedField().stream())
-                                .filter(f -> f.getField().getName().equals("Организация"))
+                                .filter(f -> f.getField().getTag().equals("Organization"))
                                 .filter(f -> f.getValueInt() != null)
                                 .map(f -> organizationRepository.findById(f.getValueInt()).orElse(null))
                                 .filter(Objects::nonNull)

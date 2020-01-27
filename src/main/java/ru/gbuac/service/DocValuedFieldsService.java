@@ -14,7 +14,7 @@ public interface DocValuedFieldsService {
 
     List<DocFieldsTo> getAllFull(int docId, String userName);
 
-    List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, String userName);
+    List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, List<Integer> optionalDocIds, String userName);
 
     DocValuedFields save(DocValuedFields docValuedFields);
 

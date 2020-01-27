@@ -1,6 +1,7 @@
 package ru.gbuac.service;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.math3.analysis.function.Log;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -523,12 +524,9 @@ public class DocServiceImpl implements DocService {
             mailService.sendRegisteredEmail(initialUser.getEmail(), updated.getId(), updated.getProjectRegNum(),
                     updated.getRegNum());
             try {
-                User finalUser = userRepository.findById(docTo.getFinalUserId()).orElse(null);
-                byte[] fileBytes = IOUtils.toByteArray(new FileInputStream(rootPath + updated.getUrlPDF()));
-                publishDataService.publish(updated, fileBytes, finalUser);
+                publishDataService.publish(updated.getId(), rootPath);
             }
             catch (Exception ignored) {
-
             }
         }
         DocTo updatedTo = asDocTo(updated);
@@ -616,6 +614,9 @@ public class DocServiceImpl implements DocService {
                     }
                 case GROUP_CHECKBOX:
                     cellsTags.put(tag, fieldTo.getValueByFieldType());
+                    if (fieldTo.getAddImage()) {
+                        cellsTags.put(tag + ".IMG", fieldTo.getImagePath());
+                    }
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         if (TagUtil.getTableTag(tag) != null) {
                             childField.setTag(fieldTo.getTag() + "." + childField.getTag());
@@ -686,6 +687,9 @@ public class DocServiceImpl implements DocService {
             switch (fieldTo.getFieldType()) {
                 case GROUP_CHECKBOX:
                     simpleTags.put(tag, fieldTo.getValueByFieldType());
+                    if (fieldTo.getAddImage()) {
+                        simpleTags.put(tag + ".IMG", fieldTo.getImagePath());
+                    }
                     for (FieldTo childField : fieldTo.getChildFields()) {
                         int childMaxCellsCount = (int) fieldTo.getChildFields().stream()
                                 .filter(c -> !c.getTag().equals("")).count();

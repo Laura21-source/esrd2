@@ -3,7 +3,6 @@ package ru.gbuac.util;
 import com.documents4j.api.DocumentType;
 import com.documents4j.api.IConverter;
 import com.documents4j.job.LocalConverter;
-import com.google.common.io.Files;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.poi.ooxml.POIXMLDocumentPart;
 import org.apache.poi.ooxml.POIXMLRelation;
@@ -11,389 +10,29 @@ import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackagePart;
 import org.apache.poi.openxml4j.opc.PackagePartName;
 import org.apache.poi.openxml4j.opc.PackagingURIHelper;
-import org.apache.poi.wp.usermodel.Paragraph;
+import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlCursor;
+import org.openxmlformats.schemas.drawingml.x2006.main.CTGraphicalObject;
+import org.openxmlformats.schemas.drawingml.x2006.wordprocessingDrawing.CTAnchor;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTAltChunk;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTDrawing;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRow;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Templater {
 
     public static void main(String[]args) throws Exception {
-        HashMap<String, String> htmlMap = new HashMap<>();
-        String html = "<table style=\"border-collapse: collapse;\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\" width=\"662\">" +
-                "    <tbody>" +
-                "        <tr>" +
-                "            <td width=\"38\">" +
-                "                <p align=\"center\">" +
-                "                    № п/п" +
-                "                </p>" +
-                "            </td>" +
-                "            <td width=\"106\">" +
-                "                <p align=\"center\">" +
-                "                    Наименование потребителей\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    Период действия тарифа\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    Тарифы на питьевую воду, руб./куб. м\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    Тарифы на водоотведение хозяйственно-бытовых сточных вод,\n" +
-                "                    (руб./куб. м)\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    Тарифы на водоотведение поверхностных сточных вод,\n" +
-                "                    (руб./куб. м)\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"38\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    1.\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"106\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    население (с НДС)\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.01.2018 по 30.06.2018\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    36,52\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    38,06\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    88,18\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.07.2018 по 31.12.2018\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    36,52\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    38,06\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    88,18\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"38\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    2.\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"106\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    прочие потребители*\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.01.2018 по 30.06.2018\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    30,95\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    32,25\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    74,73\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.07.2018 по 31.12.2018\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    30,95\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    32,25\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    74,73\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"38\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    3.\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"106\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    население (с НДС)\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.01.2019 по 30.06.2019\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    36,52\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    38,06\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    87,57\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.07.2019 по 31.12.2019\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    37,29\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    39,07\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    87,57\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"38\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    4.\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"106\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    прочие потребители*\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.01.2019 по 30.06.2019\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    30,95\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    32,25\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    74,21\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.07.2019 по 31.12.2019\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    31,60\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    33,11\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    74,21\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"38\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    5.\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"106\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    население (с НДС)\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.01.2020 по 30.06.2020\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    37,21\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    37,87\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    86,94\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.07.2020 по 31.12.2020\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    37,21\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    37,87\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    86,94\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"38\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    6.\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"106\" rowspan=\"2\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    прочие потребители*\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.01.2020 по 30.06.2020\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    31,53\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    32,09\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    73,68\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "            <td width=\"183\">\n" +
-                "                <p>\n" +
-                "                    с 01.07.2020 по 31.12.2020\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"107\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    31,53\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"104\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    32,09\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "            <td width=\"123\">\n" +
-                "                <p align=\"center\">\n" +
-                "                    73,68\n" +
-                "                </p>\n" +
-                "            </td>\n" +
-                "        </tr>\n" +
-                "    </tbody>\n" +
-                "</table>";
-        htmlMap.put("Table.DrinkWater", html);
         HashMap<String, String> map = new HashMap<>();
-        map.put("Question", "Вопрос");
-        ByteArrayOutputStream baos = fillTagsByDictionary("C:\\test\\prikaz.docx", map, new HashMap<>(), htmlMap, true);
+        String imgPath = "C:\\test\\stamp.png";
+        map.put("test.IMG", imgPath);
+        ByteArrayOutputStream baos = fillTagsByDictionary("C:\\test\\povestka.docx", map, new HashMap<>(), new HashMap<>(), true);
         baos.writeTo(new FileOutputStream("C:\\test\\saved.pdf"));
     }
 
@@ -588,13 +227,65 @@ public class Templater {
         }
     }
 
+    private static CTAnchor getAnchorWithGraphic(CTDrawing drawing /*inline drawing*/ ,
+                                                 String drawingDescr, boolean behind) throws Exception {
+
+        CTGraphicalObject graphicalobject = drawing.getInlineArray(0).getGraphic();
+        long width = drawing.getInlineArray(0).getExtent().getCx();
+        long height = drawing.getInlineArray(0).getExtent().getCy();
+
+        String anchorXML =
+                "<wp:anchor xmlns:wp=\"http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing\" "
+                        +"simplePos=\"0\" relativeHeight=\"0\" behindDoc=\""+((behind)?1:0)+"\" locked=\"0\" layoutInCell=\"1\" allowOverlap=\"1\">"
+                        +"<wp:simplePos x=\"0\" y=\"0\"/>"
+                        +"<wp:positionH relativeFrom=\"column\"><wp:posOffset>0</wp:posOffset></wp:positionH>"
+                        +"<wp:positionV relativeFrom=\"paragraph\"><wp:posOffset>0</wp:posOffset></wp:positionV>"
+                        +"<wp:extent cx=\""+width+"\" cy=\""+height+"\"/>"
+                        +"<wp:effectExtent l=\"0\" t=\"0\" r=\"0\" b=\"0\"/><wp:wrapNone/>"
+                        +"<wp:docPr id=\"1\" name=\"Drawing 0\" descr=\""+drawingDescr+"\"/><wp:cNvGraphicFramePr/>"
+                        +"</wp:anchor>";
+
+        drawing = CTDrawing.Factory.parse(anchorXML);
+        CTAnchor anchor = drawing.getAnchorArray(0);
+        anchor.setGraphic(graphicalobject);
+        return anchor;
+    }
+
+    private static void insertImage(String imgPath, XWPFParagraph p, double decreaseWidthCoefficient,double decreaseHeightCoefficient) {
+        try (FileInputStream isB = new FileInputStream(imgPath)) {
+            BufferedImage bImage = ImageIO.read(isB);
+            try (FileInputStream is = new FileInputStream(imgPath)) {
+                XWPFRun run = p.getRuns().get(0);
+                run.addBreak();
+                run.addPicture(is, XWPFDocument.PICTURE_TYPE_PNG, imgPath,
+                        Units.toEMU(bImage.getWidth()/decreaseWidthCoefficient),
+                        Units.toEMU(bImage.getHeight()/decreaseHeightCoefficient));
+                CTDrawing drawing = run.getCTR().getDrawingArray(0);
+                CTAnchor anchor = getAnchorWithGraphic(drawing, imgPath, false /*not behind text*/);
+                drawing.setAnchorArray(new CTAnchor[]{anchor});
+                drawing.removeInline(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static void replaceSimpleTags(List<XWPFParagraph> paragraphs, Map<String, String> simpleTags) {
         for (XWPFParagraph p : paragraphs) {
             String text = p.getText();
             if (!text.equals("")) {
                 for (Map.Entry<String, String> entry : simpleTags.entrySet()) {
                     if (text.contains("<" + entry.getKey() + ">")) {
-                        text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+                        if (!entry.getKey().contains(".IMG")) {
+                            text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+                        } else {
+                            String parentEntryValue = simpleTags.get(entry.getKey().replace(".IMG", ""));
+                            if (parentEntryValue.equals("TRUE"))
+                                insertImage(entry.getValue(), p, 2.3, 2.3);
+                            text = text.replace("<" + entry.getKey() + ">", "");
+                        }
                     }
                 }
             }
@@ -607,14 +298,23 @@ public class Templater {
         for (XWPFParagraph p : paragraphs) {
             String text = p.getText();
             for (Map.Entry<String, String> entry : taggedTable.getRows().get(row).getCellsTags().entrySet()) {
-                text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+                if (text.contains("<" + entry.getKey() + ">")) {
+                    if (!entry.getKey().contains(".IMG")) {
+                        text = text.replace("<" + entry.getKey() + ">", Optional.ofNullable(entry.getValue()).orElse(""));
+                    } else {
+                        String parentEntryValue = taggedTable.getRows().get(row).getCellsTags()
+                                .get(entry.getKey().replace(".IMG", ""));
+                        if (parentEntryValue.equals("TRUE"))
+                            insertImage(entry.getValue(), p, 2.3, 2.3);
+                        text = text.replace("<" + entry.getKey() + ">", "");
+                    }
+                }
             }
             text = text.replace("<[" + taggedTable.getTableName() + "]Sequence>", String.valueOf(row + 1));
             text = text.replace("  ", " ").replace(" ,", ",");
             changeText(p, text);
         }
     }
-
 
     public static ByteArrayOutputStream fillTagsByDictionary(String templatePath, Map<String, String> simpleTags,
                                                              Map<String, TaggedTable> taggedTables, Map<String, String> htmlTables,

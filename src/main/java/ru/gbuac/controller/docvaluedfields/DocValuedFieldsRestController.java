@@ -20,7 +20,8 @@ public class DocValuedFieldsRestController extends AbstractDocValuedFieldsRestCo
 
     @Override
     @GetMapping(value = "/merged")
-    public List<DocFieldsTo> getAllMerged(@PathVariable("docId") int docId, @RequestParam("targetDocTypeId") int targetDocTypeId) {
-        return super.getAllMerged(docId, targetDocTypeId);
+    public List<DocFieldsTo> getAllMerged(@PathVariable("docId") int docId, @RequestParam("targetDocTypeId") int targetDocTypeId,
+                                          @RequestParam(value = "optionalDocIds", required = false) List<Integer> optionalDocIds) {
+        return super.getAllMerged(docId, targetDocTypeId, optionalDocIds);
     }
 }
