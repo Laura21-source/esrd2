@@ -100,6 +100,7 @@ sup {font-size: 6px;}
 /*.invalid-feedback {text-align: left!important; margin-top: 0!important; padding-top: 0!important;}*/
 
 /* Блокировка загрузки страницы */
+#mdb-preloader {background-color: #ffffff!important;}
 #mdb-preloader.loaded {
   opacity: 0;
   transition: .3s ease-in 1s;

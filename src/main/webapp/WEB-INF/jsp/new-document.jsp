@@ -13,7 +13,7 @@
 </script>
 <main>
     <div id="mdb-preloader" class="flex-center">
-        <h2 class="text-white mr-5">Подождите, идёт загрузка документа</h2>
+        <h2 class="text-dark mr-5">Подождите, идёт загрузка данных</h2>
         <div class="preloader-wrapper active">
             <div class="spinner-layer spinner-blue-only">
                 <div class="circle-clipper left">
@@ -152,16 +152,19 @@
 <jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
-    setTimeout(function() {
-        $('#mdb-preloader').remove();
-    }, 2000);
+    /*setTimeout(function() {
+        $('#mdb-preloader').fadeOut();
+    }, 2000);*/
 
     $(function() {
         // Список полей вида документов
         createOptions('rest/profile/doctypes/', '#selectType', 'name', 'id', '', '');
-
+        setTimeout(function() {
+            $('#mdb-preloader').removeClass('loaded').hide();
+        }, 500);
         // Выбор типа документа
         $("#selectType").change(function() {
+            $('#mdb-preloader').show();
             // Убрать с экрана все предыдущие поля
             $('#blockBlock, .newBlockGroup').empty();
             $('.blockGroup').remove();
@@ -176,6 +179,9 @@
             } else {
                 $("#blockFields, #btnSave, #btnWordFile, #blockBlock").addClass("d-none");
             }
+            setTimeout(function() {
+                $('#mdb-preloader').removeClass('loaded').hide();
+            }, 500);
         });
 
         // Список кому

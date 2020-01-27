@@ -101,6 +101,7 @@
 
     // Добавить блок по чеку на чекбокс
     function checkedFields (element, block) {
+        console.log(element, block);
         $(element).click(function() {
             if ($(this).is(':checked')) {
                 $(block).removeClass('d-none');

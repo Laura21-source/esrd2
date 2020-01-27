@@ -54,7 +54,7 @@
             if(rowSelectField.fieldType !== "GROUP_CHECKBOX") {
                 getFieldType (rowSelectField.fieldType, rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, blockElement,'', emptyData);
             } else {
-                getFiledTypeCheckBox ("GROUP_CHECKBOX", rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 0);
+                getFiledTypeCheckBox ("GROUP_CHECKBOX", rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 0, '','',dataBlock);
             }
         }
     }
