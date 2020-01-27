@@ -4,13 +4,11 @@
         var blockElement = '.blockElement';
         var upElem = '.upElem';
         var BlockDivCheckBox = '.BlockDivCheckBox';
-        var checkBlockDiv = 'blockDiv';
         if(block && block === 1) {
             upElem = '.upElemNew';
             blockGroup = '.blockGroupNew';
             blockElement = '.blockElementNew';
             BlockDivCheckBox = '.BlockDivCheckBoxNew';
-            checkBlockDiv = 'blockDivNew';
         }
         var id = parseInt(id);
         var dataField = [];
@@ -97,7 +95,7 @@
                 var childBox = [];
                 var childField = '';
                 var nameBlock = $(this).attr('id');
-                $('#'+nameBlock+checkBlockDiv+' .checkClass').each(function() {
+                $('#'+nameBlock+'BlockDiv'+' .checkClass').each(function() {
                     var childFieldId = null;
                     if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
                     var childFieldVal = $(this).val();
@@ -217,12 +215,10 @@
         var blockGroup = '.blockGroup';
         var blockDiv = '.BlockDiv';
         var blockElement = '.blockElement';
-        var checkBlockDiv = 'blockDiv';
         if(block && block === 1) {
             blockGroup = '.blockGroupNew';
             blockDiv = '.BlockDivNew';
             blockElement = '.blockElementNew';
-            checkBlockDiv = 'blockDivNew';
         }
         var id = parseInt(id);
         var idField = null;
@@ -270,7 +266,7 @@
                             var nameBlock = $(this).attr('id');
                             var childBox = [];
                             var childField = '';
-                            $('#'+nameBlock+checkBlockDiv+' .checkClass').each(function() {
+                            $('#'+nameBlock+'BlockDiv'+' .checkClass').each(function() {
                                 var childFieldId = null;
                                 if (id > 0) {childFieldId = parseInt($(this).attr("data-id"));}
                                 var childFieldVal = $(this).val();
