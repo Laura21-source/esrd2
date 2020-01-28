@@ -36,6 +36,98 @@ CREATE SEQUENCE esrd.agreement_seq START 1;
 CREATE SEQUENCE esrd.memo_seq START 1;
 CREATE SEQUENCE esrd.protocol_seq START 1;
 CREATE SEQUENCE esrd.decree_seq START 1;
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.5
+-- Dumped by pg_dump version 11.5
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: esrd; Type: SCHEMA; Schema: -; Owner: esrd_user
+--
+
+CREATE SCHEMA esrd;
+
+
+ALTER SCHEMA esrd OWNER TO esrd_user;
+
+--
+-- Name: generatedocnumber(character varying, character varying); Type: FUNCTION; Schema: esrd; Owner: esrd_user
+--
+
+CREATE FUNCTION esrd.generatedocnumber(mask character varying, optional character varying DEFAULT NULL::character varying) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+DECLARE Result VARCHAR;
+DECLARE yearPostfix VARCHAR;
+BEGIN
+    yearPostfix = SUBSTRING(CAST(DATE_PART('year', CURRENT_DATE) AS text),3);
+    IF (mask='согл') THEN
+        SELECT 'согл-'||nextval('esrd.agreement_seq')||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-П') THEN
+        SELECT 'ДПР-П-'||optional||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-СЗ') THEN
+        SELECT 'ДПР-СЗ-'||nextval('esrd.memo_seq')||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-ПРО') THEN
+        SELECT 'ДПР-ПРО-'||nextval('esrd.protocol_seq')||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-ПР') THEN
+        SELECT 'ДПР-ПР-'||nextval('esrd.decree_seq')||'/'||yearPostfix INTO Result;
+    ELSE
+        RAISE 'Incorrect mask for generating document number' USING ERRCODE = 'INCORRECT_DOCNUMBER_MASK';
+    END IF;
+    RETURN Result;
+END; $$;
+
+
+ALTER FUNCTION esrd.generatedocnumber(mask character varying, optional character varying) OWNER TO esrd_user;
+
+--
+-- Name: agreement_seq; Type: SEQUENCE; Schema: esrd; Owner: esrd_user
+--
+
+CREATE SEQUENCE esrd.agreement_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE esrd.agreement_seq OWNER TO esrd_user;
+
+--
+-- Name: global_seq; Type: SEQUENCE; Schema: esrd; Owner: esrd_user
+--
+
+CREATE SEQUENCE esrd.global_seq
+    START WITH 100000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE esrd.global_seq OWNER TO esrd_user;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: catalog; Type: TABLE; Schema: esrd; Owner: esrd_user
+--
 
 CREATE TABLE esrd.catalog (
     id integer DEFAULT nextval('esrd.global_seq'::regclass) NOT NULL,
@@ -44,6 +136,8 @@ CREATE TABLE esrd.catalog (
     catalogtype_id integer NOT NULL
 );
 
+
+ALTER TABLE esrd.catalog OWNER TO esrd_user;
 
 --
 -- Name: catalogelem; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -60,6 +154,22 @@ CREATE TABLE esrd.catalogelem (
 );
 
 
+ALTER TABLE esrd.catalogelem OWNER TO esrd_user;
+
+--
+-- Name: decree_seq; Type: SEQUENCE; Schema: esrd; Owner: esrd_user
+--
+
+CREATE SEQUENCE esrd.decree_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE esrd.decree_seq OWNER TO esrd_user;
+
 --
 -- Name: department; Type: TABLE; Schema: esrd; Owner: esrd_user
 --
@@ -72,6 +182,8 @@ CREATE TABLE esrd.department (
 );
 
 
+ALTER TABLE esrd.department OWNER TO esrd_user;
+
 --
 -- Name: department_child_departments; Type: TABLE; Schema: esrd; Owner: esrd_user
 --
@@ -81,6 +193,8 @@ CREATE TABLE esrd.department_child_departments (
     child_departments_id integer NOT NULL
 );
 
+
+ALTER TABLE esrd.department_child_departments OWNER TO esrd_user;
 
 --
 -- Name: doc; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -101,6 +215,8 @@ CREATE TABLE esrd.doc (
 );
 
 
+ALTER TABLE esrd.doc OWNER TO esrd_user;
+
 --
 -- Name: doc_agreement; Type: TABLE; Schema: esrd; Owner: esrd_user
 --
@@ -120,6 +236,8 @@ CREATE TABLE esrd.doc_agreement (
 );
 
 
+ALTER TABLE esrd.doc_agreement OWNER TO esrd_user;
+
 --
 -- Name: doc_number_prefixes; Type: TABLE; Schema: esrd; Owner: esrd_user
 --
@@ -129,6 +247,8 @@ CREATE TABLE esrd.doc_number_prefixes (
     name character varying NOT NULL
 );
 
+
+ALTER TABLE esrd.doc_number_prefixes OWNER TO esrd_user;
 
 --
 -- Name: doc_valuedfields; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -141,6 +261,8 @@ CREATE TABLE esrd.doc_valuedfields (
     "position" integer NOT NULL
 );
 
+
+ALTER TABLE esrd.doc_valuedfields OWNER TO esrd_user;
 
 --
 -- Name: doctype; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -158,6 +280,9 @@ CREATE TABLE esrd.doctype (
     publish_classifier_params character varying
 );
 
+
+ALTER TABLE esrd.doctype OWNER TO esrd_user;
+
 --
 -- Name: doctype_fields; Type: TABLE; Schema: esrd; Owner: esrd_user
 --
@@ -168,6 +293,9 @@ CREATE TABLE esrd.doctype_fields (
     field_id integer NOT NULL,
     "position" integer NOT NULL
 );
+
+
+ALTER TABLE esrd.doctype_fields OWNER TO esrd_user;
 
 --
 -- Name: doctype_routes; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -181,6 +309,7 @@ CREATE TABLE esrd.doctype_routes (
 );
 
 
+ALTER TABLE esrd.doctype_routes OWNER TO esrd_user;
 
 --
 -- Name: field; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -196,10 +325,12 @@ CREATE TABLE esrd.field (
     catalog_id integer,
     appendix boolean DEFAULT false,
     add_image boolean DEFAULT false,
-    image_path varchar,
+    image_path character varying,
     tag character varying
 );
 
+
+ALTER TABLE esrd.field OWNER TO esrd_user;
 
 --
 -- Name: field_child_field; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -210,6 +341,8 @@ CREATE TABLE esrd.field_child_field (
     child_field_id integer
 );
 
+
+ALTER TABLE esrd.field_child_field OWNER TO esrd_user;
 
 --
 -- Name: fields_roles; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -224,6 +357,7 @@ CREATE TABLE esrd.fields_roles (
 );
 
 
+ALTER TABLE esrd.fields_roles OWNER TO esrd_user;
 
 --
 -- Name: html_tables; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -235,6 +369,22 @@ CREATE TABLE esrd.html_tables (
     html_content character varying
 );
 
+
+ALTER TABLE esrd.html_tables OWNER TO esrd_user;
+
+--
+-- Name: memo_seq; Type: SEQUENCE; Schema: esrd; Owner: esrd_user
+--
+
+CREATE SEQUENCE esrd.memo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE esrd.memo_seq OWNER TO esrd_user;
 
 --
 -- Name: organization; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -253,6 +403,21 @@ CREATE TABLE esrd.organization (
 );
 
 
+ALTER TABLE esrd.organization OWNER TO esrd_user;
+
+--
+-- Name: protocol_seq; Type: SEQUENCE; Schema: esrd; Owner: esrd_user
+--
+
+CREATE SEQUENCE esrd.protocol_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE esrd.protocol_seq OWNER TO esrd_user;
 
 --
 -- Name: publish_data; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -270,6 +435,7 @@ CREATE TABLE esrd.publish_data (
 );
 
 
+ALTER TABLE esrd.publish_data OWNER TO esrd_user;
 
 --
 -- Name: resolution; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -286,6 +452,7 @@ CREATE TABLE esrd.resolution (
 );
 
 
+ALTER TABLE esrd.resolution OWNER TO esrd_user;
 
 --
 -- Name: resolutions_users; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -299,6 +466,7 @@ CREATE TABLE esrd.resolutions_users (
 );
 
 
+ALTER TABLE esrd.resolutions_users OWNER TO esrd_user;
 
 --
 -- Name: role; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -310,6 +478,7 @@ CREATE TABLE esrd.role (
 );
 
 
+ALTER TABLE esrd.role OWNER TO esrd_user;
 
 --
 -- Name: role_child_role; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -321,6 +490,7 @@ CREATE TABLE esrd.role_child_role (
 );
 
 
+ALTER TABLE esrd.role_child_role OWNER TO esrd_user;
 
 --
 -- Name: user_roles; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -332,6 +502,7 @@ CREATE TABLE esrd.user_roles (
 );
 
 
+ALTER TABLE esrd.user_roles OWNER TO esrd_user;
 
 --
 -- Name: users; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -354,6 +525,8 @@ CREATE TABLE esrd.users (
 );
 
 
+ALTER TABLE esrd.users OWNER TO esrd_user;
+
 --
 -- Name: users_delegation_users; Type: TABLE; Schema: esrd; Owner: esrd_user
 --
@@ -364,6 +537,8 @@ CREATE TABLE esrd.users_delegation_users (
 );
 
 
+ALTER TABLE esrd.users_delegation_users OWNER TO esrd_user;
+
 --
 -- Name: users_distribution_departments; Type: TABLE; Schema: esrd; Owner: esrd_user
 --
@@ -373,6 +548,8 @@ CREATE TABLE esrd.users_distribution_departments (
     distribution_departments_id integer NOT NULL
 );
 
+
+ALTER TABLE esrd.users_distribution_departments OWNER TO esrd_user;
 
 --
 -- Name: valuedfield; Type: TABLE; Schema: esrd; Owner: esrd_user
@@ -390,6 +567,8 @@ CREATE TABLE esrd.valuedfield (
 );
 
 
+ALTER TABLE esrd.valuedfield OWNER TO esrd_user;
+
 --
 -- Name: valuedfield_child_valued_field; Type: TABLE; Schema: esrd; Owner: esrd_user
 --
@@ -399,6 +578,8 @@ CREATE TABLE esrd.valuedfield_child_valued_field (
     child_valued_field_id integer
 );
 
+
+ALTER TABLE esrd.valuedfield_child_valued_field OWNER TO esrd_user;
 
 --
 -- Data for Name: catalog; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
@@ -461,6 +642,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5104, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 23 сентября 2016 года № 105-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2028, NULL, 'Теплоснабжение', 'тепловую энергию', 1003, 2007, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2084, NULL, 'установленные долгосрочные тарифы на тепловую энергию (мощность), поставляемую другим теплоснабжающим организациям', 'установленного долгосрочного тарифа на тепловую энергию (мощность), поставляемую другим теплоснабжающим организациям', 1004, 2028, 'на тепловую энергию (мощность), поставляемую другим теплоснабжающим организациям');
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5062, NULL, 'Приказ от 4 августа 2016 года № 63-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2102, NULL, 'тарифы на подключение (технологическое присоединение) к централизованной системе горячего водоснабжения', 'тарифов на подключение (технологическое присоединение) к централизованной системе горячего водоснабжения', 1004, 2030, 'на подключение (технологическое присоединение) к централизованной системе горячего водоснабжения');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2082, NULL, 'установленные долгосрочные тарифы на тепловую энергию (мощность), производимую в режиме комбинированной выработки электрической и тепловой энергии источниками тепловой энергии с установленной генерирующей мощностью производства электрической энергии 25 МВт и более', 'установленных долгосрочных тарифов на тепловую энергию (мощность), производимую в режиме комбинированной выработки электрической и тепловой энергии источниками тепловой энергии с установленной генерирующей мощностью производства электрической энергии 25 МВт и более', 1004, 2028, 'на тепловую энергию (мощность), производимую в режиме комбинированной выработки электрической и тепловой энергии источниками тепловой энергии с установленной генерирующей мощностью производства электрической энергии 25 МВт и более');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2070, NULL, 'долгосрочные тарифы на подключение (технологическое присоединение) к централизованной системе водоотведения', 'долгосрочных тарифов на подключение (технологическое присоединение) к централизованной системе водоотведения', 1004, 2029, 'на подключение (технологическое присоединение) к централизованной системе водоотведения');
@@ -493,6 +675,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2308, NULL, 'Федеральный закон от 29 июля 2017 г. № 225-ФЗ «О внесении изменений в Федеральный закон «О водоснабжении и водоотведении» и отдельные законодательные акты Российской Федерации» ', 'Федеральным законом от 29 июля 2017 г. № 225-ФЗ «О внесении изменений в Федеральный закон «О водоснабжении и водоотведении» и отдельные законодательные акты Российской Федерации» ', 1009, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2309, NULL, 'Федеральный закон от 31 марта 1999 г.№ 69-ФЗ «О газоснабжении в Российской Федерации» ', 'Федеральным законом от 31 марта 1999 г.№ 69-ФЗ «О газоснабжении в Российской Федерации» ', 1009, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2310, NULL, 'Федеральный закон от 18 июля 2006 г. № 117-ФЗ «Об экспорте газа» ', 'Федеральным законом от 18 июля 2006 г. № 117-ФЗ «Об экспорте газа» ', 1009, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5063, NULL, 'Приказ от 4 августа 2016 года № 64-ТР ', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2311, NULL, 'Федеральный закон от 24 июня 1998 г. № 89-ФЗ «Об отходах производства и потребления', 'Федеральным законом от 24 июня 1998 г. № 89-ФЗ «Об отходах производства и потребления', 1009, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2400, NULL, 'постановление Правительства Российской Федерации от 13 мая 2013 г. № 406 «О государственном регулировании тарифов в сфере водоснабжения и водоотведения»', 'постановлением Правительства Российской Федерации от 13 мая 2013 г. № 406 «О государственном регулировании тарифов в сфере водоснабжения и водоотведения»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2401, NULL, 'постановление Правительства Российской Федерации от 07.03.1995 № 239 «О мерах по упорядочению государственного регулирования цен (тарифов)»', 'постановлением Правительства Российской Федерации от 07.03.1995 № 239 «О мерах по упорядочению государственного регулирования цен (тарифов)»', 1012, NULL, NULL);
@@ -502,6 +685,9 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2405, NULL, 'постановление Правительства Москвы от 31.10.2012 № 602-ПП «Об утверждении порядков предоставления субсидий из бюджета города Москвы ресурсоснабжающим организациям в целях возмещения недополученных доходов в связи с применением государственных регулируемых цен (тарифов) при поставке товаров (оказании услуг) населению» ', 'постановлением Правительства Москвы от 31.10.2012 № 602-ПП «Об утверждении порядков предоставления субсидий из бюджета города Москвы ресурсоснабжающим организациям в целях возмещения недополученных доходов в связи с применением государственных регулируемых цен (тарифов) при поставке товаров (оказании услуг) населению» ', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2406, NULL, 'постановление Правительства Москвы от 06.12.2017 № 970-ПП «О внесении изменений в постановление Правительства Москвы от 27.12.2016 № 945-ПП»', 'постановлением Правительства Москвы от 06.12.2017 № 970-ПП «О внесении изменений в постановление Правительства Москвы от 27.12.2016 № 945-ПП»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2468, NULL, 'постановление Правительства Москвы от 24.08.2010 № 741-ПП «О схемах газоснабжения города Москвы на период до 2020 года»', 'постановлением Правительства Москвы от 24.08.2010 № 741-ПП «О схемах газоснабжения города Москвы на период до 2020 года»', 1012, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2415, NULL, 'постановление Правительства Российской Федерации от 06.07.1998 № 700 «О введении раздельного учета затрат по регулируемым видам деятельности в энергетике» ', 'постановлением Правительства Российской Федерации от 06.07.1998 № 700 «О введении раздельного учета затрат по регулируемым видам деятельности в энергетике» ', 1012, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2416, NULL, 'постановление Правительства Российской Федерации от 22.09.2008 № 707 «О порядке ведения раздельного учета доходов и расходов субъектами естественных монополий»', 'постановлением Правительства Российской Федерации от 22.09.2008 № 707 «О порядке ведения раздельного учета доходов и расходов субъектами естественных монополий»', 1012, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5064, NULL, 'Приказ от 4 августа 2016 года № 65-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2407, NULL, 'постановление Правительства Российской Федерации от 30.04.2018 № 533 «Об утверждении Правил рассмотрения (урегулирования) споров и разногласий, связанных с установлением и (или) применением цен (тарифов), о внесении изменений в постановление Правительства Российской Федерации от 9 января 2009 г. № 14 и признании утратившими силу некоторых актов Правительства Российский Федерации» ', 'постановлением Правительства Российской Федерации от 30.04.2018 № 533 «Об утверждении Правил рассмотрения (урегулирования) споров и разногласий, связанных с установлением и (или) применением цен (тарифов), о внесении изменений в постановление Правительства Российской Федерации от 9 января 2009 г. № 14 и признании утратившими силу некоторых актов Правительства Российский Федерации» ', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2408, NULL, 'постановление Правительства Москвы от 24.08.2010 № 734-ПП «О порядках согласования, утверждения и корректировки инвестиционных программ организаций, осуществляющих регулируемые виды деятельности в сферах теплоснабжения, водоснабжения и водоотведения на территории города Москвы»', 'постановлением Правительства Москвы от 24.08.2010 № 734-ПП «О порядках согласования, утверждения и корректировки инвестиционных программ организаций, осуществляющих регулируемые виды деятельности в сферах теплоснабжения, водоснабжения и водоотведения на территории города Москвы»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2409, NULL, 'постановление Правительства Российской Федерации от 29.12.2011 № 1178 «О ценообразовании в области регулируемых цен (тарифов) в электроэнергетике»', 'постановлением Правительства Российской Федерации от 29.12.2011 № 1178 «О ценообразовании в области регулируемых цен (тарифов) в электроэнергетике»', 1012, NULL, NULL);
@@ -511,8 +697,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2413, NULL, 'постановление Правительства Российской Федерации от 01.12.2009 № 977 «Об инвестиционных программах субъектов электроэнергетики» ', 'постановлением Правительства Российской Федерации от 01.12.2009 № 977 «Об инвестиционных программах субъектов электроэнергетики» ', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2414, NULL, 'постановление Правительства Российской Федерации от 21.01.2004 № 24 «Об утверждении стандартов раскрытия информации субъектами оптового и розничных рынков электрической энергии»', 'постановлением Правительства Российской Федерации от 21.01.2004 № 24 «Об утверждении стандартов раскрытия информации субъектами оптового и розничных рынков электрической энергии»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5031, NULL, 'Приказ от 24.06.2016.г. № 32-ТР "Об установлении тарифов на горячую воду (горячее водоснабжение), поставляемую акционерным обществом «Главное управление жилищно-коммунального хозяйства»', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2415, NULL, 'постановление Правительства Российской Федерации от 06.07.1998 № 700 «О введении раздельного учета затрат по регулируемым видам деятельности в энергетике» ', 'постановлением Правительства Российской Федерации от 06.07.1998 № 700 «О введении раздельного учета затрат по регулируемым видам деятельности в энергетике» ', 1012, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2416, NULL, 'постановление Правительства Российской Федерации от 22.09.2008 № 707 «О порядке ведения раздельного учета доходов и расходов субъектами естественных монополий»', 'постановлением Правительства Российской Федерации от 22.09.2008 № 707 «О порядке ведения раздельного учета доходов и расходов субъектами естественных монополий»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2417, NULL, 'постановление Правительства Российской Федерации от 31.12.2009 № 1220 «Об определении применяемых при установлении долгосрочных тарифов показателей надежности и качества поставляемых товаров и оказываемых услуг»', 'постановлением Правительства Российской Федерации от 31.12.2009 № 1220 «Об определении применяемых при установлении долгосрочных тарифов показателей надежности и качества поставляемых товаров и оказываемых услуг»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2418, NULL, 'постановление Правительства Российской Федерации от 19.12.2016 № 1401 «О комплексном определении показателей технико-экономического состояния объектов электроэнергетики, в том числе показателей физического износа и энергетической эффективности объектов электросетевого хозяйства, и об осуществлении мониторинга таких показателей»', 'постановлением Правительства Российской Федерации от 19.12.2016 № 1401 «О комплексном определении показателей технико-экономического состояния объектов электроэнергетики, в том числе показателей физического износа и энергетической эффективности объектов электросетевого хозяйства, и об осуществлении мониторинга таких показателей»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2419, NULL, 'постановление Правительства Российской Федерации от 27.12.2010 № 1172 «Об утверждении Правил оптового рынка электрической энергии и мощности и о внесении изменений в некоторые акты Правительства Российской Федерации по вопросам организации функционирования оптового рынка электрической энергии и мощности»', 'постановлением Правительства Российской Федерации от 27.12.2010 № 1172 «Об утверждении Правил оптового рынка электрической энергии и мощности и о внесении изменений в некоторые акты Правительства Российской Федерации по вопросам организации функционирования оптового рынка электрической энергии и мощности»', 1012, NULL, NULL);
@@ -522,6 +706,9 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2423, NULL, 'постановление Правительства Российской Федерации от 26.07.2007 № 484 «О выводе объектов электроэнергетики в ремонт и из эксплуатации»', 'постановлением Правительства Российской Федерации от 26.07.2007 № 484 «О выводе объектов электроэнергетики в ремонт и из эксплуатации»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2424, NULL, 'постановление Правительства Российской Федерации от 21.02.2011 № 97 «Об утверждении Типового положения об органе исполнительной власти субъекта Российской Федерации в области государственного регулирования тарифов»', 'постановлением Правительства Российской Федерации от 21.02.2011 № 97 «Об утверждении Типового положения об органе исполнительной власти субъекта Российской Федерации в области государственного регулирования тарифов»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5107, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 23 сентября 2016 года № 108-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2439, NULL, 'постановление Правительства Российской Федерации от 22.02.2012 № 154 «О требованиях к схемам теплоснабжения, порядку их разработки и утверждения» ', 'постановлением Правительства Российской Федерации от 22.02.2012 № 154 «О требованиях к схемам теплоснабжения, порядку их разработки и утверждения» ', 1012, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2440, NULL, 'постановление Правительства Российской Федерации от 06.09.2012 № 889 «О выводе в ремонт и из эксплуатации источников тепловой энергии и тепловых сетей» ', 'постановлением Правительства Российской Федерации от 06.09.2012 № 889 «О выводе в ремонт и из эксплуатации источников тепловой энергии и тепловых сетей» ', 1012, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5065, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.08.2016 № 66-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2425, NULL, 'постановление Правительства Российской Федерации от 21.07.2017 № 863 «О внесении изменений в некоторые акты Правительства Российской Федерации по вопросу установления сбытовых надбавок гарантирующих поставщиков с использованием метода сравнения аналогов и признании утратившим силу абзаца второго пункта 11 постановления Правительства Российской Федерации от 29 декабря 2011 г. № 1178»', 'постановлением Правительства Российской Федерации от 21.07.2017 № 863 «О внесении изменений в некоторые акты Правительства Российской Федерации по вопросу установления сбытовых надбавок гарантирующих поставщиков с использованием метода сравнения аналогов и признании утратившим силу абзаца второго пункта 11 постановления Правительства Российской Федерации от 29 декабря 2011 г. № 1178»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2426, NULL, 'постановление Правительства Москвы от 06.10.2015 № 633-ПП «О Порядке согласования, утверждения и контроля за реализацией инвестиционных программ субъектов электроэнергетики на территории города Москвы»', 'постановлением Правительства Москвы от 06.10.2015 № 633-ПП «О Порядке согласования, утверждения и контроля за реализацией инвестиционных программ субъектов электроэнергетики на территории города Москвы»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2427, NULL, 'постановление Правительства Российской Федерации от 22.10.2012 № 1075 «О ценообразовании в сфере теплоснабжения»', 'постановлением Правительства Российской Федерации от 22.10.2012 № 1075 «О ценообразовании в сфере теплоснабжения»', 1012, NULL, NULL);
@@ -537,8 +724,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2436, NULL, 'постановление Правительства Российской Федерации от 01.07.2014 № 603 «О порядке расчета размера возмещения организациям, осуществляющим регулируемые виды деятельности в сферах обращения с твердыми коммунальными отходами, электроэнергетики, теплоснабжения, водоснабжения, водоотведения, недополученных доходов, связанных с осуществлением ими регулируемых видов деятельности, за счет средств бюджетов бюджетной системы Российской Федерации и определения размера компенсации за счет средств федерального бюджета расходов бюджета субъекта Российской Федерации или местного бюджета, возникших в результате возмещения недополученных доходов»', 'постановлением Правительства Российской Федерации от 01.07.2014 № 603 «О порядке расчета размера возмещения организациям, осуществляющим регулируемые виды деятельности в сферах обращения с твердыми коммунальными отходами, электроэнергетики, теплоснабжения, водоснабжения, водоотведения, недополученных доходов, связанных с осуществлением ими регулируемых видов деятельности, за счет средств бюджетов бюджетной системы Российской Федерации и определения размера компенсации за счет средств федерального бюджета расходов бюджета субъекта Российской Федерации или местного бюджета, возникших в результате возмещения недополученных доходов»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2437, NULL, 'постановление Правительства Российской Федерации от 21.02.2011 № 97 «Об утверждении Типового положения об органе исполнительной власти субъекта Российской Федерации в области государственного регулирования тарифов» ', 'постановлением Правительства Российской Федерации от 21.02.2011 № 97 «Об утверждении Типового положения об органе исполнительной власти субъекта Российской Федерации в области государственного регулирования тарифов» ', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2438, NULL, 'постановление Правительства Российской Федерации от 18.11.2013 № 1034 «О коммерческом учете тепловой энергии, теплоносителя»', 'постановлением Правительства Российской Федерации от 18.11.2013 № 1034 «О коммерческом учете тепловой энергии, теплоносителя»', 1012, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2439, NULL, 'постановление Правительства Российской Федерации от 22.02.2012 № 154 «О требованиях к схемам теплоснабжения, порядку их разработки и утверждения» ', 'постановлением Правительства Российской Федерации от 22.02.2012 № 154 «О требованиях к схемам теплоснабжения, порядку их разработки и утверждения» ', 1012, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2440, NULL, 'постановление Правительства Российской Федерации от 06.09.2012 № 889 «О выводе в ремонт и из эксплуатации источников тепловой энергии и тепловых сетей» ', 'постановлением Правительства Российской Федерации от 06.09.2012 № 889 «О выводе в ремонт и из эксплуатации источников тепловой энергии и тепловых сетей» ', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2441, NULL, 'постановление Правительства Российской Федерации от 15.05.2010 № 340 «О порядке установления требований к программам в области энергосбережения и повышения энергетической эффективности организаций, осуществляющих регулируемые виды деятельности»', 'постановлением Правительства Российской Федерации от 15.05.2010 № 340 «О порядке установления требований к программам в области энергосбережения и повышения энергетической эффективности организаций, осуществляющих регулируемые виды деятельности»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2442, NULL, 'постановление Правительства Российской Федерации от 15.12.2017 № 1562 «Об определении в ценовых зонах теплоснабжения предельного уровня цены на тепловую энергию (мощность), включая индексацию предельного уровня цены на тепловую энергию (мощность), и технико-экономических параметров работы котельных и тепловых сетей, используемых для расчета предельного уровня цены на тепловую энергию (мощность)» ', 'постановлением Правительства Российской Федерации от 15.12.2017 № 1562 «Об определении в ценовых зонах теплоснабжения предельного уровня цены на тепловую энергию (мощность), включая индексацию предельного уровня цены на тепловую энергию (мощность), и технико-экономических параметров работы котельных и тепловых сетей, используемых для расчета предельного уровня цены на тепловую энергию (мощность)» ', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2443, NULL, 'постановление Правительства Российской Федерации от 23.07.2018 № 860 «Об отдельных вопросах ценообразования на тепловую энергию (мощность) в ценовых зонах теплоснабжения»', 'постановлением Правительства Российской Федерации от 23.07.2018 № 860 «Об отдельных вопросах ценообразования на тепловую энергию (мощность) в ценовых зонах теплоснабжения»', 1012, NULL, NULL);
@@ -570,6 +755,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2466, NULL, 'постановление Правительства Российской Федерации от 15.06.2017 № 713 «Об утверждении типовых форм документов, необходимых для подключения (технологического присоединения) объектов капитального строительства к сети газораспределения, и о внесении изменений в Правила подключения (технологического присоединения) объектов капитального строительства к сетям газораспределения»', 'постановлением Правительства Российской Федерации от 15.06.2017 № 713 «Об утверждении типовых форм документов, необходимых для подключения (технологического присоединения) объектов капитального строительства к сети газораспределения, и о внесении изменений в Правила подключения (технологического присоединения) объектов капитального строительства к сетям газораспределения»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5100, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 23 сентября 2016 года № 101-ТР ', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2029, NULL, 'Холодное водоснабжение, водоотведение', 'холодное водоснабжения', 1003, 2007, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2517, NULL, 'Методические указания по распределению удельного расхода условного топлива при производстве электрической и тепловой энергии в режиме комбинированной выработки электрической и тепловой энергии, применяемых в целях тарифного регулирования в сфере теплоснабжения', 'Методическими указаниями по распределению удельного расхода условного топлива при производстве электрической и тепловой энергии в режиме комбинированной выработки электрической и тепловой энергии, применяемых в целях тарифного регулирования в сфере теплоснабжения', 1010, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2469, NULL, 'постановление Правительства Российской Федерации от 20.10.2017 № 1285 «Об утверждении Правил недискриминационного доступа к услугам субъектов естественных монополий в портах» - постановление Правительства Российской Федерации от 05.08.2009 № 643 «О государственном регулировании тарифов, сборов и платы в отношении работ (услуг) субъектов естественных монополий в сфере железнодорожных перевозок»', 'постановлением Правительства Российской Федерации от 20.10.2017 № 1285 «Об утверждении Правил недискриминационного доступа к услугам субъектов естественных монополий в портах» - постановление Правительства Российской Федерации от 05.08.2009 № 643 «О государственном регулировании тарифов, сборов и платы в отношении работ (услуг) субъектов естественных монополий в сфере железнодорожных перевозок»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2470, NULL, 'постановление Правительства Российской Федерации от 16.05.2016 № 424 «Об утверждении порядка разработки, согласования, утверждения и корректировки инвестиционных и производственных программ в области обращения с твердыми коммунальными отходами, в том числе порядка определения плановых и фактических значений показателей эффективности объектов, используемых для обработки, обезвреживания и захоронения твердых коммунальных отходов» - постановление Правительства Российской Федерации от 21.06.2016 № 564 «Об утверждении стандартов раскрытия информации в области обращения с твердыми коммунальными отходами»', 'постановлением Правительства Российской Федерации от 16.05.2016 № 424 «Об утверждении порядка разработки, согласования, утверждения и корректировки инвестиционных и производственных программ в области обращения с твердыми коммунальными отходами, в том числе порядка определения плановых и фактических значений показателей эффективности объектов, используемых для обработки, обезвреживания и захоронения твердых коммунальных отходов» - постановление Правительства Российской Федерации от 21.06.2016 № 564 «Об утверждении стандартов раскрытия информации в области обращения с твердыми коммунальными отходами»', 1012, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2471, NULL, 'постановление Правительства Российской Федерации от 29.06.2018 № 758 «О ставках платы за негативное воздействие на окружающую среду при размещении твердых коммунальных отходов IV класса опасности (малоопасные) и внесении изменений в некоторые акты Правительства Российской Федерации» ', 'постановлением Правительства Российской Федерации от 29.06.2018 № 758 «О ставках платы за негативное воздействие на окружающую среду при размещении твердых коммунальных отходов IV класса опасности (малоопасные) и внесении изменений в некоторые акты Правительства Российской Федерации» ', 1012, NULL, NULL);
@@ -600,7 +786,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2516, NULL, 'Методические указания по расчету регулируемых тарифов в сфере водоснабжения и водоотведения, утвержденными приказом ФСТ России от 27.12.2013 № 1746-э', 'Методическими указаниями по расчету регулируемых тарифов в сфере водоснабжения и водоотведения, утвержденными приказом ФСТ России от 27.12.2013 № 1746-э', 1010, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5012, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 27.05.2016 № 13-ТР "Об установлении тарифов на тепловую энергию (мощность), посавляемую потребителям Фелерального государственного бюджетного учреждения «Государственный научный центр Российской Федерации ─ Институт Теоретической и Экспериментальной физики» на 2016 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5101, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 23 сентября 2016 года № 102-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2517, NULL, 'Методические указания по распределению удельного расхода условного топлива при производстве электрической и тепловой энергии в режиме комбинированной выработки электрической и тепловой энергии, применяемых в целях тарифного регулирования в сфере теплоснабжения', 'Методическими указаниями по распределению удельного расхода условного топлива при производстве электрической и тепловой энергии в режиме комбинированной выработки электрической и тепловой энергии, применяемых в целях тарифного регулирования в сфере теплоснабжения', 1010, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2518, NULL, 'Методические указания по расчету потерь горячей, питьевой, технической воды в централизованных системах водоснабжения при ее производстве и транспортировке', 'Методическими указаниями по расчету потерь горячей, питьевой, технической воды в централизованных системах водоснабжения при ее производстве и транспортировке', 1010, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2519, NULL, 'Методические указания по регулированию розничных цен на газ, реализуемый населению', 'Методическими указаниями по регулированию розничных цен на газ, реализуемый населению', 1010, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2520, NULL, 'Методические указания по регулированию розничных цен на сжиженный газ, реализуемый населению для бытовых нужд', 'Методическими указаниями по регулированию розничных цен на сжиженный газ, реализуемый населению для бытовых нужд', 1010, NULL, NULL);
@@ -612,6 +797,8 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2600, NULL, 'Регламент установления регулируемых тарифов в сфере водоснабжения и водоотведения, утвержденным приказом Федеральной службы по тарифам от 16 июля 2014 г. № 1154-э (зарегистрирован Минюстом России 19 августа 2014 г., регистрационный № 33655)', 'Регламентом установления регулируемых тарифов в сфере водоснабжения и водоотведения, утвержденным приказом Федеральной службы по тарифам от 16 июля 2014 г. № 1154-э (зарегистрирован Минюстом России 19 августа 2014 г., регистрационный № 33655)', 1011, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2601, NULL, 'Регламент установления цен (тарифов) и (или) их предельных уровней, предусматривающего порядок регистрации, принятия к рассмотрению и выдачи отказов в рассмотрении заявлений об установлении цен (тарифов) и (или) их предельных уровней, и формы решения органа исполнительной власти субъекта Российской Федерации в области государственного регулирования тарифов» ', 'Регламентом установления цен (тарифов) и (или) их предельных уровней, предусматривающего порядок регистрации, принятия к рассмотрению и выдачи отказов в рассмотрении заявлений об установлении цен (тарифов) и (или) их предельных уровней, и формы решения органа исполнительной власти субъекта Российской Федерации в области государственного регулирования тарифов» ', 1011, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5102, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 23 сентября 2016 года № 103-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5014, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 09.06.2016 г. № 15-ТР "Об установлении тарифов на тепловую энергию (мощность), поставляемую потребителям Федерального государственного унитарного предприятия «Жилищно-коммунальное упра', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5015, NULL, 'Приказ Департамента экономической политики и развития города Москвы № 16-ТР от 10.06.2016 г. "Об установлении размера платы за подключение (технологическое присоединение) к централизованной системе водоотведения акционерного общества «Мосводоканал» в инди', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2604, NULL, 'Регламент раскрытия информации путем ее опубликования в сети «Интернет» и взаимодействия органов исполнительной власти субъекта Российской Федерации в области государственного регулирования тарифов (органов местного самоуправления поселения или городского округа в случае передачи законом субъекта Российской Федерации полномочий по утверждению тарифов в сфере водоснабжения и водоотведения органам местного самоуправления) с регулируемыми организациями при раскрытии информации путем ее опубликования в сети "Интернет» ', 'Регламентом раскрытия информации путем ее опубликования в сети «Интернет» и взаимодействия органов исполнительной власти субъекта Российской Федерации в области государственного регулирования тарифов (органов местного самоуправления поселения или городского округа в случае передачи законом субъекта Российской Федерации полномочий по утверждению тарифов в сфере водоснабжения и водоотведения органам местного самоуправления) с регулируемыми организациями при раскрытии информации путем ее опубликования в сети "Интернет» ', 1011, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2605, NULL, 'установленные долгосрочные тарифы на тепловую энергию (мощность) и на услуги по передаче тепловой энергии', 'установленных долгосрочных тарифов на тепловую энергию (мощность) и на услуги по передаче тепловой энергии', 1004, 2028, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5000, NULL, 'Приказ № 1-ТР от 4 мая 2016 года "Об установлении тарифов на питьевую воду (питьевое водоснабжение) для потребителей общества с ограниченно ответственностью «СтройРубеж» на 2016 год"', NULL, 1014, NULL, NULL);
@@ -627,8 +814,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5010, NULL, 'Приказ № 11-ТР от 25.05.2016 г. Департамента экономической политики и развития города Москвы "Об установлении размера платы за подключение (технологическое присоединение) к централизованной системе холодного водоснабжения акционерного общества «Мосводокан', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5011, NULL, 'Приказ № 12-ТР от 25.05.2016 г. Департамента экономической политики и развития города Москвы "Об установлении размера платы за подключение (технологическое присоединение) к централизованной системе холодного водоснабжения акционерного общества «Мосводокан', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5013, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 09.06.2016 г. № 14-ТР "Об установлении индивидуальных тарифов на услуги по передаче электрической энергии для взаиморасчетов между сетевыми организациями города Москвы на 2016 год" ', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5014, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 09.06.2016 г. № 15-ТР "Об установлении тарифов на тепловую энергию (мощность), поставляемую потребителям Федерального государственного унитарного предприятия «Жилищно-коммунальное упра', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5015, NULL, 'Приказ Департамента экономической политики и развития города Москвы № 16-ТР от 10.06.2016 г. "Об установлении размера платы за подключение (технологическое присоединение) к централизованной системе водоотведения акционерного общества «Мосводоканал» в инди', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5016, NULL, 'Приказ № 17-ТР от 14.06.2016 г. "Об установлении размера платы за подключение (технологическое присоединение) к централизованной системе холодного водоснабжения акционерного общества «Мосводоканал» в индивидуальном порядке"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5017, NULL, 'Приказ Департамента экономической политики и развития города Москвы № 18-ТР от 14.06.2016 г. "Об установлении размера платы за подключение (технологическое присоединение) к централизованной системе водоотведения акционерного общества «Мосводоканал» в инди', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5018, NULL, 'Приказ Департамента экономической политики и развития города Москвы № 19-ТР от 14.06.2016 г. "Об установлении размера платы за подключение (технологическое присоединение) к централизованной системе водоотведения акционерного общества «Мосводоканал» в инди', NULL, 1014, NULL, NULL);
@@ -647,6 +832,8 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2027, NULL, 'Электроэнергетика', 'электрическую энергию', 1003, 2007, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5033, NULL, 'Приказ от 24.06.2016.г. № 34-ТР "Об установлении тарифов на горячую воду (горячее водоснабжение), поставляемую жилищно-строительным кооперативом «Измайловский» потребителям с использованием закрытых систем горячего водоснабжения, на 2016 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5034, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24.06.2016.г. № 35-ТР "Об установлении розничных цен на природный газ, реализуемый населению города Москвы"', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5060, NULL, 'Приказ от 4 августа 2016 года № 61-ТР ', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5061, NULL, 'Приказ от 4 августа 2016 года № 62-ТР ', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5035, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 27.06.2016.г. № 36-ТР "Об установлении платы за технологическое присоединение газоиспользующего оборудования к газораспределительным сетям акционерного общества «МОСГАЗ»', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5036, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 27.06.2016.г. № 37-ТР "Об установлении размера платы за подключение (технологическое присоединение) к централизованной системе холодного водоснабжения акционерного общества «Мосводокан', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5037, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 27.06.2016.г. № 38-ТР "Об установлении размера платы за подключение (технологическое присоединение) к централизованной системе водоотведения акционерного общества «Мосводоканал» в инд', NULL, 1014, NULL, NULL);
@@ -672,12 +859,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5057, NULL, 'Приказ от 28.07.2016 года № 58-ТР "Об установлении тарифов на транспортировку воды и транспортировку сточных вод для потребителей открытого акционерного общества «Клинический санаторий Главмосстроя «Валуево» на 2017 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5058, NULL, 'Приказ от 28.07.2016 года № 59-ТР "Об установлении тарифов на транспортировку воды для потребителей общества с ограниченной ответственностью «Жилищно-коммунальное хозяйство «Водоканал+» на 2017 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5059, NULL, 'Приказ от 4 августа 2016 года № 60-ТР ', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5060, NULL, 'Приказ от 4 августа 2016 года № 61-ТР ', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5061, NULL, 'Приказ от 4 августа 2016 года № 62-ТР ', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5062, NULL, 'Приказ от 4 августа 2016 года № 63-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5063, NULL, 'Приказ от 4 августа 2016 года № 64-ТР ', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5064, NULL, 'Приказ от 4 августа 2016 года № 65-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5065, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.08.2016 № 66-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5066, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 12 августа 2016 года № 67-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5067, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 12 августа 2016 года № 68-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5068, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 12 августа 2016 года № 69-ТР', NULL, 1014, NULL, NULL);
@@ -1294,6 +1475,9 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5689, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 2 октября 2017 года № 187-ТР ', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5690, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 2 октября 2017 года № 188-ТР ', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5691, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 9 октября 2017 года № 189-ТР "Об установлении размера платы за технологическое присоединение энергопринимающих устройств общества с ограниченной ответственностью «ОфисСтрой-К» к электрическим сетям открытого акционерного общества «Российские железные дороги» по индивидуальному проекту"', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5712, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24.10.2017 №210-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5713, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 25 октября 2017 года № 211-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6143, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.11.2018 № 149-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5692, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 09.10.2017 г. № 190-ТР "Об установлении размера платы за технологическое присоединение энергопринимающих устройств акционерного общества «Рублево-Архангельское» к электрическим сетям публичного акционерного общества «московская объединенная электросетевая компания» по индивидуальному проекту"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5693, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 9 октября 2017 года № 191-ТР "О внесении изменений в приказ от 21.09.2017 № 151-ТР"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5694, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 10 октября 2017 года № 192-ТР "Об установлении платы за подключение к системе теплоснабжения общества с ограниченной ответственностью «Теплоснабжающая компания Мосэнерго» на территории города Москвы на 2017 год"', NULL, 1014, NULL, NULL);
@@ -1313,8 +1497,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5709, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24.10.2017 №207-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5710, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24.10.2017 №208-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5711, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24.10.2017 №209-ТР ', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5712, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24.10.2017 №210-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5713, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 25 октября 2017 года № 211-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5714, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 25 октября 2017 года № 212-ТР ', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5715, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 25 октября 2017 года № 213-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5716, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 25 октября 2017 года № 214-ТР', NULL, 1014, NULL, NULL);
@@ -1379,6 +1561,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5789, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 21.11.2017 № 287-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5775, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 21 ноября 2017 года № 273-ТР "О корректировке долгосрочных тарифов на водоотведение для потребителей акционерного общества «Троицкая камвольная фабрика» на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5776, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 21 ноября 2017 года № 274-ТР "О корректировке долгосрочных тарифов на питьевую воду (питьевое водоснабжение) для потребителей общества с ограниченной ответственностью «СтройРубеж» на 2018-2019 годы"', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5944, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 442-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5777, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 21 ноября 2017 года № 275-ТР "О корректировке долгосрочных тарифов на питьевую воду (питьевое водоснабжение) для потребителей некоммерческого партнерства «Коттеджный поселок «Городок К» на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5778, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 21 ноября 2017 года № 276-ТР "Об установлении долгосрочных тарифов на транспортировку сточных вод для потребителей некоммерческого партнерства «Коттеджный поселок «Городок К» на 2018-2020 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5779, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 21 ноября 2017 года № 277-ТР "О корректировке долгосрочных тарифов на питьевую воду (питьевое водоснабжение) для потребителей закрытого акционерного общества «Санаторий «Ерино» на 2018 год"', NULL, 1014, NULL, NULL);
@@ -1393,6 +1576,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5788, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 21.11.2017 № 286-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5790, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 21.11.2017 № 288-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5791, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 21.11.2017 № 289-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5821, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 27 ноября 2017 года № 319-ТР "Об установлении размера платы за технологическое присоединение газоиспользующего оборудования к газораспределительным сетям акционерного общества «МОСГАЗ» по индивидуальному проекту"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5792, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24 ноября 2017 года № 290-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям Федерального государственного унитарного предприятия «Центральный научно-исследовательский институт химии и механики» на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5793, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24 ноября 2017 года № 291-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям открытого акционерного общества «Останкинский молочный комбинат», на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5794, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24 ноября 2017 года № 292-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям компании «Вэйнетт Трэдинг Коипани Лимитэд» (Московское представительство в Российской Федерации), на 2018-2019 годы"', NULL, 1014, NULL, NULL);
@@ -1407,6 +1591,8 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5803, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24 ноября 2017 года № 301-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям Федерального государственного унитарного предприятия «Жилищно-коммунальное управление Российской академии наук», на 2018-2019 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5804, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24 ноября 2017 года № 302-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерного общества «Дукс», на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5805, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24 ноября 2017 года № 303-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям общества с ограниченной ответственностью МНОГОПРОФИЛЬНАЯ ФИРМА «И.П.Ф.», на 2018 год"', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5945, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 443-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5946, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 444-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5806, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24 ноября 2017 года № 304-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям Федерального государственного автономного учреждения «Национальный медицинский исследовательский центр нейрохирургии имени академика Н.Н.Бурденко» Министерства здравоохранения Российской Федерации, на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5807, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24 ноября 2017 года № 305-ТР "О корректировке долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую Центральным банком Российской Федерации (структурным подразделением оздоровительным объединением «Солнечный городок» Банка России) потребителям с использованием закрытых систем горячего водоснабжения, на 2018 год"  ', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5808, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24 ноября 2017 года № 306-ТР "О корректировке долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую Государственным бюджетным учреждением города Москвы «Детский кардиоревматологический санаторий № 20 «Красная Пахра» Департамента здравоохранения города Москвы потребителям с использованием закрытых систем горячего водоснабжения, на 2018 год"', NULL, 1014, NULL, NULL);
@@ -1423,7 +1609,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5819, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 27 ноября 2017 года № 317-ТР "Об установлении тарифов на горячую воду (горячее водоснабжение), поставляемую потребителям казенным предприятием «Московская энергетическая дирекция» по системе теплоснабжения котельной поселка Филимонки Новомосковского административного округа города Москвы, на 2018-2020 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5820, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 27 ноября 2017 года № 318-ТР "О внесении изменений в приказ Департамента экономической политики и развития города Москвы от 21 октября 2017 года № 247-ТР"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5935, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 433-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5821, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 27 ноября 2017 года № 319-ТР "Об установлении размера платы за технологическое присоединение газоиспользующего оборудования к газораспределительным сетям акционерного общества «МОСГАЗ» по индивидуальному проекту"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5822, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 28 ноября 2017 года № 320-ТР "О корректировке долгосрочных тарифов на питьевую воду (питьевое водоснабжение) и водоотведение для потребителей открытого акционерного общества «Мосагронаучприбор» на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5823, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 28 ноября 2017 года № 321-ТР "О корректировке долгосрочных тарифов на питьевую воду (питьевое водоснабжение) и водоотведение для потребителей Федерального государственного казенного учреждения «Дом отдыха «Подмосковные вечера» Федеральной службы безопасности Российской Федерации на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5824, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 28 ноября 2017 года № 322-ТР "О корректировке долгосрочных тарифов на питьевую воду (питьевое водоснабжение) для потребителей открытого акционерного общества «Дубровицы» на 2018 год"', NULL, 1014, NULL, NULL);
@@ -1496,6 +1681,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5887, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.12.2017 № 385-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям общества с ограниченной ответственностью «КОМСТЭК», на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5900, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.12.2017 № 398-ТР "Об установлении долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую обществом с ограниченной ответственностью «ТЕПЛОВИК» потребителям с использованием закрытых систем горячего водоснабжения, на 2018-2020 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5940, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 438-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5901, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.12.2017 № 399-ТР "Об установлении долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую акционерным обществом «Жировой комбинат» филиал «Московский жировой комбинат» потребителям с использованием закрытых систем горячего водоснабжения, на 2018-2020 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5888, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.12.2017 № 386-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Российские железные дороги» (Московским территориальным участком Октябрьской дирекции по теплоснабжению – структурным подразделением Центральной дирекции по тепловодоснабжению – филиалом акционерного общества «Российские железные дороги»), на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5889, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.12.2017 № 387-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Российские железные дороги» (Московской дирекцией по тепловодоснабжению – филиалом акционерного общества «Российские железные дороги»), на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5890, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.12.2017 № 388-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям жилищно-строительным кооперативом «Работников Мосгорфилармонии и Госмузколлективов»), на 2018 год"', NULL, 1014, NULL, NULL);
@@ -1509,7 +1695,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5898, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.12.2017 № 396-ТР "Об установлении тарифов на горячую воду (горячее водоснабжение), поставляемую обществом с ограниченной ответственностью «Эксплуатационно-техническая компания №2» потребителям с использованием закрытых систем горячего водоснабжения, на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5899, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.12.2017 № 397-ТР "Об установлении тарифов на горячую воду (горячее водоснабжение), поставляемую Компанией с ограниченной ответственностью «НЕЗОРАЛ ЛТД» в лице филиала Компании с ограниченной ответственностью «НЕЗОРАЛ ЛТД» потребителям с использованием закрытых систем горячего водоснабжения, на 2018-2019 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5932, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 430-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5901, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.12.2017 № 399-ТР "Об установлении долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую акционерным обществом «Жировой комбинат» филиал «Московский жировой комбинат» потребителям с использованием закрытых систем горячего водоснабжения, на 2018-2020 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5902, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 12.12.2017 № 400-ТР "О корректировке долгосрочных тарифов на питьевую воду (питьевое водоснабжение) и водоотведение для потребителей Муниципального унитарного предприятия «Водоканал» города Подольска на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5903, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 14.12.2017 № 401-ТР "Об установлении платы за подключение к системе теплоснабжения общества с ограниченной ответственностью «Теплоснабжающая компания Мосэнерго» на территории города Москвы на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5904, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 14.12.2017 № 402-ТР "О корректировке долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям Федеральным государственным бюджетным образовательным учреждением высшего образования «Национальный исследовательский Московский государственный строительный университет», на 2018 год"', NULL, 1014, NULL, NULL);
@@ -1524,6 +1709,9 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5913, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 14.12.2017 года № 411-ТР "О корректировке долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую обществом с ограниченной ответственностью «Теплосервис» потребителям с использованием закрытых систем горячего водоснабжения, на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5933, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 431-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5934, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 432-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5941, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 439-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5942, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 440-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5943, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 441-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5914, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 14.12.2017 года № 412-ТР "О корректировке долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую Федеральным государственным автономным учреждением «Оздоровительный комплекс «Шереметьевский» Управления делами Президента Российской Федерации потребителям с использованием закрытых систем горячего водоснабжения, на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5915, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 14.12.2017 года № 413-ТР "Об установлении долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую обществом с ограниченной ответственностью «Газпром энерго» Центральным филиалом потребителям с использованием закрытых систем горячего водоснабжения, на 2018-2020 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5916, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 14.12.2017 года № 414-ТР "Об установлении долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую казенным предприятием «Московская энергетическая дирекция» потребителям с использованием закрытых систем горячего водоснабжения, на 2018-2020 годы"', NULL, 1014, NULL, NULL);
@@ -1542,12 +1730,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5929, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 427-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5930, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 428-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5931, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 429-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5941, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 439-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5942, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 440-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5943, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 441-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5944, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 442-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5945, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 443-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5946, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 444-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5947, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 445-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5948, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 446-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5949, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.12.2017 года № 447-ТР', NULL, 1014, NULL, NULL);
@@ -1602,6 +1784,8 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5997, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 23 января 2018 года № 3-ТР "О внесении изменений в некоторые приказы Департамента экономической политики и развития города Москвы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5998, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 23 января 2018 года № 4-ТР "О внесении изменений в приказы от 14.11.2017 № 260-ТР и от 01.12.2017 № 336-ТР"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (5999, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 25 января 2018 года № 5-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6015, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 14.03.2018 г. № 21-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6016, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 14.03.2018 г. № 22-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6000, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 26.01.2018 № 6-ТР "Об установлении тарифов на технологическо присоединение газоиспользующего оборудования к газораспределительным сетям акционерного общества «МОСГАЗ» по индивидуальному проекту"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6001, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 29.01.2018 № 7-ТР "Об установлении тарифов на тепловую энергию (мощность), поставляемую потребителям обществом с ограниченной ответственностью «Эксплуатационо-техническая компания № 2» по системе теплоснабжения ЖК «Испанские кварталы», на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6002, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 29.01.2018 № 8-ТР "Об установлении тарифов на горячую воду (горячее водоснабжение), поставляемую обществом с ограниченной ответственностью «Эксплуатационо-техническая компания № 2» по системе горячего водоснабжения ЖК «Испанские кварталы» потребителям с использованием закрытых систем горячего водоснабжения, на 2018 год"', NULL, 1014, NULL, NULL);
@@ -1618,8 +1802,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6012, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 05.03.2018 г. № 18-ТР "Об установлении тарифов на подключение (технологическое присоединение) к централизованной системе горячего водоснабжения публичного акционерного общества «Московская объединенная энергетическая компания» на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6013, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 07.03.2018 г. № 19-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6014, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 07.03.2018 г. № 20-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6015, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 14.03.2018 г. № 21-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6016, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 14.03.2018 г. № 22-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6017, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 19.03.2018 г. № 23-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6018, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 19.03.2018 г. № 24-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6019, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 03.04.2018 г. № 25-ТР', NULL, 1014, NULL, NULL);
@@ -1639,6 +1821,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6035, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 28.05.2018 г. № 41-ТР "Об установлении тарифов на горячую воду (горячее водоснабжение), поставляемую обществом с ограниченной ответственностью «Городское теплоснабжение» потребителям с использованием закрытой системы горячего водоснабжения, на 2018 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6036, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 29.05.2018 г. № 42-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6037, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 04.06.2018 г. № 43-ТР', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6098, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30 октября 2018 года № 104-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6038, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 04.06.2018 г. № 44-ТР "Об установлении размера платы за подключение  (технологическое присоединение) к централизованной системе водоотведения акционерного общества «Мосводоканал» в индивидуальном порядке"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6039, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 05.06.2018 г. № 45-ТР "Об установлении платы за технологическое присоединение энергопринимающих устройств акционерного общества «Объединенная энергетическая компания» к электрическим сетям публичного акционерного общества «Московская объединенная электросетевая компания» по индивидуальному проекту"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6040, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 05.06.2018 г. № 46-ТР "Об установлении тарифов на тепловую энергию (мощность), поставляемую потребителям обществом с ограниченной ответственностью «ТеплоЭлектроСити», на 2018 год"', NULL, 1014, NULL, NULL);
@@ -1675,6 +1858,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6070, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.09.2018 № 76-ТР "Об установлении платы за технологическое присоединение объектов по производству электрической энергии публичнго акционерного общества энергетики и электрификации «Мосэнерго» к электрическим сетям акционерного общества «Объединенная энергетическая компания»"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6136, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.11.2018 № 142-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6071, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.09.2018 № 77-ТР "Об установлении платы за технологическое присоединение объектов по производству электрической энергии публичнго акционерного общества энергетики и электрификации «Мосэнерго» к электрическим сетям публичного акционерного общества «Московская объединенная электросетевая компания»"', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6099, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30 октября 2018 года № 105-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6072, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 20.09.2018 № 78-ТР "Об установлении платы за технологическое присоединение газоиспользующего оборудования к газораспределительным сетям акционерного общества «МОСГАЗ» по индивидуальному проекту"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6073, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 20.09.2018 № 79-ТР "Об установлении платы за технологическое присоединение газоиспользующего оборудования к газораспределительным сетям акционерного общества «Мособлгаз» по индивидуальному проекту"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6074, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 28.09.2018 г. № 80-ТР "Об установлении тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «СОКОЛ-ЭНЕРГО» на 2018 год"', NULL, 1014, NULL, NULL);
@@ -1702,8 +1886,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6095, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30 октября 2018 года № 101-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6096, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30 октября 2018 года № 102-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6097, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30 октября 2018 года № 103-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6098, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30 октября 2018 года № 104-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6099, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30 октября 2018 года № 105-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6100, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30 октября 2018 года № 106-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6101, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30 октября 2018 года № 107-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6102, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30 октября 2018 года № 108-ТР', NULL, 1014, NULL, NULL);
@@ -1744,7 +1926,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6140, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.11.2018 № 146-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6141, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.11.2018 № 147-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6142, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.11.2018 № 148-ТР', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6143, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.11.2018 № 149-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6144, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15.11.2018 № 150-ТР', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6145, NULL, 'Приказ ДЭПР № 151-ТР от 15.11.2029', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6146, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 15 ноября 2018 года № 152-ТР', NULL, 1014, NULL, NULL);
@@ -1836,6 +2017,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6230, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 03.12.2018 года № 236-ТР "Об установлении долгосрочных тарифов на горячую воду в открытой системе теплоснабжения (горячего водоснабжения), поставляемую потребителям публичным акционерным обществом «Московская объединенная компания», на 2019-2023 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6231, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 04.12.2018 года № 237-ТР "Об установлении платы за технологическое присоединение энергопринимающих устройств закрытого акционерного общества "Вешняковские ярмарки" к электрическим сетям акционерного общества "Объединенная энергетическая компания" по индивидуальному проекту"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6312, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 318-ТР «О признании утратившими силу правовых актов»', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6247, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 06.12.2018 № 253-ТР "Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Государственный космический научно-производственный центр имени М.В.Хруничева», на 2019-2023 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6232, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 04.12.2018 года № 238-ТР "Об установлении платы за технологическое присоединение энергопринимающих устройств общества с ограниченной ответственностью "Альтаир-престиж" к электрическим сетям акционерного общества "Объединенная энергетическая компания" по индивидуальному проекту"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6233, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 04.12.2018 года № 239-ТР "Об установлении платы за подключение к системе теплоснабжения публичного акционерного общества «Московская объединенная компания» в индивидуальном порядке"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6234, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 06.12.2018 № 240-ТР "Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Гостиничная фирма Ярославская», на 2019-2023 годы"', NULL, 1014, NULL, NULL);
@@ -1851,7 +2033,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6244, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 06.12.2018 № 250-ТР "Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям муниципальным унитарным предприятием «ТРОИЦКТЕПЛОЭНЕРГО», на 2019-2023 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6245, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 06.12.2018 № 251-ТР "О корректировке на 2019 год установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям жилищно-строительным кооперативом «Измайловский»"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6272, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 12.12.2018 № 278-ТР "Об установлении долгосрочных тарифов на питьевую воду (питьевое водоснабжение), поставляемую потребителям закрытым акционерным обществом «Санаторий «Ерино», на 2019-2023 годы"', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6247, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 06.12.2018 № 253-ТР "Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Государственный космический научно-производственный центр имени М.В.Хруничева», на 2019-2023 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6248, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 06.12.2018 № 254-ТР "Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Научно-исследовательский институт по удобрениям и инсектофунгицидам имени профессора Я.В.Самойлова», на 2019-2023 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6249, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 06.12.2018 № 255-ТР "Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Дукс», на 2019-2023 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6250, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 06.12.2018 № 256-ТР "Об установлении долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую Государственным бюджетным учреждением города Москвы Центром реабилитации инвалидов «Красная Пахра» потребителям с использованием закрытой системы горячего водоснабжения, на 2019-2023 годы"', NULL, 1014, NULL, NULL);
@@ -1928,6 +2109,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6323, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 329-ТР «Об установлении долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую частной акционерной компанией с ограниченной ответственностью БИЗНЕС ЦЕНТР СТАНИСЛАВСКИЙ (КИПР) ЛИМИТЕД в лице филиала частной акционерной компании с ограниченной ответственностью БИЗНЕС ЦЕНТР СТАНИСЛАВСКИЙ (КИПР) ЛИМИТЕД в Москве потребителям с использованием закрытой системы горячего водоснабжения, на 2019 - 2023 годы»', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (7100, NULL, 'метод экономически обоснованных расходов (затрат)', 'метода экономически обоснованных расходов (затрат)', 1016, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (7103, NULL, 'метод сравнения аналогов', 'метода сравнения аналогов', 1016, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6376, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 382-ТР «Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям обществом с ограниченной ответственностью «Теплоресурс» Д.У., на 2019 - 2021 годы»', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6324, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 330-ТР «О корректировке на 2019 - 2020 годы установленных долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую обществом с ограниченной ответственностью «ТЕПЛОВИК» потребителям с использованием закрытой системы горячего водоснабжения»', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6325, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 331-ТР «Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Мосводоканал», на 2019 - 2023 годы»', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6326, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 332-ТР «Об установлении долгосрочных тарифов на тепловую энергию (мощность), производимиую в режиме комбинированной выработки электрической и тепловой энергии источниками тепловой энергии с установленной генерирующей мощностью производства электрической энергии 25 мегаватт и более, поставляемую потребителям обществом с ограниченной ответственностью «Ситиэнерго», на 2019-2023 годы»', NULL, 1014, NULL, NULL);
@@ -1984,7 +2166,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6373, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 379-ТР «Об установлении тарифов на горячую воду (горячее водоснабжение), поставляемую обществом с ограниченной ответственностью «Эксплуатационно-техническая компания №2» потребителям с использованием закрытой системы горячего водоснабжения, на 2019 год»', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6374, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 380-ТР «Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям обществом с ограниченной ответственностью «РегионЭнергоСервис», на 2019 - 2023 годы»', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6375, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 381-ТР «Об установлении долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую обществом с ограниченной ответственностью «РегионЭнергоСервис» потребителям с использованием закрытой системы горячего водоснабжения, на 2019 - 2023 годы»', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6376, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 382-ТР «Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям обществом с ограниченной ответственностью «Теплоресурс» Д.У., на 2019 - 2021 годы»', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6377, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 383-ТР «Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «СОКОЛ-ЭНЕРГО», на 2019 - 2021 годы»', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6378, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 384-ТР «Об установлении долгосрочных тарифов на услуги по передаче тепловой энергии, оказываемые акционерным обществом «СОЦИУМ-ЭНЕРГОСИСТЕМЫ», на 2019 - 2021 годы»', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6379, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 18.12.2018 г. № 385-ТР «Об установлении долгосрочных тарифов на горячую воду (горячее водоснабжение), поставляемую акционерным обществом «СОКОЛ-ЭНЕРГО», потребителям с использованием закрытой системы горячего водоснабжения, на 2019 - 2021 годы»', NULL, 1014, NULL, NULL);
@@ -2075,6 +2256,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6466, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24.06.2019 г. № 55-ТР "Об установлении розничных цен на природный газ, реализуемый населению города Москвы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6467, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 24.06.2019 г. № 56-ТР "Об установлении тарифов на тепловую энергию (мощность), поставляемую потребителям обществом с ограниченной ответственностью «Энергоцентр», на 2019 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2148, NULL, 'инвестиционная программа', 'инвестиционной программы', 1004, 2034, 'инвестиционная программа');
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6485, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 26.08.2019 года № 74-ТР "Об установлении платы за подключение (технологическое присоединение) к централизованной системе холодного водоснабжения акционерного общества «Мосводоканал» в индивидуальном порядке"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6469, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 02.07.2019 г. № 58-ТР "Об установлении платы за подключение (технологическое присоединение) к централизованной сисеме водоотведения Госдарственного унитарного предприятия гороа Москвы по эксплуатации московских водоотводящих систем «Мосводосток» в индивидуальном порядке"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6470, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 02.07.2019 г. № 59-ТР "О внесении изменений в прика от 17.12.2018 № 306-ТР"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6471, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 09.07.2019 г. № 60-ТР "Об установлении платы за подключение (технологическое присоединение) к централизованной сисеме водоотведения акционерного общества «Мосводоканал» в индивидуальном порядке"', NULL, 1014, NULL, NULL);
@@ -2091,7 +2273,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6482, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 22.08.2019 года № 71-ТР "Об установлении платы за подключение к системе теплоснабжения публичного акционерного общества «Московская объединенная энергетическая компания» в индивидуальном порядке"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6483, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 22.08.2019 года № 72-ТР "Об установлении платы за подключение к системе теплоснабжения публичного акционерного общества «Московская объединенная энергетическая компания» в индивидуальном порядке"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6484, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 26.08.2019 года № 73-ТР "Об установлении платы за подключение (технологическое присоединение) к централизованной системе водоотведения Государственного унитарного предприятия города Москвы по эксплуатации московских водоотводящих систем «Мосводосток» в индивидуальном порядке"', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6485, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 26.08.2019 года № 74-ТР "Об установлении платы за подключение (технологическое присоединение) к централизованной системе холодного водоснабжения акционерного общества «Мосводоканал» в индивидуальном порядке"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6486, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 30.08.2019 года № 75-ТР "Об установлении платы затехнологическое присоединение газоиспользующего оборудования к газораспределительным сетям акционерного общества «Мособлгаз» по индивидуальному проекту"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6487, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 10.09.2019 года № 76-ТР "Об установлении тарифов на горячую воду (горячее водоснабжение), поставляемую казенным предприятием "Московская энергетическая дирекция" потребителям с использованием закрытой системы горячего водоснабжения от АИТ Куркино, на 2019 год"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6488, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 11.09.2019 года № 77-ТР "Об установлении платы за подключение (технологическое присоединение), к централизованной системе водоотведения Государственного унитарного предприятия города Москвы по эксплуатации московских водоотводящих "Мосводосток" в индивидуальном порядке"', NULL, 1014, NULL, NULL);
@@ -2118,6 +2299,7 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6509, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 03.10.2019 года № 98-ТР "О корректировке на 2020-2023 годы установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям закрытым акционерным обществом «РИСТОКА»"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6510, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 03.10.2019 года № 99-ТР "О корректировке на 2020-2023 годы установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям обществом с ограниченной ответственностью «ПАТЕКСТРОЙАРСЕНАЛ МГ»"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6511, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 03.10.2019 года № 100-ТР "О корректировке на 2020-2023 годы установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям Федеральным государственным бюджетным научным учреждением «Федералный нацчный центр исследований и разработки иммунобиологических препаратов им. М. П. Чумакова РАН»"', NULL, 1014, NULL, NULL);
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6551, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 16.10.2019 года № 140-ТР "О признании утратившим силу приказа от 29.11.2018 №208-ТР"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6512, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 03.10.2019 года № 101-ТР "О корректировке на 2020-2023 годы установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Курорт «Михайловское»"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6513, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 03.10.2019 года № 102-ТР "О корректировке на 2020-2023 годы установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом с ограниченной ответственностью «Новое строительство»"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6514, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 03.10.2019 года № 103-ТР "О корректировке на 2020-2023 годы установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям Центральным банком Российской Федерации (структурным подразделение оздоровительным объединением «Солнечный городок» Банка России)"', NULL, 1014, NULL, NULL);
@@ -2158,7 +2340,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6548, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 16.10.2019 года № 137-ТР "Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям Федеральным государственным бюджетным учреждением «Институт теоретической и эксперментальной физики имени А. И. Алиханова Национального исследовательского центра «Курчатовский институт», на 2020-2024 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2031, NULL, 'Газоснабжение, топливо', 'газоснабжение (топливо)', 1003, 2007, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6550, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 16.10.2019 года № 139-ТР "О корректировке на 2020 год установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям Федеральным государственным казенным учреждением «Дом отдыха «Подмосковные вечера»"', NULL, 1014, NULL, NULL);
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6551, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 16.10.2019 года № 140-ТР "О признании утратившим силу приказа от 29.11.2018 №208-ТР"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6552, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 16.10.2019 года № 141-ТР "Об установлении долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Кунцевский комбинат железобетонных изделий № 9», на 2020-2024 годы"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6553, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 16.10.2019 года № 142-ТР "О корректировке на 2020-2023 годы установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям акционерным обществом «Клинический санаторий «Валуево»"', NULL, 1014, NULL, NULL);
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (6554, NULL, 'Приказ Департамента экономической политики и развития города Москвы от 16.10.2019 года № 143-ТР "О корректировке на 2020-2023 годы установленных долгосрочных тарифов на тепловую энергию (мощность), поставляемую потребителям Федеральным государственным бюджетным учреждением «Центральная клиническая больница с поликлиникой» Управления делами Президента Российской Федерации"', NULL, 1014, NULL, NULL);
@@ -2206,6 +2387,8 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2098, NULL, 'плату за технологическое присоединение', 'платы за технологическое присоединение', 1004, 2028, 'на технологическое присоединение');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2054, NULL, 'установленные долгосрочные тарифы на транспортировку сточных вод', 'установленных долгосрочных тарифов на транспортировку сточных вод', 1004, 2029, 'на транспортировку сточных вод');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2086, NULL, 'установленные долгосрочные тарифы на теплоноситель', 'установленных долгосрочных тарифов на теплоноситель', 1004, 2028, 'на теплоноситель');
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2113, NULL, 'плату за технологическое присоединение газоиспользующего оборудования к газораспределительным сетям по индивидуальному проекту', 'платы за технологическое присоединение газоиспользующего оборудования к газораспределительным сетям по индивидуальному проекту', 1004, 2031, 'на технологическое присоединение газоиспользующего оборудования к газораспределительным сетям по индивидуальному проекту');
+INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2125, NULL, 'сбытовые надбавки гарантирующих поставщиков электрической энергии', 'сбытовых надбавок гарантирующих поставщиков электрической энергии', 1004, 2027, 'на сбытовые надбавки гарантирующих поставщиков электрической энергии');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2090, NULL, 'долгосрочные тарифы на тепловую энергию (мощность), производимую в режиме комбинированной выработки электрической и тепловой энергии источниками тепловой энергии с установленной генерирующей мощностью производства электрической энергии 25 МВт и более', 'долгосрочных тарифов на тепловую энергию (мощность), производимую в режиме комбинированной выработки электрической и тепловой энергии источниками тепловой энергии с установленной генерирующей мощностью производства электрической энергии 25 МВт и более', 1004, 2028, 'на тепловую энергию (мощность), производимую в режиме комбинированной выработки электрической и тепловой энергии источниками тепловой энергии с установленной генерирующей мощностью производства электрической энергии 25 МВт и более');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2143, NULL, 'тарифы на транспортные услуги, оказываемые на подъездных железнодорожных путях', 'тарифов на транспортные услуги, оказываемые на подъездных железнодорожных путях', 1004, 2033, 'на транспортные услуги, оказываемые на подъездных железнодорожных путях');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2168, NULL, 'тарифы на транспортировку воды, транспортировку сточных вод и на водоотведение поверхностных сточных вод', 'тарифов на транспортировку воды, транспортировку сточных вод и на водоотведение поверхностных сточных вод', 1004, 2029, 'на транспортировку воды, транспортировку сточных вод и на водоотведение поверхностных сточных вод');
@@ -2218,8 +2401,6 @@ INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, c
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2073, NULL, 'тарифы на тепловую энергию (мощность), поставляемую потребителям', 'тарифов на тепловую энергию (мощность), поставляемую потребителям', 1004, 2028, 'на тепловую энергию (мощность), поставляемую потребителям');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2112, NULL, 'экономически обоснованные цены на твердое топливо (уголь) для бытовых нужд населения города Москвы, проживающего в домах с печным отоплением', 'экономически обоснованных цен на твердое топливо (уголь) для бытовых нужд населения города Москвы, проживающего в домах с печным отоплением', 1004, 2031, 'на твердое топливо (уголь) для бытовых нужд населения города Москвы, проживающего в домах с печным отоплением');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2072, NULL, 'тарифы на тепловую энергию (мощность), производимую в режиме комбинированной выработки электрической и тепловой энергии источниками тепловой энергии с установленной генерирующей мощностью производства электрической энергии 25 МВт и более', 'тарифов на тепловую энергию (мощность), производимую в режиме комбинированной выработки электрической и тепловой энергии источниками тепловой энергии с установленной генерирующей мощностью производства электрической энергии 25 МВт и более', 1004, 2028, 'на тепловую энергию (мощность), производимую в режиме комбинированной выработки электрической и тепловой энергии источниками тепловой энергии с установленной генерирующей мощностью производства электрической энергии 25 МВт и более');
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2113, NULL, 'плату за технологическое присоединение газоиспользующего оборудования к газораспределительным сетям по индивидуальному проекту', 'платы за технологическое присоединение газоиспользующего оборудования к газораспределительным сетям по индивидуальному проекту', 1004, 2031, 'на технологическое присоединение газоиспользующего оборудования к газораспределительным сетям по индивидуальному проекту');
-INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2125, NULL, 'сбытовые надбавки гарантирующих поставщиков электрической энергии', 'сбытовых надбавок гарантирующих поставщиков электрической энергии', 1004, 2027, 'на сбытовые надбавки гарантирующих поставщиков электрической энергии');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2126, NULL, 'долгосрочные цены (тарифы) на электрическую энергию (мощность), поставляемую населению и приравненным к нему категориям потребителей', 'долгосрочных цен (тарифов) на электрическую энергию (мощность), поставляемую населению и приравненным к нему категориям потребителей', 1004, 2027, 'на электрическую энергию (мощность), поставляемую населению и приравненным к нему категориям потребителей');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2111, NULL, 'плату за технологическое присоединение', 'платы за технологическое присоединение', 1004, 2030, 'на технологическое присоединение');
 INSERT INTO esrd.catalogelem (id, value_int, value_str, value_str_preposition, catalog_id, parent_catalogelem_id, value_str_modified) VALUES (2043, NULL, 'тарифы на водоотведение поверхностных сточных вод', 'тарифов на водоотведение поверхностных сточных вод', 1004, 2029, 'на водоотведение поверхностных сточных вод');
@@ -2437,12 +2618,18 @@ INSERT INTO esrd.department_child_departments (department_id, child_departments_
 -- Data for Name: doc; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
+INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100000, 1, 'ДПР-СЗ-1/20', '2020-01-28 12:37:46.697', 'согл-1/20', '2020-01-28 12:37:07.087', '2020-01-28 12:37:07.087', 'IN_WORK', 'resources/files/pdf/100000.pdf', 4000, NULL);
+INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100033, 1, 'ДПР-СЗ-2/20', '2020-01-28 12:40:54.527', 'согл-2/20', '2020-01-28 12:40:28.019', '2020-01-28 12:40:28.019', 'IN_WORK', 'resources/files/pdf/100033.pdf', 4000, NULL);
+INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100092, 1, 'ДПР-СЗ-3/20', '2020-01-28 12:43:18.548', 'согл-3/20', '2020-01-28 12:42:27.59', '2020-01-28 12:42:27.59', 'IN_WORK', 'resources/files/pdf/100092.pdf', 4000, NULL);
 
 
 --
 -- Data for Name: doc_agreement; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
+INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user, origin_user_id) VALUES (100017, 1, 100000, 4000, NULL, '2020-01-28 12:37:59.599', '', 'ACCEPTED', true, false, NULL);
+INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user, origin_user_id) VALUES (100063, 1, 100033, 4000, NULL, '2020-01-28 12:41:04.634', '', 'ACCEPTED', true, false, NULL);
+INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user, origin_user_id) VALUES (100109, 1, 100092, 4329, NULL, '2020-01-28 12:43:29.323', '', 'ACCEPTED', true, false, NULL);
 
 
 --
@@ -2459,6 +2646,13 @@ INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (300, 'ДПР-ПР');
 -- Data for Name: doc_valuedfields; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100019, 100000, 100018, 1);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100032, 100000, 100020, 2);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100065, 100033, 100064, 1);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100078, 100033, 100066, 2);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100091, 100033, 100079, 3);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100111, 100092, 100110, 1);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100124, 100092, 100112, 2);
 
 
 --
@@ -2468,7 +2662,8 @@ INSERT INTO esrd.doc_number_prefixes (id, name) VALUES (300, 'ДПР-ПР');
 INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (1, 'Служебная записка о включении вопросов в Повестку заседания Правления', 'zapiska.docx', 'zapiska.docx', 3002, 23, false, NULL, NULL);
 INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (2, 'Повестка заседания Правления', 'povestka.docx', 'povestka.docx', 3005, 24, true, 'Повестка № %s заседания правления Департамента экономической политики и развития города Москвы %s г.', 'Повестки заседания Правления;https://www.mos.ru/depr/documents/tarifnaia-politika/povestki-zasedaniya-pravleniya/|2881|ChairPlan');
 INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (301, 'Приказ (тарифное регулирование)', 'prikaz_appendix.docx', 'prikaz.docx', 3002, 300, true, NULL, NULL);
-INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (350, 'Протокол заседания Правления', NULL, 'protocol.docx', 3002, 25, true, NULL, NULL);
+INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (350, 'Протокол заседания Правления', 'protocol.docx', 'protocol.docx', 3002, 25, true, NULL, NULL);
+INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (550, 'Служебная записка об исключении вопросов из Повестки заседания Правления', 'zapiska_exclude.docx', 'zapiska_exclude.docx', 3002, 23, false, NULL, NULL);
 
 
 --
@@ -2479,7 +2674,6 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (1
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (21, 1, 7, 3);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (115, 2, 4, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (116, 2, 5, 2);
-INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (117, 2, 7, 3);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (312, 301, 8, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (313, 301, 9, 2);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (314, 301, 10, 3);
@@ -2504,6 +2698,9 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (3
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (320, 301, 15, 8);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (506, 301, 505, 17);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (310, 301, 502, 18);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (117, 2, 507, 3);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (551, 550, 4, 1);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (552, 550, 507, 3);
 
 
 --
@@ -2516,59 +2713,61 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (3
 -- Data for Name: field; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (4, 'Дата заседания', 'DATE', NULL, NULL, NULL, NULL, false, 'MeetingDate');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (6, 'Номер СЭДО', 'TEXT', NULL, NULL, NULL, NULL, false, '');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (7, 'Вопросы повестки', 'GROUP_FIELDS', NULL, 4, NULL, NULL, false, 'Questions');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (8, 'Предмет вопроса', 'CATALOG', 1, NULL, NULL, 1001, false, 'Subject');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (9, 'Вопрос', 'CATALOG', 2, NULL, NULL, 1002, false, 'Question');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (301, 'Система техприсоединения', 'CATALOG_ORGANIZATIONS', 3, NULL, NULL, 1006, false, 'OrganizationSystem');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (10, 'Период', 'TEXT', 4, NULL, NULL, NULL, false, 'Period');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (11, 'Сфера деятельности', 'CATALOG', 5, NULL, NULL, 1003, false, 'Direction');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (12, 'Реквизиты приказа', 'CATALOG', 6, NULL, NULL, 1008, false, 'OrderNumber');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (13, 'Вид тарифа', 'CATALOG', 7, NULL, NULL, 1004, false, 'TarifView');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (14, 'Прочее', 'TEXT', 8, NULL, NULL, NULL, false, 'Comments');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (16, 'Ответственный', 'CATALOG_USERS', 10, NULL, NULL, 1007, false, 'AuthPerson');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (17, 'Дополнительная информация', 'TEXT', 11, NULL, NULL, NULL, false, 'AdditionalInfo');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (5, 'Время заседания', 'TIME', NULL, NULL, NULL, NULL, false, 'MeetingTime');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (304, 'Дата протокола', 'DATE', NULL, NULL, NULL, NULL, false, 'ProtocolDate');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (305, 'Номер протокола', 'TEXT', NULL, NULL, NULL, NULL, false, 'ProtocolRegNum');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (306, 'Дата начала действия тарифа', 'DATE', NULL, NULL, NULL, NULL, false, 'TarifStartDate');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (307, 'Дата окончания дейстия тарифа', 'DATE', NULL, NULL, NULL, NULL, false, 'TarifEndDate');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (302, 'Внести изменения в приказ', 'GROUP_CHECKBOX', NULL, NULL, NULL, NULL, false, 'ChangeDecree');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (322, 'Наименование приказа', 'CATALOG', NULL, NULL, NULL, 1014, false, 'DecreeName');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (323, 'Пункт приказа', 'TEXT', NULL, NULL, NULL, NULL, false, 'DecreeItem');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (376, 'Приложения', 'GROUP_FIELDS', NULL, NULL, NULL, NULL, true, NULL);
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (380, 'Примечание', 'TEXTAREA', NULL, NULL, NULL, NULL, false, 'TarifDescription');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (351, 'Члены Правления', 'GROUP_FIELDS', NULL, 4, NULL, NULL, false, 'ParticipantsRulers');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (352, 'ФИО', 'CATALOG_USERS', NULL, NULL, NULL, 1007, false, 'FIO');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (353, 'От Департамента экономической политики и развития города Москвы', 'GROUP_FIELDS', NULL, 4, NULL, NULL, false, 'ParticipantsDepr');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (354, 'ФИО', 'CATALOG_USERS', NULL, NULL, NULL, 1007, false, 'FIO2');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (355, 'Присутствовали участники других организаций', 'GROUP_CHECKBOX', NULL, NULL, NULL, NULL, false, 'OtherOrganizationsParticipants');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (356, 'От других организаций', 'GROUP_FIELDS', NULL, 4, NULL, NULL, false, 'ParticipantsOther');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (357, 'ФИО', 'CATALOG_USERS', NULL, NULL, NULL, 1007, false, 'FIO3');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (387, 'Вопросы повестки', 'GROUP_FIELDS', NULL, NULL, NULL, NULL, false, 'Questions');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (382, 'В обсуждении принимали участие (фамилия и инициалы)', 'TEXTAREA', 12, NULL, NULL, NULL, false, 'Participants');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (383, 'Принять к сведению следующую информацию', 'TEXTAREA', 13, NULL, NULL, NULL, false, 'Information');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (384, 'Перечень нормативных актов, использованных в процессе проведения экспертизы', 'TEXTAREA', 14, NULL, NULL, NULL, false, 'NormativDocs');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (385, 'Перечень участвующего имущества РО', 'TEXTAREA', 15, NULL, NULL, NULL, false, 'Realty');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (386, 'Документы, подтверждающие законное владение РО в отношении указанного имущества', 'TEXTAREA', 16, NULL, NULL, NULL, false, 'RealtyDocs');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (388, 'В РО ведется раздельный учет расходов и доходов по регулируемым видам деятельности', 'GROUP_CHECKBOX', 17, NULL, NULL, NULL, false, 'SeparateCostAcc');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (502, 'Тариф не является индивидуальным (требуется указать срок действия)', 'GROUP_CHECKBOX', NULL, NULL, NULL, NULL, false, 'NotIndividualTarif');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (379, 'Таблица', 'CATALOG_HTML_TABLES', 3, NULL, NULL, 1013, false, 'TarifTable');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (389, 'Учетная политика РО утверждена документом', 'TEXT', NULL, NULL, NULL, NULL, false, 'DecreeNameAcc');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (390, 'Корректировка долгосрочного тарифа', 'GROUP_CHECKBOX', 18, NULL, NULL, NULL, false, 'LongTimeCorrect');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (391, 'Параметры установленного долгосрочного регулирования', 'CATALOG_HTML_TABLES', NULL, NULL, NULL, 1013, false, 'EstablishedRegParamsTable');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (500, 'Добавить примечание', 'GROUP_CHECKBOX', 4, NULL, NULL, NULL, false, 'AddTarifDescription');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (15, 'Регулируемая организация', 'CATALOG_ORGANIZATIONS', 9, NULL, NULL, 1006, false, 'Organization');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (501, 'Указать дополнительную информацию к тарифу (Регулируемая организация здесь не указывается, для этого имеется поле выше)', 'GROUP_CHECKBOX', 11, NULL, NULL, NULL, false, 'AddAdditionalInfo');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (505, 'Метод регулирования', 'CATALOG', NULL, NULL, NULL, 1016, false, 'RegulationMethod');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (326, 'В соответствии с Регламентом', 'CATALOG', NULL, NULL, NULL, 1011, false, 'TarifReglament');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (325, 'В соответствии с Методическими указаниями', 'CATALOG', NULL, NULL, NULL, 1010, false, 'TarifMethod');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (378, 'В соответствии с Постановлением Правительства РФ', 'CATALOG', NULL, NULL, NULL, 1012, false, 'GovDecree');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (504, 'Заголовок таблицы', 'CATALOG', 1, NULL, NULL, 1015, false, 'TarifTableName');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (503, 'Указать название таблицы вручную', 'GROUP_CHECKBOX', 2, NULL, NULL, NULL, false, 'AddCustomTarifTableName');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (377, 'Заголовок таблицы', 'TEXT', NULL, NULL, NULL, NULL, false, 'CustomTarifTableName');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, tag) VALUES (324, 'В соответствии с Федеральным законом', 'CATALOG', NULL, NULL, NULL, 1009, false, 'FederalLaw');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (4, 'Дата заседания', 'DATE', NULL, NULL, NULL, NULL, false, false, NULL, 'MeetingDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (6, 'Номер СЭДО', 'TEXT', NULL, NULL, NULL, NULL, false, false, NULL, '');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (7, 'Вопросы повестки', 'GROUP_FIELDS', NULL, 4, NULL, NULL, false, false, NULL, 'Questions');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (8, 'Предмет вопроса', 'CATALOG', 1, NULL, NULL, 1001, false, false, NULL, 'Subject');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (9, 'Вопрос', 'CATALOG', 2, NULL, NULL, 1002, false, false, NULL, 'Question');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (301, 'Система техприсоединения', 'CATALOG_ORGANIZATIONS', 3, NULL, NULL, 1006, false, false, NULL, 'OrganizationSystem');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (10, 'Период', 'TEXT', 4, NULL, NULL, NULL, false, false, NULL, 'Period');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (11, 'Сфера деятельности', 'CATALOG', 5, NULL, NULL, 1003, false, false, NULL, 'Direction');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (12, 'Реквизиты приказа', 'CATALOG', 6, NULL, NULL, 1008, false, false, NULL, 'OrderNumber');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (13, 'Вид тарифа', 'CATALOG', 7, NULL, NULL, 1004, false, false, NULL, 'TarifView');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (14, 'Прочее', 'TEXT', 8, NULL, NULL, NULL, false, false, NULL, 'Comments');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (16, 'Ответственный', 'CATALOG_USERS', 10, NULL, NULL, 1007, false, false, NULL, 'AuthPerson');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (17, 'Дополнительная информация', 'TEXT', 11, NULL, NULL, NULL, false, false, NULL, 'AdditionalInfo');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (5, 'Время заседания', 'TIME', NULL, NULL, NULL, NULL, false, false, NULL, 'MeetingTime');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (304, 'Дата протокола', 'DATE', NULL, NULL, NULL, NULL, false, false, NULL, 'ProtocolDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (305, 'Номер протокола', 'TEXT', NULL, NULL, NULL, NULL, false, false, NULL, 'ProtocolRegNum');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (306, 'Дата начала действия тарифа', 'DATE', NULL, NULL, NULL, NULL, false, false, NULL, 'TarifStartDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (307, 'Дата окончания дейстия тарифа', 'DATE', NULL, NULL, NULL, NULL, false, false, NULL, 'TarifEndDate');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (302, 'Внести изменения в приказ', 'GROUP_CHECKBOX', NULL, NULL, NULL, NULL, false, false, NULL, 'ChangeDecree');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (322, 'Наименование приказа', 'CATALOG', NULL, NULL, NULL, 1014, false, false, NULL, 'DecreeName');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (323, 'Пункт приказа', 'TEXT', NULL, NULL, NULL, NULL, false, false, NULL, 'DecreeItem');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (376, 'Приложения', 'GROUP_FIELDS', NULL, NULL, NULL, NULL, true, false, NULL, NULL);
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (380, 'Примечание', 'TEXTAREA', NULL, NULL, NULL, NULL, false, false, NULL, 'TarifDescription');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (351, 'Члены Правления', 'GROUP_FIELDS', NULL, 4, NULL, NULL, false, false, NULL, 'ParticipantsRulers');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (352, 'ФИО', 'CATALOG_USERS', NULL, NULL, NULL, 1007, false, false, NULL, 'FIO');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (353, 'От Департамента экономической политики и развития города Москвы', 'GROUP_FIELDS', NULL, 4, NULL, NULL, false, false, NULL, 'ParticipantsDepr');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (354, 'ФИО', 'CATALOG_USERS', NULL, NULL, NULL, 1007, false, false, NULL, 'FIO2');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (355, 'Присутствовали участники других организаций', 'GROUP_CHECKBOX', NULL, NULL, NULL, NULL, false, false, NULL, 'OtherOrganizationsParticipants');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (356, 'От других организаций', 'GROUP_FIELDS', NULL, 4, NULL, NULL, false, false, NULL, 'ParticipantsOther');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (357, 'ФИО', 'CATALOG_USERS', NULL, NULL, NULL, 1007, false, false, NULL, 'FIO3');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (387, 'Вопросы повестки', 'GROUP_FIELDS', NULL, NULL, NULL, NULL, false, false, NULL, 'Questions');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (382, 'В обсуждении принимали участие (фамилия и инициалы)', 'TEXTAREA', 12, NULL, NULL, NULL, false, false, NULL, 'Participants');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (383, 'Принять к сведению следующую информацию', 'TEXTAREA', 13, NULL, NULL, NULL, false, false, NULL, 'Information');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (384, 'Перечень нормативных актов, использованных в процессе проведения экспертизы', 'TEXTAREA', 14, NULL, NULL, NULL, false, false, NULL, 'NormativDocs');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (385, 'Перечень участвующего имущества РО', 'TEXTAREA', 15, NULL, NULL, NULL, false, false, NULL, 'Realty');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (386, 'Документы, подтверждающие законное владение РО в отношении указанного имущества', 'TEXTAREA', 16, NULL, NULL, NULL, false, false, NULL, 'RealtyDocs');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (388, 'В РО ведется раздельный учет расходов и доходов по регулируемым видам деятельности', 'GROUP_CHECKBOX', 17, NULL, NULL, NULL, false, false, NULL, 'SeparateCostAcc');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (502, 'Тариф не является индивидуальным (требуется указать срок действия)', 'GROUP_CHECKBOX', NULL, NULL, NULL, NULL, false, false, NULL, 'NotIndividualTarif');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (379, 'Таблица', 'CATALOG_HTML_TABLES', 3, NULL, NULL, 1013, false, false, NULL, 'TarifTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (389, 'Учетная политика РО утверждена документом', 'TEXT', NULL, NULL, NULL, NULL, false, false, NULL, 'DecreeNameAcc');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (390, 'Корректировка долгосрочного тарифа', 'GROUP_CHECKBOX', 18, NULL, NULL, NULL, false, false, NULL, 'LongTimeCorrect');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (391, 'Параметры установленного долгосрочного регулирования', 'CATALOG_HTML_TABLES', NULL, NULL, NULL, 1013, false, false, NULL, 'EstablishedRegParamsTable');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (500, 'Добавить примечание', 'GROUP_CHECKBOX', 4, NULL, NULL, NULL, false, false, NULL, 'AddTarifDescription');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (15, 'Регулируемая организация', 'CATALOG_ORGANIZATIONS', 9, NULL, NULL, 1006, false, false, NULL, 'Organization');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (501, 'Указать дополнительную информацию к тарифу (Регулируемая организация здесь не указывается, для этого имеется поле выше)', 'GROUP_CHECKBOX', 11, NULL, NULL, NULL, false, false, NULL, 'AddAdditionalInfo');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (505, 'Метод регулирования', 'CATALOG', NULL, NULL, NULL, 1016, false, false, NULL, 'RegulationMethod');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (326, 'В соответствии с Регламентом', 'CATALOG', NULL, NULL, NULL, 1011, false, false, NULL, 'TarifReglament');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (325, 'В соответствии с Методическими указаниями', 'CATALOG', NULL, NULL, NULL, 1010, false, false, NULL, 'TarifMethod');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (378, 'В соответствии с Постановлением Правительства РФ', 'CATALOG', NULL, NULL, NULL, 1012, false, false, NULL, 'GovDecree');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (504, 'Заголовок таблицы', 'CATALOG', 1, NULL, NULL, 1015, false, false, NULL, 'TarifTableName');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (503, 'Указать название таблицы вручную', 'GROUP_CHECKBOX', 2, NULL, NULL, NULL, false, false, NULL, 'AddCustomTarifTableName');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (377, 'Заголовок таблицы', 'TEXT', NULL, NULL, NULL, NULL, false, false, NULL, 'CustomTarifTableName');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (324, 'В соответствии с Федеральным законом', 'CATALOG', NULL, NULL, NULL, 1009, false, false, NULL, 'FederalLaw');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (507, 'Вопросы повестки', 'GROUP_FIELDS', NULL, NULL, NULL, NULL, false, false, NULL, 'Questions');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (506, 'Исключить вопрос из повестки заседания правления', 'GROUP_CHECKBOX', 0, NULL, NULL, NULL, false, true, 'resources/img/stamp.png', 'Exclude');
 
 
 --
@@ -2620,6 +2819,17 @@ INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (502, 307);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (503, 377);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (376, 503);
 INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (376, 504);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 506);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 13);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 14);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 15);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 16);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 8);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 501);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 9);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 10);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 11);
+INSERT INTO esrd.field_child_field (field_id, child_field_id) VALUES (507, 12);
 
 
 --
@@ -21072,12 +21282,18 @@ INSERT INTO esrd.organization (id, short_name_lf, full_name_lf, ogrn, inn, kpp, 
 -- Data for Name: resolution; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
+INSERT INTO esrd.resolution (id, ordering, doc_id, primary_resolution, control_date, execution_datetime, department_id) VALUES (100016, 1, 100000, true, NULL, NULL, 575);
+INSERT INTO esrd.resolution (id, ordering, doc_id, primary_resolution, control_date, execution_datetime, department_id) VALUES (100062, 1, 100033, true, NULL, NULL, 575);
+INSERT INTO esrd.resolution (id, ordering, doc_id, primary_resolution, control_date, execution_datetime, department_id) VALUES (100108, 1, 100092, true, NULL, NULL, 575);
 
 
 --
 -- Data for Name: resolutions_users; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
+INSERT INTO esrd.resolutions_users (id, resolution_datetime, user_id, resolution_id) VALUES (100125, '2020-01-28 12:47:34.014', 4000, 100016);
+INSERT INTO esrd.resolutions_users (id, resolution_datetime, user_id, resolution_id) VALUES (100126, '2020-01-28 12:47:47.192', 4000, 100062);
+INSERT INTO esrd.resolutions_users (id, resolution_datetime, user_id, resolution_id) VALUES (100127, '2020-01-28 12:47:54.564', 4000, 100108);
 
 
 --
@@ -21148,7 +21364,6 @@ INSERT INTO esrd.user_roles (user_id, role_id) VALUES (4374, 3000);
 -- Data for Name: users; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
-INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", short_position, full_position, dative_fullname, dative_position, email, phone, department_id) VALUES (4000, 'admin', 'Махров', 'Станислав', 'Станиславович', 'Начальник отдела', 'Начальник отдела автоматизации процессов в промышленности', 'Начальник отдела автоматизации процессов в промышленности Департамента экономической политики и развития города Москвы', 'Махрову Станиславу Станислаовичу', 'Начальнику отдела автоматизации процессов в промышленности', 'MakhrovSS1@mos.ru', '15451', NULL);
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", short_position, full_position, dative_fullname, dative_position, email, phone, department_id) VALUES (4001, 'user1', 'Иванов', 'Иван', 'Иванович', 'Главный специалист', NULL, NULL, NULL, NULL, 'IvanovII@mos.ru', NULL, NULL);
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", short_position, full_position, dative_fullname, dative_position, email, phone, department_id) VALUES (4002, 'user2', 'Тестов', 'Тест', 'Тестович', 'Начальник Управлени', 'Начальник управления ценообразования в теплоснабжении и коммунальной сфере', 'Начальник управления ценообразования в теплоснабжении и коммунальной сфере Департамента экономической политики и развития города Москвы', 'Тестову Тесту Тестовичу', 'Начальнику управления ценообразования в теплоснабжении и коммунальной сфере Департамента экономической политики и развития города Москвы', 'TestovTT@mos.ru', NULL, NULL);
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", short_position, full_position, dative_fullname, dative_position, email, phone, department_id) VALUES (4003, 'KKozhin', 'Кожин', 'Константин', 'Сергеевич', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL);
@@ -21522,7 +21737,8 @@ INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", sho
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", short_position, full_position, dative_fullname, dative_position, email, phone, department_id) VALUES (4371, 'KarkotskayaAY', 'Каркоцкая', 'Анастасия', 'Юрьевна', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", short_position, full_position, dative_fullname, dative_position, email, phone, department_id) VALUES (4372, 'SaltykovaAV', 'Салтыкова', 'Анна', 'Валентиновна', 'Консультант', NULL, NULL, NULL, NULL, 'SaltykovaAV@mos.ru', '14839', 531);
 INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", short_position, full_position, dative_fullname, dative_position, email, phone, department_id) VALUES (4373, 'SaprykinaAA', 'Сапрыкина', 'Анна', 'Андреевна', 'Заведующий сектором', 'Секретарь Правления', 'Секретарь Правления', 'А.А.Сопрыкиной', 'Секретарю Правления', 'SaprykinaAA@mos.ru', '17227', 541);
-INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", short_position, full_position, dative_fullname, dative_position, email, phone, department_id) VALUES (4374, 'MakhrovSS', 'Махров', 'Станислав', 'Станиславович', 'Начальник отдела', NULL, NULL, NULL, NULL, 'MakhrovSS1@mos.ru', '15451', NULL);
+INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", short_position, full_position, dative_fullname, dative_position, email, phone, department_id) VALUES (4000, 'admin', 'Ларькова', 'Алиса', 'Петровна', 'Начальник управления', 'Начальник управления ценообразования в теплоснабжении и коммунальной сфере', 'Начальник отдела автоматизации процессов в промышленности Департамента экономической политики и развития города Москвы', 'Ларьковой Алисе Петровне', 'Начальнику отдела автоматизации процессов в промышленности', 'MakhrovSS1@mos.ru', '15451', 541);
+INSERT INTO esrd.users (id, name, lastname, firstname, patronym, "position", short_position, full_position, dative_fullname, dative_position, email, phone, department_id) VALUES (4374, 'MakhrovSS', 'Махров', 'Станислав', 'Станиславович', 'Начальник отдела', NULL, NULL, NULL, NULL, 'MakhrovSS1@mos.ru', '15451', 541);
 
 
 --
@@ -21544,12 +21760,142 @@ INSERT INTO esrd.users_distribution_departments (user_id, distribution_departmen
 -- Data for Name: valuedfield; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100018, 4, NULL, NULL, NULL, '2020-02-12', '00:00:00', '2020-02-12 00:00:00');
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100020, 7, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100021, 8, 2007, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100022, 9, 2011, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100023, 10, NULL, NULL, 'на 2020 год', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100024, 11, 2028, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100025, 12, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100026, 13, 2077, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100027, 14, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100028, 15, NULL, 10027, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100029, 16, NULL, 4347, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100030, 501, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100031, 17, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100064, 4, NULL, NULL, NULL, '2020-02-17', '00:00:00', '2020-02-17 00:00:00');
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100066, 7, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100067, 8, 2007, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100068, 9, 2012, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100069, 10, NULL, NULL, 'на 2020-2023 годы', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100070, 11, 2029, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100071, 12, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100072, 13, 2044, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100073, 14, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100074, 15, NULL, 10070, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100075, 16, NULL, 4025, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100076, 501, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100077, 17, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100079, 7, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100080, 8, 2007, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100081, 9, 2013, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100082, 10, NULL, NULL, 'на 2020 год', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100083, 11, 2029, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100084, 12, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100085, 13, 2037, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100086, 14, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100087, 15, NULL, 10031, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100088, 16, NULL, 4122, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100089, 501, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100090, 17, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100110, 4, NULL, NULL, NULL, '2020-02-18', '00:00:00', '2020-02-18 00:00:00');
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100112, 7, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100113, 8, 2007, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100114, 9, 2012, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100115, 10, NULL, NULL, 'на 2021 год', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100116, 11, 2031, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100117, 12, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100118, 13, 2112, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100119, 14, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100120, 15, NULL, 10027, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100121, 16, NULL, 4113, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100122, 501, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100123, 17, NULL, NULL, '', NULL, NULL, NULL);
 
 
 --
 -- Data for Name: valuedfield_child_valued_field; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100021);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100022);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100023);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100024);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100025);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100026);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100027);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100028);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100029);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100020, 100030);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100030, 100031);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100113);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100114);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100115);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100116);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100117);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100118);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100119);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100120);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100121);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100122);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100122, 100123);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100067);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100068);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100069);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100070);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100071);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100072);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100073);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100074);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100075);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100076);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100076, 100077);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100080);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100081);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100082);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100083);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100084);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100085);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100086);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100087);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100088);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100089);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100089, 100090);
+
+
+--
+-- Name: agreement_seq; Type: SEQUENCE SET; Schema: esrd; Owner: esrd_user
+--
+
+SELECT pg_catalog.setval('esrd.agreement_seq', 3, true);
+
+
+--
+-- Name: decree_seq; Type: SEQUENCE SET; Schema: esrd; Owner: esrd_user
+--
+
+SELECT pg_catalog.setval('esrd.decree_seq', 1, false);
+
+
+--
+-- Name: global_seq; Type: SEQUENCE SET; Schema: esrd; Owner: esrd_user
+--
+
+SELECT pg_catalog.setval('esrd.global_seq', 100127, true);
+
+
+--
+-- Name: memo_seq; Type: SEQUENCE SET; Schema: esrd; Owner: esrd_user
+--
+
+SELECT pg_catalog.setval('esrd.memo_seq', 3, true);
+
+
+--
+-- Name: protocol_seq; Type: SEQUENCE SET; Schema: esrd; Owner: esrd_user
+--
+
+SELECT pg_catalog.setval('esrd.protocol_seq', 1, false);
 
 
 --
