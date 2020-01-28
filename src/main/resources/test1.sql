@@ -195,6 +195,8 @@ CREATE TABLE esrd.field (
     length integer,
     catalog_id integer,
     appendix boolean DEFAULT false,
+    add_image boolean DEFAULT false,
+    image_path varchar,
     tag character varying
 );
 
