@@ -69,13 +69,25 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
         return DocValuedFieldsUtil.asTo(docValuedFields, curUserRoles, fMap, deny, false);
     }
 
+    public List<DocFieldsTo> getAllMerged(List<DocFieldsTo> primaryFields, List<DocFieldsTo> additionFields) {
+        List<DocFieldsTo> resultFields = new ArrayList<>(primaryFields);
+        for (DocFieldsTo af: additionFields) {
+            if (af.getField().getFieldType().equals(FieldType.GROUP_FIELDS)) {
+                resultFields.add(af);
+            }
+        }
+        return resultFields;
+    }
+
     @Override
     public List<DocFieldsTo> getAllMerged(int docId, int targetDocTypeId, List<Integer> optionalDocIds, String userName) {
+        if (optionalDocIds == null) {
+            optionalDocIds = Collections.emptyList();
+        }
         List<String> curUserRoles = AuthorizedUser.getRoles();
 
         List<DocValuedFields> docValuedFields = docValuedFieldsRepository.getAll(docId);
         List<DocTypeFields> docTypeFields = docTypeFieldsRepository.getAll(targetDocTypeId);
-        List<DocFieldsTo> docFieldsTos = new ArrayList<>();
         List<FieldsRoles> fieldsRoles = fieldsRolesRepository.getAll(targetDocTypeId);
         Map<Integer, FieldsRoles> fMap = fieldsRoles.stream()
                 .collect(Collectors.toMap(FieldsRoles::getFieldId, f -> f));
@@ -90,8 +102,14 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
             deny = true;
         }
 
-        List<DocFieldsTo> templateFields = DocTypeFieldsUtil.asTo(docTypeFields, curUserRoles, fMap, deny);
         List<DocFieldsTo> valuedFields = DocValuedFieldsUtil.asTo(docValuedFields, curUserRoles, fMap, deny, true);
+        for (Integer optDocId: optionalDocIds) {
+            List<DocValuedFields> additionValuedFields = docValuedFieldsRepository.getAll(optDocId);
+            List<DocFieldsTo> additionFields = DocValuedFieldsUtil.asTo(additionValuedFields, curUserRoles, fMap, deny, true);
+            valuedFields = getAllMerged(valuedFields, additionFields);
+        }
+
+        List<DocFieldsTo> templateFields = DocTypeFieldsUtil.asTo(docTypeFields, curUserRoles, fMap, deny);
         List<DocFieldsTo> resultFields = new ArrayList<>();
         // Перебираем все поля верхнего уровня шаблона
         for (DocFieldsTo t: templateFields) {
