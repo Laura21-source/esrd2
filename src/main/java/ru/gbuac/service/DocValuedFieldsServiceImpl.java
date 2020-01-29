@@ -93,12 +93,17 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
         List<DocFieldsTo> templateFields = DocTypeFieldsUtil.asTo(docTypeFields, curUserRoles, fMap, deny);
         List<DocFieldsTo> valuedFields = DocValuedFieldsUtil.asTo(docValuedFields, curUserRoles, fMap, deny, true);
         List<DocFieldsTo> resultFields = new ArrayList<>();
+        // Перебираем все поля верхнего уровня шаблона
         for (DocFieldsTo t: templateFields) {
+            // Проверяем, является ли текущее поле верхнего уровня групповым полем
             if (t.getField().getFieldType().equals(FieldType.GROUP_FIELDS)) {
                 FieldTo templateGroupFields = t.getField();
+                // Получаем список групповых полей документа со значениями по с тегу группового поля шаблона
                 List<DocFieldsTo> v = valuedFields.stream()
                         .filter(f -> f.getField().getTag().equals(templateGroupFields.getTag())).collect(Collectors.toList());
+                // Перебираем все групповые поля документа со значениями. Все эти поля должны быть перенесены на результирующий документ по нового шаблону
                 for (DocFieldsTo subV: v) {
+                    // Создаем заготовку для объединенного групового поля
                     FieldTo resultGroupFields = new FieldTo(templateGroupFields.getId(), templateGroupFields.getName(),
                             templateGroupFields.getChildFields(), templateGroupFields.getFieldId(),
                             templateGroupFields.getFieldType(), templateGroupFields.getPositionInGroup(),
@@ -106,15 +111,19 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
                             templateGroupFields.getCatalogId(), templateGroupFields.getEnabled(), templateGroupFields.getRequired(),
                             templateGroupFields.getAppendix(), templateGroupFields.getTag(), templateGroupFields.getAddImage(),
                             templateGroupFields.getImagePath());
+                    // Создаем заготовку-список для полей объединенного группового боля
                     List<FieldTo> resultChildFields = new ArrayList<>();
+                    // Перебираем все поля группового поля-шаблона
                     for (FieldTo templateField: t.getField().getChildFields()) {
                         FieldTo valuedField = subV.getField().getChildFields().stream()
                                 .filter(f -> f.getTag().equals(templateField.getTag())).findFirst().orElse(null);
+                        // Создаем новое поле-шаблон
                         FieldTo newTo = new FieldTo(null, templateField.getName(), templateField.getChildFields(), templateField.getId(),
                                 templateField.getFieldType(), templateField.getPositionInGroup(), templateField.getMaxCount(),
                                 templateField.getLength(), templateField.getParentCatalogId(), templateField.getCatalogId(),
                                 templateField.getEnabled(), templateField.getRequired(), templateField.getAppendix(),
                                 templateField.getTag(), templateField.getAddImage(), templateField.getImagePath());
+                        // Проверяем, имеются ли значения для данного поля-шаблона
                         if (valuedField != null) {
                             newTo.setValueStr(valuedField.getValueStr());
                             newTo.setValueInt(valuedField.getValueInt());
