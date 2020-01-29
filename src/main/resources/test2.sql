@@ -31,65 +31,6 @@ DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.memo_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.protocol_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.decree_seq CASCADE;
-CREATE SEQUENCE esrd.global_seq START 100000;
-CREATE SEQUENCE esrd.agreement_seq START 1;
-CREATE SEQUENCE esrd.memo_seq START 1;
-CREATE SEQUENCE esrd.protocol_seq START 1;
-CREATE SEQUENCE esrd.decree_seq START 1;
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 11.5
--- Dumped by pg_dump version 11.5
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- Name: esrd; Type: SCHEMA; Schema: -; Owner: esrd_user
---
-
-CREATE SCHEMA esrd;
-
-
-ALTER SCHEMA esrd OWNER TO esrd_user;
-
---
--- Name: generatedocnumber(character varying, character varying); Type: FUNCTION; Schema: esrd; Owner: esrd_user
---
-
-CREATE FUNCTION esrd.generatedocnumber(mask character varying, optional character varying DEFAULT NULL::character varying) RETURNS character varying
-    LANGUAGE plpgsql
-    AS $$
-DECLARE Result VARCHAR;
-DECLARE yearPostfix VARCHAR;
-BEGIN
-    yearPostfix = SUBSTRING(CAST(DATE_PART('year', CURRENT_DATE) AS text),3);
-    IF (mask='согл') THEN
-        SELECT 'согл-'||nextval('esrd.agreement_seq')||'/'||yearPostfix INTO Result;
-    ELSIF (mask='ДПР-П') THEN
-        SELECT 'ДПР-П-'||optional||'/'||yearPostfix INTO Result;
-    ELSIF (mask='ДПР-СЗ') THEN
-        SELECT 'ДПР-СЗ-'||nextval('esrd.memo_seq')||'/'||yearPostfix INTO Result;
-    ELSIF (mask='ДПР-ПРО') THEN
-        SELECT 'ДПР-ПРО-'||nextval('esrd.protocol_seq')||'/'||yearPostfix INTO Result;
-    ELSIF (mask='ДПР-ПР') THEN
-        SELECT 'ДПР-ПР-'||nextval('esrd.decree_seq')||'/'||yearPostfix INTO Result;
-    ELSE
-        RAISE 'Incorrect mask for generating document number' USING ERRCODE = 'INCORRECT_DOCNUMBER_MASK';
-    END IF;
-    RETURN Result;
-END; $$;
-
 
 ALTER FUNCTION esrd.generatedocnumber(mask character varying, optional character varying) OWNER TO esrd_user;
 
