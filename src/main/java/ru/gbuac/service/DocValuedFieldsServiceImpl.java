@@ -118,7 +118,7 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
                         FieldTo valuedField = subV.getField().getChildFields().stream()
                                 .filter(f -> f.getTag().equals(templateField.getTag())).findFirst().orElse(null);
                         // Создаем новое поле-шаблон
-                        FieldTo newTo = new FieldTo(null, templateField.getName(), templateField.getChildFields(), templateField.getId(),
+                        FieldTo newTo = new FieldTo(null, templateField.getName(), templateField.getChildFields(), templateField.getFieldId(),
                                 templateField.getFieldType(), templateField.getPositionInGroup(), templateField.getMaxCount(),
                                 templateField.getLength(), templateField.getParentCatalogId(), templateField.getCatalogId(),
                                 templateField.getEnabled(), templateField.getRequired(), templateField.getAppendix(),
@@ -138,9 +138,9 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
                 DocFieldsTo v = valuedFields.stream()
                         .filter(f -> f.getField().getTag().equals(t.getField().getTag())).findFirst().orElse(null);
                 if (v != null) {
-                    resultFields.add(v);
+                    resultFields.add(new DocFieldsTo(null, v.getField(), v.getPosition()));
                 } else {
-                    resultFields.add(t);
+                    resultFields.add(new DocFieldsTo(null, t.getField(), t.getPosition()));
                 }
             }
         }
