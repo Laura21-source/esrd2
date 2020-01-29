@@ -95,14 +95,22 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
         List<DocFieldsTo> resultFields = new ArrayList<>();
         for (DocFieldsTo t: templateFields) {
             if (t.getField().getFieldType().equals(FieldType.GROUP_FIELDS)) {
+                FieldTo templateGroupFields = t.getField();
                 List<DocFieldsTo> v = valuedFields.stream()
-                        .filter(f -> f.getField().getTag().equals(t.getField().getTag())).collect(Collectors.toList());
+                        .filter(f -> f.getField().getTag().equals(templateGroupFields.getTag())).collect(Collectors.toList());
                 for (DocFieldsTo subV: v) {
-                    FieldTo newTo = null;
+                    FieldTo resultGroupFields = new FieldTo(templateGroupFields.getId(), templateGroupFields.getName(),
+                            templateGroupFields.getChildFields(), templateGroupFields.getFieldId(),
+                            templateGroupFields.getFieldType(), templateGroupFields.getPositionInGroup(),
+                            templateGroupFields.getMaxCount(), templateGroupFields.getLength(), templateGroupFields.getParentCatalogId(),
+                            templateGroupFields.getCatalogId(), templateGroupFields.getEnabled(), templateGroupFields.getRequired(),
+                            templateGroupFields.getAppendix(), templateGroupFields.getTag(), templateGroupFields.getAddImage(),
+                            templateGroupFields.getImagePath());
+                    List<FieldTo> resultChildFields = new ArrayList<>();
                     for (FieldTo templateField: t.getField().getChildFields()) {
                         FieldTo valuedField = subV.getField().getChildFields().stream()
                                 .filter(f -> f.getTag().equals(templateField.getTag())).findFirst().orElse(null);
-                        newTo = new FieldTo(null, templateField.getName(), templateField.getChildFields(), templateField.getId(),
+                        FieldTo newTo = new FieldTo(null, templateField.getName(), templateField.getChildFields(), templateField.getId(),
                                 templateField.getFieldType(), templateField.getPositionInGroup(), templateField.getMaxCount(),
                                 templateField.getLength(), templateField.getParentCatalogId(), templateField.getCatalogId(),
                                 templateField.getEnabled(), templateField.getRequired(), templateField.getAppendix(),
@@ -112,8 +120,10 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
                             newTo.setValueInt(valuedField.getValueInt());
                             newTo.setValueDate(valuedField.getValueDate());
                         }
+                        resultChildFields.add(newTo);
                     }
-                    resultFields.add(new DocFieldsTo(null, newTo, t.getPosition()));
+                    resultGroupFields.setChildFields(resultChildFields);
+                    resultFields.add(new DocFieldsTo(null, resultGroupFields, t.getPosition()));
                 }
             } else {
                 DocFieldsTo v = valuedFields.stream()
