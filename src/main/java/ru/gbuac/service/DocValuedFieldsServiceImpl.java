@@ -7,6 +7,7 @@ import ru.gbuac.AuthorizedUser;
 import ru.gbuac.dao.*;
 import ru.gbuac.model.*;
 import ru.gbuac.to.DocFieldsTo;
+import ru.gbuac.to.FieldTo;
 import ru.gbuac.util.DocTypeFieldsUtil;
 import ru.gbuac.util.DocValuedFieldsUtil;
 import ru.gbuac.util.FieldUtil;
@@ -91,13 +92,41 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
 
         List<DocFieldsTo> templateFields = DocTypeFieldsUtil.asTo(docTypeFields, curUserRoles, fMap, deny);
         List<DocFieldsTo> valuedFields = DocValuedFieldsUtil.asTo(docValuedFields, curUserRoles, fMap, deny, true);
-        for (DocFieldsTo v: valuedFields) {
-            templateFields = templateFields.stream()
-                    .filter(f -> !v.getField().getFieldId().equals(f.getField().getFieldId())).collect(Collectors.toList());
+        List<DocFieldsTo> resultFields = new ArrayList<>();
+        for (DocFieldsTo t: templateFields) {
+            if (t.getField().getFieldType().equals(FieldType.GROUP_FIELDS)) {
+                List<DocFieldsTo> v = valuedFields.stream()
+                        .filter(f -> f.getField().getTag().equals(t.getField().getTag())).collect(Collectors.toList());
+                for (DocFieldsTo subV: v) {
+                    FieldTo newTo = null;
+                    for (FieldTo templateField: t.getField().getChildFields()) {
+                        FieldTo valuedField = subV.getField().getChildFields().stream()
+                                .filter(f -> f.getTag().equals(templateField.getTag())).findFirst().orElse(null);
+                        newTo = new FieldTo(null, templateField.getName(), templateField.getChildFields(), templateField.getId(),
+                                templateField.getFieldType(), templateField.getPositionInGroup(), templateField.getMaxCount(),
+                                templateField.getLength(), templateField.getParentCatalogId(), templateField.getCatalogId(),
+                                templateField.getEnabled(), templateField.getRequired(), templateField.getAppendix(),
+                                templateField.getTag(), templateField.getAddImage(), templateField.getImagePath());
+                        if (valuedField != null) {
+                            newTo.setValueStr(valuedField.getValueStr());
+                            newTo.setValueInt(valuedField.getValueInt());
+                            newTo.setValueDate(valuedField.getValueDate());
+                        }
+                    }
+                    resultFields.add(new DocFieldsTo(null, newTo, t.getPosition()));
+                }
+            } else {
+                DocFieldsTo v = valuedFields.stream()
+                        .filter(f -> f.getField().getTag().equals(t.getField().getTag())).findFirst().orElse(null);
+                if (v != null) {
+                    resultFields.add(v);
+                } else {
+                    resultFields.add(t);
+                }
+            }
         }
-        templateFields.addAll(valuedFields);
-        templateFields.sort(Comparator.comparing(DocFieldsTo::getPosition));
-        return templateFields;
+        resultFields.sort(Comparator.comparing(DocFieldsTo::getPosition));
+        return resultFields;
     }
 
     @Override
