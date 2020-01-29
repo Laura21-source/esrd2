@@ -822,6 +822,15 @@ public class DocServiceImpl implements DocService {
         }
         simpleTags.put("RegDate.dd.MM.yyyy", regDate != null ? DateTimeUtil.toString(regDate) : "");
         simpleTags.put("RegDate.dd MMMM yyyy", regDate != null ? DateTimeUtil.toStringPrint(regDate) : "");
+        if (docTo.getParentDocId() != null) {
+            Doc parentDoc = docRepository.findById(docTo.getParentDocId()).orElse(null);
+            if (parentDoc != null) {
+                simpleTags.put("ParentRegNum", parentDoc.getRegNum() != null ? parentDoc.getRegNum() : "");
+                LocalDate parentRegDate = parentDoc.getRegDateTime() != null ? parentDoc.getRegDateTime().toLocalDate() : null;
+                simpleTags.put("ParentRegDate.dd.MM.yyyy", parentRegDate != null ? DateTimeUtil.toString(parentRegDate) : "");
+                simpleTags.put("ParentRegDate.dd MMMM yyyy", parentRegDate != null ? DateTimeUtil.toStringPrint(parentRegDate) : "");
+            }
+        }
 
         if (docTo.getFinalUserId() != null) {
             User finalUser = userRepository.findById(docTo.getFinalUserId()).orElse(null);

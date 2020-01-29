@@ -283,7 +283,7 @@ public class Templater {
                         } else {
                             String parentEntryValue = simpleTags.get(entry.getKey().replace(".IMG", ""));
                             if (parentEntryValue.equals("TRUE"))
-                                insertImage(entry.getValue(), p, 2.3, 2.3);
+                                insertImage(entry.getValue(), p, 1.0, 1.0);
                             text = text.replace("<" + entry.getKey() + ">", "");
                         }
                     }
