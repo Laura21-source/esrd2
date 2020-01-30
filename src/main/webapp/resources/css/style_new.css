@@ -113,3 +113,10 @@ sup {font-size: 6px;}
 .md-accordion .collapse .card .cloneGroup, .md-accordion .collapse .card .delGroup, .md-accordion .collapse .card .addBlock {
   display: none!important;
 }
+
+#docStatus {
+  position: absolute;
+  right: 10px;
+  top: 20px;
+  text-transform: uppercase;
+}

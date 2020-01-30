@@ -34,6 +34,9 @@
                 <div class="container-fluid">
                     <div class="alert alert-secondary text-center mb-3">
                         <h4 class="mt-2 documentName"></h4>
+                        <div class="chip chip-md cyan darken-2 white-text" id="docStatus">
+
+                        </div>
                     </div>
                     <form class="registrationForm needs-validation" novalidate>
                         <div class="whomList">
@@ -285,9 +288,6 @@
 <jsp:include page="fragments/modals/newDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
-    /*setTimeout(function() {
-        $('#mdb-preloader').remove();
-    }, 7000);*/
 
     $(function() {
         // Список всех документов
@@ -299,6 +299,26 @@
 
         // Подключение стека полей
         $.getJSON(docURL, function(data) {
+            // Статус документа
+            var docStatus = '';
+            switch(data.docStatus) {
+                case 'IN_WORK':
+                    docStatus = '<i class="fas fa-briefcase mr-2"></i>На исполнении';
+                    break;
+                case 'IN_AGREEMENT':
+                    docStatus = '<i class="far fa-handshake mr-2"></i> На согласовании';
+                    break;
+                case 'AGREEMENT_REJECTED':
+                    docStatus = '<i class="fas fa-ban mr-2"></i> Согласование отменено';
+                    break;
+                case 'COMPLETED':
+                    docStatus = '<i class="far fa-check-circle mr-2"></i> Исполнен';
+                    break;
+                case 'DELETED':
+                    docStatus = '<i class="far fa-trash-alt mr-2"></i> Удален';
+                    break;
+            }
+            $('#docStatus').html(docStatus);
             var finalVersion = '';
             // Скрываем поле Адресат если finalDoc = true
             if(data.finalDoc === true) {$('.whomList').addClass('d-none');}
