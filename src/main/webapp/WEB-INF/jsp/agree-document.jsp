@@ -322,7 +322,7 @@
                     $('#docStatus').addClass('chip chip-md white-text pink darken-4');
                     break;
             }
-            //$('#docStatus').html(docStatus);
+            $('#docStatus').html(docStatus);
             var finalVersion = '';
             // Скрываем поле Адресат если finalDoc = true
             if(data.finalDoc === true) {$('.whomList').addClass('d-none');}
