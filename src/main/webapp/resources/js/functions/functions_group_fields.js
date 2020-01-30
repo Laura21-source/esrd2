@@ -10,6 +10,10 @@
         var blockElement = 'blockElement';
         var idBlock = 1;
         if(dataBlock == 1) {
+            field = '#blockBlockNew';
+            if(mergePole && mergePole !='') {
+                field = mergePole+' #blockBlockNew';
+            }
             blockDiv = 'blockDivNew';
             blockGroup = 'blockGroupNew';
             blockElement = 'blockElementNew';
@@ -152,14 +156,14 @@
             '   </div>' +
             '</div>');
         if(agree != 1) {
-            groupNewFields (field+' #'+blockDiv+' .blockField', fieldId, dubKey, name, newKey, block, id, dataId);
+            groupNewFields (field+' #'+blockDiv+' .blockField', fieldId, dubKey, name, newKey, block, id, dataId); //blockGroupFields
         }
     }
 
     function getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId, mergePole) {
         //console.log(id,BlockDivClass,fieldFieldName,field,fieldId,dubKey,name,newKey,block,fieldName,i,fieldField,poleFieldId,dataField,poleFieldFieldId);
         var BlockDivClassBlock = field+' .'+BlockDivClass;
-        console.log(BlockDivClassBlock);
+        //console.log(BlockDivClassBlock);
         if(id > 0) {
             if($(BlockDivClassBlock).length == 0) {
                 groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);

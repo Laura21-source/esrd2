@@ -152,9 +152,6 @@
 <jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
-    /*setTimeout(function() {
-        $('#mdb-preloader').fadeOut();
-    }, 2000);*/
 
     $(function() {
         // Список полей вида документов

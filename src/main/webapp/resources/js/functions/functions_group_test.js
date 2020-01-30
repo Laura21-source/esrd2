@@ -13,6 +13,9 @@
         var up = 1;
         if(block && block === 1) {
             field = '#blockBlockNew';
+            if(mergePole && mergePole !='') {
+                field = mergePole+' #blockBlockNew';
+            }
             blockGroup = '#blockGroupNew';
             blockDiv = 'blockDivNew';
             blockGroupClass = 'blockGroupNew';
