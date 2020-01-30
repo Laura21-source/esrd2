@@ -1,7 +1,10 @@
     // Получение стека полей
-    function getNewFields (url, id, number, short, block, name, pole) {
+    function getNewFields (url, id, number, short, block, name, pole, mergePole) {
         //console.log(url, id, number, short, block, name, pole);
         var field = '#blockBlock';
+        if(mergePole && mergePole !='') {
+            field = mergePole+' #blockBlock';
+        }
         var blockGroup = '#blockGroup';
         var blockDiv = 'blockDiv';
         var blockGroupClass = 'blockGroup';
@@ -79,8 +82,8 @@
                 }
                 var selectFieldName = 'selectField'+fieldId;
                 var fieldName = row.field.name;
-                var fieldField = '#'+blockDiv+row.field.fieldId+' .blockField';
-                var fieldFieldName = '#'+blockDiv+row.field.fieldId+' .'+blockGroupClass;
+                var fieldField = field+' #'+blockDiv+row.field.fieldId+' .blockField';
+                var fieldFieldName = field+' #'+blockDiv+row.field.fieldId+' .'+blockGroupClass;
                 var poleFieldId = row.field.id;
                 var dataField = row.field.childFields;
                 var poleFieldFieldId = row.field.fieldId;
@@ -90,13 +93,13 @@
                     if(block && block === 1) {
                         BlockDivClass = 'BlockDivNew';
                     }
-                    getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId);
+                    getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId, mergePole);
                 } else if (row.field.fieldType === "GROUP_CHECKBOX") {
                     BlockDivClass = 'BlockDivCheckBox';
                     if(block && block === 1) {
                         BlockDivClass = 'BlockDivCheckBoxNew';
                     }
-                    getFiledTypeCheckBox ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, up, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i);
+                    getFiledTypeCheckBox ("GROUP_CHECKBOX", row.field, field, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, up, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i, mergePole);
                 } else {
                     getFieldType (row.field.fieldType, row.field, field, id, selectFieldName, '', numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, fieldId, idFiledInput, '', up, 1);
                 }

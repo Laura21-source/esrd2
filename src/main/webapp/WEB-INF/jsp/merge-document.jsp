@@ -32,139 +32,7 @@
         <div class="card mx-auto w-100">
             <div class="card-body">
                 <div class="container-fluid">
-                    <div class="alert alert-secondary text-center mb-3">
-                        <h4 class="mt-2 documentName"></h4>
-                    </div>
-                    <form class="registrationForm needs-validation" novalidate>
-                        <div class="whomList">
-                            <div class="row ml-1 mb-3 d-flex align-items-center justify-content-center">
-                                <div class="col-2 text-left mt-2">
-                                    <span class="text-muted"><i class="fas fa-sitemap mr-2"></i> Адресат</span>
-                                </div>
-                                <div class="col-10 text-left" id="whomList"></div>
-                            </div>
-                        </div>
-                        <div class="performerBlock d-none">
-                            <div class="row ml-1 mb-3 d-flex align-items-center">
-                                <div class="col-2 text-left mt-2">
-                                    <span class="text-muted"><i class="fas fa-users mr-2"></i>Исполнители</span>
-                                </div>
-                                <div class="col-10">
-                                    <select data-placeholder="Выберите из справочника" class="chosen-select" multiple id="performerList">
-                                        <option value="">Выберите из справочника</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div id="initialUser"></div>
-                                        <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 userList">
-                                            <div class="col-md-1"><small>№</small></div>
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-8"><small>Согласователь</small></div>
-                                            <div class="col-md-2"><%--Удалить--%></div>
-                                        </div>
-                                        <div class="row text-center mb-3 font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 d-none disableUserList">
-                                            <div class="col-md-1">№</div>
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-4"><small>Согласователь</small></div>
-                                            <div class="col-md-3"><small>Комментарий</small></div>
-                                            <div class="col-md-3"><small>Дата/Время</small></div>
-                                        </div>
-                                        <div id="userListBlockDiv"></div>
-                                        <div class="row" id="userListBlock">
-                                            <div class="col-12 mt-2 blockUser" id="blockUser1">
-                                                <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">
-                                                    <div class="col-md-1">1</div>
-                                                    <div class="col-md-1"><i class="fas fa-user"></i></div>
-                                                    <div class="col-md-8 selectUser">
-                                                        <select data-placeholder="Выберите из справочника" class="chosen-select userList" data-spisok="1" id="userList1" name="userList[]" required>
-                                                            <option value="" selected>Выбрать </option>
-                                                        </select>
-                                                        <div class="fontSmall text-left" id="userListPost1"></div>
-                                                    </div>
-                                                    <div class="col-md-2"></div>
-                                                </div>
-                                            </div>
-                                            <hr class="my-1">
-                                            <div class="col-12 text-right">
-                                                <div class="btn btn-primary btn-sm addUser rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>
-                                            </div>
-                                        </div>
-                                        <div class="invalid-tooltip">Выберите согласователя</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="container-fluid mx-2">
-                                    <div class="sticky-content">
-                                        <div class="alert alert-primary mx-auto text-uppercase">Готовый документ</div>
-                                        <div class="embed-responsive embed-responsive-1by1 z-depth-1-half mb-3 d-flex align-items-center justify-content-center">
-                                            <!--Big blue Loader-->
-                                            <div class="preloader-wrapper active bigLoader d-none">
-                                                <div class="spinner-layer spinner-blue-only">
-                                                    <div class="circle-clipper left">
-                                                        <div class="circle"></div>
-                                                    </div>
-                                                    <div class="gap-patch">
-                                                        <div class="circle"></div>
-                                                    </div>
-                                                    <div class="circle-clipper right">
-                                                        <div class="circle"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="pdfSign"><i class="far fa-file-pdf text-danger fa-10x"></i></div>
-                                            <iframe class="embed-responsive-item pdfSRC" src=""></iframe>
-                                        </div>
-                                        <a href="" id="btnSavePdf" class="btn btn-default btn-sm my-3 rounded pdfHREF px-3" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>
-                                        <div id="btnReformat" class="btn btn-mdb-color btn-sm my-3 rounded px-3"><i class="fas fa-sync mr-2"></i>Переформировать</div>
-                                        <a class="btn btn-light-blue btn-sm my-3 pdfHREF px-3" href="" target="_blank">Открыть в новом окне</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="alert alert-secondary text-center mt-5 mb-3">
-                            <div class="btn btn-primary btn-sm rounded px-3 btnView"><i class="fas fa-plus mr-2"></i>Развернуть</div>
-                            <h5 class="mt-2 docName">Поля формирования документа</h5>
-                            <select id="arrayBlock" class="d-none" multiple>
-                                <option value="256" selected></option>
-                            </select>
-                        </div>
-                        <div class="card blockDocument">
-                            <div class="card-body">
-                                <div class="row mb-3 d-flex align-items-center">
-                                    <div class="col-md-3 text-left mt-2">
-                                        <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <select data-placeholder="Выберите вид документа" class="chosen-select" name="selectType" id="selectType" required>
-                                            <option value="">Выберите из справочника</option>
-                                        </select>
-                                        <div class="invalid-tooltip">Выберите тип документа</div>
-                                    </div>
-                                </div>
-                                <div id="blockUp"></div>
-                                <div id="blockBlock"></div>
-                                <div class="row mt-3" id="commentText">
-                                    <div class="col-md-3">&nbsp;</div>
-                                    <div class="col-md-6 form-group text-left">
-                                        <label class="text-muted">Комментарий</label>
-                                        <textarea class="form-control" rows="3"></textarea>
-                                    </div>
-                                    <div class="col-md-3">&nbsp;</div>
-                                </div>
-                                <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>
-                                <button type="submit" id="btnReset" class="btn btn-danger mb-2 my-4 pt-3 rounded btnReset">Отменить согласование</button>
-                                <%--<button type="button" id="btnWordFile" class="btn btn-warning mb-2 my-4 pt-3 rounded btnSave">Сгенерировать служебную записку</button>--%>
-                                <a href="" type="button" id="btnLoad" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="mergeBlock"></div>
                     <div class="alert alert-secondary text-center mb-3 blockDocumentNew d-none">
                         <div class="btn btn-primary btn-sm rounded px-3 btnCloseNew"><i class="fas fa-minus mr-2"></i>Свернуть</div>
                         <h5 class="mt-2">Формирование нового документа</h5>
@@ -285,30 +153,26 @@
 <jsp:include page="fragments/modals/newDocumentModal.jsp"/>
 <jsp:include page="fragments/footerScript.jsp"/>
 <script>
-    /*setTimeout(function() {
-        $('#mdb-preloader').remove();
-    }, 7000);*/
 
     $(function() {
         // Список всех документов
         var docAllURL = "rest/profile/doctypes/";
-        // Получаем id документа из строки
+        // Получаем информацию из id строки
         var id = getId();
 
         // Подключение стека полей
-        function getValuesDocument (docURL) {
+        function getValuesDocument (docURL, docPole) {
             $.getJSON(docURL, function(data) {
                 var finalVersion = '';
                 // Скрываем поле Адресат если finalDoc = true
-                if(data.finalDoc === true) {$('.whomList').addClass('d-none');}
+                if(data.finalDoc === true) {$(docPole+' .whomList').addClass('d-none');}
                 // Дата документа
                 var newDate = '';
                 if(data.projectRegDateTime) {newDate = formatDate(new Date(data.projectRegDateTime), 0);}
-                $(".documentName").html('Согласование документа №' + data.projectRegNum + ' от ' + newDate);
+                $(docPole+" .documentName").html('Согласование документа №' + data.projectRegNum + ' от ' + newDate);
                 // Меняем кнопку согласования на подписания
                 if (data.finalStage === true) {
-                    $('#btnWordFile').addClass('d-none');
-                    $(".documentName").html('Подписание документа №' + data.projectRegNum + ' от ' + newDate);
+                    $(docPole+" .documentName").html('Подписание документа №' + data.projectRegNum + ' от ' + newDate);
                     // Меняем кнопку согласования на подписания
                     $('#btnSave').html('Подписать');
                     $('#blockLoadPDF').removeClass('d-none');
@@ -320,12 +184,11 @@
                 if(data.regNum && data.regNum !== '') {
                     // Если документ подписан
                     newDate = formatDate(new Date(data.regDateTime), 0);
-                    $(".documentName").html('Документ №' + data.regNum + ' от ' + newDate);
+                    $(docPole+" .documentName").html('Документ №' + data.regNum + ' от ' + newDate);
                     $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
                 }
                 // Имеет ли право пользователь подписывать документ
                 if(data.canAgree === false) {
-                    //if(data.docStatus !== 'IN_AGREEMENT') {finalVersion = 1;}
                     finalVersion = 1;
                     $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
                 }
@@ -336,18 +199,18 @@
                         $('.blockDocument, #btnWordFile').addClass('d-none');
                         $('.docName').html('Сведения о документе');
                     }
-                    if(data.canDistribute == true) {
-                        $('.performerBlock').removeClass('d-none');
-                        $('#performerList').prop('required',true);
+                    /*if(data.canDistribute == true) {
+                        $(docPole+ '.performerBlock').removeClass('d-none');
+                        $(docPole+ '#performerList').prop('required',true);
                         // Добавим опций
                         if (data.executorUsersIds.length == 0) {
-                            createOptions ('rest/profile/users/', '#performerList', '', 'id', '', 'usersList');
+                            createOptions ('rest/profile/users/', docPole+' #performerList', '', 'id', '', 'usersList');
                         }
                         for(var i in data.executorUsersIds) {
-                            createOptions ('rest/profile/users/', '#performerList', '', 'id', data.executorUsersIds[i], 'usersList');
+                            createOptions ('rest/profile/users/', docPole+' #performerList', '', 'id', data.executorUsersIds[i], 'usersList');
                         }
                         // Добавление исполнителя
-                        $(document).on("change", "#performerList", function(evt, params) {
+                        $(document).on("change", docPole+" #performerList", function(evt, params) {
                             if (params.selected) {
                                 var userId = parseInt(params.selected);
                                 var serverAjax = $.ajax({
@@ -363,8 +226,8 @@
                                     var errorInfo = JSON.parse(serverAjax.responseText);
                                     toastr["error"]("Не удалось назначить исполнителя! " + errorInfo.details);
                                     //$("#performerList").empty();
-                                    $("#performerList option[value='"+userId+"']").prop("selected", false);
-                                    $("#performerList").trigger("chosen:updated");
+                                    $(docPole+" #performerList option[value='"+userId+"']").prop("selected", false);
+                                    $(docPole+" #performerList").trigger("chosen:updated");
                                 });
                             }
                             if (params.deselected) {
@@ -380,20 +243,19 @@
                                 serverAjax.fail(function () {
                                     toastr["error"]("Исполнитель не снят с документа!");
                                     //$("#performerList").empty();
-                                    $("#performerList option[value='"+userId+"']").prop("selected", false);
-                                    $("#performerList").trigger("chosen:updated");
+                                    $(docPole+" #performerList option[value='"+userId+"']").prop("selected", false);
+                                    $(docPole+" #performerList").trigger("chosen:updated");
                                 });
                             }
                         });
-                    }
+                    }*/
                 }
-
                 // Список согласования
-                $('#userListBlock, .userList').remove();
-                $('.disableUserList').removeClass('d-none');
+                $(docPole+' #userListBlock,'+docPole+' .userList').remove();
+                $(docPole+' .disableUserList').removeClass('d-none');
                 // Инициатор согласования
                 if(data.initialUser) {
-                    $('#initialUser').append('' +
+                    $(docPole+' #initialUser').append('' +
                         '<div class="mb-3 d-flex align-items-center">' +
                         '   <div class="text-muted mr-2">' +
                         '       <i class="fas fa-user text-success mr-2" title="Инициатор согласования"></i>Инициатор согласования:' +
@@ -401,236 +263,165 @@
                         '   <div>'+data.initialUser.fullName+'</div>' +
                         '</div>');
                 }
-                createUserListDisabled('rest/profile/docs/'+id+'/agreement/list', finalVersion);
-
-                // Перенаправление согласования другому пользователю открытие модального окна
-                $(document).on("click", '.btnReturn',  function(event) {
-                    event.preventDefault();
-                    $('#userListPost1001').empty();
-                    $('#btnUndo').modal('show');
-                    var valueUndo = $(this).attr('data-undo');
-                    $('#undoSave').attr('data-undo',valueUndo);
-                    // Добавление согласованта
-                    createOptions ('rest/profile/users/', '#userList1001', '', 'id', '', 'usersList');
-                    $(document).on("change", ".userList1001", function() {
-                        var userId = $(this).val();
-                        createUserList('rest/profile/users/'+userId, '#userListPost1001');
-                    });
-                });
-
-                // Перенаправление согласования другому пользователю отправка данных
-                $('#undoSave').click(function(event) {
-                    event.preventDefault();
-                    var newUndo = $('#userList1001').val();
-                    $('.loaderUndo').removeClass('d-none');
-                    $('.headerUndo, .footerUndo').addClass('d-none').fadeIn(500);
-                    var url = 'rest/profile/docs/'+id+'/agreement/redirect?targetUserId='+newUndo;
-                    $('.returnUser').addClass('d-none');
-                    $('#userListPost1001').empty();
-                    //console.log(url);
-                    var serverAjax = $.ajax({
-                        type: "POST",
-                        url: url,
-                        contentType: 'application/json; charset=utf-8'
-                    });
-                    serverAjax.done(function(data) {
-                        $('.loaderUndo').addClass('d-none');
-                        $('.bodyUndo, .headerUndo').removeClass('d-none').fadeIn(500);
-                        // Обновление списка согласования
-                        $('#userListBlockDiv').empty();
-                        createUserListDisabled('rest/profile/docs/'+id+'/agreement/list', finalVersion);
-                        setTimeout(function() {
-                            $('#btnUndo').modal('hide');
-                            $('.footerUndo').removeClass('d-none').fadeIn(2000);
-                        }, 1500);
-                    });
-                    serverAjax.fail(function () {
-                        toastr["error"]("Ошибка перенаправления согласования!");
-                    });
-                });
+                createUserListDisabled('rest/profile/docs/'+data.id+'/agreement/list', finalVersion, docPole);
 
                 // Ссылки на документ PDF
                 var documentPDF = data.UrlPDF;
-                $('.pdfSRC').attr('src', documentPDF);
-                $('.pdfHREF').attr('href', documentPDF);
+                $(docPole+' .pdfSRC').attr('src', documentPDF);
+                $(docPole+' .pdfHREF').attr('href', documentPDF);
                 // Получение списка полей вида документа
-                createOptions(docAllURL, '#selectType', 'name', 'id', data.docTypeId,'');
-                // Получение основных полей
+                $(docPole+' #selectType').chosen({
+                    width: "100%",
+                    no_results_text: "Ничего не найдено!"
+                });
+                createOptions(docAllURL, docPole+' #selectType', 'name', 'id', data.docTypeId,'');
                 // Список кому
                 createWhomListDisabled (data.executorDepartmentsIds);
                 // Вывод блоков полей
-                getNewFields(docURL, id, '');
+                getNewFields(docURL, data.id, '', '', '', '', '', docPole);
+                setTimeout(function() {
+                    $('#mdb-preloader').removeClass('loaded').hide();
+                }, 500);
             });
         }
 
         // Проверяем - один документ или несколько
         if(id.indexOf(',') > 0) {
+            $('.mergeBlock').append(
+                '<div class="accordion md-accordion card mb-3" id="accordionEx" role="tablist" aria-multiselectable="true"></div>'
+            );
             // Поля документов по
             var documentsId = id.split( "," );
             $.each(documentsId, function (index, value) {
+                $('.accordion').append(
+                    '<div class="card" id="document'+index+'">' +
+                    '   <div class="card-header" role="tab" id="heading'+index+'">' +
+                    '       <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse'+index+'" aria-expanded="false" aria-controls="collapse'+index+'">' +
+                    '           <div class="alert alert-primary text-center mb-3">' +
+                    '               <h4 class="mt-2"><span class="documentName"></span><i class="fas fa-angle-down rotate-icon"></i></h4>' +
+                    '           </div>' +
+                    '       </a>' +
+                    '   </div>' +
+                    '   <div id="collapse'+index+'" class="collapse" role="tabpanel" aria-labelledby="heading'+index+'" data-parent="#accordionEx">' +
+                    '       <div class="card-body">' +
+                    '           <form class="registrationForm needs-validation" novalidate>' +
+                    '               <div class="row">' +
+                    '                   <div class="col-md-6">' +
+                    '                       <div class="alert alert-primary mx-auto text-uppercase">Список согласования</div>' +
+                    '                       <div class="card z-depth-1-half rounded">' +
+                    '                           <div class="card-body">' +
+                    '                               <div id="initialUser"></div>' +
+                    '                               <div class="row text-center font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 userList">' +
+                    '                                   <div class="col-md-1"><small>№</small></div>' +
+                    '                                   <div class="col-md-1"></div>' +
+                    '                                   <div class="col-md-8"><small>Согласователь</small></div>' +
+                    '                                   <div class="col-md-2"><%--Удалить--%></div>' +
+                    '                               </div>' +
+                    '                               <div class="row text-center mb-3 font-weight-bold blue-grey lighten-5 d-flex align-items-center justify-content-center py-2 d-none disableUserList">' +
+                    '                                   <div class="col-md-1">№</div>' +
+                    '                                   <div class="col-md-1"></div>' +
+                    '                                   <div class="col-md-4"><small>Согласователь</small></div>' +
+                    '                                   <div class="col-md-3"><small>Комментарий</small></div>' +
+                    '                                   <div class="col-md-3"><small>Дата/Время</small></div>' +
+                    '                               </div>' +
+                    '                               <div id="userListBlockDiv"></div>' +
+                    '                               <div class="row" id="userListBlock">' +
+                    '                                   <div class="col-12 mt-2 blockUser" id="blockUser1">' +
+                    '                                       <div class="row d-flex align-items-center justify-content-center fontSmall" data-user="1">' +
+                    '                                           <div class="col-md-1">1</div>' +
+                    '                                           <div class="col-md-1"><i class="fas fa-user"></i></div>' +
+                    '                                           <div class="col-md-8 selectUser">' +
+                    '                                               <select data-placeholder="Выберите из справочника" class="chosen-select userList" data-spisok="1" id="userList1" name="userList[]" required>' +
+                    '                                                   <option value="" selected>Выбрать </option>' +
+                    '                                               </select>' +
+                    '                                               <div class="fontSmall text-left" id="userListPost1"></div>' +
+                    '                                           </div>' +
+                    '                                           <div class="col-md-2"></div>' +
+                    '                                      </div>' +
+                    '                                   </div>' +
+                    '                                   <hr class="my-1">' +
+                    '                                   <div class="col-12 text-right">' +
+                    '                                       <div class="btn btn-primary btn-sm addUser rounded px-3" title="Добавить согласователя"><i class="fas fa-plus mr-2"></i> Добавить</div>' +
+                    '                                   </div>' +
+                    '                               </div>' +
+                    '                               <div class="invalid-tooltip">Выберите согласователя</div>' +
+                    '                           </div>' +
+                    '                       </div>' +
+                    '                   </div>' +
+                    '                   <div class="col-md-6">' +
+                    '                       <div class="container-fluid mx-2">' +
+                    '                           <div class="sticky-content">' +
+                    '                               <div class="alert alert-primary mx-auto text-uppercase">Готовый документ</div>' +
+                    '                               <div class="embed-responsive embed-responsive-1by1 z-depth-1-half rounded mb-3 d-flex align-items-center justify-content-center">' +
+                    '                                   <div class="preloader-wrapper active bigLoader d-none">' +
+                    '                                       <div class="spinner-layer spinner-blue-only">' +
+                    '                                           <div class="circle-clipper left">' +
+                    '                                               <div class="circle"></div>' +
+                    '                                           </div>' +
+                    '                                           <div class="gap-patch">' +
+                    '                                               <div class="circle"></div>' +
+                    '                                           </div>' +
+                    '                                           <div class="circle-clipper right">' +
+                    '                                               <div class="circle"></div>' +
+                    '                                           </div>' +
+                    '                                       </div>' +
+                    '                                   </div>' +
+                    '                                   <div class="pdfSign"><i class="far fa-file-pdf text-danger fa-10x"></i></div>' +
+                    '                                   <iframe class="embed-responsive-item pdfSRC" src=""></iframe>' +
+                    '                               </div>' +
+                    '                               <a href="" id="btnSavePdf" class="btn btn-default btn-sm my-3 rounded pdfHREF px-3" target="_blank" data-toggle="tooltip" title="Скачать файл"><i class="fas fa-download mr-2"></i>Скачать</a>' +
+                    '                               <div id="btnReformat" class="btn btn-mdb-color btn-sm my-3 rounded px-3"><i class="fas fa-sync mr-2"></i>Переформировать</div>' +
+                    '                               <a class="btn btn-light-blue btn-sm my-3 pdfHREF px-3" href="" target="_blank">Открыть в новом окне</a>' +
+                    '                           </div>' +
+                    '                       </div>' +
+                    '                   </div>' +
+                    '               </div>' +
+                    '               <div class="alert alert-secondary text-center mt-5 mb-3">' +
+                    '                   <div class="btn btn-primary btn-sm rounded px-3 btnView"><i class="fas fa-plus mr-2"></i>Развернуть</div>' +
+                    '                   <h5 class="mt-2 docName">Поля формирования документа</h5>' +
+                    '                   <select id="arrayBlock" class="d-none" multiple>' +
+                    '                       <option value="256" selected></option>' +
+                    '                   </select>' +
+                    '               </div>' +
+                    '               <div class="card blockDocument">' +
+                    '                   <div class="card-body">' +
+                    '                       <div class="row mb-3 d-flex align-items-center">' +
+                    '                           <div class="col-md-3 text-left mt-2">' +
+                    '                               <div class="text-muted"><i class="fas fa-file-alt mr-2"></i> Вид документа<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>' +
+                    '                           </div>' +
+                    '                           <div class="col-md-9">' +
+                    '                               <select data-placeholder="Выберите вид документа" class="chosen-select" name="selectType" id="selectType" required>' +
+                    '                                   <option value="">Выберите из справочника</option>' +
+                    '                               </select>' +
+                    '                               <div class="invalid-tooltip">Выберите тип документа</div>' +
+                    '                           </div>' +
+                    '                       </div>' +
+                    '                       <div id="blockUp"></div>' +
+                    '                       <div id="blockBlock"></div>' +
+                '                           <div class="row mt-3" id="commentText">' +
+                    '                           <div class="col-md-3">&nbsp;</div>' +
+                    '                           <div class="col-md-6 form-group text-left">' +
+                    '                               <label class="text-muted">Комментарий</label>' +
+                    '                               <textarea class="form-control" rows="3"></textarea>' +
+                    '                           </div>' +
+                    '                           <div class="col-md-3">&nbsp;</div>' +
+                    '                       </div>' +
+                    '                       <button type="submit" id="btnSave" class="btn btn-success mb-2 my-4 pt-3 rounded btnSave">Согласовать</button>' +
+                    '                       <button type="submit" id="btnReset" class="btn btn-danger mb-2 my-4 pt-3 rounded btnReset">Отменить согласование</button>' +
+                    '                       <a href="" type="button" id="btnLoad" class="btn btn-primary mb-2 my-4 pt-3 rounded d-none btnSave"><i class="fas fa-download mr-2"></i>Скачать файл</a>' +
+                    '                   </div>' +
+                    '               </div>' +
+                    '           </form>' +
+                    '       </div>' +
+                    '   </div>' +
+                    '</div>'
+                );
                 var docURL = "rest/profile/docs/" + value;
-                getValuesDocument (docURL);
-                setTimeout(function() {
-                    $('#mdb-preloader').removeClass('loaded').hide();
-                }, 500);
+                getValuesDocument (docURL, '#document'+index);
             });
         } else {
             window.location.href = "agree-document?id=" + id;
         }
-
-        // Отправка согласования на сервер
-        $('#btnSave').on("click", function(event) {
-            event.preventDefault();
-            //var forms = $('.registrationForm');
-            var formsValue = $('.registrationForm input,.registrationForm textarea,.registrationForm select').filter('[required]');
-            event.preventDefault();
-            var checkField = checkValidation(formsValue);
-            if(checkField === false) {
-                toastr["error"]("Заполните обязательные поля!");
-                event.stopPropagation();
-                // Переход к первому незаполненному элементу
-                $("html,body").scrollTop($('.chosen-invalid:first').offset().top);
-            } else {
-                $('#btnSuccess').modal('show');
-                //var trueName = $(this).html();
-                //$(this).attr('disabled', true).html('Отправка запроса');
-                var dataType = $("#selectType").val();
-                // Формируем поля JSON
-                var dataField = createDataField(id);
-                var sumElem = countElem(dataField) + 1;
-                var dataBlock = createDataBlock(id, sumElem);
-                //console.log(JSON.stringify(dataBlock));
-                var serverStack = JSON.stringify(createJSON(id, dataType, dataField, dataBlock,2));
-                console.log(serverStack);
-                var serverAjax = $.ajax({
-                    type: "POST",
-                    url: 'rest/profile/docs',
-                    data: serverStack,
-                    contentType: 'application/json; charset=utf-8'
-                });
-                serverAjax.done(function(data) {
-                    $('.loaderSuccess, .headerAddTemplate').addClass('d-none');
-                    $('.bodySuccess, .headerSuccess, .footerSuccess').removeClass('d-none').fadeIn(500);
-                    var regNum = data.regNum;
-                    if (regNum) {
-                        $('#btnSuccess #regName').html('Регистрационный номер:');
-                        $('#btnSuccess #regNum').html(regNum);
-                    }
-                    $('#btnSuccess').on('hidden.bs.modal', function () {
-                        //$("#btnSave").attr('disabled', false).html(trueName);
-                        window.location.href = "agree-document?id=" + data.id;
-                    });
-                    /*} else {
-                        $('#btnSuccess').on('hidden.bs.modal', function () {
-                            $("#btnSave").attr('disabled', false).html(trueName);
-                            window.location.href = "agreement";
-                        });
-                    }*/
-                });
-                serverAjax.fail(function() {
-                    toastr["error"]("Ошибка сохранения файла!");
-                });
-            }
-        });
-
-        // Отправка отмены согласования на сервер
-        $('#btnReset').on("click", function(event) {
-            event.preventDefault();
-            $('#btnCancel').modal('show');
-            var trueName =  $(this).html();
-            $(this).attr('disabled', true).html('Отправка запроса');
-            var dataType = $("#selectType").val();
-            // Формируем поля JSON
-            var dataField = createDataField(id);
-            var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(id, sumElem);
-            //console.log(JSON.stringify(dataBlock));
-            var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock,2));
-            //console.log(serverStack);
-            var comment = $('#commentText textarea').val();
-            var serverAjax = $.ajax({
-                type: "POST",
-                url: 'rest/profile/docs/rejectDocAgreement/'+id+'?comment='+comment,
-                data: serverStack,
-                contentType: 'application/json; charset=utf-8'
-            });
-            serverAjax.done(function() {
-                $('.loaderCancel').addClass('d-none');
-                $('.bodyCancel, .headerCancel, .footerCancel').removeClass('d-none').fadeIn(500);
-                $('#btnCancel').on('hidden.bs.modal', function() {
-                    $("#btnReset").attr('disabled', false).html(trueName);
-                    window.location.href="agreement";
-                });
-            });
-            serverAjax.fail(function () {
-                toastr["error"]("Ошибка отправки отмены согласования!");
-            });
-        });
-
-        // Возврат пользователю согласования с комментарием
-        $('#btnReturn').on("click", function(event) {
-            event.preventDefault();
-            $('#btnCancel').modal('show');
-            var trueName =  $(this).html();
-            $(this).attr('disabled', true).html('Отправка запроса');
-            var dataType = $("#selectType").val();
-            // Формируем поля JSON
-            var dataField = createDataField(id);
-            var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(id, sumElem);
-            //console.log(JSON.stringify(dataBlock));
-            var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock,2));
-            //console.log(serverStack);
-            var comment = $('#commentText textarea').val();
-            var serverAjax = $.ajax({
-                type: "POST",
-                url: 'rest/profile/docs/rejectDocAgreement/'+id+'?comment='+comment,
-                data: serverStack,
-                contentType: 'application/json; charset=utf-8'
-            });
-            serverAjax.done(function() {
-                $('.loaderCancel').addClass('d-none');
-                $('.bodyCancel, .headerCancel, .footerCancel').removeClass('d-none').fadeIn(500);
-                $('#btnCancel').on('hidden.bs.modal', function() {
-                    $("#btnReset").attr('disabled', false).html(trueName);
-                    window.location.href="agreement";
-                });
-            });
-            serverAjax.fail(function () {
-                toastr["error"]("Ошибка отправки возврата согласования!");
-            });
-        });
-
-        // Отправка на сервер файла PDF
-        $('#btnReformat').on("click", function(event) {
-            event.preventDefault();
-            var trueName =  $(this).html();
-            $(this).html('Отправка запроса').attr('disabled', true);
-            $(".pdfSRC, .pdfSign").addClass("d-none");
-            $(".bigLoader").removeClass("d-none").fadeIn(500);
-            var dataType = $("#selectType").val();
-            // Формируем поля JSON
-            var dataField = createDataField(id);
-            var sumElem = countElem(dataField)+1;
-            var dataBlock = createDataBlock(id, sumElem);
-            var reformatPDF = JSON.stringify(createJSON(id,dataType,dataField,dataBlock,2));
-            console.log(reformatPDF);
-            var serverAjax = $.ajax({
-                type: "POST",
-                url: 'rest/profile/docs/pdf',
-                data: reformatPDF,
-                contentType: 'application/json; charset=utf-8'
-            });
-            serverAjax.done(function(data) {
-                $(".bigLoader").addClass("d-none").fadeOut(1000);
-                $("#btnReformat").html(trueName).attr('disabled', false).removeClass('waves-effect');
-                $(".pdfSRC").removeClass("d-none").attr("src", data.fileUrl);
-                $(".pdfHREF").attr("href", data.fileUrl);
-            });
-            serverAjax.fail(function () {
-                toastr["error"]("Ошибка отправки файла PDF!");
-            });
-        });
 
         // ФОРМИРОВАНИЕ НОВОГО ДОКУМЕНТА
         // Список полей вида документов

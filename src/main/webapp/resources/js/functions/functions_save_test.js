@@ -434,7 +434,7 @@
     }
 
     // Формирование списка пользователей без возможности редактирования
-    function createUserListDisabled (url, finalVersion) {
+    function createUserListDisabled (url, finalVersion, pole) {
         return $.getJSON(url, function(data) {
             for(var i in data) {
                 var row = data[i];
@@ -453,7 +453,10 @@
                 if(row.currentUser === true) {
                     currentUser = '<i class="fas fa-user-clock text-warning" title="Текущий согласователь"></i>';
                     if(finalVersion !== 1) {
-                        undoUser = '<button class="btn btn-primary btn-sm px-2 py-1 mx-3 btnReturn" type="button" data-undo="'+row.userId+'" title="Перенаправить на согласование"><i class="fas fa-undo-alt text-white"></i></button>';
+                        undoUser =
+                            '<button class="btn btn-primary btn-sm px-2 py-1 mx-3 btnReturn" type="button" data-undo="'+row.userId+'" title="Перенаправить на согласование">' +
+                            '   <i class="fas fa-undo-alt text-white"></i>' +
+                            '</button>';
                     }
                 } else {
                     currentUser = '<i class="fas fa-ellipsis-h text-muted" title="Согласователь"></i>';
@@ -468,9 +471,21 @@
                     currentUser = '<i class="fas fa-undo-alt text-primary" title="Перенаправление"></i>';
                 }
                 if(row.decisionType && row.decisionType === 'REJECTED') {
-                    currentUser = '<i class="fas fa-times text-danger" title="Согалсование отменено"></i>';
+                    currentUser = '<i class="fas fa-times text-danger" title="Согласование отменено"></i>';
                 }
-                $('#userListBlockDiv').append('<div class="row mb-3 d-flex align-items-center" data-value="'+row.userId+'"><div class="col-1 text-center">'+row.ordering+'</div><div class="col-1 text-center">'+currentUser+'</div><div class="col-4">'+row.fullName+undoUser+'<br><small class="text-muted">'+position+'</small></div><div class="col-3"><small>'+comment+'</small></div><div class="col-3"><small>'+agreedDateTime+'</small></div></div>');
+                var userListBlockDiv = '#userListBlockDiv';
+                if(pole && pole !='') {
+                    userListBlockDiv = pole+' '+userListBlockDiv;
+                }
+                $(userListBlockDiv).append(
+                    '<div class="row mb-3 d-flex align-items-center" data-value="'+row.userId+'">' +
+                    '   <div class="col-1 text-center">'+row.ordering+'</div>' +
+                    '   <div class="col-1 text-center">'+currentUser+'</div>' +
+                    '   <div class="col-4">'+row.fullName+undoUser+'<br><small class="text-muted">'+position+'</small></div>' +
+                    '   <div class="col-3"><small>'+comment+'</small></div>' +
+                    '   <div class="col-3"><small>'+agreedDateTime+'</small></div>' +
+                    '</div>'
+                );
             }
         });
     }

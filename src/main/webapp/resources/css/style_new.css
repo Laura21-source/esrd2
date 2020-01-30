@@ -105,3 +105,11 @@ sup {font-size: 6px;}
   opacity: 0;
   transition: .3s ease-in 1s;
 }
+
+.md-accordion .collapse .card {
+  border: none!important;
+}
+
+.md-accordion .collapse .card .cloneGroup, .md-accordion .collapse .card .delGroup, .md-accordion .collapse .card .addBlock {
+  display: none!important;
+}

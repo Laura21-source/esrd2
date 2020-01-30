@@ -1,6 +1,6 @@
     // Получение данных по виду поля
     function getFieldType (type, data, pole, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, key, dubKey, idField, idFiledInput, selfClass, up, emptyData) {
-        var numberCatalog = ('#'+selectFieldName);
+        var numberCatalog = (pole+' #'+selectFieldName);
         var valueDate = ''; var classElem = ''; var idData = ''; var checkClass = ''; var dataValue = '';
         if(selfClass && selfClass != '') {checkClass = ' '+selfClass;}
         // DATE
@@ -49,7 +49,7 @@
                     '   </div>' +
                     '   <div class="col-md-9"></div>' +
                     '</div>');
-                createInput(".col-md-9:last", "text", nameText, nameText, "Введите значение", 0, '' + data.name, dataValue, data.fieldId, up, idField, data.enabled, data.required, '', 1, selfClass);
+                createInput(pole+" .col-md-9:last", "text", nameText, nameText, "Введите значение", 0, '' + data.name, dataValue, data.fieldId, up, idField, data.enabled, data.required, '', 1, selfClass);
                 newId = newId + 1;
             }
         }

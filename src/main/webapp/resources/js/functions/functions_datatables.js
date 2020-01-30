@@ -22,7 +22,8 @@
                 { 'data': 'docType' },
                 { 'data': 'executorDepartments' },
                 { 'data': 'executorUsers' },
-                { 'data': 'link' }
+                { 'data': 'link' },
+                { 'data': 'edit' }
             ]
         );
         columns.push(
@@ -108,6 +109,11 @@
                         }
                         item.link = "<a href='agree-document?id=" + item.id + "'><i class='fas fa-edit text-primary'></i></a>";
                         //item.executorDepartments = '<form><select class="chosen-select" id="departmentList"><option value="'+item.executorDepartments+'">'+item.executorDepartments+'</option></select></form>';
+                        item.edit =
+                            '<div class="form-check">' +
+                            '    <input type="checkbox" class="form-check-input makeAnswer" id="doc'+item.id+'" data-document="'+item.id+'">' +
+                            '    <label class="form-check-label" for="doc'+item.id+'"></label>' +
+                            '</div>';
                     });
                     return data;
                 }
@@ -143,14 +149,24 @@
         });
     }
 
-    // Получение данных в таблицу
-    function getTablesFields (url, pole) {
-        $.ajax({
-            url: url,
-            dataType: 'json',
-            async: false,
-            success: function(data) {
-                $(pole).append('<div class="editTable"><h6 class="my-3 text-center">'+data.name+'</h6>'+data.htmlContent+'</div>');
-            }
+    // Показываем кнопку для отправки
+    $(document).on('click', '.makeAnswer', function() {
+        var sumMake = $('.makeAnswer:checked').length;
+        if(sumMake > 1) {
+            $('#btnAnswer').removeClass('d-none');
+        } else {
+            $('#btnAnswer').addClass('d-none').attr('href', '#');
+        }
+    });
+
+    // Получаем ссылку на страницу по нажатию на кнопку отправить
+    $(document).on('click', '#btnAnswer', function() {
+        var allDocs = '';
+        $('.makeAnswer:checked').each(function() {
+            var docId = $(this).attr('data-document');
+            allDocs = allDocs+docId+',';
         });
-    }
+        allDocs = allDocs.slice(0, -1);
+        var newLink = 'merge-document?id='+allDocs;
+        $('#btnAnswer').attr('href', newLink);
+    });

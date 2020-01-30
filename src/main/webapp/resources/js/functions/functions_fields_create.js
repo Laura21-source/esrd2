@@ -18,7 +18,6 @@
     16. selfClass - Название собственного класса
     */
     function createInput (element, type, id, name, title, short, iconName, value, field, up, idField, enabled, required, attachment, text, selfClass) {
-        //console.log(idField);
         var idVal = "";
         if (idField) {idVal = ' data-id="'+idField+'"';}
         var inputVal = '';
@@ -56,7 +55,8 @@
                 '   <div class="file-path-wrapper btnLoad">' +
                 '       <input class="file-path validate" type="text" placeholder="Выберите файл">'+requiredValidate+'' +
                 '   </div>' +
-                '</div>');
+                '</div>'
+            );
         } else if (attachment == 2) {
             $(element).append(
                 '<div class="row d-flex align-items-center">' +
@@ -76,32 +76,34 @@
                 '           <i class="fas fa-download"></i>' +
                 '       </a>' +
                 '   </div>' +
-                '</div>');
+                '</div>'
+            );
         } else if (text == 1) {
+            //console.log(element);
             $(element).append(
                 '<input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'"' +
-                ' data-field="'+field+'"' +
-                ' '+idVal+enaBled+reqUired+' class="white form-control'+upClass+'"'+inputVal+'>' +
-                ''+requiredValidate);
+                ' data-field="'+field+'" '+idVal+enaBled+reqUired+' class="white form-control'+upClass+'"'+inputVal+'>' +
+                ''+requiredValidate
+            );
         } else {
             $(element).append(
-                '<div class="row d-flex align-items-center mb-3">'+col+'' +
+                '<div class="row d-flex align-items-center mb-3">'+col+
                 '<div class="row">' +
                 '   <div class="col-md-3 text-left">' +
                 '       <div for="'+name+'" class="text-muted">'+iconName+requiredSup+'</div>' +
                 '   </div>' +
                 '   <div class="col-md-9">' +
-                '       <input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'" ' +
-                'data-field="'+field+'" '+idVal+enaBled+reqUired+'' +
+                '       <input title="'+title+'" type="'+type+'" id="'+name+'" name="'+name+'"' +
+                ' data-field="'+field+'" '+idVal+enaBled+reqUired+'' +
                 ' class="white form-control'+upClass+'"'+inputVal+'>'+requiredValidate+'</div>' +
                 '   </div>' +
-                '</div>'+colShort+'</div>');
+                '</div>'+colShort+'</div>'
+            );
         }
     }
 
     // Добавить блок по чеку на чекбокс
     function checkedFields (element, block) {
-        console.log(element, block);
         $(element).click(function() {
             if ($(this).is(':checked')) {
                 $(block).removeClass('d-none');

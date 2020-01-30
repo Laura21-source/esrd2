@@ -16,6 +16,18 @@ $(document).on("click", '.tableTemplates',  function(event) {
     createOptions ('rest/profile/htmltables/', '#addTable1001', 'name', 'id', '', '');
 });
 
+// Получение данных в таблицу
+function getTablesFields (url, pole) {
+    $.ajax({
+        url: url,
+        dataType: 'json',
+        async: false,
+        success: function(data) {
+            $(pole).append('<div class="editTable"><h6 class="my-3 text-center">'+data.name+'</h6>'+data.htmlContent+'</div>');
+        }
+    });
+}
+
 // Превью таблиц по выбору опции
 $('#addTable1001').change(function() {
     $('#tableTemplateView').empty();

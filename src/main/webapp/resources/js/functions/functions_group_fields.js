@@ -1,6 +1,9 @@
     // Получение полей блока GROUP_FIELDS
-    function groupNewFieldsValue (data, id, blockId, dubKey, dataBlock, emptyData) {
-        //console.log(data, id, blockId, dubKey, dataBlock, emptyData);
+    function groupNewFieldsValue (data, id, blockId, dubKey, dataBlock, emptyData, mergePole) {
+        var field = '#blockBlock';
+        if(mergePole && mergePole !='') {
+            field = mergePole+' #blockBlock';
+        }
         var idField = ''; var idFiledInput = '';
         var blockDiv = 'blockDiv';
         var blockGroup = 'blockGroup';
@@ -12,7 +15,7 @@
             blockElement = 'blockElementNew';
             idBlock = 2;
         }
-        var blockGroup = '#'+blockDiv+blockId+' #'+blockGroup;
+        var blockGroup = field+' #'+blockDiv+blockId+' #'+blockGroup;
         for (var y in data) {
             var rowSelectField = data[y];
             // Есть ли родитель у блока
@@ -54,7 +57,7 @@
             if(rowSelectField.fieldType !== "GROUP_CHECKBOX") {
                 getFieldType (rowSelectField.fieldType, rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, blockElement,'', emptyData);
             } else {
-                getFiledTypeCheckBox ("GROUP_CHECKBOX", rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 0, '','',dataBlock);
+                getFiledTypeCheckBox ("GROUP_CHECKBOX", rowSelectField, blockGroup+dubKey+' .blockGroupFields', id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, y, dubKey, idField, idFiledInput, 0, '','',dataBlock, '', '', '', '', '', '', '', '', mergePole);
             }
         }
     }
@@ -76,12 +79,8 @@
         }
         // Кнопка удаления полей
         var delButton = ' d-none';
-        //var cloneButton = ' d-none';
         var cloneButton = '';
-        if (dubKey > 1) {
-            delButton = '';
-            //cloneButton = '';
-        }
+        if (dubKey > 1) {delButton = '';}
         var idData = '';
         var blockNameVal = 'Блок '+newKey;
         if(name) {blockNameVal = 'Блок '+name;}
@@ -93,7 +92,7 @@
             ' data-block="'+dataBlock+'"'+idData+'' +
             ' data-div="'+fieldId+'">' +
             '       <div class="col-12">' +
-            '           <div class="card">' +
+            '           <div class="card z-depth-1-half rounded">' +
             '               <div class="card-body">' +
             '                   <div class="row">' +
             '                       <div class="col-md-9 text-left"><h5 class="'+nameGroup+'">'+blockNameVal+'</h5></div>' +
@@ -124,6 +123,7 @@
 
     // Добавление блока группы
     function groupNew (blockDivClass, id, field, fieldId, dubKey, name, newKey, block, nameBlock, poleId, agree) {
+        //console.log(field);
         var blockDiv = 'blockDiv';
         var addBlock = 'addBlock';
         var blockName = 'blockName';
@@ -138,7 +138,7 @@
         var dataId = '';
         if(id > 0) {}
         $(field).append(
-            '<div class="card '+blockDivClass+' p-3 mb-3" id="'+blockDiv+'" data-block="'+fieldId+'">' +
+            '<div class="card z-depth-1-half rounded border-0 '+blockDivClass+' p-3 mb-3" id="'+blockDiv+'" data-block="'+fieldId+'">' +
             '   <h5 class="'+blockName+' my-3">'+nameBlock+'</h5>' +
             '   <div class="blockField"></div>' +
             '   <div class="row my-3">' +
@@ -152,60 +152,62 @@
             '   </div>' +
             '</div>');
         if(agree != 1) {
-            groupNewFields ('#'+blockDiv+' .blockField', fieldId, dubKey, name, newKey, block, id, dataId);
+            groupNewFields (field+' #'+blockDiv+' .blockField', fieldId, dubKey, name, newKey, block, id, dataId);
         }
     }
 
-    function getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId) {
+    function getFiledTypeGroupField (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId, mergePole) {
         //console.log(id,BlockDivClass,fieldFieldName,field,fieldId,dubKey,name,newKey,block,fieldName,i,fieldField,poleFieldId,dataField,poleFieldFieldId);
-        var BlockDivClassBlock = '.'+BlockDivClass;
+        var BlockDivClassBlock = field+' .'+BlockDivClass;
+        console.log(BlockDivClassBlock);
         if(id > 0) {
             if($(BlockDivClassBlock).length == 0) {
                 groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);
                 groupNewFields (fieldField, fieldId, dubKey, name, 1, block, id, poleFieldId);
-                groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
+                groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1, mergePole);
             } else {
                 var idBlockValue = $(BlockDivClassBlock+':last').attr('data-block');
                 var y = $(fieldFieldName).length + 1;
                 if(idBlockValue == poleFieldFieldId) {
                     groupNewFields (fieldField, fieldId, y, name, y, block, id, poleFieldId);
-                    groupNewFieldsValue (dataField, id, fieldId, y, block, 1);
+                    groupNewFieldsValue (dataField, id, fieldId, y, block, 1, mergePole);
                 } else {
                     groupNew (BlockDivClass, id, field, fieldId, y, name, y, block, fieldName, i, 1);
                     groupNewFields (fieldField, fieldId, y, name, 1, block, id, poleFieldId);
-                    groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
+                    groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1, mergePole);
                 }
             }
         } else {
             groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, '');
-            groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
+            groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1, mergePole);
             //console.log(dataField, id, fieldId, dubKey, block);
         }
     }
 
-    function getFiledTypeGroupFieldCheckBox (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId) {
+    function getFiledTypeGroupFieldCheckBox (id, BlockDivClass, fieldFieldName, field, fieldId, dubKey, name, newKey, block, fieldName, i, fieldField, poleFieldId, dataField, poleFieldFieldId, mergePole) {
         //console.log(id,BlockDivClass,fieldFieldName,field,fieldId,dubKey,name,newKey,block,fieldName,i,fieldField,poleFieldId,dataField,poleFieldFieldId);
+        console.log(mergePole);
         var BlockDivClassBlock = '.'+BlockDivClass;
         if(id > 0) {
             if($(BlockDivClassBlock).length == 0) {
                 groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, 1);
                 groupNewFields (fieldField, fieldId, dubKey, name, 1, block, id, poleFieldId);
-                groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
+                groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1, mergePole);
             } else {
                 var idBlockValue = $(BlockDivClassBlock+':last').attr('data-block');
                 var y = $(fieldFieldName).length + 1;
                 if(idBlockValue == poleFieldFieldId) {
                     groupNewFields (fieldField, fieldId, y, name, y, block, id, poleFieldId);
-                    groupNewFieldsValue (dataField, id, fieldId, y, block, 1);
+                    groupNewFieldsValue (dataField, id, fieldId, y, block, 1, mergePole);
                 } else {
                     groupNew (BlockDivClass, id, field, fieldId, y, name, y, block, fieldName, i, 1);
                     groupNewFields (fieldField, fieldId, y, name, 1, block, id, poleFieldId);
-                    groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
+                    groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1, mergePole);
                 }
             }
         } else {
             groupNew (BlockDivClass, id, field, fieldId, dubKey, name, newKey, block, fieldName, i, '');
-            groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1);
+            groupNewFieldsValue (dataField, id, fieldId, dubKey, block, 1, mergePole);
             //console.log(dataField, id, fieldId, dubKey, block);
         }
     }

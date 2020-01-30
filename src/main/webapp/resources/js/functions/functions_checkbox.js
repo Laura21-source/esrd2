@@ -1,15 +1,19 @@
 // Получение данных поля чекбокса
-function getFiledTypeCheckBox (type, data, pole, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, idField, idFiledInput, up, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i) {
-    var classElem = '';
+function getFiledTypeCheckBox (type, data, pole, id, selectFieldName, blockGroup, numberField, parentBlock, parentCatalog, requiredSup, requiredValidate, enaOpiton, required, newKey, dubKey, idField, idFiledInput, up, BlockDivClass, fieldFieldName, block, fieldName, fieldField, poleFieldId, dataField, poleFieldFieldId, name, fieldId, i, mergePole) {
+    var classElem = ''; var mergePoleName = ''; var disabledAttr = '';
+    if(mergePole && mergePole != '') {
+        mergePoleName = mergePole.replace('#', '');
+        disabledAttr = ' disabled';
+    }
     if(up == 1) {classElem = ' upElem';}
     if(up == 0) {classElem = ' blockElement';}
     var blockGroupField =  '.blockGroup';
-    var nameBlock = data.tag+data.fieldId+'_'+dubKey;
+    var nameBlock = mergePoleName+data.tag+data.fieldId+'_'+dubKey;
     if(block == 1) {
         if(up == 1) {classElem = ' upElemNew';}
         if(up == 0) {classElem = ' blockElementNew';}
         blockGroupField =  '.blockGroupNew';
-        nameBlock = data.tag+'New'+data.fieldId+'_'+dubKey;
+        nameBlock = mergePoleName+data.tag+'New'+data.fieldId+'_'+dubKey;
     }
     var valueInt = 'value="0"';
     var checekCheckBox = '';
@@ -19,7 +23,6 @@ function getFiledTypeCheckBox (type, data, pole, id, selectFieldName, blockGroup
     }
     var idData = '';
     if (id > 0) {idData = ' data-id="'+data.id+'"';}
-
     $(pole).append(
         '<div class="my-3 card p-3 text-left">' +
         '   <div id="'+nameBlock+'Field" class="checkboxBlock">' +
@@ -27,7 +30,7 @@ function getFiledTypeCheckBox (type, data, pole, id, selectFieldName, blockGroup
         '           <input class="form-check-input'+classElem+'"' +
         ' id="'+nameBlock+'" type="checkbox"' +
         ' data-field="'+data.fieldId+'"'+idData +
-        ' name="'+nameBlock+'"' +
+        ' name="'+nameBlock+'" '+disabledAttr+
         ' '+valueInt+checekCheckBox+'>' +
         '           <label class="form-check-label text-muted' +
         ' text-left" for="'+nameBlock+'">'+data.name+'</label>' +
