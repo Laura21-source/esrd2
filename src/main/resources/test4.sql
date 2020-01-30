@@ -32,6 +32,35 @@ DROP SEQUENCE IF EXISTS esrd.memo_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.protocol_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.decree_seq CASCADE;
 
+
+--
+-- Name: generatedocnumber(character varying, character varying); Type: FUNCTION; Schema: esrd; Owner: esrd_user
+--
+
+CREATE OR REPLACE FUNCTION esrd.generatedocnumber(mask character varying, optional character varying DEFAULT NULL::character varying) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+DECLARE Result VARCHAR;
+DECLARE yearPostfix VARCHAR;
+BEGIN
+    yearPostfix = SUBSTRING(CAST(DATE_PART('year', CURRENT_DATE) AS text),3);
+    IF (mask='согл') THEN
+        SELECT 'согл-'||nextval('esrd.agreement_seq')||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-П') THEN
+        SELECT 'ДПР-П-'||optional||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-СЗ') THEN
+        SELECT 'ДПР-СЗ-'||nextval('esrd.memo_seq')||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-ПРО') THEN
+        SELECT 'ДПР-ПРО-'||nextval('esrd.protocol_seq')||'/'||yearPostfix INTO Result;
+    ELSIF (mask='ДПР-ПР') THEN
+        SELECT 'ДПР-ПР-'||nextval('esrd.decree_seq')||'/'||yearPostfix INTO Result;
+    ELSE
+        RAISE 'Incorrect mask for generating document number' USING ERRCODE = 'INCORRECT_DOCNUMBER_MASK';
+    END IF;
+    RETURN Result;
+END; $$;
+
+
 ALTER FUNCTION esrd.generatedocnumber(mask character varying, optional character varying) OWNER TO esrd_user;
 
 --
@@ -2562,15 +2591,19 @@ INSERT INTO esrd.department_child_departments (department_id, child_departments_
 INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100000, 1, 'ДПР-СЗ-1/20', '2020-01-28 12:37:46.697', 'согл-1/20', '2020-01-28 12:37:07.087', '2020-01-28 12:37:07.087', 'IN_WORK', 'resources/files/pdf/100000.pdf', 4000, NULL);
 INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100033, 1, 'ДПР-СЗ-2/20', '2020-01-28 12:40:54.527', 'согл-2/20', '2020-01-28 12:40:28.019', '2020-01-28 12:40:28.019', 'IN_WORK', 'resources/files/pdf/100033.pdf', 4000, NULL);
 INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100092, 1, 'ДПР-СЗ-3/20', '2020-01-28 12:43:18.548', 'согл-3/20', '2020-01-28 12:42:27.59', '2020-01-28 12:42:27.59', 'IN_WORK', 'resources/files/pdf/100092.pdf', 4000, NULL);
+INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100188, 2, 'ДПР-П-27.03-1/20', '2020-01-30 10:03:43.122', 'согл-5/20', '2020-01-30 10:03:28.648', '2020-01-30 10:03:28.648', 'COMPLETED', 'resources/files/pdf/100188.pdf', 4000, 100128);
+INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100128, 1, 'ДПР-СЗ-4/20', '2020-01-30 10:01:57.659', 'согл-4/20', '2020-01-30 10:01:31.924', '2020-01-30 10:01:31.924', 'COMPLETED', 'resources/files/pdf/100128.pdf', 4000, NULL);
 
 
 --
 -- Data for Name: doc_agreement; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
-INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user, origin_user_id) VALUES (100017, 1, 100000, 4000, NULL, '2020-01-28 12:37:59.599', '', 'ACCEPTED', true, false, NULL);
-INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user, origin_user_id) VALUES (100063, 1, 100033, 4000, NULL, '2020-01-28 12:41:04.634', '', 'ACCEPTED', true, false, NULL);
 INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user, origin_user_id) VALUES (100109, 1, 100092, 4329, NULL, '2020-01-28 12:43:29.323', '', 'ACCEPTED', true, false, NULL);
+INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user, origin_user_id) VALUES (100017, 1, 100000, 4329, NULL, '2020-01-28 12:37:59.599', '', 'ACCEPTED', true, false, NULL);
+INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user, origin_user_id) VALUES (100063, 1, 100033, 4329, NULL, '2020-01-28 12:41:04.634', '', 'ACCEPTED', true, false, NULL);
+INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user, origin_user_id) VALUES (100158, 1, 100128, 4329, NULL, '2020-01-30 10:02:07.474', '', 'ACCEPTED', true, false, NULL);
+INSERT INTO esrd.doc_agreement (id, ordering, doc_id, user_id, returned_user_id, agreed_datetime, comment, decision_type, final_user, cur_user, origin_user_id) VALUES (100221, 1, 100188, 4115, NULL, '2020-01-30 10:03:46.091', '', 'ACCEPTED', true, false, NULL);
 
 
 --
@@ -2594,17 +2627,25 @@ INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUE
 INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100091, 100033, 100079, 3);
 INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100111, 100092, 100110, 1);
 INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100124, 100092, 100112, 2);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100160, 100128, 100159, 1);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100173, 100128, 100161, 2);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100186, 100128, 100174, 3);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100223, 100188, 100222, 1);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100225, 100188, 100224, 2);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100239, 100188, 100226, 3);
+INSERT INTO esrd.doc_valuedfields (id, doc_id, valuedfield_id, "position") VALUES (100253, 100188, 100240, 4);
 
 
 --
 -- Data for Name: doctype; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
-INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (1, 'Служебная записка о включении вопросов в Повестку заседания Правления', 'zapiska.docx', 'zapiska.docx', 3002, 23, false, NULL, NULL);
-INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (2, 'Повестка заседания Правления', 'povestka.docx', 'povestka.docx', 3005, 24, true, 'Повестка № %s заседания правления Департамента экономической политики и развития города Москвы %s г.', 'Повестки заседания Правления;https://www.mos.ru/depr/documents/tarifnaia-politika/povestki-zasedaniya-pravleniya/|2881|ChairPlan');
 INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (301, 'Приказ (тарифное регулирование)', 'prikaz_appendix.docx', 'prikaz.docx', 3002, 300, true, NULL, NULL);
-INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (350, 'Протокол заседания Правления', 'protocol.docx', 'protocol.docx', 3002, 25, true, NULL, NULL);
-INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (550, 'Служебная записка об исключении вопросов из Повестки заседания Правления', 'zapiska_exclude.docx', 'zapiska_exclude.docx', 3002, 23, false, NULL, NULL);
+INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (553, 'Отзыв служебной записки о вынесении вопросов на рассмотрение заседания Правления', NULL, 'zapiska_revert.docx', 3002, 23, true, NULL, NULL);
+INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (1, 'Служебная записка о вынесении вопросов на Повестку заседания Правления', NULL, 'zapiska.docx', 3002, 23, false, NULL, NULL);
+INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (2, 'Повестка заседания Правления', NULL, 'povestka.docx', 3005, 24, true, 'Повестка № %s заседания правления Департамента экономической политики и развития города Москвы %s г.', 'Повестки заседания Правления;https://www.mos.ru/depr/documents/tarifnaia-politika/povestki-zasedaniya-pravleniya/|2881|ChairPlan');
+INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (350, 'Протокол заседания Правления', NULL, 'protocol.docx', 3002, 25, true, NULL, NULL);
+INSERT INTO esrd.doctype (id, name, appendix_template_filename, template_filename, role_id, doc_number_prefix_id, final_doc, publish_name_mask, publish_classifier_params) VALUES (550, 'Служебная записка об исключении вопросов из Повестки заседания Правления', NULL, 'zapiska_exclude.docx', 3002, 23, false, NULL, NULL);
 
 
 --
@@ -2642,6 +2683,7 @@ INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (3
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (117, 2, 507, 3);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (551, 550, 4, 1);
 INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (552, 550, 507, 3);
+INSERT INTO esrd.doctype_fields (id, doctype_id, field_id, "position") VALUES (554, 553, 4, 1);
 
 
 --
@@ -2708,7 +2750,7 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (377, 'Заголовок таблицы', 'TEXT', NULL, NULL, NULL, NULL, false, false, NULL, 'CustomTarifTableName');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (324, 'В соответствии с Федеральным законом', 'CATALOG', NULL, NULL, NULL, 1009, false, false, NULL, 'FederalLaw');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (507, 'Вопросы повестки', 'GROUP_FIELDS', NULL, NULL, NULL, NULL, false, false, NULL, 'Questions');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (506, 'Исключить вопрос из повестки заседания правления', 'GROUP_CHECKBOX', 0, NULL, NULL, NULL, false, true, 'resources/img/stamp.png', 'Exclude');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (506, 'Исключить вопрос из повестки заседания правления', 'GROUP_CHECKBOX', 0, NULL, NULL, NULL, false, true, 'C:\files\stamp.png', 'Exclude');
 
 
 --
@@ -21217,6 +21259,7 @@ INSERT INTO esrd.organization (id, short_name_lf, full_name_lf, ogrn, inn, kpp, 
 -- Data for Name: publish_data; Type: TABLE DATA; Schema: esrd; Owner: esrd_user
 --
 
+INSERT INTO esrd.publish_data (id, mosru, mosru_datetime, basereg, basereg_datetime, ri, ri_datetime, doc_id) VALUES (100254, true, '2020-01-30 10:03:47.328', 41232274, '2020-01-30 10:04:16.853', false, NULL, 100188);
 
 
 --
@@ -21226,6 +21269,7 @@ INSERT INTO esrd.organization (id, short_name_lf, full_name_lf, ogrn, inn, kpp, 
 INSERT INTO esrd.resolution (id, ordering, doc_id, primary_resolution, control_date, execution_datetime, department_id) VALUES (100016, 1, 100000, true, NULL, NULL, 575);
 INSERT INTO esrd.resolution (id, ordering, doc_id, primary_resolution, control_date, execution_datetime, department_id) VALUES (100062, 1, 100033, true, NULL, NULL, 575);
 INSERT INTO esrd.resolution (id, ordering, doc_id, primary_resolution, control_date, execution_datetime, department_id) VALUES (100108, 1, 100092, true, NULL, NULL, 575);
+INSERT INTO esrd.resolution (id, ordering, doc_id, primary_resolution, control_date, execution_datetime, department_id) VALUES (100157, 1, 100128, true, NULL, '2020-01-30 10:03:46.119', 575);
 
 
 --
@@ -21235,6 +21279,7 @@ INSERT INTO esrd.resolution (id, ordering, doc_id, primary_resolution, control_d
 INSERT INTO esrd.resolutions_users (id, resolution_datetime, user_id, resolution_id) VALUES (100125, '2020-01-28 12:47:34.014', 4000, 100016);
 INSERT INTO esrd.resolutions_users (id, resolution_datetime, user_id, resolution_id) VALUES (100126, '2020-01-28 12:47:47.192', 4000, 100062);
 INSERT INTO esrd.resolutions_users (id, resolution_datetime, user_id, resolution_id) VALUES (100127, '2020-01-28 12:47:54.564', 4000, 100108);
+INSERT INTO esrd.resolutions_users (id, resolution_datetime, user_id, resolution_id) VALUES (100187, '2020-01-30 10:02:32.43', 4000, 100157);
 
 
 --
@@ -21714,6 +21759,16 @@ INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100029, 16, NULL, 4347, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100030, 501, NULL, 0, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100031, 17, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100222, 4, NULL, NULL, NULL, '2020-03-27', '00:00:00', '2020-03-27 00:00:00');
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100224, 5, NULL, NULL, NULL, '1900-01-01', '12:00:00', '1900-01-01 12:00:00');
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100226, 507, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100227, 506, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100228, 8, 2007, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100229, 9, 2011, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100230, 10, NULL, NULL, 'на 2020-2023 годы', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100231, 11, 2029, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100232, 12, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100233, 13, 2060, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100064, 4, NULL, NULL, NULL, '2020-02-17', '00:00:00', '2020-02-17 00:00:00');
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100066, 7, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100067, 8, 2007, NULL, NULL, NULL, NULL, NULL);
@@ -21739,6 +21794,19 @@ INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100088, 16, NULL, 4122, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100089, 501, NULL, 0, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100090, 17, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100234, 14, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100235, 15, NULL, 10112, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100236, 16, NULL, 4190, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100237, 501, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100238, 17, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100240, 507, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100241, 506, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100242, 8, 2007, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100243, 9, 2011, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100244, 10, NULL, NULL, 'на 2020 год', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100245, 11, 2029, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100246, 12, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100247, 13, 2038, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100110, 4, NULL, NULL, NULL, '2020-02-18', '00:00:00', '2020-02-18 00:00:00');
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100112, 7, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100113, 8, 2007, NULL, NULL, NULL, NULL, NULL);
@@ -21752,6 +21820,36 @@ INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100121, 16, NULL, 4113, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100122, 501, NULL, 0, NULL, NULL, NULL, NULL);
 INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100123, 17, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100248, 14, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100249, 15, NULL, 10028, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100250, 16, NULL, 4311, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100251, 501, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100252, 17, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100159, 4, NULL, NULL, NULL, '2020-03-27', '00:00:00', '2020-03-27 00:00:00');
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100161, 7, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100162, 8, 2007, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100163, 9, 2011, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100164, 10, NULL, NULL, 'на 2020-2023 годы', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100165, 11, 2029, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100166, 12, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100167, 13, 2060, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100168, 14, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100169, 15, NULL, 10112, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100170, 16, NULL, 4190, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100171, 501, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100172, 17, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100174, 7, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100175, 8, 2007, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100176, 9, 2011, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100177, 10, NULL, NULL, 'на 2020 год', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100178, 11, 2029, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100179, 12, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100180, 13, 2038, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100181, 14, NULL, NULL, '', NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100182, 15, NULL, 10028, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100183, 16, NULL, 4311, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100184, 501, NULL, 0, NULL, NULL, NULL, NULL);
+INSERT INTO esrd.valuedfield (id, field_id, catalogelem_id, value_int, value_str, value_date, value_time, value_datetime) VALUES (100185, 17, NULL, NULL, '', NULL, NULL, NULL);
 
 
 --
@@ -21780,6 +21878,13 @@ INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_f
 INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100121);
 INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100112, 100122);
 INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100122, 100123);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100227);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100228);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100229);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100230);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100231);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100232);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100233);
 INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100067);
 INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100068);
 INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100066, 100069);
@@ -21802,13 +21907,52 @@ INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_f
 INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100088);
 INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100079, 100089);
 INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100089, 100090);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100234);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100235);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100236);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100226, 100237);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100237, 100238);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100241);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100242);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100243);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100244);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100245);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100246);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100161, 100162);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100161, 100163);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100161, 100164);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100161, 100165);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100161, 100166);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100161, 100167);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100161, 100168);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100161, 100169);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100161, 100170);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100161, 100171);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100171, 100172);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100174, 100175);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100174, 100176);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100174, 100177);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100174, 100178);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100174, 100179);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100174, 100180);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100174, 100181);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100174, 100182);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100174, 100183);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100174, 100184);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100184, 100185);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100247);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100248);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100249);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100250);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100240, 100251);
+INSERT INTO esrd.valuedfield_child_valued_field (valued_field_id, child_valued_field_id) VALUES (100251, 100252);
 
 
 --
 -- Name: agreement_seq; Type: SEQUENCE SET; Schema: esrd; Owner: esrd_user
 --
 
-SELECT pg_catalog.setval('esrd.agreement_seq', 3, true);
+SELECT pg_catalog.setval('esrd.agreement_seq', 5, true);
 
 
 --
@@ -21822,14 +21966,14 @@ SELECT pg_catalog.setval('esrd.decree_seq', 1, false);
 -- Name: global_seq; Type: SEQUENCE SET; Schema: esrd; Owner: esrd_user
 --
 
-SELECT pg_catalog.setval('esrd.global_seq', 100127, true);
+SELECT pg_catalog.setval('esrd.global_seq', 100254, true);
 
 
 --
 -- Name: memo_seq; Type: SEQUENCE SET; Schema: esrd; Owner: esrd_user
 --
 
-SELECT pg_catalog.setval('esrd.memo_seq', 3, true);
+SELECT pg_catalog.setval('esrd.memo_seq', 4, true);
 
 
 --
