@@ -331,7 +331,7 @@
                 $('#btnSave, #addGroup, #btnReformat, #btnReset, #commentText').addClass('d-none');
             }
             // Если документ уже подписан
-            if(data.docStatus === 'IN_WORK') {
+            if(data.docStatus === 'IN_WORK' || data.docStatus === 'COMPLETED') {
                 if(data.canWork === true) {
                     $('.blockDocumentNew').removeClass('d-none');
                     $('.blockDocument, #btnWordFile').addClass('d-none');
