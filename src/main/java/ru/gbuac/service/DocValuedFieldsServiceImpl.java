@@ -129,27 +129,8 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
                             templateGroupFields.getCatalogId(), templateGroupFields.getEnabled(), templateGroupFields.getRequired(),
                             templateGroupFields.getAppendix(), templateGroupFields.getTag(), templateGroupFields.getAddImage(),
                             templateGroupFields.getImagePath());
-                    // Создаем заготовку-список для полей объединенного группового боля
-                    List<FieldTo> resultChildFields = new ArrayList<>();
-                    // Перебираем все поля группового поля-шаблона
-                    for (FieldTo templateField: t.getField().getChildFields()) {
-                        FieldTo valuedField = subV.getField().getChildFields().stream()
-                                .filter(f -> f.getTag().equals(templateField.getTag())).findFirst().orElse(null);
-                        // Создаем новое поле-шаблон
-                        FieldTo newTo = new FieldTo(null, templateField.getName(), templateField.getChildFields(), templateField.getFieldId(),
-                                templateField.getFieldType(), templateField.getPositionInGroup(), templateField.getMaxCount(),
-                                templateField.getLength(), templateField.getParentCatalogId(), templateField.getCatalogId(),
-                                templateField.getEnabled(), templateField.getRequired(), templateField.getAppendix(),
-                                templateField.getTag(), templateField.getAddImage(), templateField.getImagePath());
-                        // Проверяем, имеются ли значения для данного поля-шаблона
-                        if (valuedField != null) {
-                            newTo.setValueStr(valuedField.getValueStr());
-                            newTo.setValueInt(valuedField.getValueInt());
-                            newTo.setValueDate(valuedField.getValueDate());
-                        }
-                        resultChildFields.add(newTo);
-                    }
-                    resultGroupFields.setChildFields(resultChildFields);
+
+                    resultGroupFields.setChildFields(getMergedField(t.getField(), subV.getField()));
                     resultFields.add(new DocFieldsTo(null, resultGroupFields, t.getPosition()));
                 }
             } else {
@@ -164,6 +145,30 @@ public class DocValuedFieldsServiceImpl implements DocValuedFieldsService {
         }
         resultFields.sort(Comparator.comparing(DocFieldsTo::getPosition));
         return resultFields;
+    }
+
+    private List<FieldTo> getMergedField(FieldTo template, FieldTo valued) {
+        // Создаем заготовку-список для полей объединенного группового боля
+        List<FieldTo> resultChildFields = new ArrayList<>();
+        // Перебираем все поля группового поля-шаблона
+        for (FieldTo templateField: template.getChildFields()) {
+            FieldTo valuedField = valued.getChildFields().stream()
+                    .filter(f -> f.getTag().equals(templateField.getTag())).findFirst().orElse(null);
+            // Создаем новое поле-шаблон
+            FieldTo newTo = new FieldTo(null, templateField.getName(), getMergedField(templateField, valuedField), templateField.getFieldId(),
+                    templateField.getFieldType(), templateField.getPositionInGroup(), templateField.getMaxCount(),
+                    templateField.getLength(), templateField.getParentCatalogId(), templateField.getCatalogId(),
+                    templateField.getEnabled(), templateField.getRequired(), templateField.getAppendix(),
+                    templateField.getTag(), templateField.getAddImage(), templateField.getImagePath());
+            // Проверяем, имеются ли значения для данного поля-шаблона
+            if (valuedField != null) {
+                newTo.setValueStr(valuedField.getValueStr());
+                newTo.setValueInt(valuedField.getValueInt());
+                newTo.setValueDate(valuedField.getValueDate());
+            }
+            resultChildFields.add(newTo);
+        }
+        return resultChildFields;
     }
 
     @Override

@@ -121,7 +121,7 @@ public class DocServiceImpl implements DocService {
         } else {
             docTo.setFinalStage(true);
         }
-        if (docStatus.equals(DocStatus.IN_WORK)) {
+        if (docStatus.equals(DocStatus.IN_WORK) || docStatus.equals(DocStatus.COMPLETED)) {
             User thisUser = userRepository.getByName(userName);
 
             boolean thisUserIsExecutor = docTo.getExecutorUsersIds().contains(thisUser.getId());
