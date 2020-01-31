@@ -40,6 +40,19 @@
                 { 'data': 'link' }
             ]
         );
+        columns.push(
+            [
+                { 'data': 'num' },
+                { 'data': 'docStatus' },
+                { 'data': 'regNum' },
+                { 'data': 'regDateTime' },
+                { 'data': 'controlDate' },
+                { 'data': 'docType' },
+                { 'data': 'executorDepartments' },
+                { 'data': 'executorUsers' },
+                { 'data': 'link' }
+            ]
+        );
 
         $(element).DataTable({
             "columns": columns[typeId],

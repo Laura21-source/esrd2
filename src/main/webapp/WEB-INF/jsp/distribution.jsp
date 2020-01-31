@@ -41,7 +41,7 @@
 <jsp:include page="fragments/modals/viewDocumentModal.jsp"/>
 <script>
     $(function() {
-        dataTableArray("#dataTable","rest/profile/docs/distribution", 1);
+        dataTableArray("#dataTable","rest/profile/docs/distribution", 3);
     });
 </script>
 <jsp:include page="fragments/footerBasement.jsp"/>
