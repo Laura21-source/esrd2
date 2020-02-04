@@ -837,8 +837,8 @@ public class DocServiceImpl implements DocService {
 
     private String createPDFOrDocx(DocTo docTo, String rootPath, Boolean saveToTempDir, Boolean isPDF) {
         DocType docType = docTypeRepository.findById(docTo.getDocTypeId()).orElse(null);
-        String docTemplatePath = rootPath + docTemplatesDir + docType.getTemplateFileName();
-        String docAppendixTemplatePath = rootPath + docTemplatesDir + docType.getAppendixTemplateFileName();
+        String docTemplatePath = rootPath + docType.getTemplateFileName();
+        String docAppendixTemplatePath = rootPath + docType.getAppendixTemplateFileName();
 
         String pdfTempPath = rootPath + pdfTempDir + UUID.randomUUID().toString() + ".pdf";
         String pdfPath = rootPath + pdfDir + docTo.getId() + ".pdf";
