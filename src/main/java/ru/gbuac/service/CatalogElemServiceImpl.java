@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gbuac.dao.CatalogElemRepository;
+import ru.gbuac.dao.CatalogRepository;
+import ru.gbuac.model.Catalog;
 import ru.gbuac.model.CatalogElem;
 import ru.gbuac.to.CatalogElemTo;
 import ru.gbuac.util.exception.NotFoundException;
@@ -17,6 +19,9 @@ public class CatalogElemServiceImpl implements CatalogElemService{
 
     @Autowired
     private CatalogElemRepository catalogElemRepository;
+
+    @Autowired
+    private CatalogRepository catalogRepository;
 
     @Override
     public CatalogElem get(int id, int catalogId) throws NotFoundException {
@@ -49,15 +54,19 @@ public class CatalogElemServiceImpl implements CatalogElemService{
     }
 
     @Override
-    public CatalogElem save(CatalogElem catalogElem) {
+    public CatalogElem save(CatalogElem catalogElem, int catalogId) {
         Assert.notNull(catalogElem, "catalogElem must not be null");
+        Catalog catalog = catalogRepository.findById(catalogId).orElse(null);
+        catalogElem.setCatalog(catalog);
         return catalogElemRepository.save(catalogElem);
     }
 
     @Override
-    public CatalogElem update(CatalogElem catalogElem, int id) throws NotFoundException {
+    public CatalogElem update(CatalogElem catalogElem, int id, int catalogId) throws NotFoundException {
         Assert.notNull(catalogElem, "catalogElem must not be null");
-        return checkNotFoundWithId(catalogElemRepository.save(catalogElem),id);
+        Catalog catalog = catalogRepository.findById(catalogId).orElse(null);
+        catalogElem.setCatalog(catalog);
+        return checkNotFoundWithId(catalogElemRepository.save(catalogElem), id);
     }
 
     @Override

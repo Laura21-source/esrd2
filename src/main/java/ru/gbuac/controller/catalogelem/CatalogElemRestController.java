@@ -1,11 +1,11 @@
 package ru.gbuac.controller.catalogelem;
 
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.gbuac.model.CatalogElem;
 import ru.gbuac.to.CatalogElemTo;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,5 +24,14 @@ public class CatalogElemRestController extends AbstractCatalogElemRestController
     public List<CatalogElemTo> getAllByParentCatalogElem(@PathVariable("catalogId") int catalogId,
                                                          @PathVariable("parentCatalogElemId") int idParentCatalogElem) {
         return super.getAllByParentCatalogElem(catalogId, idParentCatalogElem);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public CatalogElem updateOrCreate(@Valid @RequestBody CatalogElem catalogElem, @PathVariable("catalogId") int catalogId) {
+        if (catalogElem.isNew()) {
+            return super.create(catalogElem, catalogId);
+        } else {
+            return super.update(catalogElem, catalogElem.getId(), catalogId);
+        }
     }
 }
