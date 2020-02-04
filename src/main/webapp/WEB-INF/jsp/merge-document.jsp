@@ -444,10 +444,12 @@
                 var optionDocs = '';
                 $.each(documentsId, function (index, value) {
                     if(value !== chiefDoc) {
-                        optionDocs = optionDocs+'&optionalDocs='+value;
+                        optionDocs = optionDocs+'&optionalDocIds='+value;
                     }
                 });
-                getNewFields("rest/profile/docs/"+chiefDoc+"/fields/merged?targetDocTypeId="+asd+optionDocs, chiefDoc, '', '', 1, '' , '');
+                var mergeUrl = "rest/profile/docs/"+chiefDoc+"/fields/merged?targetDocTypeId="+asd+optionDocs;
+                console.log(mergeUrl);
+                getNewFields(mergeUrl, chiefDoc, '', '', 1, '' , '');
             } else {
                 $("#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew").addClass("d-none");
             }
@@ -471,7 +473,6 @@
         // Сохранение - Отправка на сервер
         $('#btnSaveNew').on("click", function(event) {
             event.preventDefault();
-            var forms = $('.newDocumentForm');
             var formsValue = $('.newDocumentForm input,.newDocumentForm textarea,.newDocumentForm select').filter('[required]');
             var agreeFormsValue = $('.newDocumentForm #userListBlockNew select');
             event.preventDefault();
@@ -488,13 +489,13 @@
                 var dataBlock = createDataBlock(0, sumElem, 1);
                 var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
                 var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock,1));
-                console.log(serverStack);
-                /*var serverAjax = $.ajax({
+                //console.log(serverStack);
+                var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
                     data: serverStack,
                     contentType: 'application/json; charset=utf-8'
-                });*/
+                });
                 // Успешное сохранение документа
                 serverAjax.done(function(data) {
                     $("#btnWordFileNew").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
