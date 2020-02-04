@@ -12,6 +12,8 @@ import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import static ru.gbuac.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
@@ -57,8 +59,13 @@ public class CatalogElemServiceImpl implements CatalogElemService{
     public CatalogElem save(CatalogElemTo catalogElemTo, int catalogId) {
         Assert.notNull(catalogElemTo, "catalogElem must not be null");
         Catalog catalog = catalogRepository.findById(catalogId).orElse(null);
-        CatalogElem parentCatalogElem = catalogElemTo.getIdParentCatalogElem() != null ?
-                catalogElemRepository.findById(catalogElemTo.getIdParentCatalogElem()).orElse(null) : null;
+        CatalogElem parentCatalogElem = null;
+        if (catalogElemTo.getIdParentCatalogElem() != null) {
+            parentCatalogElem = catalogElemRepository.findById(catalogElemTo.getIdParentCatalogElem()).orElse(null);
+        } else {
+            parentCatalogElem = Objects.requireNonNull(catalogElemRepository.getAll(catalogId).stream().findFirst().orElse(null)).getIdParentCatalogElem();
+        }
+
         CatalogElem newCatalogElem = new CatalogElem(null, parentCatalogElem, catalogElemTo.getValueInt(), catalogElemTo.getValueStr(),
                 catalogElemTo.getValueStrPreposition(), null, catalog);
 
@@ -69,8 +76,12 @@ public class CatalogElemServiceImpl implements CatalogElemService{
     public CatalogElem update(CatalogElemTo catalogElemTo, int id, int catalogId) throws NotFoundException {
         Assert.notNull(catalogElemTo, "catalogElem must not be null");
         Catalog catalog = catalogRepository.findById(catalogId).orElse(null);
-        CatalogElem parentCatalogElem = catalogElemTo.getIdParentCatalogElem() != null ?
-                catalogElemRepository.findById(catalogElemTo.getIdParentCatalogElem()).orElse(null) : null;
+        CatalogElem parentCatalogElem = null;
+        if (catalogElemTo.getIdParentCatalogElem() != null) {
+            parentCatalogElem = catalogElemRepository.findById(catalogElemTo.getIdParentCatalogElem()).orElse(null);
+        } else {
+            parentCatalogElem = Objects.requireNonNull(catalogElemRepository.getAll(catalogId).stream().findFirst().orElse(null)).getIdParentCatalogElem();
+        }
         CatalogElem updatedCatalogElem = new CatalogElem(id, parentCatalogElem, catalogElemTo.getValueInt(), catalogElemTo.getValueStr(),
                 catalogElemTo.getValueStrPreposition(), null, catalog);
 

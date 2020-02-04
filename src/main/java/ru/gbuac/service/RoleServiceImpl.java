@@ -2,8 +2,10 @@ package ru.gbuac.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import ru.gbuac.dao.RoleRepository;
 import ru.gbuac.model.Role;
+import ru.gbuac.util.DocAgreementUtil;
 import ru.gbuac.util.exception.NotFoundException;
 
 import java.util.List;
@@ -28,16 +30,19 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role save(Role role) {
-        return null;
+        Assert.notNull(role, "role must not be null");
+        return roleRepository.save(role);
     }
 
     @Override
     public Role update(Role role, int id) throws NotFoundException {
-        return null;
+        Assert.notNull(role, "role must not be null");
+        return checkNotFoundWithId(roleRepository.save(role),id);
     }
 
     @Override
     public void delete(int id) throws NotFoundException {
-
+        Assert.notNull(id, "role must not be null");
+        checkNotFoundWithId(roleRepository.delete(id)!= 0, id);
     }
 }
