@@ -63,6 +63,7 @@ public class FieldUtil {
                 field.isAddImage(), field.getImagePath());
 
         switch (field.getFieldType()) {
+            case CATALOG_MULTI_SELECT:
             case TEXT:
             case TEXTAREA:
                 fieldTo.setValueStr(valuedField.getValueStr());
