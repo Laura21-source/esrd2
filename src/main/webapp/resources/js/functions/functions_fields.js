@@ -320,4 +320,40 @@
                 createOptions("rest/profile/catalogs/" + data.catalogId + "/elems", numberCatalog, "valueStr", "id", selectArray, "", 1);
             }
         }
+        // SELECT ДОБАВЛЕНИЕ ПОЛЯ
+        if (data.fieldType === "CATALOG_ADDABLE") {
+            if(up == 1) {classElem = ' upElem';}
+            if(id > 0) {idData = ' data-id="'+data.id+'"';}
+            $(pole).append(
+                '<div class="row blockRow d-flex align-items-center'+parentBlock+parentCatalog+' mb-3"' +
+                ' data-row="'+key+'">' +
+                '   <div class="col-md-3 text-left">' +
+                '       <div class="text-muted">'+data.name+requiredSup+'</div>' +
+                '   </div>' +
+                '   <div class="col-md-8'+classElem+'">' +
+                '       <select data-placeholder="Выберите вид документа"' +
+                ' class="chosen-select'+checkClass+'"' +
+                ' id="'+selectFieldName+'" name="'+selectFieldName+'" type="select"' +
+                ' data-catalog="'+data.catalogId+'"' +
+                ' data-field="'+data.fieldId+'"' +
+                ''+idData+enaOpiton+required+'>' +
+                '           <option value="">Выберите значение справочника</option>' +
+                '       </select>' +
+                '   </div>' +
+                '   <div class="col-md-1 text-right">' +
+                '       <button class="btn btn-primary btn-sm addCatalogElement rounded m-0 px-3 waves-effect"' +
+                ' data-toggle="modal" data-target="#addCatalogElement" data-catalog="'+numberCatalog+'" data-field="'+data.catalogId+'"' +
+                ' type="button" title="Добавить элемент" '+enaOpiton+'>' +
+                '           <i class="fas fa-plus white-text"></i>' +
+                '       </button>' +
+                '   </div>' +
+                '   <div class="col-md-3"></div>' +
+                '   <div class="col-9">'+requiredValidate+'</div>' +
+                '</div>');
+            $(numberCatalog).chosen({
+                width: "100%",
+                no_results_text: "Ничего не найдено!"
+            });
+            createOptions("rest/profile/catalogs/"+data.catalogId+"/elems", numberCatalog, "valueStr", "id", numberField, "");
+        }
     }
