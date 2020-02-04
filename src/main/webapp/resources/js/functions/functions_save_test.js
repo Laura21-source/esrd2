@@ -212,12 +212,13 @@
                 if (id > 0) {
                     idField = parseInt($('.chosen-select', this).attr("data-id"));
                 }
+                var newValue = value.join();
                 field = {
                     "field": {
                         "id": idField,
                         "childFields": [],
                         "fieldId": attrSelectId,
-                        "valueStr": value
+                        "valueStr": newValue
                     },
                     "position": key
                 }
