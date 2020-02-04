@@ -354,6 +354,13 @@
                 width: "100%",
                 no_results_text: "Ничего не найдено!"
             });
-            createOptions("rest/profile/catalogs/"+data.catalogId+"/elems", numberCatalog, "valueStr", "id", numberField, "");
+            var poleBlockGroup = '';
+            if(blockGroup != '') {
+                poleBlockGroup = blockGroup+dubKey;
+            }
+            createOptionsValue(numberCatalog, poleBlockGroup, '.blockRow');
+            if (parentBlock == '') {
+                createOptions("rest/profile/catalogs/"+data.catalogId+"/elems", numberCatalog, "valueStr", "id", numberField, "");
+            }
         }
     }
