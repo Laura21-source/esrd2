@@ -145,6 +145,43 @@
     </div>
 </div>
 
+<%--Добавление элемента каталога'--%>
+<div class="modal fade" id="addCatalogElement" tabindex="-1" role="dialog" aria-labelledby="addCatalogElement" aria-hidden="true">
+    <div class="modal-dialog modal-primary modal-dialog-centered modal-size-md modal-notify" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading lead">Добавление элемента списка</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body fontSmall">
+                <div class="progress md-progress primary-color-dark bigFormLoader d-none">
+                    <div class="indeterminate"></div>
+                </div>
+                <form class="addCatalogElementForm needs-validation" novalidate>
+                    <div class="row mb-2">
+                        <div class="col-12 mb-3">
+                            <div class="text-muted">Название<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group">
+                                <textarea id="addCatalogElementName" class="form-control" rows="3" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="btnBlock">
+                <div class="d-flex align-items-center justify-content-center pb-2">
+                    <a href="#" type="button" class="btn btn-md btn-primary rounded btnAddCatalogElement">Добавить</a>
+                    <a href="#" type="button" class="btn btn-md btn-danger rounded" data-dismiss="modal">Отмена</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <%--Подтверждение удаления--%>
 <div class="modal fade" id="deleteBlock" tabindex="-1" role="dialog" aria-labelledby="deleteBlock" aria-hidden="t`rue">
     <div class="modal-dialog modal-notify modal-danger modal-size-sm modal-dialog-centered" role="document">
