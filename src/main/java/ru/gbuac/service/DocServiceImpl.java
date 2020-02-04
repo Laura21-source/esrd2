@@ -640,6 +640,7 @@ public class DocServiceImpl implements DocService {
                     cellsTags.put(tag, tagValue.toString());
                     cellsTags.put(tag + ".Preposition", tagValuePreposition.toString());
                     break;
+                case CATALOG_ADDABLE:
                 case CATALOG:
                     if (fieldTo.getValueInt() == null) {
                         cellsTags.put(tag, "");
@@ -737,6 +738,7 @@ public class DocServiceImpl implements DocService {
                     simpleTags.put(tag, tagValue.toString());
                     simpleTags.put(tag + ".Preposition", tagValuePreposition.toString());
                     break;
+                case CATALOG_ADDABLE:
                 case CATALOG:
                     if (fieldTo.getValueInt() == null) {
                         simpleTags.put(tag, "");
@@ -1008,7 +1010,7 @@ public class DocServiceImpl implements DocService {
 
         Field field = fieldRepository.findById(newField.getFieldId()).orElse(null);
         CatalogElem catalogElem = null;
-        if (field.getFieldType() == FieldType.CATALOG) {
+        if (field.getFieldType() == FieldType.CATALOG || field.getFieldType() == FieldType.CATALOG_ADDABLE) {
             if (newField.getValueInt() != null) {
                 catalogElem = catalogElemRepository.findById(newField.getValueInt()).orElse(null);
                 newField.setValueInt(null);
