@@ -9,7 +9,7 @@ $('#addCatalogElement').on('shown.bs.modal', function(event) {
 // Добавление элемента в список каталога
 $('.btnAddCatalogElement').click(function(event) {
     var number = $(this).attr('data-catalog');
-    var catalogId = parseInt($(this).attr('data-filed'));
+    var catalogId = parseInt($(this).attr('data-field'));
     event.preventDefault();
     var formsValue = $('.addCatalogElementForm input, .addCatalogElementForm textarea, .addCatalogElementForm select').filter('[required]');
     var checkField = checkValidation(formsValue);
@@ -21,10 +21,8 @@ $('.btnAddCatalogElement').click(function(event) {
         $('.addCatalogElementForm').addClass('d-none');
         // Формируем JSON из полей
         var dataField = {
-            "id": null,
             "valueStr": $('#addCatalogElementName').val(),
-            "valueStr": $('#valueStrPreposition').val(),
-            "catalog": catalogId
+            "valueStrPreposition": $('#addCatalogElementName2').val()
         };
         var data = JSON.stringify(dataField);
         //console.log("number - " + number);

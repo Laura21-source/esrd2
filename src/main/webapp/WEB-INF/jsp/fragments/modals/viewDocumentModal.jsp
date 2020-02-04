@@ -161,12 +161,20 @@
                 </div>
                 <form class="addCatalogElementForm needs-validation" novalidate>
                     <div class="row mb-2">
-                        <div class="col-12 mb-3">
-                            <div class="text-muted">Название<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
+                        <div class="col-12 mb-2">
+                            <div class="text-muted">Наименование<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <div class="input-group">
+                                <textarea id="addCatalogElementName" class="form-control" rows="3" required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <div class="text-muted">Наименование в родительном падеже<sup><i class="fas fa-star-of-life ml-1 text-danger"></i></sup></div>
                         </div>
                         <div class="col-12">
                             <div class="input-group">
-                                <textarea id="addCatalogElementName" class="form-control" rows="3" required></textarea>
+                                <textarea id="addCatalogElementName2" class="form-control" rows="3" required></textarea>
                             </div>
                         </div>
                     </div>
