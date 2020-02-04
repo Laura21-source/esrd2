@@ -210,7 +210,7 @@ public class PublishDataService {
                                 .flatMap(f -> f.getValuedField().getChildValuedField().stream())
                                 .filter(f -> f.getField().getName().equals("Сфера деятельности"))
                                 .filter(f -> f.getCatalogElem() != null)
-                                .map(f -> f.getCatalogElem().getValueStrPreposition())
+                                .map(f -> f.getCatalogElem().getValueStrModified())
                                 .filter(Objects::nonNull)
                                 .distinct()
                                 .forEach(f -> jsonArraySpheres.add(f));

@@ -80,6 +80,7 @@ public class FieldUtil {
             case DATETIME:
                 fieldTo.setValueDate(valuedField.getValueDateTime());
                 break;
+            case CATALOG_ADDABLE:
             case CATALOG:
                 if (valuedField.getCatalogElem() != null)
                     fieldTo.setValueInt(valuedField.getCatalogElem().getId());
