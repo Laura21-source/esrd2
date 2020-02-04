@@ -54,19 +54,27 @@ public class CatalogElemServiceImpl implements CatalogElemService{
     }
 
     @Override
-    public CatalogElem save(CatalogElem catalogElem, int catalogId) {
-        Assert.notNull(catalogElem, "catalogElem must not be null");
+    public CatalogElem save(CatalogElemTo catalogElemTo, int catalogId) {
+        Assert.notNull(catalogElemTo, "catalogElem must not be null");
         Catalog catalog = catalogRepository.findById(catalogId).orElse(null);
-        catalogElem.setCatalog(catalog);
-        return catalogElemRepository.save(catalogElem);
+        CatalogElem parentCatalogElem = catalogElemTo.getIdParentCatalogElem() != null ?
+                catalogElemRepository.findById(catalogElemTo.getIdParentCatalogElem()).orElse(null) : null;
+        CatalogElem newCatalogElem = new CatalogElem(null, parentCatalogElem, catalogElemTo.getValueInt(), catalogElemTo.getValueStr(),
+                catalogElemTo.getValueStrPreposition(), null, catalog);
+
+        return catalogElemRepository.save(newCatalogElem);
     }
 
     @Override
-    public CatalogElem update(CatalogElem catalogElem, int id, int catalogId) throws NotFoundException {
-        Assert.notNull(catalogElem, "catalogElem must not be null");
+    public CatalogElem update(CatalogElemTo catalogElemTo, int id, int catalogId) throws NotFoundException {
+        Assert.notNull(catalogElemTo, "catalogElem must not be null");
         Catalog catalog = catalogRepository.findById(catalogId).orElse(null);
-        catalogElem.setCatalog(catalog);
-        return checkNotFoundWithId(catalogElemRepository.save(catalogElem), id);
+        CatalogElem parentCatalogElem = catalogElemTo.getIdParentCatalogElem() != null ?
+                catalogElemRepository.findById(catalogElemTo.getIdParentCatalogElem()).orElse(null) : null;
+        CatalogElem updatedCatalogElem = new CatalogElem(id, parentCatalogElem, catalogElemTo.getValueInt(), catalogElemTo.getValueStr(),
+                catalogElemTo.getValueStrPreposition(), null, catalog);
+
+        return checkNotFoundWithId(catalogElemRepository.save(updatedCatalogElem), id);
     }
 
     @Override

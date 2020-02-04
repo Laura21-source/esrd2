@@ -21,7 +21,7 @@ public class CatalogElem extends BaseEntity {
     private CatalogElem idParentCatalogElem;
 
     @Column(name = "value_int")
-    private String valueInt;
+    private Integer valueInt;
 
     @Column(name = "value_str")
     private String valueStr;
@@ -38,4 +38,15 @@ public class CatalogElem extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Catalog catalog;
+
+    public CatalogElem(Integer id, CatalogElem idParentCatalogElem, Integer valueInt, String valueStr,
+                       String valueStrPreposition, String valueStrModified, @NotNull Catalog catalog) {
+        super(id);
+        this.idParentCatalogElem = idParentCatalogElem;
+        this.valueInt = valueInt;
+        this.valueStr = valueStr;
+        this.valueStrPreposition = valueStrPreposition;
+        this.valueStrModified = valueStrModified;
+        this.catalog = catalog;
+    }
 }

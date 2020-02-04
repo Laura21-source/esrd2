@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class CatalogElemTo extends BaseTo {
     private Integer idParentCatalogElem;
 
-    private String valueInt;
+    private Integer valueInt;
 
     private String valueStr;
 
@@ -18,7 +18,7 @@ public class CatalogElemTo extends BaseTo {
 
     private Integer catalogId;
 
-    public CatalogElemTo(Integer id, Integer idParentCatalogElem, String valueInt, String valueStr,
+    public CatalogElemTo(Integer id, Integer idParentCatalogElem, Integer valueInt, String valueStr,
                          String valueStrPreposition, Integer catalogId) {
         super(id);
         this.idParentCatalogElem = idParentCatalogElem;

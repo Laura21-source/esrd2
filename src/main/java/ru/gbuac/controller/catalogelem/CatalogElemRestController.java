@@ -27,11 +27,11 @@ public class CatalogElemRestController extends AbstractCatalogElemRestController
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public CatalogElem updateOrCreate(@Valid @RequestBody CatalogElem catalogElem, @PathVariable("catalogId") int catalogId) {
-        if (catalogElem.isNew()) {
-            return super.create(catalogElem, catalogId);
+    public CatalogElem updateOrCreate(@Valid @RequestBody CatalogElemTo catalogElemTo, @PathVariable("catalogId") int catalogId) {
+        if (catalogElemTo.isNew()) {
+            return super.create(catalogElemTo, catalogId);
         } else {
-            return super.update(catalogElem, catalogElem.getId(), catalogId);
+            return super.update(catalogElemTo, catalogElemTo.getId(), catalogId);
         }
     }
 }

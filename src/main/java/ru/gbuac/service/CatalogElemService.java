@@ -13,9 +13,9 @@ public interface CatalogElemService {
 
     List<CatalogElemTo> getAllByParentCatalogElem(int catalogId, int idParentCatalogElem);
 
-    CatalogElem save(CatalogElem catalogElem, int catalogId);
+    CatalogElem save(CatalogElemTo catalogElemTo, int catalogId);
 
-    CatalogElem update(CatalogElem catalogElem, int id, int catalogId) throws NotFoundException;
+    CatalogElem update(CatalogElemTo catalogElemTo, int id, int catalogId) throws NotFoundException;
 
     void delete(int id, int catalogId) throws NotFoundException;
 }

@@ -636,7 +636,7 @@ public class DocServiceImpl implements DocService {
                                 cellsTags.put(tag + ".Preposition", catalogElemChild.getValueStrPreposition());
                                 break;
                             case NUMBER:
-                                cellsTags.put(tag, catalogElemChild.getValueInt());
+                                cellsTags.put(tag, String.valueOf(catalogElemChild.getValueInt()));
                                 break;
                         }
                     break;
@@ -719,7 +719,7 @@ public class DocServiceImpl implements DocService {
                             simpleTags.put(tag + ".Modified", catalogElemChild.getValueStrModified());
                             break;
                         case NUMBER:
-                            simpleTags.put(tag, catalogElemChild.getValueInt());
+                            simpleTags.put(tag, String.valueOf(catalogElemChild.getValueInt()));
                             break;
                     }
                     break;
