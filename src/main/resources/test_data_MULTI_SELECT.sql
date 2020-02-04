@@ -31,8 +31,9 @@ DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.memo_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.protocol_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.decree_seq CASCADE;
-DROP SEQUENCE IF EXISTS esrd.agenda_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.depr_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.agenda_seq CASCADE;
+
 --
 -- Name: generatedocnumber(character varying, character varying); Type: FUNCTION; Schema: esrd; Owner: esrd_user
 --
@@ -2621,7 +2622,7 @@ INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, pr
 INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100092, 1, 'ДПР-СЗ-3/20', '2020-01-28 12:43:18.548', 'согл-3/20', '2020-01-28 12:42:27.59', '2020-01-28 12:42:27.59', 'IN_WORK', 'resources/files/pdf/100092.pdf', 4000, NULL);
 INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100188, 2, 'ДПР-П-27.03-1/20', '2020-01-30 10:03:43.122', 'согл-5/20', '2020-01-30 10:03:28.648', '2020-01-30 10:03:28.648', 'COMPLETED', 'resources/files/pdf/100188.pdf', 4000, 100128);
 INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100128, 1, 'ДПР-СЗ-4/20', '2020-01-30 10:01:57.659', 'согл-4/20', '2020-01-30 10:01:31.924', '2020-01-30 10:01:31.924', 'COMPLETED', 'resources/files/pdf/100128.pdf', 4000, NULL);
-INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100255, 301, NULL, NULL, 'согл-6/20', '2020-02-04 08:00:00.335', '2020-02-04 08:00:00.335', 'IN_AGREEMENT', 'resources/files/pdf/100255.pdf', 4000, NULL);
+INSERT INTO esrd.doc (id, doctype_id, reg_num, reg_datetime, project_reg_num, project_reg_datetime, insert_datetime, docstatus, url_pdf, initial_user_id, parent_doc_id) VALUES (100255, 301, NULL, NULL, 'согл-6/20', '2020-02-04 08:18:06.35', '2020-02-04 08:18:06.35', 'IN_AGREEMENT', 'resources/files/pdf/100255.pdf', 4000, NULL);
 
 
 --
@@ -2791,15 +2792,15 @@ INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, lengt
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (15, 'Регулируемая организация', 'CATALOG_ORGANIZATIONS', 9, NULL, NULL, 1006, false, false, NULL, 'Organization');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (501, 'Указать дополнительную информацию к тарифу (Регулируемая организация здесь не указывается, для этого имеется поле выше)', 'GROUP_CHECKBOX', 11, NULL, NULL, NULL, false, false, NULL, 'AddAdditionalInfo');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (505, 'Метод регулирования', 'CATALOG', NULL, NULL, NULL, 1016, false, false, NULL, 'RegulationMethod');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (326, 'В соответствии с Регламентом', 'CATALOG', NULL, NULL, NULL, 1011, false, false, NULL, 'TarifReglament');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (325, 'В соответствии с Методическими указаниями', 'CATALOG', NULL, NULL, NULL, 1010, false, false, NULL, 'TarifMethod');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (378, 'В соответствии с Постановлением Правительства РФ', 'CATALOG', NULL, NULL, NULL, 1012, false, false, NULL, 'GovDecree');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (504, 'Заголовок таблицы', 'CATALOG', 1, NULL, NULL, 1015, false, false, NULL, 'TarifTableName');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (503, 'Указать название таблицы вручную', 'GROUP_CHECKBOX', 2, NULL, NULL, NULL, false, false, NULL, 'AddCustomTarifTableName');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (377, 'Заголовок таблицы', 'TEXT', NULL, NULL, NULL, NULL, false, false, NULL, 'CustomTarifTableName');
-INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (324, 'В соответствии с Федеральным законом', 'CATALOG', NULL, NULL, NULL, 1009, false, false, NULL, 'FederalLaw');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (507, 'Вопросы повестки', 'GROUP_FIELDS', NULL, NULL, NULL, NULL, false, false, NULL, 'Questions');
 INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (506, 'Исключить вопрос из повестки заседания правления', 'GROUP_CHECKBOX', 0, NULL, NULL, NULL, false, true, 'C:\files\stamp.png', 'Exclude');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (324, 'В соответствии с Федеральным законом', 'CATALOG_MULTI_SELECT', NULL, NULL, NULL, 1009, false, false, NULL, 'FederalLaw');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (325, 'В соответствии с Методическими указаниями', 'CATALOG_MULTI_SELECT', NULL, NULL, NULL, 1010, false, false, NULL, 'TarifMethod');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (326, 'В соответствии с Регламентом', 'CATALOG_MULTI_SELECT', NULL, NULL, NULL, 1011, false, false, NULL, 'TarifReglament');
+INSERT INTO esrd.field (id, name, fieldtype, position_in_group, max_count, length, catalog_id, appendix, add_image, image_path, tag) VALUES (378, 'В соответствии с Постановлением Правительства РФ', 'CATALOG_MULTI_SELECT', NULL, NULL, NULL, 1012, false, false, NULL, 'GovDecree');
 
 
 --
