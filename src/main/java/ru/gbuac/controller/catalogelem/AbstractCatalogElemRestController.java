@@ -31,16 +31,16 @@ public abstract class AbstractCatalogElemRestController {
         return catalogElemService.getAllByParentCatalogElem(catalogId, idParentCatalogElem);
     }
 
-    public CatalogElem create(CatalogElem catalogElem) {
-        LOG.info("create " + catalogElem);
+    public CatalogElem create(CatalogElem catalogElem, int catalogId) {
+        LOG.info("create " + catalogElem + " at catalogId=" + catalogId);
         checkNew(catalogElem);
-        return catalogElemService.save(catalogElem);
+        return catalogElemService.save(catalogElem, catalogId);
     }
 
-    public CatalogElem update(CatalogElem catalogElem, int id) {
-        LOG.info("update " + catalogElem);
+    public CatalogElem update(CatalogElem catalogElem, int id, int catalogId) {
+        LOG.info("update " + catalogElem + " at catalogId=" + catalogId);
         assureIdConsistent(catalogElem, id);
-        return catalogElemService.update(catalogElem, id);
+        return catalogElemService.update(catalogElem, id, catalogId);
     }
 
     public void delete(int id, int catalogId) {
