@@ -7,9 +7,9 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = DocNumberPrefixesRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class DocNumberPrefixesRestController extends AbstractDocNumberPrefixesRestController {
-    public static final String REST_URL = "/rest/profile/docNumberPrefixes";
+@RequestMapping(value = AdminDocNumberPrefixesRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdminDocNumberPrefixesRestController extends AbstractDocNumberPrefixesRestController {
+    public static final String REST_URL = "/rest/admin/docNumberPrefixes";
 
     @Override
     @GetMapping(value = "/{id}")

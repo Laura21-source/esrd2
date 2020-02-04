@@ -624,6 +624,22 @@ public class DocServiceImpl implements DocService {
                         fillTags(childField, simpleTags, taggedTables, htmlTables, fieldTo.getChildFields().size());
                     }
                     break;
+                case CATALOG_MULTI_SELECT:
+                    if (fieldTo.getValueStr() == null || fieldTo.getValueStr().equals("")) {
+                        cellsTags.put(tag, "");
+                        break;
+                    }
+                    int[] ids = Arrays.stream(fieldTo.getValueStr().split(",")).mapToInt(Integer::parseInt).toArray();
+                    StringJoiner tagValue = new StringJoiner(", ");;
+                    StringJoiner tagValuePreposition = new StringJoiner(", ");
+                    for (Integer id: ids) {
+                        CatalogElem catalogElemChild = catalogElemRepository.findById(id).orElse(null);
+                        tagValue.add(catalogElemChild.getValueStr());
+                        tagValuePreposition.add(catalogElemChild.getValueStrPreposition());
+                    }
+                    cellsTags.put(tag, tagValue.toString());
+                    cellsTags.put(tag + ".Preposition", tagValuePreposition.toString());
+                    break;
                 case CATALOG:
                     if (fieldTo.getValueInt() == null) {
                         cellsTags.put(tag, "");
@@ -704,6 +720,22 @@ public class DocServiceImpl implements DocService {
                                 .filter(c -> !c.getTag().equals("")).count();
                         fillTags(childField, simpleTags, taggedTables, htmlTables, childMaxCellsCount);
                     }
+                    break;
+                case CATALOG_MULTI_SELECT:
+                    if (fieldTo.getValueStr() == null || fieldTo.getValueStr().equals("")) {
+                        simpleTags.put(tag, "");
+                        break;
+                    }
+                    int[] ids = Arrays.stream(fieldTo.getValueStr().split(",")).mapToInt(Integer::parseInt).toArray();
+                    StringJoiner tagValue = new StringJoiner(", ");;
+                    StringJoiner tagValuePreposition = new StringJoiner(", ");
+                    for (Integer id: ids) {
+                        CatalogElem catalogElemChild = catalogElemRepository.findById(id).orElse(null);
+                        tagValue.add(catalogElemChild.getValueStr());
+                        tagValuePreposition.add(catalogElemChild.getValueStrPreposition());
+                    }
+                    simpleTags.put(tag, tagValue.toString());
+                    simpleTags.put(tag + ".Preposition", tagValuePreposition.toString());
                     break;
                 case CATALOG:
                     if (fieldTo.getValueInt() == null) {
