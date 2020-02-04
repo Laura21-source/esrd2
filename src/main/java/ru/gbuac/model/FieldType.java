@@ -7,6 +7,7 @@ public enum FieldType {
     DATE,
     TIME,
     DATETIME,
+    CATALOG_ADDABLE,
     CATALOG,
     CATALOG_MULTI_SELECT,
     GROUP_FIELDS,
