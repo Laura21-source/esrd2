@@ -307,7 +307,7 @@
                 poleBlockGroup = blockGroup+dubKey;
             }
             createOptionsValue(numberCatalog, poleBlockGroup, '.blockRow');
-            if(data.valueStr != '') {
+            if(data.valueStr && data.valueStr != '') {
                 var selectArray = [];
                 var newSelect = data.valueStr.split( "," );
                 $.each(newSelect, function(event, item) {

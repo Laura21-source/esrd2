@@ -148,11 +148,15 @@
                     nameField = userName + phone;
                 } else if(spisok === 'usersList') {nameField = data[i]['fullName'];}
                 if(multiple == 1) {
-                    // Получаем отмеченные поля если есть необходимость
-                    var searchValue = $.inArray(data[i][id], select);
-                    //console.log(data[i][id]+' - '+select+' - '+searchValue);
-                    if(searchValue != -1) {
-                        $(field).append('<option class="active" value="'+data[i][id]+'" selected="selected">'+nameField+'</option>');
+                    if (select != '') {
+                        // Получаем отмеченные поля если есть необходимость
+                        var searchValue = $.inArray(data[i][id], select);
+                        //console.log(data[i][id]+' - '+select+' - '+searchValue);
+                        if(searchValue != -1) {
+                            $(field).append('<option class="active" value="'+data[i][id]+'" selected="selected">'+nameField+'</option>');
+                        } else {
+                            $(field).append('<option class="active" value="'+data[i][id]+'">'+nameField+'</option>');
+                        }
                     } else {
                         $(field).append('<option class="active" value="'+data[i][id]+'">'+nameField+'</option>');
                     }
