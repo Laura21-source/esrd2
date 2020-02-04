@@ -440,7 +440,14 @@
                 // Добавить блоки отсюда в файл функций -getFieldsDocument
                 $("#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew").removeClass("d-none");
                 // Показываем поля документа
-                getNewFields("rest/profile/docs/"+id+"/fields/merged?targetDocTypeId="+asd, id, '', '', 1, '' , '');
+                var chiefDoc = documentsId[0];
+                var optionDocs = '';
+                $.each(documentsId, function (index, value) {
+                    if(value !== chiefDoc) {
+                        optionDocs = optionDocs+'&optionalDocs='+value;
+                    }
+                });
+                getNewFields("rest/profile/docs/"+chiefDoc+"/fields/merged?targetDocTypeId="+asd+optionDocs, chiefDoc, '', '', 1, '' , '');
             } else {
                 $("#blockFieldsNew, #blockBlockNew, #btnSaveNew, #btnWordFileNew").addClass("d-none");
             }
@@ -474,8 +481,6 @@
                 event.stopPropagation();
             } else {
                 $('#createSave').modal('show');
-                //var trueName =  $(this).html();
-                //$(this).attr('disabled', true).html('Отправка запроса');
                 var dataType = $("#selectTypeNew").val();
                 // Формируем поля JSON
                 var dataField = createDataField(0, 1);
@@ -483,13 +488,13 @@
                 var dataBlock = createDataBlock(0, sumElem, 1);
                 var agreeListStack = JSON.stringify(createAgreeList(agreeFormsValue));
                 var serverStack = JSON.stringify(createJSON(id,dataType,dataField,dataBlock,1));
-                //console.log(serverStack);
-                var serverAjax = $.ajax({
+                console.log(serverStack);
+                /*var serverAjax = $.ajax({
                     type: "POST",
                     url: 'rest/profile/docs',
                     data: serverStack,
                     contentType: 'application/json; charset=utf-8'
-                });
+                });*/
                 // Успешное сохранение документа
                 serverAjax.done(function(data) {
                     $("#btnWordFileNew").attr('disabled', false).removeClass('btn-danger').addClass('btn-warning').addClass('d-none').html('Сгенерировать служебную записку');
