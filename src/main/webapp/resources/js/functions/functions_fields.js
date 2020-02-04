@@ -277,4 +277,47 @@
             });
             createOptions("rest/profile/users/", numberCatalog, '', 'id', numberField, 'users');
         }
+        // MULTISELECT
+        if (data.fieldType === "CATALOG_MULTI_SELECT") {
+            if(up == 1) {classElem = ' upElem';}
+            if(id > 0) {idData = ' data-id="'+data.id+'"';}
+            $(pole).append(
+                '<div class="row blockRow d-flex align-items-center'+parentBlock+parentCatalog+' mb-3"' +
+                ' data-row="'+key+'">' +
+                '   <div class="col-md-3 text-left">' +
+                '       <div class="text-muted">'+data.name+requiredSup+'</div>' +
+                '   </div>' +
+                '   <div class="col-md-9'+classElem+'">' +
+                '       <select data-placeholder="Выберите вид документа"' +
+                ' class="chosen-select'+checkClass+'" multiple' +
+                ' id="'+selectFieldName+'" name="'+selectFieldName+'" type="multiselect"' +
+                ' data-catalog="'+data.catalogId+'"' +
+                ' data-field="'+data.fieldId+'"' +
+                ''+idData+enaOpiton+required+'>' +
+                '           <option value="">Выберите значение справочника</option>' +
+                '       </select>'+requiredValidate+'' +
+                '   </div>' +
+                '</div>');
+            $(numberCatalog).chosen({
+                width: "100%",
+                no_results_text: "Ничего не найдено!"
+            });
+            var poleBlockGroup = '';
+            if(blockGroup != '') {
+                poleBlockGroup = blockGroup+dubKey;
+            }
+            createOptionsValue(numberCatalog, poleBlockGroup, '.blockRow');
+            if(data.valueStr != '') {
+                var selectArray = [];
+                var newSelect = data.valueStr.split( "," );
+                $.each(newSelect, function(event, item) {
+                    selectArray.push(parseInt(item));
+                });
+            } else {
+                var selectArray = '';
+            }
+            if (parentBlock == '') {
+                createOptions("rest/profile/catalogs/" + data.catalogId + "/elems", numberCatalog, "valueStr", "id", selectArray, "", 1);
+            }
+        }
     }

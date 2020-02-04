@@ -58,6 +58,10 @@
                 $('.editTable h6').remove();
                 valueStr = $('.editTable').html();
             }
+            if (attrSelect === "multiselect") {
+                valueData = 6;
+                value = $('.chosen-select', this).val();
+            }
             if (id > 0) {idField = parseInt($(this).attr("data-id"));}
             if (valueData === 1) {
                 field = {
@@ -204,6 +208,19 @@
                     },
                     "position": key
                 }
+            } else if (valueData === 6) {
+                if (id > 0) {
+                    idField = parseInt($('.chosen-select', this).attr("data-id"));
+                }
+                field = {
+                    "field": {
+                        "id": idField,
+                        "childFields": [],
+                        "fieldId": attrSelectId,
+                        "valueStr": value
+                    },
+                    "position": key
+                }
             }
             //console.log(field);
             dataField.push(field);
@@ -252,7 +269,7 @@
                                 "fieldId" : parseInt($(this).attr("data-field")),
                                 "valueInt" : parseInt($(this).val())
                             }
-                        } else if(typeAttr === "text") {
+                        } else if(typeAttr === "text" || typeAttr === "multiselect") {
                             var elementBlockElem = {
                                 "id" : idField,
                                 "childFields" : [],

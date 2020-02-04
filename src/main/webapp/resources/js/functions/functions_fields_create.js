@@ -136,20 +136,31 @@
     4. id - Название атрибута у выбранного поля
     5. select - Значение выбранного атрибута value
     */
-    function createOptions (url, field, name, id, select, spisok) {
+    function createOptions (url, field, name, id, select, spisok, multiple) {
         return $.getJSON (url, function(data) {
             for (var i in data) {
                 var selectedField = '';
                 var nameField = data[i][name];
-                // Получаем отмеченные поля если есть необходимость
-                if (select != '') {if (select === data[i][id]) {selectedField = ' selected="selected"';}}
                 if(spisok === 'users') {
                     var userName = data[i]['fullName'];
                     var phone = '';
                     if(data[i]['phone'] && data[i]['phone'] != '') {phone = ' , тел. '+data[i]['phone'];}
                     nameField = userName + phone;
                 } else if(spisok === 'usersList') {nameField = data[i]['fullName'];}
-                $(field).append('<option class="active" value="'+data[i][id]+'"'+selectedField+'>'+nameField+'</option>');
+                if(multiple == 1) {
+                    // Получаем отмеченные поля если есть необходимость
+                    var searchValue = $.inArray(data[i][id], select);
+                    //console.log(data[i][id]+' - '+select+' - '+searchValue);
+                    if(searchValue != -1) {
+                        $(field).append('<option class="active" value="'+data[i][id]+'" selected="selected">'+nameField+'</option>');
+                    } else {
+                        $(field).append('<option class="active" value="'+data[i][id]+'">'+nameField+'</option>');
+                    }
+                } else {
+                    // Получаем отмеченные поля если есть необходимость
+                    if (select != '') {if (select === data[i][id]) {selectedField = ' selected="selected"';}}
+                    $(field).append('<option class="active" value="'+data[i][id]+'"'+selectedField+'>'+nameField+'</option>');
+                }
                 $(field).trigger("chosen:updated");
             }
         })
