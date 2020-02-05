@@ -1,0 +1,29 @@
+@import url(bootstrap.min.css);@import url(mdb.min.css);@import url(style_new.css);@import url(chosen_new.css);@import url(addons/datatables.min.css);
+
+.side-nav .collapsible a {
+    font-size: 1rem !important;
+}
+.side-nav .collapsible {
+    margin-top: 70px !important;
+}
+
+#dataTable .td {
+    text-align: center;
+}
+
+.shab .btn {
+    display: inline-block;
+    font-weight: 200;
+    color: #889ea9;
+    text-align: right;
+    vertical-align: middle;
+}
+
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.8rem;
+    background: url(../img/Fon2.jpg) no-repeat center center fixed;
+    /*background: none !important;*/
+    background-size: cover;
+    -webkit-background-size: cover;
+}
