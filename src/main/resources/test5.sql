@@ -34,7 +34,7 @@ DROP SEQUENCE IF EXISTS esrd.decree_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.depr_seq CASCADE;
 DROP SEQUENCE IF EXISTS esrd.agenda_seq CASCADE;
 
---
+--sdsdsd
 -- Name: generatedocnumber(character varying, character varying); Type: FUNCTION; Schema: esrd; Owner: esrd_user
 --
 
