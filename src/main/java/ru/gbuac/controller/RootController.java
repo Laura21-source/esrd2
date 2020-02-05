@@ -16,6 +16,24 @@ public class RootController {
         return "redirect:login";
     }
 
+    @GetMapping(value = "/admin/index")
+    public String admIndex() { return "admin/index"; }
+
+    @GetMapping(value = "/admin/doctype")
+    public String doctype() { return "admin/doctype"; }
+
+    @GetMapping(value = "/admin/users")
+    public String users() { return "admin/users"; }
+
+    @GetMapping(value = "/admin/departments")
+    public String departments() { return "admin/departments"; }
+
+    @GetMapping(value = "/admin/organizations")
+    public String organizations() { return "admin/organizations"; }
+
+    @GetMapping(value = "/admin/doctype-card")
+    public String admNewDocument() { return "admin/doctype-card"; }
+
     @GetMapping(value = "/admin/quests")
     public String quests() {
         return "admin/quests";
