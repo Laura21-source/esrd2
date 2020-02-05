@@ -1,35 +1,44 @@
---
--- PostgreSQL database dump
---
+DROP TABLE IF EXISTS esrd.role_child_role CASCADE;
+DROP TABLE IF EXISTS esrd.user_roles CASCADE;
+DROP TABLE IF EXISTS esrd.doc_number_prefixes CASCADE;
+DROP TABLE IF EXISTS esrd.doctype_routes CASCADE;
+DROP TABLE IF EXISTS esrd.doc_agreement CASCADE;
+DROP TABLE IF EXISTS esrd.department CASCADE;
+DROP TABLE IF EXISTS esrd.department_child_departments CASCADE;
+DROP TABLE IF EXISTS esrd.users CASCADE;
+DROP TABLE IF EXISTS esrd.field_child_field CASCADE;
+DROP TABLE IF EXISTS esrd.fields_roles CASCADE;
+DROP TABLE IF EXISTS esrd.doctype_fields CASCADE;
+DROP TABLE IF EXISTS esrd.field CASCADE;
+DROP TABLE IF EXISTS esrd.valuedfield_child_valued_field CASCADE;
+DROP TABLE IF EXISTS esrd.doc_valuedfields CASCADE;
+DROP TABLE IF EXISTS esrd.doc CASCADE;
+DROP TABLE IF EXISTS esrd.doctype CASCADE;
+DROP TABLE IF EXISTS esrd.role CASCADE;
+DROP TABLE IF EXISTS esrd.valuedfield CASCADE;
+DROP TABLE IF EXISTS esrd.catalogelem CASCADE;
+DROP TABLE IF EXISTS esrd.catalog CASCADE;
+DROP TABLE IF EXISTS esrd.organization CASCADE;
+DROP TABLE IF EXISTS esrd.resolution CASCADE;
+DROP TABLE IF EXISTS esrd.resolutions_users CASCADE;
+DROP TABLE IF EXISTS esrd.users_distribution_departments CASCADE;
+DROP TABLE IF EXISTS esrd.users_delegation_users CASCADE;
+DROP TABLE IF EXISTS esrd.html_tables CASCADE;
+DROP TABLE IF EXISTS publish_data CASCADE;
 
--- Dumped from database version 11.5
--- Dumped by pg_dump version 11.5
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- Name: esrd; Type: SCHEMA; Schema: -; Owner: esrd_user
---
-
-CREATE SCHEMA esrd;
-
-
-ALTER SCHEMA esrd OWNER TO esrd_user;
+DROP SEQUENCE IF EXISTS esrd.global_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.agreement_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.memo_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.protocol_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.decree_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.depr_seq CASCADE;
+DROP SEQUENCE IF EXISTS esrd.agenda_seq CASCADE;
 
 --
 -- Name: generatedocnumber(character varying, character varying); Type: FUNCTION; Schema: esrd; Owner: esrd_user
 --
 
-CREATE FUNCTION esrd.generatedocnumber(mask character varying, optional character varying DEFAULT NULL::character varying) RETURNS character varying
+CREATE OR REPLACE FUNCTION esrd.generatedocnumber(mask character varying, optional character varying DEFAULT NULL::character varying) RETURNS character varying
     LANGUAGE plpgsql
     AS $$
 DECLARE Result VARCHAR;
