@@ -40,10 +40,10 @@
 <script>
     $(function() {
         adminDataTableArray("#dataTable","rest/profile/doctypes", 0);
-
     });
 </script>
 
 <jsp:include page="../fragments/footerBasement.jsp"/>
+
 
 

@@ -40,7 +40,8 @@
 
                         //Заполнение таблицы "Виды документов" для Административной панели
                         if(item.name ) {
-                             item.name =  '<div style="text-align: left" id="' + data[i].id+ '"><a href="admin/doctype-card">' +  item.name + '</a></div>';
+                             item.name =  '<div style="text-align: left" data-id="' + data[i].id+ '" class="doc"><a href="admin/doctype-card?id='+ data[i].id +'" >' +  item.name + '</a></div>';
+                             var docId = data[i].id;
                         }
 
                         if(item.finalDoc === false) {

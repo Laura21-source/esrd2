@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
 
-<%--                       Шаблон--%>
+<%--                                Шаблон--%>
                                 <div class="row ml-1 mb-1 mt-2 d-flex">
                                     <div class="col-md-2 text-left mt-2">
                                         <span class="text-muted"><i class="fas fa-file-alt mr-2"></i>Шаблон</span>
@@ -48,7 +48,7 @@
 <%--                            Роль с правом регистрации--%>
                                 <div class="row ml-1 mb-1 mt-2 d-flex align-items-center">
                                     <div class="col-md-2 text-left mt-2">
-                                        <span class="text-muted"><i class="fas fa-file-alt mr-2"></i>Роль с правом регистрации</span>
+                                        <span class="text-muted "><i class="fas fa-file-alt mr-2"></i>Роль с правом регистрации</span>
                                     </div>
 
                                     <div class="col-md-10">
@@ -108,19 +108,41 @@
                                         <button type="submit" class="btn btn-success mb-2 my-4 pt-3 rounded">Сохранить изменения</button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
 </main>
 
+
 <jsp:include page="../fragments/footerNew.jsp"/>
 <jsp:include page="../fragments/modals/newDocumentModal.jsp"/>
 <jsp:include page="../fragments/modals/viewDocumentModal.jsp"/>
 <jsp:include page="../fragments/footerScript.jsp"/>
+<script>
+    $(function() {
+        // Получаем id документа из строки
+        var urlString = window.location.href;
+        var url = new URL(urlString);
+        var id = url.searchParams.get("id");
+        $.getJSON("rest/admin/roles", function(data) {
+            for (var i in data) {
+                var rowChild =  data[i];
+                // console.log(data[i].name);
+                $('#selectTypeRole').append('<option value="' + rowChild.id + '">' + rowChild.name + '</option>');
+            }
+            $('#selectTypeRole').trigger("chosen:updated");
+        });
+        $.getJSON("rest/admin/docNumberPrefixes", function(data) {
+            for (var i in data) {
+                var rowChild =  data[i];
+                $('#selectTypePref').append('<option value="' + rowChild.id + '">' + rowChild.name + '</option>');
+            }
+            $('#selectTypePref').trigger("chosen:updated");
+        });
+    })
+</script>
 <jsp:include page="../fragments/footerBasement.jsp"/>
